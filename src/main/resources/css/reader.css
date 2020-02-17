@@ -1,0 +1,101 @@
+/* The increment and decrement button CSS class of scrollbar */
+.increment-button, .mylistview .decrement-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 2em;
+
+}
+
+/* The main scrollbar **track** CSS class  */
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: derive(gray, 80%);
+    -fx-background-radius: 2em;
+    -fx-border-radius: 2em;
+}
+
+/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black, 90%);
+    -fx-background-insets: 2, 0, 0;
+    -fx-background-radius: 2em;
+}
+
+#textArea .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+
+#ct .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+#th .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+#tt .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+#ad .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+
+#cookies .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+
+#ch .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+
+#ua .scroll-bar:vertical {
+    -fx-opacity: 0;
+}
+
+#searchList {
+    -fx-background-color: transparent;
+}
+
+/*设置表格头靠左、字体大小，字体颜色*/
+.table-view .column-header .label{
+    -fx-alignment: center-left;
+    -fx-text-fill: rgba(68,68,68,0.96);
+    -fx-font-size: 12;
+}
+.table-view .column-header{
+    -fx-background-color: rgb(255,255,255);
+    -fx-border-color: rgb(225,225,226);
+}
+
+/*设置表格头高度*/
+.table-view > .column-header-background{
+    -fx-pref-height: 23;
+    -fx-background-color: rgb(255,255,255);
+}
+/*设置每一列内容居中，每一行高度*/
+.table-row-cell{
+    -fx-cell-size: 25px;
+    -fx-alignment: center;
+}
+#tableView{
+    -fx-table-cell-border-color:transparent;
+    -fx-border-color: white;
+    -fx-alignment: center-left;
+}
+
+/*设置每一列内容居中*/
+#tableView .table-column{
+    -fx-alignment: center-left;
+}
+/*隐藏滚动度条*/
+#tableView .scroll-bar{
+    -fx-background-color: transparent;
+    -fx-opacity: 0;
+}
+.list-view{
+    -fx-accent: rgb(255,255,255);
+    -fx-focus-color: rgb(255,255,255);
+}
+.table-view{
+    -fx-accent: rgb(255,255,255);
+    -fx-focus-color: rgb(255,255,255);
+}
