@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="analysisRoot" prefHeight="565.0" prefWidth="787.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.ui.controller.AnalysisController">
+   <children>
+      <Label fx:id="menu" layoutX="725.0" layoutY="14.0" prefHeight="32.0" prefWidth="32.0" style="-fx-background-image: url('images/解析页/菜单.jpg');" />
+      <JFXTextArea fx:id="content" layoutX="405.0" layoutY="83.0" prefHeight="483.0" prefWidth="369.0" promptText="解析正文显示区域" wrapText="true" />
+      <JFXListView fx:id="list" layoutX="2.0" layoutY="83.0" prefHeight="483.0" prefWidth="394.0" />
+      <Pane fx:id="doPane" layoutX="90.0" layoutY="14.0" prefHeight="65.0" prefWidth="624.0">
+         <children>
+            <JFXTextField fx:id="text" labelFloat="true" layoutX="7.0" layoutY="25.0" prefHeight="30.0" prefWidth="349.0" promptText="请输入目录地址" />
+            <JFXButton fx:id="analysisBtn" buttonType="RAISED" layoutX="365.0" layoutY="25.0" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #1E9FFF;" text="解析目录" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="addToMark" buttonType="RAISED" layoutX="447.0" layoutY="25.0" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #1E9FFF;" text="加入书架" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="downloadIt" buttonType="RAISED" layoutX="528.0" layoutY="25.0" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #1E9FFF;" text="下载本书" textFill="WHITE">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
+      <VBox fx:id="menuPane" layoutX="573.0" layoutY="46.0" prefHeight="493.0" prefWidth="214.0" style="-fx-background-color: #dbdbdb;" visible="false">
+         <children>
+            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
+               <children>
+                  <TextArea id="cookies" fx:id="cookiesText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="Cookies" wrapText="true" />
+               </children>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Pane>
+            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
+               <children>
+                  <TextArea id="ua" fx:id="UAText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="User-Agent" wrapText="true" />
+               </children>
+            </Pane>
+            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
+               <children>
+                  <TextArea id="ad" fx:id="AdText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="去广告，一行一条" />
+               </children>
+            </Pane>
+            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
+               <children>
+                  <TextArea id="ch" fx:id="chapterHeadText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefRowCount="1" prefWidth="204.0" promptText="范围匹配-章节头" wrapText="true" />
+               </children>
+            </Pane>
+            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
+               <children>
+                  <TextArea id="ct" fx:id="chapterTailText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="范围匹配-章节尾" wrapText="true" />
+               </children>
+            </Pane>
+            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
+               <children>
+                  <TextArea id="th" fx:id="contentHeadText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="范围匹配-正文头" wrapText="true" />
+               </children>
+            </Pane>
+            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
+               <children>
+                  <TextArea id="tt" fx:id="contentTailText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="范围匹配-正文尾" wrapText="true" />
+               </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Pane>
+            <Pane prefHeight="175.0" prefWidth="214.0">
+               <children>
+                  <JFXRadioButton fx:id="chapterFilterUse" layoutX="8.0" layoutY="10.0" selected="true" text="章节过滤" />
+                  <JFXRadioButton fx:id="chapterSortUse" layoutX="107.0" layoutY="10.0" text="乱序重排" />
+                  <JFXRadioButton fx:id="NCRToXZhUse" layoutX="8.0" layoutY="35.0" text="NCR转中文" />
+                  <JFXRadioButton fx:id="TraToSimpleUse" layoutX="107.0" layoutY="35.0" text="繁转简" />
+                  <JFXButton fx:id="saveConfigBtn" layoutX="59.0" layoutY="131.0" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #1E9FFF;" text="保存配置" textFill="WHITE" />
+                  <JFXRadioButton fx:id="rule1" layoutX="8.0" layoutY="60.0" text="匹配规则1" />
+                  <JFXRadioButton fx:id="rule2" layoutX="107.0" layoutY="60.0" text="匹配规则2" />
+                  <JFXRadioButton fx:id="startDynamic" layoutX="8.0" layoutY="110.0" text="启用动态网页支持(速度慢)" />
+                  <JFXRadioButton fx:id="rule3" layoutX="8.0" layoutY="85.0" selected="true" text="推荐规则(不支持范围匹配)" />
+               </children>
+            </Pane>
+         </children>
+      </VBox>
+   </children>
+</Pane>

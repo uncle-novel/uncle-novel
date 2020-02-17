@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--<?import com.jfoenix.controls.*?>-->
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox fx:id="downloadRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: rgb(250,250,250);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.ui.controller.DownloadController">
+    <children>
+        <Pane fx:id="headerPane" prefHeight="48.0" prefWidth="600.0">
+            <children>
+                <Label fx:id="on" alignment="CENTER" layoutX="190.0" layoutY="13.0" maxHeight="30.0" maxWidth="110.0" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: RGB(124,125,133); -fx-background-radius: 5px; -fx-border-radius: 5px; -fx-border-color: rgb(229,229,229);" text="正在下载" textFill="#e5e5e7" />
+                <Label fx:id="over" alignment="CENTER" layoutX="300.0" layoutY="13.0" maxHeight="30.0" maxWidth="110.0" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: RGB(255,255,255); -fx-background-radius: 5px; -fx-border-radius: 5px; -fx-border-color: rgb(229,229,229);" text="下载完成" textFill="#888888" />
+            </children>
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+        </Pane>
+        <Pane prefHeight="1.0" prefWidth="600.0" style="-fx-background-color: rgb(225,225,226);">
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+        </Pane>
+      <Pane prefHeight="325.0" prefWidth="600.0">
+         <children>
+                <JFXListView fx:id="overList" prefHeight="325.0" prefWidth="600.0" visible="false" />
+                <TableView id="tableView" fx:id="tableView" prefHeight="325.0" prefWidth="600.0">
+                    <columns>
+                        <TableColumn fx:id="hId" editable="false" prefWidth="44.0" resizable="false" text="ID" />
+                        <TableColumn fx:id="hTitle" editable="false" maxWidth="Infinity" prefWidth="197.0" text="小说标题" />
+                        <TableColumn fx:id="hPb" editable="false" maxWidth="Infinity" prefWidth="283.0" text="下载进度" />
+                        <TableColumn fx:id="hOp" editable="false" prefWidth="75.0" sortable="false" text="操作" />
+                    </columns>
+                </TableView>
+         </children>
+      </Pane>
+    </children>
+</VBox>

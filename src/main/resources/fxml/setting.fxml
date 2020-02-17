@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.controlsfx.control.textfield.*?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="384.0" prefWidth="269.0" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.ui.controller.SettingController">
+    <tabs>
+        <Tab closable="false" text="下载设置">
+            <content>
+                <Pane prefHeight="60.0" style="-fx-background-color: #FFF;">
+                    <children>
+                  <VBox prefHeight="361.0" prefWidth="269.0">
+                     <children>
+                        <Pane prefHeight="60.0" prefWidth="269.0">
+                           <children>
+                                    <JFXRadioButton fx:id="dmobi" layoutX="197.0" layoutY="32.0" text="MOBI">
+                                        <font>
+                                            <Font size="13.0" />
+                                        </font>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="dtxt" layoutX="14.0" layoutY="32.0" selected="true" text="TXT">
+                                        <font>
+                                            <Font size="13.0" />
+                                        </font>
+                                    </JFXRadioButton>
+                                    <JFXRadioButton fx:id="depub" graphicTextGap="0.0" layoutX="104.0" layoutY="32.0" prefHeight="15.0" prefWidth="61.0" text="EPUB">
+                                        <font>
+                                            <Font size="13.0" />
+                                        </font>
+                                    </JFXRadioButton>
+                              <Label layoutX="6.0" layoutY="6.0" text="下载格式" />
+                           </children>
+                        </Pane>
+                              <Pane prefHeight="1.0" prefWidth="257.0" style="-fx-background-color: rgb(189,189,189);" />
+                              <JFXToggleButton fx:id="merge" contentDisplay="RIGHT" prefHeight="60.0" prefWidth="280.0" selected="true" text="下载完成后合并文件                       " textAlignment="JUSTIFY" toggleLineColor="#becdbe" wrapText="true" />
+                              <Pane prefHeight="1.0" prefWidth="257.0" style="-fx-background-color: rgb(189,189,189);" />
+                        <Pane prefHeight="60.0" prefWidth="269.0">
+                           <children>
+                                    <JFXComboBox fx:id="chapterNum" layoutX="180.0" layoutY="12.0" prefHeight="23.0" prefWidth="75.0" promptText="999" />
+                                    <Text fill="#0d0b0b" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="每个线程下载章节数量" />
+                           </children>
+                        </Pane>
+                              <Pane prefHeight="1.0" prefWidth="257.0" style="-fx-background-color: rgb(189,189,189);" />
+                        <Pane prefHeight="60.0" prefWidth="269.0">
+                           <children>
+                                    <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="每个章节下载延迟秒数" />
+                                    <JFXComboBox fx:id="delay" layoutX="180.0" layoutY="13.0" prefHeight="23.0" prefWidth="75.0" promptText="1000ms" />
+                           </children>
+                        </Pane>
+                              <Pane prefHeight="1.0" prefWidth="257.0" style="-fx-background-color: rgb(189,189,189);" />
+                        <Pane minHeight="60.0" prefHeight="60.0" prefWidth="269.0">
+                           <children>
+                                    <Label fx:id="pathLabel" layoutX="14.0" layoutY="28.0" prefHeight="24.0" prefWidth="175.0" style="-fx-background-color: rgb(189,189,189);" text="D:\\" />
+                                    <Label fx:id="changePath" alignment="CENTER" layoutX="204.0" layoutY="28.0" prefHeight="24.0" prefWidth="51.0" style="-fx-background-color: #009688; -fx-background-radius: 5; -fx-border-radius: 5;" text="浏览" textFill="WHITE" />
+                                    <Text layoutX="6.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="下载位置" />
+                           </children>
+                        </Pane>
+                              <Pane prefHeight="1.0" prefWidth="257.0" style="-fx-background-color: rgb(189,189,189);" />
+                        <Pane prefHeight="48.0" prefWidth="269.0">
+                           <children>
+                                    <Text fill="#246526" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="合理配置，防止被封IP而下载不完整" textAlignment="CENTER" wrappingWidth="268.869140625" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
+                    </children>
+                </Pane>
+            </content>
+        </Tab>
+      <Tab closable="false" text="代理配置">
+        <content>
+            <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Pane layoutY="1.0" prefHeight="350.0" prefWidth="269.0">
+                     <children>
+                        <Label layoutX="27.0" layoutY="21.0" text="主机地址" />
+                        <TextField fx:id="proxyHost" layoutX="87.0" layoutY="16.0" prefHeight="26.0" prefWidth="169.0" promptText="127.0.0.1" />
+                        <TextField fx:id="proxyPort" layoutX="87.0" layoutY="52.0" prefHeight="26.0" prefWidth="169.0" promptText="80" />
+                        <Label layoutX="27.0" layoutY="57.0" text="端口" />
+                        <JFXButton fx:id="testProxy" buttonType="RAISED" layoutX="27.0" layoutY="96.0" prefHeight="26.0" prefWidth="79.0" style="-fx-background-color: #009688;" text="测试" textFill="WHITE" />
+                        <JFXButton fx:id="saveProxy" buttonType="RAISED" layoutX="172.0" layoutY="96.0" prefHeight="26.0" prefWidth="79.0" style="-fx-background-color: #009688;" text="保存" textFill="WHITE" />
+                     </children>
+                  </Pane>
+               </children></Pane>
+        </content>
+      </Tab>
+      <Tab closable="false" text="杂项配置">
+         <content>
+            <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <VBox layoutX="-7.0" prefHeight="380.0" prefWidth="269.0">
+                     <children>
+                        <JFXToggleButton fx:id="autoImport" contentDisplay="RIGHT" prefHeight="60.0" prefWidth="270.0" selected="true" text="自动读取剪贴版链接(重启生效)" textAlignment="JUSTIFY" toggleLineColor="#becdbe" wrapText="true" />
+                        <Pane prefHeight="1.0" prefWidth="888.0" style="-fx-background-color: rgb(189,189,189);" />
+                     </children>
+                  </VBox>
+               </children></Pane>
+         </content>
+      </Tab>
+    </tabs>
+</JFXTabPane>
