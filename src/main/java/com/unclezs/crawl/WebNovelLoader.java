@@ -6,6 +6,7 @@ import com.unclezs.utils.MybatisUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 网络小说加载器
@@ -29,15 +30,13 @@ public class WebNovelLoader {
     }
 
     //加载小说信息
-    public void initLoad() {
+    private void initLoad() {
         chapters = new ArrayList<>();
         contentUrl = new ArrayList<>();
         ChapterMapper mapper = MybatisUtil.getMapper(ChapterMapper.class);
         List<Chapter> cs = mapper.findAllChapter(aid);
-        for (int i = 0; i < cs.size(); i++) {
-            chapters.add(cs.get(i).getChapterName());
-            contentUrl.add(cs.get(i).getChapterUrl());
-        }
+        chapters= cs.stream().map(Chapter::getChapterName).collect(Collectors.toList());
+        contentUrl= cs.stream().map(Chapter::getChapterUrl).collect(Collectors.toList());
         //初始化缓存正文内容数组
         content = new String[contentUrl.size()];
     }
@@ -61,7 +60,7 @@ public class WebNovelLoader {
     }
 
     //缓存前后5章节
-    public void cacheContent(int index) {
+    private void cacheContent(int index) {
         //缓存后5章节
         for (int i = index; i < index + 5 && i < contentUrl.size(); i++) {
             loadOnPage(i);

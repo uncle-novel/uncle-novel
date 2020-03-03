@@ -117,7 +117,7 @@
         <app.vendor>Acme Inc</app.vendor>
         <app.version>3.5</app.version>
         <!--更新文件的服务器地址，在这里可以打开下载你的更新jar包就行，tomcat和apache都行-->
-        <app.url>http://114.115.208.62/</app.url>
+        <app.url>http://uncle-novel.unclezs.com</app.url>
         <!--编译后的位置，这个位置在Idea里面是target下面的app目录-->
         <app.dir>${project.build.directory}/app</app.dir>
         <!--打包exe程序后的目录位置target/install-->

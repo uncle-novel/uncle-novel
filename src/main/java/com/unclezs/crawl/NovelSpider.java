@@ -223,7 +223,7 @@ public class NovelSpider {
         }
         //去广告
         for (String ad : conf.getAdStr().split("\n")) {
-            text = text.replace(ad, "");
+            text = text.replaceAll(ad, "");
         }
         return text;
     }

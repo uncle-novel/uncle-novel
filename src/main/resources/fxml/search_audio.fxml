@@ -26,7 +26,7 @@
          </VBox.margin>
       </Pane>
       <JFXListView fx:id="list" layoutY="68.0" prefHeight="409.0" prefWidth="750.0" />
-      <Pane fx:id="setPane" layoutX="526.0" layoutY="55.0" prefHeight="397.0" prefWidth="143.0" style="-fx-background-color: rgba(220,220,220,0.8);">
+      <Pane fx:id="setPane" layoutX="526.0" layoutY="55.0" prefHeight="403.0" prefWidth="139.0" style="-fx-background-color: rgba(220,220,220,0.8);">
          <children>
             <JFXRadioButton fx:id="jtw" layoutX="16.0" layoutY="5.0" prefHeight="30.0" prefWidth="112.0" selected="true" text="静听网" />
             <JFXRadioButton fx:id="htw" layoutX="16.0" layoutY="35.0" prefHeight="30.0" prefWidth="112.0" selected="true" text="幻听网" />
@@ -35,7 +35,7 @@
             <JFXRadioButton fx:id="tsb" layoutX="16.0" layoutY="185.0" prefHeight="30.0" prefWidth="112.0" selected="true" text="有声听书吧" />
             <JFXRadioButton layoutX="16.0" layoutY="155.0" prefHeight="30.0" prefWidth="112.0" selected="true" text="有声小说网" fx:id="xsw" />
             <JFXRadioButton fx:id="ltw" layoutX="16.0" layoutY="65.0" prefHeight="30.0" prefWidth="112.0" selected="true" text="恋听网" />
-            <Label fx:id="save" alignment="CENTER" layoutX="42.0" layoutY="360.0" prefHeight="23.0" prefWidth="60.0" style="-fx-background-color: #1e9FFF; -fx-border-radius: 20; -fx-background-radius: 20;" text="保存" textFill="WHITE" />
+            <Label fx:id="save" alignment="CENTER" layoutX="42.0" layoutY="363.0" prefHeight="23.0" prefWidth="60.0" style="-fx-background-color: #1e9FFF; -fx-border-radius: 20; -fx-background-radius: 20;" text="保存" textFill="WHITE" />
             <Pane layoutX="12.0" layoutY="34.0" prefHeight="1.0" prefWidth="120.0" style="-fx-background-color: rgb(189,189,189);" />
             <Pane layoutX="12.0" layoutY="65.0" prefHeight="1.0" prefWidth="120.0" style="-fx-background-color: rgb(189,189,189);" />
             <Pane layoutX="12.0" layoutY="95.0" prefHeight="1.0" prefWidth="120.0" style="-fx-background-color: rgb(189,189,189);" />
@@ -44,7 +44,7 @@
             <Pane layoutX="12.0" layoutY="185.0" prefHeight="1.0" prefWidth="120.0" style="-fx-background-color: rgb(189,189,189);" />
             <JFXRadioButton fx:id="tzg" layoutX="16.0" layoutY="215.0" prefHeight="30.0" prefWidth="112.0" selected="true" text="听中国的声音" />
             <JFXRadioButton fx:id="lrts" layoutX="16.0" layoutY="245.0" prefHeight="30.0" prefWidth="112.0" selected="true" text="懒人听书(免费)" />
-            <JFXToggleButton fx:id="phone" layoutX="-8.0" layoutY="305.0" prefHeight="58.0" prefWidth="137.0" text="手机模式" />
+            <JFXToggleButton fx:id="phone" layoutX="-7.0" layoutY="305.0" prefHeight="39.0" prefWidth="135.0" text="手机模式" />
             <Pane layoutX="12.0" layoutY="215.0" prefHeight="1.0" prefWidth="120.0" style="-fx-background-color: rgb(189,189,189);" />
             <Pane layoutX="12.0" layoutY="245.0" prefHeight="1.0" prefWidth="120.0" style="-fx-background-color: rgb(189,189,189);" />
             <JFXRadioButton fx:id="t22" layoutX="16.0" layoutY="275.0" prefHeight="30.0" prefWidth="112.0" selected="true" text="22听书网" />

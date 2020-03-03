@@ -114,8 +114,7 @@ public class HttpUtil {
         ProxyUtil.proxyHttpClient(builder);
         try (CloseableHttpClient client = builder.setDefaultHeaders(headers).build()) {
             HttpEntity entity = client.execute(new HttpGet(url)).getEntity();
-            String responce = EntityUtils.toString(entity, "UTF-8");
-            return responce;
+            return EntityUtils.toString(entity, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,5 +1,6 @@
 package com.unclezs.ui.node;
 
+import cn.hutool.http.HttpUtil;
 import com.unclezs.model.AudioBook;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -29,7 +30,7 @@ public class SearchAudioNode extends HBox {
 
     //创建
     private void init(AudioBook info) {
-        Image image = new Image(info.getImageUrl());
+        Image image = new Image(HttpUtil.createGet(info.getImageUrl()).execute().bodyStream());
         if(image.isError()){
             image=new Image(getClass().getResourceAsStream("/images/搜索页/没有封面.png"));
         }

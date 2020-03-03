@@ -89,7 +89,7 @@ public class ReaderController implements Initializable {
     }
 
     //目录选择
-    void listSelect() {
+    private void listSelect() {
         list.setOnMouseClicked(e -> {
             if (e.getButton() == MouseButton.PRIMARY) {
                 int index = list.getSelectionModel().getSelectedIndex();
@@ -102,7 +102,7 @@ public class ReaderController implements Initializable {
     }
 
     //自适应页宽
-    void autoSize() {
+    private void autoSize() {
         Platform.runLater(() -> {
             //获取当前窗口宽高
             double width = DataManager.readerStage.getWidth();
@@ -116,7 +116,7 @@ public class ReaderController implements Initializable {
     }
 
     //初始化窗口事件，只一次
-    void initLoad() {
+    private void initLoad() {
         //加载窗口改变事件
         DataManager.readerStage.widthProperty().addListener(e -> {
             autoSize();
@@ -304,7 +304,7 @@ public class ReaderController implements Initializable {
     }
 
     //加载一章节
-    void loadChapter(int index) {
+    private void loadChapter(int index) {
         //停止朗读
         if (voiceUtil != null) voiceUtil.stop();
         voice.setSelected(false);
@@ -346,6 +346,7 @@ public class ReaderController implements Initializable {
                         isPageDownOver = true;
                         isPageTopOver = false;
                     }
+                    DataManager.readerStage.setTitle(title.getText());//设置标题
                 });
                 pf.activateProgressBar();
             }

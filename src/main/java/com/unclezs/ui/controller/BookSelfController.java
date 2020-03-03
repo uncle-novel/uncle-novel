@@ -10,6 +10,7 @@ import com.unclezs.mapper.ChapterMapper;
 import com.unclezs.mapper.NovelMapper;
 import com.unclezs.mapper.ReaderMapper;
 import com.unclezs.model.Book;
+import com.unclezs.model.Chapter;
 import com.unclezs.ui.app.Reader;
 import com.unclezs.ui.node.BookNode;
 import com.unclezs.ui.node.ProgressFrom;
@@ -71,7 +72,7 @@ public class BookSelfController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        queyBook();//查询所有书
+        queryBook();//查询所有书
         initBindSize();//绑定宽高
         initMenu();//初始化菜单
         initEventHandler();//初始化事件监听
@@ -133,7 +134,7 @@ public class BookSelfController implements Initializable {
     }
 
     //导入本地书
-    private void importLoaclBook() {
+    private void importLocalBook() {
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("文本文件", "*.txt");
         fileChooser.getExtensionFilters().addAll(filter);
@@ -159,7 +160,7 @@ public class BookSelfController implements Initializable {
                 String name = loader.getName();
                 InputStream inputStream = getClass().getResourceAsStream("/images/搜索页/没有封面.png");
                 File newFile = FileUtil.newFile("./image/" + name + ".jpg");
-                FileUtil.writeFromStream(inputStream,newFile);
+                FileUtil.writeFromStream(inputStream, newFile);
                 //存库
                 NovelMapper novelMapper = MybatisUtil.getMapper(NovelMapper.class);
                 novelMapper.save(new Book(name, path, newFile.getAbsolutePath()));//添加
@@ -184,7 +185,7 @@ public class BookSelfController implements Initializable {
         menu = new ContextMenu();
         MenuItem addloacl = new MenuItem("导入本地小说");
         addloacl.setGraphic(new ImageView("images/菜单页/本地.jpg"));
-        addloacl.setOnAction(i -> importLoaclBook());
+        addloacl.setOnAction(i -> importLocalBook());
         MenuItem addweb = new MenuItem("添加网络小说");
         addweb.setOnAction(e -> importWebBook());
         addweb.setGraphic(new ImageView("images/菜单页/网络.jpg"));
@@ -196,16 +197,18 @@ public class BookSelfController implements Initializable {
         MenuItem cookies = new MenuItem("更新Cookies");
         MenuItem link = new MenuItem("复制链接");
         MenuItem reName = new MenuItem("修改书名");
+        MenuItem updateChapters = new MenuItem("更新章节目录");
         delete.setGraphic(new ImageView("images/菜单页/删除.jpg"));
         cover.setGraphic(new ImageView("images/菜单页/封面.jpg"));
         cookies.setGraphic(new ImageView("images/书架/更新.jpg"));
         reName.setGraphic(new ImageView("images/书架/修改.jpg"));
         link.setGraphic(new ImageView("images/搜索页/复制链接.jpg"));
-        rightMenu.getItems().addAll(reName, cover, delete, new SeparatorMenuItem(), cookies, link);
+        updateChapters.setGraphic(new ImageView("images/书架/更新.jpg"));
+        rightMenu.getItems().addAll(reName, cover, delete, new SeparatorMenuItem(), cookies, link, updateChapters);
     }
 
     //查询数据
-    private void queyBook() {
+    private void queryBook() {
         long l = System.currentTimeMillis();
         list.clear();
         List<Book> books = MybatisUtil.getMapper(NovelMapper.class).findAll();
@@ -230,6 +233,7 @@ public class BookSelfController implements Initializable {
                 MenuItem delete = rightMenu.getItems().get(2);
                 MenuItem cookies = rightMenu.getItems().get(4);
                 MenuItem link = rightMenu.getItems().get(5);
+                MenuItem updateChapters = rightMenu.getItems().get(6);
                 //删除事件
                 delete.setOnAction(event -> {
                     list.remove(node);//移除书架
@@ -256,6 +260,9 @@ public class BookSelfController implements Initializable {
                 cookies.setOnAction(event -> newCookies(node.getBook().getId()));
                 //复制链接
                 link.setOnAction(event -> copyLink(node));
+                updateChapters.setOnAction(event -> {
+                    updateChapters(node.getBook());
+                });
                 rightMenu.show(DataManager.mainStage);
             }
             //左键事件
@@ -267,9 +274,43 @@ public class BookSelfController implements Initializable {
     }
 
     /**
+     * 更新章节目录
+     *
+     * @param book /
+     * @return /
+     */
+    private void updateChapters(Book book) {
+        if (book.getIsWeb() == 0) {
+            ToastUtil.toast("本地书籍不可更新");
+            return;
+        }
+        Task task=new Task() {
+            @Override
+            protected Object call() throws Exception {
+                SqlSession session = MybatisUtil.openSqlSession(true);
+                spider.setConf(session.getMapper(AnalysisMapper.class).queryAnalysisConfig(book.getId()));//获取网络小说解析配置
+                List<Chapter> chapters = spider.getChapterList(book.getPath());
+                chapters.forEach(e -> {
+                    e.setAid(book.getId());
+                });
+                ChapterMapper chapterMapper = session.getMapper(ChapterMapper.class);
+                chapterMapper.deleteAllChapters(book.getId());
+                chapterMapper.saveChapters(chapters);
+                return null;
+            }
+        };
+        ProgressFrom pf = new ProgressFrom(DataManager.mainStage, task);
+        task.setOnSucceeded(e -> {
+            pf.cancelProgressBar();
+            ToastUtil.toast("更新成功!");
+        });
+        pf.activateProgressBar();
+    }
+
+    /**
      * 打开一本书
      *
-     * @param book
+     * @param book /
      */
     private void openBook(Book book) {
         if (isLoading) {
@@ -348,8 +389,8 @@ public class BookSelfController implements Initializable {
                     MybatisUtil.getCurrentSqlSession().close();
                     //获取新的封面
                     String imgUrl = spider.crawlDescImage(newName);
-                    File file= FileUtil.file("./image/" + newName + ".jpg");
-                    HttpUtil.downloadFile(imgUrl,file);
+                    File file = FileUtil.file("./image/" + newName + ".jpg");
+                    HttpUtil.downloadFile(imgUrl, file);
                     String path = file.getAbsolutePath();
                     //更新库
                     MybatisUtil.getMapper(NovelMapper.class).updateBookCover(book.getBook().getId(), path);
@@ -400,6 +441,7 @@ public class BookSelfController implements Initializable {
 
     /**
      * 复制链接
+     *
      * @param book
      */
     private void copyLink(BookNode book) {
@@ -411,6 +453,7 @@ public class BookSelfController implements Initializable {
 
     /**
      * 获取输入框
+     *
      * @param title
      * @return
      */
