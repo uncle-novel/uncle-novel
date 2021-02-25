@@ -6,5 +6,6 @@
 *.jpg   binary
 *.png   binary
 *.vsd   binary
+*.ttf   binary
 exe.vsd   binary
 phantomjs*   binary
