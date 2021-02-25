@@ -1,0 +1,30 @@
+plugins {
+    id 'application'
+    id "org.openjfx.javafxplugin" version "0.0.9"
+}
+
+group 'com.uncles.novel.app.jfx'
+version '5.0'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+javafx {
+    version = "15"
+    modules = ['javafx.controls','javafx.fxml','javafx.web','javafx.media']
+}
+
+tasks.withType(JavaCompile){
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+}

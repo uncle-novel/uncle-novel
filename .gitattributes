@@ -1,0 +1,10 @@
+*       text eof=lf
+*.bat   -text
+*.gif   binary
+*.jar   binary
+*.jpeg  binary
+*.jpg   binary
+*.png   binary
+*.vsd   binary
+exe.vsd   binary
+phantomjs*   binary

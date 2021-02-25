@@ -1,0 +1,6 @@
+group 'com.uncles.novel.app.jfx'
+version '5.0'
+
+repositories {
+    mavenCentral()
+}

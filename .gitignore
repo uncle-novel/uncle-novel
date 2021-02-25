@@ -1,0 +1,13 @@
+target
+/*.iml
+logs
+*.tmp
+*.DS_Store
+lib/
+downloads/
+*.txt
+build/
+.gradle/
+out/
+tmp/
+.idea
