@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.uncles.novel.app.jfx.framework.ui.components.LeftTab?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.MenuPane?>
+<?import javafx.scene.layout.BorderPane?>
+<fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml">
+    <left>
+        <MenuPane fx:id="tabs" prefWidth="100" prefHeight="400" style="-fx-border-color: #000">
+            <menus>
+                <LeftTab text="搜索小说" controller="123" prefWidth="80" prefHeight="50"
+                         style="-fx-border-color: red!important;"/>
+                <LeftTab text="搜索小说" controller="123" prefWidth="80" prefHeight="50"
+                         style="-fx-border-color: red!important;"/>
+                <LeftTab text="搜索小说" controller="123" prefWidth="80" prefHeight="50"
+                         style="-fx-border-color: red!important;"/>
+            </menus>
+        </MenuPane>
+    </left>
+</fx:root>

@@ -1,26 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.gluonhq.charm.glisten.control.BottomNavigation?>
-<?import com.gluonhq.charm.glisten.control.BottomNavigationButton?>
-<?import com.gluonhq.charm.glisten.control.Icon?>
-<?import javafx.scene.layout.AnchorPane?>
-
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
-      <BottomNavigation layoutY="373.0" prefHeight="66.0" prefWidth="600.0">
-          <actionItems>
-              <BottomNavigationButton text="Favourite">
-                  <graphic>
-                      <Icon content="FAVORITE" />
-                  </graphic>
-              </BottomNavigationButton>
-              <BottomNavigationButton text="Nearby">
-                  <graphic>
-                      <Icon content="NEAR_ME" />
-                  </graphic>
-              </BottomNavigationButton>
-          </actionItems>
-      </BottomNavigation>
-   </children>
-</AnchorPane>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.layout.VBox?>
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.uncles.novel.app.jfx.ui.controller.MainController">
+    <children>
+        <JFXButton layoutX="273.0" layoutY="193.0" text="点击我" onMouseClicked="#print"/>
+        <JFXButton layoutX="273.0" layoutY="193.0" text="点击我" onMouseClicked="#print"/>
+        <JFXButton layoutX="273.0" layoutY="193.0" text="点击我" onMouseClicked="#print"/>
+        <JFXButton layoutX="273.0" layoutY="193.0" text="点击我" onMouseClicked="#print"/>
+    </children>
+</VBox>

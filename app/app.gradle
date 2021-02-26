@@ -12,9 +12,10 @@ repositories {
 }
 
 dependencies {
+    implementation "com.unclezs:novel-analyzer:1.0.0-SNATSHOT"
     def hutoolVersion = '5.5.8'
     implementation "cn.hutool:hutool-core:$hutoolVersion"
-    implementation "com.unclezs:novel-analyzer:1.0.0-SNATSHOT"
+    implementation project(":framework")
     implementation "com.jfoenix:jfoenix:9.0.10"
     implementation "org.controlsfx:controlsfx:11.0.3"
 //    def gluonVersion = "6.0.6"
@@ -26,6 +27,8 @@ dependencies {
 //    implementation "com.gluonhq.attach:lifecycle:$attachVersion"
 //    implementation "com.gluonhq.attach:util:$attachVersion"
     implementation "de.saxsys:mvvmfx:1.8.0"
+    implementation "org.slf4j:slf4j-api:1.7.30"
+    implementation "ch.qos.logback:logback-classic:1.2.3"
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }

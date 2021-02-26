@@ -1,4 +1,5 @@
 rootProject.name = 'uncle-novel-jfx'
+include 'framework'
 include 'app'
 // 编译脚本为项目名.gradle
 rootProject.children.each { project ->

@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Control;
 import javafx.scene.control.Skin;
+import javafx.scene.layout.VBox;
 
 import java.util.function.Consumer;
 
@@ -48,7 +49,6 @@ public class LeftNavigation extends Control {
      *
      * @return 左侧菜单皮肤
      */
-    @Override
     protected Skin<?> createDefaultSkin() {
         return new LeftNavigationViewSkin(this);
     }

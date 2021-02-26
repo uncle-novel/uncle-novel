@@ -1,8 +1,7 @@
 package com.uncles.novel.app.jfx;
 
 import com.sun.javafx.application.LauncherImpl;
-import com.uncles.novel.app.jfx.stage.MainStage;
-import com.uncles.novel.app.jfx.test.MVVMApp;
+import com.uncles.novel.app.jfx.ui.stage.MainStage;
 
 /**
  * @author blog.unclezs.com
