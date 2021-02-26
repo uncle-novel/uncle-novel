@@ -1,11 +1,9 @@
 package com.uncles.novel.app.jfx.framework.ui.components;
 
 import com.sun.javafx.collections.TrackableObservableList;
-import javafx.collections.FXCollections;
+import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 
 /**
@@ -13,24 +11,37 @@ import javafx.scene.layout.VBox;
  * @since 2021/02/26 18:50
  */
 public class MenuPane extends VBox {
-    private ObservableList<LeftTab> menus = new TrackableObservableList<>() {
+    /**
+     * 样式
+     */
+    private static final String DEFAULT_STYLE_CLASS = "menu-pane";
+    private static final String USER_AGENT_STYLESHEET = ResourceUtils.load("/css/controls/menu-pane.css").toExternalForm();
+    private final ObservableList<LeftTab> menus = new TrackableObservableList<>() {
         @Override
         protected void onChanged(ListChangeListener.Change<LeftTab> c) {
             while (c.next()) {
-//                getChildren().removeAll(c.getRemoved());
-//                getChildren().addAll(c.getAddedSubList());
+                for (LeftTab tab : c.getRemoved()) {
+                    tab.setOnMouseClicked(null);
+                    getChildren().remove(tab);
+                }
+                for (LeftTab tab : c.getAddedSubList()) {
+                    tab.setOnMouseClicked(e -> menus.forEach(menu -> menu.setSelected(menu.equals(tab))));
+                    getChildren().add(tab);
+                }
             }
         }
     };
 
     public MenuPane() {
-        System.out.println("123");
-        this.menus.add(new LeftTab("完美实际", "asdasd"));
-        this.getChildren().setAll(menus);
+        initialize();
     }
 
-    public MenuPane(ObservableList<LeftTab> menus) {
-        this.menus = menus;
+    /**
+     * 初始化
+     */
+    public void initialize() {
+        getStyleClass().add(DEFAULT_STYLE_CLASS);
+        getStylesheets().add(USER_AGENT_STYLESHEET);
     }
 
     public ObservableList<LeftTab> getMenus() {
@@ -38,8 +49,6 @@ public class MenuPane extends VBox {
     }
 
     public MenuPane(LeftTab... menus) {
-        this();
-        System.out.println(1233212312);
         if (menus != null) {
             getMenus().addAll(menus);
         }

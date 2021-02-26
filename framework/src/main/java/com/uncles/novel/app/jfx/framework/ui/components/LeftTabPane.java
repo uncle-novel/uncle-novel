@@ -2,15 +2,10 @@ package com.uncles.novel.app.jfx.framework.ui.components;
 
 import com.uncles.novel.app.jfx.framework.annotation.FxController;
 import com.uncles.novel.app.jfx.framework.util.FxmlLoader;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.function.Consumer;
 
 /**
  * 左侧菜单

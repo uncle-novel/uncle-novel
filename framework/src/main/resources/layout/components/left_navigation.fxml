@@ -3,16 +3,26 @@
 <?import com.uncles.novel.app.jfx.framework.ui.components.LeftTab?>
 <?import com.uncles.novel.app.jfx.framework.ui.components.MenuPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import org.controlsfx.glyphfont.Glyph?>
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml">
     <left>
-        <MenuPane fx:id="tabs" prefWidth="100" prefHeight="400" style="-fx-border-color: #000">
+        <MenuPane fx:id="tabs" prefWidth="200" style="-fx-border-color: #bbb">
             <menus>
-                <LeftTab text="搜索小说" controller="123" prefWidth="80" prefHeight="50"
-                         style="-fx-border-color: red!important;"/>
-                <LeftTab text="搜索小说" controller="123" prefWidth="80" prefHeight="50"
-                         style="-fx-border-color: red!important;"/>
-                <LeftTab text="搜索小说" controller="123" prefWidth="80" prefHeight="50"
-                         style="-fx-border-color: red!important;"/>
+                <LeftTab text="搜索小说" controller="123" selected="true">
+                    <graphic>
+                        <Glyph icon="&#xf010;"/>
+                    </graphic>
+                </LeftTab>
+                <LeftTab text="全网搜书" controller="123">
+                    <graphic>
+                        <Glyph icon="&#xf010;"/>
+                    </graphic>
+                </LeftTab>
+                <LeftTab text="寻找有声" controller="123">
+                    <graphic>
+                        <Glyph icon="&#xf010;"/>
+                    </graphic>
+                </LeftTab>
             </menus>
         </MenuPane>
     </left>

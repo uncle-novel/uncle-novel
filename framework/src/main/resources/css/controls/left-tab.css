@@ -1,0 +1,27 @@
+.left-tab {
+    -fx-background-color: transparent;
+    -fx-font-size: 13;
+    -fx-pref-width: 150;
+    -fx-min-height: 30 !important;
+    -fx-alignment: center-left;
+}
+
+.left-tab:selected {
+    -fx-background-color: linear-gradient(to right, rgb(31, 212, 174), rgb(30, 205, 148));
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 1, 0, 0, 0);
+    -fx-opacity: 1;
+    -fx-cursor: hand;
+}
+
+.left-tab .glyph-font {
+    -fx-font-size: 13;
+    -fx-background-insets: 0;
+    -fx-pref-width: 15px;
+}
+
+/*.left-tab:hover {*/
+/*    -fx-background-color: rgba(216, 216, 216, 0.3);*/
+/*    -fx-effect: dropshadow(three-pass-box, #888, 1, 0, 0, 0);*/
+/*    -fx-opacity: 1;*/
+/*    -fx-cursor: hand;*/
+/*}*/
