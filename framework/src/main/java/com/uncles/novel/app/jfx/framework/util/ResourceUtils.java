@@ -30,7 +30,7 @@ public class ResourceUtils {
      * @param location css路径
      * @return css URL
      */
-    public static URL loadCss(String location) {
-        return ResourceUtils.class.getResource("/css/" + location);
+    public static String loadCss(String location) {
+        return ResourceUtils.class.getResource(location).toExternalForm();
     }
 }

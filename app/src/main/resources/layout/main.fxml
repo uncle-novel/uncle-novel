@@ -6,12 +6,12 @@
 <?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<VBox fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15"
+<VBox fx:id="root" prefHeight="660.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/15"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.uncles.novel.app.jfx.ui.view.MainView">
-    <Pane prefHeight="40" style="-fx-background-color: #393D49">
+<!--    <Pane prefHeight="40" style="-fx-background-color: #393D49">-->
 
-    </Pane>
+<!--    </Pane>-->
     <SidebarNavigationPane prefWidth="${root.width}" VBox.vgrow="ALWAYS">
         <menus>
             <SidebarNavigation prefWidth="200">

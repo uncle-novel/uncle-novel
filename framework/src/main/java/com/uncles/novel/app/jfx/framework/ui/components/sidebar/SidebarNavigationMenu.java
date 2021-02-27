@@ -1,22 +1,20 @@
 package com.uncles.novel.app.jfx.framework.ui.components.sidebar;
 
-import com.jfoenix.controls.JFXButton;
 import com.uncles.novel.app.jfx.framework.exception.FxException;
+import com.uncles.novel.app.jfx.framework.ui.components.IconButton;
 import com.uncles.novel.app.jfx.framework.util.FxmlLoader;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.css.PseudoClass;
 import javafx.scene.Node;
-import org.controlsfx.glyphfont.Glyph;
 
 /**
  * 菜单按钮
+ *
  * @author blog.unclezs.com
  * @since 2021/02/26 18:33
  */
-public class SidebarNavigationMenu extends JFXButton {
+public class SidebarNavigationMenu extends IconButton {
     private static final String DEFAULT_STYLE_CLASS = "sidebar-nav-menu";
     /**
      * 设置选中伪类
@@ -28,10 +26,6 @@ public class SidebarNavigationMenu extends JFXButton {
      */
     private Node actionView;
     /**
-     * 图标
-     */
-    private StringProperty icon;
-    /**
      * 视图控制器
      */
     private String view;
@@ -39,11 +33,6 @@ public class SidebarNavigationMenu extends JFXButton {
 
     public SidebarNavigationMenu() {
         initialize();
-    }
-
-    public SidebarNavigationMenu(String text, String view) {
-        super(text);
-        setView(view);
     }
 
     /**
@@ -93,23 +82,4 @@ public class SidebarNavigationMenu extends JFXButton {
     public void setSelected(boolean selected) {
         selectedPropertyImpl().set(selected);
     }
-
-    public void setIcon(String icon) {
-        iconProperty().set(icon);
-        Glyph graphic = new Glyph();
-        graphic.setIcon(icon);
-        this.setGraphic(graphic);
-    }
-
-    public String getIcon() {
-        return iconProperty().get();
-    }
-
-    public StringProperty iconProperty() {
-        if (icon == null) {
-            icon = new SimpleStringProperty();
-        }
-        return icon;
-    }
-
 }

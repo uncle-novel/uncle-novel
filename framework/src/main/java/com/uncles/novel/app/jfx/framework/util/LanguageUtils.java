@@ -17,7 +17,11 @@ public class LanguageUtils {
      * 国际化语言包
      */
     private static final WeakHashMap<String, ResourceBundle> BUNDLES = new WeakHashMap<>(16);
-    private static final String BASE_DIR = "i18n.";
+    /**
+     * 基本前缀
+     */
+    private static String basePrefix = "i18n.";
+    private static ResourceBundle defaultBundle = getResourceBundle("i18n.basic");
 
     /**
      * 获取国际化资源文件
@@ -39,7 +43,7 @@ public class LanguageUtils {
      * @return ResourceBundle
      */
     public static ResourceBundle getBundle(String baseName) {
-        baseName = BASE_DIR + baseName;
+        baseName = basePrefix + baseName;
         return getResourceBundle(baseName);
     }
 
@@ -52,5 +56,33 @@ public class LanguageUtils {
      */
     public static String getString(String bundleName, String key) {
         return getResourceBundle(bundleName).getString(key);
+    }
+
+    /**
+     * 默认bundle 拿到国际化后的字符串
+     *
+     * @param key stringKey
+     * @return ResourceBundle
+     */
+    public static String getString(String key) {
+        return defaultBundle.getString(key);
+    }
+
+    /**
+     * 设置默认 bundle
+     *
+     * @param defaultBundle 全名
+     */
+    public static void setDefaultBundle(String defaultBundle) {
+        LanguageUtils.defaultBundle = getResourceBundle(defaultBundle);
+    }
+
+    /**
+     * 设置bundle默认前缀
+     *
+     * @param basePrefix 前缀
+     */
+    public static void setBasePrefix(String basePrefix) {
+        LanguageUtils.basePrefix = basePrefix;
     }
 }

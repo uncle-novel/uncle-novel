@@ -34,11 +34,6 @@ public class PreLoaderApp extends Preloader {
 
     @Override
     public void handleProgressNotification(ProgressNotification info) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         bar.setProgress(info.getProgress());
     }
 

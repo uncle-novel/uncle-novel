@@ -5,6 +5,7 @@ import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
 import javafx.beans.DefaultProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
 import java.util.function.Consumer;
@@ -18,8 +19,8 @@ import java.util.function.Consumer;
 @DefaultProperty("menus")
 public class SidebarNavigation extends VBox {
     private static final String DEFAULT_STYLE_CLASS = "sidebar-nav";
-    private static final String USER_AGENT_STYLESHEET = ResourceUtils.load("/css/controls/sidebar-navigation.css").toExternalForm();
-    private Consumer<SidebarNavigationMenu> onNavigationMenuClick;
+    private static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("/css/components/sidebar-navigation.css");
+    private Consumer<Node> onNavigate;
     /**
      * 菜单列表
      */
@@ -53,8 +54,8 @@ public class SidebarNavigation extends VBox {
         getMenus().forEach(group -> group.getMenus().forEach(consumer));
     }
 
-    public void setOnNavigationMenuClick(Consumer<SidebarNavigationMenu> onNavigationMenuClick) {
-        this.onNavigationMenuClick = onNavigationMenuClick;
+    public void setOnNavigate(Consumer<Node> onNavigate) {
+        this.onNavigate = onNavigate;
     }
 
     /**
@@ -85,8 +86,8 @@ public class SidebarNavigation extends VBox {
                     // 设置选中状态
                     eachMenu(currentSidebarNavigationMenu -> currentSidebarNavigationMenu.setSelected(currentSidebarNavigationMenu.equals(sidebarNavigationMenu)));
                     // 菜单菜单点击回调
-                    if (onNavigationMenuClick != null) {
-                        onNavigationMenuClick.accept(sidebarNavigationMenu);
+                    if (onNavigate != null) {
+                        onNavigate.accept(sidebarNavigationMenu.getActionView());
                     }
                 }
             });
