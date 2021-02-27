@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Documented
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FxController {
+public @interface FxView {
     /**
      * FXML路径
      *
@@ -29,4 +29,11 @@ public @interface FxController {
      * @return 路径
      */
     String bundle() default "";
+
+    /**
+     * 样式表
+     *
+     * @return 样式表
+     */
+    String[] css() default {};
 }

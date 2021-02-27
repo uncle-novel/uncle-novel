@@ -5,11 +5,19 @@ package com.uncles.novel.app.jfx.framework.lifecycle;
  * @since 2021/02/26 16:02
  */
 public interface LifeCycle {
-    void onCreated();
+    default void onCreated() {
 
-    void onHidden();
+    }
 
-    void onShow();
+    default void onHidden() {
 
-    void onDestroy();
+    }
+
+    default void onShow() {
+
+    }
+
+    default void onDestroy() {
+
+    }
 }

@@ -1,13 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigation?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationMenu?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationMenuGroup?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.uncles.novel.app.jfx.ui.controller.MainController">
-    <children>
-        <JFXButton layoutX="273.0" layoutY="193.0" text="点击我" onMouseClicked="#print"/>
-        <JFXButton layoutX="273.0" layoutY="193.0" text="点击我" onMouseClicked="#print"/>
-        <JFXButton layoutX="273.0" layoutY="193.0" text="点击我" onMouseClicked="#print"/>
-        <JFXButton layoutX="273.0" layoutY="193.0" text="点击我" onMouseClicked="#print"/>
-    </children>
+<VBox fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.uncles.novel.app.jfx.ui.view.MainView">
+    <Pane prefHeight="40" style="-fx-background-color: #393D49">
+
+    </Pane>
+    <SidebarNavigationPane prefWidth="${root.width}" VBox.vgrow="ALWAYS">
+        <menus>
+            <SidebarNavigation prefWidth="200">
+                <SidebarNavigationMenuGroup name="找书">
+                    <SidebarNavigationMenu text="搜索小说" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
+                                           selected="true" icon="&#xf010;"/>
+                    <SidebarNavigationMenu text="全网搜书" view="com.uncles.novel.app.jfx.ui.view.SearchNovelView"
+                                           selected="false" icon="&#xf010;"/>
+                    <SidebarNavigationMenu text="寻找有声" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
+                                           selected="false" icon="&#xf010;"/>
+                </SidebarNavigationMenuGroup>
+                <SidebarNavigationMenuGroup name="读书">
+                    <SidebarNavigationMenu text="搜索小说" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
+                                           selected="false" icon="&#xf010;"/>
+                    <SidebarNavigationMenu text="全网搜书" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
+                                           selected="false" icon="&#xf010;"/>
+                    <SidebarNavigationMenu text="寻找有声" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
+                                           selected="false" icon="&#xf010;"/>
+                </SidebarNavigationMenuGroup>
+            </SidebarNavigation>
+        </menus>
+    </SidebarNavigationPane>
 </VBox>

@@ -1,13 +1,15 @@
-package com.uncles.novel.app.jfx.framework.controller;
+package com.uncles.novel.app.jfx.framework.view;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 /**
+ * 基本视图 一切Fxml视图应该继承自此
+ *
  * @author blog.unclezs.com
  * @since 2021/02/26 12:07
  */
-public class BaseFxController {
+public class BaseView {
     /**
      * 国际化资源文件 自动注入
      */

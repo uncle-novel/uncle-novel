@@ -1,6 +1,0 @@
-/*主舞台左侧菜单*/
-.menu-pane {
-    -fx-padding: 0 20 0 20;
-    -fx-border-width: 0 1 0 0;
-    -fx-border-color: border-color;
-}

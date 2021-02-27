@@ -1,29 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.uncles.novel.app.jfx.framework.ui.components.LeftTab?>
-<?import com.uncles.novel.app.jfx.framework.ui.components.MenuPane?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigation?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationMenu?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationMenuGroup?>
 <?import javafx.scene.layout.BorderPane?>
-<?import org.controlsfx.glyphfont.Glyph?>
 <fx:root type="javafx.scene.layout.BorderPane" xmlns:fx="http://javafx.com/fxml">
     <left>
-        <MenuPane fx:id="tabs" prefWidth="200" style="-fx-border-color: #bbb">
-            <menus>
-                <LeftTab text="搜索小说" controller="123" selected="true">
-                    <graphic>
-                        <Glyph icon="&#xf010;"/>
-                    </graphic>
-                </LeftTab>
-                <LeftTab text="全网搜书" controller="123">
-                    <graphic>
-                        <Glyph icon="&#xf010;"/>
-                    </graphic>
-                </LeftTab>
-                <LeftTab text="寻找有声" controller="123">
-                    <graphic>
-                        <Glyph icon="&#xf010;"/>
-                    </graphic>
-                </LeftTab>
-            </menus>
-        </MenuPane>
+        <SidebarNavigation fx:id="tabs" prefWidth="200">
+            <SidebarNavigationMenuGroup name="找书">
+                <SidebarNavigationMenu text="搜索小说" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView" selected="true" icon="&#xf010;"/>
+                <SidebarNavigationMenu text="全网搜书" view="com.uncles.novel.app.jfx.ui.view.SearchNovelView" selected="false" icon="&#xf010;"/>
+                <SidebarNavigationMenu text="寻找有声" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView" selected="false" icon="&#xf010;"/>
+            </SidebarNavigationMenuGroup>
+            <SidebarNavigationMenuGroup name="读书">
+                <SidebarNavigationMenu text="搜索小说" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView" selected="false" icon="&#xf010;"/>
+                <SidebarNavigationMenu text="全网搜书" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView" selected="false" icon="&#xf010;"/>
+                <SidebarNavigationMenu text="寻找有声" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView" selected="false" icon="&#xf010;"/>
+            </SidebarNavigationMenuGroup>
+        </SidebarNavigation>
     </left>
 </fx:root>

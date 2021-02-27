@@ -8,12 +8,46 @@ package com.uncles.novel.app.jfx.framework.util;
  */
 public class StrUtils {
     /**
+     * 字符常量：下划线 {@code '_'}
+     */
+    public static final char UNDERLINE = '_';
+    /**
      * 字符串常量：空字符串 {@code StrUtils.EMPTY}
      */
     public static final String EMPTY = "";
 
     private StrUtils() {
 
+    }
+
+
+    /**
+     * 驼峰转 下划线
+     * userName  ---->  user_name
+     * user_name  ---->  user_name
+     *
+     * @param str 驼峰字符串
+     * @return 带下滑线的String
+     */
+    public static String toUnderlineCase(String str) {
+        if (str == null) {
+            return null;
+        }
+        // 将驼峰字符串转换成数组
+        char[] charArray = str.toCharArray();
+        StringBuilder builder = new StringBuilder();
+        //处理字符串
+        for (int i = 0, l = charArray.length; i < l; i++) {
+            if (charArray[i] >= 65 && charArray[i] <= 90) {
+                if (i != 0) {
+                    builder.append("_");
+                }
+                builder.append(charArray[i] += 32);
+            } else {
+                builder.append(charArray[i]);
+            }
+        }
+        return builder.toString();
     }
 
     /**
