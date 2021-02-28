@@ -12,6 +12,8 @@
 	<img src="https://img.shields.io/badge/platform-win linux mac-green"/>
 </p>
 
-## 小说解析核心SDK
+## Uncle小说 PC版
+
+OpenJfx实现.
 
 > nothing is best.
