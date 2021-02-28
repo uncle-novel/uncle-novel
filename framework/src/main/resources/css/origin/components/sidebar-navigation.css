@@ -1,0 +1,73 @@
+/* 菜单面板 */
+.sidebar-nav-pane {
+    -fx-background-radius: border-radius;
+    -fx-border-radius: border-radius;
+    -fx-background-color: #FFF;
+}
+
+/* 右侧视图面版 */
+.sidebar-nav-content {
+    -fx-background-radius: inherit;
+    -fx-border-radius: inherit;
+}
+
+/* 左侧菜单面板 */
+.sidebar-nav {
+    -fx-spacing: 2;
+    -fx-pref-width: 200;
+    -fx-background-radius: inherit;
+    -fx-border-radius: inherit;
+    -fx-padding: 0 20 0 20;
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: border-color;
+    -fx-background-color: sidebar-bg-color;
+    -fx-text-fill: ladder(sidebar-bg-color, md_grey_50 49%, md_grey_800 50%);
+}
+
+/* 菜单按钮 */
+.sidebar-nav .sidebar-nav-menu {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-font-size: 13px;
+    -fx-text-fill: inherit;
+    -fx-pref-width: 160;
+    -fx-min-height: 30 !important;
+    -fx-border-radius: 3px;
+    -fx-background-radius: 3px;
+    -fx-alignment: center-left;
+}
+
+.sidebar-nav .sidebar-nav-menu:selected {
+    -fx-background-color: menu-bg-color-selected !important;
+    -fx-effect: dropshadow(three-pass-box, border-color, 3, 0, 1, 1) !important;
+    -fx-text-fill: ladder(menu-bg-color-selected, white_color 49%, black_color 50%) !important;
+}
+
+
+.sidebar-nav .sidebar-nav-menu:hover {
+    -fx-background-color: menu-bg-color-hover;
+    -fx-effect: dropshadow(three-pass-box, border-color, 3, 0, 1, 1);
+    -fx-text-fill: ladder(menu-bg-color-hover, white_color 49%, black_color 50%);
+    -fx-cursor: hand;
+}
+
+/* 菜单图标 */
+.sidebar-nav .sidebar-nav-menu .icon {
+    -fx-font-size: 13px;
+    -fx-background-insets: 0;
+    -fx-text-fill: inherit;
+    -fx-pref-width: 15px;
+}
+
+/* 菜单分组 */
+.sidebar-nav .sidebar-nav-menu-group-label {
+    -fx-alignment: center-left;
+    -fx-text-fill: ladder(
+            sidebar-bg-color,
+            md_grey_200 45%,
+            md_grey_300 46%,
+            md_grey_400 59%,
+            md_grey_500 60%
+    );
+    -fx-padding: 20 0 10 10;
+}

@@ -1,0 +1,23 @@
+plugins {
+    id "java-gradle-plugin"
+}
+
+gradlePlugin {
+    plugins {
+        sass {
+            id = 'com.uncles.novel.app.jfx.sass'
+            implementationClass = 'com.uncles.novel.app.jfx.sass.SassCompileJavaPlugin'
+        }
+    }
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    annotationProcessor "org.projectlombok:lombok:1.18.18"
+    compileOnly "org.projectlombok:lombok:1.18.18"
+    implementation "io.bit3:jsass:5.5.6"
+    implementation 'com.google.code.gson:gson:2.8.2'
+}

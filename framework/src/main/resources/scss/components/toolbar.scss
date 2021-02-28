@@ -1,0 +1,88 @@
+.stage-decorator {
+  -fx-background-size: cover;
+  -fx-background-position: center;
+  -fx-background-repeat: no-repeat;
+  -fx-background-color: transparent;
+  -fx-background-radius: 20;
+  -fx-border-radius: 20;
+  -fx-border-color: transparent;
+  -fx-effect: dropshadow(three-pass-box, md_grey_600, 10, 0.3, 0, 0);;
+  -fx-border-width: 10;
+
+  .stage-decorator-header {
+    -fx-background-radius: 20 20 0 0;
+    -fx-border-radius: 20 20 0 0;
+    -fx-alignment: center-right;
+    -fx-pref-height: 60;
+    -fx-background-color: #393D49;
+
+    /* 窗口顶部Logo */
+    .stage-decorator-logo {
+      -fx-padding: 0 0 0 20;
+      -fx-spacing: 4;
+
+      .stage-decorator-logo-icon {
+        -fx-fit-to-width: 25px;
+        -fx-fill-height: 25px;
+      }
+
+      .stage-decorator-logo-title {
+        -fx-font-size: 17;
+        -fx-text-fill: #FFF;
+      }
+    }
+
+    /* 窗口顶部按钮 */
+    .stage-decorator-actions {
+      -fx-alignment: center-right;
+      -fx-padding: 0 15 0 0;
+      -fx-spacing: 3;
+
+      .icon-button {
+        .svg-icon {
+          -fx-svg-size: 15px;
+          -fx-background-color: #FFF;
+
+          &:hover {
+            -fx-background-color: md_blue_400;
+          }
+        }
+
+        .icon {
+          -fx-font-size: 15px;
+          -fx-text-fill: #FFF;
+
+          &:hover {
+            -fx-text-fill: md_blue_400;
+          }
+        }
+      }
+
+      .stage-decorator-actions-exit {
+        &:hover {
+          -fx-background-color: md_red_A700;
+
+          .icon {
+            -fx-text-fill: #FFF !important;
+          }
+        }
+      }
+
+      .stage-decorator-action-separator {
+        -fx-pref-width: 1;
+        -fx-max-height: 25;
+        -fx-end-margin: 10;
+        -fx-background-color: md_grey_500;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+

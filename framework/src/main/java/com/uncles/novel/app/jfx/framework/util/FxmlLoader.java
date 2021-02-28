@@ -18,7 +18,6 @@ import java.util.ResourceBundle;
  */
 public class FxmlLoader {
     public static final Logger log = LoggerFactory.getLogger(FxmlLoader.class);
-    private static final String DEFAULT_FXML_LOCATION = "/layout/";
     private static final String FXML_SUFFIX = ".fxml";
     private static final String CONTROLLER_SUFFIX = "View";
 
@@ -51,7 +50,7 @@ public class FxmlLoader {
         String replace = controllerClazz.getSimpleName().replace(CONTROLLER_SUFFIX, StrUtils.EMPTY);
         String controllerName = StrUtils.toUnderlineCase(replace);
         // 得到fxml文件路径
-        String fxml = DEFAULT_FXML_LOCATION + (fxViewAnnotation == null || StrUtils.isBlank(fxViewAnnotation.fxml()) ? controllerName : fxViewAnnotation.fxml());
+        String fxml = fxViewAnnotation == null || StrUtils.isBlank(fxViewAnnotation.fxml()) ? controllerName : fxViewAnnotation.fxml();
         if (!fxml.endsWith(FXML_SUFFIX)) {
             fxml += FXML_SUFFIX;
         }

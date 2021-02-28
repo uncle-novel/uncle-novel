@@ -54,6 +54,7 @@ public class SidebarNavigationMenu extends IconButton {
         try {
             this.actionView = FxmlLoader.load(Class.forName(viewController));
             this.view = viewController;
+            this.actionView.getStyleClass().add("sidebar-nav-content");
         } catch (ClassNotFoundException e) {
             throw new FxException("view controller class not found " + viewController, e);
         }

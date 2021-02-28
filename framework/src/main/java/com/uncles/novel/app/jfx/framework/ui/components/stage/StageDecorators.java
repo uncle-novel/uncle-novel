@@ -17,7 +17,7 @@
  * under the License.
  */
 
-package com.uncles.novel.app.jfx.framework.app;
+package com.uncles.novel.app.jfx.framework.ui.components.stage;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.svg.SVGGlyph;
@@ -82,7 +82,7 @@ import java.util.function.Consumer;
  * @author blog.unclezs.com
  * @date 2021/02/28 1:28
  */
-public class StageDecorator extends VBox implements I18nSupport {
+public class StageDecorators extends VBox implements I18nSupport {
     private Stage primaryStage;
     private double xOffset = 0;
     private double yOffset = 0;
@@ -117,7 +117,7 @@ public class StageDecorator extends VBox implements I18nSupport {
     public static final Border DEFAULT_BORDER = new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(10)));
 
 
-    public StageDecorator(Stage stage, Node node) {
+    public StageDecorators(Stage stage, Node node) {
         this(stage, node, true, true, true, false, true);
     }
 
@@ -133,7 +133,7 @@ public class StageDecorator extends VBox implements I18nSupport {
      * @param max   indicates whether to show maximize option or not
      * @param min   indicates whether to show minimize option or not
      */
-    public StageDecorator(Stage stage, Node node, boolean theme, boolean max, boolean min, boolean tray, boolean setting) {
+    public StageDecorators(Stage stage, Node node, boolean theme, boolean max, boolean min, boolean tray, boolean setting) {
         primaryStage = stage;
         // 设置为 TRANSPARENT 性能会降低，所以使用 UNDECORATED
         primaryStage.initStyle(StageStyle.TRANSPARENT);
@@ -174,7 +174,7 @@ public class StageDecorator extends VBox implements I18nSupport {
         });
 
         addEventHandler(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
-//        buttonsContainer.addEventHandler(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
+        buttonsContainer.addEventHandler(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
         // show the drag cursor on the borders
         addEventFilter(MouseEvent.MOUSE_MOVED, this::showDragCursorOnBorders);
 
@@ -202,7 +202,6 @@ public class StageDecorator extends VBox implements I18nSupport {
     }
 
     private List<Node> getEnabledActionButtons(boolean theme, boolean max, boolean min, boolean tray, boolean setting) {
-        // customize decorator buttons
         List<Node> actionButtons = new ArrayList<>();
         if (theme) {
             btnTheme = new IconButton();
@@ -337,7 +336,7 @@ public class StageDecorator extends VBox implements I18nSupport {
                 allowMove = false;
             }
         });
-        buttonsContainer.setMinWidth(180);
+        buttonsContainer.setMinWidth(primaryStage.getMinWidth());
         contentPlaceHolder.getStyleClass().add("content-container");
         contentPlaceHolder.setMinSize(0, 0);
         contentPlaceHolder.getChildren().add(node);
@@ -489,7 +488,8 @@ public class StageDecorator extends VBox implements I18nSupport {
     }
 
     private boolean setStageWidth(double width) {
-        if (width >= primaryStage.getMinWidth() && width >= buttonsContainer.getMinWidth()) {
+        System.out.println(width + "  " + primaryStage.getMinWidth() + " " + buttonsContainer.getMinWidth());
+        if (width >= primaryStage.getMinWidth() + this.snappedRightInset() + this.snappedLeftInset() && width >= buttonsContainer.getMinWidth()) {
             primaryStage.setWidth(width);
             return true;
         } else if (width >= primaryStage.getMinWidth() && width <= buttonsContainer.getMinWidth()) {
@@ -500,7 +500,7 @@ public class StageDecorator extends VBox implements I18nSupport {
     }
 
     private boolean setStageHeight(double height) {
-        if (height >= primaryStage.getMinHeight() && height >= buttonsContainer.getHeight()) {
+        if (height >= (primaryStage.getMinHeight() + this.snappedRightInset() + this.snappedLeftInset()) && height >= buttonsContainer.getHeight()) {
             primaryStage.setHeight(height);
             return true;
         } else if (height >= primaryStage.getMinHeight() && height <= buttonsContainer.getHeight()) {

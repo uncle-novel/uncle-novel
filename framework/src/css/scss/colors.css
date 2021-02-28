@@ -1,0 +1,7 @@
+@charset "UTF-8";
+/**
+ * material design 颜色表
+ * https://www.materialpalette.com/colors
+ * ([A\d]{2,4})(#[\w]{6})
+ *  $md_teal_$1: $2;
+ */

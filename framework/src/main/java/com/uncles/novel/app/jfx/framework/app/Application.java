@@ -2,7 +2,7 @@ package com.uncles.novel.app.jfx.framework.app;
 
 import com.sun.javafx.css.StyleManager;
 import com.uncles.novel.app.jfx.framework.lifecycle.LifeCycle;
-import com.uncles.novel.app.jfx.framework.util.LanguageUtils;
+import com.uncles.novel.app.jfx.framework.ui.components.stage.StageDecorator;
 import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -40,12 +40,19 @@ public abstract class Application extends javafx.application.Application impleme
     @Override
     public final void start(Stage stage) throws Exception {
         this.stage = stage;
+        this.stage.setMinWidth(960);
+        this.stage.setMinHeight(660);
         this.stage.getIcons().setAll(ICON);
         this.view = getView();
-        StageDecorator decorator = new StageDecorator(stage, view);
-        decorator.setTitle(LanguageUtils.getString("app_name"));
-        decorator.setIcon(ICON);
-        this.scene = new Scene(decorator, Color.TRANSPARENT);
+//        StageDecorators decorator = new StageDecorators(stage, view);
+//        decorator.setCustomMaximize(false);
+//        decorator.setTitle(LanguageUtils.getString("app_name"));
+//        decorator.setIcon(ICON);
+        if (this.view instanceof StageDecorator) {
+            StageDecorator decorator = (StageDecorator) this.view;
+            decorator.setStage(stage);
+        }
+        this.scene = new Scene(view, Color.TRANSPARENT);
         this.stage.setScene(scene);
         onCreated();
         this.stage.onHiddenProperty().addListener(e -> onHidden());

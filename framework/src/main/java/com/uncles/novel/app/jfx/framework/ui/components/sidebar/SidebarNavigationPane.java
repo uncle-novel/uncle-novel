@@ -1,5 +1,6 @@
 package com.uncles.novel.app.jfx.framework.ui.components.sidebar;
 
+import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -11,13 +12,16 @@ import javafx.scene.layout.Priority;
  * @since 2021/02/26 14:41
  */
 public class SidebarNavigationPane extends HBox {
+    private static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("/css/components/sidebar-navigation.css");
+    public static final String DEFAULT_STYLE_CLASS = "sidebar-nav-pane";
     private SidebarNavigation menus;
     private Node content;
 
 
     public SidebarNavigationPane() {
+        getStyleClass().add(DEFAULT_STYLE_CLASS);
+        getStylesheets().add(USER_AGENT_STYLESHEET);
     }
-
 
     public SidebarNavigation getMenus() {
         return menus;
@@ -27,11 +31,16 @@ public class SidebarNavigationPane extends HBox {
         if (this.menus == null) {
             getChildren().add(0, menus);
         } else {
-            this.menus.setOnNavigationMenuClick(null);
+            this.menus.setOnNavigate(null);
             getChildren().set(0, menus);
         }
         this.menus = menus;
-        this.menus.setOnNavigationMenuClick(menu -> setContent(menu.getActionView()));
+        this.menus.setOnNavigate(this::setContent);
+        this.menus.eachMenu(menu -> {
+            if (menu.isSelected()) {
+                setContent(menu.getActionView());
+            }
+        });
     }
 
     public Node getContent() {

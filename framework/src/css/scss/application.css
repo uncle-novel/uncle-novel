@@ -1,9 +1,15 @@
+@charset "UTF-8";
 /*
   @import
   @font-face
   必需放前面：@see javafx.css.CssParser#parse
 */
-@import url("define/colors.css");
+/**
+ * material design 颜色表
+ * https://www.materialpalette.com/colors
+ * ([A\d]{2,4})(#[\w]{6})
+ *  $md_teal_$1: $2;
+ */
 @font-face {
   font-family: 'FontAwesome';
   font-style: normal;
@@ -20,6 +26,7 @@
   /* 基础 */
   -fx-base: #FFF;
   bg-color: -fx-base;
+  border-radius: 10;
   border-color: ladder(bg-color, rgba(255, 255, 255, 0.3) 49%, rgba(0, 0, 0, 0.3) 50%);
   /*text-color: ladder(bg-color, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);*/
   /*hover-bg-color: md_teal_900;*/
@@ -29,12 +36,12 @@
   /*selected-text-color: ladder(selected-bg-color, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);*/
   /* 头部 */
   /* 侧边栏 */
-  sidebar-bg-color: #f5f5f5;
+  sidebar-bg-color: md_grey_100;
   /* 菜单 */
-  menu-bg-color-selected: #039be5;
+  menu-bg-color-selected: md_light_blue_600;
   menu-effect-selected: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 3, 0, 1, 1);
   menu-bg-color-hover: rgba(216, 216, 216, 0.3);
-  menu-effect-hover: dropshadow(three-pass-box, #bdbdbd, 1, 0, 0, 0);
+  menu-effect-hover: dropshadow(three-pass-box, md_grey_400, 1, 0, 0, 0);
   /* 默认样式 */
   -fx-font-family: ".PingFang SC";
   -fx-font-size: 13px; }

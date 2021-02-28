@@ -1,49 +1,50 @@
-.header-container {
-    -fx-background-color: #393D49;
-}
-
-.header-container .label {
-    -fx-font-size: 15px;
-    -fx-text-fill: #FFF;
-}
-
-.header-container .label:hover {
-    -fx-text-fill: #FFF;
-    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 2, 0, 2, 2);
-}
-
-.header-container .jfx-svg-glyph, .header-container .header-line {
-    -jfx-size: 15px;
-    -fx-background-color: #FFF;
-}
-
-.header-container .jfx-svg-glyph:hover {
-    -fx-background-color: #FFF;
-    -fx-effect: dropshadow(three-pass-box, bg-color, 2, 0, 2, 2);
-}
-
 .stage-decorator {
-    -fx-background-size: cover;
-    -fx-background-position: center;
-    -fx-background-repeat: no-repeat;
-    -fx-background-color: transparent;
-    -fx-background-radius: 5;
-    -fx-border-color: transparent;
-    -fx-effect: dropshadow(three-pass-box, md_grey_600, 10, 0.1, 0, 0);;
-    -fx-border-width: 10;
-}
-
-
-.header-icon-exit {
-    -fx-font-size: 17px !important;
-}
-
-.header-icon-exit:hover {
-    -fx-text-fill: rgb(255, 116, 72) !important;
-}
-
-/*窗口顶部和设置的分割线*/
-.header-line {
-    -fx-pref-width: 1;
-    -fx-max-height: 20;
-}
+  -fx-background-size: cover;
+  -fx-background-position: center;
+  -fx-background-repeat: no-repeat;
+  -fx-background-color: transparent;
+  -fx-background-radius: 20;
+  -fx-border-radius: 20;
+  -fx-border-color: transparent;
+  -fx-effect: dropshadow(three-pass-box, md_grey_600, 10, 0.3, 0, 0);
+  -fx-border-width: 10; }
+  .stage-decorator .stage-decorator-header {
+    -fx-background-radius: 20 20 0 0;
+    -fx-border-radius: 20 20 0 0;
+    -fx-alignment: center-right;
+    -fx-pref-height: 60;
+    -fx-background-color: #393D49;
+    /* 窗口顶部Logo */
+    /* 窗口顶部按钮 */ }
+    .stage-decorator .stage-decorator-header .stage-decorator-logo {
+      -fx-padding: 0 0 0 20;
+      -fx-spacing: 4; }
+      .stage-decorator .stage-decorator-header .stage-decorator-logo .stage-decorator-logo-icon {
+        -fx-fit-to-width: 25px;
+        -fx-fill-height: 25px; }
+      .stage-decorator .stage-decorator-header .stage-decorator-logo .stage-decorator-logo-title {
+        -fx-font-size: 17;
+        -fx-text-fill: #FFF; }
+    .stage-decorator .stage-decorator-header .stage-decorator-actions {
+      -fx-alignment: center-right;
+      -fx-padding: 0 15 0 0;
+      -fx-spacing: 3; }
+      .stage-decorator .stage-decorator-header .stage-decorator-actions .icon-button .svg-icon {
+        -fx-svg-size: 15px;
+        -fx-background-color: #FFF; }
+        .stage-decorator .stage-decorator-header .stage-decorator-actions .icon-button .svg-icon:hover {
+          -fx-background-color: md_blue_400; }
+      .stage-decorator .stage-decorator-header .stage-decorator-actions .icon-button .icon {
+        -fx-font-size: 15px;
+        -fx-text-fill: #FFF; }
+        .stage-decorator .stage-decorator-header .stage-decorator-actions .icon-button .icon:hover {
+          -fx-text-fill: md_blue_400; }
+      .stage-decorator .stage-decorator-header .stage-decorator-actions .stage-decorator-actions-exit:hover {
+        -fx-background-color: md_red_A700; }
+        .stage-decorator .stage-decorator-header .stage-decorator-actions .stage-decorator-actions-exit:hover .icon {
+          -fx-text-fill: #FFF !important; }
+      .stage-decorator .stage-decorator-header .stage-decorator-actions .stage-decorator-action-separator {
+        -fx-pref-width: 1;
+        -fx-max-height: 25;
+        -fx-end-margin: 10;
+        -fx-background-color: md_grey_500; }

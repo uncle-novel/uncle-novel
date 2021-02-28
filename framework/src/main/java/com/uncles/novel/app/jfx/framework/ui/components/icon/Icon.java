@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 图标
+ * 字体图标
  *
  * @author blog.unclezs.com
  * @since 2021/02/26 12:05

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.uncles.novel.app.jfx.framework.ui.components.IconButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<fx:root xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" type="javafx.scene.layout.VBox"
+         pickOnBounds="false"
+         stylesheets="/css/components/toolbar.css" styleClass="stage-decorator">
+    <HBox styleClass="stage-decorator-header">
+        <HBox pickOnBounds="false" alignment="CENTER_LEFT" HBox.hgrow="ALWAYS" styleClass="stage-decorator-logo">
+            <ImageView fx:id="logo" styleClass="stage-decorator-logo-icon" fitHeight="25" fitWidth="25">
+                <Image url="/assets/favicon.png"/>
+            </ImageView>
+            <Label fx:id="title" text="%app_name" styleClass="stage-decorator-logo-title"/>
+        </HBox>
+        <HBox fx:id="actions" styleClass="stage-decorator-actions">
+            <IconButton tip="换肤" svg="#theme"/>
+            <IconButton tip="设置" icon="&#xf0c9;"/>
+            <Pane styleClass="stage-decorator-action-separator"/>
+            <!--            <IconButton tip="最小化到托盘(Alt+U)" icon="&#xf107;"/>-->
+            <IconButton tip="最小化" icon="&#xf068;"/>
+            <IconButton tip="最大化" icon="&#xf2d0;"/>
+            <IconButton tip="退出" icon="&#xf011;" styleClass="stage-decorator-actions-exit"/>
+        </HBox>
+    </HBox>
+</fx:root>

@@ -3,7 +3,7 @@
 
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
-<StackPane style="-fx-background-color: md_grey_400"
+<StackPane
            xmlns="http://javafx.com/javafx/15"
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uncles.novel.app.jfx.ui.view.SearchNovelView">
     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="搜索小说"

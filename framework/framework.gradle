@@ -2,6 +2,7 @@ plugins {
     id 'application'
     id "org.openjfx.javafxplugin" version "0.0.9"
 }
+apply plugin: "com.uncles.novel.app.jfx.sass"
 
 group 'com.uncles.novel.app.jfx'
 version '5.0'
@@ -10,7 +11,6 @@ repositories {
     mavenLocal()
     mavenCentral()
 }
-
 dependencies {
 //    def gluonVersion = "6.0.6"
 //    def attachVersion = "4.0.10"
@@ -20,7 +20,6 @@ dependencies {
 //    implementation "com.gluonhq.attach:statusbar:$attachVersion"
 //    implementation "com.gluonhq.attach:lifecycle:$attachVersion"
 //    implementation "com.gluonhq.attach:util:$attachVersion"
-
     implementation "com.jfoenix:jfoenix:9.0.10"
     implementation "org.controlsfx:controlsfx:11.0.3"
     implementation "org.slf4j:slf4j-api:1.7.30"
@@ -30,12 +29,13 @@ dependencies {
 
 javafx {
     version = "15"
-    modules = ['javafx.controls','javafx.fxml','javafx.web','javafx.media']
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.media']
 }
 
-tasks.withType(JavaCompile){
+tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
 
 test {
     useJUnitPlatform()

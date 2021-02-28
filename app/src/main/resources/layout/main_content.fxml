@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import com.uncles.novel.app.jfx.framework.ui.components.stage.StageDecorator?>
-<StageDecorator fx:id="root" prefHeight="690.0" prefWidth="1042.0" minHeight="${root.prefHeight}"
-                minWidth="${root.prefWidth}"
-                xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="root" prefHeight="660.0" minHeight="660.0" prefWidth="960.0" minWidth="960" xmlns="http://javafx.com/javafx/15"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.uncles.novel.app.jfx.ui.view.MainView">
     <SidebarNavigationPane prefWidth="${root.width}" VBox.vgrow="ALWAYS">
         <menus>
             <SidebarNavigation>
@@ -32,4 +32,4 @@
             </SidebarNavigation>
         </menus>
     </SidebarNavigationPane>
-</StageDecorator>
+</VBox>

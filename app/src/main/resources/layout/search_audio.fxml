@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.layout.BorderPane?>
-<BorderPane style="-fx-background-color: md_grey_400"
+<BorderPane
             xmlns="http://javafx.com/javafx/15"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uncles.novel.app.jfx.ui.view.SearchNovelView">
     <center>

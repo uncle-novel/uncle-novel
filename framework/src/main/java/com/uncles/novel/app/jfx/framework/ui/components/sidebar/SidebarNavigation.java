@@ -1,7 +1,6 @@
 package com.uncles.novel.app.jfx.framework.ui.components.sidebar;
 
 import com.sun.javafx.collections.TrackableObservableList;
-import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
 import javafx.beans.DefaultProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -19,7 +18,6 @@ import java.util.function.Consumer;
 @DefaultProperty("menus")
 public class SidebarNavigation extends VBox {
     private static final String DEFAULT_STYLE_CLASS = "sidebar-nav";
-    private static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("/css/components/sidebar-navigation.css");
     private Consumer<Node> onNavigate;
     /**
      * 菜单列表
@@ -43,7 +41,6 @@ public class SidebarNavigation extends VBox {
      */
     public void initialize() {
         getStyleClass().add(DEFAULT_STYLE_CLASS);
-        getStylesheets().add(USER_AGENT_STYLESHEET);
     }
 
     public ObservableList<SidebarNavigationMenuGroup> getMenus() {

@@ -2,6 +2,7 @@ package com.uncles.novel.app.jfx.framework.ui.components;
 
 import com.jfoenix.controls.JFXButton;
 import com.uncles.novel.app.jfx.framework.ui.components.icon.Icon;
+import com.uncles.novel.app.jfx.framework.ui.components.icon.SvgIcon;
 import javafx.scene.Cursor;
 import javafx.scene.control.Tooltip;
 
@@ -10,14 +11,13 @@ import javafx.scene.control.Tooltip;
  * @date 2021/02/28 1:28
  */
 public class IconButton extends JFXButton {
+    public static final String DEFAULT_STYLE_CLASS = "icon-button";
     private String icon;
+    private String svg;
     private String tip;
 
-    public String getIcon() {
-        return icon;
-    }
-
     public IconButton() {
+        getStyleClass().add(DEFAULT_STYLE_CLASS);
     }
 
     public IconButton(String text) {
@@ -37,6 +37,21 @@ public class IconButton extends JFXButton {
         setIcon(icon);
         setTip(tip);
         setCursor(Cursor.HAND);
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public String getSvg() {
+        return svg;
+    }
+
+    public void setSvg(String svg) {
+        this.svg = svg;
+        if (svg != null) {
+            this.setGraphic(new SvgIcon(svg));
+        }
     }
 
     public void setIcon(String icon) {
