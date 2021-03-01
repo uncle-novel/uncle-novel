@@ -83,7 +83,7 @@ import java.util.function.Consumer;
  * @date 2021/02/28 1:28
  */
 public class StageDecorators extends VBox implements I18nSupport {
-    private Stage primaryStage;
+    private Stage stage;
     private double xOffset = 0;
     private double yOffset = 0;
     private double initX;
@@ -98,7 +98,7 @@ public class StageDecorators extends VBox implements I18nSupport {
     private final StackPane contentPlaceHolder = new StackPane();
     private HBox buttonsContainer;
     private final ObjectProperty<Runnable> onCloseButtonAction = new SimpleObjectProperty<>(() ->
-        primaryStage.fireEvent(new WindowEvent(primaryStage, WindowEvent.WINDOW_CLOSE_REQUEST)));
+        stage.fireEvent(new WindowEvent(stage, WindowEvent.WINDOW_CLOSE_REQUEST)));
     private final BooleanProperty customMaximize = new SimpleBooleanProperty(false);
     private boolean maximized = false;
     private BoundingBox originalBox;
@@ -113,7 +113,7 @@ public class StageDecorators extends VBox implements I18nSupport {
     private Node icon;
     private HBox graphicContainer;
     private final List<Node> headerNodes = new ArrayList<>(10);
-    public static final String DEFAULT_STYLE_SHEET = ResourceUtils.loadCss("/css/components/toolbar.css");
+    public static final String DEFAULT_STYLE_SHEET = ResourceUtils.loadCss("/css/components/stage-decorator.css");
     public static final Border DEFAULT_BORDER = new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(10)));
 
 
@@ -134,14 +134,14 @@ public class StageDecorators extends VBox implements I18nSupport {
      * @param min   indicates whether to show minimize option or not
      */
     public StageDecorators(Stage stage, Node node, boolean theme, boolean max, boolean min, boolean tray, boolean setting) {
-        primaryStage = stage;
+        this.stage = stage;
         // 设置为 TRANSPARENT 性能会降低，所以使用 UNDECORATED
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        this.stage.initStyle(StageStyle.TRANSPARENT);
         getStylesheets().add(DEFAULT_STYLE_SHEET);
         setPickOnBounds(false);
         getStyleClass().add("stage-decorator");
         initializeContainers(node, theme, max, min, tray, setting);
-        primaryStage.fullScreenProperty().addListener((o, oldVal, newVal) -> {
+        this.stage.fullScreenProperty().addListener((o, oldVal, newVal) -> {
             if (newVal) {
                 borderProperty().unbind();
                 setBorder(Border.EMPTY);
@@ -181,6 +181,10 @@ public class StageDecorators extends VBox implements I18nSupport {
         // handle drag events on the decorator pane
         addEventFilter(MouseEvent.MOUSE_RELEASED, (mouseEvent) -> isDragging = false);
         this.setOnMouseDragged(this::handleDragEventOnDecoratorPane);
+    }
+
+    public void onMouseReleased() {
+        isDragging = false;
     }
 
     /**
@@ -230,7 +234,7 @@ public class StageDecorators extends VBox implements I18nSupport {
         }
         if (min) {
             btnMin = new IconButton('\uf068', "最小化");
-            btnMin.setOnAction((action) -> primaryStage.setIconified(true));
+            btnMin.setOnAction((action) -> stage.setIconified(true));
             actionButtons.add(btnMin);
         }
         if (max) {
@@ -257,9 +261,9 @@ public class StageDecorators extends VBox implements I18nSupport {
 
     private void maximize(Icon resizeMin, Icon resizeMax) {
         if (!isCustomMaximize()) {
-            primaryStage.setMaximized(!primaryStage.isMaximized());
-            maximized = primaryStage.isMaximized();
-            if (primaryStage.isMaximized()) {
+            stage.setMaximized(!stage.isMaximized());
+            maximized = stage.isMaximized();
+            if (stage.isMaximized()) {
                 setBorder(Border.EMPTY);
                 btnMax.setGraphic(resizeMin);
                 btnMax.setTip("恢复");
@@ -271,37 +275,37 @@ public class StageDecorators extends VBox implements I18nSupport {
         } else {
             if (!maximized) {
                 // store original bounds
-                originalBox = new BoundingBox(primaryStage.getX(), primaryStage.getY(), primaryStage.getWidth(),
-                    primaryStage.getHeight());
+                originalBox = new BoundingBox(stage.getX(), stage.getY(), stage.getWidth(),
+                    stage.getHeight());
                 // get the max stage bounds
-                Screen screen = Screen.getScreensForRectangle(primaryStage.getX(),
-                    primaryStage.getY(),
-                    primaryStage.getWidth(),
-                    primaryStage.getHeight()).get(0);
+                Screen screen = Screen.getScreensForRectangle(stage.getX(),
+                    stage.getY(),
+                    stage.getWidth(),
+                    stage.getHeight()).get(0);
                 Rectangle2D bounds = screen.getVisualBounds();
                 BoundingBox maximizedBox = new BoundingBox(bounds.getMinX(),
                     bounds.getMinY(),
                     bounds.getWidth(),
                     bounds.getHeight());
                 // maximized the stage
-                primaryStage.setX(maximizedBox.getMinX());
-                primaryStage.setY(maximizedBox.getMinY());
-                primaryStage.setWidth(maximizedBox.getWidth());
-                primaryStage.setHeight(maximizedBox.getHeight());
+                stage.setX(maximizedBox.getMinX());
+                stage.setY(maximizedBox.getMinY());
+                stage.setWidth(maximizedBox.getWidth());
+                stage.setHeight(maximizedBox.getHeight());
                 btnMax.setGraphic(resizeMin);
                 btnMax.setTip("恢复");
             } else {
                 // restore stage to its original size
-                primaryStage.setX(originalBox.getMinX());
-                primaryStage.setY(originalBox.getMinY());
-                primaryStage.setWidth(originalBox.getWidth());
-                primaryStage.setHeight(originalBox.getHeight());
+                stage.setX(originalBox.getMinX());
+                stage.setY(originalBox.getMinY());
+                stage.setWidth(originalBox.getWidth());
+                stage.setHeight(originalBox.getHeight());
                 originalBox = null;
                 btnMax.setGraphic(resizeMax);
                 btnMax.setTip("最大化");
             }
             maximized = !maximized;
-            primaryStage.setMaximized(maximized);
+            stage.setMaximized(maximized);
         }
     }
 
@@ -317,7 +321,7 @@ public class StageDecorators extends VBox implements I18nSupport {
         //binds the Text's text to title
         text.textProperty().bind(title);
         //binds title to the primaryStage's title
-        title.bind(primaryStage.titleProperty());
+        title.bind(stage.titleProperty());
         graphicContainer = new HBox();
         graphicContainer.setPickOnBounds(false);
         graphicContainer.setAlignment(Pos.CENTER_LEFT);
@@ -336,7 +340,7 @@ public class StageDecorators extends VBox implements I18nSupport {
                 allowMove = false;
             }
         });
-        buttonsContainer.setMinWidth(primaryStage.getMinWidth());
+        buttonsContainer.setMinWidth(stage.getMinWidth());
         contentPlaceHolder.getStyleClass().add("content-container");
         contentPlaceHolder.setMinSize(0, 0);
         contentPlaceHolder.getChildren().add(node);
@@ -353,11 +357,11 @@ public class StageDecorators extends VBox implements I18nSupport {
 
 
     private void showDragCursorOnBorders(MouseEvent mouseEvent) {
-        if (primaryStage.isMaximized() || primaryStage.isFullScreen() || maximized) {
+        if (stage.isMaximized() || stage.isFullScreen() || maximized) {
             this.setCursor(Cursor.DEFAULT);
             return; // maximized mode does not support resize
         }
-        if (!primaryStage.isResizable()) {
+        if (!stage.isResizable()) {
             return;
         }
         double x = mouseEvent.getX();
@@ -396,7 +400,7 @@ public class StageDecorators extends VBox implements I18nSupport {
             return;
         }
         //Long press generates drag event!
-        if (primaryStage.isFullScreen() || mouseEvent.isStillSincePress() || maximized) {
+        if (stage.isFullScreen() || mouseEvent.isStillSincePress() || maximized) {
             return;
         }
         double newX = mouseEvent.getScreenX();
@@ -412,7 +416,7 @@ public class StageDecorators extends VBox implements I18nSupport {
             mouseEvent.consume();
         } else if (Cursor.NE_RESIZE.equals(cursor)) {
             if (setStageHeight(initHeight - deltay)) {
-                primaryStage.setY(initStageY + deltay);
+                stage.setY(initStageY + deltay);
             }
             setStageWidth(initWidth + deltax);
             mouseEvent.consume();
@@ -425,40 +429,40 @@ public class StageDecorators extends VBox implements I18nSupport {
             mouseEvent.consume();
         } else if (Cursor.W_RESIZE.equals(cursor)) {
             if (setStageWidth(initWidth - deltax)) {
-                primaryStage.setX(initStageX + deltax);
+                stage.setX(initStageX + deltax);
             }
             mouseEvent.consume();
         } else if (Cursor.SW_RESIZE.equals(cursor)) {
             if (setStageWidth(initWidth - deltax)) {
-                primaryStage.setX(initStageX + deltax);
+                stage.setX(initStageX + deltax);
             }
             setStageHeight(initHeight + deltay);
             mouseEvent.consume();
         } else if (Cursor.NW_RESIZE.equals(cursor)) {
             if (setStageWidth(initWidth - deltax)) {
-                primaryStage.setX(initStageX + deltax);
+                stage.setX(initStageX + deltax);
             }
             if (setStageHeight(initHeight - deltay)) {
-                primaryStage.setY(initStageY + deltay);
+                stage.setY(initStageY + deltay);
             }
             mouseEvent.consume();
         } else if (Cursor.N_RESIZE.equals(cursor)) {
             if (setStageHeight(initHeight - deltay)) {
-                primaryStage.setY(initStageY + deltay);
+                stage.setY(initStageY + deltay);
             }
             mouseEvent.consume();
         } else if (allowMove) {
-            primaryStage.setX(mouseEvent.getScreenX() - xOffset);
-            primaryStage.setY(mouseEvent.getScreenY() - yOffset);
+            stage.setX(mouseEvent.getScreenX() - xOffset);
+            stage.setY(mouseEvent.getScreenY() - yOffset);
             mouseEvent.consume();
         }
     }
 
     private void updateInitMouseValues(MouseEvent mouseEvent) {
-        initStageX = primaryStage.getX();
-        initStageY = primaryStage.getY();
-        initWidth = primaryStage.getWidth();
-        initHeight = primaryStage.getHeight();
+        initStageX = stage.getX();
+        initStageY = stage.getY();
+        initWidth = stage.getWidth();
+        initHeight = stage.getHeight();
         initX = mouseEvent.getScreenX();
         initY = mouseEvent.getScreenY();
         xOffset = mouseEvent.getSceneX();
@@ -488,24 +492,24 @@ public class StageDecorators extends VBox implements I18nSupport {
     }
 
     private boolean setStageWidth(double width) {
-        System.out.println(width + "  " + primaryStage.getMinWidth() + " " + buttonsContainer.getMinWidth());
-        if (width >= primaryStage.getMinWidth() + this.snappedRightInset() + this.snappedLeftInset() && width >= buttonsContainer.getMinWidth()) {
-            primaryStage.setWidth(width);
+        System.out.println(width + "  " + stage.getMinWidth() + " " + buttonsContainer.getMinWidth());
+        if (width >= stage.getMinWidth() + this.snappedRightInset() + this.snappedLeftInset() && width >= buttonsContainer.getMinWidth()) {
+            stage.setWidth(width);
             return true;
-        } else if (width >= primaryStage.getMinWidth() && width <= buttonsContainer.getMinWidth()) {
+        } else if (width >= stage.getMinWidth() && width <= buttonsContainer.getMinWidth()) {
             width = buttonsContainer.getMinWidth();
-            primaryStage.setWidth(width);
+            stage.setWidth(width);
         }
         return false;
     }
 
     private boolean setStageHeight(double height) {
-        if (height >= (primaryStage.getMinHeight() + this.snappedRightInset() + this.snappedLeftInset()) && height >= buttonsContainer.getHeight()) {
-            primaryStage.setHeight(height);
+        if (height >= (stage.getMinHeight() + this.snappedRightInset() + this.snappedLeftInset()) && height >= buttonsContainer.getHeight()) {
+            stage.setHeight(height);
             return true;
-        } else if (height >= primaryStage.getMinHeight() && height <= buttonsContainer.getHeight()) {
+        } else if (height >= stage.getMinHeight() && height <= buttonsContainer.getHeight()) {
             height = buttonsContainer.getHeight();
-            primaryStage.setHeight(height);
+            stage.setHeight(height);
         }
         return false;
     }

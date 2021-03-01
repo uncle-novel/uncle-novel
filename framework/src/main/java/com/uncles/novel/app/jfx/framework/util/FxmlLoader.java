@@ -40,6 +40,21 @@ public class FxmlLoader {
     }
 
     /**
+     * 加载FXML
+     *
+     * @param loader 加载器
+     * @param <T>    类型
+     * @return 加载结果
+     */
+    public static <T> T load(FXMLLoader loader) {
+        try {
+            return loader.load();
+        } catch (IOException e) {
+            throw new FxException("fxml load failed.", e);
+        }
+    }
+
+    /**
      * 初始化FXMLLoader
      *
      * @param controllerClazz controller
@@ -61,5 +76,17 @@ public class FxmlLoader {
         loader.setCharset(StandardCharsets.UTF_8);
         log.info("fxml loader controller:{} fxml:{} bundle:{}", controllerClazz.getName(), fxml, resourceBundle.getBaseBundleName());
         return loader;
+    }
+
+    /**
+     * 组件加载
+     *
+     * @param root 控制器也是rootView
+     */
+    public static void loadView(Object root) {
+        FXMLLoader loader = getLoader(root.getClass());
+        loader.setRoot(root);
+        loader.setController(root);
+        load(loader);
     }
 }

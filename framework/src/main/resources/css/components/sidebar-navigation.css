@@ -12,14 +12,13 @@
 
 /* 左侧菜单面板 */
 .sidebar-nav {
+  -fx-effect: dropshadow(gaussian, #bdbdbd, 10, 0.2, 2, 0);
   -fx-spacing: 2;
   -fx-pref-width: 200;
   -fx-background-radius: 0 0 0 10;
   -fx-border-radius: 0 0 0 10;
   -fx-padding: 0 20 0 20;
-  -fx-border-width: 0 1 0 0;
-  -fx-border-color: border-color;
-  -fx-background-color: sidebar-bg-color;
+  -fx-background-color: inherit;
   -fx-text-fill: ladder(sidebar-bg-color, md_grey_50 49%, md_grey_800 50%);
   /* 菜单分组 */
   /* 菜单按钮 */ }

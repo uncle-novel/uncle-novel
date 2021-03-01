@@ -1,0 +1,6 @@
+@import "_variables";
+@import "_colors";
+
+@mixin shadow {
+  -fx-effect: dropshadow(gaussian, $md_grey_400, 10, 0.2, 2, 0);
+}

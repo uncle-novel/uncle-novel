@@ -3,7 +3,7 @@
   @font-face
   必需放前面：@see javafx.css.CssParser#parse
 */
-@import "import";
+@import "define/_global";
 @import url("define/colors.css");
 
 @font-face {
