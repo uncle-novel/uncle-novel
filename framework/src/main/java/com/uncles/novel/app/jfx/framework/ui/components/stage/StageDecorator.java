@@ -1,19 +1,31 @@
 package com.uncles.novel.app.jfx.framework.ui.components.stage;
 
 import com.uncles.novel.app.jfx.framework.annotation.FxView;
-import com.uncles.novel.app.jfx.framework.ui.components.IconButton;
+import com.uncles.novel.app.jfx.framework.ui.components.button.IconButton;
+import com.uncles.novel.app.jfx.framework.ui.components.icon.Icon;
+import com.uncles.novel.app.jfx.framework.ui.components.image.UnImageView;
 import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
+import com.uncles.novel.app.jfx.framework.util.ViewUtils;
 import javafx.beans.DefaultProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 舞台装饰器
@@ -24,13 +36,27 @@ import javafx.stage.StageStyle;
 @DefaultProperty("content")
 @FxView(fxml = "/layout/components/stage-decorator.fxml", bundle = "framework")
 public class StageDecorator extends VBox {
+    /**
+     * css类名
+     */
+    public static final String STAGE_DECORATOR = "stage-decorator";
+    public static final String STAGE_DECORATOR_HEADER = "stage-decorator-header";
+    public static final String STAGE_DECORATOR_LOGO = "stage-decorator-logo";
+    public static final String STAGE_DECORATOR_ACTIONS = "stage-decorator-actions";
+    public static final String STAGE_DECORATOR_LOGO_ICON = "stage-decorator-logo-icon";
+    public static final String STAGE_DECORATOR_LOGO_TITLE = "stage-decorator-logo-title";
+    public static final String STAGE_DECORATOR_ACTION_SEPARATOR = "stage-decorator-action-separator";
+    public static final String STAGE_DECORATOR_ACTIONS_EXIT = "stage-decorator-actions-exit";
+    public static final int CLICK_COUNT_TO_MAX_WINDOW = 2;
     private Stage stage;
     /**
      * 顶部logo HBox
      */
     public HBox logoBox;
-    public ImageView logo;
-    public Label title;
+    @Getter
+    public UnImageView logoImage;
+    @Getter
+    public Label titleLabel;
     /**
      * 顶部右侧操作按钮 HBox
      */
@@ -55,45 +81,76 @@ public class StageDecorator extends VBox {
     private boolean allowMove = false;
     private boolean isDragging = false;
     private boolean maximized = false;
+
+    private static final Border DEFAULT_BORDER = new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(10)));
+    private final Runnable onCloseButtonAction = () -> stage.close();
     private IconButton btnMax;
-    private IconButton btnTray;
     private IconButton btnSetting;
     private IconButton btnClose;
     private IconButton btnMin;
     private IconButton btnTheme;
 
+    /**
+     * 支持fxml配置
+     */
+    @Getter
+    @Setter
     private boolean theme;
+    @Getter
+    @Setter
     private boolean setting;
+    @Getter
+    @Setter
     private boolean max;
+    @Getter
+    @Setter
     private boolean min;
+    @Getter
+    public String logo;
+    @Getter
+    public String title;
 
 
     public static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("/css/components/stage-decorator.css");
 
     public StageDecorator() {
-        this(null, false, false, false, false);
-    }
-
-    public StageDecorator(Stage stage, boolean theme, boolean setting, boolean max, boolean min) {
-
-    }
-
-    /**
-     * 初始化
-     */
-    public void initialize() {
         initHeader();
         initStageBehavior();
     }
 
-    private void initHeader() {
-        this.headerContainer = new HBox();
+    public StageDecorator(Stage stage, boolean theme, boolean setting, boolean max, boolean min) {
+        this();
+        this.theme = theme;
+        this.setting = setting;
+        this.max = max;
+        this.min = min;
+        this.setStage(stage);
     }
 
-    public void initStyle() {
-        this.getStylesheets().add(USER_AGENT_STYLESHEET);
-        this.getStyleClass().add("stage-decorator");
+    /**
+     * 属性装配完成后执行初始化
+     */
+    private void initialize() {
+        stage.initStyle(StageStyle.TRANSPARENT);
+        // 双向绑定舞台标题
+        if (titleLabel.getText() != null && stage.getTitle() == null) {
+            stage.setTitle(getTitle());
+        }
+        titleLabel.textProperty().bindBidirectional(stage.titleProperty());
+        // 创建actions按钮组
+        createActions();
+    }
 
+    private void initHeader() {
+        ViewUtils.addStyleSheetAndClass(this, USER_AGENT_STYLESHEET, STAGE_DECORATOR);
+        this.headerContainer = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_HEADER);
+        this.logoBox = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_LOGO);
+        this.actions = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_ACTIONS);
+        HBox.setHgrow(this.actions, Priority.ALWAYS);
+        this.headerContainer.getChildren().addAll(logoBox, actions);
+        // 头部组件添加到容器
+        this.getChildren().add(this.headerContainer);
+        this.setPickOnBounds(false);
     }
 
     /**
@@ -118,6 +175,43 @@ public class StageDecorator extends VBox {
     }
 
     /**
+     * 创建actions按钮
+     */
+    private void createActions() {
+        if (theme) {
+            btnTheme = new IconButton();
+            btnTheme.setSvg("_theme");
+            btnTheme.setTip("换肤");
+            this.actions.getChildren().add(btnTheme);
+        }
+        if (setting) {
+            btnSetting = new IconButton('\uf0c9', "设置");
+            this.actions.getChildren().addAll(btnSetting, ViewUtils.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
+        }
+        if (min) {
+            btnMin = new IconButton('\uf068', "最小化");
+            this.actions.getChildren().add(btnMin);
+        }
+        if (max) {
+            Icon resizeMaxIcon = new Icon('\uf2d0');
+            Icon resizeMinIcon = new Icon('\uf2d2');
+            btnMax = new IconButton();
+            btnMax.setTip("最大化");
+            btnMax.setIcon(resizeMaxIcon);
+            btnMax.setOnAction((action) -> maximize(resizeMinIcon, resizeMaxIcon));
+            headerContainer.setOnMouseClicked(mouseEvent -> {
+                if (mouseEvent.getClickCount() == CLICK_COUNT_TO_MAX_WINDOW) {
+                    btnMax.fire();
+                }
+            });
+            this.actions.getChildren().add(btnMax);
+        }
+        btnClose = ViewUtils.addClass(new IconButton('\uf011', "退出"), STAGE_DECORATOR_ACTIONS_EXIT);
+        btnClose.setOnMouseClicked(e -> onCloseButtonAction.run());
+        this.actions.getChildren().add(btnClose);
+    }
+
+    /**
      * 获取舞台
      *
      * @return stage
@@ -133,13 +227,7 @@ public class StageDecorator extends VBox {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
-        // 透明
-        stage.initStyle(StageStyle.TRANSPARENT);
-        // 双向绑定舞台标题
-        if (title.getText() != null && stage.getTitle() == null) {
-            stage.setTitle(getTitle());
-        }
-        title.textProperty().bindBidirectional(stage.titleProperty());
+        initialize();
     }
 
 
@@ -149,7 +237,26 @@ public class StageDecorator extends VBox {
      * @param logoImagePath logo图标路径
      */
     public void setLogo(String logoImagePath) {
-        this.logo.setImage(new Image(logoImagePath));
+        if (this.logo == null) {
+            this.logoImage = ViewUtils.addClass(new UnImageView(), STAGE_DECORATOR_LOGO_ICON);
+            this.logoBox.getChildren().add(0, this.logoImage);
+        }
+        this.logo = logoImagePath;
+        this.logoImage.setImage(new Image(logoImagePath));
+    }
+
+    /**
+     * 设置标题
+     *
+     * @param titleText 标题
+     */
+    public void setTitle(String titleText) {
+        if (this.title == null) {
+            this.titleLabel = ViewUtils.addClass(new Label(), STAGE_DECORATOR_LOGO_TITLE);
+            this.logoBox.getChildren().add(this.titleLabel);
+        }
+        this.title = titleText;
+        this.titleLabel.setText(titleText);
     }
 
     /**
@@ -333,44 +440,17 @@ public class StageDecorator extends VBox {
         return false;
     }
 
-
-    public String getTitle() {
-        return title.getText();
-    }
-
-    public void setTitle(String title) {
-        this.title.setText(title);
-    }
-
-    public boolean isTheme() {
-        return theme;
-    }
-
-    public void setTheme(boolean theme) {
-        this.theme = theme;
-    }
-
-    public boolean isSetting() {
-        return setting;
-    }
-
-    public void setSetting(boolean setting) {
-        this.setting = setting;
-    }
-
-    public boolean isMax() {
-        return max;
-    }
-
-    public void setMax(boolean max) {
-        this.max = max;
-    }
-
-    public boolean isMin() {
-        return min;
-    }
-
-    public void setMin(boolean min) {
-        this.min = min;
+    private void maximize(Icon resizeMin, Icon resizeMax) {
+        stage.setMaximized(!stage.isMaximized());
+        maximized = stage.isMaximized();
+        if (stage.isMaximized()) {
+            setBorder(Border.EMPTY);
+            btnMax.setGraphic(resizeMin);
+            btnMax.setTip("恢复");
+        } else {
+            setBorder(DEFAULT_BORDER);
+            btnMax.setGraphic(resizeMax);
+            btnMax.setTip("最大化");
+        }
     }
 }

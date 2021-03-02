@@ -6,6 +6,8 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.function.Consumer;
 
@@ -18,10 +20,12 @@ import java.util.function.Consumer;
 @DefaultProperty("menus")
 public class SidebarNavigation extends VBox {
     private static final String DEFAULT_STYLE_CLASS = "sidebar-nav";
+    @Setter
     private Consumer<Node> onNavigate;
     /**
      * 菜单列表
      */
+    @Getter
     private final ObservableList<SidebarNavigationMenuGroup> menus = new TrackableObservableList<>() {
         @Override
         protected void onChanged(ListChangeListener.Change<SidebarNavigationMenuGroup> c) {
@@ -33,26 +37,16 @@ public class SidebarNavigation extends VBox {
     };
 
     public SidebarNavigation() {
-        initialize();
-    }
-
-    /**
-     * 初始化
-     */
-    public void initialize() {
         getStyleClass().add(DEFAULT_STYLE_CLASS);
     }
 
-    public ObservableList<SidebarNavigationMenuGroup> getMenus() {
-        return menus;
-    }
-
+    /**
+     * 遍历每个菜单
+     *
+     * @param consumer 处理
+     */
     public void eachMenu(Consumer<SidebarNavigationMenu> consumer) {
         getMenus().forEach(group -> group.getMenus().forEach(consumer));
-    }
-
-    public void setOnNavigate(Consumer<Node> onNavigate) {
-        this.onNavigate = onNavigate;
     }
 
     /**

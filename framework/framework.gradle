@@ -11,21 +11,6 @@ repositories {
     mavenLocal()
     mavenCentral()
 }
-dependencies {
-//    def gluonVersion = "6.0.6"
-//    def attachVersion = "4.0.10"
-//    implementation "com.gluonhq:charm-glisten:$gluonVersion"
-//    implementation "com.gluonhq.attach:display:$attachVersion"
-//    implementation "com.gluonhq.attach:storage:$attachVersion"
-//    implementation "com.gluonhq.attach:statusbar:$attachVersion"
-//    implementation "com.gluonhq.attach:lifecycle:$attachVersion"
-//    implementation "com.gluonhq.attach:util:$attachVersion"
-    implementation "com.jfoenix:jfoenix:9.0.10"
-    implementation "org.controlsfx:controlsfx:11.0.3"
-    implementation "org.slf4j:slf4j-api:1.7.30"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-}
 
 javafx {
     version = "15"
@@ -36,7 +21,17 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
-
 test {
     useJUnitPlatform()
+}
+
+dependencies {
+    def lombok = "1.18.18"
+    implementation "org.projectlombok:lombok:$lombok"
+    annotationProcessor "org.projectlombok:lombok:$lombok"
+    implementation "com.jfoenix:jfoenix:9.0.10"
+    implementation "org.controlsfx:controlsfx:11.0.3"
+    implementation "org.slf4j:slf4j-api:1.7.30"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }

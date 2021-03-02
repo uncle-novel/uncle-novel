@@ -19,10 +19,9 @@
 
 package com.uncles.novel.app.jfx.framework.ui.components.stage;
 
-import com.jfoenix.controls.JFXButton;
 import com.jfoenix.svg.SVGGlyph;
 import com.uncles.novel.app.jfx.framework.i18n.I18nSupport;
-import com.uncles.novel.app.jfx.framework.ui.components.IconButton;
+import com.uncles.novel.app.jfx.framework.ui.components.button.IconButton;
 import com.uncles.novel.app.jfx.framework.ui.components.icon.Icon;
 import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
 import javafx.animation.Animation;
@@ -469,7 +468,7 @@ public class StageDecorators extends VBox implements I18nSupport {
         yOffset = mouseEvent.getSceneY();
     }
 
-    public JFXButton getBtnSetting() {
+    public Button getBtnSetting() {
         return btnSetting;
     }
 
@@ -623,7 +622,7 @@ public class StageDecorators extends VBox implements I18nSupport {
         return buttonsContainer;
     }
 
-    public JFXButton getBtnTheme() {
+    public Button getBtnTheme() {
         return btnTheme;
     }
 }

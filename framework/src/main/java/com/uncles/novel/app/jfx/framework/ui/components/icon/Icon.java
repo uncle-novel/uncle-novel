@@ -28,11 +28,20 @@ package com.uncles.novel.app.jfx.framework.ui.components.icon;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.css.CssMetaData;
+import javafx.css.SimpleStyleableDoubleProperty;
+import javafx.css.Styleable;
+import javafx.css.StyleableDoubleProperty;
+import javafx.css.converter.SizeConverter;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,18 +51,29 @@ import java.util.Map;
  * @since 2021/02/26 12:05
  */
 public class Icon extends Label {
+    public static final String FONT_FAMILY = "FontAwesome";
     public final static String DEFAULT_CSS_CLASS = "icon";
     private final ObjectProperty<Object> icon = new SimpleObjectProperty<>();
     private static final Map<String, Character> ICONS = new HashMap<>(16);
+    /**
+     * 指定微调器节点的半径，默认情况下将其设置为-1 (USE_COMPUTED_SIZE)
+     */
+    private final StyleableDoubleProperty size = new SimpleStyleableDoubleProperty(StyleableProperties.SIZE, Icon.this, "size", Region.USE_COMPUTED_SIZE) {
+        @Override
+        public void invalidated() {
+            setFontSize(getValue());
+        }
+    };
+
 
     /**
      * 空构造函数（由FXML使用）
      */
     public Icon() {
         getStyleClass().add(DEFAULT_CSS_CLASS);
+        setFontFamily(FONT_FAMILY);
         icon.addListener(x -> updateIcon());
         fontProperty().addListener(x -> updateIcon());
-        setFontFamily("FontAwesome");
     }
 
     /**
@@ -126,13 +146,6 @@ public class Icon extends Label {
     }
 
     /**
-     * 图标Unicode字符。
-     */
-    public ObjectProperty<Object> iconProperty() {
-        return icon;
-    }
-
-    /**
      * 设置要显示的图标。
      *
      * @param iconValue unicode character
@@ -172,5 +185,35 @@ public class Icon extends Label {
      */
     private void setTextUnicode(char unicode) {
         setText(String.valueOf(unicode));
+    }
+
+    private static class StyleableProperties {
+        private static final CssMetaData<Icon, Number> SIZE = new CssMetaData<>("-fx-icon-size", SizeConverter.getInstance(), Region.USE_COMPUTED_SIZE) {
+            @Override
+            public boolean isSettable(Icon control) {
+                return control.size == null || !control.size.isBound();
+            }
+
+            @Override
+            public StyleableDoubleProperty getStyleableProperty(Icon control) {
+                return control.size;
+            }
+        };
+        private static final List<CssMetaData<? extends Styleable, ?>> CHILD_STYLEABLES;
+
+        static {
+            final List<CssMetaData<? extends Styleable, ?>> styleables = new ArrayList<>(Label.getClassCssMetaData());
+            Collections.addAll(styleables, SIZE);
+            CHILD_STYLEABLES = Collections.unmodifiableList(styleables);
+        }
+    }
+
+    @Override
+    public List<CssMetaData<? extends Styleable, ?>> getControlCssMetaData() {
+        return getClassCssMetaData();
+    }
+
+    public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
+        return StyleableProperties.CHILD_STYLEABLES;
     }
 }

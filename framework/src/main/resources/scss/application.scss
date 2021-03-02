@@ -20,37 +20,32 @@
   src: url("/fonts/pingfang-simple-bold.ttf");
 }
 
+
 .root {
-  /* 基础 */
+  // 基础
   -fx-base: #FFF;
+  -fx-font-family: $font-family;
+  primary-color: $md_light_blue_600;
+  secondary-color: $md_light_blue_700;
   bg-color: -fx-base;
   border-color: ladder(bg-color, rgba(255, 255, 255, 0.3) 49%, rgba(0, 0, 0, 0.3) 50%);
-  /*text-color: ladder(bg-color, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);*/
-
-  /*hover-bg-color: md_teal_900;*/
-  /*hover-text-color: ladder(hover-bg-color, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);*/
   selected-bg-color: linear-gradient(to left, rgb(31, 212, 174), rgb(30, 205, 148));
-  /*selected-bg-color: linear-gradient(to left, #FFF, #000);*/
-  /*selected-text-color: ladder(selected-bg-color, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);*/
-
-  /* 头部 */
-
-  /* 侧边栏 */
-  sidebar-bg-color: $md_grey_100;
-  /* 菜单 */
-  menu-bg-color-selected: $md_light_blue_600;
-  menu-effect-selected: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 3, 0, 1, 1);
-
-  menu-bg-color-hover: rgba(216, 216, 216, 0.3);
-  menu-effect-hover: dropshadow(three-pass-box, $md_grey_400, 1, 0, 0, 0);
-
-  /* 默认样式 */
-  -fx-font-family: $font-family;
-  -fx-font-size: $font-size;
+  // 默认样式
 }
 
-/* 字体图标 */
+// 字体图标
 .icon {
   -fx-font-family: "FontAwesome" !important;
 }
 
+// 侧边栏
+.sidebar-nav-pane {
+  // 整个view颜色
+  sidebar-pane-bg-color: $md_grey_100;
+  // 侧边栏颜色
+  sidebar-bg-color: $md_grey_100;
+  // 菜单按钮选中时颜色
+  menu-bg-color-selected: primary-color;
+  // 菜单按钮hover时颜色
+  menu-bg-color-hover: $md_grey_400;
+}

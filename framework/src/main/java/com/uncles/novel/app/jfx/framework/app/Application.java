@@ -4,9 +4,12 @@ import com.sun.javafx.css.StyleManager;
 import com.uncles.novel.app.jfx.framework.lifecycle.LifeCycle;
 import com.uncles.novel.app.jfx.framework.ui.components.stage.StageDecorator;
 import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
+import javafx.css.CssMetaData;
+import javafx.css.Styleable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -28,6 +31,7 @@ public abstract class Application extends javafx.application.Application impleme
 
     static {
         Application.setUserAgentStylesheet(APP_STYLE);
+        List<CssMetaData<? extends Styleable, ?>> metaData = Region.getClassCssMetaData();
         // 设置主题
         List<String> theme = Arrays.asList("com/sun/javafx/scene/control/skin/modena/modena.css", APP_STYLE);
         StyleManager.getInstance().setUserAgentStylesheets(theme);
@@ -61,17 +65,27 @@ public abstract class Application extends javafx.application.Application impleme
     }
 
     /**
-     * 获取试图
+     * 获取试图,只会调用一次
      *
      * @return 视图
      * @throws Exception 异常
      */
     public abstract Parent getView() throws Exception;
 
+    /**
+     * getView时 可以获取舞台
+     *
+     * @return 舞台
+     */
     public Stage getStage() {
         return stage;
     }
 
+    /**
+     * 视图获取只后才能获取到
+     *
+     * @return 场景
+     */
     public Scene getScene() {
         return scene;
     }

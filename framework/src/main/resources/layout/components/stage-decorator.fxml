@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.uncles.novel.app.jfx.framework.ui.components.IconButton?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.button.IconButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -23,7 +23,8 @@
             <!--            <IconButton tip="最小化到托盘(Alt+U)" icon="&#xf107;"/>-->
             <IconButton tip="最小化" icon="&#xf068;"/>
             <IconButton tip="最大化" icon="&#xf2d0;"/>
-            <IconButton tip="退出" icon="&#xf011;" id="stage-decorator-actions-exit"/>
+            <IconButton tip="退出" id="stage-decorator-actions-exit"/>
+<!--            <IconButton tip="退出" icon="&#xf011;" id="stage-decorator-actions-exit"/>-->
         </HBox>
     </HBox>
 </fx:root>

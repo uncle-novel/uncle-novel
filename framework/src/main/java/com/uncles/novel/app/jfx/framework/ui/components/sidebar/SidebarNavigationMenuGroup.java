@@ -1,47 +1,38 @@
 package com.uncles.novel.app.jfx.framework.ui.components.sidebar;
 
+import com.uncles.novel.app.jfx.framework.util.ViewUtils;
 import javafx.beans.DefaultProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Label;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
+ * 侧边导航栏 分组
+ *
  * @author blog.unclezs.com
  * @since 2021/02/27 11:25
  */
+@Getter
+@Setter
 @DefaultProperty("menus")
 public class SidebarNavigationMenuGroup {
     private String name;
-    private ObservableList<SidebarNavigationMenu> sidebarNavigationMenus = FXCollections.observableArrayList();
+    private ObservableList<SidebarNavigationMenu> menus = FXCollections.observableArrayList();
     private Label groupLabel;
     public static final String GROUP_LABEL_CLASS = "sidebar-nav-menu-group-label";
 
-    public String getName() {
-        return name;
-    }
-
+    /**
+     * 设置分组名称
+     *
+     * @param name 名称
+     */
     public void setName(String name) {
+        this.name = name;
         if (groupLabel == null) {
-            groupLabel = new Label(name);
-            groupLabel.getStyleClass().add(GROUP_LABEL_CLASS);
+            groupLabel = ViewUtils.addClass(new Label(name), GROUP_LABEL_CLASS);
         }
         this.groupLabel.setText(name);
-        this.name = name;
-    }
-
-    public ObservableList<SidebarNavigationMenu> getMenus() {
-        return sidebarNavigationMenus;
-    }
-
-    public void setMenus(ObservableList<SidebarNavigationMenu> sidebarNavigationMenus) {
-        this.sidebarNavigationMenus = sidebarNavigationMenus;
-    }
-
-    public Label getGroupLabel() {
-        return groupLabel;
-    }
-
-    public void setGroupLabel(Label groupLabel) {
-        this.groupLabel = groupLabel;
     }
 }
