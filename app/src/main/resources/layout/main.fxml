@@ -6,10 +6,8 @@
 <?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationPane?>
 <?import javafx.scene.layout.VBox?>
 <?import com.uncles.novel.app.jfx.framework.ui.components.decorator.StageDecorator?>
-<StageDecorator fx:id="root" prefHeight="690.0" prefWidth="1042.0" minHeight="${root.prefHeight}" max="true" min="true"
-                title="%app_name" logo="/assets/favicon.png" theme="true" setting="true"
-                minWidth="${root.prefWidth}"
-                xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+<StageDecorator fx:id="root" prefHeight="690.0" prefWidth="1042.0" minHeight="${root.prefHeight}" minWidth="${root.prefWidth}" max="true" min="true" logo="/assets/favicon.png" theme="true" setting="true"
+               title="%Uncle小说" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
     <SidebarNavigationPane prefWidth="${root.width}" VBox.vgrow="ALWAYS">
         <menus>
             <SidebarNavigation>

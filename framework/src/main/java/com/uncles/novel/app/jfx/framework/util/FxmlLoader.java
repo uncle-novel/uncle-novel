@@ -70,11 +70,14 @@ public class FxmlLoader {
             fxml += FXML_SUFFIX;
         }
         // 国际化资源路径
-        String bundle = fxViewAnnotation == null || StrUtils.isBlank(fxViewAnnotation.bundle()) ? controllerName : fxViewAnnotation.bundle();
-        ResourceBundle resourceBundle = LanguageUtils.getBundle(bundle);
+        String bundle = fxViewAnnotation == null || StrUtils.isBlank(fxViewAnnotation.bundle()) ? null : fxViewAnnotation.bundle();
+        ResourceBundle resourceBundle = null;
+        if (bundle != null) {
+            resourceBundle = LanguageUtils.getBundle(bundle);
+        }
         FXMLLoader loader = new FXMLLoader(ResourceUtils.load(fxml), resourceBundle);
         loader.setCharset(StandardCharsets.UTF_8);
-        log.info("fxml loader controller:{} fxml:{} bundle:{}", controllerClazz.getName(), fxml, resourceBundle.getBaseBundleName());
+        log.info("fxml loader controller:{} fxml:{} bundle:{}", controllerClazz.getName(), fxml, resourceBundle);
         return loader;
     }
 

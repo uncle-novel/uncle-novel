@@ -14,7 +14,7 @@
             <ImageView fx:id="logo" id="stage-decorator-logo-icon" fitHeight="25" fitWidth="25">
                 <Image url="/assets/favicon.png"/>
             </ImageView>
-            <Label fx:id="title" text="%app_name" id="stage-decorator-logo-title"/>
+            <Label fx:id="title" text="%Uncle小说" id="stage-decorator-logo-title"/>
         </HBox>
         <HBox fx:id="actions" id="stage-decorator-actions">
             <IconButton tip="换肤" svg="#theme"/>

@@ -21,6 +21,6 @@ public class LoaderTest {
         FXMLLoader fxmlLoader = new FXMLLoader(location, LanguageUtils.getBundle("basic"));
         fxmlLoader.load();
         TestApp testApp = fxmlLoader.getController();
-        System.out.println(testApp.resources.getString("app_name"));
+        System.out.println(testApp.resources.getString("Uncle小说"));
     }
 }

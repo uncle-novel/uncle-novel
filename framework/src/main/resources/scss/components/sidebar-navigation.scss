@@ -23,8 +23,6 @@ $border-radius: 10;
     -fx-background-radius: 0 0 0 $border-radius;
     -fx-border-radius: 0 0 0 $border-radius;
     -fx-padding: 0 20 0 20;
-    -fx-background-color: sidebar-bg-color;
-    //-fx-effect: dropshadow(gaussian, derive(sidebar-bg-color, -100%), 3, 0.1, 1, 0), 0, 0;
 
     // 菜单分组
     .sidebar-nav-menu-group-label {
@@ -53,7 +51,6 @@ $border-radius: 10;
 
       &:hover {
         @include ladderTextFill(menu-bg-color-hover);
-        @include shadow-br-1(derive(-fx-text-fill, -100%));
         -fx-background-color: menu-bg-color-hover;
         -fx-cursor: hand;
       }

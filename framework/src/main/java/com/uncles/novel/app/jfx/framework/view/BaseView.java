@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
  * @author blog.unclezs.com
  * @since 2021/02/26 12:07
  */
-public class BaseView {
+public class BaseView{
     /**
      * 国际化资源文件 自动注入
      */
@@ -39,7 +39,7 @@ public class BaseView {
      * @param key 字符串key
      * @return 国际化字符串
      */
-    protected String str(String key) {
+    protected String localized(String key) {
         return resources.getString(key);
     }
 }

@@ -12,8 +12,7 @@
     -fx-pref-width: 200;
     -fx-background-radius: 0 0 0 10;
     -fx-border-radius: 0 0 0 10;
-    -fx-padding: 0 20 0 20;
-    -fx-background-color: sidebar-bg-color; }
+    -fx-padding: 0 20 0 20; }
     .sidebar-nav-pane .sidebar-nav .sidebar-nav-menu-group-label {
       -fx-alignment: center-left;
       -fx-padding: 20 0 0 10;
@@ -34,7 +33,6 @@
         -fx-background-color: menu-bg-color-selected !important; }
       .sidebar-nav-pane .sidebar-nav .sidebar-nav-menu:hover {
         -fx-text-fill: ladder(menu-bg-color-hover, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);
-        -fx-effect: dropshadow(three-pass-box, derive(-fx-text-fill, -100%), 1, 0, 1, 1) !important;
         -fx-background-color: menu-bg-color-hover;
         -fx-cursor: hand; }
       .sidebar-nav-pane .sidebar-nav .sidebar-nav-menu .icon {

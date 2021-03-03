@@ -13,18 +13,16 @@ public interface I18nSupport {
      * @param key 字符串key
      * @return 国际化字符串
      */
-    default String str(String key) {
-        return LanguageUtils.getString(key);
+    default String localized(String key) {
+        return LanguageUtils.getString(getBundle(), key);
     }
 
-
     /**
-     * 读取国际化字符串
+     * 重写此方法获取设置bundle
      *
-     * @param key 字符串key
-     * @return 国际化字符串
+     * @return bundle
      */
-    default String localized(String key) {
-        return LanguageUtils.getString("framework", key);
+    default String getBundle() {
+        return LanguageUtils.FRAMEWORK;
     }
 }

@@ -1,6 +1,7 @@
 package com.uncles.novel.app.jfx.framework.ui.components.decorator;
 
 import com.sun.javafx.PlatformUtil;
+import com.uncles.novel.app.jfx.framework.i18n.I18nSupport;
 import com.uncles.novel.app.jfx.framework.ui.components.button.IconButton;
 import com.uncles.novel.app.jfx.framework.ui.components.icon.Icon;
 import com.uncles.novel.app.jfx.framework.ui.components.image.UnImageView;
@@ -13,7 +14,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -38,7 +38,7 @@ import lombok.Setter;
  * @date 2021/02/28 15:12
  */
 @DefaultProperty("content")
-public class StageDecorator extends VBox {
+public class StageDecorator extends VBox implements I18nSupport {
     /**
      * css类名
      */
@@ -84,7 +84,6 @@ public class StageDecorator extends VBox {
     private boolean allowMove = false;
     private boolean isDragging = false;
     private boolean maximized = false;
-    private boolean customMaximize = PlatformUtil.isMac();
     /**
      * 默认边框
      */
@@ -93,10 +92,6 @@ public class StageDecorator extends VBox {
 
     private Rectangle originalBox;
     private IconButton btnMax;
-    private IconButton btnSetting;
-    private IconButton btnClose;
-    private IconButton btnMin;
-    private IconButton btnTheme;
 
     /**
      * 支持fxml配置
@@ -152,9 +147,7 @@ public class StageDecorator extends VBox {
      * 属性装配完成后执行初始化
      */
     private void initialize() {
-        stage.initStyle(StageStyle.UNDECORATED);
-        this.setBorder(Border.EMPTY);
-        this.setBackground(Background.EMPTY);
+        stage.initStyle(StageStyle.TRANSPARENT);
         // 双向绑定舞台标题
         if (titleLabel.getText() != null && stage.getTitle() == null) {
             stage.setTitle(getTitle());
@@ -204,19 +197,19 @@ public class StageDecorator extends VBox {
      */
     private void createActions() {
         if (theme) {
-            btnTheme = new IconButton();
+            IconButton btnTheme = new IconButton();
             btnTheme.setSvg("_theme");
-            btnTheme.setTip("换肤");
+            btnTheme.setTip(localized("换肤"));
             this.actions.getChildren().add(btnTheme);
             btnTheme.setOnMouseClicked(e -> actionHandler.onTheme(this));
         }
         if (setting) {
-            btnSetting = new IconButton(null, "\uf0c9", "设置");
+            IconButton btnSetting = new IconButton(null, "\uf0c9", localized("设置"));
             this.actions.getChildren().addAll(btnSetting, ViewUtils.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
             btnSetting.setOnMouseClicked(e -> actionHandler.onSetting(this));
         }
         if (min) {
-            btnMin = new IconButton(null, "\uf068", "最小化");
+            IconButton btnMin = new IconButton(null, "\uf068", "最小化");
             btnMin.setOnAction((action) -> stage.setIconified(true));
             this.actions.getChildren().add(btnMin);
         }
@@ -235,7 +228,7 @@ public class StageDecorator extends VBox {
             });
             this.actions.getChildren().add(btnMax);
         }
-        btnClose = ViewUtils.addClass(new IconButton(null, "\uf011", "退出"), STAGE_DECORATOR_ACTIONS_EXIT);
+        IconButton btnClose = ViewUtils.addClass(new IconButton(null, "\uf011", "退出"), STAGE_DECORATOR_ACTIONS_EXIT);
         btnClose.setOnMouseClicked(e -> actionHandler.onClose(this));
         this.actions.getChildren().add(btnClose);
     }
@@ -523,7 +516,7 @@ public class StageDecorator extends VBox {
     private void maximize(Icon restoreIcon, Icon maxIcon) {
         maximized = !maximized;
         // 自定义创建最大化
-        if (customMaximize) {
+        if (PlatformUtil.isMac()) {
             if (maximized) {
                 // 获取屏幕大小，记录原始窗口
                 originalBox = new Rectangle(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight());
