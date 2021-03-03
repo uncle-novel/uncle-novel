@@ -6,7 +6,7 @@
 <?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import com.uncles.novel.app.jfx.framework.ui.components.stage.StageDecorator?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.decorator.StageDecorator?>
 <StageDecorator fx:id="root" prefHeight="690.0" prefWidth="1042.0" minHeight="${root.prefHeight}"
                 minWidth="${root.prefWidth}"
                 xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">

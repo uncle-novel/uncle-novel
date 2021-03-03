@@ -6,7 +6,7 @@
 <?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import com.uncles.novel.app.jfx.framework.ui.components.stage.StageDecorator?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.decorator.StageDecorator?>
 <VBox fx:id="root" prefHeight="660.0" minHeight="660.0" prefWidth="960.0" minWidth="960" xmlns="http://javafx.com/javafx/15"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.uncles.novel.app.jfx.ui.view.MainView">

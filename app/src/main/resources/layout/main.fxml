@@ -5,7 +5,7 @@
 <?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationMenuGroup?>
 <?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationPane?>
 <?import javafx.scene.layout.VBox?>
-<?import com.uncles.novel.app.jfx.framework.ui.components.stage.StageDecorator?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.decorator.StageDecorator?>
 <StageDecorator fx:id="root" prefHeight="690.0" prefWidth="1042.0" minHeight="${root.prefHeight}" max="true" min="true"
                 title="%app_name" logo="/assets/favicon.png" theme="true" setting="true"
                 minWidth="${root.prefWidth}"

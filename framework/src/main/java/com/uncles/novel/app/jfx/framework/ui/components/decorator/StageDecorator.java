@@ -1,17 +1,19 @@
-package com.uncles.novel.app.jfx.framework.ui.components.stage;
+package com.uncles.novel.app.jfx.framework.ui.components.decorator;
 
-import com.uncles.novel.app.jfx.framework.annotation.FxView;
+import com.sun.javafx.PlatformUtil;
 import com.uncles.novel.app.jfx.framework.ui.components.button.IconButton;
 import com.uncles.novel.app.jfx.framework.ui.components.icon.Icon;
 import com.uncles.novel.app.jfx.framework.ui.components.image.UnImageView;
 import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
 import com.uncles.novel.app.jfx.framework.util.ViewUtils;
 import javafx.beans.DefaultProperty;
+import javafx.geometry.BoundingBox;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 import javafx.scene.layout.BorderStrokeStyle;
@@ -22,6 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Getter;
@@ -34,7 +38,6 @@ import lombok.Setter;
  * @date 2021/02/28 15:12
  */
 @DefaultProperty("content")
-@FxView(fxml = "/layout/components/stage-decorator.fxml", bundle = "framework")
 public class StageDecorator extends VBox {
     /**
      * css类名
@@ -60,15 +63,15 @@ public class StageDecorator extends VBox {
     /**
      * 顶部右侧操作按钮 HBox
      */
-    public HBox actions;
+    private HBox actions;
     /**
      * 顶部容器
      */
-    public HBox headerContainer;
+    private HBox headerContainer;
     /**
      * 真正内容 View
      */
-    public Node content;
+    private Node content;
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -81,9 +84,14 @@ public class StageDecorator extends VBox {
     private boolean allowMove = false;
     private boolean isDragging = false;
     private boolean maximized = false;
+    private boolean customMaximize = PlatformUtil.isMac();
+    /**
+     * 默认边框
+     */
+    public static final Border DEFAULT_BORDER = new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(10)));
+    private ActionHandler actionHandler;
 
-    private static final Border DEFAULT_BORDER = new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(10)));
-    private final Runnable onCloseButtonAction = () -> stage.close();
+    private Rectangle originalBox;
     private IconButton btnMax;
     private IconButton btnSetting;
     private IconButton btnClose;
@@ -113,25 +121,40 @@ public class StageDecorator extends VBox {
 
     public static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("/css/components/stage-decorator.css");
 
+    /**
+     * 无参构造，fxml使用，直接创建用带参构造
+     * 创建之后要手动调用setStage方法进行初始化
+     */
     public StageDecorator() {
-        initHeader();
+        createHeader();
         initStageBehavior();
     }
 
-    public StageDecorator(Stage stage, boolean theme, boolean setting, boolean max, boolean min) {
+    /**
+     * 带参构造
+     *
+     * @param stage   舞台
+     * @param theme   主题
+     * @param setting 设置
+     * @param max     最大化
+     * @param min     最小化
+     */
+    public StageDecorator(Stage stage, ActionHandler actionHandler, boolean theme, boolean setting, boolean max, boolean min) {
         this();
         this.theme = theme;
         this.setting = setting;
         this.max = max;
         this.min = min;
-        this.setStage(stage);
+        this.setStage(stage, actionHandler);
     }
 
     /**
      * 属性装配完成后执行初始化
      */
     private void initialize() {
-        stage.initStyle(StageStyle.TRANSPARENT);
+        stage.initStyle(StageStyle.UNDECORATED);
+        this.setBorder(Border.EMPTY);
+        this.setBackground(Background.EMPTY);
         // 双向绑定舞台标题
         if (titleLabel.getText() != null && stage.getTitle() == null) {
             stage.setTitle(getTitle());
@@ -141,7 +164,10 @@ public class StageDecorator extends VBox {
         createActions();
     }
 
-    private void initHeader() {
+    /**
+     * 创建头部容器，不需要装配属性就可以调用
+     */
+    private void createHeader() {
         ViewUtils.addStyleSheetAndClass(this, USER_AGENT_STYLESHEET, STAGE_DECORATOR);
         this.headerContainer = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_HEADER);
         this.logoBox = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_LOGO);
@@ -150,7 +176,6 @@ public class StageDecorator extends VBox {
         this.headerContainer.getChildren().addAll(logoBox, actions);
         // 头部组件添加到容器
         this.getChildren().add(this.headerContainer);
-        this.setPickOnBounds(false);
     }
 
     /**
@@ -165,13 +190,13 @@ public class StageDecorator extends VBox {
         this.setOnMousePressed(this::updateInitMouseValues);
         headerContainer.setOnMousePressed(this::updateInitMouseValues);
         // 在边框上显示拖动光标
-        this.setOnMouseMoved(this::showDragCursorOnTheBorder);
+        this.addEventFilter(MouseEvent.MOUSE_MOVED, this::showDragCursorOnTheBorder);
         // 处理舞台拖动事件
         this.setOnMouseReleased(e -> isDragging = false);
         this.setOnMouseDragged(this::onStageDragged);
         // 点击header拖动监听
-        headerContainer.setOnMouseEntered(e -> allowMove = true);
-        headerContainer.setOnMouseExited(e -> allowMove = isDragging);
+        headerContainer.addEventFilter(MouseEvent.MOUSE_ENTERED, e -> allowMove = true);
+        headerContainer.addEventFilter(MouseEvent.MOUSE_EXITED, e -> allowMove = isDragging);
     }
 
     /**
@@ -183,13 +208,16 @@ public class StageDecorator extends VBox {
             btnTheme.setSvg("_theme");
             btnTheme.setTip("换肤");
             this.actions.getChildren().add(btnTheme);
+            btnTheme.setOnMouseClicked(e -> actionHandler.onTheme(this));
         }
         if (setting) {
-            btnSetting = new IconButton('\uf0c9', "设置");
+            btnSetting = new IconButton(null, "\uf0c9", "设置");
             this.actions.getChildren().addAll(btnSetting, ViewUtils.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
+            btnSetting.setOnMouseClicked(e -> actionHandler.onSetting(this));
         }
         if (min) {
-            btnMin = new IconButton('\uf068', "最小化");
+            btnMin = new IconButton(null, "\uf068", "最小化");
+            btnMin.setOnAction((action) -> stage.setIconified(true));
             this.actions.getChildren().add(btnMin);
         }
         if (max) {
@@ -201,13 +229,14 @@ public class StageDecorator extends VBox {
             btnMax.setOnAction((action) -> maximize(resizeMinIcon, resizeMaxIcon));
             headerContainer.setOnMouseClicked(mouseEvent -> {
                 if (mouseEvent.getClickCount() == CLICK_COUNT_TO_MAX_WINDOW) {
+                    updateInitMouseValues(mouseEvent);
                     btnMax.fire();
                 }
             });
             this.actions.getChildren().add(btnMax);
         }
-        btnClose = ViewUtils.addClass(new IconButton('\uf011', "退出"), STAGE_DECORATOR_ACTIONS_EXIT);
-        btnClose.setOnMouseClicked(e -> onCloseButtonAction.run());
+        btnClose = ViewUtils.addClass(new IconButton(null, "\uf011", "退出"), STAGE_DECORATOR_ACTIONS_EXIT);
+        btnClose.setOnMouseClicked(e -> actionHandler.onClose(this));
         this.actions.getChildren().add(btnClose);
     }
 
@@ -223,10 +252,12 @@ public class StageDecorator extends VBox {
     /**
      * 设置舞台（必须显示前调用）
      *
-     * @param stage 舞台
+     * @param stage   舞台
+     * @param handler action按钮点击回调
      */
-    public void setStage(Stage stage) {
+    public void setStage(Stage stage, ActionHandler handler) {
         this.stage = stage;
+        this.actionHandler = handler;
         initialize();
     }
 
@@ -297,6 +328,11 @@ public class StageDecorator extends VBox {
         yOffset = mouseEvent.getSceneY();
     }
 
+    /**
+     * 鼠标在border的时候显示拖动
+     *
+     * @param mouseEvent 鼠标事件
+     */
     public void showDragCursorOnTheBorder(MouseEvent mouseEvent) {
         if (stage.isMaximized() || stage.isFullScreen() || maximized) {
             this.setCursor(Cursor.DEFAULT);
@@ -336,14 +372,16 @@ public class StageDecorator extends VBox {
     }
 
     /**
-     * @param mouseEvent
+     * 处理拖动
+     *
+     * @param mouseEvent 鼠标事件
      */
     private void onStageDragged(MouseEvent mouseEvent) {
         isDragging = true;
         if (!mouseEvent.isPrimaryButtonDown() || (xOffset == -1 && yOffset == -1)) {
             return;
         }
-        //Long press generates drag event!
+        // 长按会产生拖动事件
         if (stage.isFullScreen() || mouseEvent.isStillSincePress() || maximized) {
             return;
         }
@@ -399,24 +437,54 @@ public class StageDecorator extends VBox {
         }
     }
 
+    /**
+     * 判断是否为右边边界
+     *
+     * @param x 鼠标位置
+     * @return true 是
+     */
     private boolean isRightEdge(double x) {
         final double width = this.getWidth();
         return x < width && x > width - snappedLeftInset();
     }
 
+    /**
+     * 判断是否为顶部边界
+     *
+     * @param y 鼠标位置
+     * @return true 是
+     */
     private boolean isTopEdge(double y) {
         return y >= 0 && y < snappedLeftInset();
     }
 
+    /**
+     * 判断是否为底部边界
+     *
+     * @param y 鼠标位置
+     * @return true 是
+     */
     private boolean isBottomEdge(double y) {
         final double height = this.getHeight();
         return y < height && y > height - snappedLeftInset();
     }
 
+    /**
+     * 判断是否为左边界
+     *
+     * @param x 鼠标位置
+     * @return true 是
+     */
     private boolean isLeftEdge(double x) {
         return x >= 0 && x < snappedLeftInset();
     }
 
+    /**
+     * 设置舞台宽度
+     *
+     * @param width 舞台宽度
+     * @return 舞台宽度
+     */
     private boolean setStageWidth(double width) {
         System.out.println(width + "  " + stage.getMinWidth() + " " + headerContainer.getMinWidth());
         if (width >= stage.getMinWidth() + this.snappedRightInset() + this.snappedLeftInset() && width >= headerContainer.getMinWidth()) {
@@ -429,6 +497,12 @@ public class StageDecorator extends VBox {
         return false;
     }
 
+    /**
+     * 设置舞台高度
+     *
+     * @param height 舞台高度
+     * @return 舞台高度
+     */
     private boolean setStageHeight(double height) {
         if (height >= (stage.getMinHeight() + this.snappedRightInset() + this.snappedLeftInset()) && height >= headerContainer.getHeight()) {
             stage.setHeight(height);
@@ -440,17 +514,76 @@ public class StageDecorator extends VBox {
         return false;
     }
 
-    private void maximize(Icon resizeMin, Icon resizeMax) {
-        stage.setMaximized(!stage.isMaximized());
-        maximized = stage.isMaximized();
-        if (stage.isMaximized()) {
+    /**
+     * 最大化与最小化 兼容Mac
+     *
+     * @param restoreIcon 复原图标
+     * @param maxIcon     最大化图标
+     */
+    private void maximize(Icon restoreIcon, Icon maxIcon) {
+        maximized = !maximized;
+        // 自定义创建最大化
+        if (customMaximize) {
+            if (maximized) {
+                // 获取屏幕大小，记录原始窗口
+                originalBox = new Rectangle(stage.getX(), stage.getY(), stage.getWidth(), stage.getHeight());
+                BoundingBox maximizedBox = new BoundingBox(0, 0, Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight());
+                stage.setX(maximizedBox.getMinX());
+                stage.setY(maximizedBox.getMinY());
+                stage.setWidth(maximizedBox.getWidth());
+                stage.setHeight(maximizedBox.getHeight());
+            } else {
+                // 恢复原始窗口
+                stage.setX(originalBox.getX());
+                stage.setY(originalBox.getY());
+                stage.setWidth(originalBox.getWidth());
+                stage.setHeight(originalBox.getHeight());
+                originalBox = null;
+            }
+        } else {
+            stage.setMaximized(maximized);
+        }
+        // 切换按钮图标及提示
+        if (maximized) {
             setBorder(Border.EMPTY);
-            btnMax.setGraphic(resizeMin);
+            btnMax.setGraphic(restoreIcon);
             btnMax.setTip("恢复");
         } else {
             setBorder(DEFAULT_BORDER);
-            btnMax.setGraphic(resizeMax);
+            btnMax.setGraphic(maxIcon);
             btnMax.setTip("最大化");
+        }
+    }
+
+    /**
+     * 处理action按钮事件
+     */
+    public interface ActionHandler {
+        /**
+         * 主题按钮点击时触发
+         *
+         * @param view 舞台装饰View
+         */
+        default void onTheme(StageDecorator view) {
+
+        }
+
+        /**
+         * 设置按钮点击时触发
+         *
+         * @param view 舞台装饰View
+         */
+        default void onSetting(StageDecorator view) {
+
+        }
+
+        /**
+         * 窗口关闭时触发
+         *
+         * @param view 舞台装饰View
+         */
+        default void onClose(StageDecorator view) {
+            view.stage.close();
         }
     }
 }

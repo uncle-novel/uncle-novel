@@ -3,6 +3,7 @@ package com.uncles.novel.app.jfx.framework.ui.components.button;
 import com.jfoenix.controls.JFXButton;
 import com.uncles.novel.app.jfx.framework.ui.components.icon.Icon;
 import com.uncles.novel.app.jfx.framework.ui.components.icon.SvgIcon;
+import javafx.beans.property.StringProperty;
 import javafx.css.CssMetaData;
 import javafx.css.SimpleStyleableStringProperty;
 import javafx.css.Styleable;
@@ -11,7 +12,6 @@ import javafx.css.converter.StringConverter;
 import javafx.scene.Cursor;
 import javafx.scene.control.Tooltip;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,46 +35,27 @@ import java.util.List;
  * @author blog.unclezs.com
  * @date 2021/02/28 1:28
  */
-@Getter
-@Setter
 public class IconButton extends JFXButton {
     public static final String DEFAULT_STYLE_CLASS = "icon-button";
     /**
-     * 字体图标
-     */
-    private String icon;
-    /**
-     * svg图标
-     */
-    private String svg;
-    /**
      * 悬浮提示
      */
+    @Getter
     private String tip;
 
     /**
      * 字体图标css
      */
-    private final StyleableStringProperty styleableIcon = new SimpleStyleableStringProperty(StyleableProperties.ICON, IconButton.this, "-fx-icon", null) {
-        @Override
-        public void invalidated() {
-            setIcon(getValue());
-        }
-    };
+    private StringProperty icon;
 
     /**
      * svg图标css
      */
-    private final StyleableStringProperty styleableSvgIcon = new SimpleStyleableStringProperty(StyleableProperties.ICON, IconButton.this, "-fx-svg-icon", null) {
-        @Override
-        public void invalidated() {
-            setSvg(getValue());
-        }
-    };
+    private StringProperty svg;
 
 
     public IconButton() {
-        getStyleClass().add(DEFAULT_STYLE_CLASS);
+        this(null);
     }
 
     /**
@@ -97,27 +78,28 @@ public class IconButton extends JFXButton {
     }
 
     /**
-     * 单独图标
-     *
-     * @param icon 图标
-     * @param tip  提示
-     */
-    public IconButton(Character icon, String tip) {
-        this(null, icon, tip);
-    }
-
-    /**
      * 设置全部
      *
      * @param text 文字
      * @param icon 字体图标
      * @param tip  提示
      */
-    public IconButton(String text, Character icon, String tip) {
+    public IconButton(String text, String icon, String tip) {
         super(text);
+        getStyleClass().add(DEFAULT_STYLE_CLASS);
+        setText(text);
         setIcon(icon);
         setTip(tip);
         setCursor(Cursor.HAND);
+    }
+
+    /**
+     * 获取svg
+     *
+     * @return svg
+     */
+    public String getSvg() {
+        return svgProperty().get();
     }
 
     /**
@@ -126,10 +108,16 @@ public class IconButton extends JFXButton {
      * @param svg svg图标
      */
     public void setSvg(String svg) {
-        this.svg = svg;
-        if (svg != null) {
-            this.setGraphic(new SvgIcon(svg));
-        }
+        this.svgProperty().set(svg);
+    }
+
+    /**
+     * 获取字体图标
+     *
+     * @return 字体图标
+     */
+    public String getIcon() {
+        return iconProperty().get();
     }
 
     /**
@@ -138,10 +126,7 @@ public class IconButton extends JFXButton {
      * @param icon 字体图标
      */
     public void setIcon(String icon) {
-        this.icon = icon;
-        if (icon != null) {
-            this.setGraphic(new Icon(icon));
-        }
+        this.iconProperty().set(icon);
     }
 
     /**
@@ -151,18 +136,8 @@ public class IconButton extends JFXButton {
      */
     public void setIcon(Icon icon) {
         if (icon != null) {
+            this.iconProperty().set(icon.getIcon().toString());
             this.setGraphic(icon);
-        }
-    }
-
-    /**
-     * 设置字体图标
-     *
-     * @param icon 字体图标
-     */
-    public void setIcon(Character icon) {
-        if (icon != null) {
-            this.setGraphic(new Icon(icon));
         }
     }
 
@@ -178,6 +153,40 @@ public class IconButton extends JFXButton {
         }
     }
 
+    public StringProperty iconProperty() {
+        if (icon == null) {
+            icon = new SimpleStyleableStringProperty(StyleableProperties.ICON, IconButton.this, "-fx-icon") {
+                @Override
+                public void invalidated() {
+                    if (getGraphic() != null && getGraphic() instanceof Icon) {
+                        Icon icon = (Icon) getGraphic();
+                        icon.setIcon(getValue());
+                    } else {
+                        setGraphic(new Icon(getValue()));
+                    }
+                }
+            };
+        }
+        return icon;
+    }
+
+    public StringProperty svgProperty() {
+        if (svg == null) {
+            svg = new SimpleStyleableStringProperty(StyleableProperties.SVG, IconButton.this, "-fx-svg-icon") {
+                @Override
+                public void invalidated() {
+                    if (getGraphic() != null && getGraphic() instanceof SvgIcon) {
+                        SvgIcon icon = (SvgIcon) getGraphic();
+                        icon.setPath(getValue());
+                    } else {
+                        setGraphic(new SvgIcon(getValue()));
+                    }
+                }
+            };
+        }
+        return svg;
+    }
+
     /**
      * 自定义css属性
      * <p>
@@ -186,26 +195,26 @@ public class IconButton extends JFXButton {
      * 2.-fx-svg-icon指定svg图标
      */
     private static class StyleableProperties {
-        private static final CssMetaData<IconButton, String> ICON = new CssMetaData<>("-fx-icon", StringConverter.getInstance(), "") {
+        private static final CssMetaData<IconButton, String> ICON = new CssMetaData<>("-fx-icon", StringConverter.getInstance()) {
             @Override
             public boolean isSettable(IconButton control) {
-                return control.icon == null;
+                return control.icon == null || !control.icon.isBound();
             }
 
             @Override
             public StyleableStringProperty getStyleableProperty(IconButton control) {
-                return control.styleableIcon;
+                return (StyleableStringProperty) control.icon;
             }
         };
-        private static final CssMetaData<IconButton, String> SVG = new CssMetaData<>("-fx-svg-icon", StringConverter.getInstance(), "") {
+        private static final CssMetaData<IconButton, String> SVG = new CssMetaData<>("-fx-svg-icon", StringConverter.getInstance()) {
             @Override
             public boolean isSettable(IconButton control) {
-                return control.icon == null;
+                return control.svg == null || !control.svg.isBound();
             }
 
             @Override
             public StyleableStringProperty getStyleableProperty(IconButton control) {
-                return control.styleableSvgIcon;
+                return (StyleableStringProperty) control.svg;
             }
         };
         private static final List<CssMetaData<? extends Styleable, ?>> CHILD_STYLEABLES;

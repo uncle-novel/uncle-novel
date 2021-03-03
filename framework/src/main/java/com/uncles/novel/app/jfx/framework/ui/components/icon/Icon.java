@@ -78,22 +78,13 @@ public class Icon extends Label {
 
     /**
      * 创建一个新的图标
+     * 图标的名字、图标的Unicode字符
      *
-     * @param unicode 图标的Unicode字符
+     * @param icon 图标的Unicode字符
      */
-    public Icon(char unicode) {
+    public Icon(Object icon) {
         this();
-        setTextUnicode(unicode);
-    }
-
-    /**
-     * 创建一个新的图标
-     *
-     * @param iconName 图标的名字
-     */
-    public Icon(String iconName) {
-        this();
-        setIcon(iconName);
+        this.setIcon(icon);
     }
 
     /**

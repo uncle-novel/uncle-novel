@@ -17,19 +17,19 @@ $border-radius: 10;
 
   // 左侧菜单面板
   .sidebar-nav {
-    @include shadow;
-    -fx-spacing: 2;
+    @include ladderTextFill(sidebar-bg-color);
+    -fx-spacing: 10;
     -fx-pref-width: 200;
     -fx-background-radius: 0 0 0 $border-radius;
     -fx-border-radius: 0 0 0 $border-radius;
     -fx-padding: 0 20 0 20;
     -fx-background-color: sidebar-bg-color;
-    -fx-text-fill: ladder(sidebar-bg-color, $md_grey_50 49%, $md_grey_800 50%);
+    //-fx-effect: dropshadow(gaussian, derive(sidebar-bg-color, -100%), 3, 0.1, 1, 0), 0, 0;
 
     // 菜单分组
     .sidebar-nav-menu-group-label {
       -fx-alignment: center-left;
-      -fx-padding: 20 0 10 10;
+      -fx-padding: 20 0 0 10;
       -fx-text-fill: ladder(sidebar-bg-color, $md_grey_200 45%, $md_grey_300 46%, $md_grey_400 59%, $md_grey_500 60%);
     }
 
@@ -45,7 +45,6 @@ $border-radius: 10;
       -fx-background-radius: 3px;
       -fx-alignment: center-left;
 
-
       &:selected {
         @include ladderTextFillForce(menu-bg-color-selected);
         @include shadow-br-3(derive(-fx-text-fill, -100%));
@@ -54,13 +53,13 @@ $border-radius: 10;
 
       &:hover {
         @include ladderTextFill(menu-bg-color-hover);
-        @include shadow-br-3(derive(-fx-text-fill, -100%));
+        @include shadow-br-1(derive(-fx-text-fill, -100%));
         -fx-background-color: menu-bg-color-hover;
         -fx-cursor: hand;
       }
 
       .icon {
-        -fx-icon-size: 13px;
+        -fx-icon-size: 14px;
         -fx-background-insets: 0;
         -fx-text-fill: inherit;
       }

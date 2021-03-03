@@ -8,14 +8,14 @@
   -fx-background-repeat: no-repeat;
   -fx-background-radius: 20;
   -fx-border-radius: 20;
-  -fx-effect: dropshadow(three-pass-box, $md_grey_600, 10, 0.3, 0, 0);;
   -fx-border-width: 10;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);;
 
   .stage-decorator-header {
     -fx-background-radius: 20 20 0 0;
     -fx-border-radius: 20 20 0 0;
     -fx-alignment: center-right;
-    -fx-pref-height: 60;
+    -fx-pref-height: 50;
     -fx-background-color: #393D49;
 
     // 窗口顶部Logo
@@ -42,15 +42,15 @@
       -fx-spacing: 3;
 
       .icon-button {
-        @include ladderTextFillForce("#393D49");
+        @include ladderTextFill("#393D49");
         -fx-content-display: GRAPHIC_ONLY;
 
         .icon {
           -fx-icon-size: 15px;
-          @include ladderTextFillForce("#393D49");
+          -fx-text-fill: inherit;
 
           &:hover {
-            -fx-text-fill: $md_blue_400;
+            @include ladderTextFillLight("#393D49");
           }
         }
       }
@@ -61,15 +61,14 @@
           -fx-background-color: $md_red_A700;
 
           .icon {
-            -fx-text-fill: #FFF !important;
+            -fx-text-fill: white !important;
           }
         }
       }
 
       .stage-decorator-action-separator {
         -fx-pref-width: 1;
-        -fx-max-height: 25;
-        -fx-end-margin: 10;
+        -fx-max-height: 22;
         -fx-background-color: $md_grey_500;
       }
     }

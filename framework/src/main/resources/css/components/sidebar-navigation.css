@@ -7,17 +7,16 @@
     -fx-border-radius: 0 0 10 0;
     -fx-background-color: transparent; }
   .sidebar-nav-pane .sidebar-nav {
-    -fx-effect: dropshadow(gaussian, #bdbdbd, 10, 0.2, 2, 0);
-    -fx-spacing: 2;
+    -fx-text-fill: ladder(sidebar-bg-color, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);
+    -fx-spacing: 10;
     -fx-pref-width: 200;
     -fx-background-radius: 0 0 0 10;
     -fx-border-radius: 0 0 0 10;
     -fx-padding: 0 20 0 20;
-    -fx-background-color: sidebar-bg-color;
-    -fx-text-fill: ladder(sidebar-bg-color, #fafafa 49%, #424242 50%); }
+    -fx-background-color: sidebar-bg-color; }
     .sidebar-nav-pane .sidebar-nav .sidebar-nav-menu-group-label {
       -fx-alignment: center-left;
-      -fx-padding: 20 0 10 10;
+      -fx-padding: 20 0 0 10;
       -fx-text-fill: ladder(sidebar-bg-color, #eeeeee 45%, #e0e0e0 46%, #bdbdbd 59%, #9e9e9e 60%); }
     .sidebar-nav-pane .sidebar-nav .sidebar-nav-menu {
       -fx-background-color: transparent;
@@ -35,10 +34,10 @@
         -fx-background-color: menu-bg-color-selected !important; }
       .sidebar-nav-pane .sidebar-nav .sidebar-nav-menu:hover {
         -fx-text-fill: ladder(menu-bg-color-hover, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);
-        -fx-effect: dropshadow(three-pass-box, derive(-fx-text-fill, -100%), 3, 0, 1, 1) !important;
+        -fx-effect: dropshadow(three-pass-box, derive(-fx-text-fill, -100%), 1, 0, 1, 1) !important;
         -fx-background-color: menu-bg-color-hover;
         -fx-cursor: hand; }
       .sidebar-nav-pane .sidebar-nav .sidebar-nav-menu .icon {
-        -fx-icon-size: 13px;
+        -fx-icon-size: 14px;
         -fx-background-insets: 0;
         -fx-text-fill: inherit; }
