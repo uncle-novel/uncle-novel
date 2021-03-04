@@ -6,14 +6,14 @@
   -fx-background-size: cover;
   -fx-background-position: center;
   -fx-background-repeat: no-repeat;
-  -fx-background-radius: 20;
-  -fx-border-radius: 20;
+  -fx-background-radius: $stage-border-radius;
+  -fx-border-radius: $stage-border-radius;
   -fx-border-width: 10;
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);;
 
   .stage-decorator-header {
-    -fx-background-radius: 20 20 0 0;
-    -fx-border-radius: 20 20 0 0;
+    -fx-background-radius: $stage-border-radius $stage-border-radius 0 0;
+    -fx-border-radius: $stage-border-radius $stage-border-radius 0 0;
     -fx-alignment: center-right;
     -fx-pref-height: 50;
     -fx-background-color: header-bg-color;
@@ -25,13 +25,14 @@
       -fx-alignment: center-left;
 
       .stage-decorator-logo-icon {
+        @include shadow-br-3(black);
         -fx-fit-width: 25px;
         -fx-fit-height: 25px;
       }
 
       .stage-decorator-logo-title {
+        @include ladderTextFill(header-bg-color);
         -fx-font-size: 17;
-        -fx-text-fill: #FFF;
       }
     }
 
@@ -42,7 +43,7 @@
       -fx-spacing: 3;
 
       .icon-button {
-        @include ladderTextFill("#393D49");
+        @include ladderTextFill(header-bg-color);
         -fx-content-display: GRAPHIC_ONLY;
 
         .icon {
@@ -50,7 +51,7 @@
           -fx-text-fill: inherit;
 
           &:hover {
-            @include ladderTextFillLight("#393D49");
+            @include ladderTextFillLight(header-bg-color);
           }
         }
       }
@@ -67,9 +68,9 @@
       }
 
       .stage-decorator-action-separator {
+        @include ladderBgColor(header-bg-color);
         -fx-pref-width: 1;
         -fx-max-height: 22;
-        -fx-background-color: $md_grey_500;
       }
     }
   }

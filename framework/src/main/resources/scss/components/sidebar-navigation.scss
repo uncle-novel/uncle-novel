@@ -4,14 +4,14 @@ $border-radius: 10;
 
 // 菜单面板
 .sidebar-nav-pane {
-  -fx-background-radius: 0 0 $border-radius $border-radius;
-  -fx-border-radius: 0 0 $border-radius $border-radius;
+  -fx-background-radius: 0 0 $stage-border-radius $stage-border-radius;
+  -fx-border-radius: 0 0 $stage-border-radius $stage-border-radius;
   -fx-background-color: sidebar-pane-bg-color;
 
   // 右侧视图面版
   .sidebar-nav-content {
-    -fx-background-radius: 0 0 $border-radius 0;
-    -fx-border-radius: 0 0 $border-radius 0;
+    -fx-background-radius: 0 0 $stage-border-radius 0;
+    -fx-border-radius: 0 0 $stage-border-radius 0;
     -fx-background-color: transparent;
   }
 
@@ -20,8 +20,8 @@ $border-radius: 10;
     @include ladderTextFill(sidebar-bg-color);
     -fx-spacing: 10;
     -fx-pref-width: 220;
-    -fx-background-radius: 0 0 0 $border-radius;
-    -fx-border-radius: 0 0 0 $border-radius;
+    -fx-background-radius: 0 0 0 $stage-border-radius;
+    -fx-border-radius: 0 0 0 $stage-border-radius;
     -fx-padding: 0 20 0 20;
 
     // 菜单分组
