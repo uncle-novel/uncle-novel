@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Text?>
 <StackPane
-           xmlns="http://javafx.com/javafx/15"
+           xmlns="http://javafx.com/javafx/15" style="-fx-background-color: #FFF" prefHeight="400.0" minHeight="400.0" prefWidth="400.0" minWidth="400"
            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uncles.novel.app.jfx.ui.view.SearchNovelView">
-    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="搜索小说"
-          />
+    <Button text="跳转到audio" fx:id="navigate"/>
 </StackPane>

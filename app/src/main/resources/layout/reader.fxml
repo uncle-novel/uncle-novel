@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.uncles.novel.app.jfx.framework.ui.components.decorator.StageDecorator?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.StackPane?>
+<StageDecorator fx:id="root" prefHeight="400.0" minHeight="400.0" prefWidth="400.0" minWidth="400"
+                xmlns="http://javafx.com/javafx/15"
+                xmlns:fx="http://javafx.com/fxml/1"
+                fx:controller="com.uncles.novel.app.jfx.ui.view.ReaderView" stylesheets="/css/view/reader.css">
+    <StackPane style="-fx-background-color: #FFF">
+        <Button text="回到Home" onMouseClicked="#toHome"/>
+    </StackPane>
+</StageDecorator>

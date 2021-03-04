@@ -2,6 +2,7 @@ plugins {
     id 'application'
     id "org.openjfx.javafxplugin" version "0.0.9"
 }
+apply plugin: "com.uncles.novel.app.jfx.sass"
 
 group 'com.uncles.novel.app.jfx'
 version '5.0'
@@ -12,15 +13,20 @@ repositories {
 }
 
 dependencies {
+    def lombok = "1.18.18"
+    implementation "org.projectlombok:lombok:$lombok"
+    annotationProcessor "org.projectlombok:lombok:$lombok"
+
+    implementation project(":framework")
     implementation "com.unclezs:novel-analyzer:1.0.0-SNATSHOT"
+
     def hutoolVersion = '5.5.8'
     implementation "cn.hutool:hutool-core:$hutoolVersion"
-    implementation project(":framework")
+
     implementation "com.jfoenix:jfoenix:9.0.10"
-    implementation "org.controlsfx:controlsfx:11.0.3"
-    implementation "de.saxsys:mvvmfx:1.8.0"
-    implementation "org.slf4j:slf4j-api:1.7.30"
+
     implementation "ch.qos.logback:logback-classic:1.2.3"
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }

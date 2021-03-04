@@ -10,11 +10,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,19 +21,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 自定义 Application
+ * 单舞台 Application
+ * <p>
+ * Single Stage Application
  *
  * @author blog.unclezs.com
  * @since 2021/02/26 10:50
  */
 @Slf4j
-public abstract class Application extends javafx.application.Application implements LifeCycle, StageDecorator.ActionHandler {
-    @Getter(AccessLevel.PROTECTED)
-    private Stage stage;
+public abstract class SsaApplication extends javafx.application.Application implements LifeCycle {
+    private static Stage stage;
     private Scene scene;
+    /**
+     * 场景View缓存
+     */
     private final Map<Class<?>, Parent> views = new HashMap<>();
     /**
-     * 自定义Application CSS
+     * Application CSS
      */
     private static final String APP_STYLE = ResourceUtils.loadCss("/css/application.css");
     /**
@@ -45,7 +46,7 @@ public abstract class Application extends javafx.application.Application impleme
     public static final Image ICON = new Image(ResourceUtils.load("/assets/favicon.png").toString());
 
     static {
-        Application.setUserAgentStylesheet(APP_STYLE);
+        SsaApplication.setUserAgentStylesheet(APP_STYLE);
         // 设置主题
         List<String> theme = Arrays.asList("com/sun/javafx/scene/control/skin/modena/modena.css", APP_STYLE);
         StyleManager.getInstance().setUserAgentStylesheets(theme);
@@ -58,31 +59,38 @@ public abstract class Application extends javafx.application.Application impleme
      */
     @Override
     public final void init() throws Exception {
+        stage = new Stage();
         StageHelper.setPrimary(stage, true);
-        this.stage.getIcons().setAll(ICON);
-        this.scene = new Scene(new Pane(), Color.TRANSPARENT);
-        this.stage.setScene(scene);
-        this.stage.onHiddenProperty().addListener(e -> onHidden());
-        this.stage.onShowingProperty().addListener(e -> onShow());
-        navigate(getIndexView());
-    }
-
-    public final void start() {
-        this.stage.show();
+        stage.getIcons().setAll(ICON);
+        stage.onHiddenProperty().addListener(e -> onHidden());
+        stage.onShowingProperty().addListener(e -> onShow());
+        // 首页
+        scene = new Scene(navigate(getIndexView()), Color.TRANSPARENT);
+        stage.setScene(scene);
     }
 
     /**
-     * 入口
+     * 入口，可以先在预启动中调用init，提升用户体验
      *
-     * @param stage 舞台
+     * @throws Exception 初始化失败
+     */
+    public final void start() throws Exception {
+        if (stage == null) {
+            init();
+        }
+        stage.show();
+    }
+
+    /**
+     * @param stage null即可
      */
     @Override
-    public final void start(Stage stage) {
-        this.start();
+    public final void start(Stage stage) throws Exception {
+        start();
     }
 
     /**
-     * 获取试图,只会调用一次
+     * 返回首页 初次自动加载
      *
      * @return 视图
      * @throws Exception 异常
@@ -90,24 +98,36 @@ public abstract class Application extends javafx.application.Application impleme
     public abstract Class<? extends SceneView> getIndexView() throws Exception;
 
 
-    public <T extends SceneView> void navigate(Class<T> viewClass) {
+    /**
+     * 场景View切换
+     *
+     * @param viewClass 继承SceneView 的class
+     * @param <T>       类型
+     */
+    public <T extends SceneView> Parent navigate(Class<T> viewClass) {
         Parent view = views.get(viewClass);
         if (view == null) {
             view = load(viewClass);
             views.put(viewClass, view);
         }
-        this.stage.setMinWidth(view.minWidth(-1));
-        this.stage.setMinHeight(view.minHeight(-1));
-        this.scene.setRoot(view);
-        this.scene.setFill(Color.TRANSPARENT);
+        stage.setMinWidth(view.minWidth(-1));
+        stage.setMinHeight(view.minHeight(-1));
+        stage.setHeight(stage.getMinHeight());
+        stage.setWidth(stage.getMinWidth());
+        // 初次加载scene还没有被创建
+        if (scene != null) {
+            scene.setRoot(view);
+        }
+        stage.centerOnScreen();
+        return view;
     }
 
     /**
      * 加载view时调用
      *
-     * @param viewClass
-     * @param <T>
-     * @return
+     * @param viewClass 继承SceneView 的class
+     * @param <T>       类型
+     * @return view
      */
     public <T extends Parent> T load(@NonNull Class<? extends SceneView> viewClass) {
         FXMLLoader loader = FxmlLoader.loadedLoader(viewClass);
@@ -131,5 +151,14 @@ public abstract class Application extends javafx.application.Application impleme
             throw new NullPointerException();
         }
         return (T) this.scene.getRoot();
+    }
+
+    /**
+     * 获取舞台
+     *
+     * @return 舞台
+     */
+    public static Stage stage() {
+        return stage;
     }
 }

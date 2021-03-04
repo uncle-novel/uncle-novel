@@ -147,12 +147,14 @@ public class StageDecorator extends VBox implements I18nSupport {
      * 属性装配完成后执行初始化
      */
     private void initialize() {
-        stage.initStyle(StageStyle.TRANSPARENT);
-        // 双向绑定舞台标题
-        if (titleLabel.getText() != null && stage.getTitle() == null) {
-            stage.setTitle(getTitle());
+        if (!stage.isShowing()) {
+            stage.initStyle(StageStyle.TRANSPARENT);
         }
-        titleLabel.textProperty().bindBidirectional(stage.titleProperty());
+        // 双向绑定舞台标题
+//        if (titleLabel.getText() != null && stage.getTitle() == null) {
+//            stage.setTitle(getTitle());
+//        }
+//        titleLabel.textProperty().bindBidirectional(stage.titleProperty());
         // 创建actions按钮组
         createActions();
     }

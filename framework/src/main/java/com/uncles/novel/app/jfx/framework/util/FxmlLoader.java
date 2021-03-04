@@ -55,6 +55,22 @@ public class FxmlLoader {
     }
 
     /**
+     * 加载FXML之后,返回FXMLLoader对象
+     *
+     * @param controllerClazz controller
+     * @return 已经被load的FXMLLoader
+     */
+    public static FXMLLoader loadedLoader(Class<?> controllerClazz) {
+        try {
+            FXMLLoader fxmlLoader = getLoader(controllerClazz);
+            fxmlLoader.load();
+            return fxmlLoader;
+        } catch (IOException e) {
+            throw new FxException("fxml load failed.", e);
+        }
+    }
+
+    /**
      * 初始化FXMLLoader
      *
      * @param controllerClazz controller
