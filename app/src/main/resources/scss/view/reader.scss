@@ -1,3 +1,8 @@
 .stage-decorator {
-  header-bg-color: #FFF;
+}
+
+.test {
+  &:selected {
+    -fx-background-color: #00acc1;
+  }
 }

@@ -1,5 +1,6 @@
 package com.uncles.novel.app.jfx.framework.i18n.bundle;
 
+import com.uncles.novel.app.jfx.framework.i18n.LanguageUtils;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +10,6 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -24,7 +24,6 @@ import java.util.Set;
 @Slf4j
 @SuppressWarnings("all")
 public class XmlResourceBundle extends ResourceBundle {
-    public static final String CHINESE = "zh";
     Properties props;
     @Getter
     private Enumeration<String> keys;
@@ -54,7 +53,7 @@ public class XmlResourceBundle extends ResourceBundle {
      */
     @Override
     public Object handleGetObject(@NonNull String key) {
-        if (CHINESE.equals(Locale.getDefault().getLanguage())) {
+        if (LanguageUtils.isChineseSimple()) {
             return key;
         }
         Object result = props.get(key);
@@ -76,4 +75,11 @@ public class XmlResourceBundle extends ResourceBundle {
     public boolean containsKey(String key) {
         return true;
     }
+
+    @Override
+    public void setParent(ResourceBundle parent) {
+        super.setParent(parent);
+    }
+
+
 }

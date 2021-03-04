@@ -10,6 +10,7 @@ import javafx.css.Styleable;
 import javafx.css.StyleableStringProperty;
 import javafx.css.converter.StringConverter;
 import javafx.scene.Cursor;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import lombok.Getter;
 
@@ -220,7 +221,7 @@ public class IconButton extends JFXButton {
         private static final List<CssMetaData<? extends Styleable, ?>> CHILD_STYLEABLES;
 
         static {
-            final List<CssMetaData<? extends Styleable, ?>> styleables = new ArrayList<>(JFXButton.getClassCssMetaData());
+            final List<CssMetaData<? extends Styleable, ?>> styleables = new ArrayList<>(ToggleButton.getClassCssMetaData());
             Collections.addAll(styleables, ICON, SVG);
             CHILD_STYLEABLES = Collections.unmodifiableList(styleables);
         }

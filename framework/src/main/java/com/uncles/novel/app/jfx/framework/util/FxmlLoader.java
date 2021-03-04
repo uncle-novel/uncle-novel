@@ -2,6 +2,7 @@ package com.uncles.novel.app.jfx.framework.util;
 
 import com.uncles.novel.app.jfx.framework.annotation.FxView;
 import com.uncles.novel.app.jfx.framework.exception.FxException;
+import com.uncles.novel.app.jfx.framework.i18n.LanguageUtils;
 import javafx.fxml.FXMLLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

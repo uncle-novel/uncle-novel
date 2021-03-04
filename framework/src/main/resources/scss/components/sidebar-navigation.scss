@@ -19,7 +19,7 @@ $border-radius: 10;
   .sidebar-nav {
     @include ladderTextFill(sidebar-bg-color);
     -fx-spacing: 10;
-    -fx-pref-width: 200;
+    -fx-pref-width: 220;
     -fx-background-radius: 0 0 0 $border-radius;
     -fx-border-radius: 0 0 0 $border-radius;
     -fx-padding: 0 20 0 20;
@@ -36,7 +36,7 @@ $border-radius: 10;
       -fx-background-color: transparent;
       -fx-border-color: transparent;
       -fx-font-size: 13px;
-      -fx-pref-width: 160;
+      -fx-pref-width: 180;
       -fx-text-fill: inherit;
       -fx-min-height: 30;
       -fx-border-radius: 3px;
@@ -56,8 +56,10 @@ $border-radius: 10;
       }
 
       .icon {
-        -fx-icon-size: 14px;
-        -fx-background-insets: 0;
+        -fx-icon-size: 14px !important;
+        -fx-max-width: 18px;
+        -fx-min-width: 18px;
+        -fx-pref-width: 18px;
         -fx-text-fill: inherit;
       }
     }

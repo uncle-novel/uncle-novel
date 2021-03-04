@@ -1,5 +1,6 @@
 package com.uncles.novel.app.jfx.framework.i18n.control;
 
+import com.uncles.novel.app.jfx.framework.i18n.LanguageUtils;
 import com.uncles.novel.app.jfx.framework.i18n.bundle.XmlResourceBundle;
 import lombok.NonNull;
 
@@ -40,7 +41,7 @@ public class XmlControl extends ResourceBundle.Control {
     public ResourceBundle newBundle(@NonNull String baseName, @NonNull Locale locale, @NonNull String format, @NonNull ClassLoader loader, boolean reload) throws IOException {
         ResourceBundle bundle = null;
         if (FLAG.equals(format)) {
-            if (XmlResourceBundle.CHINESE.equals(Locale.getDefault().getLanguage()) && !Locale.TAIWAN.equals(Locale.getDefault())) {
+            if (LanguageUtils.isChineseSimple()) {
                 return new XmlResourceBundle();
             }
             String resourceName = toResourceName(toBundleName(baseName, locale), format);

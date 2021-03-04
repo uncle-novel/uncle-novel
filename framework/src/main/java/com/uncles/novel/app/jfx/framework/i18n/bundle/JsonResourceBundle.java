@@ -33,4 +33,9 @@ public class JsonResourceBundle extends ResourceBundle {
     public Enumeration<String> getKeys() {
         return Collections.enumeration(props.keySet());
     }
+
+    @Override
+    public void setParent(ResourceBundle parent) {
+        super.setParent(parent);
+    }
 }

@@ -14,22 +14,26 @@
     <SidebarNavigationPane prefWidth="${root.width}" VBox.vgrow="ALWAYS">
         <menus>
             <SidebarNavigation>
-                <SidebarNavigationMenuGroup name="找书">
-                    <SidebarNavigationMenu fx:id="search" text="搜索小说"
+                <SidebarNavigationMenuGroup name="%找书">
+                    <SidebarNavigationMenu fx:id="search" text="%搜索小说"
                                            view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
                                            selected="true" icon="&#xf010;"/>
-                    <SidebarNavigationMenu text="全网搜书" view="com.uncles.novel.app.jfx.ui.view.SearchNovelView"
-                                           selected="false" icon="&#xf010;"/>
-                    <SidebarNavigationMenu text="寻找有声" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
-                                           selected="false" icon="&#xf010;"/>
+                    <SidebarNavigationMenu text="%全网搜书" view="com.uncles.novel.app.jfx.ui.view.SearchNovelView"
+                                           icon="&#xf26c;"/>
+                    <SidebarNavigationMenu text="%寻找有声" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
+                                           svg="_music"/>
                 </SidebarNavigationMenuGroup>
-                <SidebarNavigationMenuGroup name="读书">
-                    <SidebarNavigationMenu text="搜索小说" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
-                                           selected="false" icon="&#xf010;"/>
-                    <SidebarNavigationMenu text="全网搜书" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
-                                           selected="false" icon="&#xf010;"/>
-                    <SidebarNavigationMenu text="寻找有声" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
-                                           selected="false" icon="&#xf010;"/>
+                <SidebarNavigationMenuGroup name="%读书">
+                    <SidebarNavigationMenu text="%小说书架" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
+                                           svg="_bookshelves"/>
+                    <SidebarNavigationMenu text="%有声书架" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
+                                           svg="_bookshelf"/>
+                </SidebarNavigationMenuGroup>
+                <SidebarNavigationMenuGroup name="%下书">
+                    <SidebarNavigationMenu text="%解析下载" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
+                                           icon="&#xf260;"/>
+                    <SidebarNavigationMenu text="%下载管理" view="com.uncles.novel.app.jfx.ui.view.SearchAudioView"
+                                           icon="&#xf0ed;"/>
                 </SidebarNavigationMenuGroup>
             </SidebarNavigation>
         </menus>

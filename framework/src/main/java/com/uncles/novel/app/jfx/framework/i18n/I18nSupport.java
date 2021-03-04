@@ -1,7 +1,5 @@
 package com.uncles.novel.app.jfx.framework.i18n;
 
-import com.uncles.novel.app.jfx.framework.util.LanguageUtils;
-
 /**
  * @author blog.unclezs.com
  * @since 2021/02/26 12:05

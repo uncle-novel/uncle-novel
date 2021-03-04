@@ -2,5 +2,10 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
     <entry key="Uncle小说">Uncle Novel</entry>
+    <entry key="还原">Restore</entry>
     <entry key="换肤">Theme</entry>
+    <entry key="最大化">Maximize</entry>
+    <entry key="设置">Settings</entry>
+    <entry key="退出">Exit</entry>
+    <entry key="最小化">Minimize</entry>
 </properties>

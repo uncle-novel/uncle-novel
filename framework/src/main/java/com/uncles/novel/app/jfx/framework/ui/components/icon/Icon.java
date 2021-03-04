@@ -33,10 +33,12 @@ import javafx.css.SimpleStyleableDoubleProperty;
 import javafx.css.Styleable;
 import javafx.css.StyleableDoubleProperty;
 import javafx.css.converter.SizeConverter;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +54,7 @@ import java.util.Map;
  */
 public class Icon extends Label {
     public static final String FONT_FAMILY = "FontAwesome";
-    public final static String DEFAULT_CSS_CLASS = "icon";
+    public final static String[] DEFAULT_CSS_CLASSES = {"icon", "font-icon"};
     private final ObjectProperty<Object> icon = new SimpleObjectProperty<>();
     private static final Map<String, Character> ICONS = new HashMap<>(16);
     /**
@@ -70,7 +72,9 @@ public class Icon extends Label {
      * 空构造函数（由FXML使用）
      */
     public Icon() {
-        getStyleClass().add(DEFAULT_CSS_CLASS);
+        getStyleClass().setAll(DEFAULT_CSS_CLASSES);
+        setTextAlignment(TextAlignment.LEFT);
+        setAlignment(Pos.CENTER_LEFT);
         setFontFamily(FONT_FAMILY);
         icon.addListener(x -> updateIcon());
         fontProperty().addListener(x -> updateIcon());

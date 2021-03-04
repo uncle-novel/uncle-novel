@@ -9,7 +9,7 @@
   .sidebar-nav-pane .sidebar-nav {
     -fx-text-fill: ladder(sidebar-bg-color, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);
     -fx-spacing: 10;
-    -fx-pref-width: 200;
+    -fx-pref-width: 220;
     -fx-background-radius: 0 0 0 10;
     -fx-border-radius: 0 0 0 10;
     -fx-padding: 0 20 0 20; }
@@ -21,7 +21,7 @@
       -fx-background-color: transparent;
       -fx-border-color: transparent;
       -fx-font-size: 13px;
-      -fx-pref-width: 160;
+      -fx-pref-width: 180;
       -fx-text-fill: inherit;
       -fx-min-height: 30;
       -fx-border-radius: 3px;
@@ -36,6 +36,8 @@
         -fx-background-color: menu-bg-color-hover;
         -fx-cursor: hand; }
       .sidebar-nav-pane .sidebar-nav .sidebar-nav-menu .icon {
-        -fx-icon-size: 14px;
-        -fx-background-insets: 0;
+        -fx-icon-size: 14px !important;
+        -fx-max-width: 18px;
+        -fx-min-width: 18px;
+        -fx-pref-width: 18px;
         -fx-text-fill: inherit; }

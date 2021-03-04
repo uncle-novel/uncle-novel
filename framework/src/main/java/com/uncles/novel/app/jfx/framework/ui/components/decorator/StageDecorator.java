@@ -150,11 +150,6 @@ public class StageDecorator extends VBox implements I18nSupport {
         if (!stage.isShowing()) {
             stage.initStyle(StageStyle.TRANSPARENT);
         }
-        // 双向绑定舞台标题
-//        if (titleLabel.getText() != null && stage.getTitle() == null) {
-//            stage.setTitle(getTitle());
-//        }
-//        titleLabel.textProperty().bindBidirectional(stage.titleProperty());
         // 创建actions按钮组
         createActions();
     }
@@ -201,17 +196,17 @@ public class StageDecorator extends VBox implements I18nSupport {
         if (theme) {
             IconButton btnTheme = new IconButton();
             btnTheme.setSvg("_theme");
-            btnTheme.setTip(localized("换肤"));
+            btnTheme.setTip(localized(localized("换肤")));
             this.actions.getChildren().add(btnTheme);
             btnTheme.setOnMouseClicked(e -> actionHandler.onTheme(this));
         }
         if (setting) {
-            IconButton btnSetting = new IconButton(null, "\uf0c9", localized("设置"));
+            IconButton btnSetting = new IconButton(null, "\uf0c9", localized(localized("设置")));
             this.actions.getChildren().addAll(btnSetting, ViewUtils.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
             btnSetting.setOnMouseClicked(e -> actionHandler.onSetting(this));
         }
         if (min) {
-            IconButton btnMin = new IconButton(null, "\uf068", "最小化");
+            IconButton btnMin = new IconButton(null, "\uf068", localized("最小化"));
             btnMin.setOnAction((action) -> stage.setIconified(true));
             this.actions.getChildren().add(btnMin);
         }
@@ -219,7 +214,7 @@ public class StageDecorator extends VBox implements I18nSupport {
             Icon resizeMaxIcon = new Icon('\uf2d0');
             Icon resizeMinIcon = new Icon('\uf2d2');
             btnMax = new IconButton();
-            btnMax.setTip("最大化");
+            btnMax.setTip(localized("最大化"));
             btnMax.setIcon(resizeMaxIcon);
             btnMax.setOnAction((action) -> maximize(resizeMinIcon, resizeMaxIcon));
             headerContainer.setOnMouseClicked(mouseEvent -> {
@@ -230,7 +225,7 @@ public class StageDecorator extends VBox implements I18nSupport {
             });
             this.actions.getChildren().add(btnMax);
         }
-        IconButton btnClose = ViewUtils.addClass(new IconButton(null, "\uf011", "退出"), STAGE_DECORATOR_ACTIONS_EXIT);
+        IconButton btnClose = ViewUtils.addClass(new IconButton(null, "\uf011", localized("退出")), STAGE_DECORATOR_ACTIONS_EXIT);
         btnClose.setOnMouseClicked(e -> actionHandler.onClose(this));
         this.actions.getChildren().add(btnClose);
     }
@@ -542,11 +537,11 @@ public class StageDecorator extends VBox implements I18nSupport {
         if (maximized) {
             setBorder(Border.EMPTY);
             btnMax.setGraphic(restoreIcon);
-            btnMax.setTip("恢复");
+            btnMax.setTip(localized("还原"));
         } else {
             setBorder(DEFAULT_BORDER);
             btnMax.setGraphic(maxIcon);
-            btnMax.setTip("最大化");
+            btnMax.setTip(localized("最大化"));
         }
     }
 

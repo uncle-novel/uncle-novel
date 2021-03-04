@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+    <entry key="Uncle小说">Uncle Reader</entry>
+    <entry key="下书">Download books</entry>
+    <entry key="下载管理">Download Manager</entry>
+    <entry key="全网搜书">Search network</entry>
+    <entry key="寻找有声">Find audiobooks</entry>
+    <entry key="小说书架">Fiction shelf</entry>
+    <entry key="找书">Find books</entry>
+    <entry key="搜索小说">Search novels</entry>
+    <entry key="有声书架">Audio book shelf</entry>
+    <entry key="解析下载">Analyze download</entry>
+    <entry key="读书">Reading</entry>
+</properties>
