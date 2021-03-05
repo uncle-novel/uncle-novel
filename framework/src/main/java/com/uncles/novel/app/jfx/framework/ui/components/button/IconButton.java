@@ -92,6 +92,7 @@ public class IconButton extends JFXButton {
         setIcon(icon);
         setTip(tip);
         setCursor(Cursor.HAND);
+        setDisableVisualFocus(true);
     }
 
     /**

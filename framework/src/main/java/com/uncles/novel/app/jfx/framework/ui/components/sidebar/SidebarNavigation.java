@@ -1,15 +1,16 @@
 package com.uncles.novel.app.jfx.framework.ui.components.sidebar;
 
 import com.sun.javafx.collections.TrackableObservableList;
+import com.uncles.novel.app.jfx.framework.util.ViewUtils;
 import javafx.beans.DefaultProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
-import lombok.Setter;
 
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 侧边菜单导航栏
@@ -17,16 +18,19 @@ import java.util.function.Consumer;
  * @author blog.unclezs.com
  * @since 2021/02/26 18:50
  */
-@DefaultProperty("menus")
-public class SidebarNavigation extends VBox {
+@DefaultProperty("menusGroups")
+public class SidebarNavigation extends ScrollPane {
     private static final String DEFAULT_STYLE_CLASS = "sidebar-nav";
-    @Setter
-    private Consumer<Node> onNavigate;
+    private static final String DEFAULT_MENUS_STYLE_CLASS = "sidebar-nav-menus";
+    @Getter
+    private final VBox container = ViewUtils.addClass(new VBox(), DEFAULT_MENUS_STYLE_CLASS);
+    @Getter
+    private final List<SidebarNavigationMenu> menus = new ArrayList<>();
     /**
      * 菜单列表
      */
     @Getter
-    private final ObservableList<SidebarNavigationMenuGroup> menus = new TrackableObservableList<>() {
+    private final ObservableList<SidebarNavigationMenuGroup> menusGroups = new TrackableObservableList<>() {
         @Override
         protected void onChanged(ListChangeListener.Change<SidebarNavigationMenuGroup> c) {
             while (c.next()) {
@@ -37,16 +41,8 @@ public class SidebarNavigation extends VBox {
     };
 
     public SidebarNavigation() {
-        getStyleClass().add(DEFAULT_STYLE_CLASS);
-    }
-
-    /**
-     * 遍历每个菜单
-     *
-     * @param consumer 处理
-     */
-    public void eachMenu(Consumer<SidebarNavigationMenu> consumer) {
-        getMenus().forEach(group -> group.getMenus().forEach(consumer));
+        this.getStyleClass().add(DEFAULT_STYLE_CLASS);
+        this.setContent(container);
     }
 
     /**
@@ -55,34 +51,26 @@ public class SidebarNavigation extends VBox {
      * @param sidebarNavigationMenuGroup 菜单组
      */
     public void removeMenuGroup(SidebarNavigationMenuGroup sidebarNavigationMenuGroup) {
-        getChildren().removeAll(sidebarNavigationMenuGroup.getMenus());
+        this.container.getChildren().removeAll(sidebarNavigationMenuGroup.getMenus());
+        this.menus.removeAll(sidebarNavigationMenuGroup.getMenus());
         if (sidebarNavigationMenuGroup.getGroupLabel() != null) {
-            getChildren().remove(sidebarNavigationMenuGroup.getGroupLabel());
+            this.container.getChildren().remove(sidebarNavigationMenuGroup.getGroupLabel());
         }
     }
 
     /**
      * 添加一组菜单
      *
-     * @param sidebarNavigationMenuGroup 菜单组
+     * @param group 菜单组
      */
-    public void addMenuGroup(SidebarNavigationMenuGroup sidebarNavigationMenuGroup) {
-        if (sidebarNavigationMenuGroup.getGroupLabel() != null) {
-            getChildren().add(sidebarNavigationMenuGroup.getGroupLabel());
+    public void addMenuGroup(SidebarNavigationMenuGroup group) {
+        if (group.getGroupLabel() != null) {
+            this.container.getChildren().add(group.getGroupLabel());
         }
         // 给每个菜单设置事件监听
-        sidebarNavigationMenuGroup.getMenus().forEach(sidebarNavigationMenu -> {
-            sidebarNavigationMenu.setOnMouseClicked(e -> {
-                if (!sidebarNavigationMenu.isSelected()) {
-                    // 设置选中状态
-                    eachMenu(currentSidebarNavigationMenu -> currentSidebarNavigationMenu.setSelected(currentSidebarNavigationMenu.equals(sidebarNavigationMenu)));
-                    // 菜单菜单点击回调
-                    if (onNavigate != null) {
-                        onNavigate.accept(sidebarNavigationMenu.getActionView());
-                    }
-                }
-            });
-            getChildren().add(sidebarNavigationMenu);
+        group.getMenus().forEach(menuBtn -> {
+            this.container.getChildren().add(menuBtn);
+            this.menus.add(menuBtn);
         });
     }
 }

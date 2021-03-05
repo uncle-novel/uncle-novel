@@ -18,7 +18,6 @@ public class BaseView {
      * Fxml路径
      */
     public URL location;
-
     /**
      * 默认的初始化方法 FXMLLoader加载时自动反射调用
      */

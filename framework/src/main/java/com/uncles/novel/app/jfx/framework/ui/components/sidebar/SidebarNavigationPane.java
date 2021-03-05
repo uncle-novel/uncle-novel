@@ -1,10 +1,15 @@
 package com.uncles.novel.app.jfx.framework.ui.components.sidebar;
 
 import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
+import javafx.beans.DefaultProperty;
+import javafx.collections.ListChangeListener;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import lombok.Getter;
+import lombok.NonNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 左侧菜单面板
@@ -13,11 +18,13 @@ import lombok.Getter;
  * @since 2021/02/26 14:41
  */
 @Getter
+@DefaultProperty("sidebar")
 public class SidebarNavigationPane extends HBox {
     private static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("/css/components/sidebar-navigation.css");
     public static final String DEFAULT_STYLE_CLASS = "sidebar-nav-pane";
-    private SidebarNavigation menus;
-    private Node content;
+    private SidebarNavigation sidebar;
+    private SidebarNavigationView currentView;
+    private final Map<String, SidebarNavigationView> viewMap = new HashMap<>(16);
 
 
     public SidebarNavigationPane() {
@@ -28,26 +35,48 @@ public class SidebarNavigationPane extends HBox {
     /**
      * 设置菜单
      *
-     * @param menus 菜单列表
+     * @param sidebar 菜单列表
      */
-    public void setMenus(SidebarNavigation menus) {
-        getChildren().remove(this.menus);
-        getChildren().add(0, menus);
-        this.menus = menus;
-        this.menus.setOnNavigate(this::setContent);
-        this.menus.eachMenu(this::addMenu);
+    public void setSidebar(@NonNull SidebarNavigation sidebar) {
+        if (this.sidebar != null) {
+            getChildren().remove(this.sidebar);
+        }
+        this.sidebar = sidebar;
+        getChildren().add(0, sidebar);
+        // 监听新的节点
+        sidebar.getContainer().getChildren().addListener((ListChangeListener<Node>) c -> {
+            while (c.next()) {
+                for (Node node : c.getAddedSubList()) {
+                    if (node instanceof SidebarNavigationMenu) {
+                        SidebarNavigationMenu menu = (SidebarNavigationMenu) node;
+                        menu.setOnMouseClicked(e -> navigateTo(menu.getActionView().getClass()));
+                    }
+                }
+            }
+        });
+        // 如果加入的按钮有被选中，则跳转
+        for (SidebarNavigationMenu menu : this.sidebar.getMenus()) {
+            menu.setOnMouseClicked(e -> navigateTo(menu.getActionView().getClass()));
+            if (menu.isSelected()) {
+                menu.setSelected(false);
+                navigateTo(menu.getActionView().getClass());
+            }
+        }
     }
 
     /**
-     * 添加菜单
+     * 根据view的全限定类名 找到相应的按钮
      *
-     * @param menu 菜单
+     * @param className view类名
+     * @return 按钮
      */
-    public void addMenu(SidebarNavigationMenu menu) {
-        if (menu.isSelected()) {
-            // 如果选中了，则设置为当前显示view
-            setContent(menu.getActionView());
+    public SidebarNavigationMenu findMenuByName(String className) {
+        for (SidebarNavigationMenu menu : getSidebar().getMenus()) {
+            if (menu.getView().equals(className)) {
+                return menu;
+            }
         }
+        return null;
     }
 
     /**
@@ -55,10 +84,69 @@ public class SidebarNavigationPane extends HBox {
      *
      * @param content 面板view
      */
-    public void setContent(Node content) {
-        getChildren().remove(this.content);
-        getChildren().add(content);
-        this.content = content;
-        HBox.setHgrow(content, Priority.ALWAYS);
+    public void setCurrentView(SidebarNavigationView content) {
+        if (this.currentView != null) {
+            getChildren().remove(this.currentView.getView());
+        }
+        getChildren().add(content.getView());
+        this.currentView = content;
+    }
+
+    /**
+     * 页面切换
+     *
+     * @param destinationViewClass 目标view
+     * @param bundle               携带的数据
+     */
+    public final void navigateTo(@NonNull Class<? extends SidebarNavigationView> destinationViewClass, NavigateBundle bundle) {
+        // 同页禁止跳转
+        if (currentView != null && destinationViewClass == currentView.getClass()) {
+            return;
+        }
+        if (bundle == null) {
+            bundle = new NavigateBundle();
+        }
+        if (currentView != null) {
+            SidebarNavigationMenu actionMenu = findMenuByName(currentView.getClass().getName());
+            if (actionMenu != null) {
+                bundle.setMenuTrigger(true);
+                actionMenu.setSelected(false);
+                actionMenu.getActionView().onHidden();
+            } else {
+                // 支持没有菜单按钮的跳转，触发onHidden回调
+                viewMap.get(currentView.getClass().getName()).onHidden();
+            }
+            bundle.setFrom(currentView.getClass().getName());
+        }
+        SidebarNavigationMenu actionMenu = findMenuByName(destinationViewClass.getName());
+        // 跳转目的页面
+        SidebarNavigationView destination;
+        if (actionMenu != null) {
+            actionMenu.setSelected(true);
+            destination = actionMenu.getActionView();
+        } else {
+            // 支持没有菜单按钮的跳转
+            destination = viewMap.get(destinationViewClass.getName());
+            if (destination == null) {
+                destination = SidebarNavigationView.loadView(destinationViewClass);
+                viewMap.put(destinationViewClass.getName(), destination);
+            }
+        }
+        // 触发页面生命周期 onShow
+        destination.onShow(bundle);
+        setCurrentView(destination);
+    }
+
+    /**
+     * 页面跳转
+     *
+     * @param destination 跳转的页面
+     */
+    public final void navigateTo(@NonNull Class<? extends SidebarNavigationView> destination) {
+        navigateTo(destination, null);
+    }
+
+    public static void navigateTo(SidebarNavigationPane root, @NonNull Class<? extends SidebarNavigationView> view, NavigateBundle bundle) {
+        root.navigateTo(view, bundle);
     }
 }

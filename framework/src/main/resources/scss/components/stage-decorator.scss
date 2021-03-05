@@ -15,7 +15,8 @@
     -fx-background-radius: $stage-border-radius $stage-border-radius 0 0;
     -fx-border-radius: $stage-border-radius $stage-border-radius 0 0;
     -fx-alignment: center-right;
-    -fx-pref-height: 50;
+    -fx-min-height: 50;
+    -fx-max-height: 50;
     -fx-background-color: header-bg-color;
 
     // 窗口顶部Logo

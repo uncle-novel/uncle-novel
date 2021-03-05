@@ -2,9 +2,14 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx/15" style="-fx-background-color: #FFF" prefHeight="400.0" minHeight="400.0" prefWidth="400.0" minWidth="400"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uncles.novel.app.jfx.ui.view.SearchAudioView">
     <center>
-        <Button text="跳转Novel" fx:id="navigate"/>
+        <VBox>
+            <Button text="audio" fx:id="button"/>
+            <Text text="text" fx:id="text"/>
+        </VBox>
     </center>
 </BorderPane>

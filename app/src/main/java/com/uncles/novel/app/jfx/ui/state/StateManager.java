@@ -1,7 +1,5 @@
 package com.uncles.novel.app.jfx.ui.state;
 
-import javafx.stage.Stage;
-import lombok.Getter;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -10,6 +8,5 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class StateManager {
-    @Getter(lazy = true)
-    private final Stage stage = new Stage();
+
 }

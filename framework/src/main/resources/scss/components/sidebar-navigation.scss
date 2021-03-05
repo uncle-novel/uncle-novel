@@ -17,53 +17,61 @@ $border-radius: 10;
 
   // 左侧菜单面板
   .sidebar-nav {
-    @include ladderTextFill(sidebar-bg-color);
-    -fx-spacing: 10;
-    -fx-pref-width: 220;
-    -fx-background-radius: 0 0 0 $stage-border-radius;
-    -fx-border-radius: 0 0 0 $stage-border-radius;
-    -fx-padding: 0 20 0 20;
+    -fx-vbar-policy: NEVER;
+    -fx-hbar-policy: NEVER;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 
-    // 菜单分组
-    .sidebar-nav-menu-group-label {
-      -fx-alignment: center-left;
-      -fx-padding: 20 0 0 10;
-      -fx-text-fill: ladder(sidebar-bg-color, $md_grey_200 45%, $md_grey_300 46%, $md_grey_400 59%, $md_grey_500 60%);
-    }
+    .sidebar-nav-menus {
+      @include ladderTextFill(sidebar-bg-color);
+      -fx-spacing: 10;
+      -fx-pref-width: 220;
+      -fx-background-radius: 0 0 0 $stage-border-radius;
+      -fx-border-radius: 0 0 0 $stage-border-radius;
+      -fx-padding: 0 20 20 20;
 
-    // 菜单按钮
-    .sidebar-nav-menu {
-      -fx-background-color: transparent;
-      -fx-border-color: transparent;
-      -fx-font-size: 13px;
-      -fx-pref-width: 180;
-      -fx-text-fill: inherit;
-      -fx-min-height: 30;
-      -fx-border-radius: 3px;
-      -fx-background-radius: 3px;
-      -fx-alignment: center-left;
-
-      &:selected {
-        @include ladderTextFillForce(menu-bg-color-selected);
-        @include shadow-br-3(derive(-fx-text-fill, -100%));
-        -fx-background-color: menu-bg-color-selected !important;
+      // 菜单分组
+      .sidebar-nav-menu-group-label {
+        -fx-alignment: center-left;
+        -fx-padding: 20 0 0 10;
+        -fx-text-fill: ladder(sidebar-bg-color, $md_grey_200 45%, $md_grey_300 46%, $md_grey_400 59%, $md_grey_500 60%);
       }
 
-      &:hover {
-        @include ladderTextFill(menu-bg-color-hover);
-        -fx-background-color: menu-bg-color-hover;
-        -fx-cursor: hand;
-      }
-
-      .icon {
-        -fx-icon-size: 14px !important;
-        -fx-max-width: 18px;
-        -fx-min-width: 18px;
-        -fx-pref-width: 18px;
+      // 菜单按钮
+      .sidebar-nav-menu {
+        -fx-background-color: transparent;
+        -fx-border-color: transparent;
+        -fx-font-size: 13px;
+        -fx-pref-width: 180;
         -fx-text-fill: inherit;
+        -fx-min-height: 30;
+        -fx-border-radius: 3px;
+        -fx-background-radius: 3px;
+        -fx-alignment: center-left;
+
+        &:selected {
+          @include ladderTextFillForce(menu-bg-color-selected);
+          @include shadow-br-3(derive(-fx-text-fill, -100%));
+          -fx-background-color: menu-bg-color-selected !important;
+        }
+
+        &:hover {
+          @include ladderTextFill(menu-bg-color-hover);
+          -fx-background-color: menu-bg-color-hover;
+          -fx-cursor: hand;
+        }
+
+        .icon {
+          -fx-icon-size: 14px !important;
+          -fx-max-width: 18px;
+          -fx-min-width: 18px;
+          -fx-pref-width: 18px;
+          -fx-text-fill: inherit;
+        }
       }
     }
   }
+
 }
 
 

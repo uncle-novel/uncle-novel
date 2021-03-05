@@ -12,7 +12,8 @@
     -fx-background-radius: 5 5 0 0;
     -fx-border-radius: 5 5 0 0;
     -fx-alignment: center-right;
-    -fx-pref-height: 50;
+    -fx-min-height: 50;
+    -fx-max-height: 50;
     -fx-background-color: header-bg-color; }
     .stage-decorator .stage-decorator-header .stage-decorator-logo {
       -fx-padding: 0 0 0 20;

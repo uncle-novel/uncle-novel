@@ -26,8 +26,8 @@ public class Launcher {
                 app.init();
                 app.start();
             } catch (Exception e) {
-                System.exit(-1);
                 e.printStackTrace();
+                System.exit(-1);
             }
         });
 //        LauncherImpl.launchApplication(App.class, PreLoaderApp.class, args);

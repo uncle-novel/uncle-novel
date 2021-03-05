@@ -51,15 +51,16 @@ public class StageDecorator extends VBox implements I18nSupport {
     public static final String STAGE_DECORATOR_ACTION_SEPARATOR = "stage-decorator-action-separator";
     public static final String STAGE_DECORATOR_ACTIONS_EXIT = "stage-decorator-actions-exit";
     public static final int CLICK_COUNT_TO_MAX_WINDOW = 2;
+    /**
+     * 被装饰的舞台
+     */
     private Stage stage;
     /**
      * 顶部logo HBox
      */
-    public HBox logoBox;
-    @Getter
-    public UnImageView logoImage;
-    @Getter
-    public Label titleLabel;
+    private HBox logoBox;
+    private UnImageView logoImage;
+    private Label titleLabel;
     /**
      * 顶部右侧操作按钮 HBox
      */
@@ -81,18 +82,16 @@ public class StageDecorator extends VBox implements I18nSupport {
     private double initHeight = -1;
     private double initStageX = -1;
     private double initStageY = -1;
+
     private boolean allowMove = false;
     private boolean isDragging = false;
-    private boolean maximized = false;
     /**
-     * 默认边框
+     * 窗口 最大化 还原 全屏相关
      */
-    public static final Border DEFAULT_BORDER = new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(10)));
-    private ActionHandler actionHandler;
-
+    private static final Border DEFAULT_BORDER = new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(10)));
     private Rectangle originalBox;
     private IconButton btnMax;
-
+    private boolean maximized = false;
     /**
      * 支持fxml配置
      */
@@ -109,10 +108,14 @@ public class StageDecorator extends VBox implements I18nSupport {
     @Setter
     private boolean min;
     @Getter
-    public String logo;
+    private String logo;
     @Getter
-    public String title;
+    private String title;
 
+    /**
+     * action 按钮事件处理
+     */
+    private ActionHandler actionHandler;
 
     public static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("/css/components/stage-decorator.css");
 
@@ -177,13 +180,13 @@ public class StageDecorator extends VBox implements I18nSupport {
      */
     private void initStageBehavior() {
         // 点击窗口和点击header时 更新鼠标位值
-        this.setOnMousePressed(this::updateInitMouseValues);
-        headerContainer.setOnMousePressed(this::updateInitMouseValues);
+        this.addEventFilter(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
+        headerContainer.addEventFilter(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
         // 在边框上显示拖动光标
         this.addEventFilter(MouseEvent.MOUSE_MOVED, this::showDragCursorOnTheBorder);
         // 处理舞台拖动事件
-        this.setOnMouseReleased(e -> isDragging = false);
-        this.setOnMouseDragged(this::onStageDragged);
+        this.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> isDragging = false);
+        this.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::onStageDragged);
         // 点击header拖动监听
         headerContainer.addEventFilter(MouseEvent.MOUSE_ENTERED, e -> allowMove = true);
         headerContainer.addEventFilter(MouseEvent.MOUSE_EXITED, e -> allowMove = isDragging);
@@ -207,7 +210,7 @@ public class StageDecorator extends VBox implements I18nSupport {
         }
         if (min) {
             IconButton btnMin = new IconButton(null, "\uf068", localized("最小化"));
-            btnMin.setOnAction((action) -> stage.setIconified(true));
+            btnMin.setOnAction(action -> stage.setIconified(true));
             this.actions.getChildren().add(btnMin);
         }
         if (max) {
@@ -216,10 +219,10 @@ public class StageDecorator extends VBox implements I18nSupport {
             btnMax = new IconButton();
             btnMax.setTip(localized("最大化"));
             btnMax.setIcon(resizeMaxIcon);
-            btnMax.setOnAction((action) -> maximize(resizeMinIcon, resizeMaxIcon));
+            btnMax.setOnAction(action -> maximize(resizeMinIcon, resizeMaxIcon));
+            // 双击header 最大化
             headerContainer.setOnMouseClicked(mouseEvent -> {
-                if (mouseEvent.getClickCount() == CLICK_COUNT_TO_MAX_WINDOW) {
-                    updateInitMouseValues(mouseEvent);
+                if (mouseEvent.getClickCount() >= CLICK_COUNT_TO_MAX_WINDOW) {
                     btnMax.fire();
                 }
             });
@@ -324,16 +327,18 @@ public class StageDecorator extends VBox implements I18nSupport {
      * @param mouseEvent 鼠标事件
      */
     public void showDragCursorOnTheBorder(MouseEvent mouseEvent) {
-        if (stage.isMaximized() || stage.isFullScreen() || maximized) {
+        // 最大化模式不支持调整大小
+        if (stage.isFullScreen() || maximized) {
             this.setCursor(Cursor.DEFAULT);
-            return; // maximized mode does not support resize
+            return;
         }
+
         if (!stage.isResizable()) {
             return;
         }
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
-        if (getBorder() != null && getBorder().getStrokes().size() > 0) {
+        if (getBorder() != null && !getBorder().getStrokes().isEmpty()) {
             double borderWidth = snappedLeftInset();
             if (isRightEdge(x)) {
                 if (y < borderWidth) {
@@ -368,6 +373,7 @@ public class StageDecorator extends VBox implements I18nSupport {
      */
     private void onStageDragged(MouseEvent mouseEvent) {
         isDragging = true;
+        // 释放鼠标 或者移动到边界
         if (!mouseEvent.isPrimaryButtonDown() || (xOffset == -1 && yOffset == -1)) {
             return;
         }
@@ -476,7 +482,6 @@ public class StageDecorator extends VBox implements I18nSupport {
      * @return 舞台宽度
      */
     private boolean setStageWidth(double width) {
-        System.out.println(width + "  " + stage.getMinWidth() + " " + headerContainer.getMinWidth());
         if (width >= stage.getMinWidth() + this.snappedRightInset() + this.snappedLeftInset() && width >= headerContainer.getMinWidth()) {
             stage.setWidth(width);
             return true;
@@ -564,7 +569,6 @@ public class StageDecorator extends VBox implements I18nSupport {
          * @param view 舞台装饰View
          */
         default void onSetting(StageDecorator view) {
-
         }
 
         /**

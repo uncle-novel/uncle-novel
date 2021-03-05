@@ -8,12 +8,12 @@ import javafx.scene.text.Text;
 
 /**
  * @author blog.unclezs.com
- * @since 2021/02/27 17:16
+ * @since 2021/03/05 17:26
  */
-@FxView(fxml = "/layout/search_audio.fxml")
-public class SearchAudioView extends SidebarNavigationView {
-    public Text text;
+@FxView(fxml = "/layout/setting.fxml")
+public class SettingView extends SidebarNavigationView {
     public Button button;
+    public Text text;
 
     @Override
     public void onShow(NavigateBundle bundle) {
@@ -25,9 +25,8 @@ public class SearchAudioView extends SidebarNavigationView {
     @Override
     public void onCreated() {
         button.setOnMouseClicked(event -> {
-            NavigateBundle bundle = new NavigateBundle().put("data", "我是SearchAudioView");
+            NavigateBundle bundle = new NavigateBundle().put("data", "我是SettingView");
             navigate(SearchNetworkView.class, bundle);
         });
     }
 }
-

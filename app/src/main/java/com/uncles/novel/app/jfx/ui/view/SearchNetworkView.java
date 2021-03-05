@@ -10,10 +10,10 @@ import javafx.scene.text.Text;
  * @author blog.unclezs.com
  * @since 2021/02/27 17:16
  */
-@FxView(fxml = "/layout/search_audio.fxml")
-public class SearchAudioView extends SidebarNavigationView {
-    public Text text;
+@FxView(fxml = "/layout/search_network.fxml")
+public class SearchNetworkView extends SidebarNavigationView {
     public Button button;
+    public Text text;
 
     @Override
     public void onShow(NavigateBundle bundle) {
@@ -25,9 +25,8 @@ public class SearchAudioView extends SidebarNavigationView {
     @Override
     public void onCreated() {
         button.setOnMouseClicked(event -> {
-            NavigateBundle bundle = new NavigateBundle().put("data", "我是SearchAudioView");
+            NavigateBundle bundle = new NavigateBundle().put("data", "我是SearchNetworkView");
             navigate(SearchNetworkView.class, bundle);
         });
     }
 }
-
