@@ -1,5 +1,6 @@
 package com.uncles.novel.app.jfx;
 
+import com.uncles.novel.app.jfx.framework.app.SsaApplication;
 import com.uncles.novel.app.jfx.ui.stage.App;
 import javafx.application.Platform;
 
@@ -13,7 +14,7 @@ public class Launcher {
     public static void main(String[] args) {
         Locale.setDefault(Locale.ENGLISH);
         Platform.startup(() -> {
-            App app = new App();
+            SsaApplication app = new App();
             try {
                 app.init();
                 app.start();
