@@ -5,6 +5,7 @@ import com.uncles.novel.app.jfx.ui.stage.App;
 import javafx.application.Platform;
 
 import java.util.Locale;
+import java.util.Random;
 
 /**
  * @author blog.unclezs.com
@@ -12,7 +13,13 @@ import java.util.Locale;
  */
 public class Launcher {
     public static void main(String[] args) {
-        Locale.setDefault(Locale.ENGLISH);
+        Random random = new Random();
+        int i = random.nextInt(3);
+        if (i == 1) {
+            Locale.setDefault(Locale.ENGLISH);
+        } else if (i == 2) {
+            Locale.setDefault(Locale.TAIWAN);
+        }
         Platform.startup(() -> {
             SsaApplication app = new App();
             try {
