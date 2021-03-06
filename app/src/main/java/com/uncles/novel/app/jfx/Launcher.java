@@ -1,7 +1,7 @@
 package com.uncles.novel.app.jfx;
 
-import com.uncles.novel.app.jfx.framework.app.SsaApplication;
-import com.uncles.novel.app.jfx.ui.stage.App;
+import com.uncles.novel.app.jfx.framework.ui.appication.SsaApplication;
+import com.uncles.novel.app.jfx.ui.app.App;
 import javafx.application.Platform;
 
 import java.util.Locale;

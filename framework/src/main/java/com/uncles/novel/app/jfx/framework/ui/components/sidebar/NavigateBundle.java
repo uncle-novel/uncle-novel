@@ -1,12 +1,11 @@
 package com.uncles.novel.app.jfx.framework.ui.components.sidebar;
 
+import com.uncles.novel.app.jfx.framework.ui.bundle.BaseBundle;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 侧边导航 跳转数据
@@ -15,8 +14,9 @@ import java.util.Map;
  * @since 2021/03/05 14:41
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class NavigateBundle {
+public class NavigateBundle extends BaseBundle {
     /**
      * 来自哪个view 全限定类名
      */
@@ -30,18 +30,4 @@ public class NavigateBundle {
      * 跳转的标记
      */
     private int flag;
-    private Map<String, Object> data;
-
-    public NavigateBundle put(String key, String value) {
-        if (data == null) {
-            data = new HashMap<>(16);
-        }
-        data.put(key, value);
-        return this;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> T get(String key) {
-        return (T) data.get(key);
-    }
 }

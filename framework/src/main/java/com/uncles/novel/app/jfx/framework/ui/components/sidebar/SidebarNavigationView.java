@@ -1,9 +1,8 @@
 package com.uncles.novel.app.jfx.framework.ui.components.sidebar;
 
 
+import com.uncles.novel.app.jfx.framework.ui.view.BaseView;
 import com.uncles.novel.app.jfx.framework.util.FxmlLoader;
-import com.uncles.novel.app.jfx.framework.view.BaseView;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -21,7 +20,8 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = false)
 public class SidebarNavigationView extends BaseView {
-    private Node view;
+
+    public static final String DEFAULT_STYLE_CLASS = "sidebar-nav-content";
 
     /**
      * 页面显示之前 处理数据
@@ -41,6 +41,7 @@ public class SidebarNavigationView extends BaseView {
 
     public void navigate(Class<? extends SidebarNavigationView> target, NavigateBundle bundle) {
         bundle.setFrom(getClass().getName());
+        Node view = getView();
         SidebarNavigationPane sidebarNavigationPane = (SidebarNavigationPane) view.getParent();
         sidebarNavigationPane.navigateTo(target, bundle);
     }
@@ -51,12 +52,11 @@ public class SidebarNavigationView extends BaseView {
      * @return Node
      */
     public static SidebarNavigationView loadView(Class<? extends SidebarNavigationView> viewClass) {
-        FXMLLoader loader = FxmlLoader.loadedLoader(viewClass);
-        SidebarNavigationView view = loader.getController();
-        // 注入view
-        view.setView(loader.getRoot());
+        SidebarNavigationView navigationView = FxmlLoader.load(viewClass);
         // 自适应宽度
-        HBox.setHgrow(view.getView(), Priority.ALWAYS);
-        return view;
+        Node view = navigationView.getView();
+        HBox.setHgrow(view, Priority.ALWAYS);
+        view.getStyleClass().add(DEFAULT_STYLE_CLASS);
+        return navigationView;
     }
 }

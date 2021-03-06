@@ -6,10 +6,10 @@
   -fx-background-size: cover;
   -fx-background-position: center;
   -fx-background-repeat: no-repeat;
-  -fx-background-radius: $stage-border-radius;
+  -fx-background-radius: $stage-border-radius !important;
   -fx-border-radius: $stage-border-radius;
   -fx-border-width: 10;
-  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 15, 0.16, 0, 4);;
 
   .stage-decorator-header {
     -fx-background-radius: $stage-border-radius $stage-border-radius 0 0;

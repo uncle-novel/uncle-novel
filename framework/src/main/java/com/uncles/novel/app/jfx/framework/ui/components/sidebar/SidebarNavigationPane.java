@@ -86,7 +86,8 @@ public class SidebarNavigationPane extends HBox {
      */
     public void setCurrentView(SidebarNavigationView content) {
         if (this.currentView != null) {
-            getChildren().remove(this.currentView.getView());
+            Node view = this.currentView.getView();
+            getChildren().remove(view);
         }
         getChildren().add(content.getView());
         this.currentView = content;

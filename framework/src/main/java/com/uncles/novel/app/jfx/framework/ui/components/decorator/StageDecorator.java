@@ -28,6 +28,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -201,12 +202,12 @@ public class StageDecorator extends VBox implements I18nSupport {
             btnTheme.setSvg("_theme");
             btnTheme.setTip(localized(localized("换肤")));
             this.actions.getChildren().add(btnTheme);
-            btnTheme.setOnMouseClicked(e -> actionHandler.onTheme(this));
+            btnTheme.setOnMouseClicked(e -> actionHandler.onTheme(this, btnTheme));
         }
         if (setting) {
             IconButton btnSetting = new IconButton(null, "\uf0c9", localized(localized("设置")));
             this.actions.getChildren().addAll(btnSetting, ViewUtils.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
-            btnSetting.setOnMouseClicked(e -> actionHandler.onSetting(this));
+            btnSetting.setOnMouseClicked(e -> actionHandler.onSetting(this, btnSetting));
         }
         if (min) {
             IconButton btnMin = new IconButton(null, "\uf068", localized("最小化"));
@@ -229,7 +230,7 @@ public class StageDecorator extends VBox implements I18nSupport {
             this.actions.getChildren().add(btnMax);
         }
         IconButton btnClose = ViewUtils.addClass(new IconButton(null, "\uf011", localized("退出")), STAGE_DECORATOR_ACTIONS_EXIT);
-        btnClose.setOnMouseClicked(e -> actionHandler.onClose(this));
+        btnClose.setOnMouseClicked(e -> actionHandler.onClose(this, btnClose));
         this.actions.getChildren().add(btnClose);
     }
 
@@ -557,27 +558,30 @@ public class StageDecorator extends VBox implements I18nSupport {
         /**
          * 主题按钮点击时触发
          *
-         * @param view 舞台装饰View
+         * @param view        舞台装饰View
+         * @param themeButton 主题按钮
          */
-        default void onTheme(StageDecorator view) {
+        default void onTheme(StageDecorator view, IconButton themeButton) {
 
         }
 
         /**
          * 设置按钮点击时触发
          *
-         * @param view 舞台装饰View
+         * @param view          舞台装饰View
+         * @param settingButton 设置按钮
          */
-        default void onSetting(StageDecorator view) {
+        default void onSetting(StageDecorator view, IconButton settingButton) {
         }
 
         /**
-         * 窗口关闭时触发
+         * 窗口关闭时触发 重写之后需要自己手动调用 close
          *
-         * @param view 舞台装饰View
+         * @param view        舞台装饰View
+         * @param closeButton 关闭按钮
          */
-        default void onClose(StageDecorator view) {
-            view.stage.close();
+        default void onClose(StageDecorator view, IconButton closeButton) {
+            view.stage.fireEvent(new WindowEvent(view.stage, WindowEvent.WINDOW_CLOSE_REQUEST));
         }
     }
 }

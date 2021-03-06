@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<StackPane
+        xmlns="http://javafx.com/javafx/15" style="-fx-background-color: #FFF" prefHeight="400.0" minHeight="400.0"
+        prefWidth="400.0" minWidth="400"
+        xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uncles.novel.app.jfx.ui.pages.home.views.SettingView">
+    <VBox>
+        <Button text="network" fx:id="button"/>
+        <Button text="蓝色" fx:id="blue"/>
+        <Button text="绿色" fx:id="green"/>
+        <Button text="重置" fx:id="reset"/>
+        <Text text="network" fx:id="text"/>
+    </VBox>
+</StackPane>

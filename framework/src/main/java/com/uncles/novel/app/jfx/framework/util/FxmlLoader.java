@@ -3,6 +3,7 @@ package com.uncles.novel.app.jfx.framework.util;
 import com.uncles.novel.app.jfx.framework.annotation.FxView;
 import com.uncles.novel.app.jfx.framework.exception.FxException;
 import com.uncles.novel.app.jfx.framework.i18n.LanguageUtils;
+import com.uncles.novel.app.jfx.framework.ui.view.BaseView;
 import javafx.fxml.FXMLLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,12 +33,29 @@ public class FxmlLoader {
      * @param <T>             类型
      * @return 加载结果
      */
-    public static <T> T load(Class<?> controllerClazz) {
+    public static <T> T loadView(Class<T> controllerClazz) {
         try {
             return getLoader(controllerClazz).load();
         } catch (IOException e) {
             throw new FxException("fxml load failed.", e);
         }
+    }
+
+    /**
+     * 加载FXML
+     *
+     * @param controllerClazz controller
+     * @param <T>             类型
+     * @return view controller
+     */
+    public static <T> T load(Class<T> controllerClazz) {
+        FXMLLoader loader = loadedLoader(controllerClazz);
+        T controller = loader.getController();
+        if (controller instanceof BaseView) {
+            BaseView view = (BaseView) controller;
+            view.setRoot(loader.getRoot());
+        }
+        return controller;
     }
 
     /**
@@ -96,17 +114,5 @@ public class FxmlLoader {
         loader.setCharset(StandardCharsets.UTF_8);
         log.info("fxml loader controller:{} fxml:{} bundle:{}", controllerClazz.getName(), fxml, resourceBundle);
         return loader;
-    }
-
-    /**
-     * 组件加载
-     *
-     * @param root 控制器也是rootView
-     */
-    public static void loadView(Object root) {
-        FXMLLoader loader = getLoader(root.getClass());
-        loader.setRoot(root);
-        loader.setController(root);
-        load(loader);
     }
 }
