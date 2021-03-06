@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
  * @author blog.unclezs.com
  * @since 2021/02/27 17:16
  */
-@FxView(fxml = "/layout/home/sidebar/search_network.fxml")
+@FxView(fxml = "/layout/home/views/search_network.fxml")
 public class SearchNetworkView extends SidebarNavigationView {
     public Button button;
     public Text text;

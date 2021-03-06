@@ -7,6 +7,7 @@ $border-radius: 10;
   -fx-background-radius: 0 0 $stage-border-radius $stage-border-radius;
   -fx-border-radius: 0 0 $stage-border-radius $stage-border-radius;
   -fx-background-color: sidebar-pane-bg-color;
+  -fx-border-color: transparent;
 
   // 右侧视图面版
   .sidebar-nav-content {
@@ -19,8 +20,14 @@ $border-radius: 10;
   .sidebar-nav {
     -fx-vbar-policy: NEVER;
     -fx-hbar-policy: NEVER;
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
+    -fx-background-color: sidebar-bg-color;
+    -fx-border-color: sidebar-bg-color;
+    -fx-border-width: 2;
+
+    .viewport {
+      -fx-background-color: transparent;
+      -fx-border-color: transparent;
+    }
 
     .sidebar-nav-menus {
       @include ladderTextFill(sidebar-bg-color);

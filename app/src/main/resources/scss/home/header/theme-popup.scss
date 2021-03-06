@@ -1,0 +1,40 @@
+@import "../../define/_global.scss";
+
+.home-theme-popup {
+  -fx-pref-height: 150;
+  -fx-pref-width: 320;
+  -fx-alignment: center;
+  -fx-padding: 0 10 0 10;
+  -fx-spacing: 25;
+
+
+  .theme-popup-color-box {
+    -fx-spacing: 10;
+    -fx-alignment: center;
+
+    .color-box-item {
+      -fx-pref-width: 38;
+      -fx-pref-height: 38;
+      -fx-background-radius: 5;
+      -fx-border-radius: 5;
+      -fx-text-fill: white;
+      -fx-font-size: 11px;
+      -fx-content-display: GRAPHIC_ONLY;
+      @include shadow-br-1(theme-dark-color);
+
+      &:hover {
+        @include shadow-br-3(theme-dark-color);
+      }
+    }
+
+    .color-box-item-custom {
+      @extend .color-box-item;
+      -fx-color-label-visible: false;
+
+      .color-label {
+        -fx-background-radius: 5;
+        -fx-border-radius: 5;
+      }
+    }
+  }
+}

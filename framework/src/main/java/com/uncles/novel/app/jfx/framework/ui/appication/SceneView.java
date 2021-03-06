@@ -3,6 +3,7 @@ package com.uncles.novel.app.jfx.framework.ui.appication;
 import com.uncles.novel.app.jfx.framework.ui.components.decorator.StageDecorator;
 import com.uncles.novel.app.jfx.framework.ui.view.BaseView;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ import lombok.Setter;
 public abstract class SceneView extends BaseView implements StageDecorator.ActionHandler {
     @Getter
     @Setter
-    private Parent view;
+    private Scene scene;
 
     /**
      * 场景显示时候触发(场景view切换) 窗口隐藏不会被调用
@@ -40,4 +41,22 @@ public abstract class SceneView extends BaseView implements StageDecorator.Actio
 
     }
 
+    /**
+     * 当场景创建完毕
+     *
+     * @param scene 场景
+     */
+    public void onSceneCreated(Scene scene) {
+
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Parent getView() {
+        return super.getView();
+    }
+
+    public void setView(Object view) {
+        super.setRoot(view);
+    }
 }

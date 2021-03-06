@@ -15,24 +15,3 @@
   font-style: normal;
   font-weight: normal;
   src: url("/fonts/pingfang-simple-bold.ttf"); }
-
-.root {
-  -fx-base: #FFF;
-  -fx-font-family: ".PingFang SC";
-  primary-color: #039be5;
-  secondary-color: #0288d1;
-  bg-color: -fx-base;
-  border-color: ladder(bg-color, rgba(255, 255, 255, 0.3) 49%, rgba(0, 0, 0, 0.3) 50%);
-  selected-bg-color: linear-gradient(to left, #1fd4ae, #1ecd94); }
-
-.icon {
-  -fx-font-family: "FontAwesome" !important; }
-
-.sidebar-nav-pane {
-  sidebar-pane-bg-color: #f5f5f5;
-  sidebar-bg-color: #f5f5f5;
-  menu-bg-color-selected: primary-color;
-  menu-bg-color-hover: #bdbdbd; }
-
-.stage-decorator {
-  header-bg-color: #393D49; }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXPopup?>
+<?import com.uncles.novel.app.jfx.framework.ui.components.button.IconButton?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<JFXPopup xmlns="http://javafx.com/javafx" fx:id="popup" xmlns:fx="http://javafx.com/fxml"
+          fx:controller="com.uncles.novel.app.jfx.ui.pages.home.header.SettingPopupView">
+    <VBox spacing="10" styleClass="home-setting-popup" stylesheets="/css/home/header/setting-popup.css">
+        <IconButton text="GitHub源码" icon="&#xf092;"/>
+        <Pane styleClass="home-setting-popup-delimiter"/>
+        <IconButton text="设置" icon="&#xf013;"/>
+        <IconButton text="打赏" icon="&#xf23b;"/>
+        <IconButton text="关于" icon="&#xf170;"/>
+        <IconButton text="更新历史" icon="&#xf170;"/>
+        <IconButton text="查看日志" icon="&#xf1da;"/>
+        <IconButton text="问题反馈" icon="&#xf0f6;"/>
+        <Pane styleClass="home-setting-popup-delimiter"/>
+        <IconButton text="免责声明" icon="&#xf188;"/>
+    </VBox>
+</JFXPopup>

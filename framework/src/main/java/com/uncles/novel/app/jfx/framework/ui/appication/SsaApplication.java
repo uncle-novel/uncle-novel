@@ -6,8 +6,6 @@ import com.uncles.novel.app.jfx.framework.ui.components.decorator.StageDecorator
 import com.uncles.novel.app.jfx.framework.util.FxmlLoader;
 import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -31,9 +29,8 @@ import java.util.Map;
  */
 @Slf4j
 public abstract class SsaApplication extends Application {
-    private static Stage stage;
     @Getter
-    private static Scene scene;
+    private Stage stage;
     /**
      * 当前view
      */
@@ -77,8 +74,7 @@ public abstract class SsaApplication extends Application {
         stage.setOnCloseRequest(e -> views.values().forEach(SceneView::onDestroy));
         // 首页
         currentView = loadSceneView(getIndexView());
-        scene = new Scene(currentView.getView(), Color.TRANSPARENT);
-        stage.setScene(scene);
+        stage.setScene(currentView.getScene());
     }
 
     /**
@@ -137,7 +133,7 @@ public abstract class SsaApplication extends Application {
         }
         currentView = sceneView;
         sceneView.onShow(bundle);
-        scene.setRoot(sceneView.getView());
+        stage.setScene(sceneView.getScene());
         stage.centerOnScreen();
     }
 
@@ -151,14 +147,14 @@ public abstract class SsaApplication extends Application {
     public SceneView loadSceneView(@NonNull Class<? extends SceneView> viewClass) {
         SceneView sceneView = views.get(viewClass);
         if (sceneView == null) {
-            FXMLLoader loader = FxmlLoader.loadedLoader(viewClass);
-            Parent view = loader.getRoot();
-            sceneView = loader.getController();
-            sceneView.setView(view);
-            if (view instanceof StageDecorator) {
-                StageDecorator decorator = (StageDecorator) view;
+            sceneView = FxmlLoader.load(viewClass);
+            if (sceneView.getView() instanceof StageDecorator) {
+                StageDecorator decorator = (StageDecorator) sceneView.getView();
                 decorator.setStage(stage, sceneView);
             }
+            sceneView.setScene(new Scene(sceneView.getView(), Color.TRANSPARENT));
+            // 场景创建完成回调
+            sceneView.onSceneCreated(sceneView.getScene());
             views.put(viewClass, sceneView);
         }
         // 宽高绑定
@@ -168,14 +164,4 @@ public abstract class SsaApplication extends Application {
         stage.setWidth(stage.getMinWidth());
         return sceneView;
     }
-
-    /**
-     * 获取舞台
-     *
-     * @return 舞台
-     */
-    public static Stage stage() {
-        return stage;
-    }
-
 }

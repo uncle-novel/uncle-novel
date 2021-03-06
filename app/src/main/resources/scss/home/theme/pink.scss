@@ -1,0 +1,16 @@
+@import "../../define/_global.scss";
+
+$base: #FFF;
+// 主题背景色
+$theme-bg-color: $base;
+// 相对背景的暗色（分隔符、提示文字）
+$theme-dark-color: $md_grey_700;
+// 按钮选中颜色
+$theme-selected-color: $md_pink_200;
+// 按钮hover颜色
+$theme-hover-color: rgba(43, 43, 43, 0.4);
+
+$theme-sidebar-bg-color: $md_grey_200;
+$theme-header-bg-color: $md_pink_100;
+
+@import "template";

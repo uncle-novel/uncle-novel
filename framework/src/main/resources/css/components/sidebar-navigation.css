@@ -1,7 +1,8 @@
 .sidebar-nav-pane {
   -fx-background-radius: 0 0 5 5;
   -fx-border-radius: 0 0 5 5;
-  -fx-background-color: sidebar-pane-bg-color; }
+  -fx-background-color: sidebar-pane-bg-color;
+  -fx-border-color: transparent; }
   .sidebar-nav-pane .sidebar-nav-content {
     -fx-background-radius: 0 0 5 0;
     -fx-border-radius: 0 0 5 0;
@@ -9,8 +10,12 @@
   .sidebar-nav-pane .sidebar-nav {
     -fx-vbar-policy: NEVER;
     -fx-hbar-policy: NEVER;
-    -fx-background-color: transparent;
-    -fx-border-color: transparent; }
+    -fx-background-color: sidebar-bg-color;
+    -fx-border-color: sidebar-bg-color;
+    -fx-border-width: 2; }
+    .sidebar-nav-pane .sidebar-nav .viewport {
+      -fx-background-color: transparent;
+      -fx-border-color: transparent; }
     .sidebar-nav-pane .sidebar-nav .sidebar-nav-menus {
       -fx-text-fill: ladder(sidebar-bg-color, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);
       -fx-spacing: 10;

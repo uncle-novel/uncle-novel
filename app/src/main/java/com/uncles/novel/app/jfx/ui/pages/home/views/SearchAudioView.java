@@ -12,7 +12,7 @@ import javafx.scene.text.Text;
  * @author blog.unclezs.com
  * @since 2021/02/27 17:16
  */
-@FxView(fxml = "/layout/home/sidebar/search_audio.fxml")
+@FxView(fxml = "/layout/home/views/search_audio.fxml")
 public class SearchAudioView extends SidebarNavigationView {
     public Text text;
     public Button button;
@@ -27,7 +27,7 @@ public class SearchAudioView extends SidebarNavigationView {
     @Override
     public void onCreated() {
         button.setOnMouseClicked(event -> {
-            new JFXPopup().show(App.stage());
+            new JFXPopup().show(App.app.getStage());
         });
     }
 }

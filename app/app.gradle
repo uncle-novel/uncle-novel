@@ -13,6 +13,8 @@ repositories {
 }
 
 dependencies {
+    implementation "org.freemarker:freemarker:2.3.31"
+
     def lombok = "1.18.18"
     implementation "org.projectlombok:lombok:$lombok"
     annotationProcessor "org.projectlombok:lombok:$lombok"
@@ -33,10 +35,10 @@ dependencies {
 
 javafx {
     version = "15"
-    modules = ['javafx.controls','javafx.fxml','javafx.web','javafx.media']
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.media']
 }
 
-tasks.withType(JavaCompile){
+tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 

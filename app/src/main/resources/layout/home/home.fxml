@@ -10,7 +10,7 @@
                 minWidth="${root.prefWidth}" max="true" min="true" logo="/assets/favicon.png" theme="true"
                 setting="true"
                 title="%Uncle小说" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1"
-                fx:controller="com.uncles.novel.app.jfx.ui.pages.home.HomeSceneView" stylesheets="/css/view/home.css">
+                fx:controller="com.uncles.novel.app.jfx.ui.pages.home.HomeSceneView" stylesheets="/css/home/home.css">
     <SidebarNavigationPane prefWidth="${root.width}" VBox.vgrow="ALWAYS" fx:id="container">
         <SidebarNavigation>
             <SidebarNavigationMenuGroup name="%找书">

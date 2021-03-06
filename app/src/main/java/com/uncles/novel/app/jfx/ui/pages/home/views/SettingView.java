@@ -3,8 +3,6 @@ package com.uncles.novel.app.jfx.ui.pages.home.views;
 import com.uncles.novel.app.jfx.framework.annotation.FxView;
 import com.uncles.novel.app.jfx.framework.ui.components.sidebar.NavigateBundle;
 import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationView;
-import com.uncles.novel.app.jfx.framework.util.CssUtils;
-import com.uncles.novel.app.jfx.ui.app.App;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
@@ -12,7 +10,7 @@ import javafx.scene.text.Text;
  * @author blog.unclezs.com
  * @since 2021/03/05 17:26
  */
-@FxView(fxml = "/layout/home/sidebar/setting.fxml")
+@FxView(fxml = "/layout/home/views/setting.fxml")
 public class SettingView extends SidebarNavigationView {
     public Button button;
     public Text text;
@@ -35,15 +33,12 @@ public class SettingView extends SidebarNavigationView {
         });
         blue.setOnMouseClicked(e -> {
             System.out.println("蓝色");
-            CssUtils.addStylesheet(App.getScene(), ".root{ -fx-background-color: blue;}");
         });
         green.setOnMouseClicked(e -> {
             System.out.println("绿色");
-            CssUtils.addStylesheet(App.getScene(), ".root{ -fx-background-color: green;}");
         });
         reset.setOnMouseClicked(e -> {
             System.out.println("重置");
-            CssUtils.addStylesheet(App.getScene(), "");
         });
     }
 }

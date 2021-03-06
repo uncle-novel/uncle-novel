@@ -1,0 +1,20 @@
+.root {
+  -fx-base: #FFF;
+  theme-bg-color: #FFF;
+  theme-dark-color: #757575;
+  theme-selected-color: #00897b;
+  theme-hover-color: #bdbdbd;
+  theme-sidebar-bg-color: #FFF;
+  theme-header-bg-color: #393D49; }
+
+.stage-decorator {
+  header-bg-color: #393D49;
+  stage-decorator-bg-color: #FFF; }
+  .stage-decorator .sidebar-nav-pane {
+    sidebar-pane-bg-color: #FFF;
+    sidebar-bg-color: #FFF;
+    menu-bg-color-selected: #00897b;
+    menu-bg-color-hover: #bdbdbd; }
+
+.jfx-popup-container {
+  -fx-background-color: #FFF; }

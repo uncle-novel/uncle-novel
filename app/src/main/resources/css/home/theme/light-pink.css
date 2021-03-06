@@ -1,0 +1,20 @@
+.root {
+  -fx-base: #FFF;
+  theme-bg-color: #FFF;
+  theme-dark-color: #616161;
+  theme-selected-color: #f48fb1;
+  theme-hover-color: rgba(43, 43, 43, 0.4);
+  theme-sidebar-bg-color: #eeeeee;
+  theme-header-bg-color: #fe76c8; }
+
+.stage-decorator {
+  header-bg-color: #fe76c8;
+  stage-decorator-bg-color: #FFF; }
+  .stage-decorator .sidebar-nav-pane {
+    sidebar-pane-bg-color: #FFF;
+    sidebar-bg-color: #eeeeee;
+    menu-bg-color-selected: #f48fb1;
+    menu-bg-color-hover: rgba(43, 43, 43, 0.4); }
+
+.jfx-popup-container {
+  -fx-background-color: #FFF; }

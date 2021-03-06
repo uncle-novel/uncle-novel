@@ -17,5 +17,6 @@ public class CssUtils {
         Stylesheet stylesheet = new CssParser().parse(css);
         stylesheet.setOrigin(StyleOrigin.USER);
         StyleManager.getInstance().addUserAgentStylesheet(scene, stylesheet);
+        System.out.println(StyleManager.getInstance().stylesheetContainerMap);
     }
 }

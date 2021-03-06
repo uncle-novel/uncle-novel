@@ -21,36 +21,37 @@
 }
 
 
-.root {
-  // 基础
-  -fx-base: #FFF;
-  -fx-font-family: $font-family;
-  primary-color: $md_light_blue_600;
-  secondary-color: $md_light_blue_700;
-  bg-color: -fx-base;
-  border-color: ladder(bg-color, rgba(255, 255, 255, 0.3) 49%, rgba(0, 0, 0, 0.3) 50%);
-  selected-bg-color: linear-gradient(to left, rgb(31, 212, 174), rgb(30, 205, 148));
-  // 默认样式
-}
-
-// 字体图标
-.icon {
-  -fx-font-family: "FontAwesome" !important;
-}
-
-// 侧边栏
-.sidebar-nav-pane {
-  // 整个view颜色
-  sidebar-pane-bg-color: $md_grey_100;
-  // 侧边栏颜色
-  sidebar-bg-color: $md_grey_100;
-  // 菜单按钮选中时颜色
-  menu-bg-color-selected: primary-color;
-  // 菜单按钮hover时颜色
-  menu-bg-color-hover: $md_grey_400;
-}
-
-.stage-decorator {
-  //header-bg-color: #393D49;
-  header-bg-color: #393D49;
-}
+//.root {
+//  // 基础
+//  -fx-base: #FFF;
+//  -fx-font-family: $font-family;
+//  primary-color: $md_light_blue_600;
+//  secondary-color: $md_light_blue_700;
+//  primary-dark-color: $md_grey_400;
+//  bg-color: -fx-base;
+//  border-color: ladder(bg-color, rgba(255, 255, 255, 0.3) 49%, rgba(0, 0, 0, 0.3) 50%);
+//  selected-bg-color: linear-gradient(to left, rgb(31, 212, 174), rgb(30, 205, 148));
+//  // 默认样式
+//}
+//
+//// 字体图标
+//.icon {
+//  -fx-font-family: "FontAwesome" !important;
+//}
+//
+//// 侧边栏
+//.sidebar-nav-pane {
+//  // 整个view颜色
+//  sidebar-pane-bg-color: $md_grey_100;
+//  // 侧边栏颜色
+//  sidebar-bg-color: $md_grey_100;
+//  // 菜单按钮选中时颜色
+//  menu-bg-color-selected: theme-selected-color;
+//  // 菜单按钮hover时颜色
+//  menu-bg-color-hover: primary-dark-color;
+//}
+//
+//.stage-decorator {
+//  //header-bg-color: #393D49;
+//  header-bg-color: #393D49;
+//}

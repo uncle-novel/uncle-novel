@@ -9,6 +9,7 @@ import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
 import com.uncles.novel.app.jfx.framework.util.ViewUtils;
 import javafx.beans.DefaultProperty;
 import javafx.geometry.BoundingBox;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -22,6 +23,7 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -39,11 +41,12 @@ import lombok.Setter;
  * @date 2021/02/28 15:12
  */
 @DefaultProperty("content")
-public class StageDecorator extends VBox implements I18nSupport {
+public class StageDecorator extends StackPane implements I18nSupport {
     /**
      * css类名
      */
     public static final String STAGE_DECORATOR = "stage-decorator";
+    public static final String STAGE_DECORATOR_CONTAINER = "stage-decorator-container";
     public static final String STAGE_DECORATOR_HEADER = "stage-decorator-header";
     public static final String STAGE_DECORATOR_LOGO = "stage-decorator-logo";
     public static final String STAGE_DECORATOR_ACTIONS = "stage-decorator-actions";
@@ -56,6 +59,10 @@ public class StageDecorator extends VBox implements I18nSupport {
      * 被装饰的舞台
      */
     private Stage stage;
+    /**
+     * 容器
+     */
+    private VBox container;
     /**
      * 顶部logo HBox
      */
@@ -89,7 +96,8 @@ public class StageDecorator extends VBox implements I18nSupport {
     /**
      * 窗口 最大化 还原 全屏相关
      */
-    private static final Border DEFAULT_BORDER = new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(10)));
+    private static final Border DEFAULT_BORDER = new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(4)));
+    private static final Insets DEFAULT_PADDING = new Insets(10);
     private Rectangle originalBox;
     private IconButton btnMax;
     private boolean maximized = false;
@@ -125,7 +133,7 @@ public class StageDecorator extends VBox implements I18nSupport {
      * 创建之后要手动调用setStage方法进行初始化
      */
     public StageDecorator() {
-        createHeader();
+        createContainer();
         initStageBehavior();
     }
 
@@ -159,17 +167,21 @@ public class StageDecorator extends VBox implements I18nSupport {
     }
 
     /**
-     * 创建头部容器，不需要装配属性就可以调用
+     * 创建容器，不需要装配属性就可以调用
      */
-    private void createHeader() {
+    private void createContainer() {
         ViewUtils.addStyleSheetAndClass(this, USER_AGENT_STYLESHEET, STAGE_DECORATOR);
+        ViewUtils.addClass(this.container = new VBox(), STAGE_DECORATOR_CONTAINER);
         this.headerContainer = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_HEADER);
         this.logoBox = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_LOGO);
         this.actions = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_ACTIONS);
         HBox.setHgrow(this.actions, Priority.ALWAYS);
         this.headerContainer.getChildren().addAll(logoBox, actions);
         // 头部组件添加到容器
-        this.getChildren().add(this.headerContainer);
+        this.container.getChildren().add(this.headerContainer);
+        this.getChildren().setAll(container);
+//        container.prefHeightProperty().bind(this.heightProperty());
+//        container.prefWidthProperty().bind(this.widthProperty());
     }
 
     /**
@@ -181,13 +193,18 @@ public class StageDecorator extends VBox implements I18nSupport {
      */
     private void initStageBehavior() {
         // 点击窗口和点击header时 更新鼠标位值
-        this.addEventFilter(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
+        this.container.addEventFilter(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
         headerContainer.addEventFilter(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
         // 在边框上显示拖动光标
-        this.addEventFilter(MouseEvent.MOUSE_MOVED, this::showDragCursorOnTheBorder);
+        this.container.addEventFilter(MouseEvent.MOUSE_MOVED, this::showDragCursorOnTheBorder);
         // 处理舞台拖动事件
-        this.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> isDragging = false);
-        this.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::onStageDragged);
+        this.container.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> isDragging = false);
+        this.container.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::onStageDragged);
+        this.setOnMouseClicked(e -> {
+            if (e.getTarget().equals(container) && getCursor().equals(Cursor.DEFAULT)) {
+                stage.toBack();
+            }
+        });
         // 点击header拖动监听
         headerContainer.addEventFilter(MouseEvent.MOUSE_ENTERED, e -> allowMove = true);
         headerContainer.addEventFilter(MouseEvent.MOUSE_EXITED, e -> allowMove = isDragging);
@@ -300,9 +317,9 @@ public class StageDecorator extends VBox implements I18nSupport {
      */
     public void setContent(Node content) {
         if (this.content != null) {
-            getChildren().remove(content);
+            this.container.getChildren().remove(content);
         }
-        getChildren().add(content);
+        this.container.getChildren().add(content);
         this.content = content;
     }
 
@@ -339,8 +356,8 @@ public class StageDecorator extends VBox implements I18nSupport {
         }
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
-        if (getBorder() != null && !getBorder().getStrokes().isEmpty()) {
-            double borderWidth = snappedLeftInset();
+        if (this.container.getBorder() != null && !this.container.getBorder().getStrokes().isEmpty()) {
+            double borderWidth = this.container.snappedLeftInset();
             if (isRightEdge(x)) {
                 if (y < borderWidth) {
                     this.setCursor(Cursor.NE_RESIZE);
@@ -441,8 +458,8 @@ public class StageDecorator extends VBox implements I18nSupport {
      * @return true 是
      */
     private boolean isRightEdge(double x) {
-        final double width = this.getWidth();
-        return x < width && x > width - snappedLeftInset();
+        final double width = this.container.getWidth();
+        return x < width && x > width - this.container.snappedLeftInset();
     }
 
     /**
@@ -452,7 +469,7 @@ public class StageDecorator extends VBox implements I18nSupport {
      * @return true 是
      */
     private boolean isTopEdge(double y) {
-        return y >= 0 && y < snappedLeftInset();
+        return y >= 0 && y < this.container.snappedLeftInset();
     }
 
     /**
@@ -462,8 +479,8 @@ public class StageDecorator extends VBox implements I18nSupport {
      * @return true 是
      */
     private boolean isBottomEdge(double y) {
-        final double height = this.getHeight();
-        return y < height && y > height - snappedLeftInset();
+        final double height = this.container.getHeight();
+        return y < height && y > height - this.container.snappedLeftInset();
     }
 
     /**
@@ -473,7 +490,7 @@ public class StageDecorator extends VBox implements I18nSupport {
      * @return true 是
      */
     private boolean isLeftEdge(double x) {
-        return x >= 0 && x < snappedLeftInset();
+        return x >= 0 && x < this.container.snappedLeftInset();
     }
 
     /**
@@ -483,7 +500,7 @@ public class StageDecorator extends VBox implements I18nSupport {
      * @return 舞台宽度
      */
     private boolean setStageWidth(double width) {
-        if (width >= stage.getMinWidth() + this.snappedRightInset() + this.snappedLeftInset() && width >= headerContainer.getMinWidth()) {
+        if (width >= stage.getMinWidth() + this.container.snappedRightInset() + this.container.snappedLeftInset() && width >= headerContainer.getMinWidth()) {
             stage.setWidth(width);
             return true;
         } else if (width >= stage.getMinWidth() && width <= headerContainer.getMinWidth()) {
@@ -500,7 +517,7 @@ public class StageDecorator extends VBox implements I18nSupport {
      * @return 舞台高度
      */
     private boolean setStageHeight(double height) {
-        if (height >= (stage.getMinHeight() + this.snappedRightInset() + this.snappedLeftInset()) && height >= headerContainer.getHeight()) {
+        if (height >= (stage.getMinHeight() + this.container.snappedRightInset() + this.container.snappedLeftInset()) && height >= headerContainer.getHeight()) {
             stage.setHeight(height);
             return true;
         } else if (height >= stage.getMinHeight() && height <= headerContainer.getHeight()) {
@@ -518,6 +535,18 @@ public class StageDecorator extends VBox implements I18nSupport {
      */
     private void maximize(Icon restoreIcon, Icon maxIcon) {
         maximized = !maximized;
+        // 切换按钮图标及提示
+        if (maximized) {
+            this.setPadding(Insets.EMPTY);
+            this.container.setBorder(Border.EMPTY);
+            btnMax.setGraphic(restoreIcon);
+            btnMax.setTip(localized("还原"));
+        } else {
+            this.setPadding(DEFAULT_PADDING);
+            this.container.setBorder(DEFAULT_BORDER);
+            btnMax.setGraphic(maxIcon);
+            btnMax.setTip(localized("最大化"));
+        }
         // 自定义创建最大化
         if (PlatformUtil.isMac()) {
             if (maximized) {
@@ -538,16 +567,6 @@ public class StageDecorator extends VBox implements I18nSupport {
             }
         } else {
             stage.setMaximized(maximized);
-        }
-        // 切换按钮图标及提示
-        if (maximized) {
-            setBorder(Border.EMPTY);
-            btnMax.setGraphic(restoreIcon);
-            btnMax.setTip(localized("还原"));
-        } else {
-            setBorder(DEFAULT_BORDER);
-            btnMax.setGraphic(maxIcon);
-            btnMax.setTip(localized("最大化"));
         }
     }
 
