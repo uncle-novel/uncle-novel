@@ -5,6 +5,7 @@ import com.uncles.novel.app.jfx.framework.ui.appication.SceneViewNavigateBundle;
 import com.uncles.novel.app.jfx.framework.ui.appication.SsaApplication;
 import com.uncles.novel.app.jfx.framework.util.ResourceUtils;
 import com.uncles.novel.app.jfx.ui.pages.home.HomeSceneView;
+import javafx.scene.image.Image;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -41,6 +42,8 @@ public class App extends SsaApplication {
 
     @Override
     public Class<? extends SceneView> getIndexView() throws Exception {
+        getStage().getIcons().clear();
+        getStage().getIcons().add(new Image("/assets/images/favicon.png"));
         return HomeSceneView.class;
     }
 

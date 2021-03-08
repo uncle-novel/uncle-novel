@@ -7,7 +7,7 @@
 <?import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationPane?>
 <?import javafx.scene.layout.VBox?>
 <StageDecorator fx:id="root" prefHeight="660.0" prefWidth="940.0" minHeight="${root.prefHeight}"
-                minWidth="${root.prefWidth}" max="true" min="true" logo="/assets/favicon.png" theme="true"
+                minWidth="${root.prefWidth}" max="true" min="true" logo="/assets/images/favicon.png" theme="true"
                 setting="true"
                 title="%Uncle小说" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1"
                 fx:controller="com.uncles.novel.app.jfx.ui.pages.home.HomeSceneView" stylesheets="/css/home/home.css">
