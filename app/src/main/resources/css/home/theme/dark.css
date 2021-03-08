@@ -2,9 +2,9 @@
   -fx-base: #171718;
   theme-bg-color: #171718;
   theme-dark-color: #757575;
-  theme-selected-color: #00897b;
-  theme-hover-color: rgba(51, 51, 51, 0.9);
-  theme-sidebar-bg-color: #171718;
+  theme-selected-color: rgba(51, 51, 51, 0.9);
+  theme-hover-color: rgba(51, 51, 51, 0.8);
+  theme-sidebar-bg-color: derive(#171718, 4%);
   theme-header-bg-color: #1e1e20; }
 
 .stage-decorator {
@@ -12,9 +12,9 @@
   stage-decorator-bg-color: #171718; }
   .stage-decorator .sidebar-nav-pane {
     sidebar-pane-bg-color: #171718;
-    sidebar-bg-color: #171718;
-    menu-bg-color-selected: #00897b;
-    menu-bg-color-hover: rgba(51, 51, 51, 0.9); }
+    sidebar-bg-color: derive(#171718, 4%);
+    menu-bg-color-selected: rgba(51, 51, 51, 0.9);
+    menu-bg-color-hover: rgba(51, 51, 51, 0.8); }
 
 .jfx-popup-container {
   -fx-background-color: #171718; }

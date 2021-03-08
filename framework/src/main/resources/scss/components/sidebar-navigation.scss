@@ -23,6 +23,8 @@ $border-radius: 10;
     -fx-background-color: sidebar-bg-color;
     -fx-border-color: sidebar-bg-color;
     -fx-border-width: 2;
+    -fx-fit-to-height: true;
+    -fx-fit-to-width: true;
 
     .viewport {
       -fx-background-color: transparent;
@@ -30,16 +32,16 @@ $border-radius: 10;
     }
 
     .sidebar-nav-menus {
+      -fx-alignment: top-center;
       @include ladderTextFill(sidebar-bg-color);
       -fx-spacing: 10;
-      -fx-pref-width: 220;
+      -fx-pref-width: 210;
       -fx-background-radius: 0 0 0 $stage-border-radius;
       -fx-border-radius: 0 0 0 $stage-border-radius;
-      -fx-padding: 0 20 20 20;
 
       // 菜单分组
       .sidebar-nav-menu-group-label {
-        -fx-alignment: center-left;
+        -fx-pref-width: 166;
         -fx-padding: 20 0 0 10;
         -fx-text-fill: ladder(sidebar-bg-color, $md_grey_200 45%, $md_grey_300 46%, $md_grey_400 59%, $md_grey_500 60%);
       }
@@ -49,7 +51,7 @@ $border-radius: 10;
         -fx-background-color: transparent;
         -fx-border-color: transparent;
         -fx-font-size: 13px;
-        -fx-pref-width: 180;
+        -fx-pref-width: 166;
         -fx-text-fill: inherit;
         -fx-min-height: 30;
         -fx-border-radius: 3px;

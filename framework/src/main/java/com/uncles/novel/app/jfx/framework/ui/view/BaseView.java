@@ -1,5 +1,6 @@
 package com.uncles.novel.app.jfx.framework.ui.view;
 
+import javafx.fxml.FXML;
 import lombok.Setter;
 
 import java.net.URL;
@@ -12,6 +13,7 @@ import java.util.ResourceBundle;
  * @since 2021/02/26 12:07
  */
 public class BaseView {
+    @FXML
     @Setter
     private Object root;
     /**

@@ -6,10 +6,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <StackPane
-           xmlns="http://javafx.com/javafx/15" prefHeight="400.0" minHeight="400.0" prefWidth="400.0" minWidth="400"
-           xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uncles.novel.app.jfx.ui.pages.home.views.SearchNovelView">
+        fx:id="root"
+        xmlns="http://javafx.com/javafx/15" prefHeight="400.0" minHeight="400.0" prefWidth="400.0" minWidth="400"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.uncles.novel.app.jfx.ui.pages.home.views.SearchNovelView">
     <VBox>
-        <Button text="novel" fx:id="button"/>
-        <Text text="novel" fx:id="text"/>
+        <Button text="录入" fx:id="button"/>
+        <Button text="show=false" fx:id="showFalse"/>
+        <Button text="清空" fx:id="clear"/>
+        <Text fx:id="text"/>
     </VBox>
 </StackPane>

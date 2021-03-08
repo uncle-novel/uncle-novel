@@ -20,10 +20,10 @@
       -fx-text-fill: white;
       -fx-font-size: 11px;
       -fx-content-display: GRAPHIC_ONLY;
-      @include shadow-br-1(theme-dark-color);
+      @include shadow-br-3(theme-dark-color);
 
       &:hover {
-        @include shadow-br-3(theme-dark-color);
+        @include shadow-br-1(theme-dark-color);
       }
     }
 
