@@ -1,5 +1,6 @@
 package com.uncles.novel.app.jfx.framework.hotkey;
 
+import com.uncles.novel.app.jfx.framework.hotkey.listener.HotKeyListener;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -27,13 +28,9 @@ public class HotKeyCombination {
      */
     private KeyCodeCombination combination;
     /**
-     * 是否为全局热键
-     */
-    private boolean isGlobal;
-    /**
      * 触发后的动作
      */
-    private Runnable onAction;
+    private HotKeyListener listener;
 
     public HotKeyCombination(KeyCode keyCode, KeyCombination.Modifier... modifiers) {
         this.combination = new KeyCodeCombination(keyCode, modifiers);
@@ -52,22 +49,23 @@ public class HotKeyCombination {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         HotKeyCombination that = (HotKeyCombination) o;
-        return isGlobal == that.isGlobal && Objects.equals(text, that.text);
+        return Objects.equals(text, that.text);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(text, isGlobal);
+        return Objects.hash(text);
     }
 
     @Override
     public String toString() {
-        return "HotKeyCombination{" +
-            "text='" + text + '\'' +
-            ", isGlobal=" + isGlobal +
-            '}';
+        return text;
     }
 }

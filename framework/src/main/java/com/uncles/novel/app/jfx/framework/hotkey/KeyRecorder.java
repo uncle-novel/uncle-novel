@@ -81,27 +81,22 @@ public class KeyRecorder {
      */
     public boolean record(KeyEvent event) {
         this.combination = null;
-        ctrl = event.isControlDown();
-        alt = event.isAltDown();
-        meta = event.isMetaDown();
-        shift = event.isShiftDown();
         StringBuilder text = new StringBuilder();
-        if (ctrl) {
+        if (ctrl = event.isControlDown()) {
             text.append(KeyCode.CONTROL.getName().toLowerCase()).append(" ");
         }
-        if (shift) {
+        if (shift = event.isShiftDown()) {
             text.append(KeyCode.SHIFT.getName().toLowerCase()).append(" ");
         }
-        if (meta) {
+        if (meta = event.isMetaDown()) {
             text.append(KeyCode.META.getName().toLowerCase()).append(" ");
         }
-        if (alt) {
+        if (alt = event.isAltDown()) {
             text.append(KeyCode.ALT.getName().toLowerCase()).append(" ");
         }
-        if (!MODIFIERS.contains(event.getCode())) {
+        if (effective = !MODIFIERS.contains(event.getCode())) {
             keyCode = event.getCode();
-            effective = true;
-            text.append(keyCode.getName().toUpperCase()).append(" ");
+            text.append(keyCode.getName().toUpperCase());
         }
         this.keyText = text.toString();
         return effective;
@@ -121,6 +116,4 @@ public class KeyRecorder {
         }
         return combination;
     }
-
-
 }

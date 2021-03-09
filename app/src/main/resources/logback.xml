@@ -1,0 +1,38 @@
+<!--
+    @author blog.unclezs.com
+    @date   2020/12/05 10:56
+
+    debug 开启配置加载状态信息打印
+    scan：检测日志被修改后重新加载
+    scanPeriod：配置修改重新加载扫描周期，取值可以看ch.qos.logback.core.util.Duration.valueOf()
+    packagingData：是否开启对于异常日志显示每个栈信息是在哪个jar包和版本
+
+    技巧：
+    1. 如果不知道标签属性怎么写有哪些，可以查看 标签名字Action这个类  ，比如configuration： ConfigurationAction
+    2. 如果不知道标签内可以嵌套哪些标签，可以查询他的Class字段对应的类，看有哪些成员变量有set方法
+    3. 如果不知道class该写哪个，可以直接通过查询标签名字的那个类，比如Appender，Encoder，看看有哪些实现类即可
+    4. 配置写的时候最好开启debug=true，或者加个StatusListener,或者手动打印StatusPrinter.print(context) 知道哪些配置写错了或者警告及时修改
+-->
+<configuration debug="false" scan="false" scanPeriod="1 second" packagingData="false">
+
+    <!--属性部分-->
+    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度,%msg：日志消息，%n是换行符-->
+    <property name="highlight_pattern"
+              value="%red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger) %green(#%method:%line) - %cyan(%msg%n)"/>
+
+    <!--Appender部分-->
+    <!--控制台彩色日志-->
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${highlight_pattern}</pattern>
+            <!--在头部打印出pattern-->
+            <outputPatternAsHeader>false</outputPatternAsHeader>
+        </encoder>
+        <!--立即刷新到流-->
+        <immediateFlush>true</immediateFlush>
+    </appender>
+
+    <root level="trace">
+        <appender-ref ref="console"/>
+    </root>
+</configuration>

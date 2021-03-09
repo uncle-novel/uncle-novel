@@ -11,7 +11,7 @@ import javafx.util.Duration;
 /**
  * 中心变大
  *
- * @author unclezs.com
+ * @author blog.unclezs.com
  * @date 2020.04.25 11:29
  */
 public class ScaleLargeTransition extends CachedTransition {
