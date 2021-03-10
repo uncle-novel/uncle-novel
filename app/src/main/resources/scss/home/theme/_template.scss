@@ -2,6 +2,9 @@
   -fx-base: $theme-bg-color;
   // 主题背景色
   theme-bg-color: $theme-bg-color;
+  // 用于边框
+  theme-border-color: $theme-border-color;
+  theme-border-hover: $theme-border-hover;
   // 相对背景的暗色（分隔符、提示文字）
   theme-dark-color: $theme-dark-color;
   // 按钮选中颜色
@@ -32,4 +35,45 @@
 // popup背景色
 .jfx-popup-container {
   -fx-background-color: $theme-bg-color;
+}
+
+.scroll-bar {
+  -fx-pref-width: 10;
+  -fx-background-color: transparent;
+
+  .track {
+    -fx-background-color: transparent;
+  }
+
+  .track-background {
+    -fx-background-color: transparent;
+  }
+
+  .thumb {
+    -fx-background-color: theme-border-color;
+
+    &:hover {
+      -fx-background-color: theme-border-hover;
+    }
+  }
+
+  .increment-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0;
+  }
+
+  .increment-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0;
+  }
+
+  .decrement-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0;
+  }
+
+  .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0;
+  }
 }

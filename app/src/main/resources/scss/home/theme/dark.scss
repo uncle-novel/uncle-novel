@@ -1,16 +1,20 @@
 @import "../../define/_global.scss";
+@import "default";
 
-$base: rgb(23, 23, 24);
+$base: rgb(43, 43, 43);
 // 主题背景色
 $theme-bg-color: $base;
+// 用于边框
+$theme-border-color: rgb(67, 67, 67);
+$theme-border-hover: rgb(74, 74, 74);
 // 相对背景的暗色（分隔符、提示文字）
 $theme-dark-color: $md_grey-600;
 // 按钮选中颜色
-$theme-selected-color: rgba(51, 51, 51,0.9);
+$theme-selected-color: rgb(51, 51, 51);
 // 按钮hover颜色
-$theme-hover-color: rgba(51, 51, 51,0.8);
+$theme-hover-color: rgb(51, 51, 51);
 
-$theme-sidebar-bg-color: derive($theme-bg-color, 4%);
-$theme-header-bg-color: rgb(30, 30, 32);
+$theme-sidebar-bg-color: $theme-bg-color;
+$theme-header-bg-color: rgb(35, 35, 38);
 
 @import "template";

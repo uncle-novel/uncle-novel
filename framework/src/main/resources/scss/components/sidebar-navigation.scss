@@ -21,8 +21,8 @@ $border-radius: 10;
     -fx-vbar-policy: NEVER;
     -fx-hbar-policy: NEVER;
     -fx-background-color: sidebar-bg-color;
-    -fx-border-color: sidebar-bg-color;
-    -fx-border-width: 2;
+    -fx-border-color: theme-border-color;
+    -fx-border-width: 0 1 0 0;
     -fx-fit-to-height: true;
     -fx-fit-to-width: true;
 
@@ -60,7 +60,7 @@ $border-radius: 10;
 
         &:selected {
           @include ladderTextFillForce(menu-bg-color-selected);
-          @include shadow-br-3(derive(-fx-text-fill, -100%));
+          //@include shadow-br-3(derive(-fx-text-fill, -100%));
           -fx-background-color: menu-bg-color-selected !important;
         }
 

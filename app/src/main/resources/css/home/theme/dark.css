@@ -1,20 +1,93 @@
 .root {
-  -fx-base: #171718;
-  theme-bg-color: #171718;
+  -fx-base: #FFF;
+  theme-bg-color: #FFF;
+  theme-border-color: #e0e0e0;
+  theme-border-hover: #cfcfd1;
   theme-dark-color: #757575;
-  theme-selected-color: rgba(51, 51, 51, 0.9);
-  theme-hover-color: rgba(51, 51, 51, 0.8);
-  theme-sidebar-bg-color: derive(#171718, 4%);
-  theme-header-bg-color: #1e1e20; }
+  theme-selected-color: #393D49;
+  theme-hover-color: #bdbdbd;
+  theme-sidebar-bg-color: #FFF;
+  theme-header-bg-color: #393D49; }
 
 .stage-decorator {
-  header-bg-color: #1e1e20;
-  stage-decorator-bg-color: #171718; }
+  header-bg-color: #393D49;
+  stage-decorator-bg-color: #FFF; }
   .stage-decorator .sidebar-nav-pane {
-    sidebar-pane-bg-color: #171718;
-    sidebar-bg-color: derive(#171718, 4%);
-    menu-bg-color-selected: rgba(51, 51, 51, 0.9);
-    menu-bg-color-hover: rgba(51, 51, 51, 0.8); }
+    sidebar-pane-bg-color: #FFF;
+    sidebar-bg-color: #FFF;
+    menu-bg-color-selected: #393D49;
+    menu-bg-color-hover: #bdbdbd; }
 
 .jfx-popup-container {
-  -fx-background-color: #171718; }
+  -fx-background-color: #FFF; }
+
+.scroll-bar {
+  -fx-pref-width: 10;
+  -fx-background-color: transparent; }
+  .scroll-bar .track {
+    -fx-background-color: transparent; }
+  .scroll-bar .track-background {
+    -fx-background-color: transparent; }
+  .scroll-bar .thumb {
+    -fx-background-color: theme-border-color; }
+    .scroll-bar .thumb:hover {
+      -fx-background-color: theme-border-hover; }
+  .scroll-bar .increment-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .increment-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+
+.root {
+  -fx-base: #2b2b2b;
+  theme-bg-color: #2b2b2b;
+  theme-border-color: #434343;
+  theme-border-hover: #4a4a4a;
+  theme-dark-color: #757575;
+  theme-selected-color: #333333;
+  theme-hover-color: #333333;
+  theme-sidebar-bg-color: #2b2b2b;
+  theme-header-bg-color: #232326; }
+
+.stage-decorator {
+  header-bg-color: #232326;
+  stage-decorator-bg-color: #2b2b2b; }
+  .stage-decorator .sidebar-nav-pane {
+    sidebar-pane-bg-color: #2b2b2b;
+    sidebar-bg-color: #2b2b2b;
+    menu-bg-color-selected: #333333;
+    menu-bg-color-hover: #333333; }
+
+.jfx-popup-container {
+  -fx-background-color: #2b2b2b; }
+
+.scroll-bar {
+  -fx-pref-width: 10;
+  -fx-background-color: transparent; }
+  .scroll-bar .track {
+    -fx-background-color: transparent; }
+  .scroll-bar .track-background {
+    -fx-background-color: transparent; }
+  .scroll-bar .thumb {
+    -fx-background-color: theme-border-color; }
+    .scroll-bar .thumb:hover {
+      -fx-background-color: theme-border-hover; }
+  .scroll-bar .increment-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .increment-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }

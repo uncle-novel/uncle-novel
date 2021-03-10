@@ -1,8 +1,57 @@
 .root {
   -fx-base: #FFF;
   theme-bg-color: #FFF;
+  theme-border-color: #e0e0e0;
+  theme-border-hover: #cfcfd1;
   theme-dark-color: #757575;
-  theme-selected-color: #00897b;
+  theme-selected-color: #393D49;
+  theme-hover-color: #bdbdbd;
+  theme-sidebar-bg-color: #FFF;
+  theme-header-bg-color: #393D49; }
+
+.stage-decorator {
+  header-bg-color: #393D49;
+  stage-decorator-bg-color: #FFF; }
+  .stage-decorator .sidebar-nav-pane {
+    sidebar-pane-bg-color: #FFF;
+    sidebar-bg-color: #FFF;
+    menu-bg-color-selected: #393D49;
+    menu-bg-color-hover: #bdbdbd; }
+
+.jfx-popup-container {
+  -fx-background-color: #FFF; }
+
+.scroll-bar {
+  -fx-pref-width: 10;
+  -fx-background-color: transparent; }
+  .scroll-bar .track {
+    -fx-background-color: transparent; }
+  .scroll-bar .track-background {
+    -fx-background-color: transparent; }
+  .scroll-bar .thumb {
+    -fx-background-color: theme-border-color; }
+    .scroll-bar .thumb:hover {
+      -fx-background-color: theme-border-hover; }
+  .scroll-bar .increment-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .increment-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+
+.root {
+  -fx-base: #FFF;
+  theme-bg-color: #FFF;
+  theme-border-color: #e0e0e0;
+  theme-border-hover: #cfcfd1;
+  theme-dark-color: #757575;
+  theme-selected-color: #ff8f57;
   theme-hover-color: #bdbdbd;
   theme-sidebar-bg-color: #FFF;
   theme-header-bg-color: #ff8f57; }
@@ -13,8 +62,32 @@
   .stage-decorator .sidebar-nav-pane {
     sidebar-pane-bg-color: #FFF;
     sidebar-bg-color: #FFF;
-    menu-bg-color-selected: #00897b;
+    menu-bg-color-selected: #ff8f57;
     menu-bg-color-hover: #bdbdbd; }
 
 .jfx-popup-container {
   -fx-background-color: #FFF; }
+
+.scroll-bar {
+  -fx-pref-width: 10;
+  -fx-background-color: transparent; }
+  .scroll-bar .track {
+    -fx-background-color: transparent; }
+  .scroll-bar .track-background {
+    -fx-background-color: transparent; }
+  .scroll-bar .thumb {
+    -fx-background-color: theme-border-color; }
+    .scroll-bar .thumb:hover {
+      -fx-background-color: theme-border-hover; }
+  .scroll-bar .increment-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .increment-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .decrement-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
+  .scroll-bar .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0; }
