@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox styleClass="setting-box">
+    <Label text="基本设置" styleClass="setting-name"/>
+    <VBox styleClass="setting-items">
+        <VBox styleClass="setting-item">
+            <Label text="主题颜色" styleClass="setting-item-name"/>
+            <VBox styleClass="setting-item-content">
+                <JFXCheckBox text="自动合并文件"/>
+                <JFXCheckBox text="自动合并文件"/>
+                <JFXCheckBox text="自动合并文件"/>
+                <JFXCheckBox text="自动合并文件"/>
+            </VBox>
+        </VBox>
+        <VBox styleClass="setting-item">
+            <Label text="语言设定" styleClass="setting-item-name"/>
+            <VBox styleClass="setting-item-content">
+                <HBox spacing="15">
+                    <JFXCheckBox text="简体中文"/>
+                    <JFXCheckBox text="繁体中文"/>
+                    <JFXCheckBox text="English"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </VBox>
+</VBox>

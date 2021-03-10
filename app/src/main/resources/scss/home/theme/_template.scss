@@ -9,6 +9,7 @@
   theme-dark-color: $theme-dark-color;
   // 按钮选中颜色
   theme-selected-color: $theme-selected-color;
+  theme-selected-color-light: $theme-selected-color-light;
   // 按钮hover颜色
   theme-hover-color: $theme-hover-color;
 
@@ -77,3 +78,29 @@
     -fx-max-height: 0;
   }
 }
+
+
+.jfx-check-box {
+  -jfx-checked-color: theme-selected-color;
+  -jfx-unchecked-color: theme-dark-color;
+
+  .box {
+    -fx-pref-width: 14px;
+    -fx-pref-height: 14px;
+    -fx-border-width: 1;
+  }
+
+  .mark {
+    -fx-shape: "M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z";
+    -fx-max-width: 10;
+    -fx-max-height: 8;
+  }
+}
+
+
+.text-field {
+  -fx-text-fill: theme-selected-color;
+  -fx-background-color: theme-selected-color-light;
+  -fx-border-color: transparent;
+}
+

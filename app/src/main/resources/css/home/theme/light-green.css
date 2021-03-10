@@ -4,18 +4,19 @@
   theme-border-color: #e0e0e0;
   theme-border-hover: #cfcfd1;
   theme-dark-color: #757575;
-  theme-selected-color: #393D49;
+  theme-selected-color: #3b4252;
+  theme-selected-color-light: rgba(59, 66, 82, 0.2);
   theme-hover-color: #bdbdbd;
   theme-sidebar-bg-color: #FFF;
-  theme-header-bg-color: #393D49; }
+  theme-header-bg-color: #3b4252; }
 
 .stage-decorator {
-  header-bg-color: #393D49;
+  header-bg-color: #3b4252;
   stage-decorator-bg-color: #FFF; }
   .stage-decorator .sidebar-nav-pane {
     sidebar-pane-bg-color: #FFF;
     sidebar-bg-color: #FFF;
-    menu-bg-color-selected: #393D49;
+    menu-bg-color-selected: #3b4252;
     menu-bg-color-hover: #bdbdbd; }
 
 .jfx-popup-container {
@@ -45,6 +46,18 @@
     -fx-background-color: transparent;
     -fx-max-height: 0; }
 
+.jfx-check-box {
+  -jfx-checked-color: theme-selected-color;
+  -jfx-unchecked-color: theme-dark-color; }
+  .jfx-check-box .box {
+    -fx-pref-width: 14px;
+    -fx-pref-height: 14px; }
+
+.text-field {
+  -fx-text-fill: theme-selected-color;
+  -fx-background-color: theme-selected-color-light;
+  -fx-border-color: transparent; }
+
 .root {
   -fx-base: #FFF;
   theme-bg-color: #FFF;
@@ -52,6 +65,7 @@
   theme-border-hover: #cfcfd1;
   theme-dark-color: #757575;
   theme-selected-color: #2bb669;
+  theme-selected-color-light: rgba(43, 182, 105, 0.2);
   theme-hover-color: #bdbdbd;
   theme-sidebar-bg-color: #FFF;
   theme-header-bg-color: #2bb669; }
@@ -91,3 +105,15 @@
   .scroll-bar .decrement-arrow {
     -fx-background-color: transparent;
     -fx-max-height: 0; }
+
+.jfx-check-box {
+  -jfx-checked-color: theme-selected-color;
+  -jfx-unchecked-color: theme-dark-color; }
+  .jfx-check-box .box {
+    -fx-pref-width: 14px;
+    -fx-pref-height: 14px; }
+
+.text-field {
+  -fx-text-fill: theme-selected-color;
+  -fx-background-color: theme-selected-color-light;
+  -fx-border-color: transparent; }

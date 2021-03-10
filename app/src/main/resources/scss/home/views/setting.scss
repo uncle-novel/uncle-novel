@@ -1,0 +1,40 @@
+@import "../../define/global";
+
+.setting-view {
+  -fx-padding: 10;
+  -fx-border-color: transparent;
+  -fx-background-color: transparent;
+
+  .setting-box {
+    -fx-spacing: 10;
+
+    .setting-name {
+      -fx-border-color: theme-selected-color;
+      -fx-border-width: 0 0 0 5;
+      -fx-padding: 0 0 0 5;
+      -fx-font-size: 14px;
+    }
+
+    .setting-items {
+      -fx-padding: 0 0 0 15;
+      -fx-spacing: 20;
+
+      .setting-item {
+        -fx-spacing: 10;
+
+        .setting-item-name {
+          -fx-text-fill: theme-dark-color;
+        }
+
+        .setting-item-content {
+          -fx-spacing: 10;
+          -fx-padding: 0 0 0 20;
+        }
+      }
+    }
+  }
+
+
+}
+
+

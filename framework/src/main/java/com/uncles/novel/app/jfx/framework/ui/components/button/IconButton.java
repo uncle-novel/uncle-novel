@@ -114,6 +114,15 @@ public class IconButton extends JFXButton {
     }
 
     /**
+     * 设置svg图标
+     *
+     * @param svg svg图标
+     */
+    public void setSvg(SvgIcon svg) {
+        this.setGraphic(svg);
+    }
+
+    /**
      * 获取字体图标
      *
      * @return 字体图标

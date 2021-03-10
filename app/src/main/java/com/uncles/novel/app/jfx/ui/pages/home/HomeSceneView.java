@@ -2,6 +2,7 @@ package com.uncles.novel.app.jfx.ui.pages.home;
 
 import com.jfoenix.controls.JFXPopup;
 import com.uncles.novel.app.jfx.framework.annotation.FxView;
+import com.uncles.novel.app.jfx.framework.hotkey.HotKeyManager;
 import com.uncles.novel.app.jfx.framework.ui.appication.SceneView;
 import com.uncles.novel.app.jfx.framework.ui.appication.SceneViewNavigateBundle;
 import com.uncles.novel.app.jfx.framework.ui.components.button.IconButton;
@@ -67,6 +68,7 @@ public class HomeSceneView extends SceneView {
 
     @Override
     public void onDestroy() {
+        new Thread(HotKeyManager::unbind).start();
         System.out.println("MainView destroy");
     }
 }

@@ -9,10 +9,12 @@ import com.uncles.novel.app.jfx.framework.hotkey.listener.HotKeyListener;
 import com.uncles.novel.app.jfx.framework.ui.components.sidebar.NavigateBundle;
 import com.uncles.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationView;
 import com.uncles.novel.app.jfx.ui.app.App;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
+import org.controlsfx.control.Notifications;
 
 /**
  * @author blog.unclezs.com
@@ -41,6 +43,15 @@ public class SearchNovelView extends SidebarNavigationView {
     @Override
     public void onCreated() {
         StackPane view = getView();
+        showFalse.setOnMouseClicked(e -> {
+            Notifications.create()
+                .position(Pos.BOTTOM_RIGHT)
+                .title("Title Text")
+                .text("Hello World 0!")
+                .owner(view)
+                .threshold(3, Notifications.create().title("Collapsed Notification"))
+                .showInformation();
+        });
         clear.setOnMouseClicked(e -> HotKeyManager.clearGlobal());
         window.setOnMouseClicked(e -> {
             if (combination != null) {
@@ -65,7 +76,7 @@ public class SearchNovelView extends SidebarNavigationView {
                 HotKeyManager.registerGlobal(combination);
             }
         });
-        cancelGlobal.setOnMouseClicked(e-> HotKeyManager.unregisterGlobal(text.getText()));
+        cancelGlobal.setOnMouseClicked(e -> HotKeyManager.unregisterGlobal(text.getText()));
         HotKeyManager.bindWindowHotKeyListener(App.app.getStage());
         view.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             if (recorder.record(e)) {

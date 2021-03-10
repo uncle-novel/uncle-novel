@@ -1,5 +1,5 @@
 .home-setting-popup {
-  -fx-text-fill: ladder(theme-bg-color, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);
+  -fx-text-fill: ladder(theme-bg-color, rgba(255, 255, 255, 0.87) 44%, rgba(0, 0, 0, 0.87) 45%);
   -fx-padding: 10;
   -fx-alignment: center-left;
   -fx-background-color: theme-bg-color; }
@@ -15,7 +15,7 @@
     -fx-alignment: center-left;
     -fx-padding: 0 0 0 10; }
     .home-setting-popup .icon-button:hover {
-      -fx-text-fill: ladder(theme-selected-color, rgba(255, 255, 255, 0.87) 49%, rgba(0, 0, 0, 0.87) 50%);
+      -fx-text-fill: ladder(theme-selected-color, rgba(255, 255, 255, 0.87) 44%, rgba(0, 0, 0, 0.87) 45%);
       -fx-effect: dropshadow(three-pass-box, derive(-fx-text-fill, -100%), 3, 0, 1, 1) !important;
       -fx-background-color: theme-selected-color; }
     .home-setting-popup .icon-button .icon {

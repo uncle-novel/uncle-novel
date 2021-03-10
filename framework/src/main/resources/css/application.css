@@ -15,3 +15,7 @@
   font-style: normal;
   font-weight: normal;
   src: url("/fonts/pingfang-simple-bold.ttf"); }
+
+.scroll-pane .viewport {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent; }

@@ -51,7 +51,12 @@
   -jfx-unchecked-color: theme-dark-color; }
   .jfx-check-box .box {
     -fx-pref-width: 14px;
-    -fx-pref-height: 14px; }
+    -fx-pref-height: 14px;
+    -fx-border-width: 1; }
+  .jfx-check-box .mark {
+    -fx-shape: "M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z";
+    -fx-max-width: 10;
+    -fx-max-height: 8; }
 
 .text-field {
   -fx-text-fill: theme-selected-color;
@@ -64,19 +69,19 @@
   theme-border-color: #e0e0e0;
   theme-border-hover: #cfcfd1;
   theme-dark-color: #757575;
-  theme-selected-color: #ff8f57;
-  theme-selected-color-light: rgba(255, 143, 87, 0.2);
+  theme-selected-color: #e9d460;
+  theme-selected-color-light: rgba(233, 212, 96, 0.2);
   theme-hover-color: #bdbdbd;
   theme-sidebar-bg-color: #FFF;
-  theme-header-bg-color: #ff8f57; }
+  theme-header-bg-color: #e9d460; }
 
 .stage-decorator {
-  header-bg-color: #ff8f57;
+  header-bg-color: #e9d460;
   stage-decorator-bg-color: #FFF; }
   .stage-decorator .sidebar-nav-pane {
     sidebar-pane-bg-color: #FFF;
     sidebar-bg-color: #FFF;
-    menu-bg-color-selected: #ff8f57;
+    menu-bg-color-selected: #e9d460;
     menu-bg-color-hover: #bdbdbd; }
 
 .jfx-popup-container {
@@ -111,7 +116,12 @@
   -jfx-unchecked-color: theme-dark-color; }
   .jfx-check-box .box {
     -fx-pref-width: 14px;
-    -fx-pref-height: 14px; }
+    -fx-pref-height: 14px;
+    -fx-border-width: 1; }
+  .jfx-check-box .mark {
+    -fx-shape: "M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z";
+    -fx-max-width: 10;
+    -fx-max-height: 8; }
 
 .text-field {
   -fx-text-fill: theme-selected-color;

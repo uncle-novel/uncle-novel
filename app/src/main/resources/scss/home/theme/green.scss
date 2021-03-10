@@ -2,7 +2,7 @@
 @import "default";
 
 // 按钮选中颜色
-$theme-selected-color: $md_green_600;
-$theme-header-bg-color: $md_green_600;
-
+$theme-selected-color: rgb(77, 175, 124);
+$theme-header-bg-color: $theme-selected-color;
+$theme-selected-color-light: rgba(77, 175, 124, 0.2);
 @import "template";

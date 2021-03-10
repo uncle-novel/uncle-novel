@@ -27,6 +27,7 @@ dependencies {
 
     implementation "com.jfoenix:jfoenix:9.0.10"
     implementation "com.github.tulskiy:jkeymaster:1.3"
+    implementation "org.controlsfx:controlsfx:11.0.3"
 
     implementation "ch.qos.logback:logback-classic:1.2.3"
 

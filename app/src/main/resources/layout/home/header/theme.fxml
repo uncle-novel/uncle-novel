@@ -17,12 +17,11 @@
           stylesheets="/css/home/header/theme-popup.css">
         <HBox styleClass="theme-popup-color-box">
             <JFXButton userData="default" styleClass="color-box-item" onMouseClicked="#changeTheme"
-                       style="-fx-background-color: md_grey_600;" text="default"/>
-
+                       style="-fx-background-color: #3b4252;" text="default"/>
             <JFXButton userData="dark" styleClass="color-box-item" onMouseClicked="#changeTheme"
                        style="-fx-background-color: rgb(30, 30, 32)"/>
             <JFXButton userData="green" styleClass="color-box-item" onMouseClicked="#changeTheme"
-                       style="-fx-background-color: md_green_600"/>
+                       style="-fx-background-color: rgb(77, 175, 124)"/>
             <JFXButton userData="red" styleClass="color-box-item" onMouseClicked="#changeTheme"
                        style="-fx-background-color: md_red_500"/>
             <JFXButton userData="blue" styleClass="color-box-item" onMouseClicked="#changeTheme"
@@ -31,17 +30,19 @@
                        style="-fx-background-color: md_pink_100"/>
         </HBox>
         <HBox styleClass="theme-popup-color-box">
-            <JFXButton userData="light-green" styleClass="color-box-item" onMouseClicked="#changeTheme"
-                       style="-fx-background-color: rgb(43, 182, 105)"/>
-            <JFXButton userData="light-pink" styleClass="color-box-item" onMouseClicked="#changeTheme"
-                       style="-fx-background-color: rgb(254, 118, 200)"/>
+            <JFXButton userData="purple" styleClass="color-box-item" onMouseClicked="#changeTheme"
+                       style="-fx-background-color: rgb(155, 89, 182)"/>
+            <JFXButton userData="deep-blue" styleClass="color-box-item" onMouseClicked="#changeTheme"
+                       style="-fx-background-color: rgb(79, 98, 208)"/>
             <JFXButton userData="light-blue" styleClass="color-box-item" onMouseClicked="#changeTheme"
                        style="-fx-background-color: rgb(57, 175, 234)"/>
-            <JFXButton userData="light-red" styleClass="color-box-item" onMouseClicked="#changeTheme"
-                       style="-fx-background-color: rgb(255, 92, 138)"/>
-            <JFXButton userData="light-orange" styleClass="color-box-item" onMouseClicked="#changeTheme"
+            <JFXButton userData="teal" styleClass="color-box-item" onMouseClicked="#changeTheme"
+                       style="-fx-background-color: rgb(51, 110, 123)"/>
+            <JFXButton userData="orange" styleClass="color-box-item" onMouseClicked="#changeTheme"
                        style="-fx-background-color: rgb(255, 143, 87)"/>
-            <JFXColorPicker fx:id="customColorButton" styleClass="color-box-item-custom" onMouseClicked="#customThemeColor"/>
+            <JFXButton userData="grey" styleClass="color-box-item" onMouseClicked="#changeTheme"
+                       style="-fx-background-color: rgb(108, 122, 137)"/>
+<!--            <JFXColorPicker fx:id="customColorButton" styleClass="color-box-item-custom" onMouseClicked="#customThemeColor"/>-->
         </HBox>
     </VBox>
 </JFXPopup>
