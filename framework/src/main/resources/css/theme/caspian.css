@@ -4,9 +4,8 @@
      */
     -fx-base: #d0d0d0;
 
-    /* A very light grey used for the background of windows.  See also
-     * -fx-text-background-color, which should be used as the -fx-text-fill
-     * value for text painted on top of backgrounds colored with -fx-background.
+    /*
+     *用于窗口背景的非常浅的灰色。另请参见-fx-text-background-color，对于在用-fx-background着色的背景上绘制的文本，该值应用作-fx-text-fill值。
      */
     -fx-background: #f4f4f4;
 
