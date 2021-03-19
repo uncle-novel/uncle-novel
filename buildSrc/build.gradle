@@ -5,8 +5,8 @@ plugins {
 gradlePlugin {
     plugins {
         sass {
-            id = 'com.uncles.novel.app.jfx.sass'
-            implementationClass = 'com.uncles.novel.app.jfx.sass.SassCompileJavaPlugin'
+            id = 'com.unclezs.novel.app.jfx.sass'
+            implementationClass = 'com.unclezs.novel.app.jfx.sass.SassCompileJavaPlugin'
         }
     }
 }

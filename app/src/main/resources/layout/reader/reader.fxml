@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.uncles.novel.app.jfx.framework.ui.components.decorator.StageDecorator?>
+<?import com.unclezs.novel.app.jfx.framework.ui.components.decorator.StageDecorator?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -9,7 +9,7 @@
 <StageDecorator prefHeight="400.0" minHeight="400.0" prefWidth="400.0" minWidth="400" theme="true" min="true" max="true" setting="true" title="%下载管理" logo="/assets/favicon.png"
                 xmlns="http://javafx.com/javafx/15"
                 xmlns:fx="http://javafx.com/fxml/1"
-                fx:controller="com.uncles.novel.app.jfx.ui.pages.reader.ReaderSceneView" stylesheets="/css/reader/reader.css">
+                fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.reader.ReaderSceneView" stylesheets="/css/reader/reader.css">
     <VBox style="-fx-background-color: #FFF">
         <Button text="回到Home" onMouseClicked="#toHome"/>
         <HBox fx:id="box">

@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Insets?>
-<?import com.jfoenix.controls.JFXCheckBox?>
-<?import javafx.scene.layout.HBox?>
 <StackPane xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1"
            stylesheets="/css/home/views/setting.css"
-           fx:controller="com.uncles.novel.app.jfx.ui.pages.home.views.SettingView">
+           fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SettingView">
     <ScrollPane styleClass="setting-view">
         <VBox spacing="20">
             <fx:include source="base.fxml"/>
             <fx:include source="keymap.fxml"/>
-            <fx:include source="keymap.fxml"/>
-            <fx:include source="keymap.fxml"/>
-            <fx:include source="keymap.fxml"/>
+            <fx:include source="other.fxml"/>
         </VBox>
     </ScrollPane>
 </StackPane>

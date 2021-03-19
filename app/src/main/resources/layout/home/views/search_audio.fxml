@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <BorderPane xmlns="http://javafx.com/javafx/15"  prefHeight="400.0" minHeight="400.0" prefWidth="400.0" minWidth="400"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uncles.novel.app.jfx.ui.pages.home.views.SearchAudioView">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView">
     <center>
         <VBox>
             <Button text="audio" fx:id="button"/>

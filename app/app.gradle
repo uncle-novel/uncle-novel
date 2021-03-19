@@ -2,9 +2,9 @@ plugins {
     id 'application'
     id "org.openjfx.javafxplugin" version "0.0.9"
 }
-apply plugin: "com.uncles.novel.app.jfx.sass"
+apply plugin: "com.unclezs.novel.app.jfx.sass"
 
-group 'com.uncles.novel.app.jfx'
+group 'com.unclezs.novel.app.jfx'
 version '5.0'
 
 repositories {

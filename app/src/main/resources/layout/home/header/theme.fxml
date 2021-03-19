@@ -12,7 +12,7 @@
 <?import javafx.scene.control.Button?>
 <?import com.jfoenix.controls.JFXButton?>
 <JFXPopup xmlns="http://javafx.com/javafx" fx:id="popup" xmlns:fx="http://javafx.com/fxml"
-          fx:controller="com.uncles.novel.app.jfx.ui.pages.home.header.ThemePopupView">
+          fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.header.ThemePopupView">
     <VBox spacing="10" styleClass="home-theme-popup"
           stylesheets="/css/home/header/theme-popup.css">
         <HBox styleClass="theme-popup-color-box">

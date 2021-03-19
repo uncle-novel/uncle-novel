@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<VBox styleClass="setting-box" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1">
+    <Label text="其他" styleClass="setting-name"/>
+    <VBox styleClass="setting-items">
+        <VBox styleClass="setting-item">
+            <Label text="调试模式" styleClass="setting-item-name"/>
+            <VBox styleClass="setting-item-content">
+                <HBox spacing="15">
+                    <JFXCheckBox text="debug模式"/>
+                    <JFXCheckBox text="日志记录"/>
+                </HBox>
+            </VBox>
+        </VBox>
+        <VBox styleClass="setting-item">
+            <Label text="版本更新" styleClass="setting-item-name"/>
+            <VBox styleClass="setting-item-content">
+                <HBox>
+                    <Text text="当前版本"/>
+                    <Text text="："/>
+                    <Text text="5.0.1"/>
+                </HBox>
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <JFXCheckBox text="自动更新"/>
+                    <JFXButton text="检测更新" styleClass="btn"/>
+                </HBox>
+            </VBox>
+        </VBox>
+    </VBox>
+</VBox>

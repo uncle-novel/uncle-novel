@@ -104,3 +104,7 @@
   -fx-border-color: transparent;
 }
 
+.btn {
+  -fx-text-fill: ladder(theme-selected-color, white 60%, black 61%);
+  -fx-background-color: theme-selected-color;
+}

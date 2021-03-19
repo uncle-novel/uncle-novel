@@ -3,7 +3,7 @@ plugins {
     id "org.openjfx.javafxplugin" version "0.0.9"
 }
 
-group 'com.uncles.novel.app.jfx'
+group 'com.unclezs.novel.app.jfx'
 version '5.0'
 
 repositories {
@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(":app")
 }
 
 javafx {

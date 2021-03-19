@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
+<?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -10,8 +11,9 @@
         fx:id="root"
         xmlns="http://javafx.com/javafx/15" prefHeight="400.0" minHeight="400.0" prefWidth="400.0" minWidth="400"
         xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="com.uncles.novel.app.jfx.ui.pages.home.views.SearchNovelView">
+        fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchNovelView">
     <VBox fx:id="box">
+        <JFXToggleButton text="启动调试模式" fx:id="debug"/>
         <HBox>
             <Button text="录入舞台热键" fx:id="window"/>
             <Button text="取消舞台热键" fx:id="cancelWindow"/>
