@@ -9,5 +9,4 @@ import lombok.Data;
 @Data
 public class MainBean {
     private String name;
-
 }

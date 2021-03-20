@@ -1,0 +1,79 @@
+\#define MyAppName "${info.name}"
+\#define MyAppVersion "${info.version}"
+\#define MyAppPublisher "${info.organizationName}"
+\#define MyAppURL "$!{info.organizationUrl}"
+\#define MyAppExeName "${info.name}.exe"
+\#define MyAppFolder "${info.name}"
+\#define MyAppLicense "$!{info.licenseFile.absolutePath}"
+\#define MyAppIcon "${info.iconFile.absolutePath}"
+
+[Setup]
+AppId={{{#MyAppName}}}
+AppName={#MyAppName}
+AppVersion={#MyAppVersion}
+AppVerName={#MyAppName} {#MyAppVersion}
+AppPublisher={#MyAppPublisher}
+AppPublisherURL={#MyAppURL}
+AppSupportURL={#MyAppURL}
+AppUpdatesURL={#MyAppURL}
+DefaultDirName={autopf}\{#MyAppFolder}
+#if ($info.winConfig.disableDirPage)
+DisableDirPage=yes
+#else
+DisableDirPage=no
+#end
+#if ($info.winConfig.disableProgramGroupPage)
+DisableProgramGroupPage=yes
+#else
+DefaultGroupName={#MyAppName}
+DisableProgramGroupPage=no
+#end
+#if ($info.winConfig.disableFinishedPage)
+DisableFinishedPage=yes
+#else
+DisableFinishedPage=no
+#end
+#if ($info.winConfig.setupMode.name() == "installForAllUsers") 
+PrivilegesRequired=admin
+PrivilegesRequiredOverridesAllowed=commandline
+#elseif ($info.winConfig.setupMode.name() == "installForCurrentUser") 
+PrivilegesRequired=lowest
+PrivilegesRequiredOverridesAllowed=commandline
+#else 
+PrivilegesRequiredOverridesAllowed=commandline dialog
+#end
+LicenseFile={#MyAppLicense}
+SetupIconFile={#MyAppIcon}
+UninstallDisplayIcon={app}\{#MyAppExeName}
+Compression=lzma
+SolidCompression=yes
+ArchitecturesInstallIn64BitMode=x64
+
+[Languages]
+#foreach ($language in $info.winConfig.setupLanguages.entrySet())
+Name: "${language.key}"; MessagesFile: "${language.value}"
+#end
+
+[Tasks]
+#if ($info.winConfig.createDesktopIconTask)
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+#end
+
+#if ($info.winConfig.registry)
+[Registry]
+#foreach ($entry in $info.winConfig.registry.entries)
+Root: ${entry.root}; Subkey: "${entry.subkey}"; ValueType: ${entry.valueTypeAsInnoSetupString}; ValueName: "${entry.valueName}"; ValueData: "${entry.valueData}"; Flags: uninsdeletevalue
+#end
+#end
+
+[Files]
+Source: "${info.appFolder}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+[Icons]
+Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
+#if ($info.winConfig.createDesktopIconTask)
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+#end
+
+[Run]
+Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent runascurrentuser

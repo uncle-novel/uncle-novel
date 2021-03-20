@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.sass;
+package com.unclezs.novel.app.jfx.plugin.sass;
 
 import lombok.Getter;
 import org.gradle.api.Plugin;

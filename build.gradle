@@ -1,6 +1,11 @@
+plugins {
+    id "org.openjfx.javafxplugin" version "0.0.9"
+}
 group 'com.unclezs.novel.app.jfx'
 version '5.0'
 
 repositories {
+    mavenLocal()
+    maven { url 'https://maven.aliyun.com/nexus/content/groups/public/' }
     mavenCentral()
 }

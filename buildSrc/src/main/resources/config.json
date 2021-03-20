@@ -1,0 +1,21 @@
+{
+  "url": "h",
+  "actions": [
+    {
+      "type": "delete",
+      "from": "",
+      "to": ""
+    }
+  ],
+  "libs": [
+    {
+      "type": "native"
+    },
+    {
+      "type": "jar"
+    },
+    {
+      "type": "file"
+    }
+  ]
+}

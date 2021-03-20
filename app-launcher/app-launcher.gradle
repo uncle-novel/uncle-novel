@@ -1,6 +1,6 @@
 plugins {
     id 'application'
-    id "org.openjfx.javafxplugin" version "0.0.9"
+    id "org.openjfx.javafxplugin"
 }
 
 group 'com.unclezs.novel.app.jfx'
@@ -12,6 +12,9 @@ repositories {
 }
 
 dependencies {
+    compileOnly "org.projectlombok:lombok:1.18.18"
+    annotationProcessor "org.projectlombok:lombok:1.18.18"
+    implementation "com.google.code.gson:gson:2.8.6"
     implementation project(":app")
 }
 

@@ -1,0 +1,22 @@
+#set($moduleName = $info.name.replaceAll("-", "_") + "_Module")
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="*" Codepage="1252" Language="1033" Manufacturer="${info.organizationName}" Name="${info.name}" UpgradeCode="${info.winConfig.msiUpgradeCode}" Version="${info.winConfig.productVersion}">
+        <Package Compressed="yes" InstallScope="perMachine" InstallerVersion="200" Languages="1033" Platform="x64" SummaryCodepage="1252" Description="${info.description}"/>
+        <Media Id="1" Cabinet="Application.cab" EmbedCab="yes"/>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFiles64Folder">
+	            <Merge Id="${moduleName}" Language="1033" SourceFile="${info.msmFile}" DiskId="1" />
+            </Directory>
+        </Directory>
+        <Feature Id="_${GUID.randomUUID().toString().replaceAll('-','_')}" Absent="disallow" AllowAdvertise="no" ConfigurableDirectory="TARGETDIR" Description="${info.description}" Level="1" Title="${info.displayName}">
+            <MergeRef Id="${moduleName}"/>
+        </Feature>
+        <Icon Id="ICONFILE" SourceFile="${info.iconFile.getAbsolutePath()}"/>
+        <Property Id="ARPPRODUCTICON" Value="ICONFILE"/>
+#if($info.licenseFile)
+        <WixVariable Id="WixUILicenseRtf" Value="LICENSE"/>
+#end
+        <MajorUpgrade AllowDowngrades="no" AllowSameVersionUpgrades="no" DowngradeErrorMessage="A later version of ${info.winConfig.productName} is already installed. Setup will now exit." IgnoreRemoveFailure="no"/>
+    </Product>
+</Wix>

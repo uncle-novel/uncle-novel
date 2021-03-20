@@ -1,0 +1,14 @@
+apply plugin: "application"
+apply plugin: "sass"
+// 编译配置
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.fork = true
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+javafx {
+    version = "16"
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.media']
+}

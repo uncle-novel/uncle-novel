@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.sass;
+package com.unclezs.novel.app.jfx.plugin.sass;
 
 import com.google.gson.Gson;
 import io.bit3.jsass.CompilationException;

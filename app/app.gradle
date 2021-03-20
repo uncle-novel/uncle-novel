@@ -1,8 +1,11 @@
+import com.unclezs.novel.app.jfx.plugin.packager.gradle.PackageTask
+
 plugins {
-    id 'application'
-    id "org.openjfx.javafxplugin" version "0.0.9"
+    id "java"
+    id "org.openjfx.javafxplugin"
 }
-apply plugin: "com.unclezs.novel.app.jfx.sass"
+apply plugin: "launcher"
+apply plugin: 'packager'
 
 group 'com.unclezs.novel.app.jfx'
 version '5.0'
@@ -10,40 +13,58 @@ version '5.0'
 repositories {
     mavenLocal()
     mavenCentral()
+    jcenter()
+}
+
+// 编译配置
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.fork = true
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 dependencies {
-    implementation "org.freemarker:freemarker:2.3.31"
-
-    def lombok = "1.18.18"
-    implementation "org.projectlombok:lombok:$lombok"
-    annotationProcessor "org.projectlombok:lombok:$lombok"
-
     implementation project(":framework")
-    implementation "com.unclezs:novel-analyzer:1.0.0-SNATSHOT"
-
-    def hutoolVersion = '5.5.8'
-    implementation "cn.hutool:hutool-core:$hutoolVersion"
-
-    implementation "com.jfoenix:jfoenix:9.0.10"
-    implementation "com.github.tulskiy:jkeymaster:1.3"
-    implementation "org.controlsfx:controlsfx:11.0.3"
-
+    compileOnly  'org.projectlombok:lombok:1.18.18'
+    annotationProcessor "org.projectlombok:lombok:1.18.18"
+    implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
+    implementation "org.freemarker:freemarker:2.3.31"
     implementation "ch.qos.logback:logback-classic:1.2.3"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
-javafx {
-    version = "15"
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.media']
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
-
 test {
     useJUnitPlatform()
+}
+
+javafx {
+    version = "16"
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.media']
+    configuration = "compileOnly"
+}
+
+task packageLinux(type: PackageTask, dependsOn: build) {
+    platform = "linux"
+    createTarball = true
+}
+task packageMac(type: PackageTask, dependsOn: build) {
+    platform = "mac"
+    createTarball = true
+}
+task packageWindows(type: PackageTask, dependsOn: build) {
+    platform = "windows"
+    createZipball = true
+}
+
+packager {
+    name "Uncle小说"
+    mainClass 'com.unclezs.novel.app.jfx.app.Launcher'
+    bundleJre true
+    jreDirectoryName "runtime"
+    copyDependencies true
+    assetsDir file("${buildDir}/resources/main/assets/packager")
+    iconFile file("${buildDir}/main/resources/assets/packager/windows/favicon.ico")
 }

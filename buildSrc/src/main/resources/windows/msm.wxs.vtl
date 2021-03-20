@@ -1,0 +1,35 @@
+#set ($name = $info.name.replaceAll("-", "_"))
+#set ($id = 0)
+#macro(list $file)
+	#set($guid = $GUID.randomUUID())
+	#set($id = $id + 1)
+	#if($file.isDirectory())
+		<Directory Id="_${id}" Name="${file.name}">
+		#foreach($child in $file.listFiles())
+			#list($child)
+		#end
+		</Directory>
+	#else
+		<Component Id="_${id}" Guid="${guid}" Win64="yes">
+	    #if($file.equals(${info.executable}))
+	    	<File Id="exeFile" Name="${file.name}" KeyPath="yes" Source="${file}">
+				<Shortcut Id="ApplicationStartMenuShortcut" Name="${info.name}" Description="${info.description}" Directory="ProgramMenuFolder" />
+	    	</File>
+			<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
+			<RegistryValue Root="HKLM" Key="Software\\${info.organizationName}\\${info.name}" Name="installed" Type="integer" Value="1" />	    	
+	    #else
+			<File Id="_${id}f" Name="${file.name}" KeyPath="yes" Source="${file}"/>			  
+	    #end
+		</Component>
+	#end
+#end
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Module Id="${name}_Module" Codepage="1252" Language="1033" Version="${info.winConfig.productVersion}">
+        <Package Id="${GUID.randomUUID()}" Manufacturer="${info.organizationName}" InstallerVersion="200" Languages="1033" Platform="x64" SummaryCodepage="1252" Description="${info.description}"/>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			#list(${info.appFolder})
+			<Directory Id="ProgramMenuFolder" />
+		</Directory>
+    </Module>
+</Wix>
