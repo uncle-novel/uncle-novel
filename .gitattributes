@@ -9,3 +9,4 @@
 *.ttf   binary
 exe.vsd   binary
 phantomjs*   binary
+*.icns binary

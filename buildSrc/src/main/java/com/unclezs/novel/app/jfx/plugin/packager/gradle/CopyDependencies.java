@@ -22,7 +22,7 @@ public class CopyDependencies extends ArtifactGenerator {
 	@Override
 	protected File doApply(Packager packager) {
 
-		File libsFolder = new File(packager.getJarFileDestinationFolder(), "runtimes/lib");
+		File libsFolder = new File(packager.getJarFileDestinationFolder(), "libs");
 		Project project = Context.getGradleContext().getProject();
 
 		copyLibsTask = (Copy) project.getTasks().findByName("copyLibs");

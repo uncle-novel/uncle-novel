@@ -53,10 +53,22 @@ task packageLinux(type: PackageTask, dependsOn: build) {
 task packageMac(type: PackageTask, dependsOn: build) {
     platform = "mac"
     createTarball = true
+    generateDmg = true
+    generatePkg = false
+    appId = "com.unclezs.novel.app"
+    developerId = "unclezs@qq.com"
+    macConfig {
+        icnsFile = file("${buildDir}/resources/main/assets/logo/favicon.icns")
+        return macConfig
+    }
 }
 task packageWindows(type: PackageTask, dependsOn: build) {
     platform = "windows"
     createZipball = true
+    winConfig {
+        icoFile = file("${buildDir}/resources/main/assets/logo/favicon.ico")
+        return winConfig
+    }
 }
 
 packager {
@@ -65,6 +77,7 @@ packager {
     bundleJre true
     jreDirectoryName "runtime"
     copyDependencies true
-    assetsDir file("${buildDir}/resources/main/assets/packager")
-    iconFile file("${buildDir}/main/resources/assets/packager/windows/favicon.ico")
+    generateInstaller true
+    customizedJre false
+//    assetsDir file("${buildDir}/resources/main/assets/packager")
 }

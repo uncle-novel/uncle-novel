@@ -193,7 +193,7 @@ public abstract class Packager extends PackagerSettings {
 
         Logger.infoIndent("Copying additional resources");
 
-        resources.stream().forEach(r -> {
+        resources.forEach(r -> {
             if (!r.exists()) {
                 Logger.warn("Additional resource " + r + " doesn't exist");
                 return;
@@ -277,10 +277,12 @@ public abstract class Packager extends PackagerSettings {
         }
 
         String iconExtension = IconUtils.getIconFileExtensionByPlatform(platform);
-
-        // if not specific icon specified for target platform, search for an icon in "${assetsDir}" folder
-        if (iconFile == null) {
-            iconFile = new File(assetsDir, "favicon" + iconExtension);
+        if (iconFile != null) {
+            //noinspection ResultOfMethodCallIgnored
+            iconFile.renameTo(new File(assetsFolder, iconFile.getName()));
+        } else {
+            // if not specific icon specified for target platform, search for an icon in "${assetsDir}" folder
+            iconFile = new File(assetsDir, name + iconExtension);
         }
 
         // if there's no icon yet, uses default one
