@@ -38,7 +38,7 @@ public class WindowsConfig implements Serializable {
 	private boolean generateMsi = false;
 	private boolean generateMsm = false;
 	private String msiUpgradeCode;
-	private boolean wrapJar = false;
+	private boolean wrapJar = true;
 	private LinkedHashMap<String, String> setupLanguages = new LinkedHashMap<>();
 	private SetupMode setupMode = SetupMode.installForAllUsers;
 	private WindowsSigning signing;

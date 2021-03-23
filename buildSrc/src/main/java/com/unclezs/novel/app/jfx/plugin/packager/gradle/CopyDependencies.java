@@ -1,10 +1,12 @@
 package com.unclezs.novel.app.jfx.plugin.packager.gradle;
 
+import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.Packager;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.Copy;
+import org.gradle.jvm.tasks.Jar;
 
 import java.io.File;
 
@@ -22,18 +24,19 @@ public class CopyDependencies extends ArtifactGenerator {
 	@Override
 	protected File doApply(Packager packager) {
 
-		File libsFolder = new File(packager.getJarFileDestinationFolder(), "libs");
-		Project project = Context.getGradleContext().getProject();
-
-		copyLibsTask = (Copy) project.getTasks().findByName("copyLibs");
-		if (copyLibsTask == null) {
-			copyLibsTask = project.getTasks().create("copyLibs", Copy.class);
-		}
-		copyLibsTask.from(project.getConfigurations().getByName("default"));
-		copyLibsTask.into(project.file(libsFolder));
-		copyLibsTask.getActions().forEach(action -> action.execute(copyLibsTask));
-
-		return libsFolder;
-	}
+        File libsFolder = new File(packager.getJarFileDestinationFolder(), "libx");
+        Project project = Context.getGradleContext().getProject();
+        FileUtil.del(libsFolder);
+        project.copy(c -> {
+            c.from(project.getConfigurations().getByName("runtimeClasspath"));
+            c.into(project.file(libsFolder));
+        });
+        // 拷贝项目jar包
+        project.copy(c -> {
+            c.from(((Jar) project.getTasks().getByName("jar")).getArchiveFile());
+            c.into(libsFolder);
+        });
+        return libsFolder;
+    }
 
 }

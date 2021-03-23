@@ -26,6 +26,7 @@ repositories {
 dependencies {
     annotationProcessor "org.projectlombok:lombok:1.18.18"
     compileOnly "org.projectlombok:lombok:1.18.18"
+    implementation "cn.hutool:hutool-all:5.5.9"
     implementation "io.bit3:jsass:5.5.6"
     implementation 'com.google.code.gson:gson:2.8.2'
     // java packager

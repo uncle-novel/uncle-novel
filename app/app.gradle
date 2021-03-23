@@ -49,24 +49,27 @@ javafx {
 task packageLinux(type: PackageTask, dependsOn: build) {
     platform = "linux"
     createTarball = true
+    generateInstaller = true
 }
 task packageMac(type: PackageTask, dependsOn: build) {
     platform = "mac"
     createTarball = true
-    generateDmg = true
-    generatePkg = false
-    appId = "com.unclezs.novel.app"
-    developerId = "unclezs@qq.com"
+    generateInstaller = true
     macConfig {
-        icnsFile = file("${buildDir}/resources/main/assets/logo/favicon.icns")
+        generateDmg = true
+        generatePkg = false
+        appId = "com.unclezs.novel.app"
+        developerId = "unclezs@qq.com"
+        icnsFile = file("${projectDir}/packager/logo/favicon.icns")
         return macConfig
     }
 }
 task packageWindows(type: PackageTask, dependsOn: build) {
     platform = "windows"
     createZipball = true
+    generateInstaller = false
     winConfig {
-        icoFile = file("${buildDir}/resources/main/assets/logo/favicon.ico")
+        icoFile = file("${projectDir}/packager/logo/favicon.ico")
         return winConfig
     }
 }
@@ -77,7 +80,5 @@ packager {
     bundleJre true
     jreDirectoryName "runtime"
     copyDependencies true
-    generateInstaller true
-    customizedJre false
-//    assetsDir file("${buildDir}/resources/main/assets/packager")
+    customizedJre true
 }

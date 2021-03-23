@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
+import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.jfx.plugin.packager.utils.FileUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.utils.IconUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
@@ -152,8 +153,8 @@ public abstract class Packager extends PackagerSettings {
                 break;
             default:
         }
-
-        Logger.info("" + this); // prints packager settings
+        // prints packager settings
+        Logger.info("" + this);
 
         Logger.infoUnindent("Packager initialized!");
 
@@ -239,7 +240,9 @@ public abstract class Packager extends PackagerSettings {
         // if license is still null, looks for LICENSE file
         if (licenseFile == null || !licenseFile.exists()) {
             licenseFile = new File(Context.getContext().getRootDir(), "LICENSE");
-            if (!licenseFile.exists()) licenseFile = null;
+            if (!licenseFile.exists()) {
+                licenseFile = null;
+            }
         }
 
         if (licenseFile != null) {
@@ -278,8 +281,7 @@ public abstract class Packager extends PackagerSettings {
 
         String iconExtension = IconUtils.getIconFileExtensionByPlatform(platform);
         if (iconFile != null) {
-            //noinspection ResultOfMethodCallIgnored
-            iconFile.renameTo(new File(assetsFolder, iconFile.getName()));
+            iconFile = FileUtil.copy(iconFile, new File(assetsFolder, name + iconExtension), true);
         } else {
             // if not specific icon specified for target platform, search for an icon in "${assetsDir}" folder
             iconFile = new File(assetsDir, name + iconExtension);
@@ -338,7 +340,7 @@ public abstract class Packager extends PackagerSettings {
         // creates app destination folder
         appFolder = new File(outputDirectory, name);
         if (appFolder.exists()) {
-            FileUtils.removeFolder(appFolder);
+            FileUtil.del(appFolder);
             Logger.info("Old app folder removed " + appFolder.getAbsolutePath());
         }
         appFolder = FileUtils.mkdir(outputDirectory, name);
