@@ -1,3 +1,4 @@
+#* @vtlvariable name="info" type="com.unclezs.novel.app.jfx.plugin.packager.packagers.MacPackager" *#
 -- credits: https://github.com/create-dmg/create-dmg
 on run (volumeName)
 	tell application "Finder"

@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.plugin.packager.utils;
+package com.unclezs.novel.app.jfx.plugin.packager.util;
 
 /**
  * Signer helper exception

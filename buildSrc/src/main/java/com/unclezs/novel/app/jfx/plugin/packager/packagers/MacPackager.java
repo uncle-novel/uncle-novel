@@ -1,11 +1,11 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.CommandUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.FileUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Platform;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.VelocityUtils;
-import org.apache.commons.lang3.StringUtils;
+import cn.hutool.core.util.StrUtil;
+import com.unclezs.novel.app.jfx.plugin.packager.util.CommandUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Platform;
+import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
 
 import java.io.File;
@@ -94,54 +94,48 @@ public class MacPackager extends Packager {
 		FileUtils.copyFileToFolder(jarFile, javaFolder);
 
 		if (this.administratorRequired) {
+            // sets startup file
+            this.executable = new File(macOSFolder, "startup");
+            // creates startup file to boot java app
+            VelocityUtils.render("mac/startup.vm", executable, this);
+            //noinspection ResultOfMethodCallIgnored
+            executable.setExecutable(true, false);
+            Logger.info("Startup script file created in " + executable.getAbsolutePath());
 
-			// sets startup file
-			this.executable = new File(macOSFolder, "startup");
-
-			// creates startup file to boot java app
-			VelocityUtils.render("mac/startup.vtl", executable, this);
-			executable.setExecutable(true, false);
-			Logger.info("Startup script file created in " + executable.getAbsolutePath());
-
-		} else {
-
+        } else {
 			// sets startup file
 			this.executable = new File(macOSFolder, "universalJavaApplicationStub");
 			Logger.info("Using " + executable.getAbsolutePath() + " as startup script");
-
 		}
-
-		// copies universalJavaApplicationStub startup file to boot java app
-		File appStubFile = new File(macOSFolder, "universalJavaApplicationStub");
-		FileUtils.copyResourceToFile("/mac/universalJavaApplicationStub", appStubFile, true);
-		FileUtils.processFileContent(appStubFile, content -> {
-			if (!macConfig.isRelocateJar()) {
-				content = content.replaceAll("/Contents/Resources/Java", "/Contents/Resources");
-			}
-			content = content.replaceAll("\\$\\{info.name\\}", this.name);
-			return content;
-		});
-		appStubFile.setExecutable(true, false);
-
-		// process classpath
-		classpath = (this.macConfig.isRelocateJar() ? "Java/" : "") + this.jarFile.getName() + (classpath != null ? ":" + classpath : "");
-		classpaths = Arrays.asList(classpath.split("[:;]"));
-		if (!isUseResourcesAsWorkingDir()) {
-			classpaths = classpaths.stream().map(cp -> new File(cp).isAbsolute() ? cp : "$ResourcesFolder/" + cp).collect(Collectors.toList());
-		}
-		classpath = StringUtils.join(classpaths, ":");
-
-		// creates and write the Info.plist file
-		File infoPlistFile = new File(contentsFolder, "Info.plist");
-		VelocityUtils.render("mac/Info.plist.vtl", infoPlistFile, this);
-		Logger.info("Info.plist file created in " + infoPlistFile.getAbsolutePath());
-
-		// codesigns app folder
-		if (Platform.mac.isCurrentPlatform()) {
-			codesign(this.macConfig.getDeveloperId(), this.macConfig.getEntitlements(), this.appFile);
-		} else {
-			Logger.warn("Generated app could not be signed due to current platform is " + Platform.getCurrentPlatform());
-		}
+        // copies universalJavaApplicationStub startup file to boot java app
+        File appStubFile = new File(macOSFolder, "universalJavaApplicationStub");
+        FileUtils.copyResourceToFile("/mac/universalJavaApplicationStub", appStubFile, true);
+        FileUtils.processFileContent(appStubFile, content -> {
+            if (!macConfig.isRelocateJar()) {
+                content = content.replaceAll("/Contents/Resources/Java", "/Contents/Resources");
+            }
+            content = content.replaceAll("\\$\\{info.name\\}", this.name);
+            return content;
+        });
+        //noinspection ResultOfMethodCallIgnored
+        appStubFile.setExecutable(true, false);
+        // process classpath
+        classpath = (this.macConfig.isRelocateJar() ? "Java/" : "") + this.jarFile.getName() + (classpath != null ? ":" + classpath : "");
+        classpathList = Arrays.asList(classpath.split("[:;]"));
+        if (!isUseResourcesAsWorkingDir()) {
+            classpathList = classpathList.stream().map(cp -> new File(cp).isAbsolute() ? cp : "$ResourcesFolder/" + cp).collect(Collectors.toList());
+        }
+        classpath = StrUtil.join(":", classpathList.toArray(new Object[0]));
+        // creates and write the Info.plist file
+        File infoPlistFile = new File(contentsFolder, "Info.plist");
+        VelocityUtils.render("mac/Info.plist.vm", infoPlistFile, this);
+        Logger.info("Info.plist file created in " + infoPlistFile.getAbsolutePath());
+        // codesigns app folder
+        if (Platform.mac.isCurrentPlatform()) {
+            codesign(this.macConfig.getDeveloperId(), this.macConfig.getEntitlements(), this.appFile);
+        } else {
+            Logger.warn("Generated app could not be signed due to current platform is " + Platform.getCurrentPlatform());
+        }
 
 		return appFile;
 	}

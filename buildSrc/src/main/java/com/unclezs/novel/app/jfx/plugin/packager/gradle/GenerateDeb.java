@@ -4,7 +4,7 @@ import com.netflix.gradle.plugins.deb.Deb;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.Packager;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
 
 import java.io.File;
 import java.util.UUID;
@@ -44,7 +44,7 @@ public class GenerateDeb extends ArtifactGenerator {
 //
 //		// generates desktop file from velocity template
 //		File desktopFile = new File(assetsFolder, name + ".desktop");
-//		VelocityUtils.render("linux/desktop.vtl", desktopFile, linuxPackager);
+//		VelocityUtils.render("linux/desktop.vm", desktopFile, linuxPackager);
 //		Logger.info("Desktop file rendered in " + desktopFile.getAbsolutePath());
 //
 //		// generated deb file

@@ -32,9 +32,7 @@ dependencies {
     // launcher
     implementation 'com.google.code.gson:gson:2.8.2'
     // java packager
-    implementation 'org.apache.maven:maven-plugin-api:3.6.0'
     implementation 'org.codehaus.plexus:plexus-utils:3.1.1'
-    implementation 'org.twdata.maven:mojo-executor:2.3.0'
     implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'commons-io:commons-io:2.6'
     implementation 'org.apache.commons:commons-collections4:4.1'

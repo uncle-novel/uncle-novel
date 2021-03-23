@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Platform;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Platform;
 import org.apache.commons.lang3.SystemUtils;
 
 /**
@@ -26,7 +26,7 @@ public class PackagerFactory {
             default:
                 throw new Exception("Unsupported operating system: " + SystemUtils.OS_NAME + " " + SystemUtils.OS_VERSION + " " + SystemUtils.OS_ARCH);
         }
-        packager.platform(platform);
+        packager.setPlatform(platform);
         return packager;
     }
 

@@ -7,6 +7,10 @@ import org.gradle.api.Project;
 
 /**
  * JavaPackager Gradle plugin
+ *
+ * @author https://github.com/fvarrui/JavaPackager
+ * @author blog.unclezs.com
+ * @since 2021/03/23 19:10
  */
 @NonNullApi
 public class PackagePlugin implements Plugin<Project> {
@@ -21,7 +25,5 @@ public class PackagePlugin implements Plugin<Project> {
 		Context.setContext(new GradleContext(project));
 		project.getExtensions().create(SETTINGS_EXT_NAME, PackagePluginExtension.class, project);
         project.getTasks().create(PACKAGE_TASK_NAME, DefaultPackageTask.class).dependsOn("build");
-
 	}
-
 }

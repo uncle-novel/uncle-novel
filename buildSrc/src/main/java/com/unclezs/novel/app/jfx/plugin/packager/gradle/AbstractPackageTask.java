@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.jfx.plugin.packager.gradle;
 
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.Packager;
+import lombok.Getter;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.OutputFiles;
 import org.gradle.api.tasks.TaskAction;
@@ -10,54 +11,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Abstract packaging task for Gradle
+ * Gradle的抽象包装任务
+ *
+ * @author https://github.com/fvarrui/JavaPackager
+ * @author blog.unclezs.com
+ * @since 2021/03/23 19:10
  */
 public abstract class AbstractPackageTask extends DefaultTask {
 
-	private List<File> outputFiles;
+    @Getter
+    @OutputFiles
+    private final List<File> outputFiles = new ArrayList<>();
 
-	@OutputFiles
-	public List<File> getOutputFiles() {
-		return outputFiles != null ? outputFiles : new ArrayList<>();
-	}
+    public AbstractPackageTask() {
+        super();
+        setGroup(PackagePlugin.GROUP_NAME);
+        setDescription("将应用程序打包为本地Windows，Mac OS X或GNULinux可执行文件，并创建安装程序");
+        getOutputs().upToDateWhen(o -> false);
+    }
 
-	/**
-	 * Task constructor
-	 */
-	public AbstractPackageTask() {
-		super();
-		setGroup(PackagePlugin.GROUP_NAME);
-		setDescription("将应用程序打包为本地Windows，Mac OS X或GNULinux可执行文件，并创建安装程序");
-		getOutputs().upToDateWhen(o -> false);
-	}
+    @TaskAction
+    public void doPackage() throws Exception {
+        Packager packager = createPackager();
+        // 生成应用程序、安装程序和捆绑包
+        File app = packager.createApp();
+        List<File> installers = packager.generateInstallers();
+        List<File> bundles = packager.createBundles();
+        // 将生成的文件设置为输出
+        outputFiles.add(app);
+        outputFiles.addAll(installers);
+        outputFiles.addAll(bundles);
+    }
 
-	/**
-	 * Packaging task action
-	 * @throws Exception Throw if something went wrong
-	 */
-	@TaskAction
-	public void doPackage() throws Exception {
-
-		Packager packager = createPackager();
-
-		// generates app, installers and bundles
-		File app = packager.createApp();
-		List<File> installers = packager.generateInstallers();
-		List<File> bundles = packager.createBundles();
-
-		// sets generated files as output
-		outputFiles = new ArrayList<>();
-		outputFiles.add(app);
-		outputFiles.addAll(installers);
-		outputFiles.addAll(bundles);
-
-	}
-
-	/**
-	 * Creates a platform specific packager
-	 * @return Packager
-	 * @throws Exception Throw if something went wrong
-	 */
-	protected abstract Packager createPackager() throws Exception;
+    /**
+     * Creates a platform specific packager
+     *
+     * @return Packager
+     * @throws Exception Throw if something went wrong
+     */
+    protected abstract Packager createPackager() throws Exception;
 
 }

@@ -1,11 +1,11 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.CommandUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.FileUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.JDKUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.JavaUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Platform;
+import com.unclezs.novel.app.jfx.plugin.packager.util.CommandUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.JdkUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.JavaUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Platform;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -58,7 +58,7 @@ public class BundleJre extends ArtifactGenerator {
                 Logger.warn("Specified jrePath fixed: " + specificJreFolder);
             }
             // checks if valid jre specified
-            if (!JDKUtils.isValidJRE(platform, specificJreFolder)) {
+            if (!JdkUtils.isValidJRE(platform, specificJreFolder)) {
                 throw new Exception("Invalid JRE specified for '" + platform + "' platform: " + specificJreFolder);
             }
             // removes old jre folder from bundle
@@ -81,7 +81,7 @@ public class BundleJre extends ArtifactGenerator {
         } else {
             Logger.info("Creating customized JRE ...");
             // tests if specified JDK is for the same platform than target platform
-            if (!JDKUtils.isValidJDK(platform, jdkPath)) {
+            if (!JdkUtils.isValidJDK(platform, jdkPath)) {
                 throw new Exception("Invalid JDK for platform '" + platform + "': " + jdkPath);
             }
             String modules = getRequiredModules(libsFolder, customizedJre, jarFile, requiredModules, additionalModules, additionalModulePaths);

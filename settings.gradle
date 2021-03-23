@@ -2,7 +2,9 @@ rootProject.name = 'uncle-novel-jfx'
 include 'framework'
 include 'app'
 include 'app-launcher'
+
 // 编译脚本为项目名.gradle
 rootProject.children.each { project ->
     project.buildFileName = "${project.name}.gradle"
 }
+

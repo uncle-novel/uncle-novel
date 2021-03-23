@@ -1,3 +1,4 @@
+#* @vtlvariable name="info" type="com.unclezs.novel.app.jfx.plugin.packager.packagers.MacPackager" *#
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -29,58 +30,59 @@
 		<key>NSHumanReadableCopyright</key>
 		<string>${info.organizationName}</string>
 		<key>NSHighResolutionCapable</key>
-		<true />
+		<true/>
 		<key>NSSupportsAutomaticGraphicsSwitching</key>
-		<true />
+		<true/>
 		<key>AdministratorRequired</key>
-#if ($info.administratorRequired)		
-		<true />
-#else
-		<false />
-#end
+		#if ($info.administratorRequired)
+			<true/>
+		#else
+			<false/>
+		#end
 		<key>JavaX</key>
 		<dict>
 			<key>MainClass</key>
 			<string>${info.mainClass}</string>
-#if (!$info.bundleJre && $info.jreMinVersion)		
-			<key>JVMVersion</key>
-			<string>${info.jreMinVersion}+</string>
-#end
+			#if (!$info.bundleJre && $info.jreMinVersion)
+				<key>JVMVersion</key>
+				<string>${info.jreMinVersion}+</string>
+			#end
 			<key>ClassPath</key>
 			<array>
-#foreach ($classpath in $info.classpaths)
-				<string>$classpath</string>
-#end
+				#foreach ($classpath in $info.classpathList)
+					<string>$classpath</string>
+				#end
 			</array>
-#if (!$info.vmArgs.empty)
-			<key>VMOptions</key>
-			<array>
-#foreach ($vmArg in $info.vmArgs)
-				<string>$vmArg</string>
-#end			
-			</array>
-#end
-#if ($info.useResourcesAsWorkingDir)		
-			<key>WorkingDirectory</key>
-			<string>$APP_PACKAGE/Contents/Resources</string>
-#end
+			#if (!$info.vmArgs.empty)
+				<key>VMOptions</key>
+				<array>
+					#foreach ($vmArg in $info.vmArgs)
+						<string>$vmArg</string>
+					#end
+				</array>
+			#end
+			#if ($info.useResourcesAsWorkingDir)
+				<key>WorkingDirectory</key>
+				<string>$APP_PACKAGE/Contents/Resources</string>
+			#end
 			<key>JVMOptionsFile</key>
 			<string>$APP_PACKAGE/Contents/Resources/${info.name}.l4j.ini</string>
 		</dict>
 		<key>LSEnvironment</key>
 		<dict>
-#if ($info.bundleJre)
-			<key>JAVA_HOME</key>
-			<string>Contents/PlugIns/${info.jreDirectoryName}/Contents/Home</string>
-#end
-#if($info.envPath)
-			<key>PATH</key>
-			<string>${info.envPath}</string>
-#end
+			#if ($info.bundleJre)
+				<key>JAVA_HOME</key>
+				<string>Contents/PlugIns/${info.jreDirectoryName}/Contents/Home</string>
+			#end
+			#if($info.envPath)
+				<key>PATH</key>
+				<string>${info.envPath}</string>
+			#end
 		</dict>
 		<key>NSAppleEventsUsageDescription</key>
 		<string>There was an error while launching the application. Please
 			click OK to display a dialog with more information or cancel and view
-			the syslog for details.</string>
+			the syslog for details.
+		</string>
 	</dict>
 </plist>

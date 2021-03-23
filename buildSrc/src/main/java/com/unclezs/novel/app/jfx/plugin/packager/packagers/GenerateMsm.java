@@ -1,9 +1,9 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.CommandUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.VelocityUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.XMLUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.CommandUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.XMLUtils;
 
 import java.io.File;
 
@@ -37,7 +37,7 @@ public class GenerateMsm extends ArtifactGenerator {
 
 		// generates WXS file from velocity template
 		File wxsFile = new File(assetsFolder, name + ".msm.wxs");
-		VelocityUtils.render("windows/msm.wxs.vtl", wxsFile, windowsPackager);
+		VelocityUtils.render("windows/msm.wxs.vm", wxsFile, windowsPackager);
 		Logger.info("WXS file generated in " + wxsFile + "!");
 
 		// pretiffy wxs

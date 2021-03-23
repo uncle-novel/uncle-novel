@@ -1,11 +1,13 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
 import cn.hutool.core.io.FileUtil;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.FileUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.IconUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Platform;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.VelocityUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.IconUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Platform;
+import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.File;
 import java.nio.file.InvalidPathException;
@@ -19,65 +21,38 @@ import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 /**
  * Packager base class
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public abstract class Packager extends PackagerSettings {
 
     private static final String DEFAULT_ORGANIZATION_NAME = "ACME";
 
-    // artifact generators
+    /**
+     * artifact generators
+     */
     protected List<ArtifactGenerator> installerGenerators = new ArrayList<>();
     private final BundleJre generateJre = new BundleJre();
 
-    // internal generic properties (setted in "createAppStructure/createApp")
+    /**
+     * internal generic properties (setted in "createAppStructure/createApp")
+     */
     protected File appFolder;
     protected File assetsFolder;
     protected File executable;
     protected File jarFile;
     protected File libsFolder;
 
-    // internal specific properties (setted in "doCreateAppStructure")
+    /**
+     * internal specific properties (setted in "doCreateAppStructure")
+     */
     protected File executableDestinationFolder;
     protected File jarFileDestinationFolder;
     protected File jreDestinationFolder;
     protected File resourcesDestinationFolder;
-
-    // processed classpaths list
-    protected List<String> classpaths = new ArrayList<>();
-
-    // ===============================================
-
-    public File getAppFolder() {
-        return appFolder;
-    }
-
-    public File getAssetsFolder() {
-        return assetsFolder;
-    }
-
-    public File getExecutable() {
-        return executable;
-    }
-
-    public File getJarFile() {
-        return jarFile;
-    }
-
-    public File getJarFileDestinationFolder() {
-        return jarFileDestinationFolder;
-    }
-
-    public File getLibsFolder() {
-        return libsFolder;
-    }
-
-    public List<String> getClasspaths() {
-        return classpaths;
-    }
-
-    public File getJreDestinationFolder() {
-        return jreDestinationFolder;
-    }
-
-    // ===============================================
+    /**
+     * 已处理的类路径列表
+     */
+    protected List<String> classpathList = new ArrayList<>();
 
     public Packager() {
         super();
@@ -305,25 +280,19 @@ public abstract class Packager extends PackagerSettings {
      * @throws Exception Process failed
      */
     public List<File> createBundles() throws Exception {
-
         List<File> bundles = new ArrayList<>();
-
         Logger.infoIndent("Creating bundles ...");
-
         if (createZipball) {
             File zipball = Context.getContext().createZipball(this);
             Logger.info("Zipball created: " + zipball);
             bundles.add(zipball);
         }
-
         if (createTarball) {
             File tarball = Context.getContext().createTarball(this);
             Logger.info("Tarball created: " + tarball);
             bundles.add(tarball);
         }
-
         Logger.infoUnindent("Bundles created!");
-
         return bundles;
     }
 

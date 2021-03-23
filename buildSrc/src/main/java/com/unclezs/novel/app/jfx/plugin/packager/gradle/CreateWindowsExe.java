@@ -5,7 +5,7 @@ import com.unclezs.novel.app.jfx.plugin.packager.packagers.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.Packager;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.WindowsArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.WindowsPackager;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.FileUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
 import edu.sc.seis.launch4j.tasks.Launch4jLibraryTask;
 import org.apache.commons.lang3.StringUtils;
 
@@ -60,7 +60,7 @@ public class CreateWindowsExe extends WindowsArtifactGenerator {
 		l4jTask.setIcon(genericIcon.getAbsolutePath());
 		l4jTask.setManifest(genericManifest.getAbsolutePath());
 		l4jTask.setMainClassName(mainClass);
-		l4jTask.setClasspath(new HashSet<>(windowsPackager.getClasspaths()));
+		l4jTask.setClasspath(new HashSet<>(windowsPackager.getClasspathList()));
 		l4jTask.setChdir(useResourcesAsWorkingDir ? "." : "");
 		l4jTask.setBundledJrePath(bundleJre ? jreDirectoryName : "%JAVA_HOME%");
 		if (!StringUtils.isBlank(jreMinVersion)) {

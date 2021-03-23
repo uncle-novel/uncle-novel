@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.plugin.packager.utils;
+package com.unclezs.novel.app.jfx.plugin.packager.util;
 
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;

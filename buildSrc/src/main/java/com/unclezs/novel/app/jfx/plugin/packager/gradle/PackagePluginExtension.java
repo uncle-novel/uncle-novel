@@ -1,12 +1,12 @@
 package com.unclezs.novel.app.jfx.plugin.packager.gradle;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Platform;
-import groovy.lang.Closure;
 import com.unclezs.novel.app.jfx.plugin.packager.model.LinuxConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.model.MacConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.model.Manifest;
 import com.unclezs.novel.app.jfx.plugin.packager.model.WindowsConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.PackagerSettings;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Platform;
+import groovy.lang.Closure;
 import org.gradle.api.Project;
 
 import java.io.File;
@@ -15,20 +15,24 @@ import java.util.HashMap;
 
 /**
  * JavaPackager plugin extension for Gradle
+ *
+ * @author https://github.com/fvarrui/JavaPackager
+ * @author blog.unclezs.com
+ * @since 2021/03/23 19:15
  */
 public class PackagePluginExtension extends PackagerSettings {
 
-	private Project project;
+    private final Project project;
 
-	public PackagePluginExtension(Project project) {
-		super();
-		this.project = project;
-		this.platform = Platform.auto;
-		this.additionalModules = new ArrayList<>();
-		this.additionalModulePaths = new ArrayList<>();
-		this.additionalResources = new ArrayList<>();
-		this.administratorRequired = false;
-		this.assetsDir = new File(project.getProjectDir(), "assets");
+    public PackagePluginExtension(Project project) {
+        super();
+        this.project = project;
+        this.platform = Platform.auto;
+        this.additionalModules = new ArrayList<>();
+        this.additionalModulePaths = new ArrayList<>();
+        this.additionalResources = new ArrayList<>();
+        this.administratorRequired = false;
+        this.assetsDir = new File(project.getProjectDir(), "assets");
 		this.bundleJre = true;
 		this.copyDependencies = true;
 		this.createTarball = false;

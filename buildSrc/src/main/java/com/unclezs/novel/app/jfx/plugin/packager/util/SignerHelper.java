@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.plugin.packager.utils;
+package com.unclezs.novel.app.jfx.plugin.packager.util;
 
 import net.jsign.AuthenticodeSigner;
 import net.jsign.DigestAlgorithm;

@@ -1,8 +1,8 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.FileUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.VelocityUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -51,16 +51,16 @@ public class LinuxPackager extends Packager {
 
 		// process classpath
 		if (classpath != null) {
-			classpaths = Arrays.asList(classpath.split("[:;]"));
+			classpathList = Arrays.asList(classpath.split("[:;]"));
 			if (!isUseResourcesAsWorkingDir()) {
-				classpaths = classpaths.stream().map(cp -> new File(cp).isAbsolute() ? cp : "$SCRIPTPATH/" + cp).collect(Collectors.toList());
+				classpathList = classpathList.stream().map(cp -> new File(cp).isAbsolute() ? cp : "$SCRIPTPATH/" + cp).collect(Collectors.toList());
 			}
-			classpath = StringUtils.join(classpaths, ":");
+			classpath = StringUtils.join(classpathList, ":");
 		}
 
 		// generates startup.sh script to boot java app
 		File startupFile = new File(assetsFolder, "startup.sh");
-		VelocityUtils.render("linux/startup.sh.vtl", startupFile, this);
+		VelocityUtils.render("linux/startup.sh.vm", startupFile, this);
 		Logger.info("Startup script generated in " + startupFile.getAbsolutePath());
 
 		// concats linux startup.sh script + generated jar in executable (binary)

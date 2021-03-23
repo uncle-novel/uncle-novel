@@ -1,12 +1,12 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.VelocityUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.XMLUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.XMLUtils;
 
 import java.io.File;
 
-import static com.unclezs.novel.app.jfx.plugin.packager.utils.CommandUtils.execute;
+import static com.unclezs.novel.app.jfx.plugin.packager.util.CommandUtils.execute;
 
 
 /**
@@ -38,7 +38,7 @@ public class GenerateMsi extends WindowsArtifactGenerator {
 
 		// generates WXS file from velocity template
 		File wxsFile = new File(assetsFolder, name + ".wxs");
-		VelocityUtils.render("windows/wxs.vtl", wxsFile, windowsPackager);
+		VelocityUtils.render("windows/wxs.vm", wxsFile, windowsPackager);
 		Logger.info("WXS file generated in " + wxsFile + "!");
 
 		// pretiffy wxs

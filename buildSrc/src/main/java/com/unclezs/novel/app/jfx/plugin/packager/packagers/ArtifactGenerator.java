@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
 
 import java.io.File;
 

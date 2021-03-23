@@ -1,5 +1,6 @@
-package com.unclezs.novel.app.jfx.plugin.packager.utils;
+package com.unclezs.novel.app.jfx.plugin.packager.util;
 
+import lombok.experimental.UtilityClass;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -16,6 +17,7 @@ import java.io.File;
 /**
  * XML utils
  */
+@UtilityClass
 public class XMLUtils {
 
 	/**
@@ -23,7 +25,7 @@ public class XMLUtils {
 	 * @param file Xml file
 	 * @throws Exception Something went wrong
 	 */
-	public static final void prettify(File file) throws Exception {
+	public static void prettify(File file) throws Exception {
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();

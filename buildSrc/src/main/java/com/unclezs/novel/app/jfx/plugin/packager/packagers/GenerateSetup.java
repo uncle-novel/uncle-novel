@@ -1,9 +1,9 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
 import com.unclezs.novel.app.jfx.plugin.packager.model.Registry;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.CommandUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.FileUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.VelocityUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.CommandUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -44,7 +44,7 @@ public class GenerateSetup extends WindowsArtifactGenerator {
 
 		// generates iss file from velocity template
 		File issFile = new File(assetsFolder, name + ".iss");
-		VelocityUtils.render("windows/iss.vtl", issFile, windowsPackager);
+		VelocityUtils.render("windows/iss.vm", issFile, windowsPackager);
 
 		// generates windows installer with inno setup command line compiler
 		CommandUtils.execute("iscc", "/O" + outputDirectory.getAbsolutePath(), "/F" + name + "_" + version, issFile);

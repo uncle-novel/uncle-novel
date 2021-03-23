@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.plugin.packager.utils;
+package com.unclezs.novel.app.jfx.plugin.packager.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * JDK utils
  */
-public class JDKUtils {
+public class JdkUtils {
 
 	/**
 	 * Converts "release" file from specified JDK or JRE to map

@@ -1,12 +1,15 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.CommandUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.CommandUtils;
 
 import java.io.File;
 
 /**
- * Creates a PKG installer file including all app folder's content only for MacOS so
- * app could be easily distributed
+ * 创建一个PKG安装程序文件，其中包含所有应用程序文件夹的内容，仅适用于MacOS，这样应用程序就可以轻松分发
+ *
+ * @author https://github.com/fvarrui/JavaPackager
+ * @author blog.unclezs.com
+ * @since 2021/03/23 19:10
  */
 public class GeneratePkg extends ArtifactGenerator {
 

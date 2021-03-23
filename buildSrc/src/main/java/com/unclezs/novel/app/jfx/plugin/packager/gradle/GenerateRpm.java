@@ -2,7 +2,7 @@ package com.unclezs.novel.app.jfx.plugin.packager.gradle;
 
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.Packager;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
 
 import java.io.File;
 

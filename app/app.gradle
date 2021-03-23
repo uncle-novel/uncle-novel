@@ -5,9 +5,10 @@ plugins {
 }
 apply plugin: "launcher"
 apply plugin: 'packager'
+apply plugin: "sass"
 
 group 'com.unclezs.novel.app.jfx'
-version '5.0'
+version rootProject.version
 
 repositories {
     mavenLocal()
@@ -46,16 +47,16 @@ javafx {
 
 task packageLinux(type: PackageTask, dependsOn: build) {
     platform = "linux"
-    createTarball = true
+    createTar = true
     generateInstaller = true
 }
 task packageMac(type: PackageTask, dependsOn: build) {
     platform = "mac"
-    createTarball = true
+    createTar = true
     generateInstaller = true
     macConfig {
         generateDmg = true
-        generatePkg = false
+        generatePkg = true
         appId = "com.unclezs.novel.app"
         icnsFile = file("${projectDir}/packager/logo/favicon.icns")
         return macConfig
@@ -63,7 +64,7 @@ task packageMac(type: PackageTask, dependsOn: build) {
 }
 task packageWindows(type: PackageTask, dependsOn: build) {
     platform = "windows"
-    createZipball = true
+    createZip = true
     generateInstaller = false
     winConfig {
         icoFile = file("${projectDir}/packager/logo/favicon.ico")

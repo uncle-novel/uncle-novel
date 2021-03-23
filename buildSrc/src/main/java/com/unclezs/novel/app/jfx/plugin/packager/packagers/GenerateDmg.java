@@ -1,21 +1,25 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
 import com.unclezs.novel.app.jfx.plugin.packager.model.MacConfig;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.FileUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.ThreadUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.VelocityUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.ThreadUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.Arrays;
 
-import static com.unclezs.novel.app.jfx.plugin.packager.utils.CommandUtils.execute;
+import static com.unclezs.novel.app.jfx.plugin.packager.util.CommandUtils.execute;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 /**
  * Creates a DMG image file including all app folder's content only for MacOS so
  * app could be easily distributed
+ *
+ * @author https://github.com/fvarrui/JavaPackager
+ * @author blog.unclezs.com
+ * @since 2021/03/23 19:13
  */
 public class GenerateDmg extends ArtifactGenerator {
 
@@ -105,7 +109,7 @@ public class GenerateDmg extends ArtifactGenerator {
         // renders applescript
         Logger.info("Rendering DMG customization applescript ... ");
         File applescriptFile = new File(assetsFolder, "customize-dmg.applescript");
-        VelocityUtils.render("/mac/customize-dmg.applescript.vtl", applescriptFile, macPackager);
+        VelocityUtils.render("/mac/customize-dmg.applescript.vm", applescriptFile, macPackager);
         Logger.info("Applescript rendered in " + applescriptFile.getAbsolutePath() + "!");
 
         // runs applescript

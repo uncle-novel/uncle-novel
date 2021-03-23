@@ -5,7 +5,7 @@ plugins {
 }
 apply plugin: "sass"
 group 'com.unclezs.novel.app.jfx'
-version '5.0'
+version rootProject.version
 
 repositories {
     mavenLocal()

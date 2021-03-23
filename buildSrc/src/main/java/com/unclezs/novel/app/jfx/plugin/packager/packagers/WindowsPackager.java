@@ -1,8 +1,8 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.FileUtils;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
-import com.unclezs.novel.app.jfx.plugin.packager.utils.VelocityUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -66,7 +66,7 @@ public class WindowsPackager extends Packager {
 
 		// generates manifest file to require administrator privileges from velocity template
 		manifestFile = new File(assetsFolder, name + ".exe.manifest");
-		VelocityUtils.render("windows/exe.manifest.vtl", manifestFile, this);
+		VelocityUtils.render("windows/exe.manifest.vm", manifestFile, this);
 		Logger.info("Exe manifest file generated in " + manifestFile.getAbsolutePath() + "!");
 
 		// sets executable file
@@ -74,11 +74,11 @@ public class WindowsPackager extends Packager {
 
 		// process classpath
 		if (classpath != null) {
-			classpaths = Arrays.asList(classpath.split(";"));
+			classpathList = Arrays.asList(classpath.split(";"));
 			if (!isUseResourcesAsWorkingDir()) {
-				classpaths = classpaths.stream().map(cp -> new File(cp).isAbsolute() ? cp : "%EXEDIR%/" + cp).collect(Collectors.toList());
+				classpathList = classpathList.stream().map(cp -> new File(cp).isAbsolute() ? cp : "%EXEDIR%/" + cp).collect(Collectors.toList());
 			}
-			classpath = StringUtils.join(classpaths, ";");
+			classpath = StringUtils.join(classpathList, ";");
 		}
 
 		// invokes launch4j to generate windows executable

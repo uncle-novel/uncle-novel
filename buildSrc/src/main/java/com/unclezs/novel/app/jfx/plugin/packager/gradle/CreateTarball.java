@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.gradle;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Platform;
+import com.unclezs.novel.app.jfx.plugin.packager.util.Platform;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.MacPackager;
