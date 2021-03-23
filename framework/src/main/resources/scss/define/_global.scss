@@ -13,7 +13,6 @@
   -fx-effect: dropshadow(three-pass-box, $color, 1, 0, 1, 1) !important;
 }
 
-
 // 稍微暗点的 字体自适应背景
 @mixin ladderTextFill($bgColor) {
   -fx-text-fill: ladder($bgColor, $white_color 49%, $black_color 50%);
@@ -27,7 +26,6 @@
 @mixin ladderTextFillForce($bgColor) {
   -fx-text-fill: ladder($bgColor, $white_color 49%, $black_color 50%) !important;
 }
-
 
 // 背景色
 @mixin ladderBgColor($bgColor) {

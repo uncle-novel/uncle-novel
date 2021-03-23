@@ -16,11 +16,11 @@
             <JFXButton userData="green" styleClass="color-box-item" onMouseClicked="#changeTheme"
                        style="-fx-background-color: rgb(77, 175, 124)"/>
             <JFXButton userData="red" styleClass="color-box-item" onMouseClicked="#changeTheme"
-                       style="-fx-background-color: md_red_500"/>
+                       style="-fx-background-color: rgb(214, 69, 65)"/>
             <JFXButton userData="blue" styleClass="color-box-item" onMouseClicked="#changeTheme"
-                       style="-fx-background-color: md_blue_600"/>
+                       style="-fx-background-color: rgb(52, 152, 219)"/>
             <JFXButton userData="pink" styleClass="color-box-item" onMouseClicked="#changeTheme"
-                       style="-fx-background-color: md_pink_100"/>
+                       style="-fx-background-color: rgb(214, 130, 141)"/>
         </HBox>
         <HBox styleClass="theme-popup-color-box">
             <JFXButton userData="purple" styleClass="color-box-item" onMouseClicked="#changeTheme"
