@@ -1,10 +1,7 @@
 package com.unclezs.novel.app.jfx.launcher;
 
 import java.io.File;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.file.Paths;
+import java.util.Arrays;
 
 /**
  * @author blog.unclezs.com
@@ -12,25 +9,15 @@ import java.nio.file.Paths;
  */
 public class ClassLoaderTest {
     public static void main(String[] args) throws Exception {
-        String libDir = "G:\\coder\\self-coder\\uncle-novel-jfx\\app\\build\\libs";
-        File[] files = Paths.get(libDir).toFile().listFiles((dir, name) -> name.endsWith(".jar"));
-        assert files != null;
-        URL[] urls = new URL[files.length];
-        for (int i = 0; i < files.length; i++) {
-            urls[i] = files[i].toURI().toURL();
-        }
-        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
-        ClassLoader classLoader = new URLClassLoader(urls, systemClassLoader);
-        Thread.currentThread().setContextClassLoader(classLoader);
-        Class<?> loadClass = Thread.currentThread().getContextClassLoader().loadClass("com.unclezs.novel.app.jfx.app.Launcher");
-        Method main = loadClass.getDeclaredMethod("main", String[].class);
-        main.invoke(null, (Object) new String[0]);
+        String classpath = System.getProperty("java.class.path");
+        System.out.println(classpath);
+        System.out.println(Arrays.toString(classpath.split(File.pathSeparator)));
     }
 
     public static void test() throws Exception {
-        LauncherClassLoader launcherClassLoader = new LauncherClassLoader();
-        Class<?> loadClass = launcherClassLoader.loadClass("/Users/zhanghongguo/coder/self-coder/uncle-novel-jfx/unclezs/PluginTest.class");
-        Method main = loadClass.getDeclaredMethod("main", String[].class);
-        main.invoke(null, (Object) new String[0]);
+//        LauncherClassLoader launcherClassLoader = new LauncherClassLoader();
+//        Class<?> loadClass = launcherClassLoader.loadClass("/Users/zhanghongguo/coder/self-coder/uncle-novel-jfx/unclezs/PluginTest.class");
+//        Method main = loadClass.getDeclaredMethod("main", String[].class);
+//        main.invoke(null, (Object) new String[0]);
     }
 }

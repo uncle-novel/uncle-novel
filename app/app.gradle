@@ -74,10 +74,10 @@ task packageWindows(type: PackageTask, dependsOn: build) {
 }
 
 packager {
-    name "Uncle"
-    mainClass 'com.unclezs.novel.app.jfx.app.Launcher'
-    bundleJre true
-    jreDirectoryName "runtime"
-    copyDependencies true
-    customizedJre false
+    name = "Uncle小说"
+    mainClass = 'com.unclezs.novel.app.jfx.app.Launcher'
+    bundleJre = true
+    jreDirectoryName = "runtime"
+    copyDependencies = true
+    customizedJre = false
 }

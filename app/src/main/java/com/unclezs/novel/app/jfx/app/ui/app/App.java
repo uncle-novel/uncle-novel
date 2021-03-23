@@ -4,10 +4,13 @@ import com.unclezs.novel.app.jfx.app.ui.pages.home.HomeSceneView;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SceneView;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SceneViewNavigateBundle;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SsaApplication;
+import com.unclezs.novel.app.jfx.framework.ui.components.icon.SvgIcon;
 import com.unclezs.novel.app.jfx.framework.util.ResourceUtils;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
+import java.util.Locale;
+import java.util.Random;
 
 /**
  * SSA
@@ -24,6 +27,19 @@ public class App extends SsaApplication {
             throw new IllegalStateException("不可以创建多个App");
         }
         app = this;
+    }
+
+    @Override
+    public void init() throws Exception {
+        SvgIcon.load("/assets/icons/svg.properties");
+        Random random = new Random();
+        int i = random.nextInt(3);
+        if (i == 1) {
+            Locale.setDefault(Locale.ENGLISH);
+        } else if (i == 2) {
+            Locale.setDefault(Locale.TAIWAN);
+        }
+        super.init();
     }
 
     public static void disableWarning() {

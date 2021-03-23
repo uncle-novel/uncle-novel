@@ -17,7 +17,7 @@ public class Manifest {
     /**
      * 服务器地址
      */
-    private String serverUri;
+    private String serverUri = "file:/G:/coder/self-coder/uncle-novel-jfx/app/build/Uncle/libx/";
     /**
      * 更新日志链接
      */

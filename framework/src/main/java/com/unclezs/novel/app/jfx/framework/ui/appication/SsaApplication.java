@@ -67,7 +67,7 @@ public abstract class SsaApplication extends Application {
      * @throws Exception 加载失败
      */
     @Override
-    public final void init() throws Exception {
+    public void init() throws Exception {
         if (stage != null) {
             return;
         }
