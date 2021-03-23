@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.jfx.launcher;
 
 /**
- * @author zhanghongguo@sensorsdata.cn
+ * @author blog.unclezs.com
  * @since 2021/03/19 11:58
  */
 public class PluginTest {

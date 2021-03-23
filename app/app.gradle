@@ -1,5 +1,4 @@
 import com.unclezs.novel.app.jfx.plugin.packager.gradle.PackageTask
-
 plugins {
     id "java"
     id "org.openjfx.javafxplugin"
@@ -16,7 +15,6 @@ repositories {
     jcenter()
 }
 
-// 编译配置
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
     options.fork = true
@@ -59,7 +57,6 @@ task packageMac(type: PackageTask, dependsOn: build) {
         generateDmg = true
         generatePkg = false
         appId = "com.unclezs.novel.app"
-        developerId = "unclezs@qq.com"
         icnsFile = file("${projectDir}/packager/logo/favicon.icns")
         return macConfig
     }
@@ -80,5 +77,5 @@ packager {
     bundleJre true
     jreDirectoryName "runtime"
     copyDependencies true
-    customizedJre true
+    customizedJre false
 }

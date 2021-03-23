@@ -1,9 +1,9 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.utils.Platform;
 import com.unclezs.novel.app.jfx.plugin.packager.utils.CommandUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.utils.FileUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.utils.Logger;
+import com.unclezs.novel.app.jfx.plugin.packager.utils.Platform;
 import com.unclezs.novel.app.jfx.plugin.packager.utils.VelocityUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.plexus.util.cli.CommandLineException;
@@ -149,19 +149,19 @@ public class MacPackager extends Packager {
 	private void codesign(String developerId, File entitlements, File appFile) throws IOException, CommandLineException {
 		List<Object> codesignArgs = new ArrayList<>();
 		codesignArgs.add("--force");
-		codesignArgs.add("--deep");
-		if (entitlements == null) {
-			Logger.warn("Entitlements file not specified");
-		} else if (!entitlements.exists()) {
-			Logger.warn("Entitlements file doesn't exist: " + entitlements);
-		} else {
-			codesignArgs.add("--entitlements");
-			codesignArgs.add(entitlements);
-		}
-		codesignArgs.add("--sign");
-		codesignArgs.add(developerId);
-		codesignArgs.add(appFile);
-		CommandUtils.execute("codesign", codesignArgs.toArray(new Object[codesignArgs.size()]));
-	}
+        codesignArgs.add("--deep");
+        if (entitlements == null) {
+            Logger.warn("Entitlements file not specified");
+        } else if (!entitlements.exists()) {
+            Logger.warn("Entitlements file doesn't exist: " + entitlements);
+        } else {
+            codesignArgs.add("--entitlements");
+            codesignArgs.add(entitlements);
+        }
+        codesignArgs.add("--sign");
+        codesignArgs.add(developerId);
+        codesignArgs.add(appFile);
+        CommandUtils.execute("codesign", codesignArgs.toArray(new Object[0]));
+    }
 
 }

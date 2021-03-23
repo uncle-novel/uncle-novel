@@ -3,10 +3,10 @@ package com.unclezs.novel.app.jfx.launcher;
 import java.io.FileInputStream;
 
 /**
- * @author zhanghongguo@sensorsdata.cn
+ * @author blog.unclezs.com
  * @since 2021/03/19 11:43
  */
-public class AppClassLoader extends ClassLoader {
+public class LauncherClassLoader extends ClassLoader {
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         try {

@@ -7,7 +7,7 @@ import java.net.URLClassLoader;
 import java.nio.file.Paths;
 
 /**
- * @author zhanghongguo@sensorsdata.cn
+ * @author blog.unclezs.com
  * @since 2021/03/19 11:45
  */
 public class ClassLoaderTest {
@@ -28,8 +28,8 @@ public class ClassLoaderTest {
     }
 
     public static void test() throws Exception {
-        AppClassLoader appClassLoader = new AppClassLoader();
-        Class<?> loadClass = appClassLoader.loadClass("/Users/zhanghongguo/coder/self-coder/uncle-novel-jfx/unclezs/PluginTest.class");
+        LauncherClassLoader launcherClassLoader = new LauncherClassLoader();
+        Class<?> loadClass = launcherClassLoader.loadClass("/Users/zhanghongguo/coder/self-coder/uncle-novel-jfx/unclezs/PluginTest.class");
         Method main = loadClass.getDeclaredMethod("main", String[].class);
         main.invoke(null, (Object) new String[0]);
     }

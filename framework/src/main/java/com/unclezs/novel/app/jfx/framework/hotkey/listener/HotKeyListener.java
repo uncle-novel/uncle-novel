@@ -4,7 +4,7 @@ import com.tulskiy.keymaster.common.HotKey;
 import com.unclezs.novel.app.jfx.framework.hotkey.HotKeyCombination;
 
 /**
- * @author zhanghongguo@sensorsdata.cn
+ * @author blog.unclezs.com
  * @since 2021/03/09 11:02
  */
 public interface HotKeyListener extends com.tulskiy.keymaster.common.HotKeyListener {

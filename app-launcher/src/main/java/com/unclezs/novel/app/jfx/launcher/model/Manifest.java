@@ -27,17 +27,11 @@ public class Manifest {
      */
     private List<String> changeLog;
     /**
-     * app.xml文件位置
-     */
-    private String appUri;
-    /**
      * 依赖
      */
-    private List<String> libs;
-    private List<String> natives;
+    private List<Library> libs;
 
     public static void main(String[] args) {
-
 
     }
 
