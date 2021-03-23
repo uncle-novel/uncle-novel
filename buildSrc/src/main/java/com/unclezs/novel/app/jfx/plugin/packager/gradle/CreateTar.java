@@ -13,11 +13,15 @@ import java.util.UUID;
 
 /**
  * Creates tarball (tar.gz file) on Gradle context
+ *
+ * @author https://github.com/fvarrui/JavaPackager
+ * @author blog.unclezs.com
+ * @date 2021/03/24 11:26
  */
-public class CreateTarball extends ArtifactGenerator {
+public class CreateTar extends ArtifactGenerator {
 
-    public CreateTarball() {
-        super("Tarball");
+    public CreateTar() {
+        super("Tar");
     }
 
     @Override
@@ -45,16 +49,12 @@ public class CreateTarball extends ArtifactGenerator {
 
         // if zipball is for windows platform
         if (Platform.windows.equals(platform)) {
-
             tarTask.from(appFolder.getParentFile(), copySpec -> {
                 copySpec.include(appFolder.getName() + "/**");
             });
-
         }
-
         // if zipball is for linux platform
         else if (Platform.linux.equals(platform)) {
-
             tarTask.from(appFolder.getParentFile(), copySpec -> {
                 copySpec.include(appFolder.getName() + "/**");
                 copySpec.exclude(appFolder.getName() + "/" + executable.getName());
@@ -68,7 +68,7 @@ public class CreateTarball extends ArtifactGenerator {
 
         }
 
-        // if zipball is for macos platform
+        // if zip is for macos platform
         else if (Platform.mac.equals(platform)) {
 
             MacPackager macPackager = (MacPackager) packager;
@@ -96,7 +96,7 @@ public class CreateTarball extends ArtifactGenerator {
     }
 
     private Tar createTarTask() {
-        return Context.getGradleContext().getProject().getTasks().create("createTarball_" + UUID.randomUUID(), Tar.class);
+        return Context.getGradleContext().getProject().getTasks().create("createTar_" + UUID.randomUUID(), Tar.class);
     }
 
 }

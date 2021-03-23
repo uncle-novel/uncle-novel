@@ -39,6 +39,9 @@ public class WindowsConfig implements Serializable {
     private boolean generateMsi = false;
     private boolean generateMsm = false;
     private String msiUpgradeCode;
+    /**
+     * 是否把 runnable jar 打包进exe
+     */
     private boolean wrapJar = true;
     private LinkedHashMap<String, String> setupLanguages = new LinkedHashMap<>();
     private SetupMode setupMode = SetupMode.installForAllUsers;

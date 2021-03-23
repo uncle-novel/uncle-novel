@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packagers;
 
-import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
+import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
 import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -11,6 +11,10 @@ import java.util.stream.Collectors;
 
 /**
  * Packager for Windows
+ *
+ * @author https://github.com/fvarrui/JavaPackager
+ * @author blog.unclezs.com
+ * @date 2021/03/24 0:06
  */
 public class WindowsPackager extends Packager {
 
@@ -36,10 +40,7 @@ public class WindowsPackager extends Packager {
 
     @Override
     public void doInit() throws Exception {
-
-        // sets windows config default values
         this.winConfig.setDefaults(this);
-
     }
 
     @Override
@@ -61,7 +62,7 @@ public class WindowsPackager extends Packager {
 
         // copies JAR to app folder
         if (!winConfig.isWrapJar()) {
-            FileUtils.copyFileToFolder(jarFile, appFolder);
+            FileUtil.copy(jarFile, libsFolder, true);
         }
 
         // generates manifest file to require administrator privileges from velocity template

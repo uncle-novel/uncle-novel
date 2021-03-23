@@ -35,7 +35,7 @@ public abstract class ArtifactGenerator {
 
     protected abstract File doApply(Packager packager) throws Exception;
 
-    public File apply(Packager packager) throws Exception {
+    public File  apply(Packager packager) throws Exception {
         if (skip(packager)) {
             Logger.warn(getArtifactName() + " artifact generation skipped!");
             return null;

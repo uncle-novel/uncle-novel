@@ -50,7 +50,7 @@ public class GradleContext extends Context<Logger> {
 
     @Override
     public File createTarball(Packager packager) throws Exception {
-        return new CreateTarball().apply(packager);
+        return new CreateTar().apply(packager);
     }
 
     @Override

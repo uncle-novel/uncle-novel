@@ -74,7 +74,7 @@ task packageWindows(type: PackageTask, dependsOn: build) {
 }
 
 packager {
-    name "Uncle小说"
+    name "Uncle"
     mainClass 'com.unclezs.novel.app.jfx.app.Launcher'
     bundleJre true
     jreDirectoryName "runtime"
