@@ -20,40 +20,42 @@ import java.io.File;
 @UtilityClass
 public class XMLUtils {
 
-	/**
-	 * Pretiffy an XML file
-	 * @param file Xml file
-	 * @throws Exception Something went wrong
-	 */
-	public static void prettify(File file) throws Exception {
+    /**
+     * Pretiffy an XML file
+     *
+     * @param file Xml file
+     * @throws Exception Something went wrong
+     */
+    public static void prettify(File file) throws Exception {
 
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		Document document = builder.parse(file);
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(file);
 
-		trimWhitespace(document);
+        trimWhitespace(document);
 
-		Transformer transformer = TransformerFactory.newInstance().newTransformer();
-		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-		transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-		transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC,"yes");
-		transformer.transform(new DOMSource(document), new StreamResult(file));
+        Transformer transformer = TransformerFactory.newInstance().newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "yes");
+        transformer.transform(new DOMSource(document), new StreamResult(file));
 
-	}
+    }
 
-	/**
-	 * Removes whitespaces from nodes
-	 * @param node Root node
-	 */
-	public static void trimWhitespace(Node node) {
-	    NodeList children = node.getChildNodes();
-	    for(int i = 0; i < children.getLength(); ++i) {
-	        Node child = children.item(i);
-	        if(child.getNodeType() == Node.TEXT_NODE) {
-	            child.setTextContent(child.getTextContent().trim());
-	        }
-	        trimWhitespace(child);
-	    }
-	}
+    /**
+     * Removes whitespaces from nodes
+     *
+     * @param node Root node
+     */
+    public static void trimWhitespace(Node node) {
+        NodeList children = node.getChildNodes();
+        for (int i = 0; i < children.getLength(); ++i) {
+            Node child = children.item(i);
+            if (child.getNodeType() == Node.TEXT_NODE) {
+                child.setTextContent(child.getTextContent().trim());
+            }
+            trimWhitespace(child);
+        }
+    }
 
 }

@@ -26,13 +26,11 @@ import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 public abstract class Packager extends PackagerSettings {
 
     private static final String DEFAULT_ORGANIZATION_NAME = "ACME";
-
+    private final BundleJre generateJre = new BundleJre();
     /**
      * artifact generators
      */
     protected List<ArtifactGenerator> installerGenerators = new ArrayList<>();
-    private final BundleJre generateJre = new BundleJre();
-
     /**
      * internal generic properties (setted in "createAppStructure/createApp")
      */

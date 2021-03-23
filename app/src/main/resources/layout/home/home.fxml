@@ -6,34 +6,41 @@
 <?import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationMenuGroup?>
 <?import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationPane?>
 <?import javafx.scene.layout.VBox?>
-<StageDecorator fx:id="root" prefHeight="660.0" prefWidth="940.0" minHeight="${root.prefHeight}"
-                minWidth="${root.prefWidth}" max="true" min="true" logo="/assets/favicon.png" theme="true"
-                setting="true"
-                title="%Uncle小说" xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1"
-                fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.HomeSceneView" stylesheets="/css/home/home.css">
+<StageDecorator xmlns:fx="http://javafx.com/fxml/1" fx:id="root" prefHeight="660.0" prefWidth="940.0"
+                minHeight="${root.prefHeight}" minWidth="${root.prefWidth}" max="true" min="true" logo="/assets/favicon.png"
+                theme="true"
+                setting="true" title="%Uncle小说" xmlns="http://javafx.com/javafx/15"
+                fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.HomeSceneView"
+                stylesheets="/css/home/home.css">
     <SidebarNavigationPane prefWidth="${root.width}" VBox.vgrow="ALWAYS" fx:id="container">
         <SidebarNavigation>
             <SidebarNavigationMenuGroup name="%找书">
                 <SidebarNavigationMenu text="%设置" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SettingView"
                                        selected="true" svg="_search"/>
-                <SidebarNavigationMenu text="%搜索小说" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchNovelView"
+                <SidebarNavigationMenu text="%搜索小说"
+                                       view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchNovelView"
                                        selected="false" svg="_search"/>
                 <SidebarNavigationMenu text="%全网搜书"
                                        view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchNetworkView"
                                        icon="&#xf26c;"/>
-                <SidebarNavigationMenu text="%寻找有声" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"
+                <SidebarNavigationMenu text="%寻找有声"
+                                       view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"
                                        svg="_music-2-line"/>
             </SidebarNavigationMenuGroup>
             <SidebarNavigationMenuGroup name="%读书">
-                <SidebarNavigationMenu text="%小说书架" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"
+                <SidebarNavigationMenu text="%小说书架"
+                                       view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"
                                        svg="_bookshelves"/>
-                <SidebarNavigationMenu text="%有声书架" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"
+                <SidebarNavigationMenu text="%有声书架"
+                                       view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"
                                        svg="_disc-line"/>
             </SidebarNavigationMenuGroup>
             <SidebarNavigationMenuGroup name="%下书">
-                <SidebarNavigationMenu text="%解析下载" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"
+                <SidebarNavigationMenu text="%解析下载"
+                                       view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"
                                        icon="&#xf260;"/>
-                <SidebarNavigationMenu text="%下载管理" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"
+                <SidebarNavigationMenu text="%下载管理"
+                                       view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"
                                        svg="_download-2-fill"/>
             </SidebarNavigationMenuGroup>
         </SidebarNavigation>

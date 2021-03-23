@@ -6,10 +6,12 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<StageDecorator prefHeight="400.0" minHeight="400.0" prefWidth="400.0" minWidth="400" theme="true" min="true" max="true" setting="true" title="%下载管理" logo="/assets/favicon.png"
+<StageDecorator xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" minHeight="400.0" prefWidth="400.0" minWidth="400" theme="true" min="true"
+                max="true" setting="true" title="%下载管理"
+                logo="/assets/favicon.png"
                 xmlns="http://javafx.com/javafx/15"
-                xmlns:fx="http://javafx.com/fxml/1"
-                fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.reader.ReaderSceneView" stylesheets="/css/reader/reader.css">
+                fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.reader.ReaderSceneView"
+                stylesheets="/css/reader/reader.css">
     <VBox style="-fx-background-color: #FFF">
         <Button text="回到Home" onMouseClicked="#toHome"/>
         <HBox fx:id="box">

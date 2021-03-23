@@ -13,35 +13,35 @@ import java.io.File;
  */
 public class GeneratePkg extends ArtifactGenerator {
 
-	public GeneratePkg() {
-		super("PKG installer");
-	}
+    public GeneratePkg() {
+        super("PKG installer");
+    }
 
-	@Override
-	public boolean skip(Packager packager) {
-		return !packager.getMacConfig().isGeneratePkg();
-	}
+    @Override
+    public boolean skip(Packager packager) {
+        return !packager.getMacConfig().isGeneratePkg();
+    }
 
-	@Override
-	protected File doApply(Packager packager) throws Exception {
-		MacPackager macPackager = (MacPackager) packager;
+    @Override
+    protected File doApply(Packager packager) throws Exception {
+        MacPackager macPackager = (MacPackager) packager;
 
-		File appFile = macPackager.getAppFile();
-		String name = macPackager.getName();
-		File outputDirectory = macPackager.getOutputDirectory();
-		String version = macPackager.getVersion();
+        File appFile = macPackager.getAppFile();
+        String name = macPackager.getName();
+        File outputDirectory = macPackager.getOutputDirectory();
+        String version = macPackager.getVersion();
 
-		File pkgFile = new File(outputDirectory, name + "_" + version + ".pkg");
+        File pkgFile = new File(outputDirectory, name + "_" + version + ".pkg");
 
-		// invokes pkgbuild command
-		CommandUtils.execute("pkgbuild", "--install-location", "/Applications", "--component", appFile, pkgFile);
+        // invokes pkgbuild command
+        CommandUtils.execute("pkgbuild", "--install-location", "/Applications", "--component", appFile, pkgFile);
 
-		// checks if pkg file was created
-		if (!pkgFile.exists()) {
-			throw new Exception(getArtifactName() + " generation failed!");
-		}
+        // checks if pkg file was created
+        if (!pkgFile.exists()) {
+            throw new Exception(getArtifactName() + " generation failed!");
+        }
 
-		return pkgFile;
-	}
+        return pkgFile;
+    }
 
 }

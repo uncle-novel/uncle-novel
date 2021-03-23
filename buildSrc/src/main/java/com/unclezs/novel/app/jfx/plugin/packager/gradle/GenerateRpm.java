@@ -12,21 +12,21 @@ import java.io.File;
  */
 public class GenerateRpm extends ArtifactGenerator {
 
-	public GenerateRpm() {
-		super("RPM package");
-	}
+    public GenerateRpm() {
+        super("RPM package");
+    }
 
-	@Override
-	public boolean skip(Packager packager) {
-		return !packager.getLinuxConfig().isGenerateRpm();
-	}
+    @Override
+    public boolean skip(Packager packager) {
+        return !packager.getLinuxConfig().isGenerateRpm();
+    }
 
-	@Override
-	protected File doApply(Packager packager) throws Exception {
+    @Override
+    protected File doApply(Packager packager) throws Exception {
 
-		Logger.warn("Sorry! " + getArtifactName() + " generation is not yet available");
+        Logger.warn("Sorry! " + getArtifactName() + " generation is not yet available");
 
-		return null;
-	}
+        return null;
+    }
 
 }

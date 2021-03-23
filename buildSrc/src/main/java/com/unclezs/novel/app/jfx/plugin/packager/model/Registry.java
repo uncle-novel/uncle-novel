@@ -11,6 +11,6 @@ import java.util.List;
  */
 @Data
 public class Registry implements Serializable {
-	private static final long serialVersionUID = 8310081277297116023L;
-	private List<RegistryEntry> entries = new ArrayList<>();
+    private static final long serialVersionUID = 8310081277297116023L;
+    private List<RegistryEntry> entries = new ArrayList<>();
 }

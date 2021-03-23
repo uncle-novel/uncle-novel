@@ -4,7 +4,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns="http://javafx.com/javafx/15" xmlns:fx="http://javafx.com/fxml/1"
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/15"
            stylesheets="/css/home/views/setting.css"
            fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SettingView">
     <ScrollPane styleClass="setting-view">

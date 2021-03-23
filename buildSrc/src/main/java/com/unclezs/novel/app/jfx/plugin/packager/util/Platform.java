@@ -24,13 +24,6 @@ public enum Platform {
      */
     windows;
 
-    public boolean isCurrentPlatform() {
-        if (this == auto) {
-            return true;
-        }
-        return this == getCurrentPlatform();
-    }
-
     public static Platform getCurrentPlatform() {
         if (SystemUtils.IS_OS_WINDOWS) {
             return windows;
@@ -42,6 +35,13 @@ public enum Platform {
             return mac;
         }
         return auto;
+    }
+
+    public boolean isCurrentPlatform() {
+        if (this == auto) {
+            return true;
+        }
+        return this == getCurrentPlatform();
     }
 
 }

@@ -1,25 +1,36 @@
 .home-theme-popup {
-  -fx-pref-height: 150;
-  -fx-pref-width: 320;
-  -fx-alignment: center;
-  -fx-padding: 0 10 0 10;
-  -fx-spacing: 25; }
-  .home-theme-popup .theme-popup-color-box {
+    -fx-pref-height: 150;
+    -fx-pref-width: 320;
+    -fx-alignment: center;
+    -fx-padding: 0 10 0 10;
+    -fx-spacing: 25;
+}
+
+.home-theme-popup .theme-popup-color-box {
     -fx-spacing: 10;
-    -fx-alignment: center; }
-    .home-theme-popup .theme-popup-color-box .color-box-item, .home-theme-popup .theme-popup-color-box .color-box-item-custom {
-      -fx-pref-width: 38;
-      -fx-pref-height: 38;
-      -fx-background-radius: 5;
-      -fx-border-radius: 5;
-      -fx-text-fill: white;
-      -fx-font-size: 11px;
-      -fx-content-display: GRAPHIC_ONLY;
-      -fx-effect: dropshadow(three-pass-box, theme-dark-color, 3, 0, 1, 1) !important; }
-      .home-theme-popup .theme-popup-color-box .color-box-item:hover, .home-theme-popup .theme-popup-color-box .color-box-item-custom:hover {
-        -fx-effect: dropshadow(three-pass-box, theme-dark-color, 1, 0, 1, 1) !important; }
-    .home-theme-popup .theme-popup-color-box .color-box-item-custom {
-      -fx-color-label-visible: false; }
-      .home-theme-popup .theme-popup-color-box .color-box-item-custom .color-label {
-        -fx-background-radius: 5;
-        -fx-border-radius: 5; }
+    -fx-alignment: center;
+}
+
+.home-theme-popup .theme-popup-color-box .color-box-item, .home-theme-popup .theme-popup-color-box .color-box-item-custom {
+    -fx-pref-width: 38;
+    -fx-pref-height: 38;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-text-fill: white;
+    -fx-font-size: 11px;
+    -fx-content-display: GRAPHIC_ONLY;
+    -fx-effect: dropshadow(three-pass-box, theme-dark-color, 3, 0, 1, 1) !important;
+}
+
+.home-theme-popup .theme-popup-color-box .color-box-item:hover, .home-theme-popup .theme-popup-color-box .color-box-item-custom:hover {
+    -fx-effect: dropshadow(three-pass-box, theme-dark-color, 1, 0, 1, 1) !important;
+}
+
+.home-theme-popup .theme-popup-color-box .color-box-item-custom {
+    -fx-color-label-visible: false;
+}
+
+.home-theme-popup .theme-popup-color-box .color-box-item-custom .color-label {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}

@@ -1,9 +1,11 @@
 .home-setting-popup {
-  -fx-text-fill: ladder(theme-bg-color, rgba(255, 255, 255, 0.87) 44%, rgba(0, 0, 0, 0.87) 45%);
-  -fx-padding: 10;
-  -fx-alignment: center-left;
-  -fx-background-color: theme-bg-color; }
-  .home-setting-popup .icon-button {
+    -fx-text-fill: ladder(theme-bg-color, rgba(255, 255, 255, 0.87) 44%, rgba(0, 0, 0, 0.87) 45%);
+    -fx-padding: 10;
+    -fx-alignment: center-left;
+    -fx-background-color: theme-bg-color;
+}
+
+.home-setting-popup .icon-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
     -fx-font-size: 13px;
@@ -13,18 +15,25 @@
     -fx-min-height: 30px;
     -fx-background-radius: 3px;
     -fx-alignment: center-left;
-    -fx-padding: 0 0 0 10; }
-    .home-setting-popup .icon-button:hover {
-      -fx-text-fill: ladder(theme-selected-color, rgba(255, 255, 255, 0.87) 44%, rgba(0, 0, 0, 0.87) 45%);
-      -fx-effect: dropshadow(three-pass-box, derive(-fx-text-fill, -100%), 3, 0, 1, 1) !important;
-      -fx-background-color: theme-selected-color; }
-    .home-setting-popup .icon-button .icon {
-      -fx-icon-size: 14px;
-      -fx-max-width: 18px;
-      -fx-min-width: 18px;
-      -fx-pref-width: 18px;
-      -fx-text-fill: inherit; }
-  .home-setting-popup .home-setting-popup-delimiter {
+    -fx-padding: 0 0 0 10;
+}
+
+.home-setting-popup .icon-button:hover {
+    -fx-text-fill: ladder(theme-selected-color, rgba(255, 255, 255, 0.87) 44%, rgba(0, 0, 0, 0.87) 45%);
+    -fx-effect: dropshadow(three-pass-box, derive(-fx-text-fill, -100%), 3, 0, 1, 1) !important;
+    -fx-background-color: theme-selected-color;
+}
+
+.home-setting-popup .icon-button .icon {
+    -fx-icon-size: 14px;
+    -fx-max-width: 18px;
+    -fx-min-width: 18px;
+    -fx-pref-width: 18px;
+    -fx-text-fill: inherit;
+}
+
+.home-setting-popup .home-setting-popup-delimiter {
     -fx-max-height: 1;
     -fx-min-height: 1;
-    -fx-background-color: theme-dark-color; }
+    -fx-background-color: theme-dark-color;
+}

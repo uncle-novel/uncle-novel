@@ -2,6 +2,8 @@ package com.unclezs.novel.app.jfx.app.ui.pages.home.views;
 
 import com.jfoenix.controls.JFXToggleButton;
 import com.tulskiy.keymaster.common.HotKey;
+import com.unclezs.novel.app.jfx.app.ui.app.App;
+import com.unclezs.novel.app.jfx.app.util.DebugUtils;
 import com.unclezs.novel.app.jfx.framework.annotation.FxView;
 import com.unclezs.novel.app.jfx.framework.hotkey.HotKeyCombination;
 import com.unclezs.novel.app.jfx.framework.hotkey.HotKeyManager;
@@ -10,8 +12,6 @@ import com.unclezs.novel.app.jfx.framework.hotkey.listener.HotKeyListener;
 import com.unclezs.novel.app.jfx.framework.ui.components.icon.SvgIcon;
 import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.NavigateBundle;
 import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationView;
-import com.unclezs.novel.app.jfx.app.ui.app.App;
-import com.unclezs.novel.app.jfx.app.util.DebugUtils;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
@@ -24,6 +24,7 @@ import javafx.scene.text.Text;
  */
 @FxView(fxml = "/layout/home/views/search_novel.fxml")
 public class SearchNovelView extends SidebarNavigationView {
+    private final KeyRecorder recorder = new KeyRecorder();
     public Text text;
     public Button clear;
     public Button showFalse;
@@ -31,7 +32,6 @@ public class SearchNovelView extends SidebarNavigationView {
     public Button cancelWindow;
     public Button global;
     public Button cancelGlobal;
-    private final KeyRecorder recorder = new KeyRecorder();
     public VBox box;
     public JFXToggleButton debug;
     HotKeyCombination combination;

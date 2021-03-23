@@ -15,20 +15,20 @@ import java.util.UUID;
  */
 public class GenerateDeb extends ArtifactGenerator {
 
-	public GenerateDeb() {
-		super("DEB package");
-	}
+    public GenerateDeb() {
+        super("DEB package");
+    }
 
-	@Override
-	public boolean skip(Packager packager) {
-		return !packager.getLinuxConfig().isGenerateDeb();
-	}
+    @Override
+    public boolean skip(Packager packager) {
+        return !packager.getLinuxConfig().isGenerateDeb();
+    }
 
-	@Override
-	protected File doApply(Packager packager) throws Exception {
+    @Override
+    protected File doApply(Packager packager) throws Exception {
 
-		Logger.warn("Sorry! " + getArtifactName() + " generation is not yet available");
-		return null;
+        Logger.warn("Sorry! " + getArtifactName() + " generation is not yet available");
+        return null;
 
 //		File assetsFolder = linuxPackager.getAssetsFolder();
 //		String name = linuxPackager.getName();
@@ -98,10 +98,10 @@ public class GenerateDeb extends ArtifactGenerator {
 //
 //		return debFile;
 
-	}
+    }
 
-	private Deb createDebTask() {
-		return Context.getGradleContext().getProject().getTasks().create("createDeb_" + UUID.randomUUID(), Deb.class);
-	}
+    private Deb createDebTask() {
+        return Context.getGradleContext().getProject().getTasks().create("createDeb_" + UUID.randomUUID(), Deb.class);
+    }
 
 }

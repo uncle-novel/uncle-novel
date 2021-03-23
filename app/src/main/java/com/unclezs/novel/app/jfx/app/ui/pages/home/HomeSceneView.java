@@ -1,6 +1,9 @@
 package com.unclezs.novel.app.jfx.app.ui.pages.home;
 
 import com.jfoenix.controls.JFXPopup;
+import com.unclezs.novel.app.jfx.app.ui.MainViewModel;
+import com.unclezs.novel.app.jfx.app.ui.pages.home.header.SettingPopupView;
+import com.unclezs.novel.app.jfx.app.ui.pages.home.header.ThemePopupView;
 import com.unclezs.novel.app.jfx.framework.annotation.FxView;
 import com.unclezs.novel.app.jfx.framework.hotkey.HotKeyManager;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SceneView;
@@ -10,9 +13,6 @@ import com.unclezs.novel.app.jfx.framework.ui.components.decorator.StageDecorato
 import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationPane;
 import com.unclezs.novel.app.jfx.framework.util.FxmlLoader;
 import com.unclezs.novel.app.jfx.framework.util.ResourceUtils;
-import com.unclezs.novel.app.jfx.app.ui.MainViewModel;
-import com.unclezs.novel.app.jfx.app.ui.pages.home.header.SettingPopupView;
-import com.unclezs.novel.app.jfx.app.ui.pages.home.header.ThemePopupView;
 import javafx.scene.Scene;
 
 /**
@@ -21,9 +21,9 @@ import javafx.scene.Scene;
  */
 @FxView(fxml = "/layout/home/home.fxml", bundle = "i18n.home")
 public class HomeSceneView extends SceneView {
+    private static final MainViewModel VIEW_MODEL = new MainViewModel();
     public StageDecorator root;
     public SidebarNavigationPane container;
-    private static final MainViewModel VIEW_MODEL = new MainViewModel();
     private ThemePopupView themePopupView;
 
     public void print() {

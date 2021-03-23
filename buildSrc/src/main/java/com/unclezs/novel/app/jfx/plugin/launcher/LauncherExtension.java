@@ -11,10 +11,9 @@ import java.io.File;
  */
 @Data
 public class LauncherExtension {
+    private final Project project;
     private File workDir;
     private String nativeLibPath;
-
-    private final Project project;
 
     public LauncherExtension(Project project) {
         this.project = project;

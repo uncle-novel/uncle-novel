@@ -15,14 +15,14 @@ import java.io.File;
  */
 public abstract class WindowsArtifactGenerator extends ArtifactGenerator {
 
-	private static final String TIMESTAMPING_AUTHORITY = "http://timestamp.comodoca.com/authenticode";
+    private static final String TIMESTAMPING_AUTHORITY = "http://timestamp.comodoca.com/authenticode";
 
-	public WindowsArtifactGenerator(String artifactName) {
-		super(artifactName);
-	}
+    public WindowsArtifactGenerator(String artifactName) {
+        super(artifactName);
+    }
 
-	protected void sign(File file, WindowsPackager packager) {
-		if (packager.getWinConfig().getSigning() == null) {
+    protected void sign(File file, WindowsPackager packager) {
+        if (packager.getWinConfig().getSigning() == null) {
             return;
         }
         Logger.infoIndent("Signing " + file);
@@ -56,6 +56,6 @@ public abstract class WindowsArtifactGenerator extends ArtifactGenerator {
             Logger.errorUnindent(file + " could not be signed", e);
         }
 
-	}
+    }
 
 }

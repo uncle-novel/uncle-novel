@@ -12,15 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.net.Authenticator;
-import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
-import java.net.PasswordAuthentication;
-import java.net.Proxy;
-import java.net.ProxySelector;
-import java.net.SocketAddress;
-import java.net.URI;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.Charset;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -200,25 +192,44 @@ public class SignerHelper {
         }
 
         switch (key) {
-            case PARAM_KEYSTORE:   return keystore(value);
-            case PARAM_STOREPASS:  return storepass(value);
-            case PARAM_STORETYPE:  return storetype(value);
-            case PARAM_ALIAS:      return alias(value);
-            case PARAM_KEYPASS:    return keypass(value);
-            case PARAM_KEYFILE:    return keyfile(value);
-            case PARAM_CERTFILE:   return certfile(value);
-            case PARAM_ALG:        return alg(value);
-            case PARAM_TSAURL:     return tsaurl(value);
-            case PARAM_TSMODE:     return tsmode(value);
-            case PARAM_TSRETRIES:  return tsretries(Integer.parseInt(value));
-            case PARAM_TSRETRY_WAIT: return tsretrywait(Integer.parseInt(value));
-            case PARAM_NAME:       return name(value);
-            case PARAM_URL:        return url(value);
-            case PARAM_PROXY_URL:  return proxyUrl(value);
-            case PARAM_PROXY_USER: return proxyUser(value);
-            case PARAM_PROXY_PASS: return proxyPass(value);
-            case PARAM_REPLACE:    return replace("true".equalsIgnoreCase(value));
-            case PARAM_ENCODING:   return encoding(value);
+            case PARAM_KEYSTORE:
+                return keystore(value);
+            case PARAM_STOREPASS:
+                return storepass(value);
+            case PARAM_STORETYPE:
+                return storetype(value);
+            case PARAM_ALIAS:
+                return alias(value);
+            case PARAM_KEYPASS:
+                return keypass(value);
+            case PARAM_KEYFILE:
+                return keyfile(value);
+            case PARAM_CERTFILE:
+                return certfile(value);
+            case PARAM_ALG:
+                return alg(value);
+            case PARAM_TSAURL:
+                return tsaurl(value);
+            case PARAM_TSMODE:
+                return tsmode(value);
+            case PARAM_TSRETRIES:
+                return tsretries(Integer.parseInt(value));
+            case PARAM_TSRETRY_WAIT:
+                return tsretrywait(Integer.parseInt(value));
+            case PARAM_NAME:
+                return name(value);
+            case PARAM_URL:
+                return url(value);
+            case PARAM_PROXY_URL:
+                return proxyUrl(value);
+            case PARAM_PROXY_USER:
+                return proxyUser(value);
+            case PARAM_PROXY_PASS:
+                return proxyPass(value);
+            case PARAM_REPLACE:
+                return replace("true".equalsIgnoreCase(value));
+            case PARAM_ENCODING:
+                return encoding(value);
             default:
                 throw new IllegalArgumentException("Unknown key " + key);
         }
@@ -354,16 +365,16 @@ public class SignerHelper {
 
         // configure the signer
         return new AuthenticodeSigner(chain, privateKey)
-                .withProgramName(name)
-                .withProgramURL(url)
-                .withDigestAlgorithm(DigestAlgorithm.of(alg))
-                .withSignatureProvider(provider)
-                .withSignaturesReplaced(replace)
-                .withTimestamping(tsaurl != null || tsmode != null)
-                .withTimestampingMode(tsmode != null ? TimestampingMode.of(tsmode) : TimestampingMode.AUTHENTICODE)
-                .withTimestampingRetries(tsretries)
-                .withTimestampingRetryWait(tsretrywait)
-                .withTimestampingAuthority(tsaurl != null ? tsaurl.split(",") : null);
+            .withProgramName(name)
+            .withProgramURL(url)
+            .withDigestAlgorithm(DigestAlgorithm.of(alg))
+            .withSignatureProvider(provider)
+            .withSignaturesReplaced(replace)
+            .withTimestamping(tsaurl != null || tsmode != null)
+            .withTimestampingMode(tsmode != null ? TimestampingMode.of(tsmode) : TimestampingMode.AUTHENTICODE)
+            .withTimestampingRetries(tsretries)
+            .withTimestampingRetryWait(tsretrywait)
+            .withTimestampingAuthority(tsaurl != null ? tsaurl.split(",") : null);
     }
 
     /**
@@ -430,9 +441,9 @@ public class SignerHelper {
     /**
      * Initializes the proxy.
      *
-     * @param proxyUrl       the url of the proxy (either as hostname:port or http[s]://hostname:port)
-     * @param proxyUser      the username for the proxy authentication
-     * @param proxyPassword  the password for the proxy authentication
+     * @param proxyUrl      the url of the proxy (either as hostname:port or http[s]://hostname:port)
+     * @param proxyUser     the username for the proxy authentication
+     * @param proxyPassword the password for the proxy authentication
      */
     private void initializeProxy(String proxyUrl, final String proxyUser, final String proxyPassword) throws MalformedURLException {
         // Do nothing if there is no proxy url.

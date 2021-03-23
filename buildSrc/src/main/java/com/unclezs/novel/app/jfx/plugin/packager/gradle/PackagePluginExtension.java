@@ -33,26 +33,26 @@ public class PackagePluginExtension extends PackagerSettings {
         this.additionalResources = new ArrayList<>();
         this.administratorRequired = false;
         this.assetsDir = new File(project.getProjectDir(), "assets");
-		this.bundleJre = true;
-		this.copyDependencies = true;
-		this.createTarball = false;
-		this.createZipball = false;
-		this.customizedJre = true;
-		this.description = project.getDescription();
-		this.extra = new HashMap<>();
-		this.generateInstaller = false;
-		this.jreDirectoryName = "jre";
-		this.linuxConfig = new LinuxConfig();
-		this.macConfig = new MacConfig();
-		this.manifest = new Manifest();
-		this.modules = new ArrayList<>();
-		this.name = project.getName();
-		this.organizationEmail = "";
-		this.useResourcesAsWorkingDir = true;
-		this.vmArgs = new ArrayList<>();
-		this.winConfig = new WindowsConfig();
-		this.outputDirectory = project.getBuildDir();
-	}
+        this.bundleJre = true;
+        this.copyDependencies = true;
+        this.createTarball = false;
+        this.createZipball = false;
+        this.customizedJre = true;
+        this.description = project.getDescription();
+        this.extra = new HashMap<>();
+        this.generateInstaller = false;
+        this.jreDirectoryName = "jre";
+        this.linuxConfig = new LinuxConfig();
+        this.macConfig = new MacConfig();
+        this.manifest = new Manifest();
+        this.modules = new ArrayList<>();
+        this.name = project.getName();
+        this.organizationEmail = "";
+        this.useResourcesAsWorkingDir = true;
+        this.vmArgs = new ArrayList<>();
+        this.winConfig = new WindowsConfig();
+        this.outputDirectory = project.getBuildDir();
+    }
 
     public LinuxConfig linuxConfig(Closure<LinuxConfig> closure) {
         linuxConfig = new LinuxConfig();

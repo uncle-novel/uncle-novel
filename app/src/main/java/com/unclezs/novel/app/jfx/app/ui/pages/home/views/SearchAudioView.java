@@ -1,10 +1,10 @@
 package com.unclezs.novel.app.jfx.app.ui.pages.home.views;
 
 import com.jfoenix.controls.JFXPopup;
+import com.unclezs.novel.app.jfx.app.ui.app.App;
 import com.unclezs.novel.app.jfx.framework.annotation.FxView;
 import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.NavigateBundle;
 import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationView;
-import com.unclezs.novel.app.jfx.app.ui.app.App;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 

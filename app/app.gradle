@@ -1,4 +1,5 @@
 import com.unclezs.novel.app.jfx.plugin.packager.gradle.PackageTask
+
 plugins {
     id "java"
     id "org.openjfx.javafxplugin"
@@ -25,7 +26,7 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     implementation project(":framework")
-    compileOnly  'org.projectlombok:lombok:1.18.18'
+    compileOnly 'org.projectlombok:lombok:1.18.18'
     annotationProcessor "org.projectlombok:lombok:1.18.18"
     implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
     implementation "org.freemarker:freemarker:2.3.31"

@@ -11,68 +11,73 @@ import java.util.List;
  */
 public abstract class Context<T> {
 
-	public Context() {
-		super();
+    private static Context<?> context;
 
-		// building tool independent generators
-		macInstallerGenerators.add(new GenerateDmg());
-		macInstallerGenerators.add(new GeneratePkg());
-		windowsInstallerGenerators.add(new GenerateSetup());
-		windowsInstallerGenerators.add(new GenerateMsm());
-		windowsInstallerGenerators.add(new GenerateMsi());
+    // common properties
+    private List<ArtifactGenerator> linuxInstallerGenerators = new ArrayList<>();
+    private List<ArtifactGenerator> macInstallerGenerators = new ArrayList<>();
 
-	}
+    // platform independent functions
+    private List<ArtifactGenerator> windowsInstallerGenerators = new ArrayList<>();
 
-	// common properties
+    public Context() {
+        super();
 
-	public abstract File getRootDir();
-	public abstract T getLogger();
+        // building tool independent generators
+        macInstallerGenerators.add(new GenerateDmg());
+        macInstallerGenerators.add(new GeneratePkg());
+        windowsInstallerGenerators.add(new GenerateSetup());
+        windowsInstallerGenerators.add(new GenerateMsm());
+        windowsInstallerGenerators.add(new GenerateMsi());
 
-	// platform independent functions
+    }
 
-	public abstract File createRunnableJar(Packager packager) throws Exception;
-	public abstract File copyDependencies(Packager packager) throws Exception;
-	public abstract File createTarball(Packager packager) throws Exception;
-	public abstract File createZipball(Packager packager) throws Exception;
-	public abstract File resolveLicense(Packager packager) throws Exception;
-	public abstract File createWindowsExe(Packager packager) throws Exception;
+    public static Context<?> getContext() {
+        return context;
+    }
 
-	// installer producers
+    public static void setContext(Context<?> context) {
+        Context.context = context;
+    }
 
-	private List<ArtifactGenerator> linuxInstallerGenerators = new ArrayList<>();
-	private List<ArtifactGenerator> macInstallerGenerators = new ArrayList<>();
-	private List<ArtifactGenerator> windowsInstallerGenerators = new ArrayList<>();
+    public static boolean isGradle() {
+        return context instanceof GradleContext;
+    }
 
-	public List<ArtifactGenerator> getLinuxInstallerGenerators() {
-		return linuxInstallerGenerators;
-	}
+    public static GradleContext getGradleContext() {
+        return (GradleContext) context;
+    }
 
-	public List<ArtifactGenerator> getMacInstallerGenerators() {
-		return macInstallerGenerators;
-	}
+    // installer producers
 
-	public List<ArtifactGenerator> getWindowsInstallerGenerators() {
-		return windowsInstallerGenerators;
-	}
+    public abstract File getRootDir();
 
-	// static context
+    public abstract T getLogger();
 
-	private static Context<?> context;
+    public abstract File createRunnableJar(Packager packager) throws Exception;
 
-	public static Context<?> getContext() {
-		return context;
-	}
+    public abstract File copyDependencies(Packager packager) throws Exception;
 
-	public static void setContext(Context<?> context) {
-		Context.context = context;
-	}
+    public abstract File createTarball(Packager packager) throws Exception;
 
-	public static boolean isGradle() {
-		return context instanceof GradleContext;
-	}
+    public abstract File createZipball(Packager packager) throws Exception;
 
-	public static GradleContext getGradleContext() {
-		return (GradleContext) context;
-	}
+    // static context
+
+    public abstract File resolveLicense(Packager packager) throws Exception;
+
+    public abstract File createWindowsExe(Packager packager) throws Exception;
+
+    public List<ArtifactGenerator> getLinuxInstallerGenerators() {
+        return linuxInstallerGenerators;
+    }
+
+    public List<ArtifactGenerator> getMacInstallerGenerators() {
+        return macInstallerGenerators;
+    }
+
+    public List<ArtifactGenerator> getWindowsInstallerGenerators() {
+        return windowsInstallerGenerators;
+    }
 
 }

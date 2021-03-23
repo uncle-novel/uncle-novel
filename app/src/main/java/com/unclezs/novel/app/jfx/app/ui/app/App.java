@@ -1,10 +1,10 @@
 package com.unclezs.novel.app.jfx.app.ui.app;
 
+import com.unclezs.novel.app.jfx.app.ui.pages.home.HomeSceneView;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SceneView;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SceneViewNavigateBundle;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SsaApplication;
 import com.unclezs.novel.app.jfx.framework.util.ResourceUtils;
-import com.unclezs.novel.app.jfx.app.ui.pages.home.HomeSceneView;
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
@@ -18,6 +18,14 @@ import java.lang.reflect.Field;
 public class App extends SsaApplication {
     public static App app;
 
+    public App() {
+        disableWarning();
+        if (app != null) {
+            throw new IllegalStateException("不可以创建多个App");
+        }
+        app = this;
+    }
+
     public static void disableWarning() {
         try {
             Field theUnsafe = Unsafe.class.getDeclaredField("theUnsafe");
@@ -29,23 +37,6 @@ public class App extends SsaApplication {
         } catch (Exception ignore) {
             // ignore
         }
-    }
-
-    public App() {
-        disableWarning();
-        if (app != null) {
-            throw new IllegalStateException("不可以创建多个App");
-        }
-        app = this;
-    }
-
-
-
-    @Override
-    public Class<? extends SceneView> getIndexView() throws Exception {
-//        getStage().getIcons().clear();
-//        getStage().getIcons().add(new Image("/assets/images/favicon.png"));
-        return HomeSceneView.class;
     }
 
     /**
@@ -74,5 +65,12 @@ public class App extends SsaApplication {
      */
     public static void redirect(Class<? extends SceneView> viewClass, SceneViewNavigateBundle bundle) {
         app.navigate(viewClass, bundle);
+    }
+
+    @Override
+    public Class<? extends SceneView> getIndexView() throws Exception {
+//        getStage().getIcons().clear();
+//        getStage().getIcons().add(new Image("/assets/images/favicon.png"));
+        return HomeSceneView.class;
     }
 }

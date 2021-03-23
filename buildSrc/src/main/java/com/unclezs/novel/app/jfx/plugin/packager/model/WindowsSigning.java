@@ -9,12 +9,12 @@ import java.io.File;
  */
 @Data
 public class WindowsSigning {
-	private String storetype;
-	private File keystore;
-	private File certfile;
-	private File keyfile;
-	private String storepass;
-	private String alias;
-	private String keypass;
-	private String alg;
+    private String storetype;
+    private File keystore;
+    private File certfile;
+    private File keyfile;
+    private String storepass;
+    private String alias;
+    private String keypass;
+    private String alg;
 }

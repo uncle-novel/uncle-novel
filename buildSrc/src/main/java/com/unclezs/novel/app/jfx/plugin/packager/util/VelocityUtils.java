@@ -21,56 +21,56 @@ import static org.apache.commons.io.FileUtils.writeStringToFile;
  */
 public class VelocityUtils {
 
-	private static File assetsDir = new File("assets");
-	private static VelocityEngine velocityEngine = null;
+    private static File assetsDir = new File("assets");
+    private static VelocityEngine velocityEngine = null;
 
-	private static VelocityEngine getVelocityEngine() {
+    private static VelocityEngine getVelocityEngine() {
 
-		if (velocityEngine == null) {
+        if (velocityEngine == null) {
 
-			velocityEngine = new VelocityEngine();
+            velocityEngine = new VelocityEngine();
 
-			// specify resource loaders to use
-			velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,class");
+            // specify resource loaders to use
+            velocityEngine.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,class");
 
-			// for the loader 'file', set the FileResourceLoader as the class to use and use 'assets' directory for templates
-			velocityEngine.setProperty("file.resource.loader.class", FileResourceLoader.class.getName());
-			velocityEngine.setProperty("file.resource.loader.path", assetsDir.getAbsolutePath());
+            // for the loader 'file', set the FileResourceLoader as the class to use and use 'assets' directory for templates
+            velocityEngine.setProperty("file.resource.loader.class", FileResourceLoader.class.getName());
+            velocityEngine.setProperty("file.resource.loader.path", assetsDir.getAbsolutePath());
 
-			// for the loader 'class', set the ClasspathResourceLoader as the class to use
-			velocityEngine.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
+            // for the loader 'class', set the ClasspathResourceLoader as the class to use
+            velocityEngine.setProperty("class.resource.loader.class", ClasspathResourceLoader.class.getName());
 
-			velocityEngine.init();
+            velocityEngine.init();
 
-		}
+        }
 
-		return velocityEngine;
-	}
+        return velocityEngine;
+    }
 
-	private static String render(String templatePath, Object info) throws Exception {
-		VelocityContext context = new VelocityContext();
-		context.put("features", new ArrayList<String>());
-		context.put("GUID", UUID.class);
-		context.put("StringUtils", StringUtils.class);
-		context.put("info", info);
-		Template template = getVelocityEngine().getTemplate(templatePath, "UTF-8");
-		StringBuilderWriter writer = new StringBuilderWriter();
-		template.merge(context, writer);
-		return writer.toString();
-	}
+    private static String render(String templatePath, Object info) throws Exception {
+        VelocityContext context = new VelocityContext();
+        context.put("features", new ArrayList<String>());
+        context.put("GUID", UUID.class);
+        context.put("StringUtils", StringUtils.class);
+        context.put("info", info);
+        Template template = getVelocityEngine().getTemplate(templatePath, "UTF-8");
+        StringBuilderWriter writer = new StringBuilderWriter();
+        template.merge(context, writer);
+        return writer.toString();
+    }
 
-	public static void setAssetsDir(File assetsDir) {
-		VelocityUtils.assetsDir = assetsDir;
-	}
+    public static void setAssetsDir(File assetsDir) {
+        VelocityUtils.assetsDir = assetsDir;
+    }
 
-	public static void render(String templatePath, File output, Object info) throws Exception {
-		try {
-			String data = render(templatePath, info);
-			data = data.replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
-			writeStringToFile(output, data, "UTF-8");
-		} catch (IOException e) {
-			throw new Exception(e.getMessage(), e);
-		}
-	}
+    public static void render(String templatePath, File output, Object info) throws Exception {
+        try {
+            String data = render(templatePath, info);
+            data = data.replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
+            writeStringToFile(output, data, "UTF-8");
+        } catch (IOException e) {
+            throw new Exception(e.getMessage(), e);
+        }
+    }
 
 }

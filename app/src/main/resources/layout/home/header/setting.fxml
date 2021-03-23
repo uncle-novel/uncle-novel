@@ -4,7 +4,7 @@
 <?import com.unclezs.novel.app.jfx.framework.ui.components.button.IconButton?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<JFXPopup xmlns="http://javafx.com/javafx" fx:id="popup" xmlns:fx="http://javafx.com/fxml"
+<JFXPopup xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:id="popup"
           fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.header.SettingPopupView">
     <VBox spacing="10" styleClass="home-setting-popup" stylesheets="/css/home/header/setting-popup.css">
         <IconButton text="GitHub源码" icon="&#xf092;"/>

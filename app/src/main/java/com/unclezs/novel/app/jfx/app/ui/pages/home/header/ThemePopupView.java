@@ -2,9 +2,9 @@ package com.unclezs.novel.app.jfx.app.ui.pages.home.header;
 
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXPopup;
+import com.unclezs.novel.app.jfx.app.ui.app.App;
 import com.unclezs.novel.app.jfx.framework.annotation.FxView;
 import com.unclezs.novel.app.jfx.framework.ui.view.BaseView;
-import com.unclezs.novel.app.jfx.app.ui.app.App;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 
@@ -19,8 +19,8 @@ import java.awt.Color;
  */
 @FxView(fxml = "/layout/home/header/theme.fxml")
 public class ThemePopupView extends BaseView {
-    public JFXPopup popup;
     public static final String THEME_FORMAT = "/css/home/theme/%s.css";
+    public JFXPopup popup;
     public JFXColorPicker customColorButton;
     private Color color;
 

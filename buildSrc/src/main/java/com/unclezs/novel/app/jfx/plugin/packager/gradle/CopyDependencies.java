@@ -15,14 +15,14 @@ import java.io.File;
  */
 public class CopyDependencies extends ArtifactGenerator {
 
-	public Copy copyLibsTask;
+    public Copy copyLibsTask;
 
-	public CopyDependencies() {
-		super("Dependencies");
-	}
+    public CopyDependencies() {
+        super("Dependencies");
+    }
 
-	@Override
-	protected File doApply(Packager packager) {
+    @Override
+    protected File doApply(Packager packager) {
 
         File libsFolder = new File(packager.getJarFileDestinationFolder(), "libx");
         Project project = Context.getGradleContext().getProject();

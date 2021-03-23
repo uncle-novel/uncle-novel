@@ -12,61 +12,61 @@ import java.io.File;
  */
 public class GradleContext extends Context<Logger> {
 
-	private Project project;
+    private Project project;
 
-	public GradleContext(Project project) {
-		super();
-		this.project = project;
+    public GradleContext(Project project) {
+        super();
+        this.project = project;
 
-		// gradle dependant generators
-		this.getLinuxInstallerGenerators().add(new GenerateDeb());
-		this.getLinuxInstallerGenerators().add(new GenerateRpm());
+        // gradle dependant generators
+        this.getLinuxInstallerGenerators().add(new GenerateDeb());
+        this.getLinuxInstallerGenerators().add(new GenerateRpm());
 
-	}
+    }
 
-	@Override
+    @Override
     public Logger getLogger() {
-		return project.getLogger();
-	}
+        return project.getLogger();
+    }
 
-	public Project getProject() {
-		return project;
-	}
+    public Project getProject() {
+        return project;
+    }
 
-	@Override
-	public File getRootDir() {
-		return project.getRootDir();
-	}
+    @Override
+    public File getRootDir() {
+        return project.getRootDir();
+    }
 
-	@Override
-	public File createRunnableJar(Packager packager) throws Exception {
-		return new CreateRunnableJar().apply(packager);
-	}
+    @Override
+    public File createRunnableJar(Packager packager) throws Exception {
+        return new CreateRunnableJar().apply(packager);
+    }
 
-	@Override
-	public File copyDependencies(Packager packager) throws Exception {
-		return new CopyDependencies().apply(packager);
-	}
+    @Override
+    public File copyDependencies(Packager packager) throws Exception {
+        return new CopyDependencies().apply(packager);
+    }
 
-	@Override
-	public File createTarball(Packager packager) throws Exception {
-		return new CreateTarball().apply(packager);
-	}
+    @Override
+    public File createTarball(Packager packager) throws Exception {
+        return new CreateTarball().apply(packager);
+    }
 
-	@Override
-	public File createZipball(Packager packager) throws Exception {
-		return new CreateZipball().apply(packager);
-	}
+    @Override
+    public File createZipball(Packager packager) throws Exception {
+        return new CreateZipball().apply(packager);
+    }
 
-	@Override
-	public File resolveLicense(Packager packager) throws Exception {
-		// do nothing
-		return null;
-	}
+    @Override
+    public File resolveLicense(Packager packager) throws Exception {
+        // do nothing
+        return null;
+    }
 
-	@Override
-	public File createWindowsExe(Packager packager) throws Exception {
-		return new CreateWindowsExe().apply(packager);
-	}
+    @Override
+    public File createWindowsExe(Packager packager) throws Exception {
+        return new CreateWindowsExe().apply(packager);
+    }
 
 }

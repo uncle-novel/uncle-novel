@@ -24,6 +24,10 @@ import javafx.stage.Stage;
  */
 public class MVVMApp extends Application {
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -32,13 +36,9 @@ public class MVVMApp extends Application {
         Scene scene = new Scene(view);
 
         primaryStage.setTitle("MVVM App");
-        primaryStage.setScene( scene );
-        primaryStage.setWidth( 480 );
-        primaryStage.setHeight( 320 );
+        primaryStage.setScene(scene);
+        primaryStage.setWidth(480);
+        primaryStage.setHeight(320);
         primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

@@ -15,15 +15,15 @@ import org.gradle.api.Project;
 @NonNullApi
 public class PackagePlugin implements Plugin<Project> {
 
-	public static final String GROUP_NAME = "packager";
-	public static final String SETTINGS_EXT_NAME = "packager";
-	public static final String PACKAGE_TASK_NAME = "package";
+    public static final String GROUP_NAME = "packager";
+    public static final String SETTINGS_EXT_NAME = "packager";
+    public static final String PACKAGE_TASK_NAME = "package";
 
-	@Override
-	public void apply(Project project) {
+    @Override
+    public void apply(Project project) {
         project.getPluginManager().apply("edu.sc.seis.launch4j");
-		Context.setContext(new GradleContext(project));
-		project.getExtensions().create(SETTINGS_EXT_NAME, PackagePluginExtension.class, project);
+        Context.setContext(new GradleContext(project));
+        project.getExtensions().create(SETTINGS_EXT_NAME, PackagePluginExtension.class, project);
         project.getTasks().create(PACKAGE_TASK_NAME, DefaultPackageTask.class).dependsOn("build");
-	}
+    }
 }

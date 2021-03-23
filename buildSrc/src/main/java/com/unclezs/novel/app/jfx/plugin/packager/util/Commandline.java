@@ -10,52 +10,51 @@ import java.io.File;
  */
 public class Commandline extends org.codehaus.plexus.util.cli.Commandline {
 
-	public Commandline() {
-		super();
-		getShell().setQuotedArgumentsEnabled(false);
-		if (SystemUtils.IS_OS_WINDOWS) {
-			getShell().setShellArgs(new String[] { "/s", "/c" } );
-		}
-	}
-
-    public String[] getCommandline()
-    {
-    	return getShellCommandline();
+    public Commandline() {
+        super();
+        getShell().setQuotedArgumentsEnabled(false);
+        if (SystemUtils.IS_OS_WINDOWS) {
+            getShell().setShellArgs(new String[]{"/s", "/c"});
+        }
     }
 
-	public void createArguments(Object... arguments) {
-		for (Object argument : arguments) {
+    public String[] getCommandline() {
+        return getShellCommandline();
+    }
 
-			if (argument == null)
-				continue;
+    public void createArguments(Object... arguments) {
+        for (Object argument : arguments) {
 
-			if (argument.getClass().isArray()) {
-				createArguments((Object[])argument);
-				continue;
-			}
+            if (argument == null)
+                continue;
 
-			if (argument instanceof File) {
+            if (argument.getClass().isArray()) {
+                createArguments((Object[]) argument);
+                continue;
+            }
 
-				File argFile = (File) argument;
-				if (argFile.getName().contains("*")) {
-					argument = org.codehaus.plexus.util.StringUtils.quoteAndEscape(argFile.getParentFile().getAbsolutePath(), '\"') + File.separator + argFile.getName();
-				} else {
-					argument = ((File) argument).getAbsolutePath();
-				}
+            if (argument instanceof File) {
 
-			}
+                File argFile = (File) argument;
+                if (argFile.getName().contains("*")) {
+                    argument = org.codehaus.plexus.util.StringUtils.quoteAndEscape(argFile.getParentFile().getAbsolutePath(), '\"') + File.separator + argFile.getName();
+                } else {
+                    argument = ((File) argument).getAbsolutePath();
+                }
 
-			String arg = argument.toString().trim();
-			if (!arg.contains("\"") && StringUtils.containsWhitespace(arg)) {
-				arg = org.codehaus.plexus.util.StringUtils.quoteAndEscape(arg, '\"');
-			}
-			this.createArg().setValue(arg);
+            }
 
-		}
-	}
+            String arg = argument.toString().trim();
+            if (!arg.contains("\"") && StringUtils.containsWhitespace(arg)) {
+                arg = org.codehaus.plexus.util.StringUtils.quoteAndEscape(arg, '\"');
+            }
+            this.createArg().setValue(arg);
 
-	public String getCommandLineAsString() {
-		return StringUtils.join(getCommandline(), " ");
-	}
+        }
+    }
+
+    public String getCommandLineAsString() {
+        return StringUtils.join(getCommandline(), " ");
+    }
 
 }

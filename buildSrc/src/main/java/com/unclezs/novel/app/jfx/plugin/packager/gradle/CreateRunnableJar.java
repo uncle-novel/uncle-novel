@@ -20,46 +20,46 @@ import java.util.stream.Collectors;
  */
 public class CreateRunnableJar extends ArtifactGenerator {
 
-	public CreateRunnableJar() {
-		super("Runnable JAR");
-	}
+    public CreateRunnableJar() {
+        super("Runnable JAR");
+    }
 
-	@Override
-	protected File doApply(Packager packager) {
+    @Override
+    protected File doApply(Packager packager) {
 
-		String classifier = "runnable";
-		String name = packager.getName();
-		String version = packager.getVersion();
-		String mainClass = packager.getMainClass();
-		File outputDirectory = packager.getOutputDirectory();
-		Project project = Context.getGradleContext().getProject();
-		File libsFolder = packager.getLibsFolder();
-		Manifest manifest = packager.getManifest();
+        String classifier = "runnable";
+        String name = packager.getName();
+        String version = packager.getVersion();
+        String mainClass = packager.getMainClass();
+        File outputDirectory = packager.getOutputDirectory();
+        Project project = Context.getGradleContext().getProject();
+        File libsFolder = packager.getLibsFolder();
+        Manifest manifest = packager.getManifest();
 
-		List<String> dependencies = new ArrayList<>();
-		if (libsFolder != null && libsFolder.exists()) {
-			dependencies = Arrays.stream(Objects.requireNonNull(libsFolder.listFiles())).map(f -> libsFolder.getName() + "/" + f.getName()).collect(Collectors.toList());
-		}
+        List<String> dependencies = new ArrayList<>();
+        if (libsFolder != null && libsFolder.exists()) {
+            dependencies = Arrays.stream(Objects.requireNonNull(libsFolder.listFiles())).map(f -> libsFolder.getName() + "/" + f.getName()).collect(Collectors.toList());
+        }
 
-		Jar jarTask = (Jar) project.getTasks().findByName("jar");
+        Jar jarTask = (Jar) project.getTasks().findByName("jar");
         jarTask.setProperty("archiveBaseName", name);
-		jarTask.setProperty("archiveVersion", version);
-		jarTask.setProperty("archiveClassifier", classifier);
-		jarTask.setProperty("destinationDirectory", outputDirectory);
-		jarTask.getManifest().getAttributes().put("Created-By", "Gradle " + Context.getGradleContext().getProject().getGradle().getGradleVersion());
-		jarTask.getManifest().getAttributes().put("Built-By", System.getProperty("user.name"));
-		jarTask.getManifest().getAttributes().put("Build-Jdk", System.getProperty("java.version"));
-		jarTask.getManifest().getAttributes().put("Class-Path", StringUtils.join(dependencies, " "));
-		jarTask.getManifest().getAttributes().put("Main-Class", mainClass);
-		if (manifest != null) {
-			jarTask.getManifest().attributes(manifest.getAdditionalEntries());
-			manifest.getSections().forEach(s -> jarTask.getManifest().attributes(s.getEntries(), s.getName()));
-		}
+        jarTask.setProperty("archiveVersion", version);
+        jarTask.setProperty("archiveClassifier", classifier);
+        jarTask.setProperty("destinationDirectory", outputDirectory);
+        jarTask.getManifest().getAttributes().put("Created-By", "Gradle " + Context.getGradleContext().getProject().getGradle().getGradleVersion());
+        jarTask.getManifest().getAttributes().put("Built-By", System.getProperty("user.name"));
+        jarTask.getManifest().getAttributes().put("Build-Jdk", System.getProperty("java.version"));
+        jarTask.getManifest().getAttributes().put("Class-Path", StringUtils.join(dependencies, " "));
+        jarTask.getManifest().getAttributes().put("Main-Class", mainClass);
+        if (manifest != null) {
+            jarTask.getManifest().attributes(manifest.getAdditionalEntries());
+            manifest.getSections().forEach(s -> jarTask.getManifest().attributes(s.getEntries(), s.getName()));
+        }
 
-		jarTask.getActions().forEach(action -> action.execute(jarTask));
+        jarTask.getActions().forEach(action -> action.execute(jarTask));
 
-		return jarTask.getArchiveFile().get().getAsFile();
+        return jarTask.getArchiveFile().get().getAsFile();
 
-	}
+    }
 
 }

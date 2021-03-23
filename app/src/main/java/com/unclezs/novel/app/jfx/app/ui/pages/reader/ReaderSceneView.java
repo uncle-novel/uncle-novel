@@ -1,12 +1,12 @@
 package com.unclezs.novel.app.jfx.app.ui.pages.reader;
 
+import com.unclezs.novel.app.jfx.app.ui.app.App;
+import com.unclezs.novel.app.jfx.app.ui.pages.home.HomeSceneView;
 import com.unclezs.novel.app.jfx.framework.annotation.FxView;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SceneView;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SceneViewNavigateBundle;
 import com.unclezs.novel.app.jfx.framework.ui.components.button.IconButton;
 import com.unclezs.novel.app.jfx.framework.ui.components.decorator.StageDecorator;
-import com.unclezs.novel.app.jfx.app.ui.app.App;
-import com.unclezs.novel.app.jfx.app.ui.pages.home.HomeSceneView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
 

@@ -35,6 +35,14 @@ import java.net.URI;
 @NonNullApi
 public class SassCompile extends ConventionTask {
     public static final String CHARSET = "@charset \"UTF-8\";";
+    @Internal
+    private File sourceDir;
+    @Internal
+    private File destinationDir;
+    @Internal
+    private String cssPath = "";
+    @Internal
+    private String sassPath = "";
 
     @InputFiles
     protected FileTree getSourceFiles() {
@@ -50,18 +58,6 @@ public class SassCompile extends ConventionTask {
         files.include("**/*.css");
         return files;
     }
-
-    @Internal
-    private File sourceDir;
-
-    @Internal
-    private File destinationDir;
-
-    @Internal
-    private String cssPath = "";
-
-    @Internal
-    private String sassPath = "";
 
     @TaskAction
     public void compileSass() {

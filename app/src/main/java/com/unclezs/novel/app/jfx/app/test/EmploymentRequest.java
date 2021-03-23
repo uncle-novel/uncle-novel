@@ -50,9 +50,9 @@ public class EmploymentRequest {
     @Override
     public String toString() {
         return "EmploymentRequest{" +
-                "name='" + name + '\'' +
-                ", position='" + position + '\'' +
-                ", annualSalary=" + annualSalary +
-                '}';
+            "name='" + name + '\'' +
+            ", position='" + position + '\'' +
+            ", annualSalary=" + annualSalary +
+            '}';
     }
 }

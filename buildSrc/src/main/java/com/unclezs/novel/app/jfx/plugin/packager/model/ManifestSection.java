@@ -11,7 +11,7 @@ import java.util.Map;
  */
 @Data
 public class ManifestSection implements Serializable {
-	private static final long serialVersionUID = 118641813298011799L;
-	private String name;
-	private Map<String, String> entries = new HashMap<>();
+    private static final long serialVersionUID = 118641813298011799L;
+    private String name;
+    private Map<String, String> entries = new HashMap<>();
 }

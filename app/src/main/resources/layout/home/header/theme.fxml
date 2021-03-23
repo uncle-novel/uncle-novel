@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXPopup?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.ColorPicker?>
-<?import com.jfoenix.controls.JFXColorPicker?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Text?>
-<?import org.controlsfx.control.cell.ColorGridCell?>
-<?import javafx.scene.control.Button?>
 <?import com.jfoenix.controls.JFXButton?>
-<JFXPopup xmlns="http://javafx.com/javafx" fx:id="popup" xmlns:fx="http://javafx.com/fxml"
+<?import com.jfoenix.controls.JFXPopup?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<JFXPopup xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:id="popup"
           fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.header.ThemePopupView">
     <VBox spacing="10" styleClass="home-theme-popup"
           stylesheets="/css/home/header/theme-popup.css">
@@ -42,7 +35,7 @@
                        style="-fx-background-color: rgb(255, 143, 87)"/>
             <JFXButton userData="grey" styleClass="color-box-item" onMouseClicked="#changeTheme"
                        style="-fx-background-color: rgb(108, 122, 137)"/>
-<!--            <JFXColorPicker fx:id="customColorButton" styleClass="color-box-item-custom" onMouseClicked="#customThemeColor"/>-->
+            <!--            <JFXColorPicker fx:id="customColorButton" styleClass="color-box-item-custom" onMouseClicked="#customThemeColor"/>-->
         </HBox>
     </VBox>
 </JFXPopup>
