@@ -5,8 +5,7 @@ import com.unclezs.novel.app.jfx.framework.exception.FxException;
 import com.unclezs.novel.app.jfx.framework.i18n.LanguageUtils;
 import com.unclezs.novel.app.jfx.framework.ui.view.BaseView;
 import javafx.fxml.FXMLLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,8 +17,8 @@ import java.util.ResourceBundle;
  * @author blog.unclezs.com
  * @since 2021/02/26 14:41
  */
+@Slf4j
 public class FxmlLoader {
-    public static final Logger log = LoggerFactory.getLogger(FxmlLoader.class);
     private static final String FXML_SUFFIX = ".fxml";
     private static final String CONTROLLER_SUFFIX = "View";
 
