@@ -9,11 +9,12 @@ import org.gradle.api.Project;
  * @date 2021/03/20 10:45
  */
 public class LauncherPlugin implements Plugin<Project> {
-    public static final String GROUP = "launcher";
 
-    @Override
-    public void apply(Project project) {
-        project.getExtensions().create("launcher", LauncherExtension.class, project);
-        project.getTasks().create("copyDependencies", CopyDependencies.class);
-    }
+  public static final String GROUP = "launcher";
+
+  @Override
+  public void apply(Project project) {
+    project.getExtensions().create("launcher", LauncherExtension.class, project);
+    project.getTasks().create("copyDependencies", CopyDependencies.class);
+  }
 }

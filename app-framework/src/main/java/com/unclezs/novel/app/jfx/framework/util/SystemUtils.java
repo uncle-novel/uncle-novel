@@ -10,19 +10,20 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class SystemUtils {
-    public static final String SYSTEM_PROXIES = "java.net.useSystemProxies";
 
-    /**
-     * 启用系统代理
-     */
-    public static void enabledSystemProxy() {
-        System.setProperty(SYSTEM_PROXIES, "true");
-    }
+  public static final String SYSTEM_PROXIES = "java.net.useSystemProxies";
 
-    /**
-     * 打开关闭系统代理
-     */
-    public static void switchSystemProxy(boolean enable) {
-        System.setProperty(SYSTEM_PROXIES, String.valueOf(enable));
-    }
+  /**
+   * 启用系统代理
+   */
+  public static void enabledSystemProxy() {
+    System.setProperty(SYSTEM_PROXIES, "true");
+  }
+
+  /**
+   * 打开关闭系统代理
+   */
+  public static void switchSystemProxy(boolean enable) {
+    System.setProperty(SYSTEM_PROXIES, String.valueOf(enable));
+  }
 }

@@ -17,17 +17,18 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class NavigateBundle extends BaseBundle {
-    /**
-     * 来自哪个view 全限定类名
-     */
-    @Setter(AccessLevel.PACKAGE)
-    private String from;
-    /**
-     * 是否由菜单触发
-     */
-    private boolean isMenuTrigger;
-    /**
-     * 跳转的标记
-     */
-    private int flag;
+
+  /**
+   * 来自哪个view 全限定类名
+   */
+  @Setter(AccessLevel.PACKAGE)
+  private String from;
+  /**
+   * 是否由菜单触发
+   */
+  private boolean isMenuTrigger;
+  /**
+   * 跳转的标记
+   */
+  private int flag;
 }

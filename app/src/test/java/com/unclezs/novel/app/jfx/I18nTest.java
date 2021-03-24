@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
  * @since 2021/02/26 11:37
  */
 public class I18nTest {
-    @Test
-    public void test() {
-    }
+
+  @Test
+  public void test() {
+  }
 }

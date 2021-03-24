@@ -25,59 +25,59 @@ import javafx.beans.property.StringProperty;
  */
 public class EmploymentRequestViewModel {
 
-    private final StringProperty name = new SimpleStringProperty("");
-    private final StringProperty position = new SimpleStringProperty("");
-    private final DoubleProperty annualSalary = new SimpleDoubleProperty();
+  private final StringProperty name = new SimpleStringProperty("");
+  private final StringProperty position = new SimpleStringProperty("");
+  private final DoubleProperty annualSalary = new SimpleDoubleProperty();
 
-    private final EmploymentRequestConverter converter =
-        new EmploymentRequestConverter();
+  private final EmploymentRequestConverter converter =
+    new EmploymentRequestConverter();
 
-    private final EmploymentRequestModel model = new EmploymentRequestModel();
+  private final EmploymentRequestModel model = new EmploymentRequestModel();
 
-    public String getName() {
-        return name.get();
-    }
+  public String getName() {
+    return name.get();
+  }
 
-    public void setName(String name) {
-        this.name.set(name);
-    }
+  public void setName(String name) {
+    this.name.set(name);
+  }
 
-    public StringProperty nameProperty() {
-        return name;
-    }
+  public StringProperty nameProperty() {
+    return name;
+  }
 
-    public String getPosition() {
-        return position.get();
-    }
+  public String getPosition() {
+    return position.get();
+  }
 
-    public void setPosition(String position) {
-        this.position.set(position);
-    }
+  public void setPosition(String position) {
+    this.position.set(position);
+  }
 
-    public StringProperty positionProperty() {
-        return position;
-    }
+  public StringProperty positionProperty() {
+    return position;
+  }
 
-    public double getAnnualSalary() {
-        return annualSalary.get();
-    }
+  public double getAnnualSalary() {
+    return annualSalary.get();
+  }
 
-    public void setAnnualSalary(double annualSalary) {
-        this.annualSalary.set(annualSalary);
-    }
+  public void setAnnualSalary(double annualSalary) {
+    this.annualSalary.set(annualSalary);
+  }
 
-    public DoubleProperty annualSalaryProperty() {
-        return annualSalary;
-    }
+  public DoubleProperty annualSalaryProperty() {
+    return annualSalary;
+  }
 
-    public void save() {
-        EmploymentRequest data = converter.toEmploymentRequest(this);
-        model.save(data);
-    }
+  public void save() {
+    EmploymentRequest data = converter.toEmploymentRequest(this);
+    model.save(data);
+  }
 
-    public void reset() {
-        this.name.set("");
-        this.position.set("");
-        this.annualSalary.set(0.0d);
-    }
+  public void reset() {
+    this.name.set("");
+    this.position.set("");
+    this.annualSalary.set(0.0d);
+  }
 }

@@ -13,120 +13,118 @@
     3. 如果不知道class该写哪个，可以直接通过查询标签名字的那个类，比如Appender，Encoder，看看有哪些实现类即可
     4. 配置写的时候最好开启debug=true，或者加个StatusListener,或者手动打印StatusPrinter.print(context) 知道哪些配置写错了或者警告及时修改
 -->
-<configuration debug="true" scan="false" scanPeriod="1 second" packagingData="false">
+<configuration debug="false" packagingData="false" scan="false" scanPeriod="1 day">
+  <!--设置应用名称-->
+  <property name="log_path" value="${LOG_PATH :- logs}"/>
 
-    <!--属性部分-->
-    <!--日志文件路径-->
-    <property name="log_path" value="${LOG_PATH :- logs}"/>
-    <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度,%msg：日志消息，%n是换行符-->
-    <property name="highlight_pattern"
-              value="%red(%d{HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{30}) - %cyan(%msg%n)"/>
-    <property name="pattern"
-              value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
-    <!--日志文件最大数量 0 代表无限-->
-    <property name="max_history" value="${maxHistory :- 0}"/>
-    <!--总的日志文件大小上限  0无限容量 单位GB MB KB-->
-    <property name="total_size_cap" value="${totalSizeCap :- 0}"/>
-    <!--历史文件抽离单独保存的时间周期  按天：yyyy-MM-dd 按月:yyyy-MM 按年:yyyy 时分秒类推 -->
-    <property name="history_time" value="${historyTime :- yyyy-MM-dd}"/>
-    <!--设置应用名称-->
-    <property name="app_name" value="${appName :- log}"/>
+  <!--获取当前时间 ${today}获取-->
+  <property name="highlight_pattern"
+    value="%red(%d{HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta(%logger{30}) - %cyan(%msg%n)"/>
+  <!--Appender部分-->
+  <!--控制台彩色日志-->
+  <property name="pattern"
+    value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
+  <!--每天输出一个文件，并且保存文件到对应的日志级别目录-->
+  <property name="max_history" value="${maxHistory :- 0}"/>
+  <!--输出INFO日志到文件 每天一个文件-->
+  <property name="total_size_cap" value="${totalSizeCap :- 0}"/>
+  <property name="history_time" value="${historyTime :- yyyy-MM-dd}"/>
+  <property name="app_name" value="${appName :- log}"/>
 
-    <!--获取当前时间 ${today}获取-->
-    <timestamp key="today" datePattern="yyyy-MM-dd"/>
+  <!--属性部分-->
+  <!--日志文件路径-->
+  <appender class="ch.qos.logback.core.ConsoleAppender" name="console">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <outputPatternAsHeader>false</outputPatternAsHeader>
+      <!--在头部打印出pattern-->
+      <pattern>${highlight_pattern}</pattern>
+    </encoder>
+    <!--立即刷新到流-->
+    <immediateFlush>true</immediateFlush>
+  </appender>
+  <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度,%msg：日志消息，%n是换行符-->
+  <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="debug">
+    <append>true</append>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${pattern}</pattern>
+    </encoder>
+    <file>${log_path}/${app_name}-debug.log</file>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>debug</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log_path}/debug/%d{${history_time}}-debug.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="info">
+    <!--只接受INFO级别的日志-->
+    <append>true</append>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${pattern}</pattern>
+    </encoder>
+    <!--文件追加模式-->
+    <file>${log_path}/${app_name}-info.log</file>
+    <!--滚动策略-->
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>info</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!--匹配器 也有触发器的作用 下面这个是按照时间每天出发 后缀为gz、zip则压缩，其他则不压缩-->
+      <cleanHistoryOnStart>false</cleanHistoryOnStart>
+      <fileNamePattern>${log_path}/info/%d{${history_time}}-info.log</fileNamePattern>
+      <maxHistory>${total_size_cap}</maxHistory>
+      <!--启动的时候清除历史日志文件-->
+      <totalSizeCap>${max_history}</totalSizeCap>
+    </rollingPolicy>
+  </appender>
+  <!--日志文件最大数量 0 代表无限-->
+  <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="warn">
+    <append>true</append>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${pattern}</pattern>
+    </encoder>
+    <file>${log_path}/${app_name}-warn.log</file>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>warn</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log_path}/warn/%d{${history_time}}-warn.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <!--总的日志文件大小上限  0无限容量 单位GB MB KB-->
+  <appender class="ch.qos.logback.core.rolling.RollingFileAppender" name="error">
+    <append>true</append>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${pattern}</pattern>
+    </encoder>
+    <file>${log_path}/${app_name}-error.log</file>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>error</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${log_path}/error/%d{${history_time}}-error.log</fileNamePattern>
+    </rollingPolicy>
+  </appender>
+  <!--历史文件抽离单独保存的时间周期  按天：yyyy-MM-dd 按月:yyyy-MM 按年:yyyy 时分秒类推 -->
+  <logger additivity="false" level="info" name="com.unclezs">
+    <appender-ref ref="debug"/>
+    <appender-ref ref="info"/>
+    <appender-ref ref="warn"/>
+    <appender-ref ref="error"/>
+    <appender-ref ref="console"/>
+  </logger>
 
-    <!--Appender部分-->
-    <!--控制台彩色日志-->
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${highlight_pattern}</pattern>
-            <!--在头部打印出pattern-->
-            <outputPatternAsHeader>false</outputPatternAsHeader>
-        </encoder>
-        <!--立即刷新到流-->
-        <immediateFlush>true</immediateFlush>
-    </appender>
-    <!--每天输出一个文件，并且保存文件到对应的日志级别目录-->
-    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>debug</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <file>${log_path}/${app_name}-debug.log</file>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_path}/debug/%d{${history_time}}-debug.log</fileNamePattern>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${pattern}</pattern>
-        </encoder>
-    </appender>
-    <!--输出INFO日志到文件 每天一个文件-->
-    <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--只接受INFO级别的日志-->
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>info</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <file>${log_path}/${app_name}-info.log</file>
-        <!--文件追加模式-->
-        <append>true</append>
-        <!--滚动策略-->
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--匹配器 也有触发器的作用 下面这个是按照时间每天出发 后缀为gz、zip则压缩，其他则不压缩-->
-            <fileNamePattern>${log_path}/info/%d{${history_time}}-info.log</fileNamePattern>
-            <totalSizeCap>${max_history}</totalSizeCap>
-            <maxHistory>${total_size_cap}</maxHistory>
-            <!--启动的时候清除历史日志文件-->
-            <cleanHistoryOnStart>false</cleanHistoryOnStart>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${pattern}</pattern>
-        </encoder>
-    </appender>
-    <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>warn</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <file>${log_path}/${app_name}-warn.log</file>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_path}/warn/%d{${history_time}}-warn.log</fileNamePattern>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${pattern}</pattern>
-        </encoder>
-    </appender>
-    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>error</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-        <file>${log_path}/${app_name}-error.log</file>
-        <append>true</append>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${log_path}/error/%d{${history_time}}-error.log</fileNamePattern>
-        </rollingPolicy>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>${pattern}</pattern>
-        </encoder>
-    </appender>
-
-
-    <!--Logger部分-->
-    <logger name="com.unclezs" level="info" additivity="false">
-        <appender-ref ref="debug"/>
-        <appender-ref ref="info"/>
-        <appender-ref ref="warn"/>
-        <appender-ref ref="error"/>
-        <appender-ref ref="console"/>
-    </logger>
-    <root level="INFO">
-        <appender-ref ref="console"/>
-    </root>
+  <!--Logger部分-->
+  <root level="INFO">
+    <appender-ref ref="console"/>
+  </root>
+  <timestamp datePattern="yyyy-MM-dd" key="today"/>
 </configuration>

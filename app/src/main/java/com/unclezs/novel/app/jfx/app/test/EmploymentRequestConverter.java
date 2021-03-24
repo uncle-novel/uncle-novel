@@ -20,11 +20,11 @@ package com.unclezs.novel.app.jfx.app.test;
  */
 public class EmploymentRequestConverter {
 
-    public EmploymentRequest toEmploymentRequest(EmploymentRequestViewModel viewModel) {
-        return new EmploymentRequest(
-            viewModel.getName(),
-            viewModel.getPosition(),
-            viewModel.getAnnualSalary()
-        );
-    }
+  public EmploymentRequest toEmploymentRequest(EmploymentRequestViewModel viewModel) {
+    return new EmploymentRequest(
+      viewModel.getName(),
+      viewModel.getPosition(),
+      viewModel.getAnnualSalary()
+    );
+  }
 }

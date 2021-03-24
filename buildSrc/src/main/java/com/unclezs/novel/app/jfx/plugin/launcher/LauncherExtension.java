@@ -1,9 +1,8 @@
 package com.unclezs.novel.app.jfx.plugin.launcher;
 
+import java.io.File;
 import lombok.Data;
 import org.gradle.api.Project;
-
-import java.io.File;
 
 /**
  * @author blog.unclezs.com
@@ -11,15 +10,17 @@ import java.io.File;
  */
 @Data
 public class LauncherExtension {
-    private final Project project;
-    private File workDir;
-    private String nativeLibPath;
 
-    public LauncherExtension(Project project) {
-        this.project = project;
-    }
+  private final Project project;
+  private File workDir;
+  private String nativeLibPath;
 
-    public File getWorkDir() {
-        return workDir == null ? new File(String.format("%s/app", project.getProject().getBuildDir())) : workDir;
-    }
+  public LauncherExtension(Project project) {
+    this.project = project;
+  }
+
+  public File getWorkDir() {
+    return workDir == null ? new File(String.format("%s/app", project.getProject().getBuildDir()))
+        : workDir;
+  }
 }

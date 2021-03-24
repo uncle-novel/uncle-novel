@@ -24,21 +24,21 @@ import javafx.stage.Stage;
  */
 public class MVVMApp extends Application {
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+  public static void main(String[] args) {
+    launch(args);
+  }
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+  @Override
+  public void start(Stage primaryStage) throws Exception {
 
-        EmploymentRequestView view = new EmploymentRequestView();
+    EmploymentRequestView view = new EmploymentRequestView();
 
-        Scene scene = new Scene(view);
+    Scene scene = new Scene(view);
 
-        primaryStage.setTitle("MVVM App");
-        primaryStage.setScene(scene);
-        primaryStage.setWidth(480);
-        primaryStage.setHeight(320);
-        primaryStage.show();
-    }
+    primaryStage.setTitle("MVVM App");
+    primaryStage.setScene(scene);
+    primaryStage.setWidth(480);
+    primaryStage.setHeight(320);
+    primaryStage.show();
+  }
 }

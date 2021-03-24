@@ -21,42 +21,42 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false)
 public class SidebarNavigationView extends BaseView {
 
-    public static final String DEFAULT_STYLE_CLASS = "sidebar-nav-content";
+  public static final String DEFAULT_STYLE_CLASS = "sidebar-nav-content";
 
-    /**
-     * 页面显示之前 处理数据
-     *
-     * @param bundle 页面跳转数据
-     */
-    public void onShow(NavigateBundle bundle) {
+  /**
+   * load view . must inherit SidebarNavigationView
+   *
+   * @return Node
+   */
+  public static SidebarNavigationView loadView(Class<? extends SidebarNavigationView> viewClass) {
+    SidebarNavigationView navigationView = FxmlLoader.load(viewClass);
+    // 自适应宽度
+    Node view = navigationView.getView();
+    HBox.setHgrow(view, Priority.ALWAYS);
+    view.getStyleClass().add(DEFAULT_STYLE_CLASS);
+    return navigationView;
+  }
 
-    }
+  /**
+   * 页面显示之前 处理数据
+   *
+   * @param bundle 页面跳转数据
+   */
+  public void onShow(NavigateBundle bundle) {
 
-    /**
-     * 页面隐藏触发
-     */
-    public void onHidden() {
+  }
 
-    }
+  /**
+   * 页面隐藏触发
+   */
+  public void onHidden() {
 
-    public void navigate(Class<? extends SidebarNavigationView> target, NavigateBundle bundle) {
-        bundle.setFrom(getClass().getName());
-        Node view = getView();
-        SidebarNavigationPane sidebarNavigationPane = (SidebarNavigationPane) view.getParent();
-        sidebarNavigationPane.navigateTo(target, bundle);
-    }
+  }
 
-    /**
-     * load view . must inherit SidebarNavigationView
-     *
-     * @return Node
-     */
-    public static SidebarNavigationView loadView(Class<? extends SidebarNavigationView> viewClass) {
-        SidebarNavigationView navigationView = FxmlLoader.load(viewClass);
-        // 自适应宽度
-        Node view = navigationView.getView();
-        HBox.setHgrow(view, Priority.ALWAYS);
-        view.getStyleClass().add(DEFAULT_STYLE_CLASS);
-        return navigationView;
-    }
+  public void navigate(Class<? extends SidebarNavigationView> target, NavigateBundle bundle) {
+    bundle.setFrom(getClass().getName());
+    Node view = getView();
+    SidebarNavigationPane sidebarNavigationPane = (SidebarNavigationPane) view.getParent();
+    sidebarNavigationPane.navigateTo(target, bundle);
+  }
 }

@@ -21,54 +21,57 @@ import javafx.scene.Scene;
  */
 @FxView(fxml = "/layout/home/home.fxml", bundle = "i18n.home")
 public class HomeSceneView extends SceneView {
-    private static final MainViewModel VIEW_MODEL = new MainViewModel();
-    public StageDecorator root;
-    public SidebarNavigationPane container;
-    private ThemePopupView themePopupView;
 
-    public void print() {
-        System.out.println(localized("Uncle小说"));
-    }
+  private static final MainViewModel VIEW_MODEL = new MainViewModel();
+  public StageDecorator root;
+  public SidebarNavigationPane container;
+  private ThemePopupView themePopupView;
 
-    @Override
-    public void onSceneCreated(Scene scene) {
-        System.out.println("MainView created");
-        scene.getStylesheets().setAll(ResourceUtils.loadCss(String.format(ThemePopupView.THEME_FORMAT, "default")));
-    }
+  public void print() {
+    System.out.println(localized("Uncle小说"));
+  }
 
-    @Override
-    public void onTheme(StageDecorator view, IconButton themeButton) {
-        if (themePopupView == null) {
-            themePopupView = FxmlLoader.load(ThemePopupView.class);
-        }
-        JFXPopup themePopup = themePopupView.getView();
-        themePopup.show(themeButton, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 40);
-    }
+  @Override
+  public void onSceneCreated(Scene scene) {
+    System.out.println("MainView created");
+    scene.getStylesheets()
+      .setAll(ResourceUtils.loadCss(String.format(ThemePopupView.THEME_FORMAT, "default")));
+  }
 
-    @Override
-    public void onSetting(StageDecorator view, IconButton settingButton) {
-        SettingPopupView settingPopupView = FxmlLoader.load(SettingPopupView.class);
-        JFXPopup settingPopup = settingPopupView.getView();
-        settingPopup.show(settingButton, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 40);
+  @Override
+  public void onTheme(StageDecorator view, IconButton themeButton) {
+    if (themePopupView == null) {
+      themePopupView = FxmlLoader.load(ThemePopupView.class);
     }
+    JFXPopup themePopup = themePopupView.getView();
+    themePopup.show(themeButton, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 40);
+  }
 
-    @Override
-    public void onShow(SceneViewNavigateBundle bundle) {
-        System.out.println("MainView show");
-        String data = bundle.get("data");
-        if (data != null) {
-            System.out.println("MainView收到数据：" + data);
-        }
-    }
+  @Override
+  public void onSetting(StageDecorator view, IconButton settingButton) {
+    SettingPopupView settingPopupView = FxmlLoader.load(SettingPopupView.class);
+    JFXPopup settingPopup = settingPopupView.getView();
+    settingPopup
+      .show(settingButton, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 40);
+  }
 
-    @Override
-    public void onHidden() {
-        System.out.println("MainView hidden");
+  @Override
+  public void onShow(SceneViewNavigateBundle bundle) {
+    System.out.println("MainView show");
+    String data = bundle.get("data");
+    if (data != null) {
+      System.out.println("MainView收到数据：" + data);
     }
+  }
 
-    @Override
-    public void onDestroy() {
-        new Thread(HotKeyManager::unbind).start();
-        System.out.println("MainView destroy");
-    }
+  @Override
+  public void onHidden() {
+    System.out.println("MainView hidden");
+  }
+
+  @Override
+  public void onDestroy() {
+    new Thread(HotKeyManager::unbind).start();
+    System.out.println("MainView destroy");
+  }
 }

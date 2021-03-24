@@ -6,12 +6,12 @@ package com.unclezs.novel.app.jfx.plugin.packager.util;
 @SuppressWarnings("serial")
 public class SignerException extends Exception {
 
-    public SignerException(String message) {
-        super(message);
-    }
+  public SignerException(String message) {
+    super(message);
+  }
 
-    public SignerException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public SignerException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
 }

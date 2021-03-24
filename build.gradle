@@ -1,93 +1,93 @@
 plugins {
-    id "org.openjfx.javafxplugin" version "0.0.9" apply false
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE' apply false
+  id "org.openjfx.javafxplugin" version "0.0.9" apply false
+  id 'io.spring.dependency-management' version '1.0.9.RELEASE' apply false
 }
 group 'com.unclezs.novel.app.jfx'
 version "5.0.0"
 
 ext {
-    jfxProject = subprojects.findAll { it.name.startsWith("app") }
+  jfxProject = subprojects.findAll { it.name.startsWith("app") }
 }
 
-configure(allprojects) { project ->
-    group = "com.unclezs.novel.app.jfx"
+configure(allprojects - rootProject) { project ->
+  group = "com.unclezs.novel.app.jfx"
+  version = rootProject.version
+  apply plugin: "java"
+  apply plugin: "checkstyle"
+  apply plugin: "io.spring.dependency-management"
 
-    apply plugin: "java"
-    apply plugin: "checkstyle"
-    apply plugin: "io.spring.dependency-management"
-
-    dependencyManagement {
-        dependencies {
-            dependencySet("cn.hutool:5.5.9") {
-                entry "hutool-all"
-                entry "hutool-core"
-            }
-            dependency "org.projectlombok:lombok:1.18.18"
-            dependency "com.github.tulskiy:jkeymaster:1.3"
-            dependency "com.jfoenix:jfoenix:9.0.10"
-            dependency "org.slf4j:slf4j-api:1.7.30"
-            dependency "org.junit.jupiter:junit-jupiter-api:5.6.0"
-            dependency "org.slf4j:slf4j-api:1.7.30"
-            dependency "com.google.code.gson:gson:2.8.6"
-            dependency "org.freemarker:freemarker:2.3.31"
-            dependency "ch.qos.logback:logback-classic:1.2.3"
-
-        }
-        generatedPomCustomization {
-            enabled = false
-        }
-        resolutionStrategy {
-            cacheChangingModulesFor 0, "seconds"
-        }
-        repositories {
-            mavenLocal()
-            mavenCentral()
-        }
-    }
-    configurations.all {
-        resolutionStrategy {
-            cacheChangingModulesFor 0, "seconds"
-            cacheDynamicVersionsFor 0, "seconds"
-        }
-    }
-
-    tasks.withType(JavaCompile) {
-        options.encoding = 'UTF-8'
-        options.fork = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
+  dependencyManagement {
     dependencies {
-        implementation "org.slf4j:slf4j-api"
-        compileOnly 'org.projectlombok:lombok'
-        annotationProcessor "org.projectlombok:lombok"
-        testImplementation 'org.junit.jupiter:junit-jupiter-api'
-        testImplementation 'cn.hutool:hutool-all'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    }
+      dependencySet("cn.hutool:5.5.9") {
+        entry "hutool-all"
+        entry "hutool-core"
+      }
+      dependency "org.projectlombok:lombok:1.18.18"
+      dependency "com.github.tulskiy:jkeymaster:1.3"
+      dependency "com.jfoenix:jfoenix:9.0.10"
+      dependency "org.slf4j:slf4j-api:1.7.30"
+      dependency "org.junit.jupiter:junit-jupiter-api:5.6.0"
+      dependency "org.slf4j:slf4j-api:1.7.30"
+      dependency "com.google.code.gson:gson:2.8.6"
+      dependency "org.freemarker:freemarker:2.3.31"
+      dependency "ch.qos.logback:logback-classic:1.2.3"
 
-    test {
-        useJUnitPlatform()
-        include(["**/*Tests.class", "**/*Test.class"])
     }
+    generatedPomCustomization {
+      enabled = false
+    }
+    resolutionStrategy {
+      cacheChangingModulesFor 0, "seconds"
+    }
+    repositories {
+      mavenLocal()
+      mavenCentral()
+    }
+  }
+  configurations.all {
+    resolutionStrategy {
+      cacheChangingModulesFor 0, "seconds"
+      cacheDynamicVersionsFor 0, "seconds"
+    }
+  }
 
-    checkstyle {
-        toolVersion = "8.41"
-        configDirectory.set(rootProject.file("src/checkstyle"))
-    }
+  tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.fork = true
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+  }
+
+  dependencies {
+    implementation "org.slf4j:slf4j-api"
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor "org.projectlombok:lombok"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'cn.hutool:hutool-all'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+  }
+
+  test {
+    useJUnitPlatform()
+    include(["**/*Tests.class", "**/*Test.class"])
+  }
+
+  checkstyle {
+    toolVersion = "8.41"
+    configDirectory.set(rootProject.file("src/checkstyle"))
+  }
 }
 
 configure(jfxProject) { project ->
-    apply plugin: "org.openjfx.javafxplugin"
-    apply plugin: "sass"
+  apply plugin: "org.openjfx.javafxplugin"
+  apply plugin: "sass"
 
-    javafx {
-        version = "16"
-        modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.media']
-    }
+  javafx {
+    version = "16"
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.media']
+  }
 
-    jar {
-        exclude "**/scss/**"
-    }
+  jar {
+    exclude "**/scss/**"
+  }
 }

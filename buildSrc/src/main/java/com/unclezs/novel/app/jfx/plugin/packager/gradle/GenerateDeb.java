@@ -5,30 +5,29 @@ import com.unclezs.novel.app.jfx.plugin.packager.packagers.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.packagers.Packager;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
-
 import java.io.File;
 import java.util.UUID;
 
 /**
- * Creates a DEB package file including all app folder's content only for
- * GNU/Linux so app could be easily distributed on Gradle context
+ * Creates a DEB package file including all app folder's content only for GNU/Linux so app could be
+ * easily distributed on Gradle context
  */
 public class GenerateDeb extends ArtifactGenerator {
 
-    public GenerateDeb() {
-        super("DEB package");
-    }
+  public GenerateDeb() {
+    super("DEB package");
+  }
 
-    @Override
-    public boolean skip(Packager packager) {
-        return !packager.getLinuxConfig().isGenerateDeb();
-    }
+  @Override
+  public boolean skip(Packager packager) {
+    return !packager.getLinuxConfig().isGenerateDeb();
+  }
 
-    @Override
-    protected File doApply(Packager packager) throws Exception {
+  @Override
+  protected File doApply(Packager packager) throws Exception {
 
-        Logger.warn("Sorry! " + getArtifactName() + " generation is not yet available");
-        return null;
+    Logger.warn("Sorry! " + getArtifactName() + " generation is not yet available");
+    return null;
 
 //		File assetsFolder = linuxPackager.getAssetsFolder();
 //		String name = linuxPackager.getName();
@@ -98,10 +97,11 @@ public class GenerateDeb extends ArtifactGenerator {
 //
 //		return debFile;
 
-    }
+  }
 
-    private Deb createDebTask() {
-        return Context.getGradleContext().getProject().getTasks().create("createDeb_" + UUID.randomUUID(), Deb.class);
-    }
+  private Deb createDebTask() {
+    return Context.getGradleContext().getProject().getTasks()
+        .create("createDeb_" + UUID.randomUUID(), Deb.class);
+  }
 
 }

@@ -14,21 +14,22 @@ import javafx.scene.text.Text;
  */
 @FxView(fxml = "/layout/home/views/search_audio.fxml")
 public class SearchAudioView extends SidebarNavigationView {
-    public Text text;
-    public Button button;
 
-    @Override
-    public void onShow(NavigateBundle bundle) {
-        if (bundle.getData() != null) {
-            text.setText("来自：" + bundle.getFrom() + "   携带数据：" + bundle.get("data"));
-        }
-    }
+  public Text text;
+  public Button button;
 
-    @Override
-    public void onCreated() {
-        button.setOnMouseClicked(event -> {
-            new JFXPopup().show(App.app.getStage());
-        });
+  @Override
+  public void onShow(NavigateBundle bundle) {
+    if (bundle.getData() != null) {
+      text.setText("来自：" + bundle.getFrom() + "   携带数据：" + bundle.get("data"));
     }
+  }
+
+  @Override
+  public void onCreated() {
+    button.setOnMouseClicked(event -> {
+      new JFXPopup().show(App.app.getStage());
+    });
+  }
 }
 

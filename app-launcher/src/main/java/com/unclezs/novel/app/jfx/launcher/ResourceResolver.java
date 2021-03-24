@@ -9,11 +9,12 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class ResourceResolver {
-    public boolean isNew(Manifest manifest) {
-        return true;
-    }
 
-    public void update(Manifest manifest) {
+  public boolean isNew(Manifest manifest) {
+    return true;
+  }
 
-    }
+  public void update(Manifest manifest) {
+
+  }
 }

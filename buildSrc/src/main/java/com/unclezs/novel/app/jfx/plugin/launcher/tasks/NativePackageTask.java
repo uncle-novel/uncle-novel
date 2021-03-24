@@ -8,9 +8,10 @@ import org.gradle.api.tasks.TaskAction;
  * @date 2021/03/20 15:39
  */
 public class NativePackageTask extends DefaultTask {
-    @TaskAction
-    public void nativePackage() {
-        String[] params = {
-        };
-    }
+
+  @TaskAction
+  public void nativePackage() {
+    String[] params = {
+    };
+  }
 }

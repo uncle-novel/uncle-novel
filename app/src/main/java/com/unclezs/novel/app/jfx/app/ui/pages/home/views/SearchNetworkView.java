@@ -12,21 +12,22 @@ import javafx.scene.text.Text;
  */
 @FxView(fxml = "/layout/home/views/search_network.fxml")
 public class SearchNetworkView extends SidebarNavigationView {
-    public Button button;
-    public Text text;
 
-    @Override
-    public void onShow(NavigateBundle bundle) {
-        if (bundle.getData() != null) {
-            text.setText("来自：" + bundle.getFrom() + "   携带数据：" + bundle.get("data"));
-        }
-    }
+  public Button button;
+  public Text text;
 
-    @Override
-    public void onCreated() {
-        button.setOnMouseClicked(event -> {
-            NavigateBundle bundle = new NavigateBundle().put("data", "我是SearchNetworkView");
-            navigate(SearchNetworkView.class, bundle);
-        });
+  @Override
+  public void onShow(NavigateBundle bundle) {
+    if (bundle.getData() != null) {
+      text.setText("来自：" + bundle.getFrom() + "   携带数据：" + bundle.get("data"));
     }
+  }
+
+  @Override
+  public void onCreated() {
+    button.setOnMouseClicked(event -> {
+      NavigateBundle bundle = new NavigateBundle().put("data", "我是SearchNetworkView");
+      navigate(SearchNetworkView.class, bundle);
+    });
+  }
 }

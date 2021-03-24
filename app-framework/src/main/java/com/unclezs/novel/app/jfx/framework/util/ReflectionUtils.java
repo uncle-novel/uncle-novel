@@ -9,12 +9,13 @@ import com.unclezs.novel.app.jfx.framework.exception.ReflectionException;
  * @since 2021/03/05 15:50
  */
 public class ReflectionUtils {
-    @SuppressWarnings("unchecked")
-    public static <T> Class<T> forName(String className) {
-        try {
-            return (Class<T>) Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            throw new ReflectionException(e);
-        }
+
+  @SuppressWarnings("unchecked")
+  public static <T> Class<T> forName(String className) {
+    try {
+      return (Class<T>) Class.forName(className);
+    } catch (ClassNotFoundException e) {
+      throw new ReflectionException(e);
     }
+  }
 }

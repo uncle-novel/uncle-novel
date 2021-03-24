@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3">
+<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
 	<trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
 		<security>
 			<requestedPrivileges>
 #if($info.administratorRequired)
 				<requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
-#else				
+#else
 				<requestedExecutionLevel level="asInvoker" uiAccess="false" />
-#end				
+#end
 			</requestedPrivileges>
 		</security>
 	</trustInfo>

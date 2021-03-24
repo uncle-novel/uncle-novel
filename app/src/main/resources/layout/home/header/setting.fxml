@@ -4,18 +4,19 @@
 <?import com.unclezs.novel.app.jfx.framework.ui.components.button.IconButton?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<JFXPopup xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:id="popup"
-          fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.header.SettingPopupView">
-    <VBox spacing="10" styleClass="home-setting-popup" stylesheets="/css/home/header/setting-popup.css">
-        <IconButton text="GitHub源码" icon="&#xf092;"/>
-        <Pane styleClass="home-setting-popup-delimiter"/>
-        <IconButton text="设置" icon="&#xf013;"/>
-        <IconButton text="打赏" icon="&#xf23b;"/>
-        <IconButton text="关于" icon="&#xf170;"/>
-        <IconButton text="更新历史" icon="&#xf170;"/>
-        <IconButton text="查看日志" icon="&#xf1da;"/>
-        <IconButton text="问题反馈" icon="&#xf0f6;"/>
-        <Pane styleClass="home-setting-popup-delimiter"/>
-        <IconButton text="免责声明" icon="&#xf188;"/>
-    </VBox>
+<JFXPopup xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.header.SettingPopupView"
+  fx:id="popup">
+  <VBox spacing="10" styleClass="home-setting-popup"
+    stylesheets="/css/home/header/setting-popup.css">
+    <IconButton icon="&#xf092;" text="GitHub源码"/>
+    <IconButton icon="&#xf013;" text="设置"/>
+    <IconButton icon="&#xf23b;" text="打赏"/>
+    <IconButton icon="&#xf170;" text="关于"/>
+    <IconButton icon="&#xf170;" text="更新历史"/>
+    <IconButton icon="&#xf1da;" text="查看日志"/>
+    <IconButton icon="&#xf0f6;" text="问题反馈"/>
+    <IconButton icon="&#xf188;" text="免责声明"/>
+    <Pane styleClass="home-setting-popup-delimiter"/>
+    <Pane styleClass="home-setting-popup-delimiter"/>
+  </VBox>
 </JFXPopup>

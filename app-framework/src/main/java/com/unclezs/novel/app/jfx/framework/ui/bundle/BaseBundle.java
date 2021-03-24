@@ -1,9 +1,8 @@
 package com.unclezs.novel.app.jfx.framework.ui.bundle;
 
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
 /**
  * 数据包
@@ -14,39 +13,40 @@ import java.util.Map;
 @Getter
 @SuppressWarnings("unchecked")
 public class BaseBundle {
-    /**
-     * 数据
-     */
-    protected Map<String, Object> data;
+
+  /**
+   * 数据
+   */
+  protected Map<String, Object> data;
 
 
-    /**
-     * 添加数据
-     *
-     * @param key   键
-     * @param value 值
-     * @param <T>   类型
-     * @return 值
-     */
-    public <T extends BaseBundle> T put(String key, String value) {
-        if (data == null) {
-            data = new HashMap<>(16);
-        }
-        data.put(key, value);
-        return (T) this;
+  /**
+   * 添加数据
+   *
+   * @param key   键
+   * @param value 值
+   * @param <T>   类型
+   * @return 值
+   */
+  public <T extends BaseBundle> T put(String key, String value) {
+    if (data == null) {
+      data = new HashMap<>(16);
     }
+    data.put(key, value);
+    return (T) this;
+  }
 
-    /**
-     * 获取数据
-     *
-     * @param key 数据key
-     * @param <T> 类型
-     * @return 数据
-     */
-    public <T> T get(String key) {
-        if (data == null) {
-            return null;
-        }
-        return (T) data.get(key);
+  /**
+   * 获取数据
+   *
+   * @param key 数据key
+   * @param <T> 类型
+   * @return 数据
+   */
+  public <T> T get(String key) {
+    if (data == null) {
+      return null;
     }
+    return (T) data.get(key);
+  }
 }

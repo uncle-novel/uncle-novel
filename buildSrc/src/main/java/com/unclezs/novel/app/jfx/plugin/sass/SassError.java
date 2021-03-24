@@ -12,10 +12,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SassError {
 
-    private int status;
-    private String file;
-    private int line;
-    private int column;
-    private String message;
-    private String formatted;
+  private int status;
+  private String file;
+  private int line;
+  private int column;
+  private String message;
+  private String formatted;
 }

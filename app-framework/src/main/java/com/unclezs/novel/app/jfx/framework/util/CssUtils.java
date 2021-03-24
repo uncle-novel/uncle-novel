@@ -13,10 +13,11 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class CssUtils {
-    public static void addStylesheet(Scene scene, String css) {
-        Stylesheet stylesheet = new CssParser().parse(css);
-        stylesheet.setOrigin(StyleOrigin.USER);
-        StyleManager.getInstance().addUserAgentStylesheet(scene, stylesheet);
-        System.out.println(StyleManager.getInstance().stylesheetContainerMap);
-    }
+
+  public static void addStylesheet(Scene scene, String css) {
+    Stylesheet stylesheet = new CssParser().parse(css);
+    stylesheet.setOrigin(StyleOrigin.USER);
+    StyleManager.getInstance().addUserAgentStylesheet(scene, stylesheet);
+    System.out.println(StyleManager.getInstance().stylesheetContainerMap);
+  }
 }

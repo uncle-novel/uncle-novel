@@ -9,7 +9,8 @@ import lombok.Data;
  */
 @Data
 public class Library {
-    private String path;
-    private String size;
-    private Os os;
+
+  private String path;
+  private String size;
+  private Os os;
 }

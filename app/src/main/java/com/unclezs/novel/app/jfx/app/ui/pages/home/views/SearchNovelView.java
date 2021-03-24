@@ -24,74 +24,76 @@ import javafx.scene.text.Text;
  */
 @FxView(fxml = "/layout/home/views/search_novel.fxml")
 public class SearchNovelView extends SidebarNavigationView {
-    private final KeyRecorder recorder = new KeyRecorder();
-    public Text text;
-    public Button clear;
-    public Button showFalse;
-    public Button window;
-    public Button cancelWindow;
-    public Button global;
-    public Button cancelGlobal;
-    public VBox box;
-    public JFXToggleButton debug;
-    HotKeyCombination combination;
+
+  private final KeyRecorder recorder = new KeyRecorder();
+  public Text text;
+  public Button clear;
+  public Button showFalse;
+  public Button window;
+  public Button cancelWindow;
+  public Button global;
+  public Button cancelGlobal;
+  public VBox box;
+  public JFXToggleButton debug;
+  HotKeyCombination combination;
 
 
-    @Override
-    public void onShow(NavigateBundle bundle) {
-        if (bundle.getData() != null) {
-            text.setText("来自：" + bundle.getFrom() + "   携带数据：" + bundle.get("data"));
-        }
+  @Override
+  public void onShow(NavigateBundle bundle) {
+    if (bundle.getData() != null) {
+      text.setText("来自：" + bundle.getFrom() + "   携带数据：" + bundle.get("data"));
     }
+  }
 
-    @Override
-    public void onCreated() {
-        debug.selectedProperty().addListener(e -> {
-            if (debug.isSelected()) {
-                DebugUtils.open();
-            } else {
-                DebugUtils.close();
-            }
+  @Override
+  public void onCreated() {
+    debug.selectedProperty().addListener(e -> {
+      if (debug.isSelected()) {
+        DebugUtils.debug();
+      } else {
+        DebugUtils.init();
+      }
+    });
+    StackPane view = getView();
+    showFalse.setOnMouseClicked(
+      e -> box.getChildren().addAll(new SvgIcon("_close"), new SvgIcon("_minimize")));
+    clear.setOnMouseClicked(e -> {
+      DebugUtils.logMsg(getClass().getPackageName());
+      HotKeyManager.clearGlobal();
+    });
+    window.setOnMouseClicked(e -> {
+      if (combination != null) {
+        combination.setListener(new HotKeyListener() {
+          @Override
+          public void onWindowHotKey(HotKeyCombination hotKey) {
+            System.out.println(hotKey.getText());
+          }
         });
-        StackPane view = getView();
-        showFalse.setOnMouseClicked(e -> box.getChildren().addAll(new SvgIcon("_close"), new SvgIcon("_minimize")));
-        clear.setOnMouseClicked(e -> {
-            DebugUtils.logMsg(getClass().getPackageName());
-            HotKeyManager.clearGlobal();
+        HotKeyManager.register(combination);
+      }
+    });
+    cancelWindow.setOnMouseClicked(event -> HotKeyManager.unregister(text.getText()));
+    global.setOnMouseClicked(e -> {
+      if (combination != null) {
+        combination.setListener(new HotKeyListener() {
+          @Override
+          public void onHotKey(HotKey hotKey) {
+            System.out.println(hotKey);
+          }
         });
-        window.setOnMouseClicked(e -> {
-            if (combination != null) {
-                combination.setListener(new HotKeyListener() {
-                    @Override
-                    public void onWindowHotKey(HotKeyCombination hotKey) {
-                        System.out.println(hotKey.getText());
-                    }
-                });
-                HotKeyManager.register(combination);
-            }
-        });
-        cancelWindow.setOnMouseClicked(event -> HotKeyManager.unregister(text.getText()));
-        global.setOnMouseClicked(e -> {
-            if (combination != null) {
-                combination.setListener(new HotKeyListener() {
-                    @Override
-                    public void onHotKey(HotKey hotKey) {
-                        System.out.println(hotKey);
-                    }
-                });
-                HotKeyManager.registerGlobal(combination);
-            }
-        });
-        cancelGlobal.setOnMouseClicked(e -> HotKeyManager.unregisterGlobal(text.getText()));
-        HotKeyManager.bindWindowHotKeyListener(App.app.getStage());
-        view.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
-            if (recorder.record(e)) {
-                combination = recorder.getCombination();
-            } else {
-                combination = null;
-            }
-            text.setText(recorder.getKeyText());
-        });
+        HotKeyManager.registerGlobal(combination);
+      }
+    });
+    cancelGlobal.setOnMouseClicked(e -> HotKeyManager.unregisterGlobal(text.getText()));
+    HotKeyManager.bindWindowHotKeyListener(App.app.getStage());
+    view.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+      if (recorder.record(e)) {
+        combination = recorder.getCombination();
+      } else {
+        combination = null;
+      }
+      text.setText(recorder.getKeyText());
+    });
 
-    }
+  }
 }

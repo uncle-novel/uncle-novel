@@ -10,5 +10,6 @@ import com.unclezs.novel.app.jfx.framework.ui.view.BaseView;
  */
 @FxView(fxml = "/layout/home/header/setting.fxml")
 public class SettingPopupView extends BaseView {
-    public JFXPopup popup;
+
+  public JFXPopup popup;
 }

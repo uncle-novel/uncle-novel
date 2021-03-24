@@ -11,33 +11,35 @@ import javafx.css.PseudoClass;
  * @since 2021/03/02 18:03
  */
 public class SelectableButton extends IconButton {
-    /**
-     * 设置选中伪类
-     */
-    private static final PseudoClass SELECTED_PSEUDO_CLASS_STATE = PseudoClass.getPseudoClass("selected");
-    private ReadOnlyBooleanWrapper selected;
 
-    public boolean isSelected() {
-        return selectedProperty().get();
-    }
+  /**
+   * 设置选中伪类
+   */
+  private static final PseudoClass SELECTED_PSEUDO_CLASS_STATE = PseudoClass
+      .getPseudoClass("selected");
+  private ReadOnlyBooleanWrapper selected;
 
-    public ReadOnlyBooleanProperty selectedProperty() {
-        return selectedPropertyImpl().getReadOnlyProperty();
-    }
+  public boolean isSelected() {
+    return selectedProperty().get();
+  }
 
-    public ReadOnlyBooleanWrapper selectedPropertyImpl() {
-        if (selected == null) {
-            selected = new ReadOnlyBooleanWrapper(this, "selected", false) {
-                @Override
-                protected void invalidated() {
-                    pseudoClassStateChanged(SELECTED_PSEUDO_CLASS_STATE, get());
-                }
-            };
+  public void setSelected(boolean selected) {
+    selectedPropertyImpl().set(selected);
+  }
+
+  public ReadOnlyBooleanProperty selectedProperty() {
+    return selectedPropertyImpl().getReadOnlyProperty();
+  }
+
+  public ReadOnlyBooleanWrapper selectedPropertyImpl() {
+    if (selected == null) {
+      selected = new ReadOnlyBooleanWrapper(this, "selected", false) {
+        @Override
+        protected void invalidated() {
+          pseudoClassStateChanged(SELECTED_PSEUDO_CLASS_STATE, get());
         }
-        return selected;
+      };
     }
-
-    public void setSelected(boolean selected) {
-        selectedPropertyImpl().set(selected);
-    }
+    return selected;
+  }
 }

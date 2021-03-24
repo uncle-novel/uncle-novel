@@ -16,42 +16,42 @@ import javafx.scene.layout.HBox;
  */
 @FxView(fxml = "/layout/reader/reader.fxml", bundle = "i18n.framework")
 public class ReaderSceneView extends SceneView {
-    public HBox box;
-    public ToggleButton btn1;
-    public ToggleButton btn2;
-    public ToggleButton btn3;
-    public ToggleButton btn4;
+  public HBox box;
+  public ToggleButton btn1;
+  public ToggleButton btn2;
+  public ToggleButton btn3;
+  public ToggleButton btn4;
 
-    @Override
-    public void onCreated() {
-        System.out.println("ReaderView created");
-    }
+  @Override
+  public void onCreated() {
+    System.out.println("ReaderView created");
+  }
 
-    public void toHome() {
-        App.redirect(HomeSceneView.class, new SceneViewNavigateBundle().put("data", "reader"));
-    }
+  public void toHome() {
+    App.redirect(HomeSceneView.class, new SceneViewNavigateBundle().put("data", "reader"));
+  }
 
-    @Override
-    public void onTheme(StageDecorator view, IconButton themeButton) {
-        System.out.println("主题被点击1");
-    }
+  @Override
+  public void onTheme(StageDecorator view, IconButton themeButton) {
+    System.out.println("主题被点击1");
+  }
 
-    @Override
-    public void onShow(SceneViewNavigateBundle bundle) {
-        System.out.println("ReaderView show");
-        String data = bundle.get("data");
-        if (data != null) {
-            System.out.println("reader收到数据：" + data);
-        }
+  @Override
+  public void onShow(SceneViewNavigateBundle bundle) {
+    System.out.println("ReaderView show");
+    String data = bundle.get("data");
+    if (data != null) {
+      System.out.println("reader收到数据：" + data);
     }
+  }
 
-    @Override
-    public void onHidden() {
-        System.out.println("ReaderView hidden");
-    }
+  @Override
+  public void onHidden() {
+    System.out.println("ReaderView hidden");
+  }
 
-    @Override
-    public void onDestroy() {
-        System.out.println("ReaderView destroy");
-    }
+  @Override
+  public void onDestroy() {
+    System.out.println("ReaderView destroy");
+  }
 }

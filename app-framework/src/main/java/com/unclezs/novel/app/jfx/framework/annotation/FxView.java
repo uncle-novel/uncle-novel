@@ -16,24 +16,25 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FxView {
-    /**
-     * FXML路径
-     *
-     * @return fxml路径
-     */
-    String fxml() default "";
 
-    /**
-     * 国际化资源文件
-     *
-     * @return 路径
-     */
-    String bundle() default "";
+  /**
+   * FXML路径
+   *
+   * @return fxml路径
+   */
+  String fxml() default "";
 
-    /**
-     * 样式表
-     *
-     * @return 样式表
-     */
-    String[] css() default {};
+  /**
+   * 国际化资源文件
+   *
+   * @return 路径
+   */
+  String bundle() default "";
+
+  /**
+   * 样式表
+   *
+   * @return 样式表
+   */
+  String[] css() default {};
 }

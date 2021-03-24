@@ -14,12 +14,13 @@ import javafx.util.Duration;
  * @date 2020/6/19 15:18
  */
 public class SmoothScrollingTransition extends CachedTransition {
-    public SmoothScrollingTransition(ScrollPane contentHolder, double to) {
-        super(contentHolder, new Timeline(
-            new KeyFrame(Duration.millis(2000),
-                new KeyValue(contentHolder.vvalueProperty(), to, Interpolator.EASE_BOTH)))
-        );
-        setCycleDuration(Duration.seconds(1));
-        setDelay(Duration.seconds(0));
-    }
+
+  public SmoothScrollingTransition(ScrollPane contentHolder, double to) {
+    super(contentHolder, new Timeline(
+        new KeyFrame(Duration.millis(2000),
+            new KeyValue(contentHolder.vvalueProperty(), to, Interpolator.EASE_BOTH)))
+    );
+    setCycleDuration(Duration.seconds(1));
+    setDelay(Duration.seconds(0));
+  }
 }

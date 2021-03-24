@@ -13,12 +13,13 @@ import com.unclezs.novel.app.jfx.plugin.packager.packagers.PackagerFactory;
  */
 public class DefaultPackageTask extends AbstractPackageTask {
 
-    @Override
-    protected Packager createPackager() throws Exception {
-        PackagePluginExtension extension = getProject().getExtensions().getByType(PackagePluginExtension.class);
-        Packager packager = PackagerFactory.createPackager(extension.getPlatform());
-        BeanUtil.copyProperties(extension, packager);
-        return packager;
-    }
+  @Override
+  protected Packager createPackager() throws Exception {
+    PackagePluginExtension extension = getProject().getExtensions()
+        .getByType(PackagePluginExtension.class);
+    Packager packager = PackagerFactory.createPackager(extension.getPlatform());
+    BeanUtil.copyProperties(extension, packager);
+    return packager;
+  }
 
 }

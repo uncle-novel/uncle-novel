@@ -18,21 +18,22 @@ import lombok.Setter;
 @Setter
 @DefaultProperty("menus")
 public class SidebarNavigationMenuGroup {
-    private String name;
-    private ObservableList<SidebarNavigationMenu> menus = FXCollections.observableArrayList();
-    private Label groupLabel;
-    public static final String GROUP_LABEL_CLASS = "sidebar-nav-menu-group-label";
 
-    /**
-     * 设置分组名称
-     *
-     * @param name 名称
-     */
-    public void setName(String name) {
-        this.name = name;
-        if (groupLabel == null) {
-            groupLabel = ViewUtils.addClass(new Label(name), GROUP_LABEL_CLASS);
-        }
-        this.groupLabel.setText(name);
+  public static final String GROUP_LABEL_CLASS = "sidebar-nav-menu-group-label";
+  private String name;
+  private ObservableList<SidebarNavigationMenu> menus = FXCollections.observableArrayList();
+  private Label groupLabel;
+
+  /**
+   * 设置分组名称
+   *
+   * @param name 名称
+   */
+  public void setName(String name) {
+    this.name = name;
+    if (groupLabel == null) {
+      groupLabel = ViewUtils.addClass(new Label(name), GROUP_LABEL_CLASS);
     }
+    this.groupLabel.setText(name);
+  }
 }

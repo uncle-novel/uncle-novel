@@ -6,34 +6,34 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <VBox styleClass="setting-box">
-    <Label text="快捷键设置" styleClass="setting-name"/>
-    <VBox styleClass="setting-items">
-        <VBox styleClass="setting-item">
-            <Label text="应用快捷键" styleClass="setting-item-name"/>
-            <VBox styleClass="setting-item-content">
-                <JFXCheckBox text="是否启用"/>
-                <VBox>
-                    <HBox>
-                        <VBox spacing="4">
-                            <Label text="关闭应用" style="-fx-text-fill: theme-dark-color"/>
-                            <TextField promptText="请输入新的快捷键"/>
-                        </VBox>
-                    </HBox>
-                    <HBox>
+  <Label styleClass="setting-name" text="快捷键设置"/>
+  <VBox styleClass="setting-items">
+    <VBox styleClass="setting-item">
+      <Label styleClass="setting-item-name" text="应用快捷键"/>
+      <VBox styleClass="setting-item-content">
+        <JFXCheckBox text="是否启用"/>
+        <VBox>
+          <HBox>
+            <VBox spacing="4">
+              <Label style="-fx-text-fill: theme-dark-color" text="关闭应用"/>
+              <TextField promptText="请输入新的快捷键"/>
+            </VBox>
+          </HBox>
+          <HBox>
 
-                    </HBox>
-                </VBox>
-            </VBox>
+          </HBox>
         </VBox>
-        <VBox styleClass="setting-item">
-            <Label text="全局快捷键" styleClass="setting-item-name"/>
-            <VBox styleClass="setting-item-content">
-                <HBox spacing="15">
-                    <JFXCheckBox text="简体中文"/>
-                    <JFXCheckBox text="繁体中文"/>
-                    <JFXCheckBox text="English"/>
-                </HBox>
-            </VBox>
-        </VBox>
+      </VBox>
     </VBox>
+    <VBox styleClass="setting-item">
+      <Label styleClass="setting-item-name" text="全局快捷键"/>
+      <VBox styleClass="setting-item-content">
+        <HBox spacing="15">
+          <JFXCheckBox text="简体中文"/>
+          <JFXCheckBox text="繁体中文"/>
+          <JFXCheckBox text="English"/>
+        </HBox>
+      </VBox>
+    </VBox>
+  </VBox>
 </VBox>

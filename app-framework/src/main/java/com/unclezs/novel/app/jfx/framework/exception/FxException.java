@@ -5,23 +5,25 @@ package com.unclezs.novel.app.jfx.framework.exception;
  * @since 2021/02/26 15:15
  */
 public class FxException extends RuntimeException {
-    public FxException() {
-    }
 
-    public FxException(String message) {
-        super(message);
-    }
+  public FxException() {
+  }
 
-    public FxException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public FxException(String message) {
+    super(message);
+  }
 
-    public FxException(Throwable cause) {
-        super(cause);
-    }
+  public FxException(String message, Throwable cause) {
+    super(message, cause);
+  }
 
-    public FxException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+  public FxException(Throwable cause) {
+    super(cause);
+  }
+
+  public FxException(String message, Throwable cause, boolean enableSuppression,
+      boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
 
 }

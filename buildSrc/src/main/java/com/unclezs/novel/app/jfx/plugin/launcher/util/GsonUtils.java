@@ -8,9 +8,11 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class GsonUtils {
-    public static void main(String[] args) {
-    }
-    public static void parse() {
 
-    }
+  public static void main(String[] args) {
+  }
+
+  public static void parse() {
+
+  }
 }
