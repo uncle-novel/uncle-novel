@@ -86,4 +86,8 @@ configure(jfxProject) { project ->
         version = "16"
         modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.media']
     }
+
+    jar {
+        exclude "**/scss/**"
+    }
 }
