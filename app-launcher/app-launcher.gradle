@@ -1,4 +1,4 @@
-import proguard.gradle.ProGuardTask;
+import proguard.gradle.ProGuardTask
 buildscript {
     repositories {
         jcenter()

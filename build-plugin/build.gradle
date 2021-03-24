@@ -24,7 +24,6 @@ repositories {
 }
 
 dependencies {
-    implementation project("../app-launcher")
     annotationProcessor "org.projectlombok:lombok:1.18.18"
     compileOnly "org.projectlombok:lombok:1.18.18"
     implementation "cn.hutool:hutool-all:5.5.9"

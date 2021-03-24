@@ -1,6 +1,9 @@
 plugins {
   id "org.openjfx.javafxplugin" version "0.0.9" apply false
   id 'io.spring.dependency-management' version '1.0.9.RELEASE' apply false
+  id 'sass' apply false
+  id 'launcher' apply false
+  id 'packager' apply false
 }
 group 'com.unclezs.novel.app.jfx'
 version "5.0.0"
