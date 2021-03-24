@@ -5,7 +5,7 @@ apply plugin: 'packager'
 
 dependencies {
   implementation project(":app-framework")
-//  implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
+  implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
   implementation "org.freemarker:freemarker"
   implementation "ch.qos.logback:logback-classic"
 }
