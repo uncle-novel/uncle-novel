@@ -28,7 +28,7 @@ public class FxLauncher {
 
         ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         LauncherClassLoader launcherClassLoader = new LauncherClassLoader(classLoader);
-        List<URL> libs = Arrays.stream(Objects.requireNonNull(new File("G:\\coder\\self-coder\\uncle-novel-jfx\\app\\build\\Uncle\\libx").listFiles())).map(f -> {
+        List<URL> libs = Arrays.stream(Objects.requireNonNull(new File("/Users/zhanghongguo/coder/self-coder/uncle-novel-jfx/app/build/app").listFiles())).map(f -> {
             try {
                 return f.toURI().toURL();
             } catch (MalformedURLException e) {

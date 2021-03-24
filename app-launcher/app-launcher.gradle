@@ -1,33 +1,21 @@
-plugins {
-    id 'application'
-    id "org.openjfx.javafxplugin"
+import proguard.gradle.ProGuardTask;
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'net.sf.proguard:proguard-gradle:6.2.2'
+    }
 }
-group 'com.unclezs.novel.app.jfx'
-version rootProject.version
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-
 dependencies {
-    compileOnly "org.projectlombok:lombok:1.18.18"
-    annotationProcessor "org.projectlombok:lombok:1.18.18"
-    implementation "com.google.code.gson:gson:2.8.6"
-    implementation "org.slf4j:slf4j-api:1.7.30"
     implementation project(":app")
+    implementation "com.google.code.gson:gson"
 }
 
-javafx {
-    version = "15"
-    modules = ['javafx.controls','javafx.fxml','javafx.web','javafx.media']
+task obfuscate(type: ProGuardTask) {
+    injars jar
+    outjars "$buildDir/libs/${project.name}-pg.jar"
+    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod"
+    libraryjars files(configurations.runtimeClasspath.collect())
+    configuration "proguard.pro"
 }
-
-tasks.withType(JavaCompile){
-    options.encoding = 'UTF-8'
-}
-
-test {
-    useJUnitPlatform()
-}
-

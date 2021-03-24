@@ -5,7 +5,6 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.File;
-import java.io.FileFilter;
 
 /**
  * @author blog.unclezs.com
@@ -17,11 +16,10 @@ public class CreateManifestTask extends DefaultTask {
     @TaskAction
     public void createManifest() {
         File workDir = extension.getWorkDir();
-        File[] files = workDir.listFiles(new FileFilter() {
-            @Override
-            public boolean accept(File pathname) {
-                return true;
+        File[] files = workDir.listFiles(pathname -> true);
+        if (files != null) {
+            for (File file : files) {
             }
-        });
+        }
     }
 }

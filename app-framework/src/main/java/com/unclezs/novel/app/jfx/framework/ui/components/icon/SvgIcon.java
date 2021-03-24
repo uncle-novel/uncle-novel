@@ -100,7 +100,7 @@ public class SvgIcon extends StackPane {
     /**
      * 加载SVG图标
      *
-     * @param configPath
+     * @param configPath 配置路径
      */
     public static void load(String configPath) {
         try {

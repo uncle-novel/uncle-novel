@@ -1,49 +1,12 @@
 import com.unclezs.novel.app.jfx.plugin.packager.gradle.PackageTask
-
-plugins {
-    id "java"
-    id "org.openjfx.javafxplugin"
-}
 apply plugin: "launcher"
 apply plugin: 'packager'
-apply plugin: "sass"
-
-group 'com.unclezs.novel.app.jfx'
-version rootProject.version
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    jcenter()
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.fork = true
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
 
 dependencies {
-    implementation project(":framework")
-    compileOnly 'org.projectlombok:lombok:1.18.18'
-    annotationProcessor "org.projectlombok:lombok:1.18.18"
+    implementation project(":app-framework")
     implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
-    implementation "org.freemarker:freemarker:2.3.31"
-    implementation "ch.qos.logback:logback-classic:1.2.3"
-
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-}
-
-test {
-    useJUnitPlatform()
-}
-
-javafx {
-    version = "16"
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.media']
-    configuration = "compileOnly"
+    implementation "org.freemarker:freemarker"
+    implementation "ch.qos.logback:logback-classic"
 }
 
 task packageLinux(type: PackageTask, dependsOn: build) {
@@ -51,6 +14,7 @@ task packageLinux(type: PackageTask, dependsOn: build) {
     createTar = true
     generateInstaller = true
 }
+
 task packageMac(type: PackageTask, dependsOn: build) {
     platform = "mac"
     createTar = true
@@ -72,7 +36,6 @@ task packageWindows(type: PackageTask, dependsOn: build) {
         return winConfig
     }
 }
-
 packager {
     name = "Uncle小说"
     mainClass = 'com.unclezs.novel.app.jfx.app.Launcher'

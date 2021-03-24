@@ -1,6 +1,6 @@
 rootProject.name = 'uncle-novel-jfx'
-include 'framework'
 include 'app'
+include 'app-framework'
 include 'app-launcher'
 
 // 编译脚本为项目名.gradle

@@ -30,9 +30,12 @@ public class Manifest {
      * 依赖
      */
     private List<Library> libs;
+    /**
+     * 启动类
+     */
+    private String launcherClass;
 
     public static void main(String[] args) {
 
     }
-
 }
