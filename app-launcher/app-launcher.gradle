@@ -1,21 +1,25 @@
 import proguard.gradle.ProGuardTask
+
 buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'net.sf.proguard:proguard-gradle:6.2.2'
-    }
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'net.sf.proguard:proguard-gradle:6.2.2'
+  }
 }
 dependencies {
-    implementation project(":app")
-    implementation "com.google.code.gson:gson"
+  implementation project(":app")
+  implementation "com.google.code.gson:gson"
+}
+
+jar {
 }
 
 task obfuscate(type: ProGuardTask) {
-    injars jar
-    outjars "$buildDir/libs/${project.name}-pg.jar"
-    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod"
-    libraryjars files(configurations.runtimeClasspath.collect())
-    configuration "proguard.pro"
+  injars jar
+  outjars "$buildDir/libs/${project.name}-pg.jar"
+  libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod"
+  libraryjars files(configurations.runtimeClasspath.collect())
+  configuration "proguard.pro"
 }

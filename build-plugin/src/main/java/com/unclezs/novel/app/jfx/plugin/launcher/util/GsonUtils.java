@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.launcher.util;
 
+import com.unclezs.novel.app.jfx.launcher.model.Manifest;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -10,6 +11,7 @@ import lombok.experimental.UtilityClass;
 public class GsonUtils {
 
   public static void main(String[] args) {
+    System.out.println(new Manifest());
   }
 
   public static void parse() {

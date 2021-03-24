@@ -1,0 +1,77 @@
+apply plugin: "java-library"
+apply plugin: "maven-publish"
+java {
+  withJavadocJar()
+  withSourcesJar()
+}
+tasks.withType(Javadoc) {
+  enabled = false
+}
+
+publishing {
+  repositories {
+    maven {
+      def snapshot = project.version.endsWith('SNAPSHOT')
+      def releasesRepoUrl = aliReleasesRepoUrl
+      def snapshotsRepoUrl = aliSnapshotsRepoUrl
+      url = snapshot ? snapshotsRepoUrl : releasesRepoUrl
+      credentials {
+        username = aliMavenUsername
+        password = aliMavenPassword
+      }
+    }
+  }
+  publications {
+    mavenJava(MavenPublication) {
+      groupId = project.group
+      artifactId = project.archivesBaseName
+      version = project.version
+      from components.java
+
+      versionMapping {
+        usage('java-api') {
+          fromResolutionOf('runtimeClasspath')
+        }
+        usage('java-runtime') {
+          fromResolutionResult()
+        }
+      }
+      pom {
+        afterEvaluate {
+          name = project.description
+          description = project.description
+        }
+        url = "https://github.com/unclezs/uncle-novel-jfx"
+        licenses {
+          license {
+            name = "Apache License, Version 2.0"
+            url = "https://www.apache.org/licenses/LICENSE-2.0"
+            distribution = "repo"
+          }
+        }
+        scm {
+          url = "https://github.com/unclezs/uncle-novel-jfx"
+          connection = "scm:git:git://github.com/unclezs/uncle-novel-jfx"
+          developerConnection = "scm:git:git://github.com/unclezs/uncle-novel-jfx"
+        }
+        developers {
+          developer {
+            id = "uncle"
+            name = "uncle"
+            email = "unclezs@qq.com"
+          }
+        }
+        issueManagement {
+          system = "GitHub"
+          url = "https://github.com/unclezs/uncle-novel-jfx/issues"
+        }
+      }
+    }
+  }
+}
+
+javadoc {
+  if (JavaVersion.current().isJava9Compatible()) {
+    options.addBooleanOption('html5', true)
+  }
+}

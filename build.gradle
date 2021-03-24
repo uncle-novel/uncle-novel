@@ -1,23 +1,26 @@
 plugins {
   id "org.openjfx.javafxplugin" version "0.0.9" apply false
-  id 'io.spring.dependency-management' version '1.0.9.RELEASE' apply false
-  id 'sass' apply false
-  id 'launcher' apply false
-  id 'packager' apply false
+  id "io.spring.dependency-management" version "1.0.9.RELEASE" apply false
+  id "sass" apply false
+  id "launcher" apply false
+  id "packager" apply false
 }
-group 'com.unclezs.novel.app.jfx'
-version "5.0.0"
 
 ext {
   jfxProject = subprojects.findAll { it.name.startsWith("app") }
 }
 
-configure(allprojects - rootProject) { project ->
+allprojects {
   group = "com.unclezs.novel.app.jfx"
-  version = rootProject.version
+  version = "5.0.0-SNAPSHOT"
+  description = "Uncle Novel Project"
+}
+
+subprojects {
   apply plugin: "java"
   apply plugin: "checkstyle"
   apply plugin: "io.spring.dependency-management"
+  apply from: "${rootDir}/gradle/publish-maven.gradle"
 
   dependencyManagement {
     dependencies {
@@ -55,7 +58,7 @@ configure(allprojects - rootProject) { project ->
   }
 
   tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+    options.encoding = "UTF-8"
     options.fork = true
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
@@ -63,11 +66,11 @@ configure(allprojects - rootProject) { project ->
 
   dependencies {
     implementation "org.slf4j:slf4j-api"
-    compileOnly 'org.projectlombok:lombok'
+    compileOnly "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api'
-    testImplementation 'cn.hutool:hutool-all'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
+    testImplementation "cn.hutool:hutool-all"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
   }
 
   test {
@@ -87,7 +90,7 @@ configure(jfxProject) { project ->
 
   javafx {
     version = "16"
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.media']
+    modules = ["javafx.controls", "javafx.fxml", "javafx.web", "javafx.media"]
   }
 
   jar {
