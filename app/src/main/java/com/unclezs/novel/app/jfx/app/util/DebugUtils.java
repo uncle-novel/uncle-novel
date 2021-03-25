@@ -33,6 +33,7 @@ public class DebugUtils {
    */
   public static void debug() {
     DEBUG_LOGGER.setLevel(Level.TRACE);
+    Logging.getJavaFXLogger().enableLogging();
   }
 
   /**
