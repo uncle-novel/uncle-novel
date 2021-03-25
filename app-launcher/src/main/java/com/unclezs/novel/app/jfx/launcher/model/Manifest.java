@@ -18,6 +18,8 @@ public class Manifest {
    * 服务器地址
    */
   private String serverUri = "file:/G:/coder/self-coder/uncle-novel-jfx/app/build/Uncle/libx/";
+  private String libDir;
+  private String version;
   /**
    * 更新日志链接
    */
@@ -34,8 +36,4 @@ public class Manifest {
    * 启动类
    */
   private String launcherClass;
-
-  public static void main(String[] args) {
-
-  }
 }

@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.launcher;
+package com.unclezs.novel.app.jfx.launcher.utils;
 
 import java.io.File;
 import java.net.MalformedURLException;

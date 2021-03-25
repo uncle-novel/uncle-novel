@@ -18,7 +18,7 @@ allprojects {
 
 subprojects {
   apply plugin: "java"
-  apply plugin: "checkstyle"
+//  apply plugin: "checkstyle"
   apply plugin: "io.spring.dependency-management"
   apply from: "${rootDir}/gradle/publish-maven.gradle"
 
@@ -78,10 +78,10 @@ subprojects {
     include(["**/*Tests.class", "**/*Test.class"])
   }
 
-  checkstyle {
-    toolVersion = "8.41"
-    configDirectory.set(rootProject.file("src/checkstyle"))
-  }
+//  checkstyle {
+//    toolVersion = "8.41"
+//    configDirectory.set(rootProject.file("src/checkstyle"))
+//  }
 }
 
 configure(jfxProject) { project ->

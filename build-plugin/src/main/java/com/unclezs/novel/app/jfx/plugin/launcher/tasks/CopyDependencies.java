@@ -29,14 +29,14 @@ public class CopyDependencies extends DefaultTask {
     workDir.delete();
     // 拷贝依赖
     project.getConfigurations().getByName("runtimeClasspath").getResolvedConfiguration()
-        .getResolvedArtifacts().forEach(artifact -> {
+      .getResolvedArtifacts().forEach(artifact -> {
       project.copy(c -> {
         c.from(artifact.getFile());
         c.into(workDir);
         if (artifact.getClassifier() != null) {
           c.rename(closure -> String
-              .format("%s-%s.%s", artifact.getName(), artifact.getClassifier(),
-                  artifact.getExtension()));
+            .format("%s-%s.%s", artifact.getName(), artifact.getClassifier(),
+              artifact.getExtension()));
         } else {
           c.rename(closure -> String.format("%s.%s", artifact.getName(), artifact.getExtension()));
         }
@@ -52,5 +52,7 @@ public class CopyDependencies extends DefaultTask {
       c.from(options.getNativeLibPath());
       c.into(workDir);
     });
+
+
   }
 }
