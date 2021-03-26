@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.jfx.app.ui.app;
 
 import com.unclezs.novel.app.jfx.app.ui.pages.home.HomeSceneView;
+import com.unclezs.novel.app.jfx.app.util.DebugUtils;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SceneView;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SceneViewNavigateBundle;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SsaApplication;
@@ -73,6 +74,7 @@ public class App extends SsaApplication {
 
   @Override
   public void init() throws Exception {
+    DebugUtils.init();
     SvgIcon.load("/assets/icons/svg.properties");
     Random random = new Random();
     int i = random.nextInt(3);
@@ -82,13 +84,10 @@ public class App extends SsaApplication {
       Locale.setDefault(Locale.TAIWAN);
     }
     super.init();
-    System.out.println(Thread.currentThread().getContextClassLoader());
   }
 
   @Override
   public Class<? extends SceneView> getIndexView() throws Exception {
-//        getStage().getIcons().clear();
-//        getStage().getIcons().add(new Image("/assets/images/favicon.png"));
     return HomeSceneView.class;
   }
 }

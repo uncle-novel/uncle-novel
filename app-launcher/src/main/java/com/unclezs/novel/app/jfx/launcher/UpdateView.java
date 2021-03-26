@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.jfx.launcher;
 
 import java.util.List;
+import java.util.logging.Logger;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
@@ -12,6 +13,7 @@ import javafx.scene.layout.VBox;
  */
 public class UpdateView extends VBox {
 
+  private static final Logger LOG = LoggerHelper.get(UpdateView.class);
   private final ProgressBar progressBar = new ProgressBar(0);
   private final Label whatNew = new Label();
   /**
@@ -29,7 +31,7 @@ public class UpdateView extends VBox {
   }
 
   public void setProgress(double progress) {
-    this.progressBar.setProgress(progress);
+    FxUtils.runFx(() -> this.progressBar.setProgress(progress));
   }
 
 
@@ -44,7 +46,11 @@ public class UpdateView extends VBox {
     for (String msg : news) {
       updateMsg.append(i++).append(msg).append("\n");
     }
-    whatNew.setText(updateMsg.toString());
+    setWhatNew(updateMsg.toString());
+  }
+
+  public void setWhatNew(String news) {
+    FxUtils.runFx(() -> whatNew.setText(news));
   }
 
   /**
@@ -53,6 +59,7 @@ public class UpdateView extends VBox {
    * @param phase 当前
    */
   public void setPhase(String phase) {
-    this.phase.setText(phase);
+    LOG.info(phase);
+    FxUtils.runFx(() -> this.phase.setText(phase));
   }
 }

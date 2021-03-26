@@ -22,13 +22,14 @@ import lombok.NonNull;
 public class Manifest {
 
   /**
+   * 嵌入Jar的配置文件名
+   */
+  public static final String EMBEDDED_CONFIG_NAME = "app.json";
+  /**
    * 配置文件名
    */
-  public static final String CONFIG_NAME = "app.json";
-  /**
-   * 是否为增量更新
-   */
-  private boolean incremental = true;
+  private String configName = EMBEDDED_CONFIG_NAME;
+  private String appName = "Welcome";
   /**
    * 服务器地址
    */
@@ -96,7 +97,7 @@ public class Manifest {
    * @return 配置
    */
   public Path localManifest() {
-    return Paths.get(libDir, CONFIG_NAME);
+    return Paths.get(libDir, configName);
   }
 
   /**

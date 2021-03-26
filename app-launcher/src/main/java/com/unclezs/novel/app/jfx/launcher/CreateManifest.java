@@ -25,7 +25,8 @@ public class CreateManifest {
     manifest.setLibDir("lib");
     manifest.setLauncherClass("com.unclezs.novel.app.jfx.app.ui.app.App");
     manifest.setVersion("1.0.6");
-    manifest.setServerUri(new File(".", "app/build/app").getAbsolutePath());
+    manifest.setAppName("Uncle小说");
+    manifest.setServerUri(Path.of("app/build/app").toUri().toURL().toString());
     manifest.getChangeLog().add("1. 啥都没更新");
     manifest.getChangeLog().add("1. 啥都没更新");
     manifest.getChangeLog().add("1. 啥都没更新");
@@ -40,7 +41,7 @@ public class CreateManifest {
       }
     }
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    Path configPath = Path.of(Manifest.CONFIG_NAME);
+    Path configPath = Path.of(Manifest.EMBEDDED_CONFIG_NAME);
     manifest.setConfigServerUri(configPath.toUri().toURL().toString());
     String json = gson.toJson(manifest);
     Files.writeString(configPath, json);

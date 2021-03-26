@@ -1,5 +1,7 @@
 package com.unclezs.novel.app.jfx.launcher;
 
+import java.io.IOException;
+import java.util.logging.Logger;
 import javafx.application.Application;
 
 /**
@@ -8,8 +10,11 @@ import javafx.application.Application;
  */
 public class Launcher {
 
-  public static void main(String[] args) {
-//    Logging.getJavaFXLogger().disableLogging();
+  private static final Logger LOG = LoggerHelper.get(Launcher.class);
+
+
+  public static void main(String[] args) throws IOException {
+    LOG.info("Start FX Launcher...");
     Application.launch(FxLauncher.class, args);
   }
 
