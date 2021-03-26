@@ -19,7 +19,7 @@
       <SidebarNavigationMenuGroup name="%找书">
         <SidebarNavigationMenu selected="true"
           svg="_search"
-          text="%设置" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SettingView"/>
+          text="设置1" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SettingView"/>
         <SidebarNavigationMenu selected="false"
           svg="_search"
           text="%搜索小说" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchNovelView"/>

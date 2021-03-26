@@ -1,7 +1,18 @@
 package com.unclezs.novel.app.jfx.launcher.model;
 
+import com.google.gson.Gson;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.Data;
+import lombok.NonNull;
 
 /**
  * @author blog.unclezs.com
@@ -11,23 +22,33 @@ import lombok.Data;
 public class Manifest {
 
   /**
+   * 配置文件名
+   */
+  public static final String CONFIG_NAME = "app.json";
+  /**
    * 是否为增量更新
    */
   private boolean incremental = true;
   /**
    * 服务器地址
    */
-  private String serverUri = "file:/G:/coder/self-coder/uncle-novel-jfx/app/build/Uncle/libx/";
-  private String libDir;
-  private String version;
+  private String serverUri;
   /**
-   * 更新日志链接
+   * 服务端配置的URI
    */
-  private String changeLogUri;
+  private String configServerUri;
+  /**
+   * 依赖文件夹
+   */
+  private String libDir;
+  /**
+   * 版本
+   */
+  private String version;
   /**
    * 更新内容
    */
-  private List<String> changeLog;
+  private List<String> changeLog = new ArrayList<>();
   /**
    * 依赖
    */
@@ -36,4 +57,54 @@ public class Manifest {
    * 启动类
    */
   private String launcherClass;
+
+  /**
+   * 加载配合
+   *
+   * @param uri 配置文件URI
+   * @return 配置
+   * @throws Exception 加载失败
+   */
+  @NonNull
+  public static Manifest load(URI uri) throws Exception {
+    try (InputStream stream = uri.toURL().openStream()) {
+      return new Gson().fromJson(new BufferedReader(new InputStreamReader(stream)), Manifest.class);
+    }
+  }
+
+  /**
+   * 解析依赖的URL
+   *
+   * @return 依赖URL列表
+   */
+  public List<URL> resolveLibraries() {
+    return libs.stream().filter(Library::currentPlatform).map(library -> library.toUrl(Path.of(libDir))).collect(Collectors.toList());
+  }
+
+  /**
+   * 解析远程依赖的URL
+   *
+   * @return 远程依赖URL列表
+   */
+  public List<Library> resolveRemoteLibraries() {
+    return libs.stream().filter(Library::currentPlatform).collect(Collectors.toList());
+  }
+
+  /**
+   * 获取 libDir下的配置
+   *
+   * @return 配置
+   */
+  public Path localManifest() {
+    return Paths.get(libDir, CONFIG_NAME);
+  }
+
+  /**
+   * 获取 远程的配置
+   *
+   * @return 配置
+   */
+  public URI remoteManifest() {
+    return URI.create(configServerUri);
+  }
 }

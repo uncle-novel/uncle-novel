@@ -49,7 +49,6 @@ public abstract class SsaApplication extends Application {
     List<String> theme = Arrays.asList("com/sun/javafx/scene/control/skin/modena/modena.css", APP_STYLE);
     StyleManager.getInstance().setUserAgentStylesheets(theme);
   }
-
   /**
    * 场景View缓存
    */

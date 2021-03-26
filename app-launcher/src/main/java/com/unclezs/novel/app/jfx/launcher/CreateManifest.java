@@ -22,22 +22,28 @@ public class CreateManifest {
     Manifest manifest = new Manifest();
     ArrayList<Library> libs = new ArrayList<>();
     manifest.setLibs(libs);
-    manifest.setLibDir("./");
+    manifest.setLibDir("lib");
     manifest.setLauncherClass("com.unclezs.novel.app.jfx.app.ui.app.App");
+    manifest.setVersion("1.0.6");
     manifest.setServerUri(new File(".", "app/build/app").getAbsolutePath());
+    manifest.getChangeLog().add("1. 啥都没更新");
+    manifest.getChangeLog().add("1. 啥都没更新");
+    manifest.getChangeLog().add("1. 啥都没更新");
     if (files != null) {
       for (File file : files) {
         Library lib = new Library();
-        lib.setOs(Os.WIN);
+        lib.setOs(Os.CURRENT);
         lib.setPath(file.getName());
-        lib.setSize(file.length() + "");
+        lib.setSize(file.length());
         libs.add(lib);
         System.out.println(lib);
       }
     }
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    Path configPath = Path.of(Manifest.CONFIG_NAME);
+    manifest.setConfigServerUri(configPath.toUri().toURL().toString());
     String json = gson.toJson(manifest);
-    Files.writeString(Path.of("app-out.json"), json);
+    Files.writeString(configPath, json);
     System.out.println(json);
   }
 }

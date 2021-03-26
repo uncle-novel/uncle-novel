@@ -1,47 +1,8 @@
-import com.unclezs.novel.app.jfx.plugin.packager.gradle.PackageTask
-
 apply plugin: "launcher"
-apply plugin: 'packager'
 
 dependencies {
   implementation project(":app-framework")
   implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
   implementation "org.freemarker:freemarker"
   implementation "ch.qos.logback:logback-classic"
-}
-
-task packageLinux(type: PackageTask, dependsOn: build) {
-  platform = "linux"
-  createTar = true
-  generateInstaller = true
-}
-
-task packageMac(type: PackageTask, dependsOn: build) {
-  platform = "mac"
-  createTar = true
-  generateInstaller = true
-  macConfig {
-    generateDmg = true
-    generatePkg = true
-    appId = "com.unclezs.novel.app"
-    icnsFile = file("${projectDir}/packager/logo/favicon.icns")
-    return macConfig
-  }
-}
-task packageWindows(type: PackageTask, dependsOn: build) {
-  platform = "windows"
-  createZip = true
-  generateInstaller = false
-  winConfig {
-    icoFile = file("${projectDir}/packager/logo/favicon.ico")
-    return winConfig
-  }
-}
-packager {
-  name = "Uncle小说"
-  mainClass = 'com.unclezs.novel.app.jfx.app.Launcher'
-  bundleJre = true
-  jreDirectoryName = "runtime"
-  copyDependencies = true
-  customizedJre = false
 }

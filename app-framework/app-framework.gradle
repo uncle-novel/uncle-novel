@@ -5,4 +5,5 @@ dependencies {
     api "com.github.tulskiy:jkeymaster"
     api "cn.hutool:hutool-core"
     api "com.jfoenix:jfoenix"
+    api "org.slf4j:slf4j-api"
 }

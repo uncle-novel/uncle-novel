@@ -103,7 +103,7 @@ public class FxmlLoader {
         fxViewAnnotation == null || StrUtils.isBlank(fxViewAnnotation.fxml()) ? controllerName
             : fxViewAnnotation.fxml();
     if (!fxml.endsWith(FXML_SUFFIX)) {
-      fxml += FXML_SUFFIX;
+      fxml = fxml.concat(FXML_SUFFIX);
     }
     // 国际化资源路径
     String bundle = fxViewAnnotation == null || StrUtils.isBlank(fxViewAnnotation.bundle()) ? null

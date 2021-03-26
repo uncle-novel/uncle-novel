@@ -82,6 +82,7 @@ public class App extends SsaApplication {
       Locale.setDefault(Locale.TAIWAN);
     }
     super.init();
+    System.out.println(Thread.currentThread().getContextClassLoader());
   }
 
   @Override

@@ -14,7 +14,7 @@ import lombok.Data;
 public class Library {
 
   private String path;
-  private String size;
+  private Long size;
   private Os os;
 
   public URL toUrl(Path libDir) {
@@ -24,6 +24,7 @@ public class Library {
       throw new RuntimeException(e);
     }
   }
+
 
   public boolean currentPlatform() {
     return os == null || os == Os.CURRENT;
