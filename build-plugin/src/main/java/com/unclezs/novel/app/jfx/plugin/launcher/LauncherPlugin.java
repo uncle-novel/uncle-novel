@@ -16,5 +16,6 @@ public class LauncherPlugin implements Plugin<Project> {
   public void apply(Project project) {
     project.getExtensions().create("launcher", LauncherExtension.class, project);
     project.getTasks().create("copyDependencies", CopyDependencies.class);
+    project.getTasks().create("createLauncher", CreateLauncherTask.class);
   }
 }

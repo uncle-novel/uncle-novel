@@ -1,180 +1,191 @@
 {
   "configName": "app.json",
-  "appName": "Uncle小说",
-  "serverUri": "file:/G:/coder/self-coder/uncle-novel-jfx/app/build/app/",
-  "configServerUri": "file:/G:/coder/self-coder/uncle-novel-jfx/app.json",
+  "appName": "Uncle小说\n欢迎关注公众号\n【书虫无书荒】",
+  "serverUri": "file:/Users/zhanghongguo/coder/self-coder/uncle-novel-jfx/app/build/app/",
+  "configServerUri": "file:/Users/zhanghongguo/coder/self-coder/uncle-novel-jfx/app.json",
   "libDir": "lib",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "changeLog": [
-    "1. 啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
+    "1. 啥都没更新啥都没更新啥都没更新啥都没更新",
     "1. 啥都没更新",
     "1. 啥都没更新"
   ],
   "libs": [
     {
-      "path": "accessors-smart.jar",
-      "size": 30035,
-      "os": "WIN"
-    },
-    {
-      "path": "antlr4-runtime.jar",
-      "size": 337904,
-      "os": "WIN"
-    },
-    {
-      "path": "app-5.0.0-SNAPSHOT.jar",
-      "size": 239345,
-      "os": "WIN"
-    },
-    {
-      "path": "app-framework.jar",
-      "size": 8920504,
-      "os": "WIN"
-    },
-    {
-      "path": "asm.jar",
-      "size": 53297,
-      "os": "WIN"
-    },
-    {
-      "path": "commons-lang3.jar",
-      "size": 412739,
-      "os": "WIN"
-    },
-    {
-      "path": "freemarker.jar",
-      "size": 1715750,
-      "os": "WIN"
-    },
-    {
-      "path": "gson.jar",
-      "size": 240255,
-      "os": "WIN"
-    },
-    {
-      "path": "hutool-core.jar",
-      "size": 939694,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-base-win.jar",
-      "size": 745740,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-base.jar",
-      "size": 302,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-controls-win.jar",
-      "size": 2530159,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-controls.jar",
-      "size": 306,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-fxml-win.jar",
-      "size": 128845,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-graphics-win.jar",
-      "size": 5816515,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-graphics.jar",
-      "size": 306,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-media-win.jar",
-      "size": 1062451,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-media.jar",
-      "size": 303,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-web-win.jar",
-      "size": 25231655,
-      "os": "WIN"
-    },
-    {
-      "path": "jfoenix.jar",
-      "size": 2432549,
-      "os": "WIN"
-    },
-    {
-      "path": "jkeymaster.jar",
-      "size": 49008,
-      "os": "WIN"
-    },
-    {
-      "path": "jna-platform.jar",
-      "size": 2624748,
-      "os": "WIN"
-    },
-    {
-      "path": "jna.jar",
-      "size": 1506245,
-      "os": "WIN"
-    },
-    {
-      "path": "json-path.jar",
-      "size": 231720,
-      "os": "WIN"
+      "path": "javafx-base-mac.jar",
+      "size": 745741,
+      "os": "MAC"
     },
     {
       "path": "json-smart.jar",
       "size": 120316,
-      "os": "WIN"
+      "os": "MAC"
     },
     {
-      "path": "jsoup.jar",
-      "size": 355356,
-      "os": "WIN"
+      "path": "javafx-graphics-mac.jar",
+      "size": 4897942,
+      "os": "MAC"
     },
     {
-      "path": "JsoupXpath.jar",
-      "size": 126951,
-      "os": "WIN"
+      "path": "app-framework.jar",
+      "size": 8920486,
+      "os": "MAC"
     },
     {
-      "path": "logback-classic.jar",
-      "size": 290339,
-      "os": "WIN"
+      "path": "accessors-smart.jar",
+      "size": 30035,
+      "os": "MAC"
     },
     {
-      "path": "logback-core.jar",
-      "size": 471901,
-      "os": "WIN"
+      "path": "javafx-web-mac.jar",
+      "size": 30178008,
+      "os": "MAC"
+    },
+    {
+      "path": "asm.jar",
+      "size": 53297,
+      "os": "MAC"
+    },
+    {
+      "path": "javafx-graphics.jar",
+      "size": 306,
+      "os": "MAC"
     },
     {
       "path": "novel-analyzer.jar",
       "size": 179855,
-      "os": "WIN"
+      "os": "MAC"
     },
     {
-      "path": "okhttp.jar",
-      "size": 430022,
-      "os": "WIN"
-    },
-    {
-      "path": "okio.jar",
-      "size": 91980,
-      "os": "WIN"
+      "path": "logback-core.jar",
+      "size": 471901,
+      "os": "MAC"
     },
     {
       "path": "slf4j-api.jar",
       "size": 41472,
-      "os": "WIN"
+      "os": "MAC"
+    },
+    {
+      "path": "jsoup.jar",
+      "size": 355356,
+      "os": "MAC"
+    },
+    {
+      "path": "logback-classic.jar",
+      "size": 290339,
+      "os": "MAC"
+    },
+    {
+      "path": "JsoupXpath.jar",
+      "size": 126951,
+      "os": "MAC"
+    },
+    {
+      "path": "jfoenix.jar",
+      "size": 2432549,
+      "os": "MAC"
+    },
+    {
+      "path": "gson.jar",
+      "size": 240255,
+      "os": "MAC"
+    },
+    {
+      "path": "javafx-controls-mac.jar",
+      "size": 2530181,
+      "os": "MAC"
+    },
+    {
+      "path": "json-path.jar",
+      "size": 231720,
+      "os": "MAC"
+    },
+    {
+      "path": "app-5.0.0-SNAPSHOT.jar",
+      "size": 239211,
+      "os": "MAC"
+    },
+    {
+      "path": "commons-lang3.jar",
+      "size": 412739,
+      "os": "MAC"
+    },
+    {
+      "path": "antlr4-runtime.jar",
+      "size": 337904,
+      "os": "MAC"
+    },
+    {
+      "path": "okhttp.jar",
+      "size": 430022,
+      "os": "MAC"
+    },
+    {
+      "path": "javafx-base.jar",
+      "size": 302,
+      "os": "MAC"
+    },
+    {
+      "path": "javafx-controls.jar",
+      "size": 306,
+      "os": "MAC"
+    },
+    {
+      "path": "hutool-core.jar",
+      "size": 939694,
+      "os": "MAC"
+    },
+    {
+      "path": "jna.jar",
+      "size": 1506245,
+      "os": "MAC"
+    },
+    {
+      "path": "javafx-media.jar",
+      "size": 303,
+      "os": "MAC"
+    },
+    {
+      "path": "javafx-media-mac.jar",
+      "size": 1673460,
+      "os": "MAC"
+    },
+    {
+      "path": "freemarker.jar",
+      "size": 1715750,
+      "os": "MAC"
+    },
+    {
+      "path": "jkeymaster.jar",
+      "size": 49008,
+      "os": "MAC"
+    },
+    {
+      "path": "okio.jar",
+      "size": 91980,
+      "os": "MAC"
+    },
+    {
+      "path": "javafx-fxml-mac.jar",
+      "size": 128845,
+      "os": "MAC"
+    },
+    {
+      "path": "jna-platform.jar",
+      "size": 2624748,
+      "os": "MAC"
     }
   ],
   "launcherClass": "com.unclezs.novel.app.jfx.app.ui.app.App"

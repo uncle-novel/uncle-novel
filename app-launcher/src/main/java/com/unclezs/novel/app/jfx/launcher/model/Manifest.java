@@ -21,6 +21,8 @@ import lombok.NonNull;
 @Data
 public class Manifest {
 
+  public static final Gson GSON = new Gson();
+
   /**
    * 嵌入Jar的配置文件名
    */
@@ -69,7 +71,7 @@ public class Manifest {
   @NonNull
   public static Manifest load(URI uri) throws Exception {
     try (InputStream stream = uri.toURL().openStream()) {
-      return new Gson().fromJson(new BufferedReader(new InputStreamReader(stream)), Manifest.class);
+      return GSON.fromJson(new BufferedReader(new InputStreamReader(stream)), Manifest.class);
     }
   }
 

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 /**
@@ -24,7 +25,7 @@ public class CreateManifest {
     manifest.setLibs(libs);
     manifest.setLibDir("lib");
     manifest.setLauncherClass("com.unclezs.novel.app.jfx.app.ui.app.App");
-    manifest.setVersion("1.0.6");
+    manifest.setVersion("1.0.7");
     manifest.setAppName("Uncle小说");
     manifest.setServerUri(Path.of("app/build/app").toUri().toURL().toString());
     manifest.getChangeLog().add("1. 啥都没更新");
@@ -45,6 +46,7 @@ public class CreateManifest {
     manifest.setConfigServerUri(configPath.toUri().toURL().toString());
     String json = gson.toJson(manifest);
     Files.writeString(configPath, json);
+    Files.writeString(Paths.get("app-launcher/src/main/resources", Manifest.EMBEDDED_CONFIG_NAME), json);
     System.out.println(json);
   }
 }

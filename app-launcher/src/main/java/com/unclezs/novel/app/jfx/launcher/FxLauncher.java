@@ -16,8 +16,9 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -33,30 +34,37 @@ public class FxLauncher extends Application {
   private static final Logger LOG = LoggerHelper.get(FxLauncher.class);
   private Stage launcherStage;
   private Manifest manifest;
-  private UpdateView ui;
+  private LauncherView ui;
 
 
   @Override
   public void init() {
     Thread.currentThread().setName("Launcher");
-    ui = new UpdateView();
+    ui = new LauncherView();
+    ui.setPhase("正在检测更新...");
   }
 
+  /**
+   * 启动真正的应用
+   *
+   * @throws Exception 启动失败
+   */
   public void startApplication() throws Exception {
     ignoreSslCertificate();
-    // 1. 下载配置\解析配置 获取配置内容
-    sync();
+    syncManifest();
+    ui.setPhase("正在初始化运行环境...");
     ClassLoader classLoader = loadLibraries();
-    // 4. 启动launcher class
     Class<?> appClass = classLoader.loadClass(manifest.getLauncherClass());
-    Platform.runLater(() -> {
+    FxUtils.runFx(() -> {
       try {
         Application app = (Application) appClass.getConstructor().newInstance();
-        launcherStage.close();
         app.init();
-        app.start(null);
-      } catch (Exception e) {
-        e.printStackTrace();
+        ui.setPhase("正在启动应用...");
+        launcherStage.setUserData(manifest);
+        app.start(launcherStage);
+        launcherStage.close();
+      } catch (Throwable e) {
+        handleStartError(e);
       }
     });
   }
@@ -64,21 +72,24 @@ public class FxLauncher extends Application {
   @Override
   public void start(Stage primaryStage) {
     launcherStage = primaryStage;
-    StackPane container = new StackPane(ui);
-    Scene scene = new Scene(container, 300, 300);
-    launcherStage.setScene(scene);
+    launcherStage.setResizable(false);
+    launcherStage.setScene(new Scene(ui, Color.TRANSPARENT));
+    launcherStage.initStyle(StageStyle.TRANSPARENT);
     launcherStage.show();
     //noinspection AlibabaAvoidManuallyCreateThread
     new Thread(() -> {
       try {
         startApplication();
-      } catch (Exception e) {
-        e.printStackTrace();
+      } catch (Throwable e) {
+        handleStartError(e);
       }
     }).start();
   }
 
-  public void sync() {
+  /**
+   * 同步manifest
+   */
+  public void syncManifest() {
     // 嵌入Jar包中的
     Manifest remoteManifest;
     try {
@@ -91,7 +102,7 @@ public class FxLauncher extends Application {
       if (Files.exists(localManifestPath)) {
         manifest = Manifest.load(localManifestPath.toUri());
       }
-      ui.setWhatNew(manifest.getAppName());
+      ui.setLogoName(manifest.getAppName());
       LOG.info(String.format("获取远程配置文件，%s", manifest.remoteManifest()));
       ui.setPhase("正在检测是否有新版本...");
       remoteManifest = Manifest.load(manifest.remoteManifest());
@@ -103,44 +114,16 @@ public class FxLauncher extends Application {
       ui.setPhase(String.format("当前已是最新版本：%s", manifest.getVersion()));
       return;
     }
+    // 开始做更新
+    ui.initUpdateView();
     ui.setPhase(String.format("检测到新版本：%s", manifest.getVersion()));
     manifest = remoteManifest;
     // 显示更新内容
-    if (manifest.getChangeLog().isEmpty()) {
-      ui.setWhatNew(manifest.getAppName());
-    } else {
+    if (!manifest.getChangeLog().isEmpty()) {
       LOG.info(String.format("更新内容：%s", manifest.getChangeLog()));
       ui.setWhatNew(manifest.getChangeLog());
     }
     syncLibraries();
-  }
-
-  /**
-   * 忽略 SSL 错误
-   *
-   * @throws Exception /
-   */
-  protected void ignoreSslCertificate() throws Exception {
-    TrustManager[] trustManager = new TrustManager[]{
-      new X509TrustManager() {
-        @Override
-        public void checkClientTrusted(X509Certificate[] x509Certificates, String s) {
-        }
-
-        @Override
-        public void checkServerTrusted(X509Certificate[] x509Certificates, String s) {
-        }
-
-        @Override
-        public X509Certificate[] getAcceptedIssuers() {
-          return null;
-        }
-      }};
-    SSLContext sslContext = SSLContext.getInstance("SSL");
-    sslContext.init(null, trustManager, new java.security.SecureRandom());
-    HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
-    HostnameVerifier hostnameVerifier = (s, sslSession) -> true;
-    HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
   }
 
   /**
@@ -153,10 +136,13 @@ public class FxLauncher extends Application {
     // 配置Classloader
     Thread.currentThread().setContextClassLoader(classLoader);
     FXMLLoader.setDefaultClassLoader(classLoader);
-    FxUtils.runFx(() -> Thread.currentThread().setContextClassLoader(classLoader));
+    FxUtils.runAndWait(() -> Thread.currentThread().setContextClassLoader(classLoader));
     return classLoader;
   }
 
+  /**
+   * 从远端同步文件到本地
+   */
   private void syncLibraries() {
     try {
       // 不存在则创建
@@ -206,7 +192,49 @@ public class FxLauncher extends Application {
       return false;
     } catch (IOException e) {
       LOG.warning(String.format("检测是否有新版本失败: %s", e.getMessage()));
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     }
+  }
+
+  /**
+   * 忽略 SSL 错误
+   *
+   * @throws Exception /
+   */
+  private void ignoreSslCertificate() throws Exception {
+    TrustManager[] trustManager = new TrustManager[]{
+        new X509TrustManager() {
+          @Override
+          public void checkClientTrusted(X509Certificate[] x509Certificates, String s) {
+          }
+
+          @Override
+          public void checkServerTrusted(X509Certificate[] x509Certificates, String s) {
+          }
+
+          @Override
+          public X509Certificate[] getAcceptedIssuers() {
+            return null;
+          }
+        }};
+    SSLContext sslContext = SSLContext.getInstance("SSL");
+    sslContext.init(null, trustManager, new java.security.SecureRandom());
+    HttpsURLConnection.setDefaultSSLSocketFactory(sslContext.getSocketFactory());
+    HostnameVerifier hostnameVerifier = (s, sslSession) -> true;
+    HttpsURLConnection.setDefaultHostnameVerifier(hostnameVerifier);
+  }
+
+  /**
+   * 启动失败
+   *
+   * @param e 启动错误
+   */
+  private void handleStartError(Throwable e) {
+    ui.setPhase("程序启动异常！！！");
+    ui.setError(e, () -> {
+      launcherStage.setOnCloseRequest(event -> Platform.exit());
+      launcherStage.close();
+    });
+    e.printStackTrace();
   }
 }

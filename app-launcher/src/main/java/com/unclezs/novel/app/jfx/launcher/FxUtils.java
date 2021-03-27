@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.jfx.launcher;
 
+import java.util.concurrent.CountDownLatch;
 import javafx.application.Platform;
 import lombok.experimental.UtilityClass;
 
@@ -15,6 +16,22 @@ public class FxUtils {
       runnable.run();
     } else {
       Platform.runLater(runnable);
+    }
+  }
+
+  public static void runAndWait(final Runnable r) {
+    final CountDownLatch doneLatch = new CountDownLatch(1);
+    runFx(() -> {
+      try {
+        r.run();
+      } finally {
+        doneLatch.countDown();
+      }
+    });
+    try {
+      doneLatch.await();
+    } catch (InterruptedException ex) {
+      throw new RuntimeException(ex);
     }
   }
 }

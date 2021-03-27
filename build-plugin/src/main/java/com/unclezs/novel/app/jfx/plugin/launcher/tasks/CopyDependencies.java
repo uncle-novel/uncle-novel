@@ -47,12 +47,6 @@ public class CopyDependencies extends DefaultTask {
       c.from(((Jar) project.getTasks().getByName("jar")).getArchiveFile());
       c.into(workDir);
     });
-    // 拷贝native依赖
-    project.copy(c -> {
-      c.from(options.getNativeLibPath());
-      c.into(workDir);
-    });
-
 
   }
 }

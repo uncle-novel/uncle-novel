@@ -1,8 +1,21 @@
 apply plugin: "launcher"
 
 dependencies {
-  implementation project(":app-framework")
-  implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
-  implementation "org.freemarker:freemarker"
-  implementation "ch.qos.logback:logback-classic"
+    implementation project(":app-framework")
+    compileOnly project(":app-launcher")
+    implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
+    implementation "org.freemarker:freemarker"
+    implementation "ch.qos.logback:logback-classic"
+}
+
+launcher {
+    workDir = file("$buildDir/launcher")
+    configName = "abc"
+    configServerUri = "$rootDir/$configName"
+    serverUri = workDir
+    libDir = "lib"
+    version = project.version
+    appName = "Uncle小说"
+    changeLog = ["更新了寂寞", "又更新了寂寞"]
+    launcherClass = "com.unclezs.novel.app.jfx.app.ui.app.App"
 }
