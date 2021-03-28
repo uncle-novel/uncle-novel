@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packager;
 
-import com.unclezs.novel.app.jfx.plugin.launcher.LauncherExtension;
+import com.unclezs.novel.app.jfx.plugin.packager.model.LauncherConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.model.LinuxConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.model.MacConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.model.Manifest;
@@ -10,7 +10,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +21,6 @@ import lombok.NoArgsConstructor;
  * @since 2021/03/23 19:10
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class PackagerSetting {
@@ -30,7 +28,7 @@ public class PackagerSetting {
   protected File outputDirectory;
   protected File licenseFile;
   protected File iconFile;
-  protected boolean generateInstaller = false;
+  protected boolean generateInstaller;
   protected String mainClass;
   protected String name;
   protected String displayName;
@@ -66,5 +64,18 @@ public class PackagerSetting {
   protected String jreMinVersion;
   protected Manifest manifest;
   protected List<File> additionalModulePaths;
-  protected LauncherExtension launcher;
+  protected LauncherConfig launcher;
+  /**
+   * 依赖的文件夹名
+   */
+  protected String libsFolderName = "lib";
+
+  /**
+   * 是否启用launcher
+   *
+   * @return true 是
+   */
+  public boolean userLauncher() {
+    return launcher != null;
+  }
 }

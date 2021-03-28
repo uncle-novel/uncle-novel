@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.jfx.plugin.launcher;
 
 import com.unclezs.novel.app.jfx.plugin.launcher.tasks.CopyDependencies;
+import com.unclezs.novel.app.jfx.plugin.packager.model.LauncherConfig;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
@@ -14,7 +15,7 @@ public class LauncherPlugin implements Plugin<Project> {
 
   @Override
   public void apply(Project project) {
-    project.getExtensions().create("launcher", LauncherExtension.class, project);
+    project.getExtensions().create("launcher", LauncherConfig.class, project);
     project.getTasks().create("copyDependencies", CopyDependencies.class);
     project.getTasks().create("createLauncher", CreateLauncherTask.class);
   }

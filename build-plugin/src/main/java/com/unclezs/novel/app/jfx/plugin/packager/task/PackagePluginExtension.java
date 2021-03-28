@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.task;
 
-import com.unclezs.novel.app.jfx.plugin.launcher.LauncherExtension;
+import com.unclezs.novel.app.jfx.plugin.packager.model.LauncherConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.model.LinuxConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.model.MacConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.model.Manifest;
@@ -78,8 +78,8 @@ public class PackagePluginExtension extends PackagerSetting {
     return manifest;
   }
 
-  public LauncherExtension launcher(Closure<LauncherExtension> closure) {
-    launcher = new LauncherExtension(project.getProject());
+  public LauncherConfig launcher(Closure<LauncherConfig> closure) {
+    launcher = new LauncherConfig(project.getProject());
     project.configure(launcher, closure);
     return launcher;
   }

@@ -6,7 +6,10 @@ import java.io.File;
 
 
 /**
- * Artifact generation base class
+ * 生成基类
+ *
+ * @author blog.unclezs.com
+ * @date 2021/3/29 0:38
  */
 public abstract class ArtifactGenerator {
 
@@ -27,10 +30,6 @@ public abstract class ArtifactGenerator {
 
   public String getArtifactName() {
     return artifactName;
-  }
-
-  public void setArtifactName(String artifactName) {
-    this.artifactName = artifactName;
   }
 
   protected abstract File doApply(Packager packager) throws Exception;

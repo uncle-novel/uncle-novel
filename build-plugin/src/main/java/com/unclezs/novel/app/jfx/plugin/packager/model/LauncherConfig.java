@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.plugin.launcher;
+package com.unclezs.novel.app.jfx.plugin.packager.model;
 
 import com.unclezs.novel.app.jfx.launcher.model.Library;
 import java.io.File;
@@ -9,11 +9,13 @@ import lombok.Data;
 import org.gradle.api.Project;
 
 /**
+ * 启动器配置
+ *
  * @author blog.unclezs.com
  * @date 2021/03/20 10:46
  */
 @Data
-public class LauncherExtension {
+public class LauncherConfig {
 
   private final Project project;
   private File workDir;
@@ -44,13 +46,17 @@ public class LauncherExtension {
   /**
    * 依赖
    */
-  private List<Library> libs;
+  private List<Library> libs = new ArrayList<>();
   /**
    * 启动类
    */
   private String launcherClass;
+  /**
+   * 除了Javafx以外的依赖
+   */
+  private String[] runTimeLibrary = {};
 
-  public LauncherExtension(Project project) {
+  public LauncherConfig(Project project) {
     this.project = project;
   }
 

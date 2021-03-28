@@ -2,7 +2,7 @@ package com.unclezs.novel.app.jfx.plugin.launcher.tasks;
 
 import static com.unclezs.novel.app.jfx.plugin.launcher.LauncherPlugin.GROUP;
 
-import com.unclezs.novel.app.jfx.plugin.launcher.LauncherExtension;
+import com.unclezs.novel.app.jfx.plugin.packager.model.LauncherConfig;
 import java.io.File;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
@@ -23,7 +23,7 @@ public class CopyDependencies extends DefaultTask {
   @TaskAction
   public void copy() {
     Project project = getProject();
-    LauncherExtension options = project.getExtensions().getByType(LauncherExtension.class);
+    LauncherConfig options = project.getExtensions().getByType(LauncherConfig.class);
     File workDir = options.getWorkDir();
     //noinspection ResultOfMethodCallIgnored
     workDir.delete();

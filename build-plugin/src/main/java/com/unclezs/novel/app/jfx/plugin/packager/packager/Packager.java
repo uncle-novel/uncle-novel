@@ -8,6 +8,7 @@ import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.jfx.plugin.packager.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.action.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.action.BundleJre;
+import com.unclezs.novel.app.jfx.plugin.packager.action.GenerateLauncher;
 import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.util.IconUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
@@ -293,6 +294,7 @@ public abstract class Packager extends PackagerSetting {
       jarFile = Context.createRunnableJar(this);
       Logger.infoUnindent("Runnable jar created in " + jarFile + "!");
     }
+    new GenerateLauncher().apply(this);
     // embeds a JRE if is required
     generateJre.apply(this);
     File appFile = doCreateApp();

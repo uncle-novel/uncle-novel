@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
  */
 @FxView(fxml = "/layout/reader/reader.fxml", bundle = "i18n.framework")
 public class ReaderSceneView extends SceneView {
+
   public HBox box;
   public ToggleButton btn1;
   public ToggleButton btn2;

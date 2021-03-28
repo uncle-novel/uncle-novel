@@ -7,6 +7,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import com.unclezs.novel.app.jfx.launcher.enums.Os;
 import com.unclezs.novel.app.jfx.launcher.model.Library;
 import com.unclezs.novel.app.jfx.launcher.model.Manifest;
+import com.unclezs.novel.app.jfx.plugin.packager.model.LauncherConfig;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class CreateLauncherTask extends DefaultTask {
 
   private Manifest manifest;
   private Project project;
-  private LauncherExtension options;
+  private LauncherConfig options;
   private File launcherJar;
 
   public CreateLauncherTask() {
@@ -43,7 +44,7 @@ public class CreateLauncherTask extends DefaultTask {
     setDescription("打包Launcher");
     this.manifest = new Manifest();
     this.project = getProject();
-    this.options = project.getExtensions().getByType(LauncherExtension.class);
+    this.options = project.getExtensions().getByType(LauncherConfig.class);
   }
 
   @TaskAction
