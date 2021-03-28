@@ -8,13 +8,9 @@ gradlePlugin {
       id = "sass"
       implementationClass = 'com.unclezs.novel.app.jfx.plugin.sass.SassCompileJavaPlugin'
     }
-    create("launcher") {
-      id = "launcher"
-      implementationClass = "com.unclezs.novel.app.jfx.plugin.launcher.LauncherPlugin"
-    }
     create("packager") {
       id = 'packager'
-      implementationClass = 'com.unclezs.novel.app.jfx.plugin.packager.gradle.PackagePlugin'
+      implementationClass = 'com.unclezs.novel.app.jfx.plugin.packager.PackagePlugin'
     }
   }
 }

@@ -4,10 +4,12 @@ package com.unclezs.novel.app.jfx.plugin.packager.util;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Object utils
+ *
+ * @author blog.unclezs.com
+ * @date 2021/3/28 23:17
  */
 public class ObjectUtils {
 
@@ -23,17 +25,4 @@ public class ObjectUtils {
     Optional<T> value = Arrays.stream(values).filter(Objects::nonNull).findFirst();
     return value.orElse(null);
   }
-
-  /**
-   * Returns the first non-blank String
-   *
-   * @param values List of String
-   * @return First non-blank string
-   */
-  public static String defaultIfBlank(final String... values) {
-    Optional<String> value = Arrays.stream(values).filter(v -> v != null && !StringUtils.isBlank(v))
-        .findFirst();
-    return value.orElse(null);
-  }
-
 }

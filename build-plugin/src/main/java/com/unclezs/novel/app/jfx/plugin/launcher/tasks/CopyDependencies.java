@@ -34,9 +34,8 @@ public class CopyDependencies extends DefaultTask {
         c.from(artifact.getFile());
         c.into(workDir);
         if (artifact.getClassifier() != null) {
-          c.rename(closure -> String
-            .format("%s-%s.%s", artifact.getName(), artifact.getClassifier(),
-              artifact.getExtension()));
+          c.rename(closure -> String.format("%s-%s.%s", artifact.getName(), artifact.getClassifier(),
+            artifact.getExtension()));
         } else {
           c.rename(closure -> String.format("%s.%s", artifact.getName(), artifact.getExtension()));
         }

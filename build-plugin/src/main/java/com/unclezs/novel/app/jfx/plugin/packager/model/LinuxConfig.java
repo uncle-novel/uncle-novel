@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.model;
 
-import com.unclezs.novel.app.jfx.plugin.packager.packagers.Packager;
+import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
 import java.io.File;
 import java.io.Serializable;
 import lombok.Data;

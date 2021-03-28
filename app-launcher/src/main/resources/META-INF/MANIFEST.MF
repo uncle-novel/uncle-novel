@@ -1,0 +1,2 @@
+Main-Class: com.unclezs.novel.app.jfx.launcher.Launcher
+Class-Path: runtime/*

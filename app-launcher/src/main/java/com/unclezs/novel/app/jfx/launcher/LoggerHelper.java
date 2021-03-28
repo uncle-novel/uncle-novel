@@ -1,6 +1,5 @@
 package com.unclezs.novel.app.jfx.launcher;
 
-import com.sun.javafx.util.Logging;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,7 +43,6 @@ public class LoggerHelper {
       handler.setLevel(Level.WARNING);
       consoleHandler = new ConsoleHandler();
       consoleHandler.setFormatter(HIGHLIGHT_FORMATTER);
-      Logging.getJavaFXLogger().disableLogging();
     } catch (IOException e) {
       e.printStackTrace();
     }

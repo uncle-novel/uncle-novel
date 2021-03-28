@@ -2,7 +2,6 @@ plugins {
   id "org.openjfx.javafxplugin" version "0.0.9" apply false
   id "io.spring.dependency-management" version "1.0.9.RELEASE" apply false
   id "sass" apply false
-  id "launcher" apply false
   id "packager" apply false
 }
 
@@ -62,6 +61,7 @@ subprojects {
     options.fork = true
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
+    options.compilerArgs += ['-Xdoclint:none', '-Xlint:none', '-nowarn']
   }
 
   dependencies {

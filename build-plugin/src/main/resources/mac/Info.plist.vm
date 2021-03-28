@@ -1,4 +1,4 @@
-#* @vtlvariable name="info" type="com.unclezs.novel.app.jfx.plugin.packager.packagers.MacPackager" *#
+#* @vtlvariable name="info" type="com.unclezs.novel.app.jfx.plugin.packager.packager.MacPackager" *#
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">

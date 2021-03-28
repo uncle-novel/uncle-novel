@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.util;
 
-import com.unclezs.novel.app.jfx.plugin.packager.packagers.Context;
+import com.unclezs.novel.app.jfx.plugin.packager.Context;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -13,28 +13,22 @@ public class Logger {
   private static int tabs = 0;
 
   public static String error(String error) {
-    Context.getGradleContext().getLogger().error(StringUtils.repeat(TAB, tabs) + error);
+    Context.getLogger().error(StringUtils.repeat(TAB, tabs) + error);
     return error;
   }
 
   public static String error(String error, Throwable t) {
-    if (Context.isGradle()) {
-      Context.getGradleContext().getLogger().error(StringUtils.repeat(TAB, tabs) + error, t);
-    }
+    Context.getLogger().error(StringUtils.repeat(TAB, tabs) + error, t);
     return error;
   }
 
   public static String warn(String warn) {
-    if (Context.isGradle()) {
-      Context.getGradleContext().getLogger().warn(StringUtils.repeat(TAB, tabs) + warn);
-    }
+    Context.getLogger().warn(StringUtils.repeat(TAB, tabs) + warn);
     return warn;
   }
 
   public static String info(String info) {
-    if (Context.isGradle()) {
-      Context.getGradleContext().getLogger().quiet(StringUtils.repeat(TAB, tabs) + info);
-    }
+    Context.getLogger().quiet(StringUtils.repeat(TAB, tabs) + info);
     return info;
   }
 

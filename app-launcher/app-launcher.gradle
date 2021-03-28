@@ -1,4 +1,4 @@
-import com.unclezs.novel.app.jfx.plugin.packager.gradle.PackageTask
+import com.unclezs.novel.app.jfx.plugin.packager.task.PackageTask
 import proguard.gradle.ProGuardTask
 
 buildscript {
@@ -11,9 +11,13 @@ buildscript {
 }
 apply plugin: 'packager'
 
+task testProp() {
+  println sourceSets.main.resources.sourceDirectories.asPath
+}
 
 dependencies {
   implementation "com.google.code.gson:gson"
+  implementation project(":app")
 }
 
 task obfuscate(type: ProGuardTask) {
@@ -58,4 +62,17 @@ packager {
   jreDirectoryName = "runtime"
   copyDependencies = true
   customizedJre = false
+  launcher {
+    workDir = file("$buildDir/launcher")
+    configName = "abc"
+    configServerUri = file("$rootDir/$configName").toURI().toURL()
+    serverUri = workDir.toURI().toURL()
+    libDir = "lib"
+    version = project.version
+    appName = "Uncle小说"
+    changeLog = ["更新了寂寞", "又更新了寂寞"]
+    launcherClass = "com.unclezs.novel.app.jfx.app.ui.app.App"
+    return launcher
+  }
 }
+

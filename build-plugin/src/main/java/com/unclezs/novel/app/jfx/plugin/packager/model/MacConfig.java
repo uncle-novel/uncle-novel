@@ -1,12 +1,11 @@
 package com.unclezs.novel.app.jfx.plugin.packager.model;
 
-import com.unclezs.novel.app.jfx.plugin.packager.packagers.Packager;
-import lombok.Data;
+import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
+import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
 import java.io.File;
 import java.io.Serializable;
-
-import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
+import lombok.Data;
 
 /**
  * JavaPackager Mac OS specific configuration

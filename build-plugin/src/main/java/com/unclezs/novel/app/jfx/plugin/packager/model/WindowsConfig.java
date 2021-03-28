@@ -1,9 +1,7 @@
 package com.unclezs.novel.app.jfx.plugin.packager.model;
 
-import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
-
-import com.unclezs.novel.app.jfx.plugin.packager.packagers.Packager;
-import com.unclezs.novel.app.jfx.plugin.packager.util.ObjectUtils;
+import cn.hutool.core.util.ObjectUtil;
+import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
 import java.io.File;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
@@ -11,26 +9,29 @@ import java.util.UUID;
 import lombok.Data;
 
 /**
- * JavaPackager Windows specific configuration
+ * Windows特定配置
+ *
+ * @author blog.unclezs.com
+ * @date 2021/3/29 0:32
  */
 @Data
 public class WindowsConfig implements Serializable {
 
   private static final long serialVersionUID = 2106752412224694318L;
   private File icoFile;
-  private HeaderType headerType;
+  private HeaderType headerType = HeaderType.gui;
   private String companyName;
   private String copyright;
-  private String fileDescription;
-  private String fileVersion;
+  private String fileVersion = "1.0";
+  private String fileDescription = fileVersion;
+  private String txtFileVersion = fileVersion;
+  private String txtProductVersion = fileVersion;
+  private String productVersion = fileVersion;
   private String internalName;
   private String language;
   private String originalFilename;
   private String productName;
-  private String productVersion;
   private String trademarks;
-  private String txtFileVersion;
-  private String txtProductVersion;
   private boolean disableDirPage = true;
   private boolean disableProgramGroupPage = true;
   private boolean disableFinishedPage = true;
@@ -38,7 +39,7 @@ public class WindowsConfig implements Serializable {
   private boolean generateSetup = false;
   private boolean generateMsi = false;
   private boolean generateMsm = false;
-  private String msiUpgradeCode;
+  private String msiUpgradeCode = UUID.randomUUID().toString();
   /**
    * 是否把 runnable jar 打包进exe
    */
@@ -48,27 +49,19 @@ public class WindowsConfig implements Serializable {
   private WindowsSigning signing;
   private Registry registry = new Registry();
 
-
   /**
-   * Tests Windows specific config and set defaults if not specified
+   * 设置默认值
    *
    * @param packager Packager
    */
   public void setDefaults(Packager packager) {
-    this.setHeaderType(ObjectUtils.defaultIfNull(this.getHeaderType(), HeaderType.gui));
-    this.setFileVersion(defaultIfBlank(this.getFileVersion(), "1.0.0.0"));
-    this.setTxtFileVersion(defaultIfBlank(this.getTxtFileVersion(), "" + packager.getVersion()));
-    this.setProductVersion(defaultIfBlank(this.getProductVersion(), "1.0.0.0"));
-    this.setTxtProductVersion(
-        defaultIfBlank(this.getTxtProductVersion(), "" + packager.getVersion()));
-    this.setCompanyName(defaultIfBlank(this.getCompanyName(), packager.getOrganizationName()));
-    this.setCopyright(defaultIfBlank(this.getCopyright(), packager.getOrganizationName()));
-    this.setFileDescription(defaultIfBlank(this.getFileDescription(), packager.getDescription()));
-    this.setProductName(defaultIfBlank(this.getProductName(), packager.getName()));
-    this.setInternalName(defaultIfBlank(this.getInternalName(), packager.getName()));
-    this.setOriginalFilename(
-        defaultIfBlank(this.getOriginalFilename(), packager.getName() + ".exe"));
-    this.setMsiUpgradeCode(defaultIfBlank(this.getMsiUpgradeCode(), UUID.randomUUID().toString()));
+    this.setTxtProductVersion(ObjectUtil.defaultIfNull(this.getTxtProductVersion(), packager.getVersion()));
+    this.setCompanyName(ObjectUtil.defaultIfNull(this.getCompanyName(), packager.getOrganizationName()));
+    this.setCopyright(ObjectUtil.defaultIfNull(this.getCopyright(), packager.getOrganizationName()));
+    this.setFileDescription(ObjectUtil.defaultIfNull(this.getFileDescription(), packager.getDescription()));
+    this.setProductName(ObjectUtil.defaultIfNull(this.getProductName(), packager.getName()));
+    this.setInternalName(ObjectUtil.defaultIfNull(this.getInternalName(), packager.getName()));
+    this.setOriginalFilename(ObjectUtil.defaultIfNull(this.getOriginalFilename(), packager.getName().concat(".exe")));
   }
 
 }

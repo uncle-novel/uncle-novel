@@ -1,7 +1,5 @@
 package com.unclezs.novel.app.jfx.launcher;
 
-import com.unclezs.novel.app.jfx.launcher.model.Library;
-import com.unclezs.novel.app.jfx.launcher.model.Manifest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -35,7 +33,6 @@ public class FxLauncher extends Application {
   private Stage launcherStage;
   private Manifest manifest;
   private LauncherView ui;
-
 
   @Override
   public void init() {
