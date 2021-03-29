@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.launcher;
+package com.unclezs.jfx.launcher;
 
 import java.io.IOException;
 import java.net.URI;
@@ -91,9 +91,7 @@ public class LauncherApp extends Application {
     Manifest remoteManifest;
     try {
       LOG.info("解析本地配置文件");
-      String embeddedConfigName = "/".concat(Manifest.EMBEDDED_CONFIG_NAME);
-      URL resource = LauncherApp.class.getResource(embeddedConfigName);
-      manifest = Manifest.load(resource.toURI());
+      manifest = Manifest.embedded();
       Path localManifestPath = manifest.localManifest();
       // libDir下的
       if (Files.exists(localManifestPath)) {

@@ -78,9 +78,7 @@ public class CreateWindowsExe extends WindowsArtifactGenerator {
     l4jTask.getActions().forEach(action -> action.execute(l4jTask));
 
     sign(genericExe, windowsPackager);
-
     FileUtils.copyFileToFile(genericExe, executable);
-
     return executable;
   }
 

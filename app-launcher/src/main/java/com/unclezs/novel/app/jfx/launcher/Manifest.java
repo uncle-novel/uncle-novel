@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.launcher;
+package com.unclezs.jfx.launcher;
 
 import com.google.gson.Gson;
 import java.io.BufferedReader;
@@ -32,10 +32,14 @@ public class Manifest {
    * 嵌入Jar的配置文件名
    */
   public static final String EMBEDDED_CONFIG_NAME = "app.json";
+  public static final String BACKSLASH = "/";
   /**
    * 配置文件名
    */
   protected String configName = EMBEDDED_CONFIG_NAME;
+  /**
+   * 应用 Logo
+   */
   protected String appName = "Uncle小说";
   /**
    * 服务器地址
@@ -60,7 +64,7 @@ public class Manifest {
   /**
    * 依赖
    */
-  protected List<Library> libs;
+  protected List<Library> libs = new ArrayList<>();
   /**
    * 启动类
    */
@@ -78,6 +82,29 @@ public class Manifest {
     try (InputStream stream = uri.toURL().openStream()) {
       return GSON.fromJson(new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8)), Manifest.class);
     }
+  }
+
+  /**
+   * 获取嵌入的 manifest
+   *
+   * @return manifest
+   * @throws Exception /
+   */
+  public static Manifest embedded() throws Exception {
+    URL resource = LauncherApp.class.getResource(BACKSLASH.concat(Manifest.EMBEDDED_CONFIG_NAME));
+    return load(resource.toURI());
+  }
+
+  /**
+   * 设置 服务器地址 保证 /结尾
+   *
+   * @param serverUri 文件服务器地址
+   */
+  public void setServerUri(String serverUri) {
+    if (!serverUri.endsWith(BACKSLASH)) {
+      serverUri = serverUri.concat(BACKSLASH);
+    }
+    this.serverUri = serverUri;
   }
 
   /**
@@ -113,6 +140,9 @@ public class Manifest {
    * @return 配置
    */
   public URI remoteManifest() {
+    if (configServerUri == null || configServerUri.isBlank()) {
+      return URI.create(serverUri.concat(configName));
+    }
     return URI.create(configServerUri);
   }
 }

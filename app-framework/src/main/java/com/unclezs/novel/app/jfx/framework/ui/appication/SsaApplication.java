@@ -49,6 +49,7 @@ public abstract class SsaApplication extends Application {
     List<String> theme = Arrays.asList("com/sun/javafx/scene/control/skin/modena/modena.css", APP_STYLE);
     StyleManager.getInstance().setUserAgentStylesheets(theme);
   }
+
   /**
    * 场景View缓存
    */
@@ -98,7 +99,7 @@ public abstract class SsaApplication extends Application {
    * @param stage null即可
    */
   @Override
-  public final void start(Stage stage) throws Exception {
+  public void start(Stage stage) throws Exception {
     start();
   }
 

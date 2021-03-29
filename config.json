@@ -1,64 +1,18 @@
 {
-  "configName": "abc",
+  "configName": "config.json",
   "appName": "Uncle小说",
-  "serverUri": "file:/G:/coder/self-coder/uncle-novel-jfx/app/build/launcher/",
-  "configServerUri": "file:/G:/coder/self-coder/uncle-novel-jfx/abc",
-  "libDir": "lib",
+  "serverUri": "file:/G:/coder/self-coder/uncle-novel-jfx/app/build/server/",
+  "configServerUri": "file:/G:/coder/self-coder/uncle-novel-jfx/config.json",
+  "libDir": "libraries",
   "version": "5.0.0-SNAPSHOT",
   "changeLog": [
-    "更新了寂寞",
-    "又更新了寂寞"
+    "更新了个寂寞啊",
+    "123"
   ],
   "libs": [
     {
       "path": "app-framework.jar",
-      "size": 8920504
-    },
-    {
-      "path": "javafx-web-win.jar",
-      "size": 25231655,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-fxml-win.jar",
-      "size": 128845,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-controls-win.jar",
-      "size": 2530159,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-controls.jar",
-      "size": 306
-    },
-    {
-      "path": "javafx-media-win.jar",
-      "size": 1062451,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-media.jar",
-      "size": 303
-    },
-    {
-      "path": "javafx-graphics-win.jar",
-      "size": 5816515,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-graphics.jar",
-      "size": 306
-    },
-    {
-      "path": "javafx-base-win.jar",
-      "size": 745740,
-      "os": "WIN"
-    },
-    {
-      "path": "javafx-base.jar",
-      "size": 302
+      "size": 8919788
     },
     {
       "path": "novel-analyzer.jar",
@@ -95,10 +49,6 @@
     {
       "path": "slf4j-api.jar",
       "size": 41472
-    },
-    {
-      "path": "gson.jar",
-      "size": 240255
     },
     {
       "path": "jsoup.jar",
@@ -145,9 +95,10 @@
       "size": 53297
     },
     {
-      "path": "app-5.0.0-SNAPSHOT.jar",
-      "size": 239345
+      "path": "app.jar",
+      "size": 241472
     }
   ],
-  "launcherClass": "com.unclezs.novel.app.jfx.app.ui.app.App"
+  "launcherClass": "com.unclezs.novel.app.jfx.app.ui.app.App",
+  "newVersion": true
 }

@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import com.unclezs.novel.app.jfx.launcher.Manifest;
+import com.unclezs.jfx.launcher.Manifest;
 import com.unclezs.novel.app.jfx.plugin.packager.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
@@ -46,12 +46,14 @@ public class CreateRunnableJar extends ArtifactGenerator {
   @Override
   protected File doApply(Packager packager) throws IOException {
     this.packager = packager;
-    createRunnableJar();
     if (packager.userLauncher()) {
+      launcherJar = new File(packager.getLibsFolder(), packager.getLauncher().getLauncherJarLibName().concat(".jar"));
       this.manifest = new Manifest();
       this.createManifest();
       this.embeddedManifest();
       this.createDeployFiles();
+    } else {
+      createRunnableJar();
     }
     return launcherJar;
   }
@@ -111,6 +113,7 @@ public class CreateRunnableJar extends ArtifactGenerator {
 
   /**
    * 将配置文件嵌入 launcherJar
+   *
    * @throws IOException /
    */
   public void embeddedManifest() throws IOException {

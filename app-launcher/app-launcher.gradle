@@ -27,7 +27,7 @@ task obfuscate(type: ProGuardTask) {
 
 packager {
   name = "Uncle小说"
-  mainClass = 'com.unclezs.novel.app.jfx.launcher.Launcher'
+  mainClass = 'com.unclezs.jfx.launcher.Launcher'
   bundleJre = true
   jreDirectoryName = "runtime"
   copyDependencies = true

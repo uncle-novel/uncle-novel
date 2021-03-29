@@ -1,9 +1,13 @@
 package com.unclezs.novel.app.jfx.app.ui.app;
 
+import com.jfoenix.controls.JFXAlert;
+import com.jfoenix.controls.JFXDialogLayout;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -26,5 +30,11 @@ public class TestStage extends Application {
     Scene scene = new Scene(box, 900, 600);
     primaryStage.setScene(scene);
     primaryStage.show();
+    JFXAlert<String> alert = new JFXAlert<>();
+    alert.initModality(Modality.APPLICATION_MODAL);
+    JFXDialogLayout layout = new JFXDialogLayout();
+    layout.setBody(new Label("123123"));
+    alert.setContent(layout);
+    alert.show();
   }
 }

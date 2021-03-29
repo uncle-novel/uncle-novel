@@ -281,14 +281,9 @@ public abstract class Packager extends PackagerSetting {
     libsFolder = copyDependencies ? new CopyDependencies().apply(this) : null;
     Logger.infoUnindent("Dependencies copied to " + libsFolder + "!");
     // 创建可执行Jar
-    if (runnableJar != null && runnableJar.exists()) {
-      Logger.info("Using runnable JAR: " + runnableJar);
-      jarFile = runnableJar;
-    } else {
-      Logger.infoIndent("Creating runnable JAR...");
-      jarFile = new CreateRunnableJar().apply(this);
-      Logger.infoUnindent("Runnable jar created in " + jarFile + "!");
-    }
+    Logger.infoIndent("Creating runnable JAR...");
+    jarFile = new CreateRunnableJar().apply(this);
+    Logger.infoUnindent("Runnable jar created in " + jarFile + "!");
     // 只创建部署文件，不打包，更新场景
     if (userLauncher() && launcher.getOnlyCreateDeployFile()) {
       FileUtil.del(appFolder);

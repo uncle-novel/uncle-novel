@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packager;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.jfx.plugin.packager.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
 import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;
@@ -59,18 +60,22 @@ public class WindowsPackager extends Packager {
 
     // sets executable file
     executable = new File(appFolder, name + ".exe");
-
     // process classpath
-    if (classpath != null) {
+    if (StrUtil.isNotBlank(classpath)) {
       classpathList = Arrays.asList(classpath.split(";"));
       if (!isUseResourcesAsWorkingDir()) {
         classpathList = classpathList.stream()
-            .map(cp -> new File(cp).isAbsolute() ? cp : "%EXEDIR%/" + cp)
-            .collect(Collectors.toList());
+          .map(cp -> new File(cp).isAbsolute() ? cp : "%EXEDIR%/" + cp)
+          .collect(Collectors.toList());
       }
-      classpath = StringUtils.join(classpathList, ";");
     }
-
+    if (userLauncher()) {
+      classpathList.addAll(launcher.getClasspath());
+    }
+    if (!classpathList.isEmpty()) {
+      classpath = StringUtils.join(classpathList, ";");
+      Logger.info("windows classpath:" + classpath);
+    }
     // invokes launch4j to generate windows executable
     executable = Context.createExe(this);
 

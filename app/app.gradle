@@ -1,7 +1,92 @@
+import com.unclezs.novel.app.jfx.plugin.packager.task.DeployAppTask
+import com.unclezs.novel.app.jfx.plugin.packager.task.PackageTask
+import proguard.gradle.ProGuardTask
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'net.sf.proguard:proguard-gradle:6.2.2'
+    }
+}
+apply plugin: 'packager'
+
 dependencies {
-  implementation project(":app-framework")
-  implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
-  implementation "org.freemarker:freemarker"
-  implementation "ch.qos.logback:logback-classic"
+    implementation project(":app-framework")
+    implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
+    implementation 'com.unclezs.jfx:fx-launcher'
+    implementation "org.freemarker:freemarker"
+    implementation "ch.qos.logback:logback-classic"
 }
 
+task obfuscate(type: ProGuardTask) {
+    injars jar
+    outjars "$buildDir/libs/${project.name}-pg.jar"
+    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod"
+    libraryjars files(configurations.runtimeClasspath.collect())
+    configuration "proguard.pro"
+}
+
+packager {
+    name = "Uncle小说"
+    mainClass = 'com.unclezs.jfx.launcher.Launcher'
+    bundleJre = true
+    jreDirectoryName = "runtime"
+    copyDependencies = true
+    customizedJre = false
+    vmArgs = ["-Dfile.encoding=UTF-8", "-Xms128m", "-Xmx256m"]
+    libsFolderName = "libraries"
+    launcherVmOptionsFileName = "launcher.options"
+    launcherVmOptionsFile = file("${projectDir}/packager/vm.options")
+    launcher {
+        configName = "config.json"
+        configServerUri = file("$rootDir/$configName").toURI().toURL()
+        serverUri = file("$buildDir/server").toURI().toURL()
+        version = project.version
+        appName = packager.name
+        changeLog = ["更新了个寂寞啊", "123"]
+        launcherClass = "com.unclezs.novel.app.jfx.app.ui.app.App"
+        runTimeLibrary = ["javafx", "gson"]
+        return launcher
+    }
+}
+
+task packageLinux(type: PackageTask, dependsOn: build) {
+    platform = "linux"
+    createTar = true
+    generateInstaller = true
+}
+
+task packageMac(type: PackageTask, dependsOn: build) {
+    platform = "mac"
+    createTar = true
+    generateInstaller = true
+    macConfig {
+        generateDmg = true
+        generatePkg = true
+        startScriptName = "startApplication"
+        appId = "com.unclezs.novel.app"
+        icnsFile = file("${projectDir}/packager/logo/favicon.icns")
+        return macConfig
+    }
+}
+task packageWindows(type: PackageTask, dependsOn: build) {
+    platform = "windows"
+    createZip = true
+    generateInstaller = false
+    winConfig {
+        icoFile = file("${projectDir}/packager/logo/favicon.ico")
+        return winConfig
+    }
+}
+
+task createUpdateFiles(type: DeployAppTask, dependsOn: build) {
+    autoCreate = true
+    onlyCreate = true
+}
+
+task deployApp(type: DeployAppTask) {
+    autoCreate = false
+    onlyCreate = false
+}

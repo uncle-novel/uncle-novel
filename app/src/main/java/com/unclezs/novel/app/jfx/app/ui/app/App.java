@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.jfx.app.ui.app;
 
+import com.unclezs.jfx.launcher.Manifest;
 import com.unclezs.novel.app.jfx.app.ui.pages.home.HomeSceneView;
 import com.unclezs.novel.app.jfx.app.util.DebugUtils;
 import com.unclezs.novel.app.jfx.framework.ui.appication.SceneView;
@@ -10,6 +11,8 @@ import com.unclezs.novel.app.jfx.framework.util.ResourceUtils;
 import java.lang.reflect.Field;
 import java.util.Locale;
 import java.util.Random;
+import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import sun.misc.Unsafe;
 
 /**
@@ -18,8 +21,10 @@ import sun.misc.Unsafe;
  * @author blog.unclezs.com
  * @since 2021/02/25 13:50
  */
+@Slf4j
 public class App extends SsaApplication {
 
+  public static Manifest manifest;
   public static App app;
 
   public App() {
@@ -87,7 +92,16 @@ public class App extends SsaApplication {
   }
 
   @Override
-  public Class<? extends SceneView> getIndexView() throws Exception {
+  public void start(Stage stage) throws Exception {
+    manifest = (Manifest) stage.getUserData();
+    log.error("{}", manifest);
+    super.start(stage);
+  }
+
+  @Override
+  public Class<? extends SceneView> getIndexView() {
     return HomeSceneView.class;
   }
+
+
 }

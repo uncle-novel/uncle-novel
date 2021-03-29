@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.launcher;
+package com.unclezs.jfx.launcher;
 
 import java.util.concurrent.CountDownLatch;
 import javafx.application.Platform;

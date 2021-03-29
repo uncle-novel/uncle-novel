@@ -1,41 +1,40 @@
 plugins {
-  id "java-gradle-plugin"
+    id "java-gradle-plugin"
 }
 
 gradlePlugin {
-  plugins {
-    create("sass") {
-      id = "sass"
-      implementationClass = 'com.unclezs.novel.app.jfx.plugin.sass.SassCompileJavaPlugin'
+    plugins {
+        create("sass") {
+            id = "sass"
+            implementationClass = 'com.unclezs.novel.app.jfx.plugin.sass.SassCompileJavaPlugin'
+        }
+        create("packager") {
+            id = 'packager'
+            implementationClass = 'com.unclezs.novel.app.jfx.plugin.packager.PackagePlugin'
+        }
     }
-    create("packager") {
-      id = 'packager'
-      implementationClass = 'com.unclezs.novel.app.jfx.plugin.packager.PackagePlugin'
-    }
-  }
 }
 
 dependencies {
-  Properties props = new Properties();
-  props.load(file("../gradle.properties").newDataInputStream())
-  def appVersion = props.getProperty("app.version")
-  annotationProcessor "org.projectlombok:lombok:1.18.18"
-  compileOnly "org.projectlombok:lombok:1.18.18"
-  implementation "cn.hutool:hutool-all:5.5.9"
-//  implementation 'com.unclezs.novel.app.jfx:app-launcher:5.0.0-SNAPSHOT'
-  implementation files("../app-launcher/build/libs/app-launcher-${appVersion}.jar")
+    Properties props = new Properties()
+    props.load(file("../gradle.properties").newDataInputStream())
+    annotationProcessor "org.projectlombok:lombok:1.18.18"
+    compileOnly "org.projectlombok:lombok:1.18.18"
+    implementation "cn.hutool:hutool-all:5.5.9"
+    implementation "com.unclezs.jfx:fx-launcher:${props.getProperty("app.launcher.version")}"
+//  implementation files("../app-launcher/build/libs/app-launcher-${appVersion}.jar")
 //  implementation project("")
-  // sass
-  implementation "io.bit3:jsass:5.5.6"
-  // launcher
-  implementation 'com.google.code.gson:gson:2.8.6'
-  // java packager
-  implementation 'org.codehaus.plexus:plexus-utils:3.1.1'
-  implementation 'org.apache.commons:commons-lang3:3.9'
-  implementation 'commons-io:commons-io:2.6'
-  implementation 'org.apache.commons:commons-collections4:4.1'
-  implementation 'org.apache.velocity:velocity-engine-core:2.0'
-  implementation 'io.github.fvarrui:gradle-launch4j:2.4.7'
-  implementation 'com.netflix.nebula:gradle-ospackage-plugin:8.4.1'
-  implementation 'net.jsign:jsign-core:3.1'
+    // sass
+    implementation "io.bit3:jsass:5.5.6"
+    // launcher
+    implementation 'com.google.code.gson:gson:2.8.6'
+    // java packager
+    implementation 'org.codehaus.plexus:plexus-utils:3.1.1'
+    implementation 'org.apache.commons:commons-lang3:3.9'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'org.apache.commons:commons-collections4:4.1'
+    implementation 'org.apache.velocity:velocity-engine-core:2.0'
+    implementation 'io.github.fvarrui:gradle-launch4j:2.4.7'
+    implementation 'com.netflix.nebula:gradle-ospackage-plugin:8.4.1'
+    implementation 'net.jsign:jsign-core:3.1'
 }

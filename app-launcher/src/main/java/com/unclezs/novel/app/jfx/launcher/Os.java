@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.launcher;
+package com.unclezs.jfx.launcher;
 
 /**
  * 操作系统枚举

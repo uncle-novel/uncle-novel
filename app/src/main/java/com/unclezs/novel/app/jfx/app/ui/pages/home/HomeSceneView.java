@@ -1,7 +1,6 @@
 package com.unclezs.novel.app.jfx.app.ui.pages.home;
 
 import com.jfoenix.controls.JFXPopup;
-import com.unclezs.novel.app.jfx.app.ui.MainViewModel;
 import com.unclezs.novel.app.jfx.app.ui.pages.home.header.SettingPopupView;
 import com.unclezs.novel.app.jfx.app.ui.pages.home.header.ThemePopupView;
 import com.unclezs.novel.app.jfx.framework.annotation.FxView;
@@ -22,7 +21,6 @@ import javafx.scene.Scene;
 @FxView(fxml = "/layout/home/home.fxml", bundle = "i18n.home")
 public class HomeSceneView extends SceneView {
 
-  private static final MainViewModel VIEW_MODEL = new MainViewModel();
   public StageDecorator root;
   public SidebarNavigationPane container;
   private ThemePopupView themePopupView;
@@ -34,8 +32,7 @@ public class HomeSceneView extends SceneView {
   @Override
   public void onSceneCreated(Scene scene) {
     System.out.println("MainView created");
-    scene.getStylesheets()
-      .setAll(ResourceUtils.loadCss(String.format(ThemePopupView.THEME_FORMAT, "default")));
+    scene.getStylesheets().setAll(ResourceUtils.loadCss(String.format(ThemePopupView.THEME_FORMAT, "default")));
   }
 
   @Override

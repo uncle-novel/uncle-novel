@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.jfx.launcher;
+package com.unclezs.jfx.launcher;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;

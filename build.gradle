@@ -36,6 +36,7 @@ subprojects {
       dependency "com.google.code.gson:gson:2.8.6"
       dependency "org.freemarker:freemarker:2.3.31"
       dependency "ch.qos.logback:logback-classic:1.2.3"
+      dependency "com.unclezs.jfx:fx-launcher:${property("app.launcher.version")}"
 
     }
     generatedPomCustomization {

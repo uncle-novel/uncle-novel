@@ -1,6 +1,8 @@
 package com.unclezs.novel.app.jfx.plugin.packager.model;
 
-import com.unclezs.novel.app.jfx.launcher.Manifest;
+import com.unclezs.jfx.launcher.Manifest;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.gradle.api.Project;
@@ -28,6 +30,7 @@ public class LauncherConfig extends Manifest {
    * 启动Jar的名字
    */
   private String launcherJarName = "app";
+  private String launcherJarLibName = "fx-launcher";
   /**
    * 只创建部署文件，不打包
    */
@@ -35,7 +38,8 @@ public class LauncherConfig extends Manifest {
   /**
    * 是否移除非Launcher的依赖(也就是真正App的依赖)
    */
-  protected Boolean deleteAppLibrary = true;
+  private Boolean deleteAppLibrary = true;
+  private List<String> classpath = new ArrayList<>();
 
   public LauncherConfig(Project project) {
     this.project = project;
