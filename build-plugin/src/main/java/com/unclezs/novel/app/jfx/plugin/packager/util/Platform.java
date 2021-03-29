@@ -1,6 +1,10 @@
 package com.unclezs.novel.app.jfx.plugin.packager.util;
 
-import org.apache.commons.lang3.SystemUtils;
+import cn.hutool.system.SystemUtil;
+import com.unclezs.novel.app.jfx.plugin.packager.packager.LinuxPackager;
+import com.unclezs.novel.app.jfx.plugin.packager.packager.MacPackager;
+import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.plugin.packager.packager.WindowsPackager;
 
 /**
  * @author blog.unclezs.com
@@ -8,35 +12,55 @@ import org.apache.commons.lang3.SystemUtils;
  */
 public enum Platform {
   /**
-   * 自动识别
-   */
-  auto,
-  /**
    * linux
    */
-  linux,
+  linux(new LinuxPackager()),
   /**
    * mac
    */
-  mac,
+  mac(new MacPackager()),
   /**
    * windows
    */
-  windows;
+  windows(new WindowsPackager()),
+  /**
+   * 自动识别
+   */
+  auto(null);
 
-  public static Platform getCurrentPlatform() {
-    if (SystemUtils.IS_OS_WINDOWS) {
-      return windows;
+  private final Packager packager;
+
+  Platform(Packager packager) {
+    if (packager == null) {
+      packager = getCurrentPlatform().getPackager();
     }
-    if (SystemUtils.IS_OS_LINUX) {
-      return linux;
-    }
-    if (SystemUtils.IS_OS_MAC) {
-      return mac;
-    }
-    return auto;
+    this.packager = packager;
+    this.packager.setPlatform(this);
   }
 
+  /**
+   * 获取当前操作系统
+   *
+   * @return 当前操作系统
+   */
+  public static Platform getCurrentPlatform() {
+    if (SystemUtil.getOsInfo().isWindows()) {
+      return windows;
+    }
+    if (SystemUtil.getOsInfo().isLinux()) {
+      return linux;
+    }
+    if (SystemUtil.getOsInfo().isMac()) {
+      return mac;
+    }
+    throw new RuntimeException("不支持的操作系统");
+  }
+
+  /**
+   * 是否为当前平台
+   *
+   * @return true 是
+   */
   public boolean isCurrentPlatform() {
     if (this == auto) {
       return true;
@@ -44,4 +68,12 @@ public enum Platform {
     return this == getCurrentPlatform();
   }
 
+  /**
+   * 获取平台的打包器
+   *
+   * @return 打包器
+   */
+  public Packager getPackager() {
+    return packager;
+  }
 }

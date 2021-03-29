@@ -8,7 +8,8 @@ import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.jfx.plugin.packager.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.action.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.action.BundleJre;
-import com.unclezs.novel.app.jfx.plugin.packager.action.GenerateLauncher;
+import com.unclezs.novel.app.jfx.plugin.packager.action.CopyDependencies;
+import com.unclezs.novel.app.jfx.plugin.packager.action.CreateRunnableJar;
 import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.util.IconUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
@@ -34,7 +35,6 @@ public abstract class Packager extends PackagerSetting {
   public static final String BACKSLASH = "\\";
   public static final String SLASH = "/";
   private static final String DEFAULT_ORGANIZATION_NAME = "ACME";
-  private final BundleJre generateJre = new BundleJre();
   /**
    * artifact generators
    */
@@ -135,9 +135,6 @@ public abstract class Packager extends PackagerSetting {
 
     // adds to additional resources
     if (additionalResources != null) {
-      if (licenseFile != null) {
-        additionalResources.add(licenseFile);
-      }
       additionalResources.add(iconFile);
       Logger.info("Effective additional resources " + additionalResources);
     }
@@ -221,7 +218,7 @@ public abstract class Packager extends PackagerSetting {
   }
 
   /**
-   * Bundling app folder in tarball and/or zipball
+   * Bundling app folder in tarball and/or zip
    *
    * @return Generated bundles
    * @throws Exception Process failed
@@ -230,9 +227,9 @@ public abstract class Packager extends PackagerSetting {
     List<File> bundles = new ArrayList<>();
     Logger.infoIndent("Creating bundles ...");
     if (createZip) {
-      File zipball = Context.createZip(this);
-      Logger.info("Zipball created: " + zipball);
-      bundles.add(zipball);
+      File zip = Context.createZip(this);
+      Logger.info("Zip created: " + zip);
+      bundles.add(zip);
     }
     if (createTar) {
       File tarball = Context.createTar(this);
@@ -245,20 +242,18 @@ public abstract class Packager extends PackagerSetting {
 
   private void createAppStructure() throws Exception {
     Logger.infoIndent("Creating app structure ...");
-
     // creates output directory if it doesn't exist
     if (!outputDirectory.exists()) {
       //noinspection ResultOfMethodCallIgnored
       outputDirectory.mkdirs();
     }
-
     // creates app destination folder
     appFolder = new File(outputDirectory, name);
     if (appFolder.exists()) {
       FileUtil.del(appFolder);
       Logger.info("Old app folder removed " + appFolder.getAbsolutePath());
     }
-    appFolder = FileUtils.mkdir(outputDirectory, name);
+    appFolder = FileUtil.mkdir(FileUtil.file(outputDirectory, name));
     Logger.info("App folder created: " + appFolder.getAbsolutePath());
 
     // creates folder for intermediate assets
@@ -281,49 +276,42 @@ public abstract class Packager extends PackagerSetting {
     resolveResources();
     // copies additional resources
     copyAdditionalResources(additionalResources, resourcesDestinationFolder);
-    // copies all dependencies to Java folder
+    // 将所有依赖项复制到依赖文件夹
     Logger.infoIndent("Copying all dependencies ...");
-    libsFolder = copyDependencies ? Context.copyDependencies(this) : null;
+    libsFolder = copyDependencies ? new CopyDependencies().apply(this) : null;
     Logger.infoUnindent("Dependencies copied to " + libsFolder + "!");
-    // creates a runnable jar file
+    // 创建可执行Jar
     if (runnableJar != null && runnableJar.exists()) {
       Logger.info("Using runnable JAR: " + runnableJar);
       jarFile = runnableJar;
     } else {
       Logger.infoIndent("Creating runnable JAR...");
-      jarFile = Context.createRunnableJar(this);
+      jarFile = new CreateRunnableJar().apply(this);
       Logger.infoUnindent("Runnable jar created in " + jarFile + "!");
     }
-    new GenerateLauncher().apply(this);
-    // embeds a JRE if is required
-    generateJre.apply(this);
+    // 嵌入Jre
+    new BundleJre().apply(this);
     File appFile = doCreateApp();
     Logger.infoUnindent("App created in " + appFolder.getAbsolutePath() + "!");
     return appFile;
   }
 
-  public List<File> generateInstallers() throws Exception {
+  public List<File> generateInstallers() {
     List<File> installers = new ArrayList<>();
-
     if (!generateInstaller) {
-      Logger.warn("Installer generation is disabled by 'generateInstaller' property!");
+      Logger.info("Installer generation is disabled by 'generateInstaller' property!");
       return installers;
     }
     if (!platform.isCurrentPlatform()) {
       Logger.warn("Installers cannot be generated due to the target platform (" + platform
-        + ") is different from the execution platform (" + Platform.getCurrentPlatform() + ")!");
+          + ") is different from the execution platform (" + Platform.getCurrentPlatform() + ")!");
       return installers;
     }
-
     Logger.infoIndent("Generating installers ...");
-
     init();
-
     // creates folder for intermmediate assets if it doesn't exist
     assetsFolder = FileUtils.mkdir(outputDirectory, "assets");
-
     // invokes installer producers
-
     for (ArtifactGenerator generator : installerGenerators) {
       try {
         Logger.infoIndent("Generating " + generator.getArtifactName() + "...");
@@ -334,15 +322,11 @@ public abstract class Packager extends PackagerSetting {
         } else {
           Logger.warnUnindent(generator.getArtifactName() + " NOT generated!!!");
         }
-
       } catch (Exception e) {
-        Logger.errorUnindent(
-          generator.getArtifactName() + " generation failed due to: " + e.getMessage(), e);
+        Logger.errorUnindent(generator.getArtifactName() + " generation failed due to: " + e.getMessage(), e);
       }
     }
-
     Logger.infoUnindent("Installers generated! " + installers);
-
     return installers;
   }
 

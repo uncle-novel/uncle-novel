@@ -1,8 +1,9 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packager;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import com.unclezs.novel.app.jfx.plugin.packager.action.GenerateDmg;
-import com.unclezs.novel.app.jfx.plugin.packager.action.GeneratePkg;
+import com.unclezs.novel.app.jfx.plugin.packager.action.mac.GenerateDmg;
+import com.unclezs.novel.app.jfx.plugin.packager.action.mac.GeneratePkg;
 import com.unclezs.novel.app.jfx.plugin.packager.util.CommandUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
@@ -21,6 +22,7 @@ import org.codehaus.plexus.util.cli.CommandLineException;
  */
 public class MacPackager extends Packager {
 
+  public static final String START_SCRIPT_NAME = "universalJavaApplicationStub";
   private File appFile;
   private File contentsFolder;
   private File resourcesFolder;
@@ -46,7 +48,7 @@ public class MacPackager extends Packager {
     if (!this.isUseResourcesAsWorkingDir()) {
       this.useResourcesAsWorkingDir = true;
       Logger.warn(
-        "'useResourcesAsWorkingDir' property disabled on Mac OS (useResourcesAsWorkingDir is always true)");
+          "'useResourcesAsWorkingDir' property disabled on Mac OS (useResourcesAsWorkingDir is always true)");
     }
 
   }
@@ -58,7 +60,7 @@ public class MacPackager extends Packager {
     this.appFile = new File(appFolder, name + ".app");
     this.contentsFolder = new File(appFile, "Contents");
     this.resourcesFolder = new File(contentsFolder, "Resources");
-    this.javaFolder = new File(resourcesFolder, this.macConfig.isRelocateJar() ? "Java" : "");
+    this.javaFolder = new File(resourcesFolder, macConfig.getCustomAppFolder());
     this.macOSFolder = new File(contentsFolder, "MacOS");
 
     // makes dirs
@@ -91,59 +93,65 @@ public class MacPackager extends Packager {
    * Creates a native MacOS app bundle
    */
   @Override
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   public File doCreateApp() throws Exception {
-
-    // copies jarfile to Java folder
+    // 将文件复制到Java文件夹
     FileUtils.copyFileToFolder(jarFile, javaFolder);
-
+    // 管理员权限启动，使用Root身份启动
     if (this.administratorRequired) {
-      // sets startup file
       this.executable = new File(macOSFolder, "startup");
-      // creates startup file to boot java app
       VelocityUtils.render("mac/startup.vm", executable, this);
-      //noinspection ResultOfMethodCallIgnored
       executable.setExecutable(true, false);
       Logger.info("Startup script file created in " + executable.getAbsolutePath());
-
     } else {
       // sets startup file
-      this.executable = new File(macOSFolder, "universalJavaApplicationStub");
+      this.executable = new File(macOSFolder, macConfig.getStartScriptName());
       Logger.info("Using " + executable.getAbsolutePath() + " as startup script");
     }
-    // copies universalJavaApplicationStub startup file to boot java app
-    File appStubFile = new File(macOSFolder, "universalJavaApplicationStub");
-    FileUtils.copyResourceToFile("/mac/universalJavaApplicationStub", appStubFile, true);
+    // 将universalJavaApplicationStub启动文件复制到启动java应用程序
+    File appStubFile = new File(macOSFolder, macConfig.getStartScriptName());
+    FileUtils.copyResourceToFile("/mac/".concat(START_SCRIPT_NAME), appStubFile, true);
     FileUtils.processFileContent(appStubFile, content -> {
-      if (!macConfig.isRelocateJar()) {
-        content = content.replaceAll("/Contents/Resources/Java", "/Contents/Resources");
-      }
+      content = content.replace("/Contents/Resources/Java", "/Contents/Resources/".concat(macConfig.getCustomAppFolder()));
       content = content.replaceAll("\\$\\{info.name\\}", this.name);
       return content;
     });
-    //noinspection ResultOfMethodCallIgnored
     appStubFile.setExecutable(true, false);
-    // process classpath
-    classpath = (this.macConfig.isRelocateJar() ? "Java/" : "") + this.jarFile.getName() + (
-        classpath != null ? ":" + classpath : "");
-    classpathList = Arrays.asList(classpath.split("[:;]"));
+    // 拷贝Vm参数文件
+    if (launcherVmOptionsFile == null) {
+      FileUtils.copyResourceToFile("/vm.options", new File(resourcesFolder, launcherVmOptionsFileName), true);
+    } else {
+      FileUtil.copy(launcherVmOptionsFile, new File(resourcesFolder, launcherVmOptionsFileName), true);
+    }
+    StringBuilder classPath = new StringBuilder(classpath);
+    // 生成ClassPath
+    if (StrUtil.isNotBlank(macConfig.getCustomAppFolder())) {
+      classPath.append(":").append(macConfig.getCustomAppFolder()).append("/").append(jarFile.getName());
+    } else {
+      classPath.append(":").append(jarFile.getName());
+    }
+    if (StrUtil.isBlank(classPath)) {
+      classPath.deleteCharAt(0);
+    }
+    classpathList = Arrays.asList(classPath.toString().split("[:;]"));
     if (!isUseResourcesAsWorkingDir()) {
       classpathList = classpathList.stream()
-          .map(cp -> new File(cp).isAbsolute() ? cp : "$ResourcesFolder/" + cp)
+          .map(cp -> new File(cp).isAbsolute()
+              ? cp : "$ResourcesFolder/" + cp)
           .collect(Collectors.toList());
     }
     classpath = StrUtil.join(":", classpathList.toArray(new Object[0]));
-    // creates and write the Info.plist file
+    // 创建 info.plist
     File infoPlistFile = new File(contentsFolder, "Info.plist");
     VelocityUtils.render("mac/Info.plist.vm", infoPlistFile, this);
     Logger.info("Info.plist file created in " + infoPlistFile.getAbsolutePath());
-    // codesigns app folder
+    // codesign app folder
     if (Platform.mac.isCurrentPlatform()) {
       codesign(this.macConfig.getDeveloperId(), this.macConfig.getEntitlements(), this.appFile);
     } else {
       Logger.warn("Generated app could not be signed due to current platform is " + Platform
           .getCurrentPlatform());
     }
-
     return appFile;
   }
 

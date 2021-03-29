@@ -89,7 +89,7 @@ configure(jfxProject) { project ->
 
   javafx {
     version = "16"
-    modules = ["javafx.controls", "javafx.fxml", "javafx.web", "javafx.media"]
+    modules = ["javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web"]
   }
 
   jar {

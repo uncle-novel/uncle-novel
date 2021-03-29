@@ -2,7 +2,6 @@ package com.unclezs.novel.app.jfx.plugin.packager.task;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
-import com.unclezs.novel.app.jfx.plugin.packager.packager.PackagerFactory;
 
 
 /**
@@ -14,9 +13,9 @@ import com.unclezs.novel.app.jfx.plugin.packager.packager.PackagerFactory;
 public class DefaultPackageTask extends AbstractPackageTask {
 
   @Override
-  protected Packager createPackager() throws Exception {
+  protected Packager createPackager() {
     PackagePluginExtension extension = getProject().getExtensions().getByType(PackagePluginExtension.class);
-    Packager packager = PackagerFactory.createPackager(extension.getPlatform());
+    Packager packager = extension.getPlatform().getPackager();
     BeanUtil.copyProperties(extension, packager);
     return packager;
   }

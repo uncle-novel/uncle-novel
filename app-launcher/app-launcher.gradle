@@ -28,6 +28,29 @@ task obfuscate(type: ProGuardTask) {
     configuration "proguard.pro"
 }
 
+packager {
+    name = "Uncle小说"
+    mainClass = 'com.unclezs.novel.app.jfx.launcher.Launcher'
+    bundleJre = true
+    jreDirectoryName = "runtime"
+    copyDependencies = true
+    customizedJre = false
+    libsFolderName = "libraries"
+    launcherVmOptionsFileName = "launcher.options"
+    launcherVmOptionsFile = file("${projectDir}/packager/vm.options")
+    launcher {
+        configName = "app.data"
+        configServerUri = file("$rootDir/$configName").toURI().toURL()
+        serverUri = file("$buildDir/server").toURI().toURL()
+        version = project.version
+        appName = packager.name
+        changeLog = ["更新了寂寞", "又更新了寂寞"]
+        launcherClass = "com.unclezs.novel.app.jfx.app.ui.app.App"
+        runTimeLibrary = ["javafx", "gson"]
+        return launcher
+    }
+}
+
 task packageLinux(type: PackageTask, dependsOn: build) {
     platform = "linux"
     createTar = true
@@ -41,6 +64,7 @@ task packageMac(type: PackageTask, dependsOn: build) {
     macConfig {
         generateDmg = true
         generatePkg = true
+        startScriptName = "startApplication"
         appId = "com.unclezs.novel.app"
         icnsFile = file("${projectDir}/packager/logo/favicon.icns")
         return macConfig
@@ -55,25 +79,3 @@ task packageWindows(type: PackageTask, dependsOn: build) {
         return winConfig
     }
 }
-packager {
-    name = "Uncle小说"
-    mainClass = 'com.unclezs.novel.app.jfx.launcher.Launcher'
-    bundleJre = true
-    jreDirectoryName = "runtime"
-    copyDependencies = true
-    customizedJre = false
-    libsFolderName = "libraries"
-    launcher {
-        workDir = file("$buildDir/launcher")
-        configName = "abc"
-        configServerUri = file("$rootDir/$configName").toURI().toURL()
-        serverUri = workDir.toURI().toURL()
-        version = project.version
-        appName = "Uncle小说"
-        changeLog = ["更新了寂寞", "又更新了寂寞"]
-        launcherClass = "com.unclezs.novel.app.jfx.app.ui.app.App"
-        runTimeLibrary = ["javafx", "gson"]
-        return launcher
-    }
-}
-

@@ -1,7 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.model;
 
 import com.unclezs.novel.app.jfx.launcher.model.Library;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -18,9 +17,11 @@ import org.gradle.api.Project;
 public class LauncherConfig {
 
   private final Project project;
-  private File workDir;
+  /**
+   * 是否移除非Launcher的依赖(也就是真正App的依赖)
+   */
+  protected Boolean deleteAppLibrary = true;
   private Set<String> excludes;
-
   private String configName;
   private String appName = "Welcome";
   /**
@@ -52,15 +53,16 @@ public class LauncherConfig {
    */
   private String launcherClass;
   /**
-   * 除了Javafx以外的依赖
+   * launcher的的依赖
    */
   private String[] runTimeLibrary = {};
+  /**
+   * 生成部署依赖的文件夹
+   */
+  private String deployDir = "deploy";
+  private String launcherJarName = "app";
 
   public LauncherConfig(Project project) {
     this.project = project;
-  }
-
-  public File getWorkDir() {
-    return workDir == null ? new File(String.format("%s/app", project.getProject().getBuildDir())) : workDir;
   }
 }

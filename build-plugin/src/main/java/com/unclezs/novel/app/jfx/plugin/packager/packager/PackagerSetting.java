@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packager;
 
+import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.jfx.plugin.packager.model.LauncherConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.model.LinuxConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.model.MacConfig;
@@ -7,8 +8,8 @@ import com.unclezs.novel.app.jfx.plugin.packager.model.Manifest;
 import com.unclezs.novel.app.jfx.plugin.packager.model.WindowsConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Platform;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,51 +26,83 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PackagerSetting {
 
-  protected File outputDirectory;
-  protected File licenseFile;
-  protected File iconFile;
-  protected boolean generateInstaller;
-  protected String mainClass;
+  /**
+   * App信息
+   */
   protected String name;
   protected String displayName;
   protected String version;
   protected String description;
   protected String url;
-  protected Boolean administratorRequired;
   protected String organizationName;
   protected String organizationUrl;
-  protected String organizationEmail;
-  protected Boolean bundleJre;
-  protected Boolean customizedJre;
+  protected String organizationEmail = StrUtil.EMPTY;
+  /**
+   * 打包配置
+   */
+  protected File outputDirectory;
+  protected String mainClass;
+  protected Boolean bundleJre = true;
+  protected Boolean customizedJre = true;
+  protected File iconFile;
+  protected boolean generateInstaller = false;
+  protected Boolean administratorRequired = false;
+  /**
+   * 自定义的Jre和Jdk路径
+   */
   protected File jrePath;
   protected File jdkPath;
-  protected List<File> additionalResources;
-  protected List<String> modules;
-  protected List<String> additionalModules;
-  protected Platform platform;
-  protected String envPath;
-  protected List<String> vmArgs;
+  /**
+   * 额外的资源，自动拷贝到app目录
+   */
+  protected List<File> additionalResources = new ArrayList<>();
+  /**
+   * 打包Jre时的模块配置，生成Jre的时候会根据这个创建
+   */
+  protected List<String> modules = new ArrayList<>();
+  protected List<String> additionalModules = new ArrayList<>();
+  protected List<File> additionalModulePaths = new ArrayList<>();
+
+  protected Platform platform = Platform.auto;
+  protected List<String> vmArgs = new ArrayList<>();
   protected File runnableJar;
-  protected Boolean copyDependencies;
-  protected String jreDirectoryName;
-  protected WindowsConfig winConfig;
-  protected LinuxConfig linuxConfig;
-  protected MacConfig macConfig;
-  protected Boolean createTar;
-  protected Boolean createZip;
-  protected Map<String, String> extra;
-  protected boolean useResourcesAsWorkingDir;
+  protected Manifest manifest = new Manifest();
+  protected Boolean copyDependencies = true;
+  protected String jreDirectoryName = "jre";
+  protected boolean useResourcesAsWorkingDir = true;
   protected File assetsDir;
-  protected String classpath;
-  protected String jreMinVersion;
-  protected Manifest manifest;
-  protected List<File> additionalModulePaths;
-  protected LauncherConfig launcher;
+  /**
+   * JVM 启动参数配置文件名称
+   */
+  protected String launcherVmOptionsFileName = "launcher.vmoptions";
+  /**
+   * JVM 启动参数配置文件
+   */
+  protected File launcherVmOptionsFile;
   /**
    * 依赖的文件夹名
    */
   protected String libsFolderName = "lib";
-
+  /**
+   * jar运行时候的classpath
+   */
+  protected String classpath = StrUtil.EMPTY;
+  protected String jreMinVersion;
+  /**
+   * 打包完成后是否自动创建压缩包
+   */
+  protected Boolean createTar = false;
+  protected Boolean createZip = false;
+  /**
+   * 平台配置
+   */
+  protected WindowsConfig winConfig = new WindowsConfig();
+  protected LinuxConfig linuxConfig = new LinuxConfig();
+  protected MacConfig macConfig = new MacConfig();
+  /**
+   * 启动器配置（自动更新）
+   */
+  protected LauncherConfig launcher;
   /**
    * 是否启用launcher
    *

@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.jfx.plugin.packager.packager;
 
-import com.unclezs.novel.app.jfx.plugin.packager.action.GenerateDeb;
-import com.unclezs.novel.app.jfx.plugin.packager.action.GenerateRpm;
+import com.unclezs.novel.app.jfx.plugin.packager.action.linux.GenerateDeb;
+import com.unclezs.novel.app.jfx.plugin.packager.action.linux.GenerateRpm;
 import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
 import com.unclezs.novel.app.jfx.plugin.packager.util.VelocityUtils;

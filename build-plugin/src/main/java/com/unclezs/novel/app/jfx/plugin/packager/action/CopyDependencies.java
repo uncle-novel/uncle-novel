@@ -28,8 +28,6 @@ public class CopyDependencies extends ArtifactGenerator {
     FileUtil.del(libsFolder);
     project.getConfigurations().getByName("runtimeClasspath").getResolvedConfiguration().getResolvedArtifacts().forEach(artifact -> {
       project.copy(c -> {
-        c.from(artifact.getFile());
-        c.into(project.file(libsFolder));
         String artifactName;
         Os os = null;
         if (artifact.getClassifier() != null) {
@@ -54,6 +52,9 @@ public class CopyDependencies extends ArtifactGenerator {
           lib.setOs(os);
           packager.getLauncher().getLibs().add(lib);
         }
+        // 拷贝
+        c.from(artifact.getFile());
+        c.into(project.file(libsFolder));
       });
     });
     return libsFolder;

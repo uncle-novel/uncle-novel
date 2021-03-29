@@ -31,6 +31,7 @@ public class BundleJre extends ArtifactGenerator {
     return !packager.getBundleJre();
   }
 
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   @Override
   protected File doApply(Packager packager) throws Exception {
 
@@ -53,8 +54,7 @@ public class BundleJre extends ArtifactGenerator {
     if (specificJreFolder != null) {
       Logger.info("Embedding JRE from " + specificJreFolder);
       // fixes the path to the JRE on MacOS if "release" file not found
-      if (platform.equals(Platform.mac) && !FileUtils
-          .folderContainsFile(specificJreFolder, "release")) {
+      if (platform.equals(Platform.mac) && !FileUtils.folderContainsFile(specificJreFolder, "release")) {
         specificJreFolder = new File(specificJreFolder, "Contents/Home");
         Logger.warn("Specified jrePath fixed: " + specificJreFolder);
       }

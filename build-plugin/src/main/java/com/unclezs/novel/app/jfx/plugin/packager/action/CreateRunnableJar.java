@@ -1,15 +1,27 @@
 package com.unclezs.novel.app.jfx.plugin.packager.action;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import com.unclezs.novel.app.jfx.launcher.model.Manifest;
 import com.unclezs.novel.app.jfx.plugin.packager.Context;
-import com.unclezs.novel.app.jfx.plugin.packager.model.Manifest;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.bundling.Jar;
 
@@ -23,13 +35,32 @@ import org.gradle.api.tasks.bundling.Jar;
 public class CreateRunnableJar extends ArtifactGenerator {
 
   public static final String CLASSIFIER = "runnable";
+  public File launcherJar;
+  private Packager packager;
+  private Manifest manifest;
 
   public CreateRunnableJar() {
     super("Runnable JAR");
   }
 
   @Override
-  protected File doApply(Packager packager) {
+  protected File doApply(Packager packager) throws IOException {
+    this.packager = packager;
+    createRunnableJar();
+    if (packager.userLauncher()) {
+      this.manifest = new Manifest();
+      this.createManifest();
+      this.embeddedManifest();
+      this.createDeployFiles();
+    }
+    return launcherJar;
+  }
+
+
+  /**
+   * 创建可执行的Jar
+   */
+  private void createRunnableJar() {
     Project project = Context.getProject();
     File libsFolder = packager.getLibsFolder();
     List<String> dependencies = new ArrayList<>();
@@ -60,13 +91,59 @@ public class CreateRunnableJar extends ArtifactGenerator {
     jarTask.getManifest().getAttributes().put("Class-Path", StrUtil.join(" ", dependencies.toArray(new Object[0])));
     jarTask.getManifest().getAttributes().put("Main-Class", packager.getMainClass());
     // 自定义manifest内容
-    Manifest manifest = packager.getManifest();
-    if (manifest != null) {
-      jarTask.getManifest().attributes(manifest.getAdditionalEntries());
-      manifest.getSections().forEach(s -> jarTask.getManifest().attributes(s.getEntries(), s.getName()));
+    if (packager.getManifest() != null) {
+      jarTask.getManifest().attributes(packager.getManifest().getAdditionalEntries());
+      packager.getManifest().getSections().forEach(s -> jarTask.getManifest().attributes(s.getEntries(), s.getName()));
     }
     jarTask.getActions().forEach(action -> action.execute(jarTask));
-    return jarTask.getArchiveFile().get().getAsFile();
+    launcherJar = jarTask.getArchiveFile().get().getAsFile();
   }
 
+  public void createManifest() throws IOException {
+    Logger.info("开始创建manifest");
+    BeanUtil.copyProperties(packager.getLauncher(), manifest, CopyOptions.create().ignoreNullValue());
+    manifest.setLibDir(packager.getLibsFolderName());
+    String manifestJson = Manifest.GSON.toJson(manifest);
+    Path manifestPath = Paths.get(packager.getLibsFolder().getAbsolutePath(), Manifest.EMBEDDED_CONFIG_NAME);
+    Files.writeString(Paths.get(packager.getLibsFolder().getAbsolutePath(), Manifest.EMBEDDED_CONFIG_NAME), manifestJson);
+    Logger.info("生成Launcher配置文件：".concat(manifestPath.toAbsolutePath().toString()));
+  }
+
+  public void embeddedManifest() throws IOException {
+    Logger.info("开始嵌入manifest");
+    Path manifestPath = Paths.get(packager.getLibsFolder().getAbsolutePath(), Manifest.EMBEDDED_CONFIG_NAME);
+    File jar = new File(packager.getJarFileDestinationFolder(), packager.getLauncher().getLauncherJarName().concat(".jar"));
+    try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(jar))) {
+      zos.putNextEntry(new ZipEntry(Manifest.EMBEDDED_CONFIG_NAME));
+      zos.write(Files.readAllBytes(manifestPath));
+      ZipFile zipFile = new ZipFile(this.launcherJar);
+      Enumeration<? extends ZipEntry> entries = zipFile.entries();
+      while (entries.hasMoreElements()) {
+        ZipEntry zipEntry = entries.nextElement();
+        if (zipEntry.getName().equals(Manifest.EMBEDDED_CONFIG_NAME)) {
+          continue;
+        }
+        zos.putNextEntry(zipEntry);
+        zos.write(zipFile.getInputStream(zipEntry).readAllBytes());
+      }
+      zos.closeEntry();
+    }
+    launcherJar = jar;
+    Logger.info("生成LauncherJar:".concat(jar.getAbsolutePath()));
+  }
+
+  public void createDeployFiles() {
+    File deployDir = new File(Context.getProject().getBuildDir(), packager.getLauncher().getDeployDir());
+    FileUtil.del(deployDir);
+    FileUtil.copy(new File(packager.getLibsFolder().getAbsolutePath(), Manifest.EMBEDDED_CONFIG_NAME), new File(deployDir, manifest.getConfigName()), true);
+    if (packager.getLauncher().getDeleteAppLibrary()) {
+      manifest.getLibs().forEach(library -> {
+        File libFile = new File(packager.getLibsFolder().getAbsolutePath(), library.getPath());
+        FileUtil.copy(libFile, new File(deployDir, library.getPath()), true);
+        if (packager.getLauncher().getDeleteAppLibrary()) {
+          FileUtil.del(libFile);
+        }
+      });
+    }
+  }
 }

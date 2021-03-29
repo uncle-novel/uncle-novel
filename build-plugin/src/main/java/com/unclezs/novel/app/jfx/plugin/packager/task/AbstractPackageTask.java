@@ -17,6 +17,7 @@ import org.gradle.api.tasks.TaskAction;
  * @author blog.unclezs.com
  * @since 2021/03/23 19:10
  */
+@Getter
 public abstract class AbstractPackageTask extends DefaultTask {
 
   @Getter
@@ -33,9 +34,11 @@ public abstract class AbstractPackageTask extends DefaultTask {
   @TaskAction
   public void doPackage() throws Exception {
     Packager packager = createPackager();
-    // 生成应用程序、安装程序和捆绑包
+    // 生成应用程序
     File app = packager.createApp();
+    // 生成安装程序
     List<File> installers = packager.generateInstallers();
+    // 生成压缩包
     List<File> bundles = packager.createBundles();
     // 将生成的文件设置为输出
     outputFiles.add(app);

@@ -75,16 +75,15 @@ public class CreateTar extends ArtifactGenerator {
       tarTask.from(appFolder, copySpec -> {
         copySpec.include(appFile.getName() + "/**");
         copySpec.exclude(appFile.getName() + "/Contents/MacOS/" + executable.getName());
-        copySpec.exclude(appFile.getName() + "/Contents/MacOS/universalJavaApplicationStub");
+        copySpec.exclude(appFile.getName() + "/Contents/MacOS/".concat(macPackager.getMacConfig().getStartScriptName()));
         copySpec.exclude(
             appFile.getName() + "/Contents/PlugIns/" + jreDirectoryName + "/Contents/Home/bin/*");
 
       });
       tarTask.from(appFolder, copySpec -> {
         copySpec.include(appFile.getName() + "/Contents/MacOS/" + executable.getName());
-        copySpec.include(appFile.getName() + "/Contents/MacOS/universalJavaApplicationStub");
-        copySpec.include(
-            appFile.getName() + "/Contents/PlugIns/" + jreDirectoryName + "/Contents/Home/bin/*");
+        copySpec.include(appFile.getName() + "/Contents/MacOS/".concat(macPackager.getMacConfig().getStartScriptName()));
+        copySpec.include(appFile.getName() + "/Contents/PlugIns/" + jreDirectoryName + "/Contents/Home/bin/*");
         copySpec.setFileMode(0755);
       });
 
@@ -97,7 +96,7 @@ public class CreateTar extends ArtifactGenerator {
 
   private Tar createTarTask() {
     return Context.getProject().getTasks()
-      .create("createTar_" + UUID.randomUUID(), Tar.class);
+        .create("createTar_" + UUID.randomUUID(), Tar.class);
   }
 
 }

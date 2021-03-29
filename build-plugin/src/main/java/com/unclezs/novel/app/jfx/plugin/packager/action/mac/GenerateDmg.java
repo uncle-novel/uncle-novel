@@ -1,8 +1,9 @@
-package com.unclezs.novel.app.jfx.plugin.packager.action;
+package com.unclezs.novel.app.jfx.plugin.packager.action.mac;
 
 import static com.unclezs.novel.app.jfx.plugin.packager.util.CommandUtils.execute;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
+import com.unclezs.novel.app.jfx.plugin.packager.action.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.model.MacConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.MacPackager;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
