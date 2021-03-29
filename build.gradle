@@ -11,7 +11,7 @@ ext {
 
 allprojects {
   group = "com.unclezs.novel.app.jfx"
-  version = "5.0.0-SNAPSHOT"
+  version = property("app.version")
   description = "Uncle Novel Project"
 }
 

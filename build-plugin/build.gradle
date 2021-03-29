@@ -16,10 +16,15 @@ gradlePlugin {
 }
 
 dependencies {
+  Properties props = new Properties();
+  props.load(file("../gradle.properties").newDataInputStream())
+  def appVersion = props.getProperty("app.version")
   annotationProcessor "org.projectlombok:lombok:1.18.18"
   compileOnly "org.projectlombok:lombok:1.18.18"
   implementation "cn.hutool:hutool-all:5.5.9"
-  implementation 'com.unclezs.novel.app.jfx:app-launcher:5.0.0-SNAPSHOT'
+//  implementation 'com.unclezs.novel.app.jfx:app-launcher:5.0.0-SNAPSHOT'
+  implementation files("../app-launcher/build/libs/app-launcher-${appVersion}.jar")
+//  implementation project("")
   // sass
   implementation "io.bit3:jsass:5.5.6"
   // launcher

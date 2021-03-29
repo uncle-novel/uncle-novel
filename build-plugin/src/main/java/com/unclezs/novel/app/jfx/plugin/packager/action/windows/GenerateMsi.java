@@ -2,7 +2,6 @@ package com.unclezs.novel.app.jfx.plugin.packager.action.windows;
 
 import static com.unclezs.novel.app.jfx.plugin.packager.util.CommandUtils.execute;
 
-import com.unclezs.novel.app.jfx.plugin.packager.action.WindowsArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.WindowsPackager;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;

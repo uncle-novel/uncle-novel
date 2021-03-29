@@ -12,7 +12,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
@@ -20,6 +22,8 @@ import lombok.NonNull;
  * @date 2021/03/21 11:35
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Manifest {
 
   public static final Gson GSON = new Gson();
@@ -31,36 +35,36 @@ public class Manifest {
   /**
    * 配置文件名
    */
-  private String configName = EMBEDDED_CONFIG_NAME;
-  private String appName = "Welcome";
+  protected String configName = EMBEDDED_CONFIG_NAME;
+  protected String appName = "Uncle小说";
   /**
    * 服务器地址
    */
-  private String serverUri;
+  protected String serverUri;
   /**
    * 服务端配置的URI
    */
-  private String configServerUri;
+  protected String configServerUri;
   /**
    * 依赖文件夹
    */
-  private String libDir;
+  protected String libDir;
   /**
    * 版本
    */
-  private String version;
+  protected String version;
   /**
    * 更新内容
    */
-  private List<String> changeLog = new ArrayList<>();
+  protected List<String> changeLog = new ArrayList<>();
   /**
    * 依赖
    */
-  private List<Library> libs;
+  protected List<Library> libs;
   /**
    * 启动类
    */
-  private String launcherClass;
+  protected String launcherClass;
 
   /**
    * 加载配合

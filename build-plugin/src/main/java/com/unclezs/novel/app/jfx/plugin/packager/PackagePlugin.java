@@ -27,6 +27,6 @@ public class PackagePlugin implements Plugin<Project> {
     Context.init(project);
     project.getExtensions().create(EXTENSION_NAME, PackagePluginExtension.class, project);
     project.getTasks().create(PACKAGE_TASK_NAME, DefaultPackageTask.class).dependsOn("build");
-    project.getTasks().create("deploy", DeployAppTask.class);
+    project.getTasks().create("deploy", DeployAppTask.class).dependsOn("build");
   }
 }

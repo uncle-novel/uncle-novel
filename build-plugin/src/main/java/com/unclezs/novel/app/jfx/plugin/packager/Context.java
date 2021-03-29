@@ -5,7 +5,7 @@ import com.unclezs.novel.app.jfx.plugin.packager.action.CopyDependencies;
 import com.unclezs.novel.app.jfx.plugin.packager.action.CreateRunnableJar;
 import com.unclezs.novel.app.jfx.plugin.packager.action.CreateTar;
 import com.unclezs.novel.app.jfx.plugin.packager.action.windows.CreateWindowsExe;
-import com.unclezs.novel.app.jfx.plugin.packager.action.CreateZipball;
+import com.unclezs.novel.app.jfx.plugin.packager.action.CreateZip;
 import com.unclezs.novel.app.jfx.plugin.packager.action.mac.GenerateDmg;
 import com.unclezs.novel.app.jfx.plugin.packager.action.mac.GeneratePkg;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
@@ -64,7 +64,7 @@ public class Context {
   }
 
   public static File createZip(Packager packager) throws Exception {
-    return new CreateZipball().apply(packager);
+    return new CreateZip().apply(packager);
   }
 
   public static File createExe(Packager packager) throws Exception {

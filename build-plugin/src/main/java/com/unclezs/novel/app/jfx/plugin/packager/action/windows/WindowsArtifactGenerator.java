@@ -1,5 +1,6 @@
-package com.unclezs.novel.app.jfx.plugin.packager.action;
+package com.unclezs.novel.app.jfx.plugin.packager.action.windows;
 
+import com.unclezs.novel.app.jfx.plugin.packager.action.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.WindowsPackager;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
 import com.unclezs.novel.app.jfx.plugin.packager.util.SignerException;

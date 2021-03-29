@@ -1,7 +1,6 @@
 package com.unclezs.novel.app.jfx.plugin.packager.action.windows;
 
 import com.unclezs.novel.app.jfx.plugin.packager.Context;
-import com.unclezs.novel.app.jfx.plugin.packager.action.WindowsArtifactGenerator;
 import com.unclezs.novel.app.jfx.plugin.packager.model.WindowsConfig;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.WindowsPackager;

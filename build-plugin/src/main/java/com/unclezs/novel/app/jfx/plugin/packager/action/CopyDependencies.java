@@ -2,8 +2,8 @@ package com.unclezs.novel.app.jfx.plugin.packager.action;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import com.unclezs.novel.app.jfx.launcher.enums.Os;
-import com.unclezs.novel.app.jfx.launcher.model.Library;
+import com.unclezs.novel.app.jfx.launcher.Os;
+import com.unclezs.novel.app.jfx.launcher.Library;
 import com.unclezs.novel.app.jfx.plugin.packager.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
 import java.io.File;

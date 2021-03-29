@@ -4,7 +4,7 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import com.unclezs.novel.app.jfx.launcher.model.Manifest;
+import com.unclezs.novel.app.jfx.launcher.Manifest;
 import com.unclezs.novel.app.jfx.plugin.packager.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.plugin.packager.util.Logger;
@@ -109,6 +109,10 @@ public class CreateRunnableJar extends ArtifactGenerator {
     Logger.info("生成Launcher配置文件：".concat(manifestPath.toAbsolutePath().toString()));
   }
 
+  /**
+   * 将配置文件嵌入 launcherJar
+   * @throws IOException /
+   */
   public void embeddedManifest() throws IOException {
     Logger.info("开始嵌入manifest");
     Path manifestPath = Paths.get(packager.getLibsFolder().getAbsolutePath(), Manifest.EMBEDDED_CONFIG_NAME);
@@ -132,6 +136,9 @@ public class CreateRunnableJar extends ArtifactGenerator {
     Logger.info("生成LauncherJar:".concat(jar.getAbsolutePath()));
   }
 
+  /**
+   * 创建部署文件
+   */
   public void createDeployFiles() {
     File deployDir = new File(Context.getProject().getBuildDir(), packager.getLauncher().getDeployDir());
     FileUtil.del(deployDir);

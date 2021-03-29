@@ -27,9 +27,9 @@ import javax.net.ssl.X509TrustManager;
  * @author blog.unclezs.com
  * @since 2021/02/27 19:46
  */
-public class FxLauncher extends Application {
+public class LauncherApp extends Application {
 
-  private static final Logger LOG = LoggerHelper.get(FxLauncher.class);
+  private static final Logger LOG = LoggerHelper.get(LauncherApp.class);
   private Stage launcherStage;
   private Manifest manifest;
   private LauncherView ui;
@@ -92,7 +92,7 @@ public class FxLauncher extends Application {
     try {
       LOG.info("解析本地配置文件");
       String embeddedConfigName = "/".concat(Manifest.EMBEDDED_CONFIG_NAME);
-      URL resource = FxLauncher.class.getResource(embeddedConfigName);
+      URL resource = LauncherApp.class.getResource(embeddedConfigName);
       manifest = Manifest.load(resource.toURI());
       Path localManifestPath = manifest.localManifest();
       // libDir下的

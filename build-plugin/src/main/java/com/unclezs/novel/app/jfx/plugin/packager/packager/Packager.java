@@ -7,8 +7,8 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.jfx.plugin.packager.Context;
 import com.unclezs.novel.app.jfx.plugin.packager.action.ArtifactGenerator;
-import com.unclezs.novel.app.jfx.plugin.packager.action.BundleJre;
 import com.unclezs.novel.app.jfx.plugin.packager.action.CopyDependencies;
+import com.unclezs.novel.app.jfx.plugin.packager.action.CreateJavaRuntimeEnv;
 import com.unclezs.novel.app.jfx.plugin.packager.action.CreateRunnableJar;
 import com.unclezs.novel.app.jfx.plugin.packager.util.FileUtils;
 import com.unclezs.novel.app.jfx.plugin.packager.util.IconUtils;
@@ -289,8 +289,13 @@ public abstract class Packager extends PackagerSetting {
       jarFile = new CreateRunnableJar().apply(this);
       Logger.infoUnindent("Runnable jar created in " + jarFile + "!");
     }
+    // 只创建部署文件，不打包，更新场景
+    if (userLauncher() && launcher.getOnlyCreateDeployFile()) {
+      FileUtil.del(appFolder);
+      return null;
+    }
     // 嵌入Jre
-    new BundleJre().apply(this);
+    new CreateJavaRuntimeEnv().apply(this);
     File appFile = doCreateApp();
     Logger.infoUnindent("App created in " + appFolder.getAbsolutePath() + "!");
     return appFile;
@@ -304,7 +309,7 @@ public abstract class Packager extends PackagerSetting {
     }
     if (!platform.isCurrentPlatform()) {
       Logger.warn("Installers cannot be generated due to the target platform (" + platform
-          + ") is different from the execution platform (" + Platform.getCurrentPlatform() + ")!");
+        + ") is different from the execution platform (" + Platform.getCurrentPlatform() + ")!");
       return installers;
     }
     Logger.infoIndent("Generating installers ...");

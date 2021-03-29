@@ -20,9 +20,9 @@ import org.apache.commons.lang3.SystemUtils;
 /**
  * Bundles a Java Runtime Enrironment (JRE) with the app
  */
-public class BundleJre extends ArtifactGenerator {
+public class CreateJavaRuntimeEnv extends ArtifactGenerator {
 
-  public BundleJre() {
+  public CreateJavaRuntimeEnv() {
     super("JRE");
   }
 
@@ -31,8 +31,8 @@ public class BundleJre extends ArtifactGenerator {
     return !packager.getBundleJre();
   }
 
-  @SuppressWarnings("ResultOfMethodCallIgnored")
   @Override
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   protected File doApply(Packager packager) throws Exception {
 
     boolean bundleJre = packager.getBundleJre();
@@ -204,7 +204,6 @@ public class BundleJre extends ArtifactGenerator {
               .filter(module -> !module.startsWith("JDK removed internal"))
               .distinct()
               .collect(Collectors.toList());
-
     } else {
       modulesList = Collections.singletonList("ALL-MODULE-PATH");
     }

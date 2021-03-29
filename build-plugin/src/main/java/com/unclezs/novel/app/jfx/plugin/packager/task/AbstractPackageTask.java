@@ -36,6 +36,9 @@ public abstract class AbstractPackageTask extends DefaultTask {
     Packager packager = createPackager();
     // 生成应用程序
     File app = packager.createApp();
+    if (app == null) {
+      return;
+    }
     // 生成安装程序
     List<File> installers = packager.generateInstallers();
     // 生成压缩包

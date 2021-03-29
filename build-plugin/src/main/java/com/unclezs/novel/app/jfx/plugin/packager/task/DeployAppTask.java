@@ -5,8 +5,12 @@ import com.unclezs.novel.app.jfx.plugin.packager.PackagePlugin;
 import com.unclezs.novel.app.jfx.plugin.packager.model.LauncherConfig;
 import java.io.File;
 import java.net.URI;
+import lombok.Getter;
+import lombok.Setter;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
+import org.gradle.api.Task;
+import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
 
 /**
@@ -15,7 +19,14 @@ import org.gradle.api.tasks.TaskAction;
  * @author blog.unclezs.com
  * @since 2021/03/29 17:12
  */
+@Setter
+@Getter
 public class DeployAppTask extends DefaultTask {
+
+  @Input
+  private boolean autoCreate = true;
+  @Input
+  private boolean onlyCreate = false;
 
   public DeployAppTask() {
     setGroup(PackagePlugin.GROUP_NAME);
@@ -26,6 +37,14 @@ public class DeployAppTask extends DefaultTask {
   public void deploy() {
     Project project = getProject();
     PackagePluginExtension extension = project.getExtensions().getByType(PackagePluginExtension.class);
+    if (autoCreate) {
+      extension.getLauncher().setOnlyCreateDeployFile(true);
+      Task packageTask = project.getTasks().getByName("package");
+      packageTask.getActions().forEach(action -> action.execute(packageTask));
+    }
+    if (onlyCreate) {
+      return;
+    }
     LauncherConfig launcher = extension.getLauncher();
     File deployDir = new File(project.getBuildDir(), launcher.getDeployDir());
     File[] files = deployDir.listFiles();

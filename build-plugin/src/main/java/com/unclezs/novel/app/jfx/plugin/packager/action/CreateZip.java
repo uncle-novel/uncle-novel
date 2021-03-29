@@ -11,9 +11,9 @@ import org.gradle.api.tasks.bundling.Zip;
 /**
  * Creates zipball (zip file)  on Gradle context
  */
-public class CreateZipball extends ArtifactGenerator {
+public class CreateZip extends ArtifactGenerator {
 
-  public CreateZipball() {
+  public CreateZip() {
     super("Zipball");
   }
 
