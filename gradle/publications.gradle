@@ -1,0 +1,96 @@
+apply plugin: "maven-publish"
+apply plugin: "signing"
+
+def githubUrl = "https://github.com/unclezs/${project.name}"
+def snapshot = project.version.endsWith('SNAPSHOT')
+def publicationName = project.name.splitEachLine("-") {
+  StringBuilder name = new StringBuilder()
+  it.each {
+    char[] cs = it.toCharArray()
+    cs[0] -= 32
+    name.append(cs)
+  }
+  return name.toString()
+}
+publishing {
+  repositories {
+    maven {
+      name = "aliyun"
+      def releasesRepoUrl = findProperty("aliyun.maven.release")
+      def snapshotsRepoUrl = findProperty("aliyun.maven.snapshot")
+      url = snapshot ? snapshotsRepoUrl : releasesRepoUrl
+      credentials {
+        username = findProperty("aliyun.maven.username")
+        password = findProperty("aliyun.maven.password")
+      }
+    }
+    maven {
+      name = "local"
+      def releasesRepoUrl = "${buildDir}/repo/release"
+      def snapshotsRepoUrl = "${buildDir}/repo/snapshot"
+      url = snapshot ? snapshotsRepoUrl : releasesRepoUrl
+    }
+    maven {
+      name = "sonatype"
+      def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+      def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+      url = snapshot ? snapshotsRepoUrl : releasesRepoUrl
+      credentials {
+        username = findProperty("sonatype.name")
+        password = findProperty("sonatype.password")
+      }
+    }
+  }
+  publications {
+    create(publicationName, MavenPublication)
+  }
+}
+publishing.publications.withType(MavenPublication) {
+  from components.getByName("java")
+  pom {
+    url = githubUrl
+    name = project.description
+    description = project.description
+    licenses {
+      license {
+        name = "Apache License, Version 2.0"
+        url = "https://www.apache.org/licenses/LICENSE-2.0"
+        distribution = "repo"
+      }
+    }
+    scm {
+      url = githubUrl
+      connection = "scm:git:${githubUrl}"
+      developerConnection = "scm:git:${githubUrl}"
+    }
+    developers {
+      developer {
+        id = "uncle"
+        name = "uncle"
+        email = "unclezs@qq.com"
+      }
+    }
+    issueManagement {
+      system = "GitHub"
+      url = "${githubUrl}/issues"
+    }
+  }
+}
+
+java {
+  withJavadocJar()
+  withSourcesJar()
+}
+
+javadoc {
+  options.addStringOption("charset", "UTF-8")
+  options.addStringOption("tag", "date")
+}
+
+signing {
+  sign publishing.publications.getByName(publicationName)
+}
+
+tasks.withType(Sign) {
+  onlyIf { !snapshot }
+}

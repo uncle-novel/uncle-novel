@@ -71,6 +71,7 @@ public class DebugUtils {
    * 重新加载配置，清除默认配置
    *
    * @param configInClasspath 在classpath下的配置,如果为空则清空当前配置
+   * @return 配置上下文
    */
   public static LoggerContext reconfigure(String configInClasspath) {
     //这里不能直接new，因为还做了一些初始化的工作

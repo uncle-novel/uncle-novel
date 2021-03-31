@@ -1,7 +1,0 @@
--XX:ThreadStackSize=1024k
--Xms512m
--Xmx512m
--Xmn200m
--XX:ReservedCodeCacheSize=1024m
--XX:+UseConcMarkSweepGC
--Dfile.encoding=UTF-8

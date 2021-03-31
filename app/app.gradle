@@ -1,5 +1,5 @@
-import com.unclezs.novel.app.jfx.plugin.packager.task.DeployAppTask
-import com.unclezs.novel.app.jfx.plugin.packager.task.PackageTask
+import com.unclezs.novel.app.jfx.packager.task.DeployAppTask
+import com.unclezs.novel.app.jfx.packager.task.PackageTask
 import proguard.gradle.ProGuardTask
 
 buildscript {
@@ -45,7 +45,7 @@ packager {
         serverUri = file("$buildDir/server").toURI().toURL()
         version = project.version
         appName = packager.name
-        changeLog = ["更新了个寂寞啊", "123"]
+        changeLog = ["更新了寂寞吗", "123"]
         launcherClass = "com.unclezs.novel.app.jfx.app.ui.app.App"
         runTimeLibrary = ["javafx", "gson"]
         return launcher

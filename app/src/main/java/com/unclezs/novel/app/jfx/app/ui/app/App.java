@@ -71,9 +71,9 @@ public class App extends SsaApplication {
    * 场景切换
    *
    * @param viewClass View类
+   * @param bundle 绑定数据
    */
-  public static void redirect(Class<? extends SceneView> viewClass,
-    SceneViewNavigateBundle bundle) {
+  public static void redirect(Class<? extends SceneView> viewClass, SceneViewNavigateBundle bundle) {
     app.navigate(viewClass, bundle);
   }
 

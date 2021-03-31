@@ -1,7 +1,15 @@
+buildscript {
+  repositories {
+    jcenter()
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.unclezs:sass-gradle-plugin:1.0.4'
+  }
+}
 plugins {
   id "org.openjfx.javafxplugin" version "0.0.9" apply false
   id "io.spring.dependency-management" version "1.0.9.RELEASE" apply false
-  id "sass" apply false
   id "packager" apply false
 }
 
@@ -19,7 +27,7 @@ subprojects {
   apply plugin: "java"
 //  apply plugin: "checkstyle"
   apply plugin: "io.spring.dependency-management"
-  apply from: "${rootDir}/gradle/publish-maven.gradle"
+  apply from: "${rootDir}/gradle/publications.gradle"
 
   dependencyManagement {
     dependencies {
@@ -32,7 +40,6 @@ subprojects {
       dependency "com.jfoenix:jfoenix:9.0.10"
       dependency "org.slf4j:slf4j-api:1.7.30"
       dependency "org.junit.jupiter:junit-jupiter-api:5.6.0"
-      dependency "org.slf4j:slf4j-api:1.7.30"
       dependency "com.google.code.gson:gson:2.8.6"
       dependency "org.freemarker:freemarker:2.3.31"
       dependency "ch.qos.logback:logback-classic:1.2.3"
@@ -68,8 +75,8 @@ subprojects {
   dependencies {
     compileOnly "org.projectlombok:lombok"
     annotationProcessor "org.projectlombok:lombok"
-    testImplementation "org.junit.jupiter:junit-jupiter-api"
     testImplementation "cn.hutool:hutool-all"
+    testImplementation "org.junit.jupiter:junit-jupiter-api"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
   }
 
@@ -86,7 +93,7 @@ subprojects {
 
 configure(jfxProject) { project ->
   apply plugin: "org.openjfx.javafxplugin"
-  apply plugin: "sass"
+  apply plugin: "com.unclezs.gradle.sass"
 
   javafx {
     version = "16"
