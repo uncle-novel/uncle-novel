@@ -12,6 +12,7 @@ def publicationName = project.name.splitEachLine("-") {
   }
   return name.toString()
 }
+
 publishing {
   repositories {
     maven {
@@ -45,6 +46,7 @@ publishing {
     create(publicationName, MavenPublication)
   }
 }
+
 publishing.publications.withType(MavenPublication) {
   from components.getByName("java")
   pom {
@@ -83,6 +85,7 @@ java {
 }
 
 javadoc {
+  enabled = false
   options.encoding = 'UTF-8'
   options.addStringOption("tag", "date")
 }

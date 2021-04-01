@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.jfx.packager.action.linux;
 
 import com.unclezs.novel.app.jfx.packager.action.ArtifactGenerator;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.jfx.packager.util.Logger;
 import java.io.File;
 
@@ -16,12 +16,12 @@ public class GenerateRpm extends ArtifactGenerator {
   }
 
   @Override
-  public boolean skip(Packager packager) {
+  public boolean skip(AbstractPackager packager) {
     return !packager.getLinuxConfig().isGenerateRpm();
   }
 
   @Override
-  protected File doApply(Packager packager) throws Exception {
+  protected File doApply(AbstractPackager packager) throws Exception {
 
     Logger.warn("Sorry! " + getArtifactName() + " generation is not yet available");
 

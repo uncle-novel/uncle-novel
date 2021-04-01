@@ -3,111 +3,79 @@ package com.unclezs.novel.app.jfx.packager.task;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ObjectUtil;
-import com.unclezs.novel.app.jfx.packager.model.LinuxConfig;
-import com.unclezs.novel.app.jfx.packager.model.MacConfig;
-import com.unclezs.novel.app.jfx.packager.model.WindowsConfig;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.PackagePlugin;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
+import com.unclezs.novel.app.jfx.packager.packager.PackagerExtension;
 import com.unclezs.novel.app.jfx.packager.util.Platform;
-import groovy.lang.Closure;
+import java.beans.PropertyDescriptor;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.InputDirectory;
-import org.gradle.api.tasks.InputFile;
-import org.gradle.api.tasks.Optional;
+import org.gradle.api.DefaultTask;
+import org.gradle.api.tasks.Internal;
+import org.gradle.api.tasks.TaskAction;
 
 /**
- * Packaging task for Gradle
+ * Gradle 打包任务 不进行增量构建
  *
  * @author https://github.com/fvarrui/JavaPackager
  * @author blog.unclezs.com
  * @since 2021/03/23 19:10
  */
-@Setter
 @Getter
-public class PackageTask extends AbstractPackageTask {
+@Setter
+public class PackageTask extends DefaultTask {
 
-  @Input
-  @Optional
+  /**
+   * 属性含义 {@link PackagerExtension}
+   */
   private Platform platform;
-  @Input
-  @Optional
-  private List<String> additionalModules;
-  @Input
-  @Optional
   private List<File> additionalResources;
-  @Input
-  @Optional
   private Boolean administratorRequired;
-  @InputDirectory
-  @Optional
   private File assetsDir;
-  @Input
-  @Optional
   private Boolean createTar;
-  @Input
-  @Optional
   private Boolean createZip;
-  @Input
-  @Optional
   private Boolean generateInstaller;
-  @InputFile
-  @Optional
   private File iconFile;
-  @InputDirectory
-  @Optional
   private File jdkPath;
-  @InputDirectory
-  @Optional
   private File jrePath;
-  @Input
-  @Optional
-  private String jreDirectoryName;
-  @Input
-  @Optional
-  private String mainClass;
-  @Input
-  @Optional
+  private String jreDirName;
   private Boolean useResourcesAsWorkingDir;
-  @Input
-  @Optional
   private List<String> vmArgs;
-  @Input
-  @Optional
-  private WindowsConfig winConfig;
-  @Input
-  @Optional
-  private LinuxConfig linuxConfig;
-  @Input
-  @Optional
-  private MacConfig macConfig;
+  @Internal
+  private AbstractPackager packager;
 
-  @Override
-  protected Packager createPackager() {
-    PackagePluginExtension extension = getProject().getExtensions().getByType(PackagePluginExtension.class);
-    Packager packager = ObjectUtil.defaultIfNull(platform, extension.getPlatform()).getPackager();
+  public PackageTask() {
+    super();
+    setGroup(PackagePlugin.GROUP_NAME);
+    setDescription("将应用程序打包为本地Windows，Mac OS X或GNULinux可执行文件，并创建安装程序");
+    getOutputs().upToDateWhen(o -> false);
+  }
+
+  /**
+   * 初始化打包器
+   */
+  private void initPackager() {
+    PackagerExtension extension = getProject().getExtensions().getByType(PackagerExtension.class);
+    packager = ObjectUtil.defaultIfNull(platform, extension.getPlatform()).createPackager(extension);
+    // 默认配置的值
     BeanUtil.copyProperties(extension, packager, CopyOptions.create().ignoreNullValue());
-    BeanUtil.copyProperties(this, packager, CopyOptions.create().ignoreNullValue());
-    return packager;
+    // 任务配置的值 , 忽略父类
+    CopyOptions copyOptions = CopyOptions.create().ignoreNullValue()
+      .setIgnoreProperties(Arrays.stream(BeanUtil.getPropertyDescriptors(DefaultTask.class)).map(PropertyDescriptor::getName).toArray(String[]::new));
+    BeanUtil.copyProperties(this, packager, copyOptions);
   }
 
-  public WindowsConfig winConfig(Closure<WindowsConfig> closure) {
-    winConfig = new WindowsConfig();
-    getProject().configure(winConfig, closure);
-    return winConfig;
-  }
-
-  public MacConfig macConfig(Closure<MacConfig> closure) {
-    macConfig = new MacConfig();
-    getProject().configure(macConfig, closure);
-    return macConfig;
-  }
-
-  public LinuxConfig linuxConfig(Closure<LinuxConfig> closure) {
-    linuxConfig = new LinuxConfig();
-    getProject().configure(linuxConfig, closure);
-    return linuxConfig;
+  @TaskAction
+  public void doPackage() throws Exception {
+    initPackager();
+    // 生成应用==可执行程序
+    packager.createApp();
+    // 生成安装程序
+    packager.generateInstallers();
+    // 生成压缩包
+    packager.createBundles();
   }
 }

@@ -1,30 +1,23 @@
 package com.unclezs.novel.app.jfx.packager.model;
 
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import java.io.File;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * JavaPackager GNU/Linux specific configuration
+ * linux 配置
+ *
+ * @author blog.unclezs.com
+ * @date 2021/4/2 1:29
  */
 @Data
-public class LinuxConfig implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class LinuxConfig extends PlatformConfig implements Serializable {
 
   private static final long serialVersionUID = -1238166997019141904L;
-
   private boolean generateDeb = true;
   private boolean generateRpm = true;
   private File pngFile;
   private File xpmFile;
-
-  /**
-   * Tests GNU/Linux specific config and set defaults if not specified
-   *
-   * @param packager Packager
-   */
-  public void setDefaults(Packager packager) {
-    // nothing
-  }
-
 }

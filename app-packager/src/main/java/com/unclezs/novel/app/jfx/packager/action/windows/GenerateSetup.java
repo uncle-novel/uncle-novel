@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.jfx.packager.action.windows;
 
 import com.unclezs.novel.app.jfx.packager.model.Registry;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.jfx.packager.packager.WindowsPackager;
 import com.unclezs.novel.app.jfx.packager.util.CommandUtils;
 import com.unclezs.novel.app.jfx.packager.util.FileUtils;
@@ -20,18 +20,18 @@ public class GenerateSetup extends WindowsArtifactGenerator {
   }
 
   @Override
-  public boolean skip(Packager packager) {
+  public boolean skip(AbstractPackager packager) {
     return !packager.getWinConfig().isGenerateSetup();
   }
 
   @Override
-  protected File doApply(Packager packager) throws Exception {
+  protected File doApply(AbstractPackager packager) throws Exception {
     WindowsPackager windowsPackager = (WindowsPackager) packager;
 
-    File iconFile = windowsPackager.getIconFile();
+    File iconFile = windowsPackager.getPlatform().getPlatformConfig().getIconFile();
     File assetsFolder = windowsPackager.getAssetsFolder();
     String name = windowsPackager.getName();
-    File outputDirectory = windowsPackager.getOutputDirectory();
+    File outputDirectory = windowsPackager.getOutputDir();
     String version = windowsPackager.getVersion();
     Registry registry = windowsPackager.getWinConfig().getRegistry();
 

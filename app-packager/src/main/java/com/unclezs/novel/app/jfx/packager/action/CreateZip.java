@@ -1,8 +1,8 @@
 package com.unclezs.novel.app.jfx.packager.action;
 
 import com.unclezs.novel.app.jfx.packager.Context;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.jfx.packager.packager.MacPackager;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.packager.util.Platform;
 import java.io.File;
 import java.util.UUID;
@@ -18,19 +18,19 @@ public class CreateZip extends ArtifactGenerator {
   }
 
   @Override
-  public boolean skip(Packager packager) {
+  public boolean skip(AbstractPackager packager) {
     return !packager.getCreateZip();
   }
 
   @Override
-  protected File doApply(Packager packager) throws Exception {
+  protected File doApply(AbstractPackager packager) throws Exception {
     String name = packager.getName();
     String version = packager.getVersion();
     Platform platform = packager.getPlatform();
-    File outputDirectory = packager.getOutputDirectory();
+    File outputDirectory = packager.getOutputDir();
     File appFolder = packager.getAppFolder();
     File executable = packager.getExecutable();
-    String jreDirectoryName = packager.getJreDirectoryName();
+    String jreDirectoryName = packager.getJreDirName();
 
     File zipFile = new File(outputDirectory, name + "-" + version + "-" + platform + ".zip");
 
@@ -93,8 +93,8 @@ public class CreateZip extends ArtifactGenerator {
   }
 
   private Zip createZipTask() {
-    return Context.getProject().getTasks()
-      .create("createZipball_" + UUID.randomUUID(), Zip.class);
+    return Context.project.getTasks()
+      .create("createZip_" + UUID.randomUUID(), Zip.class);
   }
 
 }

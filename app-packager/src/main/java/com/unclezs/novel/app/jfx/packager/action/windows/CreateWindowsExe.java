@@ -2,7 +2,7 @@ package com.unclezs.novel.app.jfx.packager.action.windows;
 
 import com.unclezs.novel.app.jfx.packager.Context;
 import com.unclezs.novel.app.jfx.packager.model.WindowsConfig;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.jfx.packager.packager.WindowsPackager;
 import com.unclezs.novel.app.jfx.packager.util.FileUtils;
 import edu.sc.seis.launch4j.tasks.Launch4jLibraryTask;
@@ -27,7 +27,7 @@ public class CreateWindowsExe extends WindowsArtifactGenerator {
   }
 
   @Override
-  protected File doApply(Packager packager) throws Exception {
+  protected File doApply(AbstractPackager packager) throws Exception {
 
     WindowsPackager windowsPackager = (WindowsPackager) packager;
 
@@ -37,7 +37,7 @@ public class CreateWindowsExe extends WindowsArtifactGenerator {
     String mainClass = windowsPackager.getMainClass();
     boolean useResourcesAsWorkingDir = windowsPackager.isUseResourcesAsWorkingDir();
     boolean bundleJre = windowsPackager.getBundleJre();
-    String jreDirectoryName = windowsPackager.getJreDirectoryName();
+    String jreDirectoryName = windowsPackager.getJreDirName();
     String jreMinVersion = windowsPackager.getJreMinVersion();
     File jarFile = windowsPackager.getJarFile();
 
@@ -83,17 +83,17 @@ public class CreateWindowsExe extends WindowsArtifactGenerator {
   }
 
   private Launch4jLibraryTask createLaunch4jTask() {
-    return Context.getProject().getTasks()
+    return Context.project.getTasks()
       .create("launch4j_" + UUID.randomUUID(), Launch4jLibraryTask.class);
   }
 
   private void createAssets(WindowsPackager packager) throws Exception {
 
     File manifestFile = packager.getManifestFile();
-    File iconFile = packager.getIconFile();
+    File iconFile = packager.getPlatform().getPlatformConfig().getIconFile();
     File jarFile = packager.getJarFile();
 
-    File launch4j = new File(Context.getProject().getBuildDir(), "launch4j");
+    File launch4j = new File(Context.project.getBuildDir(), "launch4j");
     if (!launch4j.exists()) {
       //noinspection ResultOfMethodCallIgnored
       launch4j.mkdirs();

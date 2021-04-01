@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx.packager.action;
 
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.jfx.packager.util.Logger;
 import java.io.File;
 
@@ -24,7 +24,7 @@ public abstract class ArtifactGenerator {
     this.artifactName = artifactName;
   }
 
-  public boolean skip(Packager packager) {
+  public boolean skip(AbstractPackager packager) {
     return false;
   }
 
@@ -32,9 +32,9 @@ public abstract class ArtifactGenerator {
     return artifactName;
   }
 
-  protected abstract File doApply(Packager packager) throws Exception;
+  protected abstract File doApply(AbstractPackager packager) throws Exception;
 
-  public File apply(Packager packager) throws Exception {
+  public File apply(AbstractPackager packager) throws Exception {
     if (skip(packager)) {
       Logger.warn(getArtifactName() + " artifact generation skipped!");
       return null;

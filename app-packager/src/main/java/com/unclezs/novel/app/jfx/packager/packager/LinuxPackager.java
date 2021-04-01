@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Packager for GNU/Linux
  */
-public class LinuxPackager extends Packager {
+public class LinuxPackager extends AbstractPackager {
 
   public LinuxPackager() {
     super();
@@ -23,8 +23,6 @@ public class LinuxPackager extends Packager {
 
   @Override
   public void doInit() {
-    // sets linux config default values
-    this.linuxConfig.setDefaults(this);
   }
 
   @Override
@@ -32,7 +30,7 @@ public class LinuxPackager extends Packager {
     // sets common folders
     this.executableDestinationFolder = appFolder;
     this.jarFileDestinationFolder = appFolder;
-    this.jreDestinationFolder = new File(appFolder, jreDirectoryName);
+    this.jreDestinationFolder = new File(appFolder, jreDirName);
     this.resourcesDestinationFolder = appFolder;
   }
 
@@ -40,7 +38,7 @@ public class LinuxPackager extends Packager {
    * Creates a GNU/Linux app folder with native executable
    */
   @Override
-  public File doCreateApp() throws Exception {
+  public void doCreateApp() throws Exception {
 
     Logger.infoIndent("Creating GNU/Linux executable ...");
 
@@ -70,8 +68,6 @@ public class LinuxPackager extends Packager {
     executable.setExecutable(true, false);
 
     Logger.infoUnindent("GNU/Linux executable created in " + executable.getAbsolutePath() + "!");
-
-    return appFolder;
   }
 
 }

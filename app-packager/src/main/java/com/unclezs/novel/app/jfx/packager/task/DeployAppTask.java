@@ -3,6 +3,7 @@ package com.unclezs.novel.app.jfx.packager.task;
 import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.jfx.packager.PackagePlugin;
 import com.unclezs.novel.app.jfx.packager.model.LauncherConfig;
+import com.unclezs.novel.app.jfx.packager.packager.PackagerExtension;
 import java.io.File;
 import java.net.URI;
 import lombok.Getter;
@@ -36,7 +37,7 @@ public class DeployAppTask extends DefaultTask {
   @TaskAction
   public void deploy() {
     Project project = getProject();
-    PackagePluginExtension extension = project.getExtensions().getByType(PackagePluginExtension.class);
+    PackagerExtension extension = project.getExtensions().getByType(PackagerExtension.class);
     if (autoCreate) {
       extension.getLauncher().setOnlyCreateDeployFile(true);
       Task packageTask = project.getTasks().getByName("package");

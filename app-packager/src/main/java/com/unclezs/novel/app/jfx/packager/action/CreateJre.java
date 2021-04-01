@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx.packager.action;
 
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.jfx.packager.util.CommandUtils;
 import com.unclezs.novel.app.jfx.packager.util.FileUtils;
 import com.unclezs.novel.app.jfx.packager.util.JavaUtils;
@@ -20,20 +20,20 @@ import org.apache.commons.lang3.SystemUtils;
 /**
  * Bundles a Java Runtime Enrironment (JRE) with the app
  */
-public class CreateJavaRuntimeEnv extends ArtifactGenerator {
+public class CreateJre extends ArtifactGenerator {
 
-  public CreateJavaRuntimeEnv() {
+  public CreateJre() {
     super("JRE");
   }
 
   @Override
-  public boolean skip(Packager packager) {
+  public boolean skip(AbstractPackager packager) {
     return !packager.getBundleJre();
   }
 
   @Override
   @SuppressWarnings("ResultOfMethodCallIgnored")
-  protected File doApply(Packager packager) throws Exception {
+  protected File doApply(AbstractPackager packager) throws Exception {
 
     boolean bundleJre = packager.getBundleJre();
     File specificJreFolder = packager.getJrePath();
@@ -77,7 +77,6 @@ public class CreateJavaRuntimeEnv extends ArtifactGenerator {
           .forEach(f -> f.setExecutable(true, false));
 
     } else if (JavaUtils.getJavaMajorVersion() <= 8) {
-
       throw new Exception(
           "Could not create a customized JRE due to JDK version is " + SystemUtils.JAVA_VERSION
               + ". Must use jrePath property to specify JRE location to be embedded");
@@ -106,14 +105,12 @@ public class CreateJavaRuntimeEnv extends ArtifactGenerator {
         FileUtils.removeFolder(destinationFolder);
       }
       // generates customized jre using modules
-      CommandUtils
-          .execute(jlink.getAbsolutePath(), "--module-path", modulesDir, "--add-modules", modules,
-              "--output", destinationFolder, "--no-header-files", "--no-man-pages", "--strip-debug",
-              "--compress=2");
+      CommandUtils.execute(jlink.getAbsolutePath(), "--module-path", modulesDir, "--add-modules", modules,
+        "--output", destinationFolder, "--no-header-files", "--no-man-pages", "--strip-debug",
+        "--compress=2");
       // sets execution permissions on executables in jre
       File binFolder = new File(destinationFolder, "bin");
-      Arrays.asList(Objects.requireNonNull(binFolder.listFiles()))
-          .forEach(f -> f.setExecutable(true, false));
+      Arrays.asList(Objects.requireNonNull(binFolder.listFiles())).forEach(f -> f.setExecutable(true, false));
     }
 
     // removes jre/legal folder

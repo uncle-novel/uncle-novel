@@ -6,7 +6,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.unclezs.jfx.launcher.Manifest;
 import com.unclezs.novel.app.jfx.packager.Context;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.jfx.packager.util.Logger;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,7 +36,7 @@ public class CreateRunnableJar extends ArtifactGenerator {
 
   public static final String CLASSIFIER = "runnable";
   public File launcherJar;
-  private Packager packager;
+  private AbstractPackager packager;
   private Manifest manifest;
 
   public CreateRunnableJar() {
@@ -44,7 +44,7 @@ public class CreateRunnableJar extends ArtifactGenerator {
   }
 
   @Override
-  protected File doApply(Packager packager) throws IOException {
+  protected File doApply(AbstractPackager packager) throws IOException {
     this.packager = packager;
     if (packager.userLauncher()) {
       launcherJar = new File(packager.getLibsFolder(), packager.getLauncher().getLauncherJarLibName().concat(".jar"));
@@ -63,7 +63,7 @@ public class CreateRunnableJar extends ArtifactGenerator {
    * 创建可执行的Jar
    */
   private void createRunnableJar() {
-    Project project = Context.getProject();
+    Project project = Context.project;
     File libsFolder = packager.getLibsFolder();
     List<String> dependencies = new ArrayList<>();
     if (libsFolder != null && libsFolder.exists()) {
@@ -86,7 +86,7 @@ public class CreateRunnableJar extends ArtifactGenerator {
     jarTask.setProperty("archiveBaseName", packager.getName());
     jarTask.setProperty("archiveVersion", packager.getVersion());
     jarTask.setProperty("archiveClassifier", CLASSIFIER);
-    jarTask.setProperty("destinationDirectory", packager.getOutputDirectory());
+    jarTask.setProperty("destinationDirectory", packager.getOutputDir());
     jarTask.getManifest().getAttributes().put("Created-By", "https://blog.unclezs.com");
     jarTask.getManifest().getAttributes().put("Built-By", "https://blog.unclezs.com");
     jarTask.getManifest().getAttributes().put("Build-Jdk", System.getProperty("java.version"));
@@ -143,7 +143,7 @@ public class CreateRunnableJar extends ArtifactGenerator {
    * 创建部署文件
    */
   public void createDeployFiles() {
-    File deployDir = new File(Context.getProject().getBuildDir(), packager.getLauncher().getDeployDir());
+    File deployDir = new File(Context.project.getBuildDir(), packager.getLauncher().getDeployDir());
     FileUtil.del(deployDir);
     FileUtil.copy(new File(packager.getLibsFolder().getAbsolutePath(), Manifest.EMBEDDED_CONFIG_NAME), new File(deployDir, manifest.getConfigName()), true);
     if (packager.getLauncher().getDeleteAppLibrary()) {

@@ -72,7 +72,7 @@
     <dict>
         #if ($info.bundleJre)
           <key>JAVA_HOME</key>
-          <string>Contents/PlugIns/${info.jreDirectoryName}/Contents/Home</string>
+          <string>Contents/PlugIns/${info.jreDirName}/Contents/Home</string>
         #end
         #if($info.macConfig.envPath)
           <key>PATH</key>

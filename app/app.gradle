@@ -32,13 +32,26 @@ packager {
     name = "Uncle小说"
     mainClass = 'com.unclezs.jfx.launcher.Launcher'
     bundleJre = true
-    jreDirectoryName = "runtime"
+    jreDirName = "runtime"
     copyDependencies = true
-    customizedJre = false
+    customizedJre = true
     vmArgs = ["-Dfile.encoding=UTF-8", "-Xms128m", "-Xmx256m"]
     libsFolderName = "libraries"
     launcherVmOptionsFileName = "launcher.options"
     launcherVmOptionsFile = file("${projectDir}/packager/vm.options")
+    additionalModulePaths = [file('G:\\app\\openjfx\\javafx-sdk-11.0.2\\lib')]
+    macConfig {
+        generateDmg = true
+        generatePkg = true
+        startScriptName = "startApplication"
+        appId = "com.unclezs.novel.app"
+        iconFile = file("${projectDir}/packager/logo/favicon.icns")
+        return macConfig
+    }
+    winConfig {
+        iconFile = file("${projectDir}/packager/logo/favicon.ico")
+        return winConfig
+    }
     launcher {
         configName = "config.json"
         configServerUri = file("$rootDir/$configName").toURI().toURL()
@@ -62,23 +75,11 @@ task packageMac(type: PackageTask, dependsOn: build) {
     platform = "mac"
     createTar = true
     generateInstaller = true
-    macConfig {
-        generateDmg = true
-        generatePkg = true
-        startScriptName = "startApplication"
-        appId = "com.unclezs.novel.app"
-        icnsFile = file("${projectDir}/packager/logo/favicon.icns")
-        return macConfig
-    }
 }
 task packageWindows(type: PackageTask, dependsOn: build) {
     platform = "windows"
     createZip = true
     generateInstaller = false
-    winConfig {
-        icoFile = file("${projectDir}/packager/logo/favicon.ico")
-        return winConfig
-    }
 }
 
 task createUpdateFiles(type: DeployAppTask, dependsOn: build) {

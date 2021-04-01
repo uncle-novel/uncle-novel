@@ -1,8 +1,8 @@
 package com.unclezs.novel.app.jfx.packager.action.mac;
 
 import com.unclezs.novel.app.jfx.packager.action.ArtifactGenerator;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.jfx.packager.packager.MacPackager;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.packager.util.CommandUtils;
 import java.io.File;
 
@@ -20,17 +20,17 @@ public class GeneratePkg extends ArtifactGenerator {
   }
 
   @Override
-  public boolean skip(Packager packager) {
+  public boolean skip(AbstractPackager packager) {
     return !packager.getMacConfig().isGeneratePkg();
   }
 
   @Override
-  protected File doApply(Packager packager) throws Exception {
+  protected File doApply(AbstractPackager packager) throws Exception {
     MacPackager macPackager = (MacPackager) packager;
 
     File appFile = macPackager.getAppFile();
     String name = macPackager.getName();
-    File outputDirectory = macPackager.getOutputDirectory();
+    File outputDirectory = macPackager.getOutputDir();
     String version = macPackager.getVersion();
 
     File pkgFile = new File(outputDirectory, name + "_" + version + ".pkg");

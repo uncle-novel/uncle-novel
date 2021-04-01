@@ -2,7 +2,9 @@ plugins {
   id "java-gradle-plugin"
 }
 
+
 repositories {
+  mavenLocal()
   mavenCentral()
 }
 

@@ -5,8 +5,8 @@ import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 import com.unclezs.novel.app.jfx.packager.action.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.packager.model.MacConfig;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.jfx.packager.packager.MacPackager;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.packager.util.FileUtils;
 import com.unclezs.novel.app.jfx.packager.util.Logger;
 import com.unclezs.novel.app.jfx.packager.util.ThreadUtils;
@@ -30,19 +30,19 @@ public class GenerateDmg extends ArtifactGenerator {
   }
 
   @Override
-  public boolean skip(Packager packager) {
+  public boolean skip(AbstractPackager packager) {
     return !packager.getMacConfig().isGenerateDmg();
   }
 
   @Override
-  protected File doApply(Packager packager) throws Exception {
+  protected File doApply(AbstractPackager packager) throws Exception {
     MacPackager macPackager = (MacPackager) packager;
 
     File appFolder = macPackager.getAppFolder();
     File assetsFolder = macPackager.getAssetsFolder();
     String name = macPackager.getName();
-    File outputDirectory = macPackager.getOutputDirectory();
-    File iconFile = macPackager.getIconFile();
+    File outputDirectory = macPackager.getOutputDir();
+    File iconFile = macPackager.getPlatform().getPlatformConfig().getIconFile();
     String version = macPackager.getVersion();
     MacConfig macConfig = macPackager.getMacConfig();
 

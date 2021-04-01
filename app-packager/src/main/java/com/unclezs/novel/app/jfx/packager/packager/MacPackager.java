@@ -20,7 +20,7 @@ import org.codehaus.plexus.util.cli.CommandLineException;
 /**
  * Packager for Mac OS X
  */
-public class MacPackager extends Packager {
+public class MacPackager extends AbstractPackager {
 
   public static final String START_SCRIPT_NAME = "universalJavaApplicationStub";
   private File appFile;
@@ -84,7 +84,7 @@ public class MacPackager extends Packager {
     this.executableDestinationFolder = macOsFolder;
     this.jarFileDestinationFolder = javaFolder;
     this.jreDestinationFolder = new File(contentsFolder,
-      "PlugIns/" + jreDirectoryName + "/Contents/Home");
+      "PlugIns/" + jreDirName + "/Contents/Home");
     this.resourcesDestinationFolder = resourcesFolder;
 
   }
@@ -93,7 +93,7 @@ public class MacPackager extends Packager {
    * Creates a native MacOS app bundle
    */
   @Override
-  public File doCreateApp() throws Exception {
+  public void doCreateApp() throws Exception {
     // 将文件复制到Java文件夹
     FileUtils.copyFileToFolder(jarFile, javaFolder);
     createStartScript();
@@ -115,7 +115,6 @@ public class MacPackager extends Packager {
       Logger.warn("Generated app could not be signed due to current platform is " + Platform
         .getCurrentPlatform());
     }
-    return appFile;
   }
 
   @SuppressWarnings("ResultOfMethodCallIgnored")

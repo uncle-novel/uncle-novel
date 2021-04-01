@@ -1,12 +1,16 @@
 package com.unclezs.novel.app.jfx.packager.packager;
 
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.jfx.packager.Context;
 import com.unclezs.novel.app.jfx.packager.util.Logger;
+import com.unclezs.novel.app.jfx.packager.util.Platform;
 import com.unclezs.novel.app.jfx.packager.util.VelocityUtils;
 import java.io.File;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +25,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Setter
 @Getter
-public class WindowsPackager extends Packager {
+public class WindowsPackager extends AbstractPackager {
 
   private File manifestFile;
   private File msmFile;
@@ -31,14 +35,26 @@ public class WindowsPackager extends Packager {
 
   @Override
   public void doInit() {
-    this.winConfig.setDefaults(this);
+    // 初始化安装语言
+    if (platform == Platform.windows && CollectionUtil.isEmpty(winConfig.getSetupLanguages())) {
+      winConfig.setSetupLanguages(new LinkedHashMap<>(3));
+      winConfig.getSetupLanguages().put("english", "compiler:Default.isl");
+      winConfig.getSetupLanguages().put("spanish", "compiler:Languages\\Spanish.isl");
+    }
+    this.winConfig.setTxtProductVersion(ObjectUtil.defaultIfNull(this.winConfig.getTxtProductVersion(), getVersion()));
+    this.winConfig.setCompanyName(ObjectUtil.defaultIfNull(this.winConfig.getCompanyName(), getOrganizationName()));
+    this.winConfig.setCopyright(ObjectUtil.defaultIfNull(this.winConfig.getCopyright(), getOrganizationName()));
+    this.winConfig.setFileDescription(ObjectUtil.defaultIfNull(this.winConfig.getFileDescription(), getDescription()));
+    this.winConfig.setProductName(ObjectUtil.defaultIfNull(this.winConfig.getProductName(), getName()));
+    this.winConfig.setInternalName(ObjectUtil.defaultIfNull(this.winConfig.getInternalName(), getName()));
+    this.winConfig.setOriginalFilename(ObjectUtil.defaultIfNull(this.winConfig.getOriginalFilename(), getName().concat(".exe")));
   }
 
   @Override
   protected void doCreateAppStructure() {
     this.executableDestinationFolder = appFolder;
     this.jarFileDestinationFolder = appFolder;
-    this.jreDestinationFolder = new File(appFolder, jreDirectoryName);
+    this.jreDestinationFolder = new File(appFolder, jreDirName);
     this.resourcesDestinationFolder = appFolder;
   }
 
@@ -46,7 +62,7 @@ public class WindowsPackager extends Packager {
    * Creates a Windows app file structure with native executable
    */
   @Override
-  public File doCreateApp() throws Exception {
+  public void doCreateApp() throws Exception {
     Logger.infoIndent("Creating windows EXE ...");
     // copies JAR to app folder
     if (!winConfig.isWrapJar()) {
@@ -80,8 +96,6 @@ public class WindowsPackager extends Packager {
     executable = Context.createExe(this);
 
     Logger.infoUnindent("Windows EXE file created in " + executable + "!");
-
-    return appFolder;
   }
 
 }

@@ -3,10 +3,10 @@ package com.unclezs.novel.app.jfx.packager.action;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
 import com.unclezs.jfx.launcher.Library;
-import com.unclezs.jfx.launcher.Os;
+import com.unclezs.jfx.launcher.Platform;
 import com.unclezs.novel.app.jfx.packager.Context;
 import com.unclezs.novel.app.jfx.packager.model.LauncherConfig;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import java.io.File;
 import org.gradle.api.Project;
 import org.gradle.jvm.tasks.Jar;
@@ -24,14 +24,13 @@ public class CopyDependencies extends ArtifactGenerator {
   }
 
   @Override
-  protected File doApply(Packager packager) {
+  protected File doApply(AbstractPackager packager) {
     File libsFolder = new File(packager.getJarFileDestinationFolder(), packager.getLibsFolderName());
-    Project project = Context.getProject();
+    Project project = Context.project;
     FileUtil.del(libsFolder);
     project.getConfigurations().getByName("runtimeClasspath").getResolvedConfiguration().getResolvedArtifacts().forEach(artifact -> {
       project.copy(c -> {
         String artifactName;
-        Os os = null;
         if (artifact.getClassifier() != null) {
           artifactName = String.format("%s-%s.%s", artifact.getName(), artifact.getClassifier(), artifact.getExtension());
         } else {
@@ -42,14 +41,8 @@ public class CopyDependencies extends ArtifactGenerator {
           LauncherConfig launcher = packager.getLauncher();
           if (!StrUtil.containsAny(artifactName, launcher.getRunTimeLibrary()) && !artifactName.contains(launcher.getLauncherJarLibName())) {
             String classifier = artifact.getClassifier();
-            if (StrUtil.containsIgnoreCase(classifier, Os.WIN.name())) {
-              os = Os.WIN;
-            } else if (StrUtil.containsIgnoreCase(classifier, Os.MAC.name())) {
-              os = Os.MAC;
-            } else if (StrUtil.containsIgnoreCase(classifier, Os.LINUX.name())) {
-              os = Os.LINUX;
-            }
-            packager.getLauncher().getLibs().add(new Library(artifactName, artifact.getFile().length(), os));
+            Platform platform = Platform.fromString(classifier);
+            packager.getLauncher().getLibs().add(new Library(artifactName, artifact.getFile().length(), platform));
           } else {
             // 设置启动类的classPath
             launcher.getClasspath().add(libsFolder.getName().concat("/").concat(artifactName));

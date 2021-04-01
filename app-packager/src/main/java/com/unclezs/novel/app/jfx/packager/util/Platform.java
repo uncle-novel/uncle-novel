@@ -1,42 +1,49 @@
 package com.unclezs.novel.app.jfx.packager.util;
 
 import cn.hutool.system.SystemUtil;
+import com.unclezs.novel.app.jfx.packager.model.PlatformConfig;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.jfx.packager.packager.LinuxPackager;
 import com.unclezs.novel.app.jfx.packager.packager.MacPackager;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.packager.PackagerExtension;
 import com.unclezs.novel.app.jfx.packager.packager.WindowsPackager;
+import lombok.Getter;
 
 /**
  * @author blog.unclezs.com
  * @date 2021/03/20 18:46
  */
+@Getter
 public enum Platform {
   /**
    * linux
    */
-  linux(new LinuxPackager()),
+  linux,
   /**
    * mac
    */
-  mac(new MacPackager()),
+  mac,
   /**
    * windows
    */
-  windows(new WindowsPackager()),
+  windows,
   /**
    * 自动识别
    */
-  auto(null);
+  auto;
 
-  private final Packager packager;
-
-  Platform(Packager packager) {
-    if (packager == null) {
-      packager = getCurrentPlatform().getPackager();
-    }
-    this.packager = packager;
-    this.packager.setPlatform(this);
-  }
+  /**
+   * 平台图标类型
+   */
+  private String iconType;
+  /**
+   * 打包器
+   */
+  private AbstractPackager packager;
+  /**
+   * 平台配置
+   */
+  private PlatformConfig platformConfig;
 
   /**
    * 获取当前操作系统
@@ -69,11 +76,44 @@ public enum Platform {
   }
 
   /**
-   * 获取平台的打包器
+   * 创建平台打包器
    *
-   * @return 打包器
+   * @return 平台相关的打包器
    */
-  public Packager getPackager() {
+  public AbstractPackager createPackager(PackagerExtension extension) {
+    switch (this) {
+      case mac:
+        iconType = "icns";
+        packager = new MacPackager();
+        platformConfig = extension.getMacConfig();
+        packager.setPlatform(mac);
+        break;
+      case windows:
+        iconType = "ico";
+        packager = new WindowsPackager();
+        packager.setPlatform(windows);
+        platformConfig = extension.getWinConfig();
+        break;
+      case linux:
+        iconType = "png";
+        packager = new LinuxPackager();
+        packager.setPlatform(linux);
+        platformConfig = extension.getLinuxConfig();
+        break;
+      default:
+        packager = getCurrentPlatform().getPackager();
+    }
     return packager;
+  }
+
+  /**
+   * 获取平台相关配置
+   *
+   * @param <T> 类型
+   * @return 配置
+   */
+  @SuppressWarnings("unchecked")
+  public <T extends PlatformConfig> T getPlatformConfig() {
+    return (T) platformConfig;
   }
 }

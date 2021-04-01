@@ -1,12 +1,12 @@
 package com.unclezs.novel.app.jfx.packager.model;
 
-import cn.hutool.core.util.ObjectUtil;
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import java.io.File;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.UUID;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Windows特定配置
@@ -15,7 +15,9 @@ import lombok.Data;
  * @date 2021/3/29 0:32
  */
 @Data
-public class WindowsConfig implements Serializable {
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class WindowsConfig extends PlatformConfig implements Serializable {
 
   private static final long serialVersionUID = 2106752412224694318L;
   private File icoFile;
@@ -48,20 +50,4 @@ public class WindowsConfig implements Serializable {
   private SetupMode setupMode = SetupMode.installForAllUsers;
   private WindowsSigning signing;
   private Registry registry = new Registry();
-
-  /**
-   * 设置默认值
-   *
-   * @param packager Packager
-   */
-  public void setDefaults(Packager packager) {
-    this.setTxtProductVersion(ObjectUtil.defaultIfNull(this.getTxtProductVersion(), packager.getVersion()));
-    this.setCompanyName(ObjectUtil.defaultIfNull(this.getCompanyName(), packager.getOrganizationName()));
-    this.setCopyright(ObjectUtil.defaultIfNull(this.getCopyright(), packager.getOrganizationName()));
-    this.setFileDescription(ObjectUtil.defaultIfNull(this.getFileDescription(), packager.getDescription()));
-    this.setProductName(ObjectUtil.defaultIfNull(this.getProductName(), packager.getName()));
-    this.setInternalName(ObjectUtil.defaultIfNull(this.getInternalName(), packager.getName()));
-    this.setOriginalFilename(ObjectUtil.defaultIfNull(this.getOriginalFilename(), packager.getName().concat(".exe")));
-  }
-
 }

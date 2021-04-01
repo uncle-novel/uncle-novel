@@ -7,12 +7,13 @@ import com.unclezs.novel.app.jfx.packager.model.MacConfig;
 import com.unclezs.novel.app.jfx.packager.model.Manifest;
 import com.unclezs.novel.app.jfx.packager.model.WindowsConfig;
 import com.unclezs.novel.app.jfx.packager.util.Platform;
+import groovy.lang.Closure;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.gradle.api.Project;
 
 /**
  * 打包的一些通用设置
@@ -23,9 +24,9 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class PackagerSetting {
+public class PackagerExtension {
 
+  private Project project;
   /**
    * App信息
    */
@@ -40,11 +41,10 @@ public class PackagerSetting {
   /**
    * 打包配置
    */
-  protected File outputDirectory;
+  protected File outputDir;
   protected String mainClass;
   protected Boolean bundleJre = true;
   protected Boolean customizedJre = true;
-  protected File iconFile;
   protected boolean generateInstaller = false;
   protected Boolean administratorRequired = false;
   /**
@@ -68,7 +68,7 @@ public class PackagerSetting {
   protected File runnableJar;
   protected Manifest manifest = new Manifest();
   protected Boolean copyDependencies = true;
-  protected String jreDirectoryName = "jre";
+  protected String jreDirName = "jre";
   protected boolean useResourcesAsWorkingDir = true;
   protected File assetsDir;
   /**
@@ -103,6 +103,16 @@ public class PackagerSetting {
    * 启动器配置（自动更新）
    */
   protected LauncherConfig launcher;
+
+  public PackagerExtension(Project project) {
+    this.project = project;
+    this.version = project.getVersion().toString();
+    this.assetsDir = new File(project.getProjectDir(), "assets");
+    this.description = project.getDescription();
+    this.name = project.getName();
+    this.outputDir = project.getBuildDir();
+  }
+
   /**
    * 是否启用launcher
    *
@@ -110,5 +120,35 @@ public class PackagerSetting {
    */
   public boolean userLauncher() {
     return launcher != null;
+  }
+
+  public LinuxConfig linuxConfig(Closure<LinuxConfig> closure) {
+    linuxConfig = new LinuxConfig();
+    project.configure(linuxConfig, closure);
+    return linuxConfig;
+  }
+
+  public MacConfig macConfig(Closure<MacConfig> closure) {
+    macConfig = new MacConfig();
+    project.configure(macConfig, closure);
+    return macConfig;
+  }
+
+  public WindowsConfig winConfig(Closure<WindowsConfig> closure) {
+    winConfig = new WindowsConfig();
+    project.configure(winConfig, closure);
+    return winConfig;
+  }
+
+  public Manifest manifest(Closure<Manifest> closure) {
+    manifest = new Manifest();
+    project.configure(manifest, closure);
+    return manifest;
+  }
+
+  public LauncherConfig launcher(Closure<LauncherConfig> closure) {
+    launcher = new LauncherConfig(project.getProject());
+    project.configure(launcher, closure);
+    return launcher;
   }
 }

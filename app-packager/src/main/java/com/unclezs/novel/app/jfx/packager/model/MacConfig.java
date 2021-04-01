@@ -2,16 +2,21 @@ package com.unclezs.novel.app.jfx.packager.model;
 
 import static org.apache.commons.lang3.ObjectUtils.defaultIfNull;
 
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.packager.AbstractPackager;
 import java.io.File;
 import java.io.Serializable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
- * JavaPackager Mac OS specific configuration
+ * mac配置
+ *
+ * @author blog.unclezs.com
+ * @date 2021/4/2 1:30
  */
 @Data
-public class MacConfig implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class MacConfig extends PlatformConfig implements Serializable {
 
   private static final long serialVersionUID = -2268944961932941577L;
   /**
@@ -57,7 +62,7 @@ public class MacConfig implements Serializable {
    *
    * @param packager Packager
    */
-  public void setDefaults(Packager packager) {
+  public void setDefaults(AbstractPackager packager) {
     this.setWindowX(defaultIfNull(this.getWindowX(), 10));
     this.setWindowY(defaultIfNull(this.getWindowY(), 60));
     this.setWindowWidth(defaultIfNull(this.getWindowWidth(), 540));
