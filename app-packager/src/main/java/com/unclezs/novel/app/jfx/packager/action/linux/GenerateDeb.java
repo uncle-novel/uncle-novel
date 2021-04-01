@@ -1,8 +1,8 @@
 package com.unclezs.novel.app.jfx.packager.action.linux;
 
 import com.netflix.gradle.plugins.deb.Deb;
-import com.unclezs.novel.app.jfx.packager.action.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.packager.Context;
+import com.unclezs.novel.app.jfx.packager.action.ArtifactGenerator;
 import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.packager.util.Logger;
 import java.io.File;

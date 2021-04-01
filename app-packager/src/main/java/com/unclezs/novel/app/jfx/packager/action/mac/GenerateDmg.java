@@ -4,8 +4,8 @@ import static com.unclezs.novel.app.jfx.packager.util.CommandUtils.execute;
 import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 import com.unclezs.novel.app.jfx.packager.action.ArtifactGenerator;
-import com.unclezs.novel.app.jfx.packager.packager.MacPackager;
 import com.unclezs.novel.app.jfx.packager.model.MacConfig;
+import com.unclezs.novel.app.jfx.packager.packager.MacPackager;
 import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.packager.util.FileUtils;
 import com.unclezs.novel.app.jfx.packager.util.Logger;

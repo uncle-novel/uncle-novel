@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.jfx.packager.action.mac;
 
-import com.unclezs.novel.app.jfx.packager.packager.MacPackager;
 import com.unclezs.novel.app.jfx.packager.action.ArtifactGenerator;
+import com.unclezs.novel.app.jfx.packager.packager.MacPackager;
 import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.packager.util.CommandUtils;
 import java.io.File;

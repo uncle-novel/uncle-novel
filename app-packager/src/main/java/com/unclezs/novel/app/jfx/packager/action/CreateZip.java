@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.jfx.packager.action;
 
-import com.unclezs.novel.app.jfx.packager.packager.MacPackager;
 import com.unclezs.novel.app.jfx.packager.Context;
+import com.unclezs.novel.app.jfx.packager.packager.MacPackager;
 import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.packager.util.Platform;
 import java.io.File;

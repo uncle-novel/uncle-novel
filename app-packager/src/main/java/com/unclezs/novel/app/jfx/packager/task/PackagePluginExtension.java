@@ -1,11 +1,11 @@
 package com.unclezs.novel.app.jfx.packager.task;
 
-import com.unclezs.novel.app.jfx.packager.packager.PackagerSetting;
 import com.unclezs.novel.app.jfx.packager.model.LauncherConfig;
 import com.unclezs.novel.app.jfx.packager.model.LinuxConfig;
 import com.unclezs.novel.app.jfx.packager.model.MacConfig;
 import com.unclezs.novel.app.jfx.packager.model.Manifest;
 import com.unclezs.novel.app.jfx.packager.model.WindowsConfig;
+import com.unclezs.novel.app.jfx.packager.packager.PackagerSetting;
 import groovy.lang.Closure;
 import java.io.File;
 import org.gradle.api.Project;

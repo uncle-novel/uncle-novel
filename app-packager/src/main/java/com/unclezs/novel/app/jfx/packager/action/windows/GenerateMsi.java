@@ -1,7 +1,5 @@
 package com.unclezs.novel.app.jfx.packager.action.windows;
 
-import static com.unclezs.novel.app.jfx.packager.util.CommandUtils.execute;
-
 import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.packager.packager.WindowsPackager;
 import com.unclezs.novel.app.jfx.packager.util.CommandUtils;

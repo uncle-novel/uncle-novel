@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.jfx.packager.task;
 
-import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import com.unclezs.novel.app.jfx.packager.PackagePlugin;
+import com.unclezs.novel.app.jfx.packager.packager.Packager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

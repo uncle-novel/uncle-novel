@@ -10,13 +10,12 @@ import com.unclezs.novel.app.jfx.packager.util.FileUtils;
 import com.unclezs.novel.app.jfx.packager.util.Logger;
 import com.unclezs.novel.app.jfx.packager.util.Platform;
 import com.unclezs.novel.app.jfx.packager.util.VelocityUtils;
-import org.codehaus.plexus.util.cli.CommandLineException;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.codehaus.plexus.util.cli.CommandLineException;
 
 /**
  * Packager for Mac OS X

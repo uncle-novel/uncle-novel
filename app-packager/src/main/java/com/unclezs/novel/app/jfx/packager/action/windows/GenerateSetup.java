@@ -1,8 +1,8 @@
 package com.unclezs.novel.app.jfx.packager.action.windows;
 
-import com.unclezs.novel.app.jfx.packager.packager.WindowsPackager;
 import com.unclezs.novel.app.jfx.packager.model.Registry;
 import com.unclezs.novel.app.jfx.packager.packager.Packager;
+import com.unclezs.novel.app.jfx.packager.packager.WindowsPackager;
 import com.unclezs.novel.app.jfx.packager.util.CommandUtils;
 import com.unclezs.novel.app.jfx.packager.util.FileUtils;
 import com.unclezs.novel.app.jfx.packager.util.VelocityUtils;
