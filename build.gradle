@@ -1,61 +1,60 @@
 buildscript {
-  repositories {
-    mavenLocal()
-    mavenCentral()
-  }
-  dependencies {
-    classpath 'com.unclezs:sass-gradle-plugin:1.0.4'
-  }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.unclezs:sass-gradle-plugin:1.0.4'
+    }
 }
 
 plugins {
-  id "org.openjfx.javafxplugin" version "0.0.9" apply false
-  id "io.spring.dependency-management" version "1.0.9.RELEASE" apply false
-  id "packager" apply false
+    id "org.openjfx.javafxplugin" version "0.0.9" apply false
+    id "io.spring.dependency-management" version "1.0.9.RELEASE" apply false
 }
 
 ext {
-  jfxProject = subprojects.findAll { it.name.startsWith("app") }
+    jfxProject = subprojects.findAll { it.name.startsWith("app") }
 }
 
 allprojects {
-  group = "com.unclezs.novel.app.jfx"
-  version = property("app.version")
-  description = "Uncle Novel Project"
+    group = "com.unclezs.novel.app.jfx"
+    version = property("app.version")
+    description = "Uncle Novel Project"
 
-  repositories {
-    mavenLocal()
-    mavenCentral()
-  }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
 }
 
 subprojects {
 //  apply plugin: "checkstyle"
 
-  apply plugin: "java"
-  apply from: "${rootDir}/gradle/publications.gradle"
-  apply from: "${rootDir}/gradle/dependency-management.gradle"
+    apply plugin: "java"
+    apply from: "${rootDir}/gradle/publications.gradle"
+    apply from: "${rootDir}/gradle/dependency-management.gradle"
 
-  tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-    options.fork = true
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-    options.compilerArgs += ['-Xdoclint:none', '-Xlint:none', '-nowarn']
-  }
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+        options.fork = true
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+        options.compilerArgs += ['-Xdoclint:none', '-Xlint:none', '-nowarn']
+    }
 
-  dependencies {
-    compileOnly "org.projectlombok:lombok"
-    annotationProcessor "org.projectlombok:lombok"
-    testImplementation "cn.hutool:hutool-all"
-    testImplementation "org.junit.jupiter:junit-jupiter-api"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
-  }
+    dependencies {
+        compileOnly "org.projectlombok:lombok"
+        annotationProcessor "org.projectlombok:lombok"
+        testImplementation "cn.hutool:hutool-all"
+        testImplementation "org.junit.jupiter:junit-jupiter-api"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    }
 
-  test {
-    useJUnitPlatform()
-    include(["**/*Tests.class", "**/*Test.class"])
-  }
+    test {
+        useJUnitPlatform()
+        include(["**/*Tests.class", "**/*Test.class"])
+    }
 
 //  checkstyle {
 //    toolVersion = "8.41"
@@ -64,15 +63,15 @@ subprojects {
 }
 
 configure(jfxProject) { project ->
-  apply plugin: "org.openjfx.javafxplugin"
-  apply plugin: "com.unclezs.gradle.sass"
+    apply plugin: "org.openjfx.javafxplugin"
+    apply plugin: "com.unclezs.gradle.sass"
 
-  javafx {
-    version = "11"
-    modules = ["javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web"]
-  }
+    javafx {
+        version = "11"
+        modules = ["javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web"]
+    }
 
-  jar {
-    exclude "**/scss/**"
-  }
+    jar {
+        exclude "**/scss/**"
+    }
 }

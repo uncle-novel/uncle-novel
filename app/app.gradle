@@ -14,10 +14,13 @@ apply plugin: 'packager'
 
 dependencies {
     implementation project(":app-framework")
-    implementation 'com.unclezs:novel-analyzer:1.0.2-SNAPSHOT'
-    implementation 'com.unclezs.jfx:fx-launcher'
+    implementation('com.unclezs:novel-analyzer:1.0.2-SNAPSHOT') {
+        exclude group: 'com.google.code.gson', module: 'gson'
+    }
     implementation "org.freemarker:freemarker"
     implementation "ch.qos.logback:logback-classic"
+    compileOnly 'com.unclezs.jfx:fx-launcher'
+    compileOnly 'com.google.code.gson:gson'
 }
 
 task obfuscate(type: ProGuardTask) {
@@ -34,7 +37,7 @@ packager {
     bundleJre = true
     jreDirName = "runtime"
     copyDependencies = true
-    customizedJre = true
+    customizedJre = false
     vmArgs = ["-Dfile.encoding=UTF-8", "-Xms128m", "-Xmx256m"]
     libsFolderName = "libraries"
     launcherVmOptionsFileName = "launcher.options"
@@ -53,6 +56,8 @@ packager {
         return winConfig
     }
     launcher {
+        libDir = "runtime/upgrade"
+        coordinate = "com.unclezs.jfx:fx-launcher:${property("app.launcher.version")}"
         configName = "config.json"
         configServerUri = file("$rootDir/$configName").toURI().toURL()
         serverUri = file("$buildDir/server").toURI().toURL()

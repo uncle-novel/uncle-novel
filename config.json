@@ -3,7 +3,7 @@
   "appName": "Uncle小说",
   "serverUri": "file:/G:/coder/self-coder/uncle-novel-jfx/app/build/server/",
   "configServerUri": "file:/G:/coder/self-coder/uncle-novel-jfx/config.json",
-  "libDir": "libraries",
+  "libDir": "runtime/upgrade",
   "version": "5.0.0-SNAPSHOT",
   "changeLog": [
     "更新了寂寞吗",
