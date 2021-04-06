@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<exe4j version="8.0" transformSequenceNumber="3">
+  <application name="${info.name}" distributionSourceDir="${info.appFolder}"/>
+  <executable name="${info.name}"
+              iconSet="true" iconFile="${info.platform.getPlatformConfig().iconFile}"
+              redirectStderr="false"
+              executableMode="gui" singleInstance="true" checkConsoleParameter="true"
+              arm64="${info.winConfig.x64}"
+      #if($info.administratorRequired)
+              executionLevel="requireAdministrator"
+      #end
+      #if($info.winConfig.wrapJar)
+              wrapperType="embed"
+      #end>
+    <versionInfo include="true" fileVersion="${info.winConfig.fileVersion}"
+                 fileDescription="${info.winConfig.fileDescription}" legalCopyright="${info.winConfig.copyright}"
+                 internalName="${info.winConfig.internalName}" companyName="${info.winConfig.companyName}"
+                 productVersion="${info.winConfig.productVersion}"></versionInfo>
+  </executable>
+  <java
+      #if($info.mainModule)
+          mainClass="${info.mainModule}/${info.mainClass}"
+          mainMode="module"
+      #else
+          mainClass="${info.mainClass}"
+      #end
+          vmParameters="-include-options ${info.launcherVmOptionsFilePath}/${info.launcherVmOptionsFileName}"
+      #if($info.jreMinVersion)
+          minVersion="${info.jreMinVersion}"
+      #else
+          minVersion="9"
+      #end>
+    <searchSequence>
+      <directory location="${info.jreDirName}"></directory>
+      <envVar name="JAVA_HOME"></envVar>
+      <registry></registry>
+    </searchSequence>
+      #if(!$info.mainModule.blank)
+      <modulePath>
+      #else
+      <classPath>
+      #end
+      #foreach($location in $info.classpath)
+          #if($location.endsWith(".jar"))
+            <archive location="${location}" failOnError="false"></archive>
+          #else
+            <directory location="${location}" failOnError="false"></directory>
+          #end
+      #end
+      #if($info.mainModule.blank)
+      </classPath>
+      #else
+      </modulePath>
+      #end
+  </java>
+</exe4j>

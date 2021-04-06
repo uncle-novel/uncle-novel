@@ -10,8 +10,8 @@
 <StackPane
   xmlns:fx="http://javafx.com/fxml/1"
   minHeight="400.0" minWidth="400" prefHeight="400.0" prefWidth="400.0"
-  xmlns="http://javafx.com/javafx/15"
-  fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchNovelView"
+  xmlns="http://javafx.com/javafx/11"
+  fx:controller="com.unclezs.novel.app.main.ui.pages.home.views.SearchNovelView"
   fx:id="root">
   <VBox fx:id="box">
     <Button text="show=false" fx:id="showFalse"/>

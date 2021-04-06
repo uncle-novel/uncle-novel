@@ -1,5 +1,4 @@
-import com.unclezs.novel.app.jfx.packager.task.DeployAppTask
-import com.unclezs.novel.app.jfx.packager.task.PackageTask
+import com.unclezs.novel.app.packager.task.PackageTask
 import proguard.gradle.ProGuardTask
 
 buildscript {
@@ -10,9 +9,10 @@ buildscript {
         classpath 'net.sf.proguard:proguard-gradle:6.2.2'
     }
 }
-apply plugin: 'packager'
+apply plugin: 'app-packager'
 
 dependencies {
+    implementation project(":app-localized")
     implementation project(":app-framework")
     implementation('com.unclezs:novel-analyzer:1.0.2-SNAPSHOT') {
         exclude group: 'com.google.code.gson', module: 'gson'
@@ -31,41 +31,73 @@ task obfuscate(type: ProGuardTask) {
     configuration "proguard.pro"
 }
 
+// 打包相关配置文件
+def packagerDir = "${projectDir}/packager"
 packager {
     name = "Uncle小说"
+    version = "V5"
+    description = "提供网络小说的下载及阅读功能"
+
+    url = "https://github.com/unclezs/NovelHarvester"
+    organizationName = "unclezs"
+    organizationUrl = "https://blog.unclezs.com"
+    organizationEmail = "unclezs@qq.com"
+
+    mainModule = "com.unclezs.jfx.launcher"
     mainClass = 'com.unclezs.jfx.launcher.Launcher'
+//    mainModule = "com.unclezs.novel.app.main"
+//    mainClass = "com.unclezs.novel.app.main.ui.app.App"
     bundleJre = true
+    bundleFxJre = true
+    customizedJre = false
+
     jreDirName = "runtime"
     copyDependencies = true
-    customizedJre = false
     vmArgs = ["-Dfile.encoding=UTF-8", "-Xms128m", "-Xmx256m"]
     libsFolderName = "libraries"
-    launcherVmOptionsFileName = "launcher.options"
-    launcherVmOptionsFile = file("${projectDir}/packager/vm.options")
-    additionalModulePaths = [file('G:\\app\\openjfx\\javafx-sdk-11.0.2\\lib')]
+    launcherVmOptionsFileName = "launcher.vmoptions"
+    launcherVmOptionsFile = file("${projectDir}/vm.options")
     macConfig {
         generateDmg = true
         generatePkg = true
         startScriptName = "startApplication"
         appId = "com.unclezs.novel.app"
-        iconFile = file("${projectDir}/packager/logo/favicon.icns")
+        iconFile = file("${packagerDir}/logo/favicon.icns")
         return macConfig
     }
     winConfig {
-        iconFile = file("${projectDir}/packager/logo/favicon.ico")
+        iconFile = file("${packagerDir}/logo/favicon.ico")
+        wrapJar = true
+        x64 = true
+        internalName = packager.name
+        companyName = "unclezs"
+        copyright = "blog.unclezs.com"
+        fileDescription = "Uncle小说 提供网络小说下载阅读功能"
+        productVersion = "5.0"
+        // inno setup配置
+        showSelectInstallDirPage = true
+        showSelectedProgramGroupPage = false
+        showFinishedPage = true
+        createDesktopIconTask = true
+        // 简体:GBK ， 繁体:UTF-8 BOM
+        setupLanguages.put("ChineseSimple", "${packagerDir}/inno-setup/language/chinese-simple.isl")
+        setupLanguages.put("ChineseTraditional", "${packagerDir}/inno-setup/language/chinese-traditional.isl")
         return winConfig
     }
     launcher {
-        libDir = "runtime/upgrade"
+        enabled = true
+        withLibraries = false
         coordinate = "com.unclezs.jfx:fx-launcher:${property("app.launcher.version")}"
-        configName = "config.json"
-        configServerUri = file("$rootDir/$configName").toURI().toURL()
-        serverUri = file("$buildDir/server").toURI().toURL()
-        version = project.version
+        fileMapper.put("jar", "runtime/modules")
+
+        url = file("$buildDir/server").toURI().toURL().toString()
+        // 配置文件在打包时已经确定，如果修改需要重新打包发布
+        configPath = "conf/upgrade"
         appName = packager.name
-        changeLog = ["更新了寂寞吗", "123"]
-        launcherClass = "com.unclezs.novel.app.jfx.app.ui.app.App"
-        runTimeLibrary = ["javafx", "gson"]
+        version = project.version
+        changeLog = ["完善打1111包", "了寂寞"]
+        launcherClass = "com.unclezs.novel.app.main.ui.app.App"
+        // 依赖文件位置映射
         return launcher
     }
 }
@@ -82,17 +114,8 @@ task packageMac(type: PackageTask, dependsOn: build) {
     generateInstaller = true
 }
 task packageWindows(type: PackageTask, dependsOn: build) {
-    platform = "windows"
+    platform = "win"
     createZip = true
-    generateInstaller = false
-}
-
-task createUpdateFiles(type: DeployAppTask, dependsOn: build) {
-    autoCreate = true
-    onlyCreate = true
-}
-
-task deployApp(type: DeployAppTask) {
-    autoCreate = false
-    onlyCreate = false
+    createTar = true
+    generateInstaller = true
 }

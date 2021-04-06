@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.jfx;
 
-import cn.hutool.system.SystemUtil;
+import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -10,8 +10,9 @@ import org.junit.jupiter.api.Test;
 public class I18nTest {
 
   @Test
-  public void test() {
-    System.out.println(System.getProperty("java.version"));
-    System.out.println(SystemUtil.getJavaRuntimeInfo());
+  public void test() throws IOException, InterruptedException {
+    Process abc = Runtime.getRuntime().exec("abc");
+    abc.waitFor();
+    System.out.println("123");
   }
 }

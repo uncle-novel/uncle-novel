@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.unclezs.novel.app.jfx.framework.ui.components.decorator.StageDecorator?>
-<?import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigation?>
-<?import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationMenu?>
-<?import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationMenuGroup?>
-<?import com.unclezs.novel.app.jfx.framework.ui.components.sidebar.SidebarNavigationPane?>
+<?import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigation?>
+<?import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigationMenu?>
+<?import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigationMenuGroup?>
+<?import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigationPane?>
+<?import com.unclezs.novel.app.framework.components.StageDecorator?>
 <?import javafx.scene.layout.VBox?>
 <StageDecorator xmlns:fx="http://javafx.com/fxml/1" logo="/assets/favicon.png" max="true"
-  min="true"
-  minHeight="${root.prefHeight}" minWidth="${root.prefWidth}" prefHeight="660.0" prefWidth="940.0"
-  setting="true"
-  stylesheets="/css/home/home.css"
-  theme="true" title="%Uncle小说" xmlns="http://javafx.com/javafx/15"
-  fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.HomeSceneView"
-  fx:id="root">
+                min="true"
+                minHeight="${root.prefHeight}" minWidth="${root.prefWidth}" prefHeight="660.0" prefWidth="940.0"
+                setting="true"
+                stylesheets="/css/home/home.css"
+                theme="true" title="Uncle小说" xmlns="http://javafx.com/javafx/11"
+                fx:controller="com.unclezs.novel.app.main.ui.pages.home.HomeSceneView"
+                fx:id="root">
   <SidebarNavigationPane VBox.vgrow="ALWAYS" prefWidth="${root.width}" fx:id="container">
     <SidebarNavigation>
-      <SidebarNavigationMenuGroup name="%找书">
+      <SidebarNavigationMenuGroup name="找书">
         <SidebarNavigationMenu selected="true"
           svg="_search"
-          text="设置1" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SettingView"/>
+          text="设置1" view="com.unclezs.novel.app.main.ui.pages.home.views.SettingView"/>
         <SidebarNavigationMenu selected="false"
           svg="_search"
-          text="%搜索小说" view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchNovelView"/>
+          text="搜索小说" view="com.unclezs.novel.app.main.ui.pages.home.views.SearchNovelView"/>
         <SidebarNavigationMenu icon="&#xf26c;"
-          text="%全网搜书"
-          view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchNetworkView"/>
+          text="全网搜书"
+          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchNetworkView"/>
         <SidebarNavigationMenu svg="_music-2-line"
-          text="%寻找有声"
-          view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"/>
+          text="寻找有声"
+          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
       </SidebarNavigationMenuGroup>
-      <SidebarNavigationMenuGroup name="%读书">
+      <SidebarNavigationMenuGroup name="读书">
         <SidebarNavigationMenu svg="_bookshelves"
-          text="%小说书架"
-          view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"/>
+          text="小说书架"
+          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
         <SidebarNavigationMenu svg="_disc-line"
-          text="%有声书架"
-          view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"/>
+          text="有声书架"
+          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
       </SidebarNavigationMenuGroup>
-      <SidebarNavigationMenuGroup name="%下书">
+      <SidebarNavigationMenuGroup name="下书">
         <SidebarNavigationMenu icon="&#xf260;"
-          text="%解析下载"
-          view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"/>
+          text="解析下载"
+          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
         <SidebarNavigationMenu svg="_download-2-fill"
-          text="%下载管理"
-          view="com.unclezs.novel.app.jfx.app.ui.pages.home.views.SearchAudioView"/>
+          text="下载管理"
+          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
       </SidebarNavigationMenuGroup>
     </SidebarNavigation>
   </SidebarNavigationPane>

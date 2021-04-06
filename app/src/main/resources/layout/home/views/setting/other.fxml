@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="setting-box"
-  xmlns="http://javafx.com/javafx/15">
+  xmlns="http://javafx.com/javafx/11">
   <Label styleClass="setting-name" text="其他"/>
   <VBox styleClass="setting-items">
     <VBox styleClass="setting-item">

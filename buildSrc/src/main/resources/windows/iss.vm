@@ -4,45 +4,43 @@
 \#define MyAppURL "$!{info.organizationUrl}"
 \#define MyAppExeName "${info.name}.exe"
 \#define MyAppFolder "${info.name}"
-\#define MyAppLicense "$!{info.licenseFile.absolutePath}"
-\#define MyAppIcon "${info.iconFile.absolutePath}"
+\#define MyAppIcon "${info.platform.platformConfig.iconFile}"
 
 [Setup]
 AppId={{{#MyAppName}}}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
-AppVerName={#MyAppName} {#MyAppVersion}
+AppVerName={#MyAppName}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppFolder}
-#if ($info.winConfig.disableDirPage)
-DisableDirPage=yes
-#else
+#if ($info.winConfig.showSelectInstallDirPage)
 DisableDirPage=no
+#else
+DisableDirPage=yes
 #end
-#if ($info.winConfig.disableProgramGroupPage)
-DisableProgramGroupPage=yes
+#if ($info.winConfig.showSelectedProgramGroupPage)
+DisableProgramGroupPage=no
 #else
 DefaultGroupName={#MyAppName}
-DisableProgramGroupPage=no
+DisableProgramGroupPage=yes
 #end
-#if ($info.winConfig.disableFinishedPage)
-DisableFinishedPage=yes
-#else
+#if ($info.winConfig.showFinishedPage)
 DisableFinishedPage=no
+#else
+DisableFinishedPage=yes
 #end
-#if ($info.winConfig.setupMode.name() == "installForAllUsers") 
+#if ($info.winConfig.setupMode == "installForAllUsers")
 PrivilegesRequired=admin
 PrivilegesRequiredOverridesAllowed=commandline
-#elseif ($info.winConfig.setupMode.name() == "installForCurrentUser") 
+#elseif ($info.winConfig.setupMode == "installForCurrentUser")
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=commandline
-#else 
+#else
 PrivilegesRequiredOverridesAllowed=commandline dialog
 #end
-LicenseFile={#MyAppLicense}
 SetupIconFile={#MyAppIcon}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma
@@ -57,13 +55,6 @@ Name: "${language.key}"; MessagesFile: "${language.value}"
 [Tasks]
 #if ($info.winConfig.createDesktopIconTask)
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-#end
-
-#if ($info.winConfig.registry)
-[Registry]
-#foreach ($entry in $info.winConfig.registry.entries)
-Root: ${entry.root}; Subkey: "${entry.subkey}"; ValueType: ${entry.valueTypeAsInnoSetupString}; ValueName: "${entry.valueName}"; ValueData: "${entry.valueData}"; Flags: uninsdeletevalue
-#end
 #end
 
 [Files]

@@ -1,0 +1,5 @@
+#* @implicitly included *#
+#* @vtlvariable name="info" type="com.unclezs.novel.app.packager.packager.WindowsPackager" file="windows/exe4j.vm" *#
+#* @vtlvariable name="info" type="com.unclezs.novel.app.packager.packager.WindowsPackager" file="windows/iss.vm" *#
+#* @vtlvariable name="info" type="com.unclezs.novel.app.packager.packager.WindowsPackager" file="windows/msm.wxs.vm" *#
+#* @vtlvariable name="info" type="com.unclezs.novel.app.packager.packager.WindowsPackager" file="windows/wxs.vm" *#

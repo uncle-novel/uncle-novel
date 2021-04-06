@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXPopup?>
-<?import com.unclezs.novel.app.jfx.framework.ui.components.button.IconButton?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<JFXPopup xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:controller="com.unclezs.novel.app.jfx.app.ui.pages.home.header.SettingPopupView"
+<JFXPopup xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:controller="com.unclezs.novel.app.main.ui.pages.home.header.SettingPopupView"
   fx:id="popup">
   <VBox spacing="10" styleClass="home-setting-popup"
     stylesheets="/css/home/header/setting-popup.css">

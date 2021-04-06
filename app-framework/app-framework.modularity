@@ -1,0 +1,3 @@
+--add-exports=javafx.graphics/com.sun.javafx.css=com.unclezs.novel.app.framework
+--add-exports=javafx.graphics/com.sun.javafx.stage=com.unclezs.novel.app.framework
+--add-exports=javafx.base/com.sun.javafx.collections=com.unclezs.novel.app.framework

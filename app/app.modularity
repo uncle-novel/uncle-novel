@@ -1,0 +1,15 @@
+// app-framework
+--add-exports=javafx.graphics/com.sun.javafx.css=com.unclezs.novel.app.framework
+--add-exports=javafx.graphics/com.sun.javafx.stage=com.unclezs.novel.app.framework
+--add-exports=javafx.base/com.sun.javafx.collections=com.unclezs.novel.app.framework
+
+// jfoenix
+--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix
+--add-exports=javafx.base/com.sun.javafx.binding=com.jfoenix
+--add-exports=javafx.base/com.sun.javafx.event=com.jfoenix
+--add-exports=javafx.graphics/com.sun.javafx.stage=com.jfoenix
+--add-exports=javafx.graphics/com.sun.javafx.scene=com.jfoenix
+--add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix
+--add-exports=javafx.controls/com.sun.javafx.scene.control=com.jfoenix
+
+// app
