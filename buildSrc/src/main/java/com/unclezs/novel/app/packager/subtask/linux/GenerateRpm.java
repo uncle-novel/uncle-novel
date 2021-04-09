@@ -13,7 +13,7 @@ public class GenerateRpm extends BaseSubTask {
 
   @Override
   protected boolean enabled() {
-    return !packager.getLinuxConfig().isGenerateRpm();
+    return packager.getLinuxConfig().isGenerateRpm();
   }
 
   @Override

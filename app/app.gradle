@@ -14,9 +14,9 @@ apply plugin: 'app-packager'
 dependencies {
     implementation project(":app-localized")
     implementation project(":app-framework")
-    implementation('com.unclezs:novel-analyzer:1.0.2-SNAPSHOT') {
-        exclude group: 'com.google.code.gson', module: 'gson'
-    }
+//    implementation('com.unclezs:novel-analyzer:1.0.2-SNAPSHOT') {
+//        exclude group: 'com.google.code.gson', module: 'gson'
+//    }
     implementation "org.freemarker:freemarker"
     implementation "ch.qos.logback:logback-classic"
     compileOnly 'com.unclezs:jfx-launcher'
@@ -54,6 +54,10 @@ packager {
     libsFolderPath = "libraries"
     vmOptionsFilePath = "conf/launcher.vmoptions"
     vmOptionsFile = file("${packagerDir}/vm.options")
+    linuxConfig {
+        iconFile = file("${packagerDir}/logo/favicon.png")
+        return linuxConfig;
+    }
     macConfig {
         generateDmg = true
         generatePkg = true
@@ -129,9 +133,13 @@ task packageWin32(type: PackageTask, dependsOn: build) {
     description = "打32位Windows的包,EXE、Setup"
     platform = "win"
     // sudo setx /M JAVA_HOME_X86 G:/package/sdk/jdk/amazon/11.0.10_9
-    jdkPath = file(System.getenv("JAVA_HOME_X86"))
+    if (findProperty("JAVA_HOME_X86")) {
+        jdkPath = file(findProperty("JAVA_HOME_X86"))
+    }
     // sudo setx /M JAVAFX_HOME_X86 G:/package/sdk/jfx/jmods-16-win-x86
-    jfxPath = file(System.getenv("JAVAFX_HOME_X86"))
+    if (findProperty("JAVAFX_HOME_X86")) {
+        jfxPath = file(findProperty("JAVAFX_HOME_X86"))
+    }
     x64 = false
     createTar = false
     generateInstaller = true

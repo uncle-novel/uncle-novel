@@ -1,7 +1,5 @@
 package com.unclezs.novel.app.packager.subtask.mac;
 
-import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
-
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import com.unclezs.novel.app.packager.model.MacConfig;
@@ -11,9 +9,12 @@ import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.util.Arrays;
-import org.apache.commons.lang3.StringUtils;
+
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 /**
  * Creates a DMG image file including all app folder's content only for MacOS so app could be easily distributed
@@ -30,7 +31,7 @@ public class GenerateDmg extends BaseSubTask {
 
   @Override
   public boolean enabled() {
-    return !packager.getMacConfig().isGenerateDmg();
+    return packager.getMacConfig().isGenerateDmg();
   }
 
   @Override
@@ -157,7 +158,7 @@ public class GenerateDmg extends BaseSubTask {
       .add("-ov -format UDZO -imagekey zlib-level=9")
       .add("-o", dmgFile)
       .exec();
-    FileUtil.del(tempDmgFile);
+    FileUtils.del(tempDmgFile);
 
     // checks if dmg file was created
     if (!dmgFile.exists()) {

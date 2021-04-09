@@ -6,20 +6,17 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.packager.model.PackagerExtension;
 import com.unclezs.novel.app.packager.model.Platform;
-import com.unclezs.novel.app.packager.subtask.BaseSubTask;
-import com.unclezs.novel.app.packager.subtask.CopyDependencies;
-import com.unclezs.novel.app.packager.subtask.CreateCompressedPackage;
-import com.unclezs.novel.app.packager.subtask.CreateJre;
-import com.unclezs.novel.app.packager.subtask.CreateLauncher;
-import com.unclezs.novel.app.packager.subtask.CreateRunnableJar;
+import com.unclezs.novel.app.packager.subtask.*;
 import com.unclezs.novel.app.packager.task.Upgrade;
+import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
-import java.io.File;
-import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * 核心打包基类
@@ -173,7 +170,7 @@ public abstract class AbstractPackager extends PackagerExtension {
     }
     // 创建应用程序输出文件夹
     appFolder = new File(outputDir, name);
-    FileUtil.del(appFolder);
+    FileUtils.del(appFolder);
     appFolder = FileUtil.mkdir(FileUtil.file(outputDir, name));
     Logger.info("应用程序文件输出位置: {}", appFolder.getAbsolutePath());
     // 创建临时资源文件夹

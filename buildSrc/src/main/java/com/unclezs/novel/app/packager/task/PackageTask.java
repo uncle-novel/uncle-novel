@@ -8,18 +8,15 @@ import com.unclezs.novel.app.packager.PackagePlugin;
 import com.unclezs.novel.app.packager.model.PackagerExtension;
 import com.unclezs.novel.app.packager.model.Platform;
 import com.unclezs.novel.app.packager.packager.AbstractPackager;
+import lombok.Getter;
+import lombok.Setter;
+import org.gradle.api.DefaultTask;
+import org.gradle.api.tasks.*;
+
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import lombok.Getter;
-import lombok.Setter;
-import org.gradle.api.DefaultTask;
-import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.InputDirectory;
-import org.gradle.api.tasks.Internal;
-import org.gradle.api.tasks.Optional;
-import org.gradle.api.tasks.TaskAction;
 
 /**
  * Gradle 打包任务 不进行增量构建

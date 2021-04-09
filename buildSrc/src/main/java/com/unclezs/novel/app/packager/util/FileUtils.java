@@ -1,20 +1,16 @@
 package com.unclezs.novel.app.packager.util;
 
-import static org.apache.commons.io.FileUtils.copyFile;
-import static org.apache.commons.io.FileUtils.copyFileToDirectory;
-import static org.apache.commons.io.FileUtils.copyInputStreamToFile;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.util.function.Function;
+import com.unclezs.novel.app.packager.Context;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.function.Function;
+
+import static org.apache.commons.io.FileUtils.*;
 
 /**
  * 文件工具
@@ -103,5 +99,9 @@ public class FileUtils {
     } catch (IOException e) {
       throw new Exception("Could not create symlink " + link + " to " + target, e);
     }
+  }
+
+  public static void del(File file) {
+    Context.project.delete(file);
   }
 }

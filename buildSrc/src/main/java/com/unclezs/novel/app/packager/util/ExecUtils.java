@@ -4,8 +4,9 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.RuntimeUtil;
 import cn.hutool.core.util.StrUtil;
-import java.io.File;
 import lombok.experimental.UtilityClass;
+
+import java.io.File;
 
 /**
  * 命令行工具
@@ -29,7 +30,8 @@ public class ExecUtils {
       Logger.info("执行CMD：{}", Logger.blue(ArrayUtil.join(cmd, StrUtil.SPACE)));
       process = RuntimeUtil.exec(cmd);
       String result = RuntimeUtil.getResult(process, CharsetUtil.CHARSET_UTF_8);
-      if (process.exitValue() != 0) {
+      int exitCode = process.waitFor();
+      if (exitCode != 0) {
         throw new RuntimeException(result);
       }
       return result;
@@ -147,7 +149,7 @@ public class ExecUtils {
      * @return this
      */
     public CmdBuilder add(String option, String param) {
-      this.cmd.append(" ").append(option).append(" ").append("\"").append(param).append("\"");
+      this.cmd.append(" ").append(option).append(" ").append(param);
       return this;
     }
 

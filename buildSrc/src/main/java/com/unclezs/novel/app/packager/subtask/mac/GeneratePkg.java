@@ -20,7 +20,7 @@ public class GeneratePkg extends BaseSubTask {
 
   @Override
   public boolean enabled() {
-    return !packager.getMacConfig().isGeneratePkg();
+    return packager.getMacConfig().isGeneratePkg();
   }
 
   @Override

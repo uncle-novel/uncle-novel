@@ -9,14 +9,16 @@ import com.unclezs.jfx.launcher.Resource.Type;
 import com.unclezs.novel.app.packager.model.LauncherConfig;
 import com.unclezs.novel.app.packager.model.PackagerExtension;
 import com.unclezs.novel.app.packager.util.ExecUtils;
-import java.io.File;
-import java.net.URI;
-import java.nio.file.Path;
-import java.util.Map;
+import com.unclezs.novel.app.packager.util.FileUtils;
 import lombok.Setter;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.ResolvedArtifact;
 import org.gradle.jvm.tasks.Jar;
+
+import java.io.File;
+import java.net.URI;
+import java.nio.file.Path;
+import java.util.Map;
 
 /**
  * @author blog.unclezs.com
@@ -53,7 +55,7 @@ public class Upgrade {
    */
   public void createLocal() {
     if (removeOld) {
-      FileUtil.del(outDir);
+      FileUtils.del(outDir);
     }
     generateResource();
     generateLibraries();
@@ -112,7 +114,7 @@ public class Upgrade {
     String server = config.getUrl();
     if (server.startsWith("file:")) {
       File serverDir = new File(URI.create(server));
-      FileUtil.del(serverDir);
+      FileUtils.del(serverDir);
       FileUtil.copyContent(outDir, serverDir, true);
     } else if (server.startsWith("http")) {
       ExecUtils.exec("scp", "-r", outDir, server);

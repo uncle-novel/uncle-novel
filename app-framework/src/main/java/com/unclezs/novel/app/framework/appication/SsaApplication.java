@@ -5,18 +5,20 @@ import com.sun.javafx.stage.StageHelper;
 import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.util.FxmlLoader;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 单舞台 Application
@@ -74,6 +76,7 @@ public abstract class SsaApplication extends Application {
     List<String> theme = Arrays.asList("com/sun/javafx/scene/control/skin/modena/modena.css", APP_STYLE);
     StyleManager.getInstance().setUserAgentStylesheets(theme);
     StageHelper.setPrimary(stage, true);
+    stage.initStyle(StageStyle.TRANSPARENT);
     Image icon = getIcon();
     stage.getIcons().setAll(icon);
     // 生命周期监听

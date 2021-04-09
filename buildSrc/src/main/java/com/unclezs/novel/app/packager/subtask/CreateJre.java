@@ -6,14 +6,12 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.system.SystemUtil;
 import com.unclezs.novel.app.packager.model.Platform;
 import com.unclezs.novel.app.packager.util.ExecUtils;
+import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.JdkUtils;
 import com.unclezs.novel.app.packager.util.Logger;
+
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -50,8 +48,7 @@ public class CreateJre extends BaseSubTask {
     File customJreFolder = packager.getJrePath();
     Platform platform = packager.getPlatform();
     File destinationFolder = packager.getJreDestinationFolder();
-
-    FileUtil.del(destinationFolder);
+    FileUtils.del(destinationFolder);
     Logger.infoIndent("开始创建Jre  使用JDK：{}", jdkPath);
     // 自定义Jre
     if (customJreFolder != null) {
@@ -93,10 +90,14 @@ public class CreateJre extends BaseSubTask {
         .exec();
       // 设置jre中可执行文件的执行权限
       File binFolder = new File(destinationFolder, "bin");
+      FileUtil.walkFiles(destinationFolder, file -> {
+        file.setWritable(true, false);
+        file.setReadable(true, false);
+      });
       Arrays.asList(Objects.requireNonNull(binFolder.listFiles())).forEach(f -> f.setExecutable(true, false));
     }
     if (bundleJre) {
-      FileUtil.del(new File(destinationFolder, "legal"));
+      FileUtils.del(new File(destinationFolder, "legal"));
       Logger.infoUnIndent("JRE创建成功: {}", destinationFolder.getAbsolutePath());
     } else {
       Logger.infoUnIndent("跳过创建JRE");

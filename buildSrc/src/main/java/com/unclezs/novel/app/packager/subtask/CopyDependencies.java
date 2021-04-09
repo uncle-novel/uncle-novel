@@ -1,15 +1,17 @@
 package com.unclezs.novel.app.packager.subtask;
 
 import cn.hutool.core.io.FileUtil;
+import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
+import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.artifacts.ResolvedArtifact;
+import org.gradle.jvm.tasks.Jar;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.artifacts.ResolvedArtifact;
-import org.gradle.jvm.tasks.Jar;
 
 /**
  * 拷贝依赖
@@ -75,7 +77,7 @@ public class CopyDependencies extends BaseSubTask {
     // 获取fx的全部模块的依赖
     String[] modules = {"javafx-base", "javafx-controls", "javafx-fxml", "javafx-graphics", "javafx-media", "javafx-swing", "javafx-web"};
     File fxFolder = new File(packager.getOutputDir(), OPEN_JFX_SYMBOL);
-    FileUtil.del(fxFolder);
+    FileUtils.del(fxFolder);
     // 是否自定义jfx
     if (FileUtil.exist(packager.getJfxPath())) {
       FileUtil.copyContent(packager.getJfxPath(), fxFolder, true);
