@@ -133,12 +133,14 @@ task packageWin32(type: PackageTask, dependsOn: build) {
     description = "打32位Windows的包,EXE、Setup"
     platform = "win"
     // sudo setx /M JAVA_HOME_X86 G:/package/sdk/jdk/amazon/11.0.10_9
-    if (findProperty("JAVA_HOME_X86")) {
-        jdkPath = file(findProperty("JAVA_HOME_X86"))
+    def javaHome = System.getenv("JAVA_HOME_X86")
+    if (javaHome != null) {
+        jdkPath = file(javaHome)
     }
+    def fxHome = System.getenv("JAVAFX_HOME_X86")
     // sudo setx /M JAVAFX_HOME_X86 G:/package/sdk/jfx/jmods-16-win-x86
-    if (findProperty("JAVAFX_HOME_X86")) {
-        jfxPath = file(findProperty("JAVAFX_HOME_X86"))
+    if (fxHome != null) {
+        jfxPath = file(fxHome)
     }
     x64 = false
     createTar = false
