@@ -53,14 +53,13 @@ public class StageDecorator extends StackPane implements I18nSupport {
   public static final String STAGE_DECORATOR_ACTION_SEPARATOR = "stage-decorator-action-separator";
   public static final String STAGE_DECORATOR_ACTIONS_EXIT = "stage-decorator-actions-exit";
   public static final int CLICK_COUNT_TO_MAX_WINDOW = 2;
-  public static final String USER_AGENT_STYLESHEET = ResourceUtils
-      .loadCss("/css/components/stage-decorator.css");
+  public static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("/css/components/stage-decorator.css");
   /**
    * 窗口 最大化 还原 全屏相关
    */
   private static final Border DEFAULT_BORDER = new Border(
-      new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY,
-          new BorderWidths(4)));
+    new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY,
+      new BorderWidths(4)));
   private static final Insets DEFAULT_PADDING = new Insets(10);
   /**
    * 被装饰的舞台
@@ -143,7 +142,7 @@ public class StageDecorator extends StackPane implements I18nSupport {
    * @param min     最小化
    */
   public StageDecorator(Stage stage, ActionHandler actionHandler, boolean theme, boolean setting,
-      boolean max, boolean min) {
+    boolean max, boolean min) {
     this();
     this.theme = theme;
     this.setting = setting;
@@ -221,7 +220,7 @@ public class StageDecorator extends StackPane implements I18nSupport {
     if (setting) {
       IconButton btnSetting = new IconButton(null, "\uf0c9", localized("设置"));
       this.actions.getChildren()
-          .addAll(btnSetting, ViewUtils.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
+        .addAll(btnSetting, ViewUtils.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
       btnSetting.setOnMouseClicked(e -> actionHandler.onSetting(this, btnSetting));
     }
     if (min) {
@@ -245,7 +244,7 @@ public class StageDecorator extends StackPane implements I18nSupport {
       this.actions.getChildren().add(btnMax);
     }
     IconButton btnClose = ViewUtils
-        .addClass(new IconButton(null, "\uf011", localized("退出")), STAGE_DECORATOR_ACTIONS_EXIT);
+      .addClass(new IconButton(null, "\uf011", localized("退出")), STAGE_DECORATOR_ACTIONS_EXIT);
     btnClose.setOnMouseClicked(e -> actionHandler.onClose(this, btnClose));
     this.actions.getChildren().add(btnClose);
   }
@@ -499,7 +498,7 @@ public class StageDecorator extends StackPane implements I18nSupport {
    */
   private boolean setStageWidth(double width) {
     if (width >= stage.getMinWidth() + this.container.snappedRightInset() + this.container
-        .snappedLeftInset() && width >= headerContainer.getMinWidth()) {
+      .snappedLeftInset() && width >= headerContainer.getMinWidth()) {
       stage.setWidth(width);
       return true;
     } else if (width >= stage.getMinWidth() && width <= headerContainer.getMinWidth()) {
@@ -517,7 +516,7 @@ public class StageDecorator extends StackPane implements I18nSupport {
    */
   private boolean setStageHeight(double height) {
     if (height >= (stage.getMinHeight() + this.container.snappedRightInset() + this.container
-        .snappedLeftInset()) && height >= headerContainer.getHeight()) {
+      .snappedLeftInset()) && height >= headerContainer.getHeight()) {
       stage.setHeight(height);
       return true;
     } else if (height >= stage.getMinHeight() && height <= headerContainer.getHeight()) {
@@ -552,10 +551,10 @@ public class StageDecorator extends StackPane implements I18nSupport {
       if (maximized) {
         // 获取屏幕大小，记录原始窗口
         originalBox = new Rectangle(stage.getX(), stage.getY(), stage.getWidth(),
-            stage.getHeight());
+          stage.getHeight());
         BoundingBox maximizedBox = new BoundingBox(0, 0,
-            Screen.getPrimary().getVisualBounds().getWidth(),
-            Screen.getPrimary().getVisualBounds().getHeight());
+          Screen.getPrimary().getVisualBounds().getWidth(),
+          Screen.getPrimary().getVisualBounds().getHeight());
         stage.setX(maximizedBox.getMinX());
         stage.setY(maximizedBox.getMinY());
         stage.setWidth(maximizedBox.getWidth());

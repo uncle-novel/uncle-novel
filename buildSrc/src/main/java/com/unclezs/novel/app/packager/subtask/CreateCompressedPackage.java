@@ -34,7 +34,8 @@ public class CreateCompressedPackage extends BaseSubTask {
     File executable = packager.getExecutable();
     String jreDirectoryName = packager.getJreDirName();
 
-    File tarFile = new File(packager.getOutputDir(), String.format("%s-%s-%s.%s", packager.getName(), packager.getVersion(), platform, zip ? "zip" : "tar.gz"));
+    File tarFile = new File(packager.getOutputDir(),
+      String.format("%s_%s_%s%s.%s", packager.getName(), packager.getVersion(), platform, Boolean.TRUE.equals(packager.getX64()) ? "" : "_x86", zip ? "zip" : "tar.gz"));
     AbstractArchiveTask task;
     if (zip) {
       task = project.getTasks().create("createZip_" + UUID.randomUUID(), Zip.class);

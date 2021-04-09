@@ -1,10 +1,10 @@
 package com.unclezs.novel.app.packager.subtask.windows;
 
+import cn.hutool.core.util.CharsetUtil;
 import com.unclezs.novel.app.packager.packager.WindowsPackager;
 import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
-import com.unclezs.novel.app.packager.util.XmlUtils;
 import java.io.File;
 
 
@@ -27,23 +27,21 @@ public class GenerateMsi extends WinSubTask {
 
   @Override
   protected File run() throws Exception {
-    WindowsPackager windowsPackager = (WindowsPackager) packager;
-
-    File msmFile = new GenerateMsm().apply();
-    Logger.info("MSM file generated in " + msmFile);
-
-    File assetsFolder = windowsPackager.getAssetsFolder();
-    String name = windowsPackager.getName();
-    File outputDirectory = windowsPackager.getOutputDir();
-    String version = windowsPackager.getVersion();
+    if (!packager.getWinConfig().getGenerateMsm()) {
+      new GenerateMsm().apply();
+    }
+    File assetsFolder = packager.getAssetsFolder();
+    String name = packager.getName();
+    File outputDirectory = packager.getOutputDir();
+    String version = packager.getVersion();
 
     // generates WXS file from velocity template
     File wxsFile = new File(assetsFolder, name + ".wxs");
-    VelocityUtils.render("windows/wxs.vm", wxsFile, windowsPackager);
+    VelocityUtils.render("windows/wxs.vm", wxsFile, packager, CharsetUtil.systemCharset());
     Logger.info("WXS file generated in " + wxsFile + "!");
 
     // pretiffy wxs
-    XmlUtils.prettify(wxsFile);
+//    XmlUtils.prettify(wxsFile, CharsetUtil.systemCharset().name());
 
     // candle wxs file
     Logger.info("Compiling file " + wxsFile);
@@ -65,7 +63,7 @@ public class GenerateMsi extends WinSubTask {
     }
 
     // sign installer
-    sign(msiFile, windowsPackager);
+    sign(msiFile, (WindowsPackager) packager);
 
     return msiFile;
   }

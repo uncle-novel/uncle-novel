@@ -15,8 +15,7 @@ public class SelectableButton extends IconButton {
   /**
    * 设置选中伪类
    */
-  private static final PseudoClass SELECTED_PSEUDO_CLASS_STATE = PseudoClass
-      .getPseudoClass("selected");
+  private static final PseudoClass SELECTED_PSEUDO_CLASS_STATE = PseudoClass.getPseudoClass("selected");
   private ReadOnlyBooleanWrapper selected;
 
   public boolean isSelected() {

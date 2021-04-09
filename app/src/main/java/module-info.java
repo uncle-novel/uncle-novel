@@ -17,6 +17,7 @@ open module com.unclezs.novel.app.main {
   requires hutool.core;
   requires static lombok;
   requires freemarker;
+  requires jkeymaster;
 
   exports com.unclezs.novel.app.main.ui.app;
   exports com.unclezs.novel.app.main;

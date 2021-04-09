@@ -10,8 +10,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class AppContext {
 
-
   public void createView(Class<? extends View> viewClass) {
-
+    System.out.println("success");
   }
 }

@@ -1,11 +1,10 @@
 package com.unclezs.novel.app.framework.components.sidebar;
 
-import com.sun.javafx.collections.TrackableObservableList;
+import com.unclezs.novel.app.framework.collection.SimpleObservableList;
 import com.unclezs.novel.app.framework.util.ViewUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.DefaultProperty;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
@@ -30,15 +29,28 @@ public class SidebarNavigation extends ScrollPane {
    * 菜单列表
    */
   @Getter
-  private final ObservableList<SidebarNavigationMenuGroup> menusGroups = new TrackableObservableList<>() {
+  private ObservableList<SidebarNavigationMenuGroup> menusGroups = new SimpleObservableList<>() {
     @Override
-    protected void onChanged(ListChangeListener.Change<SidebarNavigationMenuGroup> c) {
-      while (c.next()) {
-        c.getRemoved().forEach(SidebarNavigation.this::removeMenuGroup);
-        c.getAddedSubList().forEach(SidebarNavigation.this::addMenuGroup);
-      }
+    public void onAdd(SidebarNavigationMenuGroup element) {
+      addMenuGroup(element);
+    }
+
+    @Override
+    public void onRemove(SidebarNavigationMenuGroup element) {
+      removeMenuGroup(element);
     }
   };
+
+//    new TrackableObservableList<>() {
+//      @Override
+//      protected void onChanged(ListChangeListener.Change<SidebarNavigationMenuGroup> c) {
+//        while (c.next()) {
+//          c.getRemoved().forEach(SidebarNavigation.this::removeMenuGroup);
+//          c.getAddedSubList().forEach(SidebarNavigation.this::addMenuGroup);
+//        }
+//      }
+//    };
+
 
   public SidebarNavigation() {
     this.getStyleClass().add(DEFAULT_STYLE_CLASS);

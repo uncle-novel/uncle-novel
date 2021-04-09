@@ -19,7 +19,7 @@ dependencies {
     }
     implementation "org.freemarker:freemarker"
     implementation "ch.qos.logback:logback-classic"
-    compileOnly 'com.unclezs.jfx:fx-launcher'
+    compileOnly 'com.unclezs:jfx-launcher'
     compileOnly 'com.google.code.gson:gson'
 }
 
@@ -35,28 +35,25 @@ task obfuscate(type: ProGuardTask) {
 def packagerDir = "${projectDir}/packager"
 packager {
     name = "Uncle小说"
-    version = "V5"
+    version = project.version
     description = "提供网络小说的下载及阅读功能"
 
     url = "https://github.com/unclezs/NovelHarvester"
     organizationName = "unclezs"
     organizationUrl = "https://blog.unclezs.com"
-    organizationEmail = "unclezs@qq.com"
+    organizationEmail = "email@unclezs.com"
 
     mainModule = "com.unclezs.jfx.launcher"
     mainClass = 'com.unclezs.jfx.launcher.Launcher'
-//    mainModule = "com.unclezs.novel.app.main"
-//    mainClass = "com.unclezs.novel.app.main.ui.app.App"
+
     bundleJre = true
     bundleFxJre = true
     customizedJre = false
-
     jreDirName = "runtime"
-    copyDependencies = true
-    vmArgs = ["-Dfile.encoding=UTF-8", "-Xms128m", "-Xmx256m"]
-    libsFolderName = "libraries"
-    launcherVmOptionsFileName = "launcher.vmoptions"
-    launcherVmOptionsFile = file("${projectDir}/vm.options")
+    vmArgs = ["--add-modules ALL-SYSTEM", "--add-opens=java.base/java.lang=com.unclezs.jfx.launcher"]
+    libsFolderPath = "libraries"
+    vmOptionsFilePath = "conf/launcher.vmoptions"
+    vmOptionsFile = file("${packagerDir}/vm.options")
     macConfig {
         generateDmg = true
         generatePkg = true
@@ -66,6 +63,7 @@ packager {
         return macConfig
     }
     winConfig {
+        generateSetup = true
         iconFile = file("${packagerDir}/logo/favicon.ico")
         wrapJar = true
         x64 = true
@@ -73,7 +71,7 @@ packager {
         companyName = "unclezs"
         copyright = "blog.unclezs.com"
         fileDescription = "Uncle小说 提供网络小说下载阅读功能"
-        productVersion = "5.0"
+        productVersion = project.version
         // inno setup配置
         showSelectInstallDirPage = true
         showSelectedProgramGroupPage = false
@@ -85,37 +83,64 @@ packager {
         return winConfig
     }
     launcher {
-        enabled = true
         withLibraries = false
-        coordinate = "com.unclezs.jfx:fx-launcher:${property("app.launcher.version")}"
-        fileMapper.put("jar", "runtime/modules")
+        coordinate = "com.unclezs:jfx-launcher:${property("app.launcher.version")}"
+        // 依赖文件位置映射
+        fileMapper = [
+                "jar"      : "runtime/modules",
+                "vmoptions": "conf"
+        ]
+        // 其他资源
+//        resource("${packagerDir}/logo/favicon.icns", Type.FILE, "WIN")
 
         url = file("$buildDir/server").toURI().toURL().toString()
         // 配置文件在打包时已经确定，如果修改需要重新打包发布
-        configPath = "conf/upgrade"
+        configPath = "conf/app.json"
         appName = packager.name
         version = project.version
         changeLog = ["完善打1111包", "了寂寞"]
-        launcherClass = "com.unclezs.novel.app.main.ui.app.App"
-        // 依赖文件位置映射
+        launchModule = "com.unclezs.novel.app.main"
+        launchClass = "com.unclezs.novel.app.main.ui.app.App"
+        moduleOptions = file("$projectDir/app.modularity").readLines()
         return launcher
     }
 }
 
 task packageLinux(type: PackageTask, dependsOn: build) {
+    description = "打Linux的的包，DEB、RPM"
     platform = "linux"
-    createTar = true
+    createZip = false
     generateInstaller = true
 }
 
 task packageMac(type: PackageTask, dependsOn: build) {
+    description = "打Mac的的包，DMG、PKG"
     platform = "mac"
-    createTar = true
+    createZip = false
     generateInstaller = true
 }
-task packageWindows(type: PackageTask, dependsOn: build) {
+task packageWin64(type: PackageTask, dependsOn: build) {
+    description = "打64位Windows的包,EXE、Setup"
     platform = "win"
-    createZip = true
-    createTar = true
+    createTar = false
     generateInstaller = true
+}
+task packageWin32(type: PackageTask, dependsOn: build) {
+    description = "打32位Windows的包,EXE、Setup"
+    platform = "win"
+    // sudo setx /M JAVA_HOME_X86 G:/package/sdk/jdk/amazon/11.0.10_9
+    jdkPath = file(System.getenv("JAVA_HOME_X86"))
+    // sudo setx /M JAVAFX_HOME_X86 G:/package/sdk/jfx/jmods-16-win-x86
+    jfxPath = file(System.getenv("JAVAFX_HOME_X86"))
+    x64 = false
+    createTar = false
+    generateInstaller = true
+}
+task packageAlone(type: PackageTask, dependsOn: build) {
+    description = "打不带Launcher的包"
+    enabledLauncher = false
+    createTar = false
+    generateInstaller = true
+    mainModule = "com.unclezs.novel.app.main"
+    mainClass = "com.unclezs.novel.app.main.ui.app.App"
 }

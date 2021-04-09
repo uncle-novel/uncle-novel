@@ -28,9 +28,14 @@ public class CreateJre extends BaseSubTask {
   public static final int JDK_13 = 13;
   public static final int JDK_9 = 9;
   private final File currentJdk = new File(System.getProperty("java.home"));
+  /**
+   * 用于定制Jre的JDK
+   */
+  private final File jdkPath;
 
   public CreateJre() {
     super("创建JRE");
+    this.jdkPath = packager.getJdkPath();
   }
 
   @Override
@@ -45,10 +50,9 @@ public class CreateJre extends BaseSubTask {
     File customJreFolder = packager.getJrePath();
     Platform platform = packager.getPlatform();
     File destinationFolder = packager.getJreDestinationFolder();
-    File jdkPath = packager.getJdkPath();
 
     FileUtil.del(destinationFolder);
-    Logger.infoIndent("开始创建Jre  当前JDK：{}", currentJdk);
+    Logger.infoIndent("开始创建Jre  使用JDK：{}", jdkPath);
     // 自定义Jre
     if (customJreFolder != null) {
       Logger.info("使用自定义Jre: {}" + customJreFolder);
@@ -81,7 +85,7 @@ public class CreateJre extends BaseSubTask {
         throw new RuntimeException("非法JDK");
       }
       // 使用模块生成定制的jre
-      ExecUtils.create(new File(currentJdk, "/bin/jlink"))
+      ExecUtils.create(new File(jdkPath, "/bin/jlink"))
         .add("--module-path", getModulePath())
         .add("--add-modules", getRequiredModules())
         .add("--output", destinationFolder)
@@ -111,7 +115,7 @@ public class CreateJre extends BaseSubTask {
       return ALL_MODULE_PATH;
     }
     Logger.infoIndent("开始获取所需要的模块 ... ");
-    File jdeps = new File(currentJdk, "/bin/jdeps");
+    File jdeps = new File(jdkPath, "/bin/jdeps");
     File jarLibs = null;
     if (FileUtil.exist(packager.getLibsFolder())) {
       jarLibs = new File(packager.getLibsFolder(), "*.jar");

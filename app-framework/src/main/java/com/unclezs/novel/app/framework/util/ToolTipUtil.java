@@ -21,12 +21,9 @@ public class ToolTipUtil {
       Field f = tipClass.getDeclaredField("BEHAVIOR");
       f.setAccessible(true);
       Class behavior = Class.forName("javafx.scene.control.Tooltip$TooltipBehavior");
-      Constructor constructor =
-          behavior.getDeclaredConstructor(Duration.class, Duration.class, Duration.class,
-              boolean.class);
+      Constructor constructor = behavior.getDeclaredConstructor(Duration.class, Duration.class, Duration.class, boolean.class);
       constructor.setAccessible(true);
-      f.set(behavior,
-          constructor.newInstance(new Duration(0), new Duration(5000), new Duration(100), false));
+      f.set(behavior, constructor.newInstance(new Duration(0), new Duration(5000), new Duration(100), false));
     } catch (Exception e) {
       e.printStackTrace();
     }

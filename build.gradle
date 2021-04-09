@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.unclezs:sass-gradle-plugin:1.0.4'
+        classpath 'com.unclezs:sass-gradle-plugin:1.0.7'
     }
 }
 
@@ -49,7 +49,7 @@ subprojects { project ->
         targetCompatibility = JavaVersion.VERSION_11
 
         // 模块化编译参数
-        File vmArgs = file("$projectDir/${project.name}.modularity");
+        File vmArgs = file("$projectDir/${project.name}.modularity")
         if (vmArgs.exists()) {
             vmArgs.readLines().each {
                 if (!it.isBlank() && !it.startsWith("//")) {
@@ -82,7 +82,7 @@ configure(jfxProject) { project ->
     apply plugin: "com.unclezs.gradle.sass"
 
     javafx {
-        version = "11"
+        version = "16"
         modules = ["javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web"]
     }
     jar {

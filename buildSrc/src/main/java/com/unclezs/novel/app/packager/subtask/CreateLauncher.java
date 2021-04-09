@@ -51,7 +51,7 @@ public class CreateLauncher extends BaseSubTask {
       } else if (!libName.contains(CopyDependencies.OPEN_JFX_SYMBOL)) {
         // 用于生成Jre
         packager.getAdditionalModulePaths().add(new File(outDir, libName));
-        packager.getAdditionalModules().add(JdkUtils.getModuleName(artifact.getFile(),artifact.getName()));
+        packager.getAdditionalModules().add(JdkUtils.getModuleName(artifact.getFile()));
       } else {
         return;
       }

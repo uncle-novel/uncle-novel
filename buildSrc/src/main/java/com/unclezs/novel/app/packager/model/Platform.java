@@ -4,7 +4,6 @@ import cn.hutool.system.SystemUtil;
 import com.unclezs.novel.app.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.packager.packager.LinuxPackager;
 import com.unclezs.novel.app.packager.packager.MacPackager;
-import com.unclezs.novel.app.packager.packager.PackagerExtension;
 import com.unclezs.novel.app.packager.packager.WindowsPackager;
 import lombok.Getter;
 
@@ -106,7 +105,7 @@ public enum Platform {
         platformConfig = extension.getLinuxConfig();
         break;
       default:
-        packager = getCurrentPlatform().getPackager();
+        packager = getCurrentPlatform().createPackager(extension);
     }
     return packager;
   }

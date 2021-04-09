@@ -5,9 +5,9 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ObjectUtil;
 import com.unclezs.novel.app.packager.Context;
 import com.unclezs.novel.app.packager.PackagePlugin;
+import com.unclezs.novel.app.packager.model.PackagerExtension;
 import com.unclezs.novel.app.packager.model.Platform;
 import com.unclezs.novel.app.packager.packager.AbstractPackager;
-import com.unclezs.novel.app.packager.packager.PackagerExtension;
 import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.Input;
-import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.TaskAction;
@@ -42,13 +42,16 @@ public class PackageTask extends DefaultTask {
   private Platform platform;
   @Input
   @Optional
-  private List<File> additionalResources;
+  protected String mainModule;
+  @Input
+  @Optional
+  protected String mainClass;
+  @Input
+  @Optional
+  private List<File> resources;
   @Input
   @Optional
   private Boolean administratorRequired;
-  @InputFile
-  @Optional
-  private File assetsDir;
   @Input
   @Optional
   private Boolean createTar;
@@ -58,21 +61,27 @@ public class PackageTask extends DefaultTask {
   @Input
   @Optional
   private Boolean generateInstaller;
-  @InputFile
-  @Optional
-  private File iconFile;
-  @InputFile
+  @InputDirectory
   @Optional
   private File jdkPath;
-  @InputFile
+  @InputDirectory
   @Optional
   private File jrePath;
+  @InputDirectory
+  @Optional
+  private File jfxPath;
   @Input
   @Optional
   private Boolean useResourcesAsWorkingDir;
   @Input
   @Optional
   private List<String> vmArgs;
+  @Input
+  @Optional
+  private Boolean enabledLauncher;
+  @Input
+  @Optional
+  private Boolean x64 = true;
 
   public PackageTask() {
     super();

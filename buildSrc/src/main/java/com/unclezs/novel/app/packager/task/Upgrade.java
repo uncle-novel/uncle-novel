@@ -2,11 +2,12 @@ package com.unclezs.novel.app.packager.task;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
-import com.unclezs.jfx.launcher.Library;
 import com.unclezs.jfx.launcher.Manifest;
 import com.unclezs.jfx.launcher.Platform;
+import com.unclezs.jfx.launcher.Resource;
+import com.unclezs.jfx.launcher.Resource.Type;
 import com.unclezs.novel.app.packager.model.LauncherConfig;
-import com.unclezs.novel.app.packager.packager.PackagerExtension;
+import com.unclezs.novel.app.packager.model.PackagerExtension;
 import com.unclezs.novel.app.packager.util.ExecUtils;
 import java.io.File;
 import java.net.URI;
@@ -31,6 +32,7 @@ public class Upgrade {
   private final LauncherConfig config;
   private final Map<String, String> mapper;
   private final Manifest manifest;
+  private final PackagerExtension extension;
   /**
    * 如果outDir已经存在，是否删除
    */
@@ -40,7 +42,8 @@ public class Upgrade {
   public Upgrade(Project project, File outDir) {
     this.project = project;
     this.outDir = outDir;
-    this.config = project.getExtensions().getByType(PackagerExtension.class).getLauncher();
+    this.extension = project.getExtensions().getByType(PackagerExtension.class);
+    this.config = extension.getLauncher();
     this.mapper = config.getFileMapper();
     this.manifest = BeanUtil.toBean(config, Manifest.class);
   }
@@ -52,6 +55,7 @@ public class Upgrade {
     if (removeOld) {
       FileUtil.del(outDir);
     }
+    generateResource();
     generateLibraries();
     // 生成配置文件
     String configPath = mapper(manifest.getConfigPath());
@@ -76,8 +80,8 @@ public class Upgrade {
         String outPath = mapper(artifactName);
         c.from(artifact.getFile()).into(new File(outDir, outPath).getParentFile()).rename(old -> artifactName);
         // 填充manifest
-        Library library = new Library(outPath, artifact.getFile().length(), Platform.fromString(artifact.getClassifier()));
-        manifest.getLibs().add(library);
+        Resource library = new Resource(outPath, artifact.getFile().length(), Platform.fromString(artifact.getClassifier()), Type.JAR);
+        manifest.getResources().add(library);
       });
     }
     // 本项目的Jar
@@ -86,9 +90,19 @@ public class Upgrade {
       String artifactName = jar.getArchiveBaseName().get().concat(".").concat(jar.getArchiveExtension().get());
       String outPath = mapper(artifactName);
       c.from(jar.getArchiveFile()).into(new File(outDir, outPath).getParentFile()).rename(closure -> artifactName);
-      Library library = new Library(outPath, jar.getArchiveFile().get().getAsFile().length(), null);
-      manifest.getLibs().add(library);
+      Resource library = new Resource(outPath, jar.getArchiveFile().get().getAsFile().length(), Type.JAR);
+      manifest.getResources().add(library);
     });
+  }
+
+
+  private void generateResource() {
+    for (Resource resource : config.getResources()) {
+      File file = new File(resource.getPath());
+      String path = file.getName();
+      FileUtil.copy(file, new File(outDir, path), true);
+      resource.setPath(path);
+    }
   }
 
   /**

@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.packager;
 
-import com.unclezs.novel.app.packager.packager.PackagerExtension;
+import com.unclezs.novel.app.packager.model.PackagerExtension;
 import com.unclezs.novel.app.packager.task.UpgradeTask;
 import org.gradle.api.NonNullApi;
 import org.gradle.api.Plugin;

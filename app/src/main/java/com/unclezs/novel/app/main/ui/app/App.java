@@ -4,11 +4,12 @@ import com.unclezs.jfx.launcher.Manifest;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.appication.SceneViewNavigateBundle;
 import com.unclezs.novel.app.framework.appication.SsaApplication;
-import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.ui.pages.home.HomeSceneView;
+import com.unclezs.novel.app.main.util.AppResource;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import java.util.Locale;
 import java.util.Random;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +38,7 @@ public class App extends SsaApplication {
    * @param styleSheetPath 主题样式表类路径
    */
   public static void changeTheme(String styleSheetPath) {
-    String styleSheet = ResourceUtils.loadCss(styleSheetPath);
+    String styleSheet = AppResource.loadCss(styleSheetPath);
     app.getStage().getScene().getStylesheets().setAll(styleSheet);
   }
 
@@ -60,6 +61,10 @@ public class App extends SsaApplication {
     app.navigate(viewClass, bundle);
   }
 
+  public static void main(String[] args) {
+    launch(args);
+  }
+
   @Override
   public void init() throws Exception {
     DebugUtils.init();
@@ -73,17 +78,13 @@ public class App extends SsaApplication {
     }
     Locale.setDefault(Locale.TAIWAN);
     super.init();
-//    System.out.println(App.class.getResource("/layout/home/home.fxml"));
-//    System.out.println(App.class.getClassLoader().getResource("/layout/home/home.fxml"));
-//    System.out.println(ResourceUtils.class.getModule().getResourceAsStream("/fonts/pingfang-simple-bold.ttf"));
-//    URL load = ResourceUtils.load("/layout/home/home.fxml");
   }
 
   @Override
   public void start(Stage stage) throws Exception {
     manifest = (Manifest) stage.getUserData();
-    log.error("{}", manifest);
     super.start(stage);
+    log.warn("当前模块：{}", getClass().getModule().getName());
   }
 
   @Override
@@ -91,9 +92,8 @@ public class App extends SsaApplication {
     return HomeSceneView.class;
   }
 
-
-  public static void main(String[] args) {
-    launch(args);
+  @Override
+  protected Image getIcon() {
+    return new Image(AppResource.load("/assets/images/favicon.png").toString());
   }
-
 }

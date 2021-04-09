@@ -1,11 +1,6 @@
-package com.unclezs.novel.app.packager.packager;
+package com.unclezs.novel.app.packager.model;
 
 import com.unclezs.novel.app.packager.PackagePlugin;
-import com.unclezs.novel.app.packager.model.LauncherConfig;
-import com.unclezs.novel.app.packager.model.LinuxConfig;
-import com.unclezs.novel.app.packager.model.MacConfig;
-import com.unclezs.novel.app.packager.model.Platform;
-import com.unclezs.novel.app.packager.model.WindowsConfig;
 import groovy.lang.Closure;
 import java.io.File;
 import java.util.ArrayList;
@@ -29,6 +24,7 @@ import org.gradle.api.Project;
 @NoArgsConstructor
 public class PackagerExtension {
 
+  protected Platform platform = Platform.auto;
   /**
    * App信息
    */
@@ -49,6 +45,29 @@ public class PackagerExtension {
   protected Boolean bundleJre = true;
   protected Boolean bundleFxJre = true;
   protected Boolean customizedJre = true;
+  protected String jreDirName = "jre";
+  protected String jreMinVersion;
+  /**
+   * 自定义的Jre和Jdk路径
+   */
+  protected File jrePath;
+  protected File jdkPath;
+  /**
+   * 自定义jfx的jmods路径，用于生成jre，不指定则使用项目依赖，注意版本对齐
+   */
+  protected File jfxPath;
+  /**
+   * 写死的启动参数
+   */
+  protected List<String> vmArgs = new ArrayList<>();
+  /**
+   * JVM 启动参数配置文件
+   */
+  protected File vmOptionsFile;
+  /**
+   * JVM 配置文件保存的目录（相对与app目录）
+   */
+  protected String vmOptionsFilePath = "conf/launcher.vmoptions";
   /**
    * 生成安装包
    */
@@ -58,60 +77,53 @@ public class PackagerExtension {
    */
   protected Boolean administratorRequired = false;
   /**
-   * 自定义的Jre和Jdk路径
-   */
-  protected File jrePath;
-  protected File jdkPath;
-  /**
    * 额外的资源，目标位置（相对app的位置）/源文件
    */
   protected Map<String, File> resources = new HashMap<>();
   /**
    * 打包Jre时的模块配置，生成Jre的时候会根据这个创建
+   * <p>
+   * 指定模块创建jre
    */
   protected Set<String> modules = new HashSet<>();
+  /**
+   * 额外的模块与路径
+   */
   protected Set<String> additionalModules = new HashSet<>();
   protected Set<File> additionalModulePaths = new HashSet<>();
-  protected Platform platform = Platform.auto;
-  protected List<String> vmArgs = new ArrayList<>();
-  protected File runnableJar;
-  protected Boolean copyDependencies = true;
-  protected String jreDirName = "jre";
   protected boolean useResourcesAsWorkingDir = true;
+  /**
+   * 自定义模板位置
+   */
   protected File assetsDir;
-  /**
-   * JVM 启动参数配置文件名称
-   */
-  protected String launcherVmOptionsFilePath = "conf";
-  protected String launcherVmOptionsFileName = "launcher.vmoptions";
-  /**
-   * JVM 启动参数配置文件
-   */
-  protected File launcherVmOptionsFile;
   /**
    * 依赖的文件夹名
    */
-  protected String libsFolderName = "lib";
+  protected String libsFolderPath = "lib";
   /**
-   * jar运行时候的额外的classpath ;或: 分割 （相对与运行目录）
+   * jar运行时候的额外的classpath或module path ;或: 分割 （相对于运行目录）
    */
   protected Set<String> classpath = new HashSet<>();
-  protected String jreMinVersion;
   /**
    * 打包完成后是否自动创建压缩包
    */
-  protected Boolean createTar = false;
-  protected Boolean createZip = false;
+  protected Boolean createTar = true;
+  protected Boolean createZip = true;
   /**
    * 平台配置
    */
-  protected WindowsConfig winConfig = new WindowsConfig();
+  protected WinConfig winConfig = new WinConfig();
   protected LinuxConfig linuxConfig = new LinuxConfig();
   protected MacConfig macConfig = new MacConfig();
   /**
    * 启动器配置（自动更新）
    */
   protected LauncherConfig launcher;
+  protected Boolean enabledLauncher = true;
+  /**
+   * 是否为64位，如果是x86的则需要指定jre为x86版本
+   */
+  private Boolean x64 = true;
   private Project project;
 
   public PackagerExtension(Project project) {
@@ -129,7 +141,7 @@ public class PackagerExtension {
    * @return true 是
    */
   public boolean userLauncher() {
-    return launcher != null && Boolean.TRUE.equals(launcher.getEnabled());
+    return launcher != null && Boolean.TRUE.equals(enabledLauncher);
   }
 
   public LinuxConfig linuxConfig(Closure<LinuxConfig> closure) {
@@ -144,8 +156,8 @@ public class PackagerExtension {
     return macConfig;
   }
 
-  public WindowsConfig winConfig(Closure<WindowsConfig> closure) {
-    winConfig = new WindowsConfig();
+  public WinConfig winConfig(Closure<WinConfig> closure) {
+    winConfig = new WinConfig();
     project.configure(winConfig, closure);
     return winConfig;
   }

@@ -96,8 +96,8 @@ public class MacPackager extends AbstractPackager {
     FileUtils.copyFileToFolder(jarFile, javaFolder);
     createStartScript();
     // 拷贝Vm参数文件
-    if (launcherVmOptionsFile != null) {
-      FileUtil.copy(launcherVmOptionsFile, new File(resourcesFolder, launcherVmOptionsFileName), true);
+    if (vmOptionsFile != null) {
+      FileUtil.copy(vmOptionsFile, new File(resourcesFolder, vmOptionsFilePath), true);
     }
     // 生成classpath
     if (CollectionUtil.isNotEmpty(classpath) && !isUseResourcesAsWorkingDir()) {

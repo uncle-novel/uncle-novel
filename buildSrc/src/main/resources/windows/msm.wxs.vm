@@ -24,9 +24,9 @@
     </Component>
     #end
 #end
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version="1.0" encoding="${charset}" standalone="yes"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Module Id="${name}_Module" Codepage="936" Language="2052" Version="${version}">
+  <Module Id="app" Codepage="936" Language="2052" Version="${version}">
     <Package Id="${GUID.randomUUID()}" Manufacturer="${info.organizationName}" InstallerVersion="200" Languages="2052" Platform="x64" SummaryCodepage="936" Description="${info.description}"/>
     <Directory Id="TARGETDIR" Name="SourceDir">
         #list(${info.appFolder})

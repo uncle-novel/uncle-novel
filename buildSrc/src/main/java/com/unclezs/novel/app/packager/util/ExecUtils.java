@@ -1,10 +1,10 @@
 package com.unclezs.novel.app.packager.util;
 
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.RuntimeUtil;
 import cn.hutool.core.util.StrUtil;
 import java.io.File;
-import java.nio.charset.Charset;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -28,7 +28,7 @@ public class ExecUtils {
     try {
       Logger.info("执行CMD：{}", Logger.blue(ArrayUtil.join(cmd, StrUtil.SPACE)));
       process = RuntimeUtil.exec(cmd);
-      String result = RuntimeUtil.getResult(process, Charset.defaultCharset());
+      String result = RuntimeUtil.getResult(process, CharsetUtil.CHARSET_UTF_8);
       if (process.exitValue() != 0) {
         throw new RuntimeException(result);
       }

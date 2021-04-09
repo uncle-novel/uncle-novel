@@ -24,7 +24,7 @@ public class ResourceUtils {
    * @return URL
    */
   public static URL load(String location) {
-    URL resource = ReflectionUtils.getCallerClass().getResource(location);
+    URL resource = ResourceUtils.class.getResource(location);
     if (resource == null) {
       log.error("资源未找到: {}", location);
       throw new RuntimeException("资源未找到: ".concat(location));

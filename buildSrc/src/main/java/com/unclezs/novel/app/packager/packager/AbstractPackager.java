@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.unclezs.novel.app.packager.model.PackagerExtension;
 import com.unclezs.novel.app.packager.model.Platform;
 import com.unclezs.novel.app.packager.subtask.BaseSubTask;
 import com.unclezs.novel.app.packager.subtask.CopyDependencies;
@@ -15,7 +16,6 @@ import com.unclezs.novel.app.packager.task.Upgrade;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
 import java.io.File;
-import java.nio.file.Paths;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -82,7 +82,7 @@ public abstract class AbstractPackager extends PackagerExtension {
     resolveResources();
     // 将openJfx依赖项复制到依赖文件夹
     new CopyDependencies().apply();
-    libsFolder = new File(jarFileDestinationFolder, libsFolderName);
+    libsFolder = new File(jarFileDestinationFolder, libsFolderPath);
     if (userLauncher()) {
       jarFile = new CreateLauncher().apply();
     } else {
@@ -199,8 +199,8 @@ public abstract class AbstractPackager extends PackagerExtension {
     resources.put(platform.getPlatformConfig().getIconFile().getName(), platform.getPlatformConfig().getIconFile());
     Logger.info("使用图标: {}", iconFile.getAbsolutePath());
     // 启动VM参数文件
-    if (FileUtil.exist(launcherVmOptionsFile)) {
-      resources.put(Paths.get(launcherVmOptionsFilePath, launcherVmOptionsFileName).toString(), launcherVmOptionsFile);
+    if (FileUtil.exist(vmOptionsFile)) {
+      resources.put(vmOptionsFilePath, vmOptionsFile);
     }
     // 资源处理
     Logger.info("找到的资源：{}", resources);

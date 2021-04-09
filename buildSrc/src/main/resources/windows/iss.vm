@@ -45,7 +45,9 @@ SetupIconFile={#MyAppIcon}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 Compression=lzma
 SolidCompression=yes
+#if($info.x64)
 ArchitecturesInstallIn64BitMode=x64
+#end
 
 [Languages]
 #foreach ($language in $info.winConfig.setupLanguages.entrySet())

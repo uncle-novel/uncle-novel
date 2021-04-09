@@ -22,7 +22,7 @@ public class CreateRunnableJar extends BaseSubTask {
     jarTask.getManifest().getAttributes().put("Main-Class", packager.getMainClass());
     jarTask.getActions().forEach(action -> action.execute(jarTask));
     // classpath 增加依赖目录
-    packager.getClasspath().add(packager.getLibsFolder().getName());
+    packager.getClasspath().add(packager.getLibsFolderPath());
     return jarTask.getArchiveFile().get().getAsFile();
   }
 }

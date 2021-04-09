@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.main.ui.pages.home.views;
 
+import cn.hutool.core.util.RuntimeUtil;
 import com.jfoenix.controls.JFXToggleButton;
 import com.tulskiy.keymaster.common.HotKey;
 import com.unclezs.novel.app.framework.annotation.FxView;
@@ -58,8 +59,8 @@ public class SearchNovelView extends SidebarNavigationView {
     showFalse.setOnMouseClicked(
       e -> box.getChildren().addAll(new SvgIcon("_close"), new SvgIcon("_minimize")));
     clear.setOnMouseClicked(e -> {
-      DebugUtils.logMsg(getClass().getPackageName());
-      HotKeyManager.clearGlobal();
+      String home = System.getProperty("app.java.home");
+      RuntimeUtil.exec(String.format("%s/runtime/bin/java", home), "-jar", "");
     });
     window.setOnMouseClicked(e -> {
       if (combination != null) {

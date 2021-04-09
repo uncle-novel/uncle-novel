@@ -73,8 +73,8 @@ public abstract class SsaApplication extends Application {
     // 设置主题
     List<String> theme = Arrays.asList("com/sun/javafx/scene/control/skin/modena/modena.css", APP_STYLE);
     StyleManager.getInstance().setUserAgentStylesheets(theme);
-    Image icon = new Image(ResourceUtils.load("/assets/favicon.png").toString());
     StageHelper.setPrimary(stage, true);
+    Image icon = getIcon();
     stage.getIcons().setAll(icon);
     // 生命周期监听
     stage.onShowingProperty().addListener(e -> currentView.onShow(new SceneViewNavigateBundle()));
@@ -84,7 +84,9 @@ public abstract class SsaApplication extends Application {
     });
     // 首页
     currentView = loadSceneView(getIndexView());
-    stage.setScene(currentView.getScene());
+    Scene scene = currentView.getScene();
+    scene.getStylesheets().add(APP_STYLE);
+    stage.setScene(scene);
     stage.show();
   }
 
@@ -154,5 +156,9 @@ public abstract class SsaApplication extends Application {
     stage.setHeight(stage.getMinHeight());
     stage.setWidth(stage.getMinWidth());
     return sceneView;
+  }
+
+  protected Image getIcon() {
+    return new Image(ResourceUtils.load("/assets/favicon.png").toString());
   }
 }

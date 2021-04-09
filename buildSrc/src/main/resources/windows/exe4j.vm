@@ -3,9 +3,9 @@
   <application name="${info.name}" distributionSourceDir="${info.appFolder}"/>
   <executable name="${info.name}"
               iconSet="true" iconFile="${info.platform.getPlatformConfig().iconFile}"
-              redirectStderr="false"
+              redirectStderr="true" stderrFile="logs/log-system.log" stderrMode="append"
               executableMode="gui" singleInstance="true" checkConsoleParameter="true"
-              arm64="${info.winConfig.x64}"
+              amd64="$info.x64"
       #if($info.administratorRequired)
               executionLevel="requireAdministrator"
       #end
@@ -24,7 +24,7 @@
       #else
           mainClass="${info.mainClass}"
       #end
-          vmParameters="-include-options ${info.launcherVmOptionsFilePath}/${info.launcherVmOptionsFileName}"
+          vmParameters="-include-options ${info.vmOptionsFilePath}#foreach($vmArg in $info.vmArgs) $vmArg#end"
       #if($info.jreMinVersion)
           minVersion="${info.jreMinVersion}"
       #else

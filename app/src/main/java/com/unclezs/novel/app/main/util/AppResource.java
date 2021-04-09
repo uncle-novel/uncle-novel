@@ -1,7 +1,6 @@
 package com.unclezs.novel.app.main.util;
 
 
-import com.unclezs.novel.app.framework.util.ReflectionUtils;
 import java.net.URL;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @UtilityClass
-public class ResourceUtils {
+public class AppResource {
 
   /**
    * 加载classpath资源
@@ -23,8 +22,7 @@ public class ResourceUtils {
    * @return URL
    */
   public static URL load(String location) {
-    StackTraceElement stackTraceElement = Thread.currentThread().getStackTrace()[2];
-    URL resource = ReflectionUtils.forName(stackTraceElement.getClassName()).getResource(location);
+    URL resource = AppResource.class.getResource(location);
     if (resource == null) {
       log.error("资源未找到：{}", location);
       throw new RuntimeException("resource not found!");

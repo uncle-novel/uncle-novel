@@ -1,11 +1,11 @@
 package com.unclezs.novel.app.packager.subtask.windows;
 
+import cn.hutool.core.util.CharsetUtil;
 import com.unclezs.novel.app.packager.packager.WindowsPackager;
 import com.unclezs.novel.app.packager.subtask.BaseSubTask;
 import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
-import com.unclezs.novel.app.packager.util.XmlUtils;
 import java.io.File;
 
 /**
@@ -41,11 +41,11 @@ public class GenerateMsm extends BaseSubTask {
 
     // 生成WXS文件
     File wxsFile = new File(assetsFolder, name + ".msm.wxs");
-    VelocityUtils.render("windows/msm.wxs.vm", wxsFile, windowsPackager);
+    VelocityUtils.render("windows/msm.wxs.vm", wxsFile, windowsPackager, CharsetUtil.CHARSET_GBK);
     Logger.info("WXS file generated in " + wxsFile + "!");
 
     // prettify wxs
-    XmlUtils.prettify(wxsFile);
+//    XmlUtils.prettify(wxsFile, CharsetUtil.GBK);
 
     // candle wxs file
     Logger.info("Compiling file " + wxsFile);

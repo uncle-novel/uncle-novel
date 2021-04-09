@@ -1,7 +1,10 @@
 package com.unclezs.novel.app.main;
 
 
-import cn.hutool.core.io.FileUtil;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleReference;
+import java.nio.file.Path;
+import java.util.Set;
 
 /**
  * @author blog.unclezs.com
@@ -10,15 +13,9 @@ import cn.hutool.core.io.FileUtil;
 public class TestApp {
 
   public static void main(String[] args) throws Exception {
-    String exe="java";
-    String paths = System.getenv("PATH");
-    for (String path : paths.split(";")) {
-      for (String name : FileUtil.listFileNames(path)) {
-
-        if(name.startsWith(exe)){
-          System.out.println(path);
-        }
-      }
+    Set<ModuleReference> references = ModuleFinder.of(Path.of("G:\\coder\\self-coder\\uncle-novel-jfx\\buildSrc\\build\\libs\\app-packager.jar")).findAll();
+    for (ModuleReference reference : references) {
+      System.out.println(reference.descriptor().name());
     }
   }
 }

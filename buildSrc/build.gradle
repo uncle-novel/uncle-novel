@@ -1,7 +1,16 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
 plugins {
     id "java-gradle-plugin"
+    id "io.spring.dependency-management" version "1.0.9.RELEASE" apply false
 }
+apply from: "../gradle/dependency-management.gradle"
 repositories {
+    gradlePluginPortal()
     mavenLocal()
     mavenCentral()
 }
@@ -16,16 +25,15 @@ gradlePlugin {
 }
 
 dependencies {
-    Properties props = new Properties()
-    props.load(file("../gradle.properties").newDataInputStream())
-    annotationProcessor "org.projectlombok:lombok:1.18.18"
-    compileOnly "org.projectlombok:lombok:1.18.18"
-    implementation "cn.hutool:hutool-core:5.5.9"
-    implementation "cn.hutool:hutool-system:5.5.9"
-    implementation "com.google.code.gson:gson:2.8.6"
-    implementation "com.unclezs.jfx:fx-launcher:${props.getProperty("app.launcher.version")}"
-    // java packager
-    implementation 'org.apache.velocity:velocity-engine-core:2.0'
-    implementation 'com.netflix.nebula:gradle-ospackage-plugin:8.4.1'
-    implementation 'net.jsign:jsign-core:3.1'
+    annotationProcessor "org.projectlombok:lombok"
+    compileOnly "org.projectlombok:lombok"
+
+    implementation "com.unclezs:jfx-launcher"
+
+    implementation "cn.hutool:hutool-core"
+    implementation "cn.hutool:hutool-system"
+
+    implementation 'org.apache.velocity:velocity-engine-core'
+    implementation 'com.netflix.nebula:gradle-ospackage-plugin'
+    implementation 'net.jsign:jsign-core'
 }

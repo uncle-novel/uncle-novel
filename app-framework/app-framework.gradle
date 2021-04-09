@@ -7,3 +7,8 @@ dependencies {
     api "com.jfoenix:jfoenix"
     api "org.slf4j:slf4j-api"
 }
+jar {
+    manifest {
+        attributes 'Add-Exports': 'javafx.graphics/com.sun.javafx.stage=com.unclezs.novel.app.framework'
+    }
+}

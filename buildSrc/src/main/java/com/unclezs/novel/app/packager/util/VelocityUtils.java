@@ -45,14 +45,23 @@ public class VelocityUtils {
   }
 
   /**
-   * 默认UTF8渲染
+   * 指定编码渲染渲染
    *
    * @param templatePath 模板路径
    * @param info         信息
+   * @param charset      当作模板变量，通常用于设置标头
    * @return 结果
    */
-  private static String render(String templatePath, Object info) {
-    return render(templatePath, info, StandardCharsets.UTF_8);
+  private static String render(String templatePath, Object info, Charset charset) {
+    VelocityContext context = new VelocityContext();
+    context.put("GUID", UUID.class);
+    context.put("StrUtil", StrUtil.class);
+    context.put("charset", charset);
+    context.put("info", info);
+    Template template = getVelocityEngine().getTemplate(templatePath, StandardCharsets.UTF_8.name());
+    StringBuilderWriter writer = new StringBuilderWriter();
+    template.merge(context, writer);
+    return writer.toString();
   }
 
   /**
@@ -62,15 +71,8 @@ public class VelocityUtils {
    * @param info         信息
    * @return 结果
    */
-  private static String render(String templatePath, Object info, Charset charset) {
-    VelocityContext context = new VelocityContext();
-    context.put("GUID", UUID.class);
-    context.put("StrUtil", StrUtil.class);
-    context.put("info", info);
-    Template template = getVelocityEngine().getTemplate(templatePath, charset.name());
-    StringBuilderWriter writer = new StringBuilderWriter();
-    template.merge(context, writer);
-    return writer.toString();
+  private static String render(String templatePath, Object info) {
+    return render(templatePath, info, StandardCharsets.UTF_8);
   }
 
 
@@ -94,7 +96,7 @@ public class VelocityUtils {
    * @param charset      编码
    */
   public static void render(String templatePath, File output, Object info, Charset charset) {
-    String data = render(templatePath, info);
+    String data = render(templatePath, info, charset);
     data = data.replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
     FileUtil.writeString(data, output, charset);
   }

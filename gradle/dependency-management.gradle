@@ -1,10 +1,14 @@
 apply plugin: "io.spring.dependency-management"
 
+Properties props = new Properties()
+props.load(file("../gradle.properties").newDataInputStream())
+
 dependencyManagement {
     dependencies {
         dependencySet("cn.hutool:5.5.9") {
             entry "hutool-all"
             entry "hutool-core"
+            entry "hutool-system"
         }
         dependency "org.projectlombok:lombok:1.18.18"
         dependency "com.github.tulskiy:jkeymaster:1.3"
@@ -14,8 +18,11 @@ dependencyManagement {
         dependency "com.google.code.gson:gson:2.8.6"
         dependency "org.freemarker:freemarker:2.3.31"
         dependency "ch.qos.logback:logback-classic:1.2.3"
-        dependency "com.unclezs.jfx:fx-launcher:${property("app.launcher.version")}"
+        dependency "com.unclezs:jfx-launcher:${props.getProperty("app.launcher.version")}"
 
+        dependency 'org.apache.velocity:velocity-engine-core:2.0'
+        dependency 'com.netflix.nebula:gradle-ospackage-plugin:8.4.1'
+        dependency 'net.jsign:jsign-core:3.1'
     }
     generatedPomCustomization {
         enabled = false

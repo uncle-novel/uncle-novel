@@ -36,7 +36,7 @@ public class GenerateSetup extends WinSubTask {
     File outputDirectory = packager.getOutputDir();
     String version = packager.getVersion();
 
-    String fileName = String.format("%s_%s_Setup", name, version);
+    String fileName = String.format("%s_%s_Setup%s", name, version, Boolean.TRUE.equals(packager.getX64()) ? "" : "_x86");
     // 拷贝文件到静态资源目录
     FileUtils.copyFileToFolder(packager.getWinConfig().getIconFile(), assetsFolder);
     // 生成模板文件，使用GBK编码渲染，防止中文引起失败
@@ -47,7 +47,7 @@ public class GenerateSetup extends WinSubTask {
     // 安装文件
     File setupFile = new File(outputDirectory, fileName.concat(".exe"));
     if (!setupFile.exists()) {
-      throw new Exception("Windows setup file generation failed!");
+      throw new Exception("windows安装包生成失败!");
     }
     // sign installer
     sign(setupFile, (WindowsPackager) packager);

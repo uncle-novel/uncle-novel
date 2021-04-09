@@ -1,17 +1,16 @@
 package com.unclezs.novel.app.packager.util;
 
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.ReUtil;
 import com.unclezs.novel.app.packager.model.Platform;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.module.ModuleFinder;
+import java.lang.module.ModuleReference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
+import java.util.Set;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -50,7 +49,7 @@ public class JdkUtils {
    * @param jdkPath  /
    * @return /
    * @throws java.io.FileNotFoundException /
-   * @throws java.io.IOException /
+   * @throws java.io.IOException           /
    */
   private static boolean checkPlatform(Platform platform, File jdkPath)
     throws FileNotFoundException, IOException {
@@ -111,24 +110,14 @@ public class JdkUtils {
    * <p>
    * gson.jar -> com.google.gson
    *
-   * @param jar           jar文件
-   * @param noVersionName 不带版本号的名字
+   * @param jar jar文件
    * @return 模块名字
    */
-  public static String getModuleName(File jar, String noVersionName) {
-    try {
-      ZipFile zipFile = new ZipFile(jar);
-      ZipEntry entry = zipFile.getEntry("module-info.class");
-      // 自动模块
-      if (entry == null) {
-        return noVersionName.replace("-", ".");
-      }
-      // 具名模块
-      String moduleContent = IoUtil.readUtf8(zipFile.getInputStream(entry));
-      return ReUtil.get("module-info[^.].+?([a-zA-Z0-9.]+?)\u0001", moduleContent, 1);
-    } catch (IOException e) {
-      Logger.error("获取Jar包的模块失败：{}", jar, e);
-      throw new RuntimeException(e);
+  public static String getModuleName(File jar) {
+    Set<ModuleReference> references = ModuleFinder.of(jar.toPath()).findAll();
+    for (ModuleReference reference : references) {
+      return reference.descriptor().name();
     }
+    throw new RuntimeException("模块未找到");
   }
 }

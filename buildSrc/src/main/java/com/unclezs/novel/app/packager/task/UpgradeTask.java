@@ -26,7 +26,7 @@ public class UpgradeTask extends DefaultTask {
 
   public UpgradeTask() {
     setGroup(PackagePlugin.GROUP_NAME);
-    setDescription("生成manifest");
+    setDescription("更新版本");
   }
 
   @TaskAction

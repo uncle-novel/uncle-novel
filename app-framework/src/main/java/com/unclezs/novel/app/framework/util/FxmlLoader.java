@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ResourceBundle;
 import javafx.fxml.FXMLLoader;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -16,14 +17,12 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2021/02/26 14:41
  */
 @Slf4j
+@UtilityClass
 public class FxmlLoader {
 
   private static final String FXML_SUFFIX = ".fxml";
   private static final String CONTROLLER_SUFFIX = "View";
   private static final String BASE = "com.unclezs.novel.app.localized.";
-
-  private FxmlLoader() {
-  }
 
   /**
    * 加载FXML

@@ -16,17 +16,13 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-public class WindowsConfig extends PlatformConfig implements Serializable {
+public class WinConfig extends PlatformConfig implements Serializable {
 
   private static final long serialVersionUID = 2106752412224694318L;
   /**
    * 是否把 runnable jar 打包进exe
    */
   private Boolean wrapJar = true;
-  /**
-   * 是否为64位Jre
-   */
-  private Boolean x64 = true;
   /**
    * version info
    */
