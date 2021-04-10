@@ -1,39 +1,21 @@
 package com.unclezs.novel.app.packager.util;
 
+import com.unclezs.novel.app.packager.exception.PackageException;
+import net.jsign.*;
+import net.jsign.timestamp.TimestampingMode;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.net.Authenticator;
-import java.net.InetSocketAddress;
-import java.net.MalformedURLException;
-import java.net.PasswordAuthentication;
-import java.net.Proxy;
-import java.net.ProxySelector;
-import java.net.SocketAddress;
-import java.net.URI;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.Charset;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.PrivateKey;
-import java.security.Provider;
-import java.security.Security;
+import java.security.*;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-import net.jsign.AuthenticodeSigner;
-import net.jsign.DigestAlgorithm;
-import net.jsign.KeyStoreUtils;
-import net.jsign.PrivateKeyUtils;
-import net.jsign.Signable;
-import net.jsign.timestamp.TimestampingMode;
+import java.util.*;
 
 /**
  * Helper class to create AuthenticodeSigner instances with untyped parameters. This is used
@@ -246,16 +228,16 @@ public class SignerHelper {
     return file == null ? null : new File(file);
   }
 
-  private AuthenticodeSigner build() throws RuntimeException {
+  private AuthenticodeSigner build() throws PackageException {
     PrivateKey privateKey;
     Certificate[] chain;
 
     // some exciting parameter validation...
     if (keystore == null && keyfile == null && certfile == null) {
-      throw new RuntimeException("keystore, or keyfile and certfile must be set");
+      throw new PackageException("keystore, or keyfile and certfile must be set");
     }
     if (keystore != null && keyfile != null) {
-      throw new RuntimeException("keystore can't be mixed with keyfile");
+      throw new PackageException("keystore can't be mixed with keyfile");
     }
 
     Provider provider = null;
@@ -266,10 +248,10 @@ public class SignerHelper {
       } else if (keystore != null && keystore.getName().startsWith("SunPKCS11-")) {
         provider = Security.getProvider(keystore.getName());
         if (provider == null) {
-          throw new RuntimeException("Security provider " + keystore.getName() + " not found");
+          throw new PackageException("Security provider " + keystore.getName() + " not found");
         }
       } else {
-        throw new RuntimeException(
+        throw new PackageException(
             "keystore should either refer to the SunPKCS11 configuration file or to the name of the provider configured in jre/lib/security/java.security");
       }
     }
@@ -286,14 +268,14 @@ public class SignerHelper {
                   : keystore));
         }
       } catch (KeyStoreException e) {
-        throw new RuntimeException(e.getMessage(), e);
+        throw new PackageException(e.getMessage(), e);
       }
 
       if (alias == null) {
         if (aliases.size() == 1) {
           alias = aliases.iterator().next();
         } else {
-          throw new RuntimeException(
+          throw new PackageException(
               "alias must be set to select a certificate (available aliases: " + String
                   .join(", ", aliases) + ")");
         }
@@ -302,17 +284,17 @@ public class SignerHelper {
       try {
         chain = ks.getCertificateChain(alias);
       } catch (KeyStoreException e) {
-        throw new RuntimeException(e.getMessage(), e);
+        throw new PackageException(e.getMessage(), e);
       }
       if (chain == null) {
-        throw new RuntimeException(
+        throw new PackageException(
             "No certificate found under the alias '" + alias + "' in the keystore " + (
                 provider != null ? provider.getName() : keystore) + " (available aliases: " + String
                 .join(", ", aliases) + ")");
       }
       if (certfile != null) {
         if (chain.length != 1) {
-          throw new RuntimeException(
+          throw new PackageException(
               "certfile can only be specified if the certificate from the keystore contains only one entry");
         }
         // replace the certificate chain from the keystore with the complete chain from file
@@ -322,13 +304,13 @@ public class SignerHelper {
             // replace certificate with complete chain
             chain = chainFromFile;
           } else {
-            throw new RuntimeException("The certificate chain in " + certfile
+            throw new PackageException("The certificate chain in " + certfile
                 + " does not match the chain from the keystore");
           }
-        } catch (RuntimeException e) {
+        } catch (PackageException e) {
           throw e;
         } catch (Exception e) {
-          throw new RuntimeException("Failed to load the certificate from " + certfile, e);
+          throw new PackageException("Failed to load the certificate from " + certfile, e);
         }
       }
 
@@ -337,47 +319,47 @@ public class SignerHelper {
       try {
         privateKey = (PrivateKey) ks.getKey(alias, password);
       } catch (Exception e) {
-        throw new RuntimeException("Failed to retrieve the private key from the keystore", e);
+        throw new PackageException("Failed to retrieve the private key from the keystore", e);
       }
 
     } else {
       // separate private key and certificate files (PVK/SPC)
       if (keyfile == null) {
-        throw new RuntimeException("keyfile must be set");
+        throw new PackageException("keyfile must be set");
       }
       if (!keyfile.exists()) {
-        throw new RuntimeException("The keyfile " + keyfile + " couldn't be found");
+        throw new PackageException("The keyfile " + keyfile + " couldn't be found");
       }
       if (certfile == null) {
-        throw new RuntimeException("certfile must be set");
+        throw new PackageException("certfile must be set");
       }
       if (!certfile.exists()) {
-        throw new RuntimeException("The certfile " + certfile + " couldn't be found");
+        throw new PackageException("The certfile " + certfile + " couldn't be found");
       }
 
       // load the certificate chain
       try {
         chain = loadCertificateChain(certfile);
       } catch (Exception e) {
-        throw new RuntimeException("Failed to load the certificate from " + certfile, e);
+        throw new PackageException("Failed to load the certificate from " + certfile, e);
       }
 
       // load the private key
       try {
         privateKey = PrivateKeyUtils.load(keyfile, keypass != null ? keypass : storepass);
       } catch (Exception e) {
-        throw new RuntimeException("Failed to load the private key from " + keyfile, e);
+        throw new PackageException("Failed to load the private key from " + keyfile, e);
       }
     }
 
     if (alg != null && DigestAlgorithm.of(alg) == null) {
-      throw new RuntimeException("The digest algorithm " + alg + " is not supported");
+      throw new PackageException("The digest algorithm " + alg + " is not supported");
     }
 
     try {
       initializeProxy(proxyUrl, proxyUser, proxyPass);
     } catch (Exception e) {
-      throw new RuntimeException("Couldn't initialize proxy", e);
+      throw new PackageException("Couldn't initialize proxy", e);
     }
 
     // configure the signer
@@ -400,7 +382,7 @@ public class SignerHelper {
    *
    * @param configuration the SunPKCS11 configuration file
    */
-  private Provider createSunPKCS11Provider(File configuration) throws RuntimeException {
+  private Provider createSunPKCS11Provider(File configuration) throws PackageException {
     try {
       try {
         // Java 9 and later, using the Provider.configure() method
@@ -414,36 +396,36 @@ public class SignerHelper {
         return (Provider) sunpkcs11Constructor.newInstance(configuration.getPath());
       }
     } catch (Exception e) {
-      throw new RuntimeException(
+      throw new PackageException(
           "Failed to create a SunPKCS11 provider from the configuration file " + configuration, e);
     }
   }
 
-  public void sign(File file) throws RuntimeException {
+  public void sign(File file) throws PackageException {
     if (file == null) {
-      throw new RuntimeException("file must be set");
+      throw new PackageException("file must be set");
     }
     if (!file.exists()) {
-      throw new RuntimeException("The file " + file + " couldn't be found");
+      throw new PackageException("The file " + file + " couldn't be found");
     }
 
     Signable signable;
     try {
       signable = Signable.of(file, encoding);
     } catch (UnsupportedOperationException e) {
-      throw new RuntimeException(e.getMessage());
+      throw new PackageException(e.getMessage());
     } catch (IOException e) {
-      throw new RuntimeException("Couldn't open the file " + file, e);
+      throw new PackageException("Couldn't open the file " + file, e);
     }
 
     try {
       AuthenticodeSigner signer = build();
       Logger.info("Adding Authenticode signature to " + file);
       signer.sign(signable);
-    } catch (RuntimeException e) {
+    } catch (PackageException e) {
       throw e;
     } catch (Exception e) {
-      throw new RuntimeException("Couldn't sign " + file, e);
+      throw new PackageException("Couldn't sign " + file, e);
     }
   }
 

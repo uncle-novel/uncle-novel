@@ -104,4 +104,15 @@ public class FileUtils {
   public static void del(File file) {
     Context.project.delete(file);
   }
+
+  /**
+   * 文件添加执行权限
+   * @param file 文件
+   */
+  public static void setExecutable(File file) {
+    boolean success = file.setExecutable(true, false);
+    if (!success) {
+      Logger.warn("设置{}可执行失败", file);
+    }
+  }
 }

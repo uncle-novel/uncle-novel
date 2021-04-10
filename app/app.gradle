@@ -147,10 +147,11 @@ task packageWin32(type: PackageTask, dependsOn: build) {
     generateInstaller = true
 }
 task packageAlone(type: PackageTask, dependsOn: build) {
+    vmArgs = file("$projectDir/app.modularity").readLines()
     description = "打不带Launcher的包"
     enabledLauncher = false
     createTar = false
-    generateInstaller = true
+    generateInstaller = false
     mainModule = "com.unclezs.novel.app.main"
     mainClass = "com.unclezs.novel.app.main.ui.app.App"
 }

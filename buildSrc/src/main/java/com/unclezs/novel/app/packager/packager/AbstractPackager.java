@@ -2,6 +2,7 @@ package com.unclezs.novel.app.packager.packager;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.packager.model.PackagerExtension;
@@ -37,9 +38,17 @@ public abstract class AbstractPackager extends PackagerExtension {
    */
   protected File appFolder;
   /**
+   * 资源文件目录
+   */
+  protected File resourcesFolder;
+  /**
    * 静态资源目录：outputDir/"assets"
    */
   protected File assetsFolder;
+  /**
+   * 图标文件
+   */
+  protected File iconFile;
   /**
    * 临时文件目录
    */
@@ -88,8 +97,7 @@ public abstract class AbstractPackager extends PackagerExtension {
     // 创建Jre
     new CreateJre().apply();
     doCreateApp();
-    // 删除无用文件
-    removeUselessFiles();
+    doLast();
     Logger.infoUnIndent("App created in " + appFolder.getAbsolutePath() + "!");
   }
 
@@ -97,7 +105,7 @@ public abstract class AbstractPackager extends PackagerExtension {
    * 生成平台的安装包
    */
   public void generateInstallers() {
-    if (!generateInstaller || !FileUtil.exist(executable)) {
+    if (Boolean.FALSE.equals(generateInstaller) || !FileUtil.exist(executable)) {
       return;
     }
     if (!platform.isCurrentPlatform()) {
@@ -122,10 +130,10 @@ public abstract class AbstractPackager extends PackagerExtension {
    */
   public void createCompressedPackage() {
     Logger.infoIndent("开始创建压缩包 ...");
-    if (createZip) {
+    if (Boolean.TRUE.equals(createZip)) {
       new CreateCompressedPackage(true).apply();
     }
-    if (createTar) {
+    if (Boolean.TRUE.equals(createZip)) {
       new CreateCompressedPackage(false).apply();
     }
     Logger.infoUnIndent("压缩包创建完成！");
@@ -144,10 +152,10 @@ public abstract class AbstractPackager extends PackagerExtension {
     // 设置Velocity自定义模板目录
     VelocityUtils.setAssetsDir(assetsDir);
     // 默认值初始化
-    displayName = StrUtil.blankToDefault(displayName, name);
-    description = StrUtil.blankToDefault(description, displayName);
-    organizationName = StrUtil.blankToDefault(organizationName, DEFAULT_ORGANIZATION_NAME);
-    organizationUrl = StrUtil.blankToDefault(organizationUrl, StrUtil.EMPTY);
+    displayName = CharSequenceUtil.blankToDefault(displayName, name);
+    description = CharSequenceUtil.blankToDefault(description, displayName);
+    organizationName = CharSequenceUtil.blankToDefault(organizationName, DEFAULT_ORGANIZATION_NAME);
+    organizationUrl = CharSequenceUtil.blankToDefault(organizationUrl, StrUtil.EMPTY);
     jdkPath = ObjectUtil.defaultIfNull(jdkPath, new File(System.getProperty("java.home")));
     tmpDir = new File(outputDir, "tmp");
     Assert.isTrue(jdkPath.exists(), "JDK 路径不存在 {}", jdkPath);
@@ -170,6 +178,7 @@ public abstract class AbstractPackager extends PackagerExtension {
     }
     // 创建应用程序输出文件夹
     appFolder = new File(outputDir, name);
+    resourcesFolder = appFolder;
     FileUtils.del(appFolder);
     appFolder = FileUtil.mkdir(FileUtil.file(outputDir, name));
     Logger.info("应用程序文件输出位置: {}", appFolder.getAbsolutePath());
@@ -178,6 +187,7 @@ public abstract class AbstractPackager extends PackagerExtension {
     Logger.info("临时资源文件夹位置: {}", assetsFolder.getAbsolutePath());
     // 创建平台相关的目录架构
     doCreateAppStructure();
+
     Logger.infoUnIndent("App的目录架构创建完成");
   }
 
@@ -187,14 +197,15 @@ public abstract class AbstractPackager extends PackagerExtension {
   public void resolveResources() {
     Logger.infoIndent("开始检索资源 ...");
     // 查找图标
-    File iconFile = platform.getPlatformConfig().getIconFile();
+    File icon = platform.getPlatformConfig().getIconFile();
     // 如果没有设置，则使用默认图标
-    if (!FileUtil.exist(iconFile)) {
-      iconFile = new File(assetsFolder, iconFile.getName());
-      FileUtil.copy(String.format("/%s/default-icon.%s", platform, platform.getIconType()), iconFile.getAbsolutePath(), true);
+    if (!FileUtil.exist(icon)) {
+      icon = new File(String.format("/%s/default-icon.%s", platform, platform.getIconType()));
     }
-    resources.put(platform.getPlatformConfig().getIconFile().getName(), platform.getPlatformConfig().getIconFile());
-    Logger.info("使用图标: {}", iconFile.getAbsolutePath());
+    Logger.info("使用图标: {}", icon.getAbsolutePath());
+    FileUtil.copy(icon, assetsFolder, true);
+    this.iconFile = new File(assetsFolder, icon.getName());
+    resources.put(icon.getName(), iconFile);
     // 启动VM参数文件
     if (FileUtil.exist(vmOptionsFile)) {
       resources.put(vmOptionsFilePath, vmOptionsFile);
@@ -204,7 +215,7 @@ public abstract class AbstractPackager extends PackagerExtension {
     // 拷贝资源
     resources.forEach((to, from) -> {
       if (from.exists()) {
-        FileUtil.copy(from, new File(appFolder, to), true);
+        FileUtil.copy(from, new File(resourcesFolder, to), true);
       } else {
         Logger.warn("资源不存在: {}", from);
       }
@@ -213,15 +224,13 @@ public abstract class AbstractPackager extends PackagerExtension {
   }
 
   /**
-   * 删除无用的文件
+   * 最后处理
    */
-  private void removeUselessFiles() {
-    if (userLauncher()) {
-      if (Boolean.TRUE.equals(launcher.getWithLibraries())) {
-        Upgrade upgrade = new Upgrade(getProject(), appFolder);
-        upgrade.setRemoveOld(false);
-        upgrade.createLocal();
-      }
+  private void doLast() {
+    if (userLauncher() && Boolean.TRUE.equals(launcher.getWithLibraries())) {
+      Upgrade upgrade = new Upgrade(getProject(), appFolder);
+      upgrade.setRemoveOld(false);
+      upgrade.createLocal();
     }
   }
 

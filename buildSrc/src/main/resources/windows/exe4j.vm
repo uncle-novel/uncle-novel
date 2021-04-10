@@ -2,7 +2,7 @@
 <exe4j version="8.0" transformSequenceNumber="3">
   <application name="${info.name}" distributionSourceDir="${info.appFolder}"/>
   <executable name="${info.name}"
-              iconSet="true" iconFile="${info.platform.getPlatformConfig().iconFile}"
+              iconSet="true" iconFile="${info.iconFile}"
               redirectStderr="true" stderrFile="logs/log-system.log" stderrMode="append"
               executableMode="gui" singleInstance="true" checkConsoleParameter="true"
               amd64="$info.x64"

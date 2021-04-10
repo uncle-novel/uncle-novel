@@ -171,6 +171,7 @@ if [ $exitcode -eq 0 ]; then
   WorkingDirectory=$(eval echo "${WorkingDirectory}")
 
   # read the MainClass name
+  JVMMainModule="$(plist_get_java ':MainModule')"
   JVMMainClass="$(plist_get_java ':MainClass')"
 
   # read the SplashFile name
@@ -239,6 +240,7 @@ else
 
   # read the MainClass name
   JVMMainClass="$(plist_get ':JVMMainClassName')"
+  JVMMainModule="$(plist_get ':JVMMainModuleName')"
 
   # read the SplashFile name
   JVMSplashFile=$(plist_get ':JVMSplashFile')
@@ -795,14 +797,14 @@ stub_logger "[WorkingDirectory] ${WorkingDirectory}"
 # - main class
 # - main class arguments
 # - passthrough arguments from Terminal or Drag'n'Drop to Finder icon
-stub_logger "[Exec] \"$JAVACMD\" -cp \"${JVMClassPath}\" ${JVMSplashFile:+ -splash:\"${ResourcesFolder}/${JVMSplashFile}\"} -Xdock:icon=\"${ResourcesFolder}/${CFBundleIconFile}\" -Xdock:name=\"${CFBundleName}\" ${JVMOptionsArr:+$(printf "'%s' " "${JVMOptionsArr[@]}") }${JVMDefaultOptions:+$JVMDefaultOptions }${JVMMainClass}${MainArgsArr:+ $(printf "'%s' " "${MainArgsArr[@]}")}${ArgsPassthru:+ $(printf "'%s' " "${ArgsPassthru[@]}")}"
+stub_logger "[Exec] \"$JAVACMD\" -p \"${JVMClassPath}\" ${JVMSplashFile:+ -splash:\"${ResourcesFolder}/${JVMSplashFile}\"} -Xdock:icon=\"${ResourcesFolder}/${CFBundleIconFile}\" -Xdock:name=\"${CFBundleName}\" ${JVMOptionsArr:+$(printf "'%s' " "${JVMOptionsArr[@]}") }${JVMDefaultOptions:+$JVMDefaultOptions} -m ${JVMMainModule}/${JVMMainClass}${MainArgsArr:+ $(printf "'%s' " "${MainArgsArr[@]}")}${ArgsPassthru:+ $(printf "'%s' " "${ArgsPassthru[@]}")}"
 exec "${JAVACMD}" \
-  -cp "${JVMClassPath}" \
+  -p "${JVMClassPath}" \
   ${JVMSplashFile:+ -splash:"${ResourcesFolder}/${JVMSplashFile}"} \
   -Xdock:icon="${ResourcesFolder}/${CFBundleIconFile}" \
   -Xdock:name="${CFBundleName}" \
   ${JVMOptionsArr:+"${JVMOptionsArr[@]}" } \
   ${JVMDefaultOptions:+$JVMDefaultOptions } \
-  "${JVMMainClass}" \
+  -m "${JVMMainModule}/${JVMMainClass}" \
   ${MainArgsArr:+ "${MainArgsArr[@]}"} \
   ${ArgsPassthru:+ "${ArgsPassthru[@]}"}

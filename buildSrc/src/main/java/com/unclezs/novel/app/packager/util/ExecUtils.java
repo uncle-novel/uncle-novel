@@ -1,9 +1,10 @@
 package com.unclezs.novel.app.packager.util;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.RuntimeUtil;
-import cn.hutool.core.util.StrUtil;
+import com.unclezs.novel.app.packager.exception.PackageException;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
@@ -24,20 +25,29 @@ public class ExecUtils {
    * @return 结果
    */
   public String exec(Object... args) {
-    String[] cmd = buildParams(args);
+    return exec(new CmdBuilder().add(args).cmdArray());
+  }
+
+  /**
+   * 执行cmd
+   *
+   * @param args 参数
+   * @return 结果
+   */
+  public String exec(String... args) {
     Process process = null;
     try {
-      Logger.info("执行CMD：{}", Logger.blue(ArrayUtil.join(cmd, StrUtil.SPACE)));
-      process = RuntimeUtil.exec(cmd);
+      Logger.info("执行CMD：{}", Logger.blue(ArrayUtil.join(args,CharSequenceUtil.SPACE)));
+      process = RuntimeUtil.exec(args);
       String result = RuntimeUtil.getResult(process, CharsetUtil.CHARSET_UTF_8);
       int exitCode = process.waitFor();
       if (exitCode != 0) {
-        throw new RuntimeException(result);
+        throw new PackageException(result);
       }
       return result;
     } catch (Exception e) {
       Logger.error("执行CMD失败: \n{}", e.getMessage());
-      throw new RuntimeException(e);
+      throw new PackageException(e);
     } finally {
       if (process != null && process.isAlive()) {
         process.destroy();
@@ -63,27 +73,6 @@ public class ExecUtils {
    */
   public static CmdBuilder create(File executable) {
     return create(executable.getAbsolutePath());
-  }
-
-  /**
-   * 构建CMD参数
-   *
-   * @param args 参数
-   * @return 参数字符串
-   */
-  private static String[] buildParams(Object... args) {
-    String[] params = new String[args.length];
-    params[0] = args[0].toString();
-    for (int i = 1; i < args.length; i++) {
-      Object arg = args[i];
-      if (arg instanceof File) {
-        String path = ((File) arg).getAbsolutePath();
-        params[i] = StrUtil.wrap(path, "\"");
-      } else {
-        params[i] = arg.toString();
-      }
-    }
-    return params;
   }
 
   /**
@@ -117,62 +106,22 @@ public class ExecUtils {
     /**
      * 添加参数
      *
-     * @param option 参数
+     * @param args 参数
      * @return this
      */
-    public CmdBuilder add(String option) {
-      if (option == null) {
-        return this;
-      }
-      this.cmd.append(" ").append(option);
-      return this;
-    }
-
-    /**
-     * 添加参数
-     *
-     * @param option 选项
-     * @return this
-     */
-    public CmdBuilder add(File option) {
-      if (option == null) {
-        return this;
-      }
-      return add(option.getAbsolutePath());
-    }
-
-    /**
-     * 添加参数
-     *
-     * @param option 选项
-     * @param param  参数
-     * @return this
-     */
-    public CmdBuilder add(String option, String param) {
-      this.cmd.append(" ").append(option).append(" ").append(param);
-      return this;
-    }
-
-    /**
-     * 添加参数
-     *
-     * @param option 选项
-     * @param param  参数
-     * @return this
-     */
-    public CmdBuilder add(String option, File param) {
-      return add(option, param.getAbsolutePath());
-    }
-
-    /**
-     * 添加全部参数
-     *
-     * @param options 选项
-     * @return this
-     */
-    public CmdBuilder addAll(String... options) {
-      for (String option : options) {
-        add(option);
+    public CmdBuilder add(Object... args) {
+      for (Object arg : args) {
+        if (arg == null) {
+          continue;
+        }
+        if (arg.getClass().isArray()) {
+          add((Object[]) arg);
+        } else if (arg instanceof File) {
+          String path = ((File) arg).getAbsolutePath();
+          this.cmd.append(CharSequenceUtil.SPACE).append(CharSequenceUtil.containsBlank(path) ? CharSequenceUtil.wrap(path, "\"") : path);
+        } else {
+          this.cmd.append(CharSequenceUtil.SPACE).append(arg.toString().trim());
+        }
       }
       return this;
     }
@@ -182,8 +131,17 @@ public class ExecUtils {
      *
      * @return this
      */
-    public String get() {
-      return this.cmd.toString();
+    public String cmd() {
+      return this.cmd.toString().trim();
+    }
+
+    /**
+     * 获取CMD
+     *
+     * @return this
+     */
+    public String[] cmdArray() {
+      return this.cmd.toString().trim().split(CharSequenceUtil.SPACE);
     }
 
     /**
@@ -192,7 +150,7 @@ public class ExecUtils {
      * @return 响应结果
      */
     public String exec() {
-      return ExecUtils.exec(this.get());
+      return ExecUtils.exec(cmdArray());
     }
   }
 }

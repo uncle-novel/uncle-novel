@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.packager.model;
 
 import cn.hutool.system.SystemUtil;
+import com.unclezs.novel.app.packager.exception.PackageException;
 import com.unclezs.novel.app.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.packager.packager.LinuxPackager;
 import com.unclezs.novel.app.packager.packager.MacPackager;
@@ -61,7 +62,7 @@ public enum Platform {
       } else if (SystemUtil.getOsInfo().isMac()) {
         current = mac;
       } else {
-        throw new RuntimeException("不支持的操作系统");
+        throw new PackageException("不支持的操作系统");
       }
     }
     return current;

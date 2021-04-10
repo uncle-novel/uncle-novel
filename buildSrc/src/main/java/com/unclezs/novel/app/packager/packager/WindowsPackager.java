@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.packager.packager;
 
-import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.unclezs.novel.app.packager.subtask.BaseSubTask;
@@ -9,12 +9,13 @@ import com.unclezs.novel.app.packager.subtask.windows.GenerateMsi;
 import com.unclezs.novel.app.packager.subtask.windows.GenerateMsm;
 import com.unclezs.novel.app.packager.subtask.windows.GenerateSetup;
 import com.unclezs.novel.app.packager.util.Logger;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Packager for Windows
@@ -54,12 +55,12 @@ public class WindowsPackager extends AbstractPackager {
   public void doCreateApp() {
     Logger.infoIndent("开始创建EXE ...");
     // 拷贝可执行Jar到依赖目录
-    if (!winConfig.getWrapJar()) {
+    if (Boolean.FALSE.equals(winConfig.getWrapJar())) {
       FileUtil.copy(jarFile, libsFolder, true);
     }
     classpath.add(jarFile.getAbsolutePath());
     // 生成classpath
-    if (CollectionUtil.isNotEmpty(classpath) && !isUseResourcesAsWorkingDir()) {
+    if (CollUtil.isNotEmpty(classpath) && !isUseResourcesAsWorkingDir()) {
       classpath = classpath.stream()
         .map(cp -> new File(cp).isAbsolute() ? cp : "%EXE4J_EXEDIR%/" + cp)
         .collect(Collectors.toSet());

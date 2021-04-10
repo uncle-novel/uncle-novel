@@ -1,6 +1,9 @@
 package com.unclezs.novel.app.packager.util;
 
+import com.unclezs.novel.app.packager.exception.PackageException;
 import com.unclezs.novel.app.packager.model.Platform;
+import lombok.experimental.UtilityClass;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import lombok.experimental.UtilityClass;
 
 /**
  * JDK工具
@@ -115,9 +117,8 @@ public class JdkUtils {
    */
   public static String getModuleName(File jar) {
     Set<ModuleReference> references = ModuleFinder.of(jar.toPath()).findAll();
-    for (ModuleReference reference : references) {
-      return reference.descriptor().name();
-    }
-    throw new RuntimeException("模块未找到");
+    return references.stream().findFirst()
+      .orElseThrow(() -> new PackageException("模块未找到"))
+      .descriptor().name();
   }
 }

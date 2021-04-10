@@ -36,7 +36,7 @@ public class GeneratePkg extends BaseSubTask {
 
     // invokes pkgbuild command
     ExecUtils.create("pkgbuild")
-      .addAll("--install-location", "/Applications")
+      .add("--install-location", "/Applications")
       .add("--component",appFile)
       .add(pkgFile)
       .exec();

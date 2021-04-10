@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.packager.subtask;
 
 import com.unclezs.novel.app.packager.Context;
+import com.unclezs.novel.app.packager.exception.PackageException;
 import com.unclezs.novel.app.packager.packager.AbstractPackager;
 import com.unclezs.novel.app.packager.util.Logger;
 import lombok.Getter;
@@ -65,9 +66,9 @@ public abstract class BaseSubTask {
       Logger.infoIndent("开始{}...", name);
       try {
         result = run();
-      } catch (Throwable ex) {
+      } catch (Exception ex) {
         Logger.error("{}失败！", name, ex);
-        throw new RuntimeException(ex);
+        throw new PackageException(ex);
       }
       if (result == null) {
         Logger.infoUnIndent("成功{}！", name);

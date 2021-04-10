@@ -10,7 +10,7 @@
     <key>CFBundleExecutable</key>
     <string>${info.executable.name}</string>
     <key>CFBundleIconFile</key>
-    <string>${info.name}.icns</string>
+    <string>${info.iconFile.name}</string>
     <key>CFBundleIdentifier</key>
     <string>${info.macConfig.appId}</string>
     <key>CFBundleDisplayName</key>
@@ -41,15 +41,17 @@
       #end
     <key>JavaX</key>
     <dict>
+      <key>MainModule</key>
+      <string>${info.mainModule}</string>
       <key>MainClass</key>
       <string>${info.mainClass}</string>
-        #if (!$info.bundleJre && $info.jreMinVersion)
+        #if (!$info.bundleJre && !$info.jreMinVersion.blank)
           <key>JVMVersion</key>
           <string>${info.jreMinVersion}+</string>
         #end
       <key>ClassPath</key>
       <array>
-          #foreach ($classpath in $info.classpathList)
+          #foreach ($classpath in $info.classpath)
             <string>$classpath</string>
           #end
       </array>
@@ -66,7 +68,7 @@
           <string>$APP_PACKAGE/Contents/Resources</string>
         #end
       <key>JVMOptionsFile</key>
-      <string>$APP_PACKAGE/Contents/Resources/${info.vmOptionsFileName}</string>
+      <string>$APP_PACKAGE/Contents/Resources/${info.vmOptionsFilePath}</string>
     </dict>
     <key>LSEnvironment</key>
     <dict>

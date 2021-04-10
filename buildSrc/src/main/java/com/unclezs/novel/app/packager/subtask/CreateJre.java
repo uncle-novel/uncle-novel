@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.system.SystemUtil;
+import com.unclezs.novel.app.packager.exception.PackageException;
 import com.unclezs.novel.app.packager.model.Platform;
 import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.FileUtils;
@@ -61,7 +62,7 @@ public class CreateJre extends BaseSubTask {
       // 检查是否指定了有效的jre
       if (!JdkUtils.isValidJre(platform, customJreFolder)) {
         Logger.error("Jre 不合法：{}", customJreFolder);
-        throw new RuntimeException("Jre 不合法");
+        throw new PackageException("Jre 不合法");
       }
       // 将JRE文件夹复制到捆绑包
       FileUtil.copy(customJreFolder, destinationFolder, true);
@@ -70,7 +71,7 @@ public class CreateJre extends BaseSubTask {
       Arrays.asList(Objects.requireNonNull(binFolder.listFiles())).forEach(f -> f.setExecutable(true, false));
     } else if (JdkUtils.getJavaMajorVersion() <= 8) {
       Logger.error("JDK8以上才能增量生成JRE，请指定JrePath, 当前JDK版本：{}", SystemUtil.getJavaInfo().getVersion());
-      throw new RuntimeException("JDK8以上才能增量生成JRE");
+      throw new PackageException("JDK8以上才能增量生成JRE");
     } else if (!platform.isCurrentPlatform() && jdkPath.equals(currentJdk)) {
       Logger.warn("不能创建与当前操作系统不同的Jre. 当前操作系统：{}", platform);
       bundleJre = false;
@@ -79,7 +80,7 @@ public class CreateJre extends BaseSubTask {
       // 测试指定的JDK是否与目标平台使用相同的平台
       if (!JdkUtils.isValidJdk(platform, jdkPath)) {
         Logger.warn("非法JDK. 当前操作系统：{} , JDK: {}", platform, jdkPath);
-        throw new RuntimeException("非法JDK");
+        throw new PackageException("非法JDK");
       }
       // 使用模块生成定制的jre
       ExecUtils.create(new File(jdkPath, "/bin/jlink"))
@@ -175,7 +176,7 @@ public class CreateJre extends BaseSubTask {
     File modulesDir = new File(packager.getJdkPath(), "jmods");
     if (!modulesDir.exists()) {
       Logger.error("jmods 文件不存在: {}", modulesDir);
-      throw new RuntimeException("jmods 文件不存在");
+      throw new PackageException("jmods 文件不存在");
     }
     List<String> modulePathList = CollectionUtil.toList(modulesDir.getAbsolutePath());
     if (CollectionUtil.isNotEmpty(packager.getAdditionalModulePaths())) {

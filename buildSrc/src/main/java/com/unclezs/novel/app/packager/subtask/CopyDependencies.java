@@ -44,7 +44,7 @@ public class CopyDependencies extends BaseSubTask {
    * 拷贝项目依赖
    */
   private void copyDependencies() {
-    File libsFolder = new File(packager.userLauncher() ? packager.getTmpDir() : packager.getAppFolder(), packager.getLibsFolderPath());
+    File libsFolder = new File(packager.userLauncher() ? packager.getTmpDir() : packager.getResourcesFolder(), packager.getLibsFolderPath());
     // 项目依赖
     artifacts.stream()
       .filter(artifact -> !artifact.getName().contains(OPEN_JFX_SYMBOL))
