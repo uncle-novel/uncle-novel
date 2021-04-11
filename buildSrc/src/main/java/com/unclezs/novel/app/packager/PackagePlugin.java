@@ -18,12 +18,11 @@ public class PackagePlugin implements Plugin<Project> {
 
   public static final String GROUP_NAME = "packager";
   public static final String EXTENSION_NAME = "packager";
-  public static final String PACKAGE_TASK_NAME = "package";
 
   @Override
   public void apply(Project project) {
     Context.project = project;
-    project.getExtensions().create(EXTENSION_NAME, PackagerExtension.class, project);
+    project.getExtensions().create(GROUP_NAME, PackagerExtension.class, project);
     project.getTasks().create("upgrade", UpgradeTask.class).dependsOn("build");
   }
 }

@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.packager.task;
+package com.unclezs.novel.app.packager;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
@@ -8,23 +8,22 @@ import com.unclezs.jfx.launcher.Resource;
 import com.unclezs.jfx.launcher.Resource.Type;
 import com.unclezs.novel.app.packager.model.LauncherConfig;
 import com.unclezs.novel.app.packager.model.PackagerExtension;
-import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.FileUtils;
+import java.io.File;
+import java.nio.file.Path;
+import java.util.Map;
 import lombok.Setter;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.ResolvedArtifact;
 import org.gradle.jvm.tasks.Jar;
 
-import java.io.File;
-import java.net.URI;
-import java.nio.file.Path;
-import java.util.Map;
-
 /**
+ * jfx-launcher辅助工具，生成升级追踪的文件
+ *
  * @author blog.unclezs.com
  * @date 2021/04/02 13:28
  */
-public class Upgrade {
+public class LauncherHelper {
 
   /**
    * 升级文件输出目录
@@ -34,26 +33,25 @@ public class Upgrade {
   private final LauncherConfig config;
   private final Map<String, String> mapper;
   private final Manifest manifest;
-  private final PackagerExtension extension;
   /**
    * 如果outDir已经存在，是否删除
    */
   @Setter
   private boolean removeOld = true;
 
-  public Upgrade(Project project, File outDir) {
+  public LauncherHelper(Project project, File outDir) {
     this.project = project;
     this.outDir = outDir;
-    this.extension = project.getExtensions().getByType(PackagerExtension.class);
+    PackagerExtension extension = project.getExtensions().getByType(PackagerExtension.class);
     this.config = extension.getLauncher();
-    this.mapper = config.getFileMapper();
+    this.mapper = config.getResourceMapper();
     this.manifest = BeanUtil.toBean(config, Manifest.class);
   }
 
   /**
-   * 拷贝依赖及App Jar包, 生成升级配置文件
+   * 生成升级配置文件及相关资源
    */
-  public void createLocal() {
+  public void generate() {
     if (removeOld) {
       FileUtils.del(outDir);
     }
@@ -65,59 +63,49 @@ public class Upgrade {
     FileUtil.writeUtf8String(manifest.toJson(), FileUtil.file(outDir, configPath));
   }
 
+  /**
+   * 生成项目依赖
+   */
   private void generateLibraries() {
     // 生成项目依赖
     for (ResolvedArtifact artifact : project.getConfigurations().getByName("runtimeClasspath").getResolvedConfiguration().getResolvedArtifacts()) {
-      project.copy(c -> {
-        if (artifact.getName().contains("javafx")) {
-          return;
-        }
-        String artifactName;
-        if (artifact.getClassifier() != null) {
-          artifactName = String.format("%s-%s.%s", artifact.getName(), artifact.getClassifier(), artifact.getExtension());
-        } else {
-          artifactName = String.format("%s.%s", artifact.getName(), artifact.getExtension());
-        }
-        // 拷贝更新文件
-        String outPath = mapper(artifactName);
-        c.from(artifact.getFile()).into(new File(outDir, outPath).getParentFile()).rename(old -> artifactName);
-        // 填充manifest
-        Resource library = new Resource(outPath, artifact.getFile().length(), Platform.fromString(artifact.getClassifier()), Type.JAR);
-        manifest.getResources().add(library);
-      });
+      if (artifact.getName().contains("javafx")) {
+        continue;
+      }
+      String artifactName;
+      if (artifact.getClassifier() != null) {
+        artifactName = String.format("%s-%s.%s", artifact.getName(), artifact.getClassifier(), artifact.getExtension());
+      } else {
+        artifactName = String.format("%s.%s", artifact.getName(), artifact.getExtension());
+      }
+      // 拷贝更新文件
+      String path = mapper(artifactName);
+      final File outFile = new File(outDir, path);
+      project.copy(c -> c.from(artifact.getFile()).into(outFile.getParentFile()).rename(old -> artifactName));
+      // 填充manifest
+      Resource library = new Resource(path, outFile.length(), Platform.fromString(artifact.getClassifier()), Type.JAR);
+      manifest.getResources().add(library);
     }
     // 本项目的Jar
-    project.copy(c -> {
-      Jar jar = ((Jar) project.getTasks().getByName("jar"));
-      String artifactName = jar.getArchiveBaseName().get().concat(".").concat(jar.getArchiveExtension().get());
-      String outPath = mapper(artifactName);
-      c.from(jar.getArchiveFile()).into(new File(outDir, outPath).getParentFile()).rename(closure -> artifactName);
-      Resource library = new Resource(outPath, jar.getArchiveFile().get().getAsFile().length(), Type.JAR);
-      manifest.getResources().add(library);
-    });
+    Jar jar = ((Jar) project.getTasks().getByName("jar"));
+    String artifactName = jar.getArchiveBaseName().get().concat(".").concat(jar.getArchiveExtension().get());
+    String path = mapper(artifactName);
+    final File outFile = new File(outDir, path);
+    project.copy(c -> c.from(jar.getArchiveFile()).into(outFile.getParentFile()).rename(closure -> artifactName));
+    Resource library = new Resource(path, outFile.length(), Type.JAR);
+    manifest.getResources().add(library);
   }
 
 
+  /**
+   * 生成额外的资源
+   */
   private void generateResource() {
     for (Resource resource : config.getResources()) {
       File file = new File(resource.getPath());
-      String path = file.getName();
+      String path = mapper(file.getName());
       FileUtil.copy(file, new File(outDir, path), true);
       resource.setPath(path);
-    }
-  }
-
-  /**
-   * 部署到远程
-   */
-  public void deploy() {
-    String server = config.getUrl();
-    if (server.startsWith("file:")) {
-      File serverDir = new File(URI.create(server));
-      FileUtils.del(serverDir);
-      FileUtil.copyContent(outDir, serverDir, true);
-    } else if (server.startsWith("http")) {
-      ExecUtils.exec("scp", "-r", outDir, server);
     }
   }
 

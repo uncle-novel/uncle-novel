@@ -4,20 +4,23 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
-import cn.hutool.core.util.StrUtil;
+import com.unclezs.novel.app.packager.LauncherHelper;
 import com.unclezs.novel.app.packager.model.PackagerExtension;
 import com.unclezs.novel.app.packager.model.Platform;
-import com.unclezs.novel.app.packager.subtask.*;
-import com.unclezs.novel.app.packager.task.Upgrade;
+import com.unclezs.novel.app.packager.subtask.BaseSubTask;
+import com.unclezs.novel.app.packager.subtask.CopyDependencies;
+import com.unclezs.novel.app.packager.subtask.CreateCompressedPackage;
+import com.unclezs.novel.app.packager.subtask.CreateJre;
+import com.unclezs.novel.app.packager.subtask.CreateLauncher;
+import com.unclezs.novel.app.packager.subtask.CreateRunnableJar;
 import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
+import java.io.File;
+import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * 核心打包基类
@@ -32,7 +35,7 @@ public abstract class AbstractPackager extends PackagerExtension {
 
   public static final String BACKSLASH = "\\";
   public static final String SLASH = "/";
-  private static final String DEFAULT_ORGANIZATION_NAME = "Unclezs";
+  private static final String DEFAULT_ORGANIZATION_NAME = "Uncle";
   /**
    * 应用程序输出文件夹为 outputDir/name
    */
@@ -69,7 +72,7 @@ public abstract class AbstractPackager extends PackagerExtension {
   protected File libsFolder;
   protected File executable;
 
-  public AbstractPackager() {
+  protected AbstractPackager() {
     Logger.info("使用打包器：".concat(getClass().getName()));
   }
 
@@ -155,7 +158,7 @@ public abstract class AbstractPackager extends PackagerExtension {
     displayName = CharSequenceUtil.blankToDefault(displayName, name);
     description = CharSequenceUtil.blankToDefault(description, displayName);
     organizationName = CharSequenceUtil.blankToDefault(organizationName, DEFAULT_ORGANIZATION_NAME);
-    organizationUrl = CharSequenceUtil.blankToDefault(organizationUrl, StrUtil.EMPTY);
+    organizationUrl = CharSequenceUtil.blankToDefault(organizationUrl, CharSequenceUtil.EMPTY);
     jdkPath = ObjectUtil.defaultIfNull(jdkPath, new File(System.getProperty("java.home")));
     tmpDir = new File(outputDir, "tmp");
     Assert.isTrue(jdkPath.exists(), "JDK 路径不存在 {}", jdkPath);
@@ -164,7 +167,6 @@ public abstract class AbstractPackager extends PackagerExtension {
     // 初始化平台相关配置
     doInit();
     // 打印打包程序配置信息
-    Logger.info(this.toString());
     Logger.infoUnIndent("打包器初始化完成！");
   }
 
@@ -228,9 +230,9 @@ public abstract class AbstractPackager extends PackagerExtension {
    */
   private void doLast() {
     if (userLauncher() && Boolean.TRUE.equals(launcher.getWithLibraries())) {
-      Upgrade upgrade = new Upgrade(getProject(), appFolder);
-      upgrade.setRemoveOld(false);
-      upgrade.createLocal();
+      LauncherHelper launcherHelper = new LauncherHelper(getProject(), resourcesFolder);
+      launcherHelper.setRemoveOld(false);
+      launcherHelper.generate();
     }
   }
 

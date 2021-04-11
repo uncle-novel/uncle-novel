@@ -73,7 +73,7 @@ subprojects { project ->
 
 //  checkstyle {
 //    toolVersion = "8.41"
-//    configDirectory.set(rootProject.file("src/checkstyle"))
+//    configDirectory.set(rootProject.outFile("src/checkstyle"))
 //  }
 }
 

@@ -1,6 +1,9 @@
 import com.unclezs.novel.app.packager.task.PackageTask
+import com.unclezs.novel.app.packager.task.UpgradeTask
 import proguard.gradle.ProGuardTask
 
+// prod / dev
+def profile = "dev"
 buildscript {
     repositories {
         jcenter()
@@ -45,17 +48,21 @@ packager {
 
     mainModule = "com.unclezs.jfx.launcher"
     mainClass = 'com.unclezs.jfx.launcher.Launcher'
+    libsFolderPath = "libraries"
 
     bundleJre = true
     bundleFxJre = true
     customizedJre = false
     jreDirName = "runtime"
-    vmArgs = ["--add-modules ALL-SYSTEM", "--add-opens=java.base/java.lang=com.unclezs.jfx.launcher"]
-    libsFolderPath = "libraries"
+    vmArgs = [
+            "-Djava.util.logging.config.outFile=conf/jul.properties",
+            "--add-modules ALL-SYSTEM",
+            "--add-opens=java.base/java.lang=com.unclezs.jfx.launcher"
+    ]
     vmOptionsFilePath = "conf/launcher.vmoptions"
-    vmOptionsFile = file("${packagerDir}/vm.options")
+    vmOptionsFile = file("${packagerDir}/resource/conf/vm.options")
     linuxConfig {
-        iconFile = file("${packagerDir}/logo/favicon.png")
+        iconFile = file("${packagerDir}/icon/favicon.png")
         return linuxConfig;
     }
     macConfig {
@@ -63,12 +70,12 @@ packager {
         generatePkg = true
         startScriptName = "startApplication"
         appId = "com.unclezs.novel.app"
-        iconFile = file("${packagerDir}/logo/favicon.icns")
+        iconFile = file("${packagerDir}/icon/favicon.icns")
         return macConfig
     }
     winConfig {
         generateSetup = true
-        iconFile = file("${packagerDir}/logo/favicon.ico")
+        iconFile = file("${packagerDir}/icon/favicon.ico")
         wrapJar = true
         x64 = true
         internalName = packager.name
@@ -87,17 +94,18 @@ packager {
         return winConfig
     }
     launcher {
-        withLibraries = false
         coordinate = "com.unclezs:jfx-launcher:${property("app.launcher.version")}"
-        // 依赖文件位置映射
-        fileMapper = [
+        withLibraries = true
+        // 资源位置映射、按照文件名和后缀映射到本地相对目录
+        resourceMapper = [
                 "jar"      : "runtime/modules",
-                "vmoptions": "conf"
+                "vmoptions": "conf",
         ]
         // 其他资源
-//        resource("${packagerDir}/logo/favicon.icns", Type.FILE, "WIN")
+        resource("$packagerDir/resource/conf/jul.properties", "conf")
 
-        url = file("$buildDir/server").toURI().toURL().toString()
+//        url = outFile("$buildDir/server").toURI().toURL().toString()
+        url = "http://uncle-novel.unclezs.com/novel/${profile}"
         // 配置文件在打包时已经确定，如果修改需要重新打包发布
         configPath = "conf/app.json"
         appName = packager.name
@@ -116,7 +124,6 @@ task packageLinux(type: PackageTask, dependsOn: build) {
     createZip = false
     generateInstaller = true
 }
-
 task packageMac(type: PackageTask, dependsOn: build) {
     description = "打Mac的的包，DMG、PKG"
     platform = "mac"
@@ -147,11 +154,18 @@ task packageWin32(type: PackageTask, dependsOn: build) {
     generateInstaller = true
 }
 task packageAlone(type: PackageTask, dependsOn: build) {
-    vmArgs = file("$projectDir/app.modularity").readLines()
     description = "打不带Launcher的包"
+    vmArgs = file("$projectDir/app.modularity").readLines()
     enabledLauncher = false
     createTar = false
     generateInstaller = false
     mainModule = "com.unclezs.novel.app.main"
     mainClass = "com.unclezs.novel.app.main.ui.app.App"
+}
+tasks.withType(UpgradeTask) {
+    description = "生成并且部署升级相关文件"
+    dryRun = false
+    rsync = true
+    url = "root@uncle-novel.unclezs.com:/www/wwwroot/uncle-novel.unclezs.com/novel/$profile"
+    outDir = file("$buildDir/upgrade")
 }

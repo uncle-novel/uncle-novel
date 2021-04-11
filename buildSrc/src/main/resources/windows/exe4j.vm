@@ -3,7 +3,7 @@
   <application name="${info.name}" distributionSourceDir="${info.appFolder}"/>
   <executable name="${info.name}"
               iconSet="true" iconFile="${info.iconFile}"
-              redirectStderr="true" stderrFile="logs/log-system.log" stderrMode="append"
+              redirectStderr="false"
               executableMode="gui" singleInstance="true" checkConsoleParameter="true"
               amd64="$info.x64"
       #if($info.administratorRequired)
