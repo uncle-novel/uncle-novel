@@ -4,24 +4,26 @@ import com.jfoenix.controls.JFXPopup;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.appication.SceneViewNavigateBundle;
-import com.unclezs.novel.app.framework.components.IconButton;
 import com.unclezs.novel.app.framework.components.StageDecorator;
-import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigationPane;
+import com.unclezs.novel.app.framework.components.icon.IconButton;
+import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigation;
+import com.unclezs.novel.app.framework.factory.ViewFactory;
 import com.unclezs.novel.app.framework.hotkey.HotKeyManager;
-import com.unclezs.novel.app.framework.util.FxmlLoader;
+import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.ui.pages.home.header.SettingPopupView;
 import com.unclezs.novel.app.main.ui.pages.home.header.ThemePopupView;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 
 /**
  * @author blog.unclezs.com
  * @since 2021/02/26 15:23
  */
-@FxView(fxml = "/layout/home/home.fxml", bundle = "app.home")
-public class HomeSceneView extends SceneView {
+@FxView(fxml = "/layout/home/home.fxml", bundle = "app")
+public class HomeSceneView extends SceneView<StageDecorator> {
 
-  public StageDecorator root;
-  public SidebarNavigationPane container;
+  @FXML
+  private SidebarNavigation navigation;
   private ThemePopupView themePopupView;
 
   public void print() {
@@ -31,22 +33,22 @@ public class HomeSceneView extends SceneView {
   @Override
   public void onSceneCreated(Scene scene) {
     System.out.println("MainView created");
-    scene.getStylesheets().setAll(HomeSceneView.class.getResource(String.format(ThemePopupView.THEME_FORMAT, "default")).toExternalForm());
+    scene.getStylesheets().setAll(ResourceUtils.loadCss(String.format(ThemePopupView.THEME_FORMAT, "default")));
   }
 
   @Override
   public void onTheme(StageDecorator view, IconButton themeButton) {
     if (themePopupView == null) {
-      themePopupView = FxmlLoader.load(ThemePopupView.class);
+      themePopupView = ViewFactory.me().getController(ThemePopupView.class);
     }
-    JFXPopup themePopup = themePopupView.getView();
+    JFXPopup themePopup = themePopupView.getRoot();
     themePopup.show(themeButton, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 40);
   }
 
   @Override
   public void onSetting(StageDecorator view, IconButton settingButton) {
-    SettingPopupView settingPopupView = FxmlLoader.load(SettingPopupView.class);
-    JFXPopup settingPopup = settingPopupView.getView();
+    SettingPopupView settingPopupView = ViewFactory.me().getController(SettingPopupView.class);
+    JFXPopup settingPopup = settingPopupView.getRoot();
     settingPopup
       .show(settingButton, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 40);
   }

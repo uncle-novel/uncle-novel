@@ -29,10 +29,11 @@ dependencies {
     compileOnly "org.projectlombok:lombok"
 
     implementation "com.unclezs:jfx-launcher"
+    implementation "com.google.code.gson:gson"
 
-    implementation "cn.hutool:hutool-core"
-    implementation "cn.hutool:hutool-system"
+    implementation "cn.hutool:hutool-all"
 
+    // packager
     implementation 'org.apache.velocity:velocity-engine-core'
     implementation 'com.netflix.nebula:gradle-ospackage-plugin'
     implementation 'net.jsign:jsign-core'

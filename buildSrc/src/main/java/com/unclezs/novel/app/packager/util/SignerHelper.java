@@ -1,21 +1,40 @@
 package com.unclezs.novel.app.packager.util;
 
 import com.unclezs.novel.app.packager.exception.PackageException;
-import net.jsign.*;
-import net.jsign.timestamp.TimestampingMode;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.net.*;
+import java.net.Authenticator;
+import java.net.InetSocketAddress;
+import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.SocketAddress;
+import java.net.URI;
+import java.net.URL;
 import java.nio.charset.Charset;
-import java.security.*;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.PrivateKey;
+import java.security.Provider;
+import java.security.Security;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+import net.jsign.AuthenticodeSigner;
+import net.jsign.DigestAlgorithm;
+import net.jsign.KeyStoreUtils;
+import net.jsign.PrivateKeyUtils;
+import net.jsign.Signable;
+import net.jsign.timestamp.TimestampingMode;
 
 /**
  * Helper class to create AuthenticodeSigner instances with untyped parameters. This is used
@@ -37,7 +56,7 @@ public class SignerHelper {
   public static final String PARAM_TSMODE = "tsmode";
   public static final String PARAM_TSRETRIES = "tsretries";
   public static final String PARAM_TSRETRY_WAIT = "tsretrywait";
-  public static final String PARAM_NAME = "name";
+  public static final String PARAM_NAME = "decorator.restore";
   public static final String PARAM_URL = "url";
   public static final String PARAM_PROXY_URL = "proxyUrl";
   public static final String PARAM_PROXY_USER = "proxyUser";

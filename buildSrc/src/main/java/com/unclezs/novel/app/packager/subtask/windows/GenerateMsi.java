@@ -37,7 +37,7 @@ public class GenerateMsi extends WinSubTask {
 
     // generates WXS file from velocity template
     File wxsFile = new File(assetsFolder, name + ".wxs");
-    VelocityUtils.render("windows/wxs.vm", wxsFile, packager, CharsetUtil.systemCharset());
+    VelocityUtils.render("packager/windows/wxs.vm", wxsFile, packager, CharsetUtil.systemCharset());
     Logger.info("WXS file generated in " + wxsFile + "!");
 
     // pretiffy wxs

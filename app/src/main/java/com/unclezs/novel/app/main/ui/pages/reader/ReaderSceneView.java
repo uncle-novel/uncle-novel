@@ -3,8 +3,8 @@ package com.unclezs.novel.app.main.ui.pages.reader;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.appication.SceneViewNavigateBundle;
-import com.unclezs.novel.app.framework.components.IconButton;
 import com.unclezs.novel.app.framework.components.StageDecorator;
+import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.main.ui.app.App;
 import com.unclezs.novel.app.main.ui.pages.home.HomeSceneView;
 import javafx.scene.control.ToggleButton;
@@ -15,7 +15,7 @@ import javafx.scene.layout.HBox;
  * @since 2021/03/04 12:13
  */
 @FxView(fxml = "/layout/reader/reader.fxml", bundle = "i18n.framework")
-public class ReaderSceneView extends SceneView {
+public class ReaderSceneView extends SceneView<StageDecorator> {
 
   public HBox box;
   public ToggleButton btn1;
@@ -24,7 +24,7 @@ public class ReaderSceneView extends SceneView {
   public ToggleButton btn4;
 
   @Override
-  public void onCreated() {
+  public void onCreate() {
     System.out.println("ReaderView created");
   }
 

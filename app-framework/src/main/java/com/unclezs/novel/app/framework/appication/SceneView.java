@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.framework.appication;
 
 import com.unclezs.novel.app.framework.components.StageDecorator;
-import com.unclezs.novel.app.framework.view.BaseView;
+import com.unclezs.novel.app.framework.view.View;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import lombok.Setter;
  * @author blog.unclezs.com
  * @since 2021/03/04 12:03
  */
-public abstract class SceneView extends BaseView implements StageDecorator.ActionHandler {
+public abstract class SceneView<V extends Parent> extends View<V> implements StageDecorator.ActionHandler {
 
   @Getter
   @Setter
@@ -36,28 +36,11 @@ public abstract class SceneView extends BaseView implements StageDecorator.Actio
   }
 
   /**
-   * 场景view被销毁时调用
-   */
-  public void onDestroy() {
-
-  }
-
-  /**
    * 当场景创建完毕
    *
    * @param scene 场景
    */
   public void onSceneCreated(Scene scene) {
 
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public Parent getView() {
-    return super.getView();
-  }
-
-  public void setView(Object view) {
-    super.setRoot(view);
   }
 }

@@ -11,13 +11,12 @@ import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
-import lombok.EqualsAndHashCode;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
 
 /**
  * Mac 打包器
@@ -108,7 +107,7 @@ public class MacPackager extends AbstractPackager {
     Logger.info("classpath：{}", classpath);
     // 创建 info.plist
     File infoPlistFile = new File(contentsFolder, "Info.plist");
-    VelocityUtils.render("mac/Info.plist.vm", infoPlistFile, this);
+    VelocityUtils.render("packager/mac/Info.plist.vm", infoPlistFile, this);
     Logger.info("Info.plist 文件创建成功：{}", infoPlistFile.getAbsolutePath());
     // codesign app folder
     if (Platform.mac.isCurrentPlatform()) {
@@ -127,7 +126,7 @@ public class MacPackager extends AbstractPackager {
     // 管理员权限启动，使用Root身份启动
     if (Boolean.TRUE.equals(administratorRequired)) {
       this.executable = new File(macOsFolder, "startup");
-      VelocityUtils.render("mac/startup.vm", executable, this);
+      VelocityUtils.render("packager/mac/startup.vm", executable, this);
       FileUtils.setExecutable(executable);
       Logger.info("Startup script file created in " + executable.getAbsolutePath());
     } else {
@@ -137,7 +136,7 @@ public class MacPackager extends AbstractPackager {
     }
     // 将universalJavaApplicationStub启动文件复制到启动java应用程序
     File appStubFile = new File(macOsFolder, macConfig.getStartScriptName());
-    FileUtils.copyResourceToFile("/mac/".concat(START_SCRIPT_NAME), appStubFile, true);
+    FileUtils.copyResourceToFile("/packager/mac/".concat(START_SCRIPT_NAME), appStubFile, true);
     FileUtils.processFileContent(appStubFile, content -> {
       content = content.replace("/Contents/Resources/Java", "/Contents/Resources/".concat(macConfig.getCustomAppFolder()));
       content = content.replaceAll("[$]\\{info.name}", this.name);

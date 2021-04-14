@@ -31,3 +31,7 @@
 @mixin ladderBgColor($bgColor) {
   -fx-background-color: ladder($bgColor, $white_color 49%, $black_color 50%);
 }
+
+@mixin ladderDarkBgColor($bgColor) {
+  -fx-background-color: ladder($bgColor, $md_grey_500 49%, $md_grey_800 50%);
+}

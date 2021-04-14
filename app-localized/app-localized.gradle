@@ -1,0 +1,7 @@
+import com.unclezs.novel.app.localized.TranslateTask
+
+// 利用百度翻译Api自动国际化
+task localized(type: TranslateTask, group: "localized") {
+    appId = findProperty("baidu.translate.appId")
+    secret = findProperty("baidu.translate.secret")
+}

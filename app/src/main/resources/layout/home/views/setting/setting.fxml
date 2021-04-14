@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" stylesheets="/css/home/views/setting.css"
-  xmlns="http://javafx.com/javafx/11"
+  xmlns="http://javafx.com/javafx/16"
   fx:controller="com.unclezs.novel.app.main.ui.pages.home.views.SettingView">
   <ScrollPane styleClass="setting-view">
     <VBox spacing="20">

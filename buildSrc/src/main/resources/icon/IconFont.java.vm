@@ -1,0 +1,26 @@
+package $info.packageName;
+
+import lombok.Getter;
+
+/**
+ * 字体图标 Generate By Gradle
+ *
+ * @author blog.unclezs.com
+ * @date 2021/4/13 12:27
+ */
+@Getter
+public enum $info.className {
+    /**
+     * 字体图标
+     */
+#foreach($icon in $info.icons.entrySet())
+    $icon.key.toUpperCase()('$icon.value')#if($foreach.count==$info.icons.size());#else,#end
+
+#end
+
+private final char unicode;
+
+    ${info.className}(char unicode){
+    this.unicode=unicode;
+    }
+    }

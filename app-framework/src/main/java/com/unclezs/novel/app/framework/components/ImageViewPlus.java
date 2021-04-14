@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
  * @author blog.unclezs.com
  * @date 2021/03/03 0:14
  */
-public class UnImageView extends ImageView {
+public class ImageViewPlus extends ImageView {
 
   /**
    * 宽
@@ -76,29 +76,29 @@ public class UnImageView extends ImageView {
 
   private static class StyleableProperties {
 
-    private static final CssMetaData<UnImageView, Number> FIT_WIDTH =
+    private static final CssMetaData<ImageViewPlus, Number> FIT_WIDTH =
       new CssMetaData<>("-fx-fit-width", SizeConverter.getInstance()) {
         @Override
-        public boolean isSettable(UnImageView n) {
+        public boolean isSettable(ImageViewPlus n) {
           return n.fitWidth == null || !n.fitWidth.isBound();
         }
 
         @Override
         @SuppressWarnings("unchecked")
-        public StyleableProperty<Number> getStyleableProperty(UnImageView n) {
+        public StyleableProperty<Number> getStyleableProperty(ImageViewPlus n) {
           return (StyleableProperty<Number>) n.fitToWidthProperty();
         }
       };
-    private static final CssMetaData<UnImageView, Number> FIT_HEIGHT =
+    private static final CssMetaData<ImageViewPlus, Number> FIT_HEIGHT =
       new CssMetaData<>("-fx-fit-height", SizeConverter.getInstance()) {
         @Override
-        public boolean isSettable(UnImageView n) {
+        public boolean isSettable(ImageViewPlus n) {
           return n.fitHeight == null || !n.fitHeight.isBound();
         }
 
         @Override
         @SuppressWarnings("unchecked")
-        public StyleableProperty<Number> getStyleableProperty(UnImageView n) {
+        public StyleableProperty<Number> getStyleableProperty(ImageViewPlus n) {
           return (StyleableProperty<Number>) n.fitToHeightProperty();
         }
       };

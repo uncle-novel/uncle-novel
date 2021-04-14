@@ -27,8 +27,8 @@
         -fx-alignment: center-left;
 
         .stage-decorator-logo-icon {
-          -fx-fit-width: 25px;
-          -fx-fit-height: 25px;
+          -fx-fit-width: 32px;
+          -fx-fit-height: 32px;
         }
 
         .stage-decorator-logo-title {
@@ -69,7 +69,7 @@
         }
 
         .stage-decorator-action-separator {
-          @include ladderBgColor(header-bg-color);
+          @include ladderDarkBgColor(header-bg-color);
           -fx-pref-width: 1;
           -fx-max-height: 22;
         }

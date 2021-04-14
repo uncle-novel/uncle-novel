@@ -1,51 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.unclezs.novel.app.framework.components.sidebar.SidebarMenu?>
+<?import com.unclezs.novel.app.framework.components.sidebar.SidebarMenuItem?>
 <?import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigation?>
-<?import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigationMenu?>
-<?import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigationMenuGroup?>
-<?import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigationPane?>
 <?import com.unclezs.novel.app.framework.components.StageDecorator?>
 <?import javafx.scene.layout.VBox?>
-<StageDecorator xmlns:fx="http://javafx.com/fxml/1" logo="/assets/favicon.png" max="true"
-                min="true"
-                minHeight="${root.prefHeight}" minWidth="${root.prefWidth}" prefHeight="660.0" prefWidth="940.0"
-                setting="true"
-                stylesheets="/css/home/home.css"
-                theme="true" title="Uncle小说" xmlns="http://javafx.com/javafx/11"
-                fx:controller="com.unclezs.novel.app.main.ui.pages.home.HomeSceneView"
-                fx:id="root">
-  <SidebarNavigationPane VBox.vgrow="ALWAYS" prefWidth="${root.width}" fx:id="container">
-    <SidebarNavigation>
-      <SidebarNavigationMenuGroup name="找书">
-        <SidebarNavigationMenu selected="true"
-          svg="_search"
-          text="设置1" view="com.unclezs.novel.app.main.ui.pages.home.views.SettingView"/>
-        <SidebarNavigationMenu selected="false"
-          svg="_search"
-          text="搜索小说" view="com.unclezs.novel.app.main.ui.pages.home.views.SearchNovelView"/>
-        <SidebarNavigationMenu icon="&#xf26c;"
-          text="全网搜书"
-          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchNetworkView"/>
-        <SidebarNavigationMenu svg="_music-2-line"
-          text="寻找有声"
-          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
-      </SidebarNavigationMenuGroup>
-      <SidebarNavigationMenuGroup name="读书">
-        <SidebarNavigationMenu svg="_bookshelves"
-          text="小说书架"
-          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
-        <SidebarNavigationMenu svg="_disc-line"
-          text="有声书架"
-          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
-      </SidebarNavigationMenuGroup>
-      <SidebarNavigationMenuGroup name="下书">
-        <SidebarNavigationMenu icon="&#xf260;"
-          text="解析下载"
-          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
-        <SidebarNavigationMenu svg="_download-2-fill"
-          text="下载管理"
-          view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
-      </SidebarNavigationMenuGroup>
-    </SidebarNavigation>
-  </SidebarNavigationPane>
+<StageDecorator xmlns:fx="http://javafx.com/fxml/1" logo="/assets/logo/icon-32.png" max="true"
+  min="true"
+  minHeight="${decorator.prefHeight}" minWidth="${decorator.prefWidth}" prefHeight="660.0" prefWidth="940.0"
+  setting="true"
+  stylesheets="/css/home/home.css"
+  theme="true" title="%app.title" xmlns="http://javafx.com/javafx/16"
+  fx:controller="com.unclezs.novel.app.main.ui.pages.home.HomeSceneView"
+  fx:id="decorator">
+  <SidebarNavigation VBox.vgrow="ALWAYS" prefWidth="${decorator.width}" fx:id="navigation">
+    <SidebarMenu name="%home.menu.search">
+      <SidebarMenuItem selected="true"
+        icon="setting"
+        text="设置1" view="com.unclezs.novel.app.main.ui.pages.home.views.SettingView"/>
+      <SidebarMenuItem selected="false"
+        icon="search"
+        text="%home.menu.search.internal" view="com.unclezs.novel.app.main.ui.pages.home.views.SearchNovelView"/>
+      <SidebarMenuItem icon="search_network"
+        text="%home.menu.search.network"
+        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchNetworkView"/>
+      <SidebarMenuItem icon="search_audio"
+        text="%home.menu.search.audio"
+        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
+    </SidebarMenu>
+    <SidebarMenu name="%home.menu.read">
+      <SidebarMenuItem icon="bookshelf"
+        text="%home.menu.read.text"
+        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
+      <SidebarMenuItem icon="audio_bookshelf"
+        text="%home.menu.read.audio"
+        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
+    </SidebarMenu>
+    <SidebarMenu name="%home.menu.download">
+      <SidebarMenuItem icon="analysis_download"
+        text="%home.menu.download.analysis"
+        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
+      <SidebarMenuItem icon="download_management"
+        text="%home.menu.download.management"
+        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
+    </SidebarMenu>
+  </SidebarNavigation>
 </StageDecorator>

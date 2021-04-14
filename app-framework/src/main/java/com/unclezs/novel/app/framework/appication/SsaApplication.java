@@ -3,22 +3,21 @@ package com.unclezs.novel.app.framework.appication;
 import com.sun.javafx.css.StyleManager;
 import com.sun.javafx.stage.StageHelper;
 import com.unclezs.novel.app.framework.components.StageDecorator;
-import com.unclezs.novel.app.framework.util.FxmlLoader;
+import com.unclezs.novel.app.framework.factory.ViewFactory;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javafx.application.Application;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 单舞台 Application
@@ -38,7 +37,7 @@ public abstract class SsaApplication extends Application {
   /**
    * Application CSS
    */
-  private static final String APP_STYLE = ResourceUtils.loadCss("/css/application.css");
+  private static final String APP_STYLE = ResourceUtils.loadCss("css/application.css");
 
   static {
     Thread.currentThread().setName(FX_THREAD_NAME);
@@ -47,14 +46,14 @@ public abstract class SsaApplication extends Application {
   /**
    * 场景View缓存
    */
-  private final Map<Class<?>, SceneView> views = new HashMap<>();
+  private final Map<Class<?>, SceneView<? extends Parent>> views = new HashMap<>();
   @Getter
   private Stage stage;
   /**
    * 当前view
    */
   @Getter
-  private SceneView currentView;
+  private SceneView<? extends Parent> currentView;
 
   /**
    * 初始化 preloader 加载
@@ -71,14 +70,16 @@ public abstract class SsaApplication extends Application {
   @Override
   public void start(Stage stage) throws Exception {
     this.stage = stage;
-    SsaApplication.setUserAgentStylesheet(APP_STYLE);
+    Application.setUserAgentStylesheet(APP_STYLE);
     // 设置主题
     List<String> theme = Arrays.asList("com/sun/javafx/scene/control/skin/modena/modena.css", APP_STYLE);
     StyleManager.getInstance().setUserAgentStylesheets(theme);
     StageHelper.setPrimary(stage, true);
     stage.initStyle(StageStyle.TRANSPARENT);
     Image icon = getIcon();
-    stage.getIcons().setAll(icon);
+    if (icon != null) {
+      stage.getIcons().setAll(icon);
+    }
     // 生命周期监听
     stage.onShowingProperty().addListener(e -> currentView.onShow(new SceneViewNavigateBundle()));
     stage.setOnCloseRequest(e -> {
@@ -86,8 +87,9 @@ public abstract class SsaApplication extends Application {
       System.exit(0);
     });
     // 首页
-    currentView = loadSceneView(getIndexView());
-    Scene scene = currentView.getScene();
+    currentView = getIndexView();
+    loadSceneView(currentView);
+    Scene scene = currentView.getRoot().getScene();
     scene.getStylesheets().add(APP_STYLE);
     stage.setScene(scene);
     stage.show();
@@ -99,7 +101,7 @@ public abstract class SsaApplication extends Application {
    * @return 视图
    * @throws Exception 异常
    */
-  public abstract Class<? extends SceneView> getIndexView() throws Exception;
+  public abstract SceneView<? extends Parent> getIndexView() throws Exception;
 
 
   /**
@@ -107,7 +109,7 @@ public abstract class SsaApplication extends Application {
    *
    * @param viewClass 继承SceneView 的class
    */
-  public <T extends SceneView> void navigate(Class<? extends SceneView> viewClass) {
+  public <V extends Parent> void navigate(Class<? extends SceneView<V>> viewClass) {
     navigate(viewClass, null);
   }
 
@@ -117,8 +119,9 @@ public abstract class SsaApplication extends Application {
    * @param viewClass 继承SceneView 的class
    * @param bundle    数据
    */
-  protected void navigate(Class<? extends SceneView> viewClass, SceneViewNavigateBundle bundle) {
-    SceneView sceneView = loadSceneView(viewClass);
+  protected <V extends Parent> void navigate(Class<? extends SceneView<V>> viewClass, SceneViewNavigateBundle bundle) {
+    SceneView<V> sceneView = ViewFactory.me().getController(viewClass);
+    loadSceneView(sceneView);
     if (bundle == null) {
       bundle = new SceneViewNavigateBundle();
       bundle.setFrom(sceneView.getClass().getName());
@@ -137,31 +140,31 @@ public abstract class SsaApplication extends Application {
   /**
    * 获取场景view
    *
-   * @param viewClass 继承SceneView 的class
-   * @return SceneView
+   * @param sceneView 场景View
    */
-  public SceneView loadSceneView(@NonNull Class<? extends SceneView> viewClass) {
-    SceneView sceneView = views.get(viewClass);
-    if (sceneView == null) {
-      sceneView = FxmlLoader.load(viewClass);
-      if (sceneView.getView() instanceof StageDecorator) {
-        StageDecorator decorator = (StageDecorator) sceneView.getView();
-        decorator.setStage(stage, sceneView);
+  public void loadSceneView(SceneView<? extends Parent> sceneView) {
+    if (sceneView.getScene() == null) {
+      if (sceneView.getRoot() instanceof StageDecorator) {
+        ((StageDecorator) sceneView.getRoot()).setStage(stage, sceneView);
       }
-      sceneView.setScene(new Scene(sceneView.getView(), Color.TRANSPARENT));
+      sceneView.setScene(new Scene(sceneView.getRoot(), Color.TRANSPARENT));
       // 场景创建完成回调
       sceneView.onSceneCreated(sceneView.getScene());
-      views.put(viewClass, sceneView);
+      views.put(sceneView.getClass(), sceneView);
     }
     // 宽高绑定
-    stage.setMinWidth(sceneView.getView().minWidth(-1));
-    stage.setMinHeight(sceneView.getView().minHeight(-1));
+    stage.setMinWidth(sceneView.getRoot().minWidth(-1));
+    stage.setMinHeight(sceneView.getRoot().minHeight(-1));
     stage.setHeight(stage.getMinHeight());
     stage.setWidth(stage.getMinWidth());
-    return sceneView;
   }
 
+  /**
+   * 设置应用图标
+   *
+   * @return 图标
+   */
   protected Image getIcon() {
-    return new Image(ResourceUtils.load("/assets/favicon.png").toString());
+    return null;
   }
 }

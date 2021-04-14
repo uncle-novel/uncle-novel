@@ -20,7 +20,7 @@ public class CreateExe extends BaseSubTask {
   @Override
   protected Object run() throws Exception {
     File config = new File(packager.getAssetsFolder(), packager.getName().concat(".exe4j"));
-    VelocityUtils.render("/windows/exe4j.vm", config, packager);
+    VelocityUtils.render("/packager/windows/exe4j.vm", config, packager);
     ExecUtils.create("exe4jc").add(config).exec();
     return new File(packager.getAppFolder(), packager.getName().concat(".exe"));
   }

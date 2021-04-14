@@ -1,5 +1,6 @@
-package com.unclezs.novel.app.framework.components;
+package com.unclezs.novel.app.framework.components.icon;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import com.jfoenix.controls.JFXButton;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,23 +12,18 @@ import javafx.css.Styleable;
 import javafx.css.StyleableStringProperty;
 import javafx.css.converter.StringConverter;
 import javafx.scene.Cursor;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.Tooltip;
 import lombok.Getter;
 
 /**
  * 图标按钮封装
  * <p>
- * 支持svg和fontawesome
- * <p>
  * css设置图标
  * <pre>
- *     1.字体图标 {@link com.unclezs.novel.app.jfx.framework.components.Icon}
+ *     字体图标 {@link Icon}
  *     -fx-icon: "\uf010"
  *     -fx-icon: "图标名"
- *     2.矢量图标 {@link com.unclezs.novel.app.jfx.framework.components.SvgIcon}
- *     -fx-svg-icon: "_图标名"
- *     -fx-svg-icon: "svg path"
  * </pre>
  *
  * @author blog.unclezs.com
@@ -47,12 +43,6 @@ public class IconButton extends JFXButton {
    */
   private StringProperty icon;
 
-  /**
-   * svg图标css
-   */
-  private StringProperty svg;
-
-
   public IconButton() {
     this(null);
   }
@@ -63,17 +53,38 @@ public class IconButton extends JFXButton {
    * @param text 文字
    */
   public IconButton(String text) {
-    this(text, null, null);
+    this(text, CharSequenceUtil.EMPTY, null);
   }
 
   /**
    * 可以设置提示
    *
-   * @param text 文本
+   * @param icon 文本
    * @param tip  提示
    */
-  public IconButton(String text, String tip) {
-    this(text, null, tip);
+  public IconButton(String icon, String tip) {
+    this(null, icon, tip);
+  }
+
+  /**
+   * 可以设置提示
+   *
+   * @param icon 文本
+   * @param tip  提示
+   */
+  public IconButton(IconFont icon, String tip) {
+    this(null, icon, tip);
+  }
+
+  /**
+   * 设置全部
+   *
+   * @param text 文字
+   * @param icon 字体图标
+   * @param tip  提示
+   */
+  public IconButton(String text, IconFont icon, String tip) {
+    this(text, icon.name().toLowerCase(), tip);
   }
 
   /**
@@ -94,34 +105,7 @@ public class IconButton extends JFXButton {
   }
 
   public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
-    return StyleableProperties.CHILD_STYLEABLES;
-  }
-
-  /**
-   * 获取svg
-   *
-   * @return svg
-   */
-  public String getSvg() {
-    return svgProperty().get();
-  }
-
-  /**
-   * 设置svg图标
-   *
-   * @param svg svg图标
-   */
-  public void setSvg(String svg) {
-    this.svgProperty().set(svg);
-  }
-
-  /**
-   * 设置svg图标
-   *
-   * @param svg svg图标
-   */
-  public void setSvg(SvgIcon svg) {
-    this.setGraphic(svg);
+    return StyleAbleProperties.CHILD_STYLEABLES;
   }
 
   /**
@@ -149,7 +133,7 @@ public class IconButton extends JFXButton {
    */
   public void setIcon(Icon icon) {
     if (icon != null) {
-      this.iconProperty().set(icon.getIcon().toString());
+      this.iconProperty().set(icon.getValue().toString());
       this.setGraphic(icon);
     }
   }
@@ -168,38 +152,23 @@ public class IconButton extends JFXButton {
 
   public StringProperty iconProperty() {
     if (icon == null) {
-      icon = new SimpleStyleableStringProperty(StyleableProperties.ICON, IconButton.this,
-          "-fx-icon") {
+      icon = new SimpleStyleableStringProperty(StyleAbleProperties.ICON, IconButton.this, "-fx-icon") {
         @Override
         public void invalidated() {
-          if (getGraphic() != null && getGraphic() instanceof Icon) {
-            Icon icon = (Icon) getGraphic();
-            icon.setIcon(getValue());
+          // 设置为空则移除图标
+          if (CharSequenceUtil.isBlank(getValue())) {
+            setGraphic(null);
           } else {
-            setGraphic(new Icon(getValue()));
+            if (getGraphic() instanceof Icon) {
+              ((Icon) getGraphic()).setValue(getValue());
+            } else {
+              setGraphic(new Icon(getValue()));
+            }
           }
         }
       };
     }
     return icon;
-  }
-
-  public StringProperty svgProperty() {
-    if (svg == null) {
-      svg = new SimpleStyleableStringProperty(StyleableProperties.SVG, IconButton.this,
-          "-fx-svg-icon") {
-        @Override
-        public void invalidated() {
-          if (getGraphic() != null && getGraphic() instanceof SvgIcon) {
-            SvgIcon icon = (SvgIcon) getGraphic();
-            icon.setPath(getValue());
-          } else {
-            setGraphic(new SvgIcon(getValue()));
-          }
-        }
-      };
-    }
-    return svg;
   }
 
   @Override
@@ -214,10 +183,9 @@ public class IconButton extends JFXButton {
    * <p>
    * 2.-fx-svg-icon指定svg图标
    */
-  private static class StyleableProperties {
+  private static class StyleAbleProperties {
 
-    private static final CssMetaData<IconButton, String> ICON = new CssMetaData<>("-fx-icon",
-        StringConverter.getInstance()) {
+    private static final CssMetaData<IconButton, String> ICON = new CssMetaData<>("-fx-icon", StringConverter.getInstance()) {
       @Override
       public boolean isSettable(IconButton control) {
         return control.icon == null || !control.icon.isBound();
@@ -228,24 +196,11 @@ public class IconButton extends JFXButton {
         return (StyleableStringProperty) control.icon;
       }
     };
-    private static final CssMetaData<IconButton, String> SVG = new CssMetaData<>("-fx-svg-icon",
-        StringConverter.getInstance()) {
-      @Override
-      public boolean isSettable(IconButton control) {
-        return control.svg == null || !control.svg.isBound();
-      }
-
-      @Override
-      public StyleableStringProperty getStyleableProperty(IconButton control) {
-        return (StyleableStringProperty) control.svg;
-      }
-    };
     private static final List<CssMetaData<? extends Styleable, ?>> CHILD_STYLEABLES;
 
     static {
-      final List<CssMetaData<? extends Styleable, ?>> styleables = new ArrayList<>(
-          ToggleButton.getClassCssMetaData());
-      Collections.addAll(styleables, ICON, SVG);
+      final List<CssMetaData<? extends Styleable, ?>> styleables = new ArrayList<>(Labeled.getClassCssMetaData());
+      Collections.addAll(styleables, ICON);
       CHILD_STYLEABLES = Collections.unmodifiableList(styleables);
     }
   }

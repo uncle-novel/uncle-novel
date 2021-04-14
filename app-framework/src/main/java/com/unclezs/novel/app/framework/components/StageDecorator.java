@@ -1,9 +1,13 @@
 package com.unclezs.novel.app.framework.components;
 
-import com.unclezs.novel.app.framework.i18n.I18nSupport;
+import com.unclezs.novel.app.framework.components.icon.Icon;
+import com.unclezs.novel.app.framework.components.icon.IconButton;
+import com.unclezs.novel.app.framework.components.icon.IconFont;
+import com.unclezs.novel.app.framework.i18n.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.PlatformUtils;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.framework.util.ViewUtils;
+import java.util.ResourceBundle;
 import javafx.beans.DefaultProperty;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Insets;
@@ -38,7 +42,7 @@ import lombok.Setter;
  * @date 2021/02/28 15:12
  */
 @DefaultProperty("content")
-public class StageDecorator extends StackPane implements I18nSupport {
+public class StageDecorator extends StackPane implements LocalizedSupport {
 
   /**
    * css类名
@@ -53,13 +57,11 @@ public class StageDecorator extends StackPane implements I18nSupport {
   public static final String STAGE_DECORATOR_ACTION_SEPARATOR = "stage-decorator-action-separator";
   public static final String STAGE_DECORATOR_ACTIONS_EXIT = "stage-decorator-actions-exit";
   public static final int CLICK_COUNT_TO_MAX_WINDOW = 2;
-  public static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("/css/components/stage-decorator.css");
+  public static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("css/components/stage-decorator.css");
   /**
    * 窗口 最大化 还原 全屏相关
    */
-  private static final Border DEFAULT_BORDER = new Border(
-    new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY,
-      new BorderWidths(4)));
+  private static final Border DEFAULT_BORDER = new Border(new BorderStroke(Color.TRANSPARENT, BorderStrokeStyle.NONE, CornerRadii.EMPTY, new BorderWidths(4)));
   private static final Insets DEFAULT_PADDING = new Insets(10);
   /**
    * 被装饰的舞台
@@ -73,7 +75,7 @@ public class StageDecorator extends StackPane implements I18nSupport {
    * 顶部logo HBox
    */
   private HBox logoBox;
-  private UnImageView logoImage;
+  private ImageViewPlus logoImage;
   private Label titleLabel;
   /**
    * 顶部右侧操作按钮 HBox
@@ -141,8 +143,7 @@ public class StageDecorator extends StackPane implements I18nSupport {
    * @param max     最大化
    * @param min     最小化
    */
-  public StageDecorator(Stage stage, ActionHandler actionHandler, boolean theme, boolean setting,
-    boolean max, boolean min) {
+  public StageDecorator(Stage stage, ActionHandler actionHandler, boolean theme, boolean setting, boolean max, boolean min) {
     this();
     this.theme = theme;
     this.setting = setting;
@@ -162,6 +163,11 @@ public class StageDecorator extends StackPane implements I18nSupport {
     createActions();
   }
 
+  @Override
+  public ResourceBundle getBundle() {
+    return LocalizedSupport.getBundle("framework");
+  }
+
   /**
    * 创建容器，不需要装配属性就可以调用
    */
@@ -176,8 +182,6 @@ public class StageDecorator extends StackPane implements I18nSupport {
     // 头部组件添加到容器
     this.container.getChildren().add(this.headerContainer);
     this.getChildren().setAll(container);
-//        container.prefHeightProperty().bind(this.heightProperty());
-//        container.prefWidthProperty().bind(this.widthProperty());
   }
 
   /**
@@ -211,28 +215,25 @@ public class StageDecorator extends StackPane implements I18nSupport {
    */
   private void createActions() {
     if (theme) {
-      IconButton btnTheme = new IconButton();
-      btnTheme.setSvg("_theme");
-      btnTheme.setTip(localized("换肤"));
+      IconButton btnTheme = new IconButton(IconFont.THEME, localized("decorator.theme"));
       this.actions.getChildren().add(btnTheme);
       btnTheme.setOnMouseClicked(e -> actionHandler.onTheme(this, btnTheme));
     }
     if (setting) {
-      IconButton btnSetting = new IconButton(null, "\uf0c9", localized("设置"));
-      this.actions.getChildren()
-        .addAll(btnSetting, ViewUtils.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
+      IconButton btnSetting = new IconButton(null, IconFont.MENU, localized("decorator.setting"));
+      this.actions.getChildren().addAll(btnSetting, ViewUtils.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
       btnSetting.setOnMouseClicked(e -> actionHandler.onSetting(this, btnSetting));
     }
     if (min) {
-      IconButton btnMin = new IconButton(null, "\uf068", localized("最小化"));
+      IconButton btnMin = new IconButton(null, IconFont.MIN, localized("decorator.min"));
       btnMin.setOnAction(action -> stage.setIconified(true));
       this.actions.getChildren().add(btnMin);
     }
     if (max) {
-      Icon resizeMaxIcon = new Icon('\uf2d0');
-      Icon resizeMinIcon = new Icon('\uf2d2');
+      Icon resizeMaxIcon = new Icon(IconFont.MAX);
+      Icon resizeMinIcon = new Icon(IconFont.MAX_RESTORE);
       btnMax = new IconButton();
-      btnMax.setTip(localized("最大化"));
+      btnMax.setTip(localized("decorator.max"));
       btnMax.setIcon(resizeMaxIcon);
       btnMax.setOnAction(action -> maximize(resizeMinIcon, resizeMaxIcon));
       // 双击header 最大化
@@ -243,8 +244,7 @@ public class StageDecorator extends StackPane implements I18nSupport {
       });
       this.actions.getChildren().add(btnMax);
     }
-    IconButton btnClose = ViewUtils
-      .addClass(new IconButton(null, "\uf011", localized("退出")), STAGE_DECORATOR_ACTIONS_EXIT);
+    IconButton btnClose = ViewUtils.addClass(new IconButton(null, IconFont.EXIT, localized("decorator.exit")), STAGE_DECORATOR_ACTIONS_EXIT);
     btnClose.setOnMouseClicked(e -> actionHandler.onClose(this, btnClose));
     this.actions.getChildren().add(btnClose);
   }
@@ -278,7 +278,7 @@ public class StageDecorator extends StackPane implements I18nSupport {
    */
   public void setLogo(String logoImagePath) {
     if (this.logo == null) {
-      this.logoImage = ViewUtils.addClass(new UnImageView(), STAGE_DECORATOR_LOGO_ICON);
+      this.logoImage = ViewUtils.addClass(new ImageViewPlus(), STAGE_DECORATOR_LOGO_ICON);
       this.logoBox.getChildren().add(0, this.logoImage);
     }
     this.logo = logoImagePath;
@@ -539,12 +539,12 @@ public class StageDecorator extends StackPane implements I18nSupport {
       this.setPadding(Insets.EMPTY);
       this.container.setBorder(Border.EMPTY);
       btnMax.setGraphic(restoreIcon);
-      btnMax.setTip(localized("还原"));
+      btnMax.setTip(localized("decorator.restore"));
     } else {
       this.setPadding(DEFAULT_PADDING);
       this.container.setBorder(DEFAULT_BORDER);
       btnMax.setGraphic(maxIcon);
-      btnMax.setTip(localized("最大化"));
+      btnMax.setTip(localized("decorator.max"));
     }
     // 自定义创建最大化
     if (PlatformUtils.isMac()) {

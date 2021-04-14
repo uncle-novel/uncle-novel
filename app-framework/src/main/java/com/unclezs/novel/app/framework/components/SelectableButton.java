@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.framework.components;
 
+import com.unclezs.novel.app.framework.components.icon.IconButton;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.css.PseudoClass;

@@ -41,7 +41,7 @@ public class GenerateMsm extends BaseSubTask {
 
     // 生成WXS文件
     File wxsFile = new File(assetsFolder, name + ".msm.wxs");
-    VelocityUtils.render("windows/msm.wxs.vm", wxsFile, windowsPackager, CharsetUtil.CHARSET_GBK);
+    VelocityUtils.render("packager/windows/msm.wxs.vm", wxsFile, windowsPackager, CharsetUtil.CHARSET_GBK);
     Logger.info("WXS file generated in " + wxsFile + "!");
 
     // prettify wxs

@@ -4,11 +4,13 @@ import com.unclezs.jfx.launcher.Manifest;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.appication.SceneViewNavigateBundle;
 import com.unclezs.novel.app.framework.appication.SsaApplication;
+import com.unclezs.novel.app.framework.factory.ViewFactory;
+import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.ui.pages.home.HomeSceneView;
-import com.unclezs.novel.app.main.util.AppResource;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import java.util.Locale;
 import java.util.Random;
+import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +40,7 @@ public class App extends SsaApplication {
    * @param styleSheetPath 主题样式表类路径
    */
   public static void changeTheme(String styleSheetPath) {
-    String styleSheet = AppResource.loadCss(styleSheetPath);
+    String styleSheet = ResourceUtils.loadCss(styleSheetPath);
     app.getStage().getScene().getStylesheets().setAll(styleSheet);
   }
 
@@ -47,7 +49,7 @@ public class App extends SsaApplication {
    *
    * @param viewClass View类
    */
-  public static void redirect(Class<? extends SceneView> viewClass) {
+  public static void redirect(Class<? extends SceneView<Parent>> viewClass) {
     app.navigate(viewClass);
   }
 
@@ -57,7 +59,7 @@ public class App extends SsaApplication {
    * @param viewClass View类
    * @param bundle    绑定数据
    */
-  public static void redirect(Class<? extends SceneView> viewClass, SceneViewNavigateBundle bundle) {
+  public static <V extends Parent> void redirect(Class<? extends SceneView<V>> viewClass, SceneViewNavigateBundle bundle) {
     app.navigate(viewClass, bundle);
   }
 
@@ -88,12 +90,12 @@ public class App extends SsaApplication {
   }
 
   @Override
-  public Class<? extends SceneView> getIndexView() {
-    return HomeSceneView.class;
+  public SceneView<? extends Parent> getIndexView() {
+    return ViewFactory.me().getController(HomeSceneView.class);
   }
 
   @Override
   protected Image getIcon() {
-    return new Image(AppResource.load("/assets/images/favicon.png").toString());
+    return new Image(ResourceUtils.load("assets/logo/icon-32.png").toString());
   }
 }

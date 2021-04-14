@@ -5,7 +5,6 @@ import com.unclezs.novel.app.packager.Context;
 import com.unclezs.novel.app.packager.subtask.BaseSubTask;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
-
 import java.io.File;
 import java.util.UUID;
 
@@ -40,7 +39,7 @@ public class GenerateDeb extends BaseSubTask {
 
     // generates desktop file from velocity template
     File desktopFile = new File(assetsFolder, name + ".desktop");
-    VelocityUtils.render("linux/desktop.vm", desktopFile, packager);
+    VelocityUtils.render("packager/linux/desktop.vm", desktopFile, packager);
     Logger.info("Desktop file rendered in " + desktopFile.getAbsolutePath());
 
     // generated deb file

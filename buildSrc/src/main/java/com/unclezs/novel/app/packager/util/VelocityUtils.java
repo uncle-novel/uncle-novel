@@ -52,7 +52,7 @@ public class VelocityUtils {
    * @param charset      当作模板变量，通常用于设置标头
    * @return 结果
    */
-  private static String render(String templatePath, Object info, Charset charset) {
+  public static String render(String templatePath, Object info, Charset charset) {
     VelocityContext context = new VelocityContext();
     context.put("GUID", UUID.class);
     context.put("StrUtil", StrUtil.class);
@@ -71,7 +71,7 @@ public class VelocityUtils {
    * @param info         信息
    * @return 结果
    */
-  private static String render(String templatePath, Object info) {
+  public static String render(String templatePath, Object info) {
     return render(templatePath, info, StandardCharsets.UTF_8);
   }
 
@@ -97,7 +97,7 @@ public class VelocityUtils {
    */
   public static void render(String templatePath, File output, Object info, Charset charset) {
     String data = render(templatePath, info, charset);
-    data = data.replaceAll("\\r\\n", "\n").replaceAll("\\r", "\n");
+    data = data.replace("\\r\\n", "\n").replace("\\r", "\n");
     FileUtil.writeString(data, output, charset);
   }
 

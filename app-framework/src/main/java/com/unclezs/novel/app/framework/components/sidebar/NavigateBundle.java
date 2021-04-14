@@ -26,7 +26,7 @@ public class NavigateBundle extends BaseBundle {
   /**
    * 是否由菜单触发
    */
-  private boolean isMenuTrigger;
+  private boolean menuTrigger;
   /**
    * 跳转的标记
    */

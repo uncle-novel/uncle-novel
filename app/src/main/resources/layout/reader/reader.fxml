@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.unclezs.novel.app.framework.components.StageDecorator?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -11,7 +12,7 @@
   prefWidth="400.0" setting="true" stylesheets="/css/reader/reader.css"
   theme="true"
   title="%下载管理"
-  xmlns="http://javafx.com/javafx/11"
+  xmlns="http://javafx.com/javafx/16"
   fx:controller="com.unclezs.novel.app.main.ui.pages.reader.ReaderSceneView">
   <VBox style="-fx-background-color: #FFF">
     <Button onMouseClicked="#toHome" text="回到Home"/>

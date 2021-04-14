@@ -1,3 +1,4 @@
 #* @implicitly included *#
+#* @vtlvariable name="info" type="com.unclezs.novel.app.icon.IconTask" file="icon/IconFont.java.vm" *#
 #* @vtlvariable name="StrUtil" type="cn.hutool.core.util.StrUtil" *#
 #* @vtlvariable name="info" type="com.unclezs.novel.app.packager.packager.AbstractPackager"*#

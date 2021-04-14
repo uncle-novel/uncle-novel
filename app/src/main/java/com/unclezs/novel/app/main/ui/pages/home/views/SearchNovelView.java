@@ -4,9 +4,8 @@ import cn.hutool.core.util.RuntimeUtil;
 import com.jfoenix.controls.JFXToggleButton;
 import com.tulskiy.keymaster.common.HotKey;
 import com.unclezs.novel.app.framework.annotation.FxView;
-import com.unclezs.novel.app.framework.components.SvgIcon;
 import com.unclezs.novel.app.framework.components.sidebar.NavigateBundle;
-import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigationView;
+import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.hotkey.HotKeyCombination;
 import com.unclezs.novel.app.framework.hotkey.HotKeyListener;
 import com.unclezs.novel.app.framework.hotkey.HotKeyManager;
@@ -18,13 +17,15 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author blog.unclezs.com
  * @since 2021/02/27 17:16
  */
 @FxView(fxml = "/layout/home/views/search_novel.fxml")
-public class SearchNovelView extends SidebarNavigationView {
+@EqualsAndHashCode(callSuper = true)
+public class SearchNovelView extends SidebarView<StackPane> {
 
   private final KeyRecorder recorder = new KeyRecorder();
   public Text text;
@@ -55,9 +56,8 @@ public class SearchNovelView extends SidebarNavigationView {
         DebugUtils.init();
       }
     });
-    StackPane view = getView();
-    showFalse.setOnMouseClicked(
-      e -> box.getChildren().addAll(new SvgIcon("_close"), new SvgIcon("_minimize")));
+    StackPane view = getRoot();
+    showFalse.setOnMouseClicked(e -> box.getChildren().addAll());
     clear.setOnMouseClicked(e -> {
       String home = System.getProperty("app.java.home");
       RuntimeUtil.exec(String.format("%s/runtime/bin/java", home), "-jar", "");

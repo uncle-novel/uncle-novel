@@ -37,4 +37,11 @@ public @interface FxView {
    * @return 样式表
    */
   String[] css() default {};
+
+  /**
+   * 单例
+   *
+   * @return true 单例创建
+   */
+  boolean singleton() default true;
 }

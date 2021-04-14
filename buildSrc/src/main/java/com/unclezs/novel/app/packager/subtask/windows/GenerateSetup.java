@@ -41,7 +41,7 @@ public class GenerateSetup extends WinSubTask {
     FileUtils.copyFileToFolder(packager.getWinConfig().getIconFile(), assetsFolder);
     // 生成模板文件，使用GBK编码渲染，防止中文引起失败
     File issFile = new File(assetsFolder, name.concat(".iss"));
-    VelocityUtils.render("windows/iss.vm", issFile, packager, CharsetUtil.CHARSET_GBK);
+    VelocityUtils.render("packager/windows/iss.vm", issFile, packager, CharsetUtil.CHARSET_GBK);
     // 使用inno setup命令行编译器生成Windows安装程序
     ExecUtils.exec("iscc", "/O" + outputDirectory.getAbsolutePath(), "/F".concat(fileName), issFile);
     // 安装文件

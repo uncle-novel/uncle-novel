@@ -51,7 +51,7 @@ public class LinuxPackager extends AbstractPackager {
     }
     // generates startup.sh script to boot java app
     File startupFile = new File(assetsFolder, "startup.sh");
-    VelocityUtils.render("linux/startup.sh.vm", startupFile, this);
+    VelocityUtils.render("packager/linux/startup.sh.vm", startupFile, this);
     Logger.info("Startup script generated in " + startupFile.getAbsolutePath());
 
     // concats linux startup.sh script + generated jar in executable (binary)

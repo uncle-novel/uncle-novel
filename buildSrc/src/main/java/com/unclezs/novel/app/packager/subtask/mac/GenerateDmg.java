@@ -1,5 +1,7 @@
 package com.unclezs.novel.app.packager.subtask.mac;
 
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
+
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import com.unclezs.novel.app.packager.model.MacConfig;
@@ -9,12 +11,9 @@ import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.File;
 import java.util.Arrays;
-
-import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Creates a DMG image file including all app folder's content only for MacOS so app could be easily distributed
@@ -71,7 +70,7 @@ public class GenerateDmg extends BaseSubTask {
     if (macConfig.getBackgroundImage() != null) {
       FileUtils.copyFileToFile(macConfig.getBackgroundImage(), backgroundFile);
     } else {
-      FileUtils.copyResourceToFile("/mac/background.png", backgroundFile);
+      FileUtils.copyResourceToFile("/packager/mac/background.png", backgroundFile);
     }
 
     // copies volume icon
@@ -121,7 +120,7 @@ public class GenerateDmg extends BaseSubTask {
     // renders applescript
     Logger.info("Rendering DMG customization applescript ... ");
     File applescriptFile = new File(assetsFolder, "customize-dmg.applescript");
-    VelocityUtils.render("/mac/customize-dmg.applescript.vm", applescriptFile, macPackager);
+    VelocityUtils.render("/packager/mac/customize-dmg.applescript.vm", applescriptFile, macPackager);
     Logger.info("Applescript rendered in " + applescriptFile.getAbsolutePath() + "!");
 
     // runs applescript

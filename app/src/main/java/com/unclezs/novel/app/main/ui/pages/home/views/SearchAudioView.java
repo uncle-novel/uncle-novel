@@ -1,11 +1,10 @@
 package com.unclezs.novel.app.main.ui.pages.home.views;
 
-import com.jfoenix.controls.JFXPopup;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.sidebar.NavigateBundle;
-import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigationView;
-import com.unclezs.novel.app.main.ui.app.App;
+import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 
 /**
@@ -13,7 +12,7 @@ import javafx.scene.text.Text;
  * @since 2021/02/27 17:16
  */
 @FxView(fxml = "/layout/home/views/search_audio.fxml")
-public class SearchAudioView extends SidebarNavigationView {
+public class SearchAudioView extends SidebarView<BorderPane> {
 
   public Text text;
   public Button button;
@@ -27,8 +26,8 @@ public class SearchAudioView extends SidebarNavigationView {
 
   @Override
   public void onCreated() {
-    button.setOnMouseClicked(event -> {
-      new JFXPopup().show(App.app.getStage());
+    button.setOnMouseClicked(e -> {
+      navigation.navigate(SearchNetworkView.class);
     });
   }
 }
