@@ -2,7 +2,7 @@
 @import "_colors";
 
 @mixin shadow {
-  -fx-effect: dropshadow(gaussian, $md_grey_400, 10, 0.2, 2, 0);
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 20, 0.19, 0, 6);
 }
 
 // shadow-bottom-right radius=3

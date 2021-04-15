@@ -8,8 +8,8 @@ package com.unclezs.novel.app.main;
 public class TestApp {
 
   public static void main(String[] args) throws Exception {
-    String x = "e61d";
-    char c = (char) Integer.parseInt(x);
-    System.out.println(c);
+    for (int i = 1; i < 500; i++) {
+      System.out.printf("$_%dpx: %.2fem;%n", i, (i / 12.0));
+    }
   }
 }

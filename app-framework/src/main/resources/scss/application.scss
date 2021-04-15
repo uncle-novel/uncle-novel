@@ -6,22 +6,17 @@
 @import "define/_global";
 
 @font-face {
-  font-family: 'iconfont';
-  font-style: normal;
-  font-weight: normal;
-  src: url("/fonts/iconfont.ttf") format('truetype');
-}
-
-@font-face {
   font-family: '.PingFang SC';
   font-style: normal;
   font-weight: normal;
   src: url("/fonts/pingfang-simple-bold.ttf");
 }
 
-.scroll-pane {
-  .viewport {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-  }
+.root {
+  -fx-font-family: ".PingFang SC";
 }
+
+@import "widgets/sidebar-navigation";
+@import "widgets/stage-decorator";
+@import "widgets/modal";
+@import "widgets/loading";

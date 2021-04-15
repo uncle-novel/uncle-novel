@@ -1,3 +1,6 @@
-.stage-decorator {
-  //header-bg-color: #393D49;
-}
+// widgets
+@import "widgets/button";
+@import "widgets/check-box";
+@import "widgets/popup";
+@import "widgets/scroll-pane";
+@import "widgets/text-field";

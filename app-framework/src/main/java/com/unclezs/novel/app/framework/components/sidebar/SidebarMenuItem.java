@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.framework.components.sidebar;
 
 import com.unclezs.novel.app.framework.components.SelectableButton;
-import com.unclezs.novel.app.framework.factory.ViewFactory;
+import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.util.ReflectUtils;
 import javafx.scene.Parent;
 import lombok.Getter;
@@ -32,7 +32,7 @@ public class SidebarMenuItem extends SelectableButton {
     getStyleClass().add(DEFAULT_STYLE_CLASS);
     // 点击触发菜单切换
     setOnAction(e -> {
-      NavigateBundle bundle = new NavigateBundle();
+      SidebarNavigateBundle bundle = new SidebarNavigateBundle();
       bundle.setMenuTrigger(true);
       navigation.navigate(sidebarView, bundle);
     });
@@ -45,6 +45,6 @@ public class SidebarMenuItem extends SelectableButton {
    */
   public void setView(String view) {
     this.view = view;
-    this.sidebarView = ViewFactory.me().getController(ReflectUtils.forName(view));
+    this.sidebarView = AppContext.getView(ReflectUtils.forName(view));
   }
 }

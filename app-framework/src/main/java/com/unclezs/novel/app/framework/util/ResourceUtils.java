@@ -28,7 +28,7 @@ public class ResourceUtils {
    * @param location 路径
    * @return URL
    */
-  public static URL load(String location) {
+  public static URL url(String location) {
     URL resource = Thread.currentThread().getContextClassLoader().getResource(location);
     if (resource == null) {
       log.error("资源未找到: {}", location);
@@ -70,12 +70,12 @@ public class ResourceUtils {
   }
 
   /**
-   * 加载classpath css资源
+   * 加载classpath资源
    *
    * @param location css路径
-   * @return css URL
+   * @return css url字符串
    */
-  public static String loadCss(String location) {
-    return load(location).toExternalForm();
+  public static String externalForm(String location) {
+    return url(location).toExternalForm();
   }
 }

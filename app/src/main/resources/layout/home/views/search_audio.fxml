@@ -8,7 +8,7 @@
   minWidth="400" prefHeight="400.0"
   prefWidth="400.0"
   xmlns="http://javafx.com/javafx/16"
-  fx:controller="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView">
+  fx:controller="com.unclezs.novel.app.main.home.views.SearchAudioView">
   <center>
     <VBox>
       <Button text="audio" fx:id="button"/>

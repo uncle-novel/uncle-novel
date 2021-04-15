@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane
+  xmlns:fx="http://javafx.com/fxml/1" minHeight="400.0" minWidth="400"
+  prefHeight="400.0" prefWidth="400.0"
+  xmlns="http://javafx.com/javafx/16"
+  fx:controller="com.unclezs.novel.app.main.home.views.TestView">
+  <VBox StackPane.alignment="CENTER" spacing="20">
+    <HBox>
+      <Button text="none" fx:id="none"/>
+      <Button text="info" fx:id="info"/>
+      <Button text="success" fx:id="success"/>
+      <Button text="warn" fx:id="warn"/>
+      <Button text="error" fx:id="error"/>
+      <Button text="input" fx:id="input"/>
+      <Button text="confirm" fx:id="confirm"/>
+    </HBox>
+    <HBox>
+      <Button text="Loading" fx:id="loading"/>
+    </HBox>
+  </VBox>
+</StackPane>

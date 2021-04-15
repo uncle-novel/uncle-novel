@@ -11,38 +11,41 @@
   setting="true"
   stylesheets="/css/home/home.css"
   theme="true" title="%app.title" xmlns="http://javafx.com/javafx/16"
-  fx:controller="com.unclezs.novel.app.main.ui.pages.home.HomeSceneView"
+  fx:controller="com.unclezs.novel.app.main.home.HomeView"
   fx:id="decorator">
-  <SidebarNavigation VBox.vgrow="ALWAYS" prefWidth="${decorator.width}" fx:id="navigation">
+  <SidebarNavigation VBox.vgrow="ALWAYS" prefWidth="${decorator.width}">
     <SidebarMenu name="%home.menu.search">
       <SidebarMenuItem selected="true"
-        icon="setting"
-        text="设置1" view="com.unclezs.novel.app.main.ui.pages.home.views.SettingView"/>
-      <SidebarMenuItem selected="false"
         icon="search"
-        text="%home.menu.search.internal" view="com.unclezs.novel.app.main.ui.pages.home.views.SearchNovelView"/>
+        text="组件库" view="com.unclezs.novel.app.main.home.views.TestView"/>
+      <SidebarMenuItem
+        icon="search"
+        text="%home.menu.search.internal" view="com.unclezs.novel.app.main.home.views.SearchNovelView"/>
+      <SidebarMenuItem
+        icon="setting"
+        text="设置1" view="com.unclezs.novel.app.main.home.views.SettingView"/>
       <SidebarMenuItem icon="search_network"
         text="%home.menu.search.network"
-        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchNetworkView"/>
+        view="com.unclezs.novel.app.main.home.views.SearchNetworkView"/>
       <SidebarMenuItem icon="search_audio"
         text="%home.menu.search.audio"
-        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
+        view="com.unclezs.novel.app.main.home.views.SearchAudioView"/>
     </SidebarMenu>
     <SidebarMenu name="%home.menu.read">
       <SidebarMenuItem icon="bookshelf"
         text="%home.menu.read.text"
-        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
+        view="com.unclezs.novel.app.main.home.views.SearchAudioView"/>
       <SidebarMenuItem icon="audio_bookshelf"
         text="%home.menu.read.audio"
-        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
+        view="com.unclezs.novel.app.main.home.views.SearchAudioView"/>
     </SidebarMenu>
     <SidebarMenu name="%home.menu.download">
       <SidebarMenuItem icon="analysis_download"
         text="%home.menu.download.analysis"
-        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
+        view="com.unclezs.novel.app.main.home.views.SearchAudioView"/>
       <SidebarMenuItem icon="download_management"
         text="%home.menu.download.management"
-        view="com.unclezs.novel.app.main.ui.pages.home.views.SearchAudioView"/>
+        view="com.unclezs.novel.app.main.home.views.SearchAudioView"/>
     </SidebarMenu>
   </SidebarNavigation>
 </StageDecorator>

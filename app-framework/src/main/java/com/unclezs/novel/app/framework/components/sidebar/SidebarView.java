@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.framework.components.sidebar;
 
 
-import com.unclezs.novel.app.framework.view.View;
+import com.unclezs.novel.app.framework.core.View;
 import javafx.scene.Parent;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -32,7 +32,7 @@ public class SidebarView<V extends Parent> extends View<V> {
    *
    * @param bundle 页面跳转数据
    */
-  public void onShow(NavigateBundle bundle) {
+  public void onShow(SidebarNavigateBundle bundle) {
     // do something
   }
 

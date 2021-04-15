@@ -1,24 +1,24 @@
 @import "../../define/_global.scss";
 
 .home-theme-popup {
-  -fx-pref-height: 150;
-  -fx-pref-width: 320;
+  -fx-pref-height: $_150px;
+  -fx-pref-width: $_320px;
   -fx-alignment: center;
-  -fx-padding: 0 10 0 10;
-  -fx-spacing: 25;
+  -fx-padding: 0 $_10px 0 $_10px;
+  -fx-spacing: $_25px;
 
 
   .theme-popup-color-box {
-    -fx-spacing: 10;
+    -fx-spacing: $_10px;
     -fx-alignment: center;
 
     .color-box-item {
-      -fx-pref-width: 38;
-      -fx-pref-height: 38;
-      -fx-background-radius: 5;
-      -fx-border-radius: 5;
+      -fx-pref-width: $_38px;
+      -fx-pref-height: $_38px;
+      -fx-background-radius: 5px;
+      -fx-border-radius: 5px;
       -fx-text-fill: white;
-      -fx-font-size: 11px;
+      -fx-font-size: $_11px;
       -fx-content-display: GRAPHIC_ONLY;
       @include shadow-br-3(theme-dark-color);
 
@@ -32,8 +32,8 @@
       -fx-color-label-visible: false;
 
       .color-label {
-        -fx-background-radius: 5;
-        -fx-border-radius: 5;
+        -fx-background-radius: 5px;
+        -fx-border-radius: 5px;
       }
     }
   }

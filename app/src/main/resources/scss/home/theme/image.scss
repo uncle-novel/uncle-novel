@@ -14,7 +14,7 @@ $theme-hover-color: $md_grey_100;
 $theme-sidebar-bg-color: transparent;
 $theme-header-bg-color: transparent;
 
-@import "template";
+@import "theme";
 
 .stage-decorator-container {
   -fx-background-image: url('/assets/images/bg.jpg');

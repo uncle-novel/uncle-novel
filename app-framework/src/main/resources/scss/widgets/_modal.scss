@@ -1,0 +1,61 @@
+@import "../define/global";
+
+.jfx-alert-overlay {
+  -fx-background-color: transparent !important;
+  alert-background-color: #FFF;
+
+  .jfx-alert-content-container {
+    -fx-background-color: transparent;
+    -fx-padding: $_20px;
+
+    .jfx-dialog-layout {
+      @include shadow;
+      -fx-background-color: alert-background-color !important;
+      -fx-border-color: transparent;
+      -fx-border-width: 4px;
+
+      .jfx-layout-body .label {
+        -fx-text-fill: #757575;
+        -fx-font-size: $_16px;
+      }
+
+      .label, .button, text-field {
+        @include ladderTextFill(alert-background-color);
+      }
+
+      .icon {
+        -fx-icon-size: 15px;
+      }
+
+      &.warn {
+        .icon {
+          -fx-text-fill: $md_yellow_900;
+        }
+      }
+
+      &.info {
+        .icon {
+          -fx-text-fill: $md_grey_500;
+        }
+      }
+
+      &.error {
+        .icon {
+          -fx-text-fill: $md_red_800;
+        }
+      }
+
+      &.success {
+        .icon {
+          -fx-text-fill: $md_green_600;
+        }
+      }
+
+      &.confirm {
+        .icon {
+          -fx-text-fill: $md_blue_600;
+        }
+      }
+    }
+  }
+}

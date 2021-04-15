@@ -1,34 +1,34 @@
 @import "../../define/global";
 
 .setting-view {
-  -fx-padding: 10;
+  -fx-padding: $_10px;
   -fx-border-color: transparent;
   -fx-background-color: transparent;
 
   .setting-box {
-    -fx-spacing: 10;
+    -fx-spacing: $_10px;
 
     .setting-name {
       -fx-border-color: theme-selected-color;
-      -fx-border-width: 0 0 0 5;
-      -fx-padding: 0 0 0 5;
-      -fx-font-size: 14px;
+      -fx-border-width: 0 0 0 5px;
+      -fx-padding: 0 0 0 $_5px;
+      -fx-font-size: $_14px;
     }
 
     .setting-items {
-      -fx-padding: 0 0 0 15;
-      -fx-spacing: 20;
+      -fx-padding: 0 0 0 $_15px;
+      -fx-spacing: $_20px;
 
       .setting-item {
-        -fx-spacing: 10;
+        -fx-spacing: $_10px;
 
         .setting-item-name {
           -fx-text-fill: theme-dark-color;
         }
 
         .setting-item-content {
-          -fx-spacing: 10;
-          -fx-padding: 0 0 0 20;
+          -fx-spacing: $_10px;
+          -fx-padding: 0 0 0 $_20px;
         }
       }
     }

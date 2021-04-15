@@ -22,7 +22,6 @@ dependencies {
 //    }
     implementation "org.freemarker:freemarker"
     implementation "ch.qos.logback:logback-classic"
-    compileOnly 'com.unclezs:jfx-launcher'
     compileOnly 'com.google.code.gson:gson'
 }
 

@@ -1,9 +1,8 @@
 package com.unclezs.novel.app.framework.components.sidebar;
 
 import com.unclezs.novel.app.framework.collection.SimpleObservableList;
-import com.unclezs.novel.app.framework.factory.ViewFactory;
-import com.unclezs.novel.app.framework.util.ResourceUtils;
-import com.unclezs.novel.app.framework.util.ViewUtils;
+import com.unclezs.novel.app.framework.core.AppContext;
+import com.unclezs.novel.app.framework.util.NodeHelper;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.DefaultProperty;
@@ -61,11 +60,10 @@ public class SidebarNavigation extends HBox {
   private void init() {
     // 样式
     getStyleClass().add("sidebar-nav");
-    getStylesheets().add(ResourceUtils.loadCss("css/components/sidebar-navigation.css"));
     // 菜单容器
     ScrollPane sidebarContainer = new ScrollPane();
     sidebarContainer.getStyleClass().add("sidebar");
-    this.sidebar = ViewUtils.addClass(new VBox(), "sidebar-menus");
+    this.sidebar = NodeHelper.addClass(new VBox(), "sidebar-menus");
     sidebarContainer.setContent(sidebar);
     // 创建menu列表
     this.menuItems = new ArrayList<>();
@@ -128,9 +126,9 @@ public class SidebarNavigation extends HBox {
    * @param view   视图
    * @param bundle 数据
    */
-  public void navigate(SidebarView<? extends Parent> view, NavigateBundle bundle) {
+  public void navigate(SidebarView<? extends Parent> view, SidebarNavigateBundle bundle) {
     if (bundle == null) {
-      bundle = new NavigateBundle();
+      bundle = new SidebarNavigateBundle();
     }
     // 上一个页面如果为菜单页面，则切换选中状态
     if (currentView != null) {
@@ -164,8 +162,8 @@ public class SidebarNavigation extends HBox {
    * @param viewClass 视图
    * @param bundle    数据
    */
-  public void navigate(Class<?> viewClass, NavigateBundle bundle) {
-    SidebarView<? extends Parent> view = ViewFactory.me().getController(viewClass);
+  public void navigate(Class<?> viewClass, SidebarNavigateBundle bundle) {
+    SidebarView<? extends Parent> view = AppContext.getView(viewClass);
     navigate(view, bundle);
   }
 

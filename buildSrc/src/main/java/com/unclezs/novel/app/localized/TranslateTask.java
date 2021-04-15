@@ -136,7 +136,7 @@ public class TranslateTask extends DefaultTask {
    */
   private void saveProperties(Properties properties, File file) {
     try (BufferedOutputStream outputStream = FileUtil.getOutputStream(file)) {
-      properties.store(outputStream, "");
+      properties.store(outputStream, "Generate By Baidu Translate");
     } catch (IOException e) {
       throw new IORuntimeException(e);
     }

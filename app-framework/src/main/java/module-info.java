@@ -16,16 +16,16 @@ open module com.unclezs.novel.app.framework {
   requires org.slf4j;
   requires hutool.core;
 
+  exports com.unclezs.novel.app.framework.core;
   // components
   exports com.unclezs.novel.app.framework.components;
   exports com.unclezs.novel.app.framework.components.icon;
   exports com.unclezs.novel.app.framework.components.sidebar;
 
   exports com.unclezs.novel.app.framework.util;
+  exports com.unclezs.novel.app.framework.executor;
   exports com.unclezs.novel.app.framework.appication;
   exports com.unclezs.novel.app.framework.annotation;
-  exports com.unclezs.novel.app.framework.view;
-  exports com.unclezs.novel.app.framework.hotkey;
-  exports com.unclezs.novel.app.framework.i18n;
-  exports com.unclezs.novel.app.framework.factory;
+  exports com.unclezs.novel.app.framework.support;
+  exports com.unclezs.novel.app.framework.support.hotkey;
 }

@@ -1,0 +1,42 @@
+@import "../../define/global";
+
+.scroll-bar {
+  -fx-pref-width: $_10px;
+  -fx-background-color: transparent;
+
+  .track {
+    -fx-background-color: transparent;
+  }
+
+  .track-background {
+    -fx-background-color: transparent;
+  }
+
+  .thumb {
+    -fx-background-color: theme-border-color;
+
+    &:hover {
+      -fx-background-color: theme-border-hover;
+    }
+  }
+
+  .increment-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0;
+  }
+
+  .increment-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0;
+  }
+
+  .decrement-button {
+    -fx-background-color: transparent;
+    -fx-max-height: 0;
+  }
+
+  .decrement-arrow {
+    -fx-background-color: transparent;
+    -fx-max-height: 0;
+  }
+}

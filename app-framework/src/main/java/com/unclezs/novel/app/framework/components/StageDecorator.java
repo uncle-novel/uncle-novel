@@ -3,11 +3,9 @@ package com.unclezs.novel.app.framework.components;
 import com.unclezs.novel.app.framework.components.icon.Icon;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
-import com.unclezs.novel.app.framework.i18n.LocalizedSupport;
+import com.unclezs.novel.app.framework.support.LocalizedSupport;
+import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.framework.util.PlatformUtils;
-import com.unclezs.novel.app.framework.util.ResourceUtils;
-import com.unclezs.novel.app.framework.util.ViewUtils;
-import java.util.ResourceBundle;
 import javafx.beans.DefaultProperty;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Insets;
@@ -57,7 +55,6 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
   public static final String STAGE_DECORATOR_ACTION_SEPARATOR = "stage-decorator-action-separator";
   public static final String STAGE_DECORATOR_ACTIONS_EXIT = "stage-decorator-actions-exit";
   public static final int CLICK_COUNT_TO_MAX_WINDOW = 2;
-  public static final String USER_AGENT_STYLESHEET = ResourceUtils.loadCss("css/components/stage-decorator.css");
   /**
    * 窗口 最大化 还原 全屏相关
    */
@@ -164,19 +161,19 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
   }
 
   @Override
-  public ResourceBundle getBundle() {
-    return LocalizedSupport.getBundle("framework");
+  public String getBundleName() {
+    return "widgets.stage-decorator";
   }
 
   /**
    * 创建容器，不需要装配属性就可以调用
    */
   private void createContainer() {
-    ViewUtils.addStyleSheetAndClass(this, USER_AGENT_STYLESHEET, STAGE_DECORATOR);
-    ViewUtils.addClass(this.container = new VBox(), STAGE_DECORATOR_CONTAINER);
-    this.headerContainer = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_HEADER);
-    this.logoBox = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_LOGO);
-    this.actions = ViewUtils.addClass(new HBox(), STAGE_DECORATOR_ACTIONS);
+    NodeHelper.addClass(this, STAGE_DECORATOR);
+    NodeHelper.addClass(this.container = new VBox(), STAGE_DECORATOR_CONTAINER);
+    this.headerContainer = NodeHelper.addClass(new HBox(), STAGE_DECORATOR_HEADER);
+    this.logoBox = NodeHelper.addClass(new HBox(), STAGE_DECORATOR_LOGO);
+    this.actions = NodeHelper.addClass(new HBox(), STAGE_DECORATOR_ACTIONS);
     HBox.setHgrow(this.actions, Priority.ALWAYS);
     this.headerContainer.getChildren().addAll(logoBox, actions);
     // 头部组件添加到容器
@@ -221,7 +218,7 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
     }
     if (setting) {
       IconButton btnSetting = new IconButton(null, IconFont.MENU, localized("decorator.setting"));
-      this.actions.getChildren().addAll(btnSetting, ViewUtils.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
+      this.actions.getChildren().addAll(btnSetting, NodeHelper.addClass(new Pane(), STAGE_DECORATOR_ACTION_SEPARATOR));
       btnSetting.setOnMouseClicked(e -> actionHandler.onSetting(this, btnSetting));
     }
     if (min) {
@@ -244,7 +241,7 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
       });
       this.actions.getChildren().add(btnMax);
     }
-    IconButton btnClose = ViewUtils.addClass(new IconButton(null, IconFont.EXIT, localized("decorator.exit")), STAGE_DECORATOR_ACTIONS_EXIT);
+    IconButton btnClose = NodeHelper.addClass(new IconButton(null, IconFont.EXIT, localized("decorator.exit")), STAGE_DECORATOR_ACTIONS_EXIT);
     btnClose.setOnMouseClicked(e -> actionHandler.onClose(this, btnClose));
     this.actions.getChildren().add(btnClose);
   }
@@ -278,7 +275,7 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
    */
   public void setLogo(String logoImagePath) {
     if (this.logo == null) {
-      this.logoImage = ViewUtils.addClass(new ImageViewPlus(), STAGE_DECORATOR_LOGO_ICON);
+      this.logoImage = NodeHelper.addClass(new ImageViewPlus(), STAGE_DECORATOR_LOGO_ICON);
       this.logoBox.getChildren().add(0, this.logoImage);
     }
     this.logo = logoImagePath;
@@ -292,7 +289,7 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
    */
   public void setTitle(String titleText) {
     if (this.title == null) {
-      this.titleLabel = ViewUtils.addClass(new Label(), STAGE_DECORATOR_LOGO_TITLE);
+      this.titleLabel = NodeHelper.addClass(new Label(), STAGE_DECORATOR_LOGO_TITLE);
       this.logoBox.getChildren().add(this.titleLabel);
     }
     this.title = titleText;

@@ -13,6 +13,7 @@
  */
 package com.unclezs.novel.app.framework.components.icon;
 
+import com.unclezs.novel.app.framework.util.ResourceUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -42,10 +43,17 @@ import javafx.scene.text.TextAlignment;
 public class Icon extends Label {
 
   public static final String FONT_FAMILY = "iconfont";
+  /**
+   * 字体图标路径
+   */
+  private static final String ICONFONT_PATH = "fonts/iconfont.ttf";
   private static final String[] DEFAULT_CSS_CLASSES = {"icon", "font-icon"};
   private static final Map<String, Character> ICONS = new HashMap<>(16);
 
   static {
+    // 加载字体
+    Font.loadFont(ResourceUtils.stream(ICONFONT_PATH), 13);
+    // 注册图标别名
     for (IconFont value : IconFont.values()) {
       register(value.name().toLowerCase(), value.getUnicode());
     }
