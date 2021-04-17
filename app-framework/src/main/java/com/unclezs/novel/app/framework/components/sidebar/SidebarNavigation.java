@@ -154,6 +154,7 @@ public class SidebarNavigation extends HBox {
     // 切换页面
     content.getChildren().setAll(view.getRoot());
     this.currentView = view;
+    view.onShown(bundle);
   }
 
   /**

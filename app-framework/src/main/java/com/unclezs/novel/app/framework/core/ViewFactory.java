@@ -108,6 +108,7 @@ public class ViewFactory {
       views.put(clazz.getName(), controller);
       return (T) controller;
     } catch (Exception e) {
+      e.printStackTrace();
       throw new FxException("创建FXML失败：{}", fxView.fxml(), e);
     }
   }

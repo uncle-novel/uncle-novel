@@ -1,0 +1,98 @@
+@import "../../define/_global.scss";
+
+.home-theme-popup {
+  -fx-pref-height: $_150px;
+  -fx-pref-width: $_320px;
+  -fx-alignment: center;
+  -fx-padding: 0 $_10px 0 $_10px;
+  -fx-spacing: $_25px;
+
+
+  .theme-popup-color-box {
+    -fx-spacing: $_10px;
+    -fx-alignment: center;
+
+    .color-box-item {
+      -fx-pref-width: $_38px;
+      -fx-pref-height: $_38px;
+      -fx-background-radius: 5px;
+      -fx-border-radius: 5px;
+      -fx-text-fill: white;
+      -fx-font-size: $_11px;
+      -fx-content-display: GRAPHIC_ONLY;
+      @include shadow-br-3(derive(-fx-base, -100%));
+
+      &.current {
+        -fx-icon: "checked";
+
+        .icon {
+          -fx-icon-size: 14px;
+          -fx-text-fill: #e3d9d9;
+        }
+      }
+
+      &:hover {
+        @include shadow-br-1(derive(-fx-base, -100%));
+      }
+
+      &.default {
+        -fx-background-color: #3b4252;
+      }
+
+      &.dark {
+        -fx-background-color: rgb(43, 43, 43);
+      }
+
+      &.green {
+        -fx-background-color: rgb(77, 175, 124);
+      }
+
+      &.red {
+        -fx-background-color: rgb(214, 69, 65);
+      }
+
+      &.blue {
+        -fx-background-color: rgb(52, 152, 219);
+      }
+
+      &.pink {
+        -fx-background-color: rgb(214, 130, 141);
+      }
+
+      &.purple {
+        -fx-background-color: rgb(155, 89, 182);
+      }
+
+      &.deep-blue {
+        -fx-background-color: rgb(79, 98, 208);
+      }
+
+      &.light-blue {
+        -fx-background-color: rgb(57, 175, 234);
+      }
+
+      &.teal {
+        -fx-background-color: rgb(51, 110, 123);
+      }
+
+      &.orange {
+        -fx-background-color: rgb(255, 143, 87);
+      }
+
+      &.grey {
+        -fx-background-color: rgb(108, 122, 137);
+      }
+    }
+
+    .color-box-item-custom {
+      @extend .color-box-item;
+      -fx-color-label-visible: false;
+
+      .color-label {
+        -fx-background-radius: 5px;
+        -fx-border-radius: 5px;
+      }
+    }
+
+  }
+}

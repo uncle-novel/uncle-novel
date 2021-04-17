@@ -1,0 +1,71 @@
+@import "../define/_global";
+
+// 圆角大小
+$radius: $_3px;
+
+.search-bar {
+  -fx-bg-color: -fx-base;
+
+  .combo-box {
+
+    & > .list-cell {
+      @include ladderTextFill(-fx-base);
+      -fx-alignment: center;
+      -fx-padding: 1px 0 1px 0;
+    }
+
+    .list-view {
+      -fx-background-color: -fx-base;
+
+      .list-cell {
+        -fx-background-color: -fx-base;
+        @include ladderTextFill(-fx-base);
+
+        &:hover, &:selected {
+          -fx-background-color: -fx-bg-color;
+          @include ladderTextFill(-fx-base);
+        }
+      }
+    }
+  }
+
+  .combo-box-base {
+    -fx-border-radius: $radius 0 0 $radius;
+    -fx-background-radius: $radius 0 0 $radius;
+    -fx-background-color: -fx-bg-color;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    @include ladderTextFill(-fx-base);
+
+    .arrow-button {
+      -fx-padding: 0;
+      -fx-background-color: transparent;
+
+      .arrow {
+        @include ladderTextFill(-fx-base);
+      }
+    }
+  }
+
+  .text-field {
+    @include ladderTextFill(-fx-base);
+    -fx-background-color: -fx-bg-color;
+    -fx-border-color: transparent;
+    -fx-border-radius: 0;
+    -fx-background-radius: 0;
+    -fx-border-width: 1px 0 1px 0;
+  }
+
+  .icon-button {
+    -fx-border-radius: 0 $radius $radius 0;
+    -fx-background-radius: 0 $radius $radius 0;
+    -fx-border-width: 1px 1px 1px 0;
+    -fx-background-color: -fx-bg-color;
+    -fx-border-color: transparent;
+
+    .icon {
+      @include ladderTextFill(-fx-base);
+    }
+  }
+}

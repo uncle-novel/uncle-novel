@@ -1,11 +1,11 @@
 @import "../define/_global";
 
 .stage-decorator {
+  -fx-header-bg-color: #3b4252;
+  -fx-bg-color: #FFF;
+
   -fx-background-color: transparent;
   -fx-padding: $_20px;
-  // 预定义主题色
-  header-bg-color: #3b4252;
-  stage-decorator-bg-color: #FFF;
 
   .stage-decorator-container {
     -fx-background-color: transparent;
@@ -21,7 +21,7 @@
       -fx-alignment: center-right;
       -fx-min-height: $_50px;
       -fx-max-height: $_50px;
-      -fx-background-color: header-bg-color;
+      -fx-background-color: -fx-header-bg-color;
 
       // 窗口顶部Logo
       .stage-decorator-logo {
@@ -35,7 +35,7 @@
         }
 
         .stage-decorator-logo-title {
-          @include ladderTextFill(header-bg-color);
+          @include ladderTextFill(-fx-header-bg-color);
           -fx-font-size: $_17px;
         }
       }
@@ -47,7 +47,7 @@
         -fx-spacing: $_4px;
 
         .icon-button {
-          @include ladderTextFill(header-bg-color);
+          @include ladderTextFill(-fx-header-bg-color);
           -fx-content-display: GRAPHIC_ONLY;
 
           .icon {
@@ -55,7 +55,7 @@
             -fx-text-fill: inherit;
 
             &:hover {
-              @include ladderTextFillLight(header-bg-color);
+              @include ladderTextFillLight(-fx-header-bg-color);
             }
           }
         }
@@ -72,7 +72,7 @@
         }
 
         .stage-decorator-action-separator {
-          @include ladderDarkBgColor(header-bg-color);
+          @include ladderDarkBgColor(-fx-header-bg-color);
           -fx-pref-width: $_1px;
           -fx-max-height: $_22px;
         }

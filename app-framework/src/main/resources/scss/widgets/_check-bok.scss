@@ -1,8 +1,6 @@
-@import "../../define/global";
-
 .jfx-check-box {
-  -jfx-checked-color: theme-selected-color;
-  -jfx-unchecked-color: theme-dark-color;
+  -jfx-checked-color: #009688;
+  -jfx-unchecked-color: #888;
 
   .box {
     -fx-pref-width: $_14px;

@@ -5,6 +5,9 @@
 open module com.unclezs.novel.app.main {
   // app framework
   requires com.unclezs.novel.app.framework;
+  // analyzer
+  requires novel.analyzer;
+  requires com.google.gson;
 
   requires org.slf4j;
   requires logback.classic;
@@ -14,6 +17,7 @@ open module com.unclezs.novel.app.main {
   requires static lombok;
   requires freemarker;
   requires jkeymaster;
+  requires javafx.web;
 
   exports com.unclezs.novel.app.main;
 }

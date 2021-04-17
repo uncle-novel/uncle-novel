@@ -3,20 +3,20 @@
 $border-radius: 10px;
 
 .sidebar-nav {
+  // 真正内容view背景颜色
+  -fx-sidebar-nav-bg-color: #FFF;
+  // 侧边栏颜色
+  -fx-sidebar-bg-color: #FFF;
+  -fx-sidebar-border-color: #bbb;
+  // 菜单按钮选中时颜色
+  -fx-menu-bg-color-selected: #009688;
+  // 菜单按钮hover时颜色
+  -fx-menu-bg-color-hover: #009688;
+
   -fx-background-radius: 0 0 $stage-border-radius $stage-border-radius;
   -fx-border-radius: 0 0 $stage-border-radius $stage-border-radius;
-  -fx-background-color: sidebar-pane-bg-color;
+  -fx-background-color: -fx-sidebar-nav-bg-color;
   -fx-border-color: transparent;
-
-  // 真正内容view背景颜色
-  sidebar-pane-bg-color: #FFF;
-  // 侧边栏颜色
-  sidebar-bg-color: #FFF;
-  sidebar-border-color: #bbb;
-  // 菜单按钮选中时颜色
-  menu-bg-color-selected: #009688;
-  // 菜单按钮hover时颜色
-  menu-bg-color-hover: #009688;
 
   // 右侧视图面版
   .content {
@@ -29,8 +29,9 @@ $border-radius: 10px;
   .sidebar {
     -fx-vbar-policy: NEVER;
     -fx-hbar-policy: NEVER;
-    -fx-background-color: sidebar-bg-color;
-    -fx-border-color: sidebar-border-color;
+    -fx-min-width: $_220px;
+    -fx-background-color: -fx-sidebar-bg-color;
+    -fx-border-color: -fx-sidebar-border-color;
     -fx-border-width: 0 1px 0 0;
     -fx-fit-to-height: true;
     -fx-fit-to-width: true;
@@ -42,7 +43,7 @@ $border-radius: 10px;
 
     .sidebar-menus {
       -fx-alignment: top-center;
-      @include ladderTextFill(sidebar-bg-color);
+      @include ladderTextFill(-fx-sidebar-bg-color);
       -fx-spacing: $_10px;
       -fx-pref-width: $_210px;
       -fx-background-radius: 0 0 0 $stage-border-radius;
@@ -52,7 +53,7 @@ $border-radius: 10px;
       .sidebar-menu {
         -fx-pref-width: $_166px;
         -fx-padding: $_20px 0 0 $_10px;
-        -fx-text-fill: ladder(sidebar-bg-color, $md_grey_200 45%, $md_grey_300 46%, $md_grey_400 59%, $md_grey_500 60%);
+        -fx-text-fill: ladder(-fx-sidebar-bg-color, $md_grey_200 45%, $md_grey_300 46%, $md_grey_400 59%, $md_grey_500 60%);
       }
 
       // 菜单按钮
@@ -68,22 +69,21 @@ $border-radius: 10px;
         -fx-alignment: center-left;
 
         &:selected {
-          @include ladderTextFillForce(menu-bg-color-selected);
-          //@include shadow-br-3(derive(-fx-text-fill, -100%));
-          -fx-background-color: menu-bg-color-selected !important;
+          @include ladderTextFillForce(-fx-menu-bg-color-selected);
+          -fx-background-color: -fx-menu-bg-color-selected !important;
         }
 
         &:hover {
-          @include ladderTextFill(menu-bg-color-hover);
-          -fx-background-color: menu-bg-color-hover;
+          @include ladderTextFill(-fx-menu-bg-color-hover);
+          -fx-background-color: -fx-menu-bg-color-hover;
           -fx-cursor: hand;
         }
 
         .icon {
           -fx-icon-size: 14px !important;
-          -fx-max-width: $_18px;
-          -fx-min-width: $_18px;
-          -fx-pref-width: $_18px;
+          -fx-max-width: 18px;
+          -fx-min-width: 18px;
+          -fx-pref-width: 18px;
           -fx-text-fill: inherit;
         }
       }

@@ -27,7 +27,7 @@ public class ScaleLargeTransition extends CachedTransition {
             new KeyValue(contentHolder.visibleProperty(), true, Interpolator.EASE_BOTH),
             new KeyValue(contentHolder.opacityProperty(), 0, Interpolator.EASE_BOTH)
         ),
-        new KeyFrame(Duration.millis(1000),
+        new KeyFrame(Duration.millis(666),
             new KeyValue(contentHolder.scaleXProperty(), 1, Interpolator.EASE_BOTH),
             new KeyValue(contentHolder.scaleYProperty(), 1, Interpolator.EASE_BOTH),
             new KeyValue(contentHolder.opacityProperty(), 1, Interpolator.EASE_BOTH)))

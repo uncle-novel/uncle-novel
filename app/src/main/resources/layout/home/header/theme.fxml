@@ -1,41 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPopup?>
+<?import com.unclezs.novel.app.framework.components.icon.IconButton?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<JFXPopup xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:controller="com.unclezs.novel.app.main.home.header.ThemePopupView"
-  fx:id="popup">
-  <VBox spacing="10" styleClass="home-theme-popup"
-    stylesheets="/css/home/header/theme-popup.css">
+<JFXPopup xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx" fx:controller="com.unclezs.novel.app.main.home.header.ThemePopupView">
+  <VBox spacing="10" styleClass="home-theme-popup" fx:id="box">
     <HBox styleClass="theme-popup-color-box">
-      <JFXButton style="-fx-background-color: #3b4252;" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        text="default" userData="default"/>
-      <JFXButton style="-fx-background-color: rgb(30, 30, 32)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="dark"/>
-      <JFXButton style="-fx-background-color: rgb(77, 175, 124)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="green"/>
-      <JFXButton style="-fx-background-color: rgb(214, 69, 65)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="red"/>
-      <JFXButton style="-fx-background-color: rgb(52, 152, 219)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="blue"/>
-      <JFXButton style="-fx-background-color: rgb(214, 130, 141)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="pink"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,default" userData="default"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,dark" userData="dark"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,green" userData="green"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,red" userData="red"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,blue" userData="blue"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,pink" userData="pink"/>
     </HBox>
     <HBox styleClass="theme-popup-color-box">
-      <JFXButton style="-fx-background-color: rgb(155, 89, 182)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="purple"/>
-      <JFXButton style="-fx-background-color: rgb(79, 98, 208)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="deep-blue"/>
-      <JFXButton style="-fx-background-color: rgb(57, 175, 234)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="light-blue"/>
-      <JFXButton style="-fx-background-color: rgb(51, 110, 123)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="teal"/>
-      <JFXButton style="-fx-background-color: rgb(255, 143, 87)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="orange"/>
-      <JFXButton style="-fx-background-color: rgb(108, 122, 137)" onMouseClicked="#changeTheme" styleClass="color-box-item"
-        userData="grey"/>
-      <!--            <JFXColorPicker fx:id="customColorButton" styleClass="color-box-item-custom" onMouseClicked="#customThemeColor"/>-->
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,purple" userData="purple"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,deep-blue" userData="deep-blue"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,light-blue" userData="light-blue"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,teal" userData="teal"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,orange" userData="orange"/>
+      <IconButton onMouseClicked="#changeTheme" styleClass="color-box-item,grey" userData="grey"/>
     </HBox>
   </VBox>
 </JFXPopup>

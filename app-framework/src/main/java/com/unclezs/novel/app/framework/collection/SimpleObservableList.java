@@ -3,11 +3,13 @@ package com.unclezs.novel.app.framework.collection;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.ObservableListBase;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author blog.unclezs.com
  * @date 2021/4/8 16:40
  */
+@EqualsAndHashCode(callSuper = true)
 public class SimpleObservableList<E> extends ObservableListBase<E> {
 
   private final List<E> list;

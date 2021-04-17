@@ -1,7 +1,7 @@
 @import "../../define/_global.scss";
 @import "default";
 
-$theme-selected-color: rgb(79, 98, 208);
-$theme-selected-color-light: rgba(79, 98, 208, 0.2);
-$theme-header-bg-color: $theme-selected-color;
+$theme-color: rgb(79, 98, 208);
+$theme-color-light: rgba(79, 98, 208, 0.2);
+$header-bg-color: $theme-color;
 @import "theme";

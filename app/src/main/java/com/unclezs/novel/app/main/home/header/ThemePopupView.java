@@ -5,11 +5,12 @@ import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.core.View;
 import com.unclezs.novel.app.main.home.HomeView;
+import java.util.Objects;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 
 
 /**
@@ -22,8 +23,8 @@ import javafx.scene.input.MouseEvent;
 public class ThemePopupView extends View<JFXPopup> {
 
   public static final String THEME_FORMAT = "css/home/theme/%s.css";
-  @FXML
-  private JFXPopup popup;
+  public static final String CURRENT_THEME_STYLE_CLASS = "current";
+  public VBox box;
   private String currentTheme;
   private Scene scene;
 
@@ -31,6 +32,7 @@ public class ThemePopupView extends View<JFXPopup> {
   public void onCreate() {
     HomeView homeView = AppContext.getView(HomeView.class);
     this.scene = homeView.getRoot().getScene();
+    System.out.println(box.lookupAll(".color-box-item").size());
   }
 
   /**
@@ -40,8 +42,11 @@ public class ThemePopupView extends View<JFXPopup> {
    */
   public void changeTheme(MouseEvent event) {
     Node themePalette = (Node) event.getSource();
+    if (themePalette.getStyleClass().contains(CURRENT_THEME_STYLE_CLASS)) {
+      return;
+    }
     changeTheme(themePalette.getUserData().toString());
-    popup.hide();
+    getRoot().hide();
   }
 
 
@@ -52,9 +57,21 @@ public class ThemePopupView extends View<JFXPopup> {
    */
   public void changeTheme(String themeName) {
     String theme = String.format(THEME_FORMAT, themeName);
+    // 同一主题不切换
+    if (Objects.equals(currentTheme, theme)) {
+      return;
+    }
+    // 设置当前主题
+    Node current = box.lookup(".".concat(CURRENT_THEME_STYLE_CLASS));
+    if (current != null) {
+      current.getStyleClass().remove(CURRENT_THEME_STYLE_CLASS);
+    }
+    Node node = box.lookup(".".concat(themeName));
+    node.getStyleClass().add(CURRENT_THEME_STYLE_CLASS);
+    // 切换主题
     ObservableList<String> stylesheets = scene.getStylesheets();
-    stylesheets.remove(currentTheme);
     stylesheets.add(theme);
+    stylesheets.remove(currentTheme);
     this.currentTheme = theme;
   }
 }

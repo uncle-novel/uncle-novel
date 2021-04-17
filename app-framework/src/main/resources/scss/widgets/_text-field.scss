@@ -1,0 +1,7 @@
+@import "../define/global";
+
+.text-field {
+  @include ladderTextFill(-fx-base);
+  -fx-background-color: -fx-base;
+  -fx-border-color: transparent;
+}

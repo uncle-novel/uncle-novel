@@ -6,7 +6,7 @@ import proguard.gradle.ProGuardTask
 def profile = "dev"
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'net.sf.proguard:proguard-gradle:6.2.2'
@@ -17,12 +17,9 @@ apply plugin: 'app-packager'
 dependencies {
     implementation project(":app-localized")
     implementation project(":app-framework")
-//    implementation('com.unclezs:novel-analyzer:1.0.2-SNAPSHOT') {
-//        exclude group: 'com.google.code.gson', module: 'gson'
-//    }
+    implementation('com.unclezs:novel-analyzer')
     implementation "org.freemarker:freemarker"
     implementation "ch.qos.logback:logback-classic"
-    compileOnly 'com.google.code.gson:gson'
 }
 
 task obfuscate(type: ProGuardTask) {

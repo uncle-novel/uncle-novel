@@ -5,14 +5,14 @@ $base: rgb(43, 43, 43);
 // 主题背景色
 $theme-bg-color: transparent;
 // 相对背景的暗色（分隔符、提示文字）
-$theme-dark-color: $md_grey_600;
+$theme-color-dark: $md_grey_600;
 // 按钮选中颜色
-$theme-selected-color: $md_teal_600;
+$theme-color: $md_teal_600;
 // 按钮hover颜色
 $theme-hover-color: $md_grey_100;
 
-$theme-sidebar-bg-color: transparent;
-$theme-header-bg-color: transparent;
+$sidebar-bg-color: transparent;
+$header-bg-color: transparent;
 
 @import "theme";
 

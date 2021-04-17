@@ -4,9 +4,9 @@ plugins {
     id "java-library"
 }
 dependencies {
+    implementation project(":app-localized")
     api "com.github.tulskiy:jkeymaster"
     api "cn.hutool:hutool-core"
-    api project(":app-localized")
     api "com.jfoenix:jfoenix"
     api "org.slf4j:slf4j-api"
 }
@@ -16,7 +16,7 @@ jar {
 }
 // 生成字体图标
 task generateIcon(type: IconTask, group: "common") {
-    url = "https://at.alicdn.com/t/font_1469921_d4ib76f54pq.svg"
+    url = "https://at.alicdn.com/t/font_1469921_p5dozq0uhf.svg"
     out = "${sourceSets.main.java.srcDirs[0]}"
     outFont = "${sourceSets.main.resources.srcDirs[0]}/fonts/iconfont.ttf"
     packageName = "com.unclezs.novel.app.framework.components.icon"

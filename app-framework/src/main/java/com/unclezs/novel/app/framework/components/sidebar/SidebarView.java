@@ -37,6 +37,15 @@ public class SidebarView<V extends Parent> extends View<V> {
   }
 
   /**
+   * 页面显示之后 处理数据
+   *
+   * @param bundle 页面跳转数据
+   */
+  public void onShown(SidebarNavigateBundle bundle) {
+    // do something
+  }
+
+  /**
    * 页面隐藏触发
    */
   public void onHidden() {

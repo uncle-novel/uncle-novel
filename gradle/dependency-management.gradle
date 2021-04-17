@@ -5,6 +5,9 @@ props.load(file("../gradle.properties").newDataInputStream())
 
 dependencyManagement {
     dependencies {
+        dependency "com.unclezs:jfx-launcher:${props.getProperty("app.launcher.version")}"
+        dependency "com.unclezs:novel-analyzer:1.0.3"
+
         dependencySet("cn.hutool:5.5.9") {
             entry "hutool-all"
             entry "hutool-core"
@@ -18,8 +21,6 @@ dependencyManagement {
         dependency "com.google.code.gson:gson:2.8.6"
         dependency "org.freemarker:freemarker:2.3.31"
         dependency "ch.qos.logback:logback-classic:1.2.3"
-        dependency "com.unclezs:jfx-launcher:${props.getProperty("app.launcher.version")}"
-
         dependency 'org.apache.velocity:velocity-engine-core:2.0'
         dependency 'com.netflix.nebula:gradle-ospackage-plugin:8.4.1'
         dependency 'net.jsign:jsign-core:3.1'

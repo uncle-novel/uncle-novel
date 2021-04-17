@@ -2,7 +2,6 @@ package com.unclezs.novel.app.framework.executor;
 
 import com.unclezs.novel.app.framework.components.Loading;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import javafx.concurrent.Task;
 
 /**
@@ -11,33 +10,30 @@ import javafx.concurrent.Task;
  * @author blog.unclezs.com
  * @date 2021/4/15 22:24
  */
-public class FluentTask<R> extends Task<R> {
+@SuppressWarnings("AlibabaAbstractClassShouldStartWithAbstractNaming")
+public abstract class FluentTask<R> extends Task<R> {
 
-  private final Function<FluentTask<R>, R> task;
   /**
    * 是否执行任务
    */
   private final boolean loadingEnabled;
   private Loading loading;
 
-  public FluentTask(Function<FluentTask<R>, R> task) {
-    this(task, true);
+  protected FluentTask() {
+    this(true);
   }
 
-  public FluentTask(Function<FluentTask<R>, R> task, boolean loadingEnabled) {
+  protected FluentTask(boolean loadingEnabled) {
     this.loadingEnabled = loadingEnabled;
-    this.task = task;
     if (loadingEnabled) {
       loading = new Loading();
       loading.setOnCloseRequest(event -> this.cancel());
       //启动时显示
       super.setOnRunning(e -> loading.show());
+      super.setOnSucceeded(e -> loading.hideWithAnimation());
+      super.setOnFailed(e -> loading.hideWithAnimation());
+      super.setOnCancelled(e -> loading.hideWithAnimation());
     }
-  }
-
-  @Override
-  protected R call() {
-    return task.apply(this);
   }
 
   /**
@@ -57,6 +53,9 @@ public class FluentTask<R> extends Task<R> {
    */
   public FluentTask<R> onSuccess(Consumer<R> callback) {
     super.setOnSucceeded(e -> {
+      if (isCancelled()) {
+        return;
+      }
       callback.accept(FluentTask.this.getValue());
       close();
     });

@@ -1,0 +1,37 @@
+@import "../define/_global";
+
+.list-view {
+  -fx-selected-color: #009688;
+  -fx-separator-color: #bbb;
+  -fx-background-color: transparent;
+
+  &:focused {
+    -fx-background-color: transparent;
+  }
+
+  .list-cell {
+    @include ladderTextFill(-fx-base);
+    -fx-background-color: transparent;
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: -fx-separator-color;
+
+    .label {
+      @include ladderTextFill(-fx-base);
+    }
+
+    &:empty {
+      -fx-background-color: transparent;
+      -fx-border-color: transparent;
+      -fx-border-width: 0;
+    }
+
+    &:selected {
+      @include ladderTextFill(-fx-selected-color);
+      -fx-background-color: -fx-selected-color;
+
+      .label {
+        @include ladderTextFill(-fx-selected-color);
+      }
+    }
+  }
+}

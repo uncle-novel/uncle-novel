@@ -15,7 +15,7 @@
         <VBox>
           <HBox>
             <VBox spacing="4">
-              <Label style="-fx-text-fill: theme-dark-color" text="关闭应用"/>
+              <Label style="-fx-text-fill: theme-color-dark" text="关闭应用"/>
               <TextField promptText="请输入新的快捷键"/>
             </VBox>
           </HBox>

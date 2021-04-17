@@ -10,7 +10,7 @@
       <option name="vmParameters"/>
     </selectedOptions>
     <option name="VM_PARAMETERS"
-      value="--add-exports=javafx.graphics/com.sun.javafx.css=com.unclezs.novel.app.framework --add-exports=javafx.graphics/com.sun.javafx.stage=com.unclezs.novel.app.main,com.jfoenix --add-exports=javafx.graphics/com.sun.javafx.scene=com.jfoenix --add-exports=javafx.base/com.sun.javafx.binding=com.jfoenix --add-exports=javafx.base/com.sun.javafx.event=com.jfoenix --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix --add-exports=javafx.controls/com.sun.javafx.scene.control=com.jfoenix"/>
+      value="--add-exports=javafx.graphics/com.sun.javafx.css=com.unclezs.novel.app.framework --add-exports=javafx.graphics/com.sun.javafx.stage=com.unclezs.novel.app.main,com.jfoenix --add-exports=javafx.graphics/com.sun.javafx.scene=com.jfoenix --add-exports=javafx.base/com.sun.javafx.binding=com.jfoenix --add-exports=javafx.base/com.sun.javafx.event=com.jfoenix --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix --add-exports=javafx.controls/com.sun.javafx.scene.control=com.jfoenix "/>
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.unclezs.novel.app.main.ui.app.*"/>

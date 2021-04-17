@@ -1,8 +1,8 @@
 @import "../define/global";
 
 .jfx-alert-overlay {
-  -fx-background-color: transparent !important;
-  alert-background-color: #FFF;
+  -fx-bg-color: -fx-base;
+  -fx-background-color: transparent;
 
   .jfx-alert-content-container {
     -fx-background-color: transparent;
@@ -10,17 +10,20 @@
 
     .jfx-dialog-layout {
       @include shadow;
-      -fx-background-color: alert-background-color !important;
+      -fx-background-color: -fx-bg-color;
       -fx-border-color: transparent;
-      -fx-border-width: 4px;
 
       .jfx-layout-body .label {
-        -fx-text-fill: #757575;
         -fx-font-size: $_16px;
       }
 
+      .jfx-layout-heading .label {
+        -fx-border-width: 0 0 1 0;
+        -fx-border-color: derive(-fx-bg-color, -50%);
+      }
+
       .label, .button, text-field {
-        @include ladderTextFill(alert-background-color);
+        @include ladderTextFill(-fx-bg-color);
       }
 
       .icon {

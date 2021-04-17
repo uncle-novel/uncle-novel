@@ -8,7 +8,6 @@ import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
-import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.home.header.SettingPopupView;
 import com.unclezs.novel.app.main.home.header.ThemePopupView;
 
@@ -20,14 +19,12 @@ import com.unclezs.novel.app.main.home.header.ThemePopupView;
 public class HomeView extends SceneView<StageDecorator> {
 
   public static final String DEFAULT_THEME = "default";
-  public static final String HOME_STYLESHEET = "css/home/home.css";
   private ThemePopupView themePopupView;
 
   @Override
   public void onCreated() {
     System.out.println("HomeView created");
-    // home 全局样式
-    getRoot().getScene().getStylesheets().add(0, ResourceUtils.externalForm(HOME_STYLESHEET));
+    getRoot().getScene().getStylesheets().add("css/home/home.css");
     // 初始化主题样式
     themePopupView = AppContext.getView(ThemePopupView.class);
     themePopupView.changeTheme(DEFAULT_THEME);
@@ -47,21 +44,21 @@ public class HomeView extends SceneView<StageDecorator> {
 
   @Override
   public void onShow(SceneNavigateBundle bundle) {
-    System.out.println("MainView show");
+    System.out.println("HomeView show");
     String data = bundle.get("data");
     if (data != null) {
-      System.out.println("MainView收到数据：" + data);
+      System.out.println("HomeView收到数据：" + data);
     }
   }
 
   @Override
   public void onHidden() {
-    System.out.println("MainView hidden");
+    System.out.println("HomeView hidden");
   }
 
   @Override
   public void onDestroy() {
     new Thread(HotKeyManager::unbind).start();
-    System.out.println("MainView destroy");
+    System.out.println("HomeView destroy");
   }
 }

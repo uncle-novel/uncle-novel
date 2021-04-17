@@ -6,6 +6,7 @@ import com.unclezs.novel.app.framework.util.ResourceUtils;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -54,16 +55,15 @@ public abstract class BaseApplication extends Application {
   public void start(Stage stage) throws Exception {
     this.stage = stage;
     AppContext.setStage(stage);
-    // 生命周期监听
-    stage.onShowingProperty().addListener(e -> currentView.onShow(new SceneNavigateBundle()));
     // 首页
     loadSceneView(getIndexView());
-    stage.setScene(currentView.getRoot().getScene());
+    initScene();
   }
 
   @Override
   public void stop() {
     views.values().forEach(SceneView::onDestroy);
+    Platform.exit();
     System.exit(0);
   }
 
@@ -96,15 +96,22 @@ public abstract class BaseApplication extends Application {
     if (currentView != null) {
       currentView.onHidden();
     }
+    // 加载sceneView
     SceneView<V> sceneView = AppContext.getView(viewClass);
     loadSceneView(sceneView);
+    // 先隐藏 再显示 过渡效果
+    if (stage.isShowing()) {
+      stage.hide();
+    }
+    // 场景间参数传递
     if (bundle == null) {
       bundle = new SceneNavigateBundle();
       bundle.setFrom(sceneView.getClass().getName());
     }
+    // 触发生命周期
     sceneView.onShow(bundle);
-    stage.setScene(sceneView.getRoot().getScene());
-    stage.centerOnScreen();
+    initScene();
+    stage.show();
   }
 
 
@@ -113,7 +120,7 @@ public abstract class BaseApplication extends Application {
    *
    * @param sceneView 场景View
    */
-  public void loadSceneView(SceneView<? extends Parent> sceneView) {
+  private void loadSceneView(SceneView<? extends Parent> sceneView) {
     this.currentView = sceneView;
     if (sceneView.getRoot().getScene() == null) {
       // 注入application用于导航
@@ -127,10 +134,17 @@ public abstract class BaseApplication extends Application {
       views.put(sceneView.getClass(), sceneView);
       sceneView.onCreated();
     }
-    // 宽高绑定
-    stage.setMinWidth(sceneView.getRoot().minWidth(-1));
-    stage.setMinHeight(sceneView.getRoot().minHeight(-1));
+  }
+
+  /**
+   * 切换场景 初始化
+   */
+  private void initScene() {
+    AppContext.getStage().setScene(currentView.getRoot().getScene());
+    stage.setMinWidth(currentView.getRoot().minWidth(-1));
+    stage.setMinHeight(currentView.getRoot().minHeight(-1));
     stage.setHeight(stage.getMinHeight());
     stage.setWidth(stage.getMinWidth());
+    stage.centerOnScreen();
   }
 }

@@ -1,0 +1,10 @@
+@import "../define/_global";
+
+.tag {
+  -fx-tag-color: #009688;
+  @include ladderTextFillForce(-fx-tag-color);
+  -fx-background-color: -fx-tag-color;
+  -fx-padding: $_1px $_3px $_1px $_3px;
+  -fx-background-radius: $_3px;
+  -fx-border-radius: $_3px;
+}

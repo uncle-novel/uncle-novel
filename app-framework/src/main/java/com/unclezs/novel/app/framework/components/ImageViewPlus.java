@@ -10,6 +10,7 @@ import javafx.css.SimpleStyleableDoubleProperty;
 import javafx.css.Styleable;
 import javafx.css.StyleableProperty;
 import javafx.css.converter.SizeConverter;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -29,9 +30,29 @@ public class ImageViewPlus extends ImageView {
    */
   private DoubleProperty fitHeight;
 
+  public ImageViewPlus() {
+  }
+
+  public ImageViewPlus(String url) {
+    super(url);
+  }
+
+  public ImageViewPlus(Image image) {
+    super(image);
+  }
+
+  public ImageViewPlus(String url, Double fitWidth, Double fitHeight) {
+    this(new Image(url), fitWidth, fitHeight);
+  }
+
+  public ImageViewPlus(Image image, Double fitWidth, Double fitHeight) {
+    super(image);
+    this.fitToWidthProperty().set(fitWidth);
+    this.fitToHeightProperty().set(fitHeight);
+  }
+
   /**
-   * @return The CssMetaData associated with this class, which may include the CssMetaData of its
-   * superclasses.
+   * @return The CssMetaData associated with this class, which may include the CssMetaData of its superclasses.
    * @since JavaFX 8.0
    */
   public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
@@ -65,8 +86,7 @@ public class ImageViewPlus extends ImageView {
   /**
    * {@inheritDoc}
    *
-   * @return the CssMetaData associated with this class, which may include the CssMetaData of its
-   * super classes.
+   * @return the CssMetaData associated with this class, which may include the CssMetaData of its super classes.
    * @since JavaFX 8.0
    */
   @Override

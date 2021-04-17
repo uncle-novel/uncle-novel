@@ -2,7 +2,7 @@
 @import "default";
 
 // 按钮选中颜色
-$theme-selected-color: rgb(77, 175, 124);
-$theme-header-bg-color: $theme-selected-color;
-$theme-selected-color-light: rgba(77, 175, 124, 0.2);
+$theme-color: rgb(77, 175, 124);
+$theme-color-light: rgba(77, 175, 124, 0.2);
+$header-bg-color: $theme-color;
 @import "theme";

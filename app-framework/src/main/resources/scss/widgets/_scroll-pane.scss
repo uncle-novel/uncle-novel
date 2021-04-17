@@ -1,6 +1,18 @@
-@import "../../define/global";
+@import "../define/global";
+
+
+.scroll-pane {
+  .viewport {
+    -fx-background-color: transparent;
+  }
+}
 
 .scroll-bar {
+  // 滚动条颜色
+  -fx-color: -fx-base;
+  // 滚动条hover颜色
+  -fx-hover-color: #888;
+
   -fx-pref-width: $_10px;
   -fx-background-color: transparent;
 
@@ -13,10 +25,10 @@
   }
 
   .thumb {
-    -fx-background-color: theme-border-color;
+    -fx-background-color: -fx-color;
 
     &:hover {
-      -fx-background-color: theme-border-hover;
+      -fx-background-color: -fx-hover-color;
     }
   }
 

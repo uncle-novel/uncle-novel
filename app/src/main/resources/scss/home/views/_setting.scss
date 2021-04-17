@@ -9,7 +9,7 @@
     -fx-spacing: $_10px;
 
     .setting-name {
-      -fx-border-color: theme-selected-color;
+      -fx-border-color: theme-color;
       -fx-border-width: 0 0 0 5px;
       -fx-padding: 0 0 0 $_5px;
       -fx-font-size: $_14px;
@@ -23,7 +23,7 @@
         -fx-spacing: $_10px;
 
         .setting-item-name {
-          -fx-text-fill: theme-dark-color;
+          -fx-text-fill: theme-color-dark;
         }
 
         .setting-item-content {
@@ -33,8 +33,6 @@
       }
     }
   }
-
-
 }
 
 

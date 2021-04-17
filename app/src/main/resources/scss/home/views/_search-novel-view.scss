@@ -1,0 +1,58 @@
+@import "../../define/global";
+
+.search-novel-view {
+  .container {
+    -fx-spacing: $_10px;
+
+    .header {
+      .title {
+        @include ladderTextFill(-fx-base);
+        -fx-font-size: $_20px;
+      }
+
+      .search-bar {
+
+      }
+    }
+
+    .result-list {
+
+      .placeholder {
+        & > .tip {
+          -fx-text-fill: theme-color-dark;
+          -fx-font-size: 20px;
+        }
+
+        & > .icon {
+          -fx-text-fill: theme-color-dark;
+          -fx-icon-size: 50px;
+        }
+      }
+
+      .list-cell {
+        -fx-content-display: GRAPHIC_ONLY;
+        -fx-padding: $_5px;
+
+        .cell {
+          -fx-alignment: center-left;
+          -fx-spacing: 10;
+
+          .title {
+            -fx-font-size: $_14px;
+            -fx-font-weight: bold;
+          }
+
+          .image-view {
+            @include shadow();
+            -fx-fit-height: $_85px;
+            -fx-fit-width: $_65px;
+          }
+
+          .tags {
+            -fx-spacing: $_10px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,8 @@
 @import "../define/global";
 
 .loading {
+  -fx-bg-color: -fx-base;
+
   @include shadow;
   -fx-pref-width: $_65px;
   -fx-max-width: $_70px;
@@ -8,15 +10,14 @@
   -fx-alignment: center;
   -fx-spacing: $_15px;
   -fx-padding: $_10px 0 $_10px 0;
-  -fx-background-color: loading-background-color !important;
-  loading-background-color: #FFF;
+  -fx-background-color: -fx-bg-color;
 
   .jfx-spinner {
     -jfx-radius: $_13px;
   }
 
   .jfx-button {
-    @include ladderTextFill(loading-background-color);
+    @include ladderTextFill(-fx-bg-color);
     -jfx-disable-visual-focus: true;
     -fx-text-alignment: center;
   }

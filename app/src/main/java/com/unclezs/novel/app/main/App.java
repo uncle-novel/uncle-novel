@@ -7,6 +7,7 @@ import com.unclezs.novel.app.framework.appication.BaseApplication;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.core.AppContext;
+import com.unclezs.novel.app.framework.exception.FxException;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.home.HomeView;
@@ -77,10 +78,15 @@ public class App extends BaseApplication {
 
   @Override
   public void start(Stage stage) throws Exception {
-    super.start(stage);
-    initStage(stage);
-    stage.show();
-    checkForUpdate(stage);
+    try {
+      super.start(stage);
+      initStage(stage);
+      stage.show();
+      checkForUpdate(stage);
+    } catch (Throwable e) {
+      e.printStackTrace();
+      throw new FxException(e);
+    }
   }
 
   private void mockUpdate(Stage stage) {

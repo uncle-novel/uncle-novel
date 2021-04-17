@@ -9,16 +9,15 @@
   min="true"
   minHeight="${decorator.prefHeight}" minWidth="${decorator.prefWidth}" prefHeight="660.0" prefWidth="940.0"
   setting="true"
-  stylesheets="/css/home/home.css"
   theme="true" title="%app.title" xmlns="http://javafx.com/javafx/16"
   fx:controller="com.unclezs.novel.app.main.home.HomeView"
   fx:id="decorator">
   <SidebarNavigation VBox.vgrow="ALWAYS" prefWidth="${decorator.width}">
     <SidebarMenu name="%home.menu.search">
-      <SidebarMenuItem selected="true"
+      <SidebarMenuItem
         icon="search"
         text="组件库" view="com.unclezs.novel.app.main.home.views.TestView"/>
-      <SidebarMenuItem
+      <SidebarMenuItem selected="true"
         icon="search"
         text="%home.menu.search.internal" view="com.unclezs.novel.app.main.home.views.SearchNovelView"/>
       <SidebarMenuItem

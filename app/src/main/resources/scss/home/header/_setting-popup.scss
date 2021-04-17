@@ -19,9 +19,9 @@
     -fx-padding: 0 0 0 $_10px;
 
     &:hover {
-      @include ladderTextFill(theme-selected-color);
+      @include ladderTextFill(theme-color);
       @include shadow-br-3(derive(-fx-text-fill, -100%));
-      -fx-background-color: theme-selected-color;
+      -fx-background-color: theme-color;
     }
 
     .icon {
@@ -36,7 +36,6 @@
   .home-setting-popup-delimiter {
     -fx-max-height: $_1px;
     -fx-min-height: $_1px;
-    -fx-background-color: theme-dark-color;
-    //@include ladderBgColor(primary-dark-color)
+    -fx-background-color: theme-color-dark;
   }
 }
