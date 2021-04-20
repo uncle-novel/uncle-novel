@@ -1,6 +1,10 @@
-.jfx-check-box {
-  -jfx-checked-color: #009688;
-  -jfx-unchecked-color: #888;
+.check-box {
+  -fx-checked-color: #009688;
+  -fx-unchecked-color: #888;
+
+  &:selected .box {
+    -fx-border-color: -fx-unchecked-color;
+  }
 
   .box {
     -fx-pref-width: $_14px;
@@ -13,4 +17,9 @@
     -fx-max-width: $_10px;
     -fx-max-height: $_8px;
   }
+}
+
+.jfx-check-box {
+  -jfx-checked-color: -fx-checked-color;
+  -jfx-unchecked-color: -fx-unchecked-color;
 }

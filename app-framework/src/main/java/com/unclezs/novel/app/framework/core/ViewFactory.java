@@ -112,4 +112,15 @@ public class ViewFactory {
       throw new FxException("创建FXML失败：{}", fxView.fxml(), e);
     }
   }
+
+  /**
+   * 销毁 Bean出发onDestroy
+   */
+  public void destroy() {
+    this.views.values().forEach(view -> {
+      if (view instanceof View) {
+        ((View<?>) view).onDestroy();
+      }
+    });
+  }
 }

@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.framework.util;
 
 
-import javafx.scene.Node;
+import javafx.css.Styleable;
 import javafx.scene.Parent;
 import lombok.experimental.UtilityClass;
 
@@ -21,7 +21,7 @@ public class NodeHelper {
    * @param node       节点
    * @param classNames 类名列表
    */
-  public static <T extends Node> T addClass(T node, String... classNames) {
+  public static <T extends Styleable> T addClass(T node, String... classNames) {
     if (node == null) {
       return null;
     }

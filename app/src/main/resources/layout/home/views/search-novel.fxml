@@ -30,7 +30,7 @@
       <placeholder>
         <VBox alignment="CENTER" styleClass="placeholder">
           <Icon value="empty"/>
-          <Label styleClass="tip"/>
+          <Label styleClass="tip" text="%home.search.novel.placeholder"/>
         </VBox>
       </placeholder>
     </ListView>

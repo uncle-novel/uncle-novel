@@ -29,7 +29,7 @@ public @interface FxView {
    *
    * @return 路径
    */
-  String bundle() default "";
+  String bundle() default "app";
 
   /**
    * 样式表

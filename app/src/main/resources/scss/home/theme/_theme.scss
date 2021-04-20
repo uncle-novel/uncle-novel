@@ -49,9 +49,9 @@
   -fx-hover-color: $theme-color-dark;
 }
 
-.jfx-check-box {
-  -jfx-checked-color: $theme-color;
-  -jfx-unchecked-color: $theme-color-dark;
+.check-box {
+  -fx-checked-color: $theme-color;
+  -fx-unchecked-color: $theme-color-dark;
 }
 
 .list-view {
@@ -65,4 +65,10 @@
 
 .tag {
   -fx-tag-color: $theme-color;
+}
+
+.table-view {
+  -fx-slected-color: $theme-color;
+  -fx-slected-color-light: $theme-color-light;
+  -fx-color-dark: $theme-color-dark;
 }

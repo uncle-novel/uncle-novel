@@ -1,8 +1,8 @@
 package com.unclezs.novel.app.framework.components.properties;
 
 import javafx.beans.DefaultProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 用于fxml的字符串
@@ -10,10 +10,14 @@ import lombok.Setter;
  * @author blog.unclezs.com
  * @date 2021/4/16 16:04
  */
+@Data
+@NoArgsConstructor
 @DefaultProperty("value")
 public class Str {
 
-  @Getter
-  @Setter
+  /**
+   * 字符串值
+   */
   private String value;
+
 }

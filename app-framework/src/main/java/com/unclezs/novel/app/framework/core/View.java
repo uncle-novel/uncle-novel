@@ -26,16 +26,24 @@ public class View<V> implements Initializable, LocalizedSupport {
   protected V root;
 
   /**
-   * view创建之后，还没有做fx的初始化
+   * view创建之后，只做了fxml的属性注入，还没有做应用属性注入（如sidebar的navigation）
    */
   public void onCreate() {
     // Bean创建完成
   }
 
   /**
+   * 被隐藏(场景view切换) 窗口隐藏不会被调用
+   */
+  public void onHidden() {
+    // do something
+  }
+
+  /**
    * view被销毁时调用
    */
   public void onDestroy() {
+    onHidden();
     // 一般为程序退出保持数据
   }
 

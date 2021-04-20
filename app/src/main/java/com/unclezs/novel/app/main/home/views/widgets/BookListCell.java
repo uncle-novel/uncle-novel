@@ -1,12 +1,16 @@
 package com.unclezs.novel.app.main.home.views.widgets;
 
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.components.ImageViewPlus;
 import com.unclezs.novel.app.framework.components.Tag;
+import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
@@ -22,15 +26,16 @@ import javafx.scene.layout.VBox;
  * @author blog.unclezs.com
  * @date 2021/4/16 22:39
  */
-public class BookListCell extends ListCell<Novel> {
+public class BookListCell extends ListCell<Novel> implements LocalizedSupport {
 
-  public static final Image NO_COVER = new Image(ResourceUtils.externalForm("assets/images/no-cover.png"), true);
+  public static final String NO_COVER_IMAGE = "assets/images/no-cover.png";
+  public static final Image NO_COVER = new Image(ResourceUtils.externalForm(NO_COVER_IMAGE), true);
   private final HBox cell = NodeHelper.addClass(new HBox(), "cell");
   private final ImageView cover;
   private final Label title = NodeHelper.addClass(new Label(), "title");
-  private final Label author = new Label();
-  private final Label desc = new Label();
-  private final Label latestChapter = new Label();
+  private final Label author = new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.author").concat(StrUtil.COLON)));
+  private final Label desc = new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.desc").concat(StrUtil.COLON)));
+  private final Label latestChapter = new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.chapter.latest").concat(StrUtil.COLON)));
   private final HBox tags = NodeHelper.addClass(new HBox(), "tags");
   private Novel novel;
 
@@ -62,31 +67,35 @@ public class BookListCell extends ListCell<Novel> {
    */
   private void init(Novel novel) {
     // 更新封面
+    cover.setImage(NO_COVER);
     if (UrlUtils.isHttpUrl(novel.getCoverUrl())) {
       Image image = new Image(novel.getCoverUrl(), true);
-      cover.setImage(image);
-      image.errorProperty().addListener(e -> cover.setImage(NO_COVER));
-    } else {
-      cover.setImage(NO_COVER);
+      image.progressProperty().addListener(e -> {
+        if (image.getProgress() == 1 && !image.isError()) {
+          cover.setImage(image);
+        }
+      });
     }
     // 更新小说信息
-    this.title.setText(CharSequenceUtil.blankToDefault(novel.getTitle(), "未知"));
-    this.author.setText("作者：".concat(CharSequenceUtil.blankToDefault(novel.getAuthor(), "未知")));
-    this.desc.setText("简介：".concat(CharSequenceUtil.blankToDefault(novel.getIntroduce(), "无")));
-    this.latestChapter.setText("最新章节：".concat(CharSequenceUtil.blankToDefault(novel.getLatestChapterName(), "无")));
+    String unknown = localized("unknown");
+    this.title.setText(CharSequenceUtil.blankToDefault(novel.getTitle(), unknown));
+    this.author.setText(CharSequenceUtil.blankToDefault(novel.getAuthor(), unknown));
+    this.desc.setText(CharSequenceUtil.blankToDefault(novel.getIntroduce(), localized("none")));
+    this.latestChapter.setText(CharSequenceUtil.blankToDefault(novel.getLatestChapterName(), unknown));
     // 更新标签
-    tags.getChildren().clear();
+    List<Tag> novelTags = new ArrayList<>();
     // 分类
     if (CharSequenceUtil.isNotBlank(novel.getCategory())) {
-      tags.getChildren().add(new Tag(novel.getCategory()));
-    }
-    // 字数
-    if (CharSequenceUtil.isNotBlank(novel.getWordCount())) {
-      tags.getChildren().add(new Tag(novel.getWordCount().concat("字")));
+      novelTags.add(new Tag(novel.getCategory()));
     }
     // 连载状态
     if (CharSequenceUtil.isNotBlank(novel.getState())) {
-      tags.getChildren().add(new Tag(novel.getState()));
+      novelTags.add(new Tag(novel.getState()));
     }
+    // 字数
+    if (CharSequenceUtil.isNotBlank(novel.getWordCount())) {
+      novelTags.add(new Tag(novel.getWordCount()));
+    }
+    tags.getChildren().setAll(novelTags);
   }
 }

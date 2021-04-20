@@ -1,0 +1,95 @@
+@import "../define/_global";
+
+.table-view {
+  -fx-slected-color: #009688;
+  -fx-slected-color-light: #009688;
+  -fx-color-dark: #bbb;
+
+  -fx-background-color: transparent;
+  -fx-table-header-border-color: transparent;
+  -fx-table-cell-border-color: transparent;
+
+  // 表头
+  .column-header, .filler, .column-header-background {
+    -fx-background-color: transparent;
+  }
+
+  .column-header-background {
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: rgb(244, 244, 244);
+  }
+
+  .column-header {
+    -fx-border-color: transparent;
+
+    .label {
+      -fx-alignment: center-left;
+    }
+  }
+
+  .column-drag-header {
+    -fx-background-color: -fx-slected-color;
+    -fx-border-width: 0;
+  }
+
+  .column-overlay {
+    -fx-background-color: -fx-slected-color-light;
+  }
+
+  // 表行
+  .table-row-cell {
+    -fx-background-color: transparent;
+
+    .table-cell {
+      @include ladderTextFill(-fx-base);
+    }
+
+    &:selected, &:filled:selected, &:filled > .table-cell:selected {
+      -fx-table-cell-border-color: transparent;
+      -fx-background-color: -fx-slected-color;
+
+      .table-cell, .icon {
+        @include ladderTextFill(-fx-slected-color);
+      }
+    }
+  }
+
+  // 序号行居中
+  .id {
+    -fx-text-fill: -fx-color-dark !important;
+    -fx-alignment: center;
+
+    .label {
+      -fx-text-fill: inherit;
+      -fx-alignment: inherit;
+    }
+  }
+
+  .align-center {
+    -fx-alignment: center;
+
+    .label {
+      -fx-alignment: inherit;
+    }
+  }
+
+  .check-box {
+    &:disabled {
+      -fx-opacity: 1;
+    }
+  }
+
+  .action-cell {
+    -fx-spacing: 10;
+    -fx-alignment: center;
+
+    .icon {
+      -fx-icon-size: 13px;
+      @include ladderTextFill(-fx-base);
+
+      &.delete:hover {
+        -fx-text-fill: red;
+      }
+    }
+  }
+}

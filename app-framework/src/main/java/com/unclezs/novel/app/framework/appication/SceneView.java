@@ -28,13 +28,6 @@ public abstract class SceneView<V extends Parent> extends View<V> implements Sta
   }
 
   /**
-   * 被隐藏(场景view切换) 窗口隐藏不会被调用
-   */
-  public void onHidden() {
-    // do something
-  }
-
-  /**
    * 当场景创建完毕
    */
   public void onCreated() {

@@ -57,7 +57,7 @@ public class SearchNovelView extends SidebarView<StackPane> {
     novelInfo.setCoverUrl("https://img.zhaishuyuan.com/bookpic/s191.jpg");
     novelInfo.setState("已完结");
     novelInfo.setUpdateTime("2017-8-28 19:21:17");
-    listView.getItems().add(novelInfo);
+//    listView.getItems().add(novelInfo);
 
     RuleHelper.loadRules(IoUtil.readUtf8(ResourceUtils.stream("rule.json")));
     spider = new SearchSpider(RuleHelper.rules().stream().filter(AnalyzerRule::isEnable).collect(Collectors.toList()));

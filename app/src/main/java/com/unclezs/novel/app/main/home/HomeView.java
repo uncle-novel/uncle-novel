@@ -10,12 +10,13 @@ import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
 import com.unclezs.novel.app.main.home.header.SettingPopupView;
 import com.unclezs.novel.app.main.home.header.ThemePopupView;
+import com.unclezs.novel.app.main.home.views.SearchNovelView;
 
 /**
  * @author blog.unclezs.com
  * @since 2021/02/26 15:23
  */
-@FxView(fxml = "/layout/home/home.fxml", bundle = "app")
+@FxView(fxml = "/layout/home/home.fxml")
 public class HomeView extends SceneView<StageDecorator> {
 
   public static final String DEFAULT_THEME = "default";
@@ -59,6 +60,7 @@ public class HomeView extends SceneView<StageDecorator> {
   @Override
   public void onDestroy() {
     new Thread(HotKeyManager::unbind).start();
+    SearchNovelView view = AppContext.getView(SearchNovelView.class);
     System.out.println("HomeView destroy");
   }
 }

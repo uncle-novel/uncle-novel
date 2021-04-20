@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.experimental.UtilityClass;
 
 /**
+ * 应用上下文
+ *
  * @author blog.unclezs.com
  * @date 2021/4/15 17:09
  */
@@ -23,7 +25,7 @@ public class AppContext {
    * @param clazz 类型
    * @param view  视图
    */
-  public <T> T register(Class<?> clazz, T view) {
+  public static <T> T register(Class<?> clazz, T view) {
     return FACTORY.register(clazz, view);
   }
 
@@ -34,7 +36,7 @@ public class AppContext {
    * @param <V>   视图类型
    * @return 视图
    */
-  public <V> V getRoot(Class<?> clazz) {
+  public static <V> V getRoot(Class<?> clazz) {
     return FACTORY.getRoot(clazz);
   }
 
@@ -44,7 +46,14 @@ public class AppContext {
    * @param clazz 控制器
    * @return 控制器
    */
-  public <T> T getView(Class<?> clazz) {
+  public static <T> T getView(Class<?> clazz) {
     return FACTORY.getView(clazz);
+  }
+
+  /**
+   * 停止
+   */
+  public void stop() {
+    FACTORY.destroy();
   }
 }

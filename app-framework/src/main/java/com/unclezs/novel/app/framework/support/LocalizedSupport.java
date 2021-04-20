@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 public interface LocalizedSupport {
 
   String BASE_NAME = "com.unclezs.novel.app.localized.";
+  String BASE_BUNDLE_NAME = "app";
+  String COMMON_BUNDLE_NAME = "widgets.common";
 
   /**
    * 获取国际化资源文件
@@ -40,5 +42,7 @@ public interface LocalizedSupport {
    *
    * @return bundle BaseName
    */
-  String getBundleName();
+  default String getBundleName() {
+    return BASE_BUNDLE_NAME;
+  }
 }

@@ -1,7 +1,9 @@
 package com.unclezs.novel.app.main;
 
 
-import com.unclezs.novel.app.framework.util.ResourceUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 
 /**
  * @author blog.unclezs.com
@@ -10,9 +12,8 @@ import com.unclezs.novel.app.framework.util.ResourceUtils;
 public class TestApp {
 
   public static void main(String[] args) throws Exception {
-    ResourceUtils.stream("com/sun/javafx/scene/control/skin/modena/modena.css");
-    for (int i = 1; i < 500; i++) {
-      System.out.printf("$_%dpx: %.2fem;%n", i, (i / 12.0));
-    }
+    String res = "com/sun/javafx/scene/control/skin/modena/modena.css";
+    Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
+    System.out.println(gson.toJson(new AnalyzerRule()));
   }
 }

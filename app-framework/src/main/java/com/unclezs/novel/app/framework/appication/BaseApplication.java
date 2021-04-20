@@ -3,8 +3,6 @@ package com.unclezs.novel.app.framework.appication;
 import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
-import java.util.HashMap;
-import java.util.Map;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Parent;
@@ -26,11 +24,6 @@ public abstract class BaseApplication extends Application {
    */
   public static final String FX_THREAD_NAME = "FX";
   public static final String APPLICATION_STYLESHEET = "css/application.css";
-  /**
-   * 场景View缓存
-   */
-  private final Map<Class<?>, SceneView<? extends Parent>> views = new HashMap<>();
-  @Getter
   private Stage stage;
   /**
    * 当前view
@@ -62,7 +55,7 @@ public abstract class BaseApplication extends Application {
 
   @Override
   public void stop() {
-    views.values().forEach(SceneView::onDestroy);
+    AppContext.stop();
     Platform.exit();
     System.exit(0);
   }
@@ -130,8 +123,6 @@ public abstract class BaseApplication extends Application {
       }
       Scene scene = new Scene(sceneView.getRoot(), Color.TRANSPARENT);
       scene.getStylesheets().setAll(ResourceUtils.externalForm(APPLICATION_STYLESHEET));
-      // 场景创建完成回调
-      views.put(sceneView.getClass(), sceneView);
       sceneView.onCreated();
     }
   }

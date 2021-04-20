@@ -46,13 +46,6 @@ public class SidebarView<V extends Parent> extends View<V> {
   }
 
   /**
-   * 页面隐藏触发
-   */
-  public void onHidden() {
-    // do something
-  }
-
-  /**
    * 注入导航，并触发onCreated
    *
    * @param navigation 导航

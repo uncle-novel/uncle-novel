@@ -16,13 +16,7 @@
     <SidebarMenu name="%home.menu.search">
       <SidebarMenuItem
         icon="search"
-        text="组件库" view="com.unclezs.novel.app.main.home.views.TestView"/>
-      <SidebarMenuItem selected="true"
-        icon="search"
         text="%home.menu.search.internal" view="com.unclezs.novel.app.main.home.views.SearchNovelView"/>
-      <SidebarMenuItem
-        icon="setting"
-        text="设置1" view="com.unclezs.novel.app.main.home.views.SettingView"/>
       <SidebarMenuItem icon="search_network"
         text="%home.menu.search.network"
         view="com.unclezs.novel.app.main.home.views.SearchNetworkView"/>
@@ -33,7 +27,7 @@
     <SidebarMenu name="%home.menu.read">
       <SidebarMenuItem icon="bookshelf"
         text="%home.menu.read.text"
-        view="com.unclezs.novel.app.main.home.views.SearchAudioView"/>
+        view="com.unclezs.novel.app.main.home.views.TestView"/>
       <SidebarMenuItem icon="audio_bookshelf"
         text="%home.menu.read.audio"
         view="com.unclezs.novel.app.main.home.views.SearchAudioView"/>
@@ -44,6 +38,14 @@
         view="com.unclezs.novel.app.main.home.views.SearchAudioView"/>
       <SidebarMenuItem icon="download_management"
         text="%home.menu.download.management"
+        view="com.unclezs.novel.app.main.home.views.SettingView"/>
+    </SidebarMenu>
+    <SidebarMenu name="%home.menu.rule">
+      <SidebarMenuItem icon="rule_text" selected="true"
+        text="%home.menu.rule.text"
+        view="com.unclezs.novel.app.main.home.views.FictionRulesView"/>
+      <SidebarMenuItem icon="rule_audio"
+        text="%home.menu.rule.audio"
         view="com.unclezs.novel.app.main.home.views.SearchAudioView"/>
     </SidebarMenu>
   </SidebarNavigation>
