@@ -164,7 +164,11 @@ public class SidebarNavigation extends HBox {
    * @param bundle    数据
    */
   public void navigate(Class<?> viewClass, SidebarNavigateBundle bundle) {
-    SidebarView<? extends Parent> view = AppContext.getView(viewClass);
+    SidebarView<? extends Parent> view = (SidebarView<? extends Parent>) AppContext.getView(viewClass);
+    // 注入navigation
+    if (view.getNavigation() == null) {
+      view.setNavigation(this);
+    }
     navigate(view, bundle);
   }
 

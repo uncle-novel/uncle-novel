@@ -1,0 +1,41 @@
+@import "../define/_global";
+
+.toast {
+
+  .box {
+    -fx-spacing: $_10px;
+    -fx-alignment: BOTTOM_CENTER;
+    -fx-max-height: $_120px;
+  }
+
+  .label {
+    @include shadow();
+    -fx-padding: $_5px $_10px $_5px $_10px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+  }
+
+  .icon {
+    -fx-text-fill: inherit;
+  }
+
+  .warn {
+    -fx-background-color: rgb(253, 246, 236);
+    -fx-text-fill: rgb(230, 162, 60);
+  }
+
+  .info {
+    -fx-background-color: rgb(237, 242, 252);
+    -fx-text-fill: rgb(144, 147, 153);
+  }
+
+  .success {
+    -fx-text-fill: rgb(103, 194, 58);
+    -fx-background-color: rgb(240, 249, 235);
+  }
+
+  .error {
+    -fx-background-color: rgb(254, 240, 240);
+    -fx-text-fill: rgb(245, 108, 108);
+  }
+}

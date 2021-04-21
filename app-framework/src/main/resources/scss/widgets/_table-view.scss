@@ -51,6 +51,10 @@
       .table-cell, .icon {
         @include ladderTextFill(-fx-slected-color);
       }
+
+      .check-box .box {
+        -fx-border-color: ladder(-fx-slected-color, $white_color 49%, $black_color 50%);;
+      }
     }
   }
 
@@ -70,12 +74,6 @@
 
     .label {
       -fx-alignment: inherit;
-    }
-  }
-
-  .check-box {
-    &:disabled {
-      -fx-opacity: 1;
     }
   }
 

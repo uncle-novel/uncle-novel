@@ -122,7 +122,7 @@ public class App extends BaseApplication {
     if (userData == null) {
       return;
     }
-    Executor.execute(() -> {
+    Executor.run(() -> {
       Map<String, Object> data = (Map<String, Object>) userData;
       List<String> changeLog = (List<String>) data.get(CHANGE_LOG_KEY);
       StringBuilder whatNew = new StringBuilder();
@@ -130,7 +130,7 @@ public class App extends BaseApplication {
         whatNew.append(newItem).append(StrUtil.LF);
       }
       String version = (String) data.get(VERSION_KEY);
-      Executor.execute(() -> JFXUtilities.runInFX(() -> ModalBox.none().cancel("了解了").message(whatNew.toString()).title("更新内容 - V".concat(version)).show()), 1000);
+      Executor.run(() -> JFXUtilities.runInFX(() -> ModalBox.none().cancel("了解了").message(whatNew.toString()).title("更新内容 - V".concat(version)).show()), 1000);
     });
   }
 }

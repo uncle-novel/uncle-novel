@@ -1,0 +1,41 @@
+@import "../../define/global";
+
+.rule-editor {
+  .container {
+    .rule-container {
+      -fx-padding: $_10px;
+
+      .title {
+        -fx-font-size: $_14px;
+        -fx-border-width: 0 0 0 4px;
+        -fx-border-color: theme-color;
+        -fx-padding: 0 0 0 $_5px;
+      }
+
+      .items {
+        -fx-padding: 0 0 $_10px $_10px;
+        -fx-spacing: 10px;
+      }
+
+      .items-sub {
+        -fx-spacing: 10px;
+      }
+
+      .item-sub {
+        -fx-alignment: center-left;
+
+        .item-name {
+          -fx-pref-width: $_80px;
+        }
+      }
+
+      .item {
+        -fx-alignment: center-left;
+
+        .item-name {
+          -fx-min-width: $_80px;
+        }
+      }
+    }
+  }
+}

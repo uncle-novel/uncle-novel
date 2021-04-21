@@ -4,6 +4,7 @@ import cn.hutool.core.thread.ThreadUtil;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import javafx.application.Platform;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -16,11 +17,15 @@ public class Executor {
   private static final ScheduledThreadPoolExecutor SCHEDULED_THREAD_POOL_EXECUTOR = ThreadUtil.createScheduledExecutor(1);
   private static final ExecutorService EXECUTOR_SERVICE = ThreadUtil.newExecutor(0);
 
-  public static void execute(Runnable runnable) {
+  public static void run(Runnable runnable) {
     EXECUTOR_SERVICE.execute(runnable);
   }
 
-  public static void execute(Runnable runnable, long delay) {
+  public static void run(Runnable runnable, long delay) {
     SCHEDULED_THREAD_POOL_EXECUTOR.schedule(runnable, delay, TimeUnit.MILLISECONDS);
+  }
+
+  public static void runFx(Runnable runnable, long delay) {
+    run(() -> Platform.runLater(runnable), delay);
   }
 }

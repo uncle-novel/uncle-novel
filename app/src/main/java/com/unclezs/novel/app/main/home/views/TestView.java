@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXToggleButton;
 import com.tulskiy.keymaster.common.HotKey;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.ModalBox;
+import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.executor.FluentTask;
@@ -47,6 +48,13 @@ public class TestView extends SidebarView<StackPane> {
   public Button cancelGlobal;
   public VBox box;
   public JFXToggleButton debug;
+  /**
+   * 吐司
+   */
+  public Button toastSuccess;
+  public Button toastError;
+  public Button toastWarn;
+  public Button toastInfo;
   HotKeyCombination combination;
 
   @Override
@@ -54,6 +62,7 @@ public class TestView extends SidebarView<StackPane> {
     initDialog();
     initLoading();
     initHotKey();
+    initToast();
   }
 
   private void initLoading() {
@@ -76,6 +85,13 @@ public class TestView extends SidebarView<StackPane> {
     error.setOnMouseClicked(e -> ModalBox.error().message("这是在警告你？").show());
     confirm.setOnMouseClicked(e -> ModalBox.confirm(System.out::println).message("这是在警告你？").show());
     input.setOnMouseClicked(e -> ModalBox.input(System.out::println).title("请输入要修改的昵称").show());
+  }
+
+  void initToast() {
+    toastInfo.setOnMouseClicked(e -> Toast.info("我是提示信息吐司"));
+    toastError.setOnMouseClicked(e -> Toast.error("我是错误吐司"));
+    toastSuccess.setOnMouseClicked(e -> Toast.success("我是成功吐司"));
+    toastWarn.setOnMouseClicked(e -> Toast.warn("我是警告吐司"));
   }
 
   void initHotKey() {

@@ -1,0 +1,18 @@
+@import "../define/_global";
+
+.context-menu {
+  @include shadow();
+  -fx-background-color: -fx-base;
+
+  .icon, .label {
+    @include ladderTextFill(-fx-base);
+  }
+
+  .menu-item:hover, .menu-item:focused {
+    -fx-background-color: theme-color;
+
+    .icon, .label {
+      @include ladderTextFill(theme-color);
+    }
+  }
+}

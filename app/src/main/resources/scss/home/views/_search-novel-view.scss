@@ -2,17 +2,7 @@
 
 .search-novel-view {
   .container {
-    -fx-spacing: $_10px;
-
-    .header {
-      .title {
-        @include ladderTextFill(-fx-base);
-        -fx-font-size: $_20px;
-      }
-    }
-
     .result-list {
-
       .placeholder {
         & > .tip {
           -fx-text-fill: theme-color-dark;

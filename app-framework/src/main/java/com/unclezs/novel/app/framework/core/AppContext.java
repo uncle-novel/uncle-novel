@@ -1,5 +1,7 @@
 package com.unclezs.novel.app.framework.core;
 
+import com.unclezs.novel.app.framework.appication.SceneView;
+import javafx.scene.Node;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +20,12 @@ public class AppContext {
   @Getter
   @Setter
   private static Stage stage;
+  /**
+   * 当前场景视图
+   */
+  @Getter
+  @Setter
+  private static SceneView<? extends Node> currentSceneView;
 
   /**
    * 注册view，普通类型的视图，不是通过Fxml创建的通过此方式注册管理
@@ -46,7 +54,7 @@ public class AppContext {
    * @param clazz 控制器
    * @return 控制器
    */
-  public static <T> T getView(Class<?> clazz) {
+  public static <T> T getView(Class<T> clazz) {
     return FACTORY.getView(clazz);
   }
 

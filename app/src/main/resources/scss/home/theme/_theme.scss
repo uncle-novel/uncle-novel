@@ -59,12 +59,17 @@
   -fx-separator-color: $theme-color-light;
 }
 
-.text-field {
-  -fx-background-color: $theme-color-light;
+.text-field, .text-area {
+  -fx-bg-color: $theme-color-light;
 }
 
 .tag {
   -fx-tag-color: $theme-color;
+}
+
+.combo-box-base {
+  -fx-bg-color: $theme-color-light;
+  -fx-selected-color: $theme-color;
 }
 
 .table-view {

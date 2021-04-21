@@ -28,7 +28,7 @@ public class BaseBundle {
    * @param <T>   类型
    * @return 值
    */
-  public <T extends BaseBundle> T put(String key, String value) {
+  public <T extends BaseBundle> T put(String key, Object value) {
     if (data == null) {
       data = new HashMap<>(16);
     }

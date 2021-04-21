@@ -19,9 +19,9 @@
       </VBox.margin>
       <Label text="%home.menu.rule.text" styleClass="title" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0"/>
       <HBox AnchorPane.rightAnchor="10" AnchorPane.topAnchor="0" styleClass="actions">
-        <IconButton icon="plus" text="新增"/>
-        <IconButton icon="import" text="导入"/>
-        <IconButton icon="export" text="导出"/>
+        <IconButton icon="plus" text="新增" onAction="#addRule"/>
+        <IconButton icon="import" text="导入" onAction="#importRule"/>
+        <IconButton icon="export" text="导出" onAction="#exportAll"/>
       </HBox>
     </AnchorPane>
     <TableView fx:id="rulesTable" VBox.vgrow="ALWAYS" prefWidth="${container.width}">

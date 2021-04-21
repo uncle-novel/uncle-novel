@@ -94,7 +94,7 @@ public abstract class FluentTask<R> extends Task<R> {
    * 提交执行任务
    */
   public void start() {
-    Executor.execute(this);
+    Executor.run(this);
   }
 
   /**
@@ -103,6 +103,6 @@ public abstract class FluentTask<R> extends Task<R> {
    * @param delay 延迟毫秒
    */
   public void start(long delay) {
-    Executor.execute(this, delay);
+    Executor.run(this, delay);
   }
 }

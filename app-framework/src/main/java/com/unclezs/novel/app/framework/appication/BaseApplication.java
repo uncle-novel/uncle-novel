@@ -115,6 +115,7 @@ public abstract class BaseApplication extends Application {
    */
   private void loadSceneView(SceneView<? extends Parent> sceneView) {
     this.currentView = sceneView;
+    AppContext.setCurrentSceneView(currentView);
     if (sceneView.getRoot().getScene() == null) {
       // 注入application用于导航
       sceneView.setApp(this);

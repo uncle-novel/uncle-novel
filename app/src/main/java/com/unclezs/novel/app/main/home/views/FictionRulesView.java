@@ -1,15 +1,31 @@
 package com.unclezs.novel.app.main.home.views;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import com.google.gson.reflect.TypeToken;
 import com.unclezs.novel.analyzer.core.helper.RuleHelper;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
+import com.unclezs.novel.analyzer.util.GsonUtils;
+import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.ModalBox;
+import com.unclezs.novel.app.framework.components.StageDecorator;
+import com.unclezs.novel.app.framework.components.Toast;
+import com.unclezs.novel.app.framework.components.Toast.Type;
+import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
+import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
+import com.unclezs.novel.app.main.home.HomeView;
 import com.unclezs.novel.app.main.home.views.widgets.ActionButtonTableCell;
 import com.unclezs.novel.app.main.home.views.widgets.CheckBoxTableCell;
+import com.unclezs.novel.app.main.home.views.widgets.RuleEditorView;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
@@ -18,6 +34,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -28,6 +45,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class FictionRulesView extends SidebarView<StackPane> {
 
+  /**
+   * 导出书源的文件名
+   */
+  public static final String EXPORT_RULES_FILE_NAME = "rules.json";
   @FXML
   private TableView<AnalyzerRule> rulesTable;
 
@@ -45,6 +66,11 @@ public class FictionRulesView extends SidebarView<StackPane> {
       System.out.println(item.getName() + " -- " + item.isEnable());
     }
     RuleHelper.setRules(rulesTable.getItems());
+  }
+
+  @Override
+  public void onShow(SidebarNavigateBundle bundle) {
+    rulesTable.refresh();
   }
 
   /**
@@ -89,6 +115,12 @@ public class FictionRulesView extends SidebarView<StackPane> {
     rulesTable.getColumns().forEach(column -> column.setResizable(false));
   }
 
+  /**
+   * 删除规则
+   *
+   * @param rule  规则
+   * @param index 索引
+   */
   private void onDelete(AnalyzerRule rule, int index) {
     ModalBox.confirm(delete -> {
       if (Boolean.TRUE.equals(delete)) {
@@ -106,7 +138,9 @@ public class FictionRulesView extends SidebarView<StackPane> {
    * @param index 当前行
    */
   private void onEdit(AnalyzerRule rule, int index) {
-    System.out.println(index + " - " + rule.getName());
+    SidebarNavigateBundle bundle = new SidebarNavigateBundle();
+    bundle.put(RuleEditorView.BUNDLE_RULE_KEY, rule);
+    navigation.navigate(RuleEditorView.class, bundle);
   }
 
   /**
@@ -142,9 +176,49 @@ public class FictionRulesView extends SidebarView<StackPane> {
    */
   @FXML
   private void exportSelected() {
-    ObservableList<AnalyzerRule> rules = rulesTable.getSelectionModel().getSelectedItems();
-    for (AnalyzerRule item : rules) {
-      System.out.println(item.getName() + " -- " + item.isEnable());
+    exportRule(new ArrayList<>(rulesTable.getSelectionModel().getSelectedItems()));
+  }
+
+  /**
+   * 导出全部
+   */
+  @FXML
+  private void exportAll() {
+    exportRule(new ArrayList<>(rulesTable.getItems()));
+  }
+
+  /**
+   * 导入规则，并去重
+   */
+  @FXML
+  private void importRule() {
+    FileChooser fileChooser = new FileChooser();
+    FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("JSON", "*.json");
+    fileChooser.getExtensionFilters().add(filter);
+    File file = fileChooser.showOpenDialog(AppContext.getStage());
+    if (FileUtil.exist(file)) {
+      List<AnalyzerRule> rules = GsonUtils.me().fromJson(FileUtil.readUtf8String(file), new TypeToken<List<AnalyzerRule>>() {
+      }.getType());
+      Set<String> ruleSites = rulesTable.getItems().stream().map(rule -> UrlUtils.getHost(rule.getSite())).collect(Collectors.toSet());
+      rules.stream()
+        .filter(rule -> rule.isEffective() && !ruleSites.contains(UrlUtils.getHost(rule.getSite())))
+        .forEach(rule -> rulesTable.getItems().add(rule));
+    }
+  }
+
+  /**
+   * 导出书源
+   *
+   * @param rules 规则列表
+   */
+  private void exportRule(List<AnalyzerRule> rules) {
+    String ruleJson = GsonUtils.toJson(rules);
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setInitialFileName(EXPORT_RULES_FILE_NAME);
+    File file = fileChooser.showSaveDialog(AppContext.getStage());
+    if (file != null) {
+      FileUtil.writeUtf8String(ruleJson, file);
+      Toast.success(getRoot(), "导出成功");
     }
   }
 
@@ -157,9 +231,19 @@ public class FictionRulesView extends SidebarView<StackPane> {
     ModalBox.confirm(delete -> {
       if (Boolean.TRUE.equals(delete)) {
         rulesTable.getItems().removeAll(rules);
+        Toast.success(getRoot(), "删除成功");
       }
     }).title("确定删除吗？")
       .message(String.format("是否删除选中的%d条规则?", rules.size()))
       .show();
+  }
+
+  /**
+   * 新增规则
+   */
+  @FXML
+  private void addRule() {
+    StageDecorator container = AppContext.getView(HomeView.class).getRoot();
+    Toast.toast(getRoot(), "你好啊", Type.SUCCESS, 2000);
   }
 }

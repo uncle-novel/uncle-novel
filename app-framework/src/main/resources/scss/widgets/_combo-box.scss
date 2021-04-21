@@ -1,0 +1,46 @@
+@import "../define/_global";
+
+
+.combo-box {
+  -fx-selected-color: #009688;
+
+  & > .list-cell {
+    @include ladderTextFill(-fx-base);
+    -fx-alignment: center;
+    -fx-padding: 1px 0 1px 0;
+  }
+
+  .list-view {
+    -fx-background-color: -fx-base;
+
+    .list-cell {
+      -fx-background-color: -fx-base;
+      @include ladderTextFill(-fx-base);
+
+      &:hover, &:selected {
+        -fx-background-color: -fx-selected-color;
+        @include ladderTextFill(-fx-selected-color);
+      }
+    }
+  }
+
+}
+
+.combo-box-base {
+  -fx-bg-color: -fx-base;
+  -fx-selected-color: #009688;
+  -fx-background-color: transparent;
+  @include ladderTextFill(-fx-base);
+
+  .arrow-button {
+    -fx-background-color: transparent;
+
+    .arrow {
+      @include ladderTextFill(-fx-base);
+    }
+  }
+
+  &:editable > .arrow-button {
+    -fx-background-color: -fx-bg-color;
+  }
+}

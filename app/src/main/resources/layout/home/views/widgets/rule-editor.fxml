@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.unclezs.novel.app.framework.components.icon.IconButton?>
+<?import com.unclezs.novel.app.framework.components.NumberTextField?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="http://javafx.com/javafx" styleClass="rule-editor" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.home.views.widgets.RuleEditorView">
+  <VBox styleClass="container">
+    <AnchorPane styleClass="header">
+      <VBox.margin>
+        <Insets top="10"/>
+      </VBox.margin>
+      <Label text="编辑书源" styleClass="title" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0"/>
+      <HBox AnchorPane.rightAnchor="10" AnchorPane.topAnchor="0" styleClass="actions">
+        <IconButton icon="go_back" text="返回" onAction="#goBack"/>
+        <IconButton icon="save" text="保存" onAction="#save"/>
+      </HBox>
+    </AnchorPane>
+    <ScrollPane fitToHeight="true" fitToWidth="true">
+      <VBox spacing="10" styleClass="rule-container">
+        <Label text="基本信息" styleClass="title"/>
+        <VBox styleClass="items">
+          <HBox spacing="10" styleClass="item">
+            <Label text="书源名称" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS" fx:id="name"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="书源分组" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS" fx:id="group"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="书源权重" styleClass="item-name"/>
+            <NumberTextField HBox.hgrow="ALWAYS" fx:id="weight"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="启用书源" styleClass="item-name"/>
+            <JFXCheckBox HBox.hgrow="ALWAYS" fx:id="enabled"/>
+          </HBox>
+        </VBox>
+        <!--搜索规则-->
+        <Label text="搜索规则" styleClass="title"/>
+        <VBox styleClass="items">
+          <HBox spacing="10" styleClass="item">
+            <Label text="请求参数" styleClass="item-name"/>
+            <VBox styleClass="items-sub" HBox.hgrow="ALWAYS">
+              <HBox styleClass="item-sub">
+                <Label text="请求方法" styleClass="item-name"/>
+                <ComboBox HBox.hgrow="ALWAYS" editable="true" fx:id="searchParamMethod">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="GET"/>
+                      <String fx:value="POST"/>
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+              </HBox>
+              <HBox styleClass="item-sub">
+                <Label text="编码格式" styleClass="item-name"/>
+                <ComboBox HBox.hgrow="ALWAYS" editable="true" fx:id="searchParamCharset">
+                  <items>
+                    <FXCollections fx:factory="observableArrayList">
+                      <String fx:value="UTF-8"/>
+                      <String fx:value="GBK"/>
+                      <String fx:value="GB2312"/>
+                    </FXCollections>
+                  </items>
+                </ComboBox>
+              </HBox>
+              <HBox styleClass="item-sub">
+                <Label text="请求头" styleClass="item-name"/>
+                <TextArea HBox.hgrow="ALWAYS" fx:id="searchParamHeaders" style="-fx-padding: 0"/>
+              </HBox>
+              <HBox styleClass="item-sub">
+                <Label text="请求体" styleClass="item-name"/>
+                <TextField HBox.hgrow="ALWAYS" fx:id="searchParamBody"/>
+              </HBox>
+              <HBox styleClass="item-sub">
+                <Label text="模拟浏览器" styleClass="item-name"/>
+                <JFXCheckBox HBox.hgrow="ALWAYS" fx:id="searchParamMockBrowser"/>
+              </HBox>
+            </VBox>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="结果列表" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS" fx:id="searchList"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="详情页面" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS" fx:id="searchDetailPage"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="详情页面" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="目录地址" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="小说名称" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="小说作者" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="小说分类" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="小说字数" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="小说简介" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="最新章节名称" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="最新章节链接" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="封面链接" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="连载状态" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="更新时间" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+        </VBox>
+        <!--正文规则-->
+        <Label text="正文规则" styleClass="title"/>
+        <VBox styleClass="items">
+          <HBox spacing="10" styleClass="item">
+            <Label text="正文规则" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="翻页规则" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="启用翻页" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+        </VBox>
+        <!--章节规则-->
+        <Label text="章节规则" styleClass="title"/>
+        <VBox styleClass="items">
+          <HBox spacing="10" styleClass="item">
+            <Label text="章节列表" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="章节名称" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="章节链接" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="翻页规则" textAlignment="JUSTIFY" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="启用翻页" textAlignment="JUSTIFY" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="章节过滤" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="章节逆序" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="乱序重排" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+        </VBox>
+        <!--详情规则-->
+        <Label text="详情规则" styleClass="title"/>
+        <VBox styleClass="items">
+          <HBox spacing="10" styleClass="item">
+            <Label text="目录地址" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="小说名称" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="小说作者" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="小说分类" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="小说字数" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="小说简介" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="最新章节名称" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="最新章节链接" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="封面链接" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="连载状态" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+          <HBox spacing="10" styleClass="item">
+            <Label text="更新时间" styleClass="item-name"/>
+            <TextField HBox.hgrow="ALWAYS"/>
+          </HBox>
+        </VBox>
+      </VBox>
+    </ScrollPane>
+  </VBox>
+</StackPane>
