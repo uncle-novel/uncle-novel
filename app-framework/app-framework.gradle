@@ -9,6 +9,7 @@ dependencies {
     api "cn.hutool:hutool-core"
     api "com.jfoenix:jfoenix"
     api "org.slf4j:slf4j-api"
+    api 'org.fxmisc.richtext:richtextfx'
 }
 jar {
     manifest {
@@ -16,7 +17,7 @@ jar {
 }
 // 生成字体图标
 task generateIcon(type: IconTask, group: "common") {
-    url = "https://at.alicdn.com/t/font_1469921_ou8rip4ygq9.svg"
+    url = "https://at.alicdn.com/t/font_1469921_rqfm8qc6hp.svg"
     out = "${sourceSets.main.java.srcDirs[0]}"
     outFont = "${sourceSets.main.resources.srcDirs[0]}/fonts/iconfont.ttf"
     packageName = "com.unclezs.novel.app.framework.components.icon"

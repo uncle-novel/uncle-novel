@@ -9,6 +9,10 @@ open module com.unclezs.novel.app.framework {
   requires transitive javafx.fxml;
   requires transitive com.jfoenix;
 
+  // richtext
+  requires org.fxmisc.richtext;
+  requires flowless;
+
   requires static lombok;
 
   requires jkeymaster;
@@ -26,6 +30,7 @@ open module com.unclezs.novel.app.framework {
   exports com.unclezs.novel.app.framework.executor;
   exports com.unclezs.novel.app.framework.appication;
   exports com.unclezs.novel.app.framework.annotation;
+  exports com.unclezs.novel.app.framework.collection;
   exports com.unclezs.novel.app.framework.exception;
   exports com.unclezs.novel.app.framework.support;
   exports com.unclezs.novel.app.framework.support.hotkey;

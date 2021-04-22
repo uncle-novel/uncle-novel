@@ -11,6 +11,7 @@ import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import java.util.function.Consumer;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Window;
@@ -54,6 +55,7 @@ public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
     this.cancel = new JFXButton(localized("cancel"));
     this.cancel.setOnMouseClicked(event -> hideWithAnimation());
     this.layout.getActions().add(cancel);
+    this.setOverlayClose(false);
     setContent(layout);
   }
 
@@ -171,6 +173,17 @@ public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
   }
 
   /**
+   * 提示消息
+   *
+   * @param node 显示内容
+   * @return this
+   */
+  public ModalBox body(Node node) {
+    this.layout.setBody(node);
+    return this;
+  }
+
+  /**
    * 设置标题
    *
    * @param title 标题
@@ -222,7 +235,7 @@ public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
     if (CharSequenceUtil.isBlank(prompt)) {
       input.setPromptText(localized("input.prompt"));
     }
-    submit().setOnMouseClicked(event -> {
+    submitButton().setOnMouseClicked(event -> {
       callback.accept(input.getText());
       hideWithAnimation();
     });
@@ -237,7 +250,7 @@ public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
    * @return this
    */
   private ModalBox createConfirm(Consumer<Boolean> callback) {
-    submit().setOnMouseClicked(event -> {
+    submitButton().setOnMouseClicked(event -> {
       callback.accept(true);
       hideWithAnimation();
     });
@@ -253,7 +266,7 @@ public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
    *
    * @return 确定按钮
    */
-  private JFXButton submit() {
+  private JFXButton submitButton() {
     if (submit == null) {
       submit(localized("submit"));
     }

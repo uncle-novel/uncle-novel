@@ -32,7 +32,6 @@ public class ThemePopupView extends View<JFXPopup> {
   public void onCreate() {
     HomeView homeView = AppContext.getView(HomeView.class);
     this.scene = homeView.getRoot().getScene();
-    System.out.println(box.lookupAll(".color-box-item").size());
   }
 
   /**

@@ -1,0 +1,27 @@
+@import "../define/_global";
+
+// 圆角大小
+$radius: $_3px;
+
+.input-box {
+  -fx-bg-color: -fx-base;
+
+  .text-field {
+    -fx-border-radius: $radius 0 0 $radius;
+    -fx-background-radius: $radius 0 0 $radius;
+    -fx-border-color: transparent;
+    -fx-border-width: 1px 0 1px 0;
+  }
+
+  .icon-button {
+    -fx-border-radius: 0 $radius $radius 0;
+    -fx-background-radius: 0 $radius $radius 0;
+    -fx-border-width: 1px 1px 1px 0;
+    -fx-background-color: -fx-bg-color;
+    -fx-border-color: transparent;
+
+    .icon {
+      @include ladderTextFill(-fx-base);
+    }
+  }
+}

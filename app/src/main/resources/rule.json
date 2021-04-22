@@ -26,7 +26,7 @@
     }
   },
   {
-    "enable": false,
+    "enabled": false,
     "name": "笔趣阁",
     "site": "https://m.biquge.com.cn/",
     "search": {
@@ -43,7 +43,7 @@
     }
   },
   {
-    "enable": false,
+    "enabled": false,
     "name": "幻世小说",
     "site": "https://www.h4xs.cc/",
     "toc": {
@@ -65,7 +65,7 @@
     }
   },
   {
-    "enable": false,
+    "enabled": false,
     "name": "全本小说网",
     "site": "http://www.quanben.me/",
     "toc": {

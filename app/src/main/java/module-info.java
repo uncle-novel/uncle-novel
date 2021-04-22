@@ -9,6 +9,7 @@ open module com.unclezs.novel.app.main {
   requires novel.analyzer;
   requires com.google.gson;
 
+  requires javafx.web;
   requires org.slf4j;
   requires logback.classic;
   requires logback.core;
@@ -17,7 +18,10 @@ open module com.unclezs.novel.app.main {
   requires static lombok;
   requires freemarker;
   requires jkeymaster;
-  requires javafx.web;
+
+  // richtext
+  requires org.fxmisc.richtext;
+  requires flowless;
 
   exports com.unclezs.novel.app.main;
 }

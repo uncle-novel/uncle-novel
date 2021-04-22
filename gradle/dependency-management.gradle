@@ -24,6 +24,7 @@ dependencyManagement {
         dependency 'org.apache.velocity:velocity-engine-core:2.0'
         dependency 'com.netflix.nebula:gradle-ospackage-plugin:8.4.1'
         dependency 'net.jsign:jsign-core:3.1'
+        dependency 'org.fxmisc.richtext:richtextfx:0.10.6'
 
     }
     generatedPomCustomization {

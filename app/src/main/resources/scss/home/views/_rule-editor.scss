@@ -3,37 +3,43 @@
 .rule-editor {
   .container {
     .rule-container {
-      -fx-padding: $_10px;
-
-      .title {
-        -fx-font-size: $_14px;
-        -fx-border-width: 0 0 0 4px;
-        -fx-border-color: theme-color;
-        -fx-padding: 0 0 0 $_5px;
-      }
+      -fx-padding: $_10px $_10px $_10px 0;
 
       .items {
-        -fx-padding: 0 0 $_10px $_10px;
+        -fx-padding: 0 0 $_10px $_5px;
         -fx-spacing: 10px;
-      }
 
-      .items-sub {
-        -fx-spacing: 10px;
-      }
+        &.no-name {
+          -fx-padding: 0 0 $_10px 0;
 
-      .item-sub {
-        -fx-alignment: center-left;
-
-        .item-name {
-          -fx-pref-width: $_80px;
+          & > .item > .name {
+            -fx-min-width: $_70px;
+            -fx-max-width: $_70px;
+            -fx-padding: 0;
+          }
         }
-      }
 
-      .item {
-        -fx-alignment: center-left;
+        & > .name {
+          -fx-font-size: $_14px;
+          -fx-border-width: 0 0 0 4px;
+          -fx-border-color: theme-color;
+          -fx-padding: 0 0 0 $_5px;
+        }
 
-        .item-name {
-          -fx-min-width: $_80px;
+        .item {
+          -fx-spacing: $_10px;
+          -fx-alignment: center-left;
+
+          & > .name {
+            -fx-min-width: $_90px;
+            -fx-max-width: $_90px;
+            -fx-padding: 0 0 0 $_15px;
+          }
+
+          //.icon {
+          //  -fx-icon-size: 18px;
+          //  -fx-text-fill: theme-color;
+          //}
         }
       }
     }

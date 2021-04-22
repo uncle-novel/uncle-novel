@@ -1,0 +1,28 @@
+@import "../define/_global";
+
+.root {
+  -fx-base: #000;
+}
+
+.json-editor {
+  -fx-text-fill: #009688;
+  -fx-background-color: -fx-base;
+  -fx-font-size: 13px;
+
+  * {
+    -fx-background-color: transparent;
+  }
+
+  .content {
+    -fx-fill: #746b6b;
+  }
+
+  .main-selection {
+    -fx-fill: #441212;
+  }
+
+  .key {
+    -fx-fill: green !important;
+    -fx-font-weight: bold;
+  }
+}

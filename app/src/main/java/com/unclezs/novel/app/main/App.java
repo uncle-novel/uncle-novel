@@ -2,7 +2,6 @@ package com.unclezs.novel.app.main;
 
 import cn.hutool.core.util.StrUtil;
 import com.jfoenix.utils.JFXUtilities;
-import com.sun.javafx.stage.StageHelper;
 import com.unclezs.novel.app.framework.appication.BaseApplication;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.components.ModalBox;
@@ -77,7 +76,7 @@ public class App extends BaseApplication {
   }
 
   @Override
-  public void start(Stage stage) throws Exception {
+  public void start(Stage stage) {
     try {
       super.start(stage);
       initStage(stage);
@@ -97,7 +96,6 @@ public class App extends BaseApplication {
   }
 
   private void initStage(Stage stage) {
-    StageHelper.setPrimary(stage, true);
     stage.initStyle(StageStyle.TRANSPARENT);
     // 图标
     String[] icons = {"16", "32", "48", "64", "128"};

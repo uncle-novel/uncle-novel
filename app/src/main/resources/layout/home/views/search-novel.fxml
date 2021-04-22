@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16"
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="https://javafx.com/javafx/16"
   styleClass="search-novel-view"
   fx:controller="com.unclezs.novel.app.main.home.views.SearchNovelView">
   <VBox styleClass="container">

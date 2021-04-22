@@ -33,6 +33,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import lombok.EqualsAndHashCode;
@@ -41,9 +42,9 @@ import lombok.EqualsAndHashCode;
  * @author blog.unclezs.com
  * @date 2021/4/20 11:16
  */
-@FxView(fxml = "/layout/home/views/fiction-rules.fxml")
+@FxView(fxml = "/layout/home/views/rule-manager.fxml")
 @EqualsAndHashCode(callSuper = true)
-public class FictionRulesView extends SidebarView<StackPane> {
+public class RuleManagerView extends SidebarView<StackPane> {
 
   /**
    * 导出书源的文件名
@@ -63,7 +64,7 @@ public class FictionRulesView extends SidebarView<StackPane> {
   @Override
   public void onHidden() {
     for (AnalyzerRule item : rulesTable.getItems()) {
-      System.out.println(item.getName() + " -- " + item.isEnable());
+      System.out.println(item.getName() + " -- " + item.isEnabled());
     }
     RuleHelper.setRules(rulesTable.getItems());
   }
@@ -102,7 +103,7 @@ public class FictionRulesView extends SidebarView<StackPane> {
     TableColumn<AnalyzerRule, Boolean> enabled = NodeHelper.addClass(new TableColumn<>("启用"), "align-center");
     enabled.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.1));
     enabled.setEditable(true);
-    enabled.setCellValueFactory(col -> new ReadOnlyBooleanWrapper(col.getValue().isEnable()));
+    enabled.setCellValueFactory(col -> new ReadOnlyBooleanWrapper(col.getValue().isEnabled()));
     enabled.setCellFactory(col -> new CheckBoxTableCell<>(this::onEnabledChange));
     // 操作
     TableColumn<AnalyzerRule, AnalyzerRule> operation = NodeHelper.addClass(new TableColumn<>("操作"), "align-center");
@@ -113,6 +114,16 @@ public class FictionRulesView extends SidebarView<StackPane> {
     rulesTable.getColumns().addAll(id, name, group, weight, site, enabled, operation);
     // 禁用resize
     rulesTable.getColumns().forEach(column -> column.setResizable(false));
+    rulesTable.setOnMouseClicked(e -> {
+      if (e.getClickCount() == 2 && e.getButton() == MouseButton.PRIMARY && !rulesTable.getSelectionModel().isEmpty()) {
+        onEdit(rulesTable.getSelectionModel().getSelectedItem(), rulesTable.getSelectionModel().getSelectedIndex());
+      }
+    });
+    rulesTable.setOnContextMenuRequested(event -> {
+      if (rulesTable.getSelectionModel().isEmpty()) {
+        rulesTable.getContextMenu().hide();
+      }
+    });
   }
 
   /**
@@ -150,7 +161,7 @@ public class FictionRulesView extends SidebarView<StackPane> {
    * @param index   当前行
    */
   private void onEnabledChange(boolean enabled, int index) {
-    rulesTable.getItems().get(index).setEnable(enabled);
+    rulesTable.getItems().get(index).setEnabled(enabled);
   }
 
   /**
@@ -158,7 +169,7 @@ public class FictionRulesView extends SidebarView<StackPane> {
    */
   @FXML
   private void disabledSelected() {
-    rulesTable.getSelectionModel().getSelectedItems().forEach(rule -> rule.setEnable(false));
+    rulesTable.getSelectionModel().getSelectedItems().forEach(rule -> rule.setEnabled(false));
     rulesTable.refresh();
   }
 
@@ -167,7 +178,7 @@ public class FictionRulesView extends SidebarView<StackPane> {
    */
   @FXML
   private void enabledSelected() {
-    rulesTable.getSelectionModel().getSelectedItems().forEach(rule -> rule.setEnable(true));
+    rulesTable.getSelectionModel().getSelectedItems().forEach(rule -> rule.setEnabled(true));
     rulesTable.refresh();
   }
 

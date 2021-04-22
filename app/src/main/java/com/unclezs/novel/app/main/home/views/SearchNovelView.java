@@ -60,7 +60,7 @@ public class SearchNovelView extends SidebarView<StackPane> {
 //    listView.getItems().add(novelInfo);
 
     RuleHelper.loadRules(IoUtil.readUtf8(ResourceUtils.stream("rule.json")));
-    spider = new SearchSpider(RuleHelper.rules().stream().filter(AnalyzerRule::isEnable).collect(Collectors.toList()));
+    spider = new SearchSpider(RuleHelper.rules().stream().filter(AnalyzerRule::isEnabled).collect(Collectors.toList()));
     spider.setOnNewItemAddHandler(novel -> JFXUtilities.runInFX(() -> {
       System.out.println(novel);
       listView.getItems().add(novel);

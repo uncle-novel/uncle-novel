@@ -5,4 +5,8 @@
   @include ladderTextFill(-fx-base);
   -fx-background-color: -fx-bg-color;
   -fx-border-color: transparent;
+
+  * {
+    -fx-background-color: transparent;
+  }
 }

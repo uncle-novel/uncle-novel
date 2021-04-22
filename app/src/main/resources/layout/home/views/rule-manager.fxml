@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns="http://javafx.com/javafx" styleClass="fiction-rule" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.home.views.FictionRulesView">
+<StackPane xmlns="https://javafx.com/javafx" styleClass="fiction-rule" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.home.views.RuleManagerView">
   <VBox styleClass="container" fx:id="container">
     <AnchorPane styleClass="header">
       <VBox.margin>
@@ -24,7 +24,7 @@
         <IconButton icon="export" text="导出" onAction="#exportAll"/>
       </HBox>
     </AnchorPane>
-    <TableView fx:id="rulesTable" VBox.vgrow="ALWAYS" prefWidth="${container.width}">
+    <TableView fx:id="rulesTable" prefWidth="${container.width}">
       <placeholder>
         <VBox alignment="CENTER" styleClass="placeholder">
           <Icon value="empty"/>
