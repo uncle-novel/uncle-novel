@@ -13,7 +13,7 @@
   theme="true"
   title="下载管理"
   xmlns="https://javafx.com/javafx/16"
-  fx:controller="com.unclezs.novel.app.main.reader.ReaderView">
+  fx:controller="com.unclezs.novel.app.main.ui.reader.ReaderView">
   <VBox style="-fx-background-color: #FFF">
     <Button onMouseClicked="#toHome" text="回到Home"/>
     <HBox fx:id="box">

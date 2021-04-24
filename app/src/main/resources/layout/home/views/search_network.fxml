@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane
-  xmlns:fx="http://javafx.com/fxml/1" xmlns="https://javafx.com/javafx/16" fx:controller="com.unclezs.novel.app.main.home.views.SearchNetworkView">
+  xmlns:fx="http://javafx.com/fxml/1" xmlns="https://javafx.com/javafx/16" fx:controller="com.unclezs.novel.app.main.ui.home.views.SearchNetworkView">
   <VBox>
     <HBox spacing="10" alignment="CENTER">
       <TextField promptText="全网搜索" fx:id="input"/>

@@ -1,0 +1,346 @@
+[
+  {
+    "name": "笔趣阁",
+    "site": "https://m.biquge.com.cn/",
+    "group": "无",
+    "enabled": false,
+    "audio": false,
+    "weight": 0,
+    "content": {
+      "enableNext": true,
+      "content": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "reserve": false,
+      "sort": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "url": "https://m.biquge.com.cn/search.php?q\u003d{{keyword}}\u0026p\u003d{{page}}",
+        "method": "GET",
+        "charset": "utf-8",
+        "mediaType": "application/x-www-form-urlencoded",
+        "body": "",
+        "dynamic": false,
+        "enableProxy": false,
+        "autoProxy": true
+      },
+      "list": {
+        "type": "//",
+        "rule": "//body/div[2]/div"
+      },
+      "detailPage": {},
+      "detail": {
+        "url": {
+          "type": "//",
+          "rule": "/div[1]/a/@href"
+        },
+        "title": {
+          "type": "//",
+          "rule": "/div[2]/h3/a/allText()"
+        },
+        "author": {
+          "type": "//"
+        },
+        "category": {
+          "type": "//"
+        },
+        "wordCount": {
+          "type": "//"
+        },
+        "introduce": {
+          "type": "//"
+        },
+        "latestChapterName": {
+          "type": "//"
+        },
+        "latestChapterUrl": {
+          "type": "//"
+        },
+        "coverUrl": {
+          "type": "//"
+        },
+        "state": {
+          "type": "//"
+        },
+        "updateTime": {
+          "type": "//"
+        }
+      }
+    }
+  },
+  {
+    "name": "斋书苑",
+    "site": "https://www.zhaishuyuan.com/",
+    "group": "123",
+    "enabled": true,
+    "audio": false,
+    "weight": 0,
+    "content": {
+      "enableNext": false,
+      "content": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      },
+      "enableNext": false,
+      "filter": false,
+      "reserve": false,
+      "sort": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "url": "https://www.zhaishuyuan.com/search/?page\u003d{{page}}\u0026key\u003d{{keyword}}",
+        "method": "POST",
+        "charset": "gbk",
+        "mediaType": "application/x-www-form-urlencoded",
+        "body": "",
+        "dynamic": false,
+        "enableProxy": false,
+        "autoProxy": true
+      },
+      "list": {
+        "type": "//",
+        "rule": "//*[@id\u003d\"sitembox\"]/dl"
+      },
+      "detailPage": {},
+      "detail": {
+        "url": {
+          "type": "//",
+          "rule": "/dd[1]/h3/a/@href"
+        },
+        "title": {
+          "type": "//",
+          "rule": "/dd[1]/h3/a/allText()"
+        },
+        "author": {
+          "type": "//",
+          "rule": "/dd[2]/span[1]/text()"
+        },
+        "category": {
+          "type": "//",
+          "rule": "/dd[2]/span[3]/text()"
+        },
+        "wordCount": {
+          "type": "//",
+          "rule": "/dd[2]/span[4]/text()"
+        },
+        "introduce": {
+          "type": "//",
+          "rule": "dd[3]/text()"
+        },
+        "latestChapterName": {
+          "type": "//",
+          "rule": "dd[4]/a/text()"
+        },
+        "latestChapterUrl": {
+          "type": "//",
+          "rule": "dd[4]/a/@href"
+        },
+        "coverUrl": {
+          "type": "//",
+          "rule": "dt[1]/a/img/@_src"
+        },
+        "state": {
+          "type": "//",
+          "rule": "/dd[2]/span[2]/text()"
+        },
+        "updateTime": {
+          "type": "//",
+          "rule": "dd[4]/span/text()"
+        }
+      }
+    }
+  },
+  {
+    "name": "全本小说网",
+    "site": "http://www.quanben.me/",
+    "group": "无1",
+    "enabled": false,
+    "audio": false,
+    "weight": 0,
+    "content": {
+      "enableNext": true,
+      "content": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      }
+    },
+    "toc": {
+      "list": {
+        "type": "//",
+        "rule": "//article"
+      },
+      "name": {
+        "rule": "/div/h2/a/text()"
+      },
+      "url": {
+        "rule": "/div/div[1]/a/@href"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "reserve": false,
+      "sort": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "url": "http://www.quanben.me/modules/article/search.php",
+        "method": "POST",
+        "mediaType": "application/x-www-form-urlencoded",
+        "body": "searchkey\u003d{{keyword}}",
+        "dynamic": false,
+        "enableProxy": false,
+        "autoProxy": true
+      },
+      "list": {
+        "type": "//",
+        "rule": "//*[@id\u003d\"wrapper\"]/table/tbody/tr"
+      },
+      "detailPage": {
+        "rule": "/td[1]/a/@href"
+      },
+      "detail": {
+        "url": {
+          "page": "search",
+          "rule": "/td[1]/a/@href"
+        },
+        "title": {
+          "page": "detail",
+          "type": "//",
+          "rule": "//*[@id\u003d\"info\"]/h1/text()"
+        },
+        "author": {},
+        "category": {},
+        "wordCount": {},
+        "introduce": {},
+        "latestChapterName": {},
+        "latestChapterUrl": {},
+        "coverUrl": {},
+        "state": {},
+        "updateTime": {}
+      }
+    }
+  },
+  {
+    "name": "幻世小说",
+    "site": "https://www.h4xs.cc/",
+    "enabled": false,
+    "audio": false,
+    "weight": 0,
+    "content": {
+      "enableNext": true,
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      }
+    },
+    "toc": {
+      "list": {
+        "type": "//",
+        "rule": "//article"
+      },
+      "name": {
+        "rule": "/div/h2/a/text()"
+      },
+      "url": {
+        "rule": "/div/div[1]/a/@href"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "reserve": false,
+      "sort": false
+    },
+    "detail": {},
+    "search": {
+      "params": {
+        "url": "https://www.h4xs.cc/page/{{page}}/?s\u003d{{keyword}}",
+        "method": "GET",
+        "charset": "utf-8",
+        "mediaType": "application/x-www-form-urlencoded",
+        "body": "",
+        "dynamic": false,
+        "enableProxy": false,
+        "autoProxy": true
+      },
+      "list": {
+        "type": "//",
+        "rule": "//article"
+      },
+      "detail": {
+        "url": {
+          "rule": "/div/div[1]/a/@href"
+        },
+        "title": {
+          "rule": "/div/h2/a/text()"
+        }
+      }
+    }
+  }
+]

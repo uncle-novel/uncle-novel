@@ -1,3 +1,10 @@
+@import "../define/global";
+
+.btn {
+  @include ladderTextFillForce(theme-color);
+  -fx-background-color: theme-color;
+}
+
 @import "views/search-novel-view";
 @import "views/fiction-rule-view";
 @import "views/rule-editor";

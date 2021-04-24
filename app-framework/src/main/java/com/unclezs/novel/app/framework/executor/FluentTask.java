@@ -18,6 +18,7 @@ public abstract class FluentTask<R> extends Task<R> {
    */
   private final boolean loadingEnabled;
   private Loading loading;
+  private Runnable finallyTask;
 
   protected FluentTask() {
     this(true);
@@ -42,6 +43,9 @@ public abstract class FluentTask<R> extends Task<R> {
   private void close() {
     if (loadingEnabled && loading.isShowing()) {
       loading.hideWithAnimation();
+    }
+    if (finallyTask != null) {
+      finallyTask.run();
     }
   }
 
@@ -87,6 +91,17 @@ public abstract class FluentTask<R> extends Task<R> {
       callback.run();
       close();
     });
+    return this;
+  }
+
+  /**
+   * 最终执行的任务,无论成功失败
+   *
+   * @param callback 回调
+   * @return this
+   */
+  public FluentTask<R> onFinally(Runnable callback) {
+    this.finallyTask = callback;
     return this;
   }
 

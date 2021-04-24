@@ -9,7 +9,7 @@ import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.exception.FxException;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
-import com.unclezs.novel.app.main.home.HomeView;
+import com.unclezs.novel.app.main.ui.home.HomeView;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import java.util.HashMap;
 import java.util.List;
@@ -73,6 +73,7 @@ public class App extends BaseApplication {
     } else if (i == 2) {
       Locale.setDefault(Locale.TAIWAN);
     }
+
   }
 
   @Override

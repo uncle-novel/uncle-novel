@@ -46,6 +46,7 @@ public enum IconFont {
   DEBUG('\ue60a'),
   SEARCH_AUDIO('\ue6d9'),
   MAX('\ue614'),
+  START('\ue6cb'),
   MENU('\ue600'),
   CONFIRM('\ue8a5'),
   MAX_RESTORE('\ue609');

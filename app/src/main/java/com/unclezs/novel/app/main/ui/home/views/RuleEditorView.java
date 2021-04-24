@@ -1,9 +1,12 @@
-package com.unclezs.novel.app.main.home.views.widgets;
+package com.unclezs.novel.app.main.ui.home.views;
 
 import cn.hutool.core.bean.BeanPath;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import cn.hutool.core.exceptions.ExceptionUtil;
+import com.google.gson.JsonSyntaxException;
 import com.unclezs.novel.analyzer.core.helper.RuleHelper;
+import com.unclezs.novel.analyzer.core.helper.RuleTester;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.core.model.SearchRule;
 import com.unclezs.novel.analyzer.core.rule.CommonRule;
@@ -14,14 +17,17 @@ import com.unclezs.novel.app.framework.components.InputBox;
 import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
+import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
-import com.unclezs.novel.app.main.home.views.RuleManagerView;
+import com.unclezs.novel.app.framework.executor.Executor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import javafx.beans.InvalidationListener;
@@ -41,11 +47,15 @@ import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 书源编辑页面
+ *
  * @author blog.unclezs.com
  * @date 2021/4/21 12:05
  */
+@Slf4j
 @EqualsAndHashCode(callSuper = true)
 @FxView(fxml = "/layout/home/views/widgets/rule-editor.fxml")
 public class RuleEditorView extends SidebarView<StackPane> {
@@ -56,6 +66,9 @@ public class RuleEditorView extends SidebarView<StackPane> {
   public static final String SELECTOR_TEXT_INPUT = ".item > .text-input";
   public static final String SELECTOR_INPUT_BOX = ".input-box";
   private final IntegerStringConverter intStrConverter = new IntegerStringConverter();
+  /**
+   * 监听器
+   */
   private final Map<ReadOnlyProperty<?>, InvalidationListener> listeners = new HashMap<>();
   /**
    * 通用组件
@@ -64,8 +77,10 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private final List<TextInputControl> inputs = new ArrayList<>();
   private final List<CheckBox> checkBoxes = new ArrayList<>();
   private final List<ComboBox<String>> comboBoxes = new ArrayList<>();
-  public TextArea sourceEditor;
-  public ScrollPane panel;
+  @FXML
+  private TextArea sourceEditor;
+  @FXML
+  private ScrollPane panel;
   @FXML
   private IconButton showSourceButton;
   @FXML
@@ -75,6 +90,11 @@ public class RuleEditorView extends SidebarView<StackPane> {
   @FXML
   private TextArea searchParamHeaders;
   private TextArea editor;
+  private VBox debugContentPanel;
+  private VBox debugTocPanel;
+  private VBox debugDetailPanel;
+  private VBox debugSearchPanel;
+  private VBox debugPanel;
   /**
    * 用于数据绑定
    */
@@ -105,35 +125,28 @@ public class RuleEditorView extends SidebarView<StackPane> {
    */
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
-    this.realRule = bundle.get(BUNDLE_RULE_KEY);
-    if (realRule != null) {
-      rule = realRule.copy();
-      bindData();
-    }
-  }
-
-  /**
-   * 返回书源页面，重置初始状态，移除监听。直接调用则丢弃修改。
-   */
-  @FXML
-  private void goBack() {
-    if (rule.equals(realRule)) {
-      back();
+    realRule = bundle.get(BUNDLE_RULE_KEY);
+    if (realRule == null) {
+      rule = new AnalyzerRule();
     } else {
-      ModalBox.confirm(confirm -> {
-        if (Boolean.TRUE.equals(confirm)) {
-          back();
-        }
-      }).message("将会丢失全部修改！").show();
+      rule = realRule.copy();
     }
+    bindData();
   }
 
   /**
    * 返回书源页面，重置初始状态，移除监听。直接调用则丢弃修改。
    */
   private void back() {
-    navigation.navigate(RuleManagerView.class);
+    SidebarNavigateBundle bundle = new SidebarNavigateBundle();
+    // 新增时回传
+    if (realRule == null) {
+      bundle.put(BUNDLE_RULE_KEY, rule.copy());
+    }
+    navigation.navigate(RuleManagerView.class, bundle);
     reset();
+    this.realRule = null;
+    this.rule = null;
   }
 
   /**
@@ -148,7 +161,121 @@ public class RuleEditorView extends SidebarView<StackPane> {
     inputs.forEach(input -> input.setText(null));
     checkBoxes.forEach(box -> box.setSelected(false));
     comboBoxes.forEach(box -> box.setValue(null));
+    debugContentPanel = null;
+    debugDetailPanel = null;
+    debugSearchPanel = null;
+    debugTocPanel = null;
+    debugPanel = null;
   }
+
+  @FXML
+  public void debugRule() {
+    if (debugPanel == null) {
+      debugPanel = createDebugBox("请输入小说名称", RuleTester::test);
+    }
+    ModalBox.none().body(debugPanel).title("规则测试").show();
+  }
+
+  /**
+   * 调试搜索规则
+   */
+  @FXML
+  public void debugSearchRule() {
+    if (debugSearchPanel == null) {
+      debugSearchPanel = createDebugBox("请输入小说名称", RuleTester::search);
+    }
+    ModalBox.none().body(debugSearchPanel).title("小说搜索规则测试").show();
+  }
+
+  /**
+   * 调试目录规则
+   */
+  @FXML
+  public void debugTocRule() {
+    if (debugTocPanel == null) {
+      debugTocPanel = createDebugBox("请输入目录链接", RuleTester::toc);
+    }
+    ModalBox.none().body(debugTocPanel).title("目录规则测试").show();
+  }
+
+  /**
+   * 调试详情规则
+   */
+  @FXML
+  public void debugDetailRule() {
+    if (debugDetailPanel == null) {
+      debugDetailPanel = createDebugBox("请输入目录链接", RuleTester::detail);
+    }
+    ModalBox.none().body(debugDetailPanel).title("详情规则测试").show();
+  }
+
+  /**
+   * 调试正文规则
+   */
+  @FXML
+  public void debugContentRule() {
+    if (debugContentPanel == null) {
+      debugContentPanel = createDebugBox("请输入正文链接", RuleTester::content);
+    }
+    ModalBox.none().body(debugContentPanel).title("正文规则测试").show();
+  }
+
+  /**
+   * 创建测试容器
+   *
+   * @param promptText 提示文字
+   * @param starter    执行器
+   * @return 容器
+   */
+  private VBox createDebugBox(String promptText, BiConsumer<RuleTester, String> starter) {
+    TextArea console = new TextArea();
+    console.setWrapText(true);
+    VBox debugBox = new VBox();
+    debugBox.setSpacing(10);
+    InputBox inputBox = new InputBox();
+    inputBox.setIcon(IconFont.START.name());
+    inputBox.setPrompt(promptText);
+    AtomicBoolean running = new AtomicBoolean(false);
+    inputBox.setOnIconClicked(e -> {
+      if (running.get()) {
+        Toast.info((StackPane) debugBox.getParent(), "正在测试中，请等待测试完成");
+        return;
+      }
+      running.set(true);
+      console.clear();
+      Executor.run(() -> {
+        try {
+          RuleTester tester = new RuleTester(rule.copy(), msg -> Executor.runFx(() -> console.appendText(msg)));
+          starter.accept(tester, e.getInput());
+        } catch (Exception exception) {
+          Executor.runFx(() -> console.appendText(ExceptionUtil.getSimpleMessage(exception)));
+          log.warn("调试解析规则错误", exception);
+          exception.printStackTrace();
+        } finally {
+          running.set(false);
+        }
+      });
+    });
+    debugBox.getChildren().setAll(inputBox, console);
+    return debugBox;
+  }
+
+  /**
+   * 返回书源页面，重置初始状态，移除监听。直接调用则丢弃修改。
+   */
+  @FXML
+  private void goBack() {
+    if (Objects.equals(rule, realRule)) {
+      back();
+    } else {
+      ModalBox.confirm(confirm -> {
+        if (Boolean.TRUE.equals(confirm)) {
+          back();
+        }
+      }).message("将会丢失全部修改！").show();
+    }
+  }
+
 
   /**
    * 保存修改
@@ -157,7 +284,9 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private void save() {
     if (rule.isEffective()) {
       saveSource();
-      BeanUtil.copyProperties(rule, realRule, CopyOptions.create().ignoreNullValue());
+      if (realRule != null) {
+        BeanUtil.copyProperties(rule, realRule, CopyOptions.create().ignoreNullValue());
+      }
       back();
     } else {
       Toast.error(getRoot(), "规则不合法！");
@@ -263,13 +392,26 @@ public class RuleEditorView extends SidebarView<StackPane> {
         editor = new TextArea();
       }
       editor.setText(GsonUtils.PRETTY.toJson(finalRuleItem));
+      AtomicBoolean success = new AtomicBoolean(false);
       ModalBox.confirm(save -> {
+        success.set(true);
         if (Boolean.TRUE.equals(save)) {
-          CommonRule commonRule = GsonUtils.parse(editor.getText(), CommonRule.class);
-          BeanUtil.copyProperties(commonRule, finalRuleItem);
-          field.getInput().setText(finalRuleItem.ruleString());
+          CommonRule commonRule;
+          try {
+            commonRule = GsonUtils.parse(editor.getText(), CommonRule.class);
+            BeanUtil.copyProperties(commonRule, finalRuleItem);
+            field.getInput().setText(finalRuleItem.ruleString());
+          } catch (JsonSyntaxException e) {
+            Toast.error((StackPane) editor.getParent(), "格式错误！");
+            log.warn("规则JSON格式错误：规则：{} ，JSON：\n{}", field.getUserData(), editor.getText(), e);
+            success.set(false);
+          } catch (Exception e) {
+            Toast.error((StackPane) editor.getParent(), "未知错误！");
+            log.error("规则保存失败：规则：{} ，JSON：\n{}", field.getUserData(), editor.getText(), e);
+            success.set(false);
+          }
         }
-      }).body(editor).title("编辑规则").show();
+      }).body(editor).title("编辑规则").success(success::get).show();
     });
     bind(field.getInput(), CommonRule.ruleStringGetter(ruleItem), CommonRule.ruleStringSetter(ruleItem));
   }
@@ -325,7 +467,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
     propertySetter.accept(initStrValue);
     // 单向监听
     InvalidationListener listener = e -> {
-      if (!property.get() && !Objects.equals(propertyGetter.get(), getter.get())) {
+      if (Boolean.FALSE.equals(property.get()) && !Objects.equals(propertyGetter.get(), getter.get())) {
         T value;
         if (converter == null) {
           value = (T) propertyGetter.get();

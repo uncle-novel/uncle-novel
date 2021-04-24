@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.home.views.widgets.rule;
+package com.unclezs.novel.app.main.ui.home.views.widgets.rule;
 
 import com.unclezs.novel.app.framework.collection.SimpleObservableList;
 import com.unclezs.novel.app.framework.util.NodeHelper;
@@ -31,8 +31,8 @@ public class RuleItem extends HBox {
 
   public RuleItem() {
     getStyleClass().add("item");
-    Label label = NodeHelper.addClass(new Label(), "name");
-    getChildren().add(label);
+    Label nameLabel = NodeHelper.addClass(new Label(), "name");
+    getChildren().add(nameLabel);
   }
 
   public void setName(String name) {
@@ -42,4 +42,6 @@ public class RuleItem extends HBox {
       ((Label) label).setText(name);
     }
   }
+
+
 }

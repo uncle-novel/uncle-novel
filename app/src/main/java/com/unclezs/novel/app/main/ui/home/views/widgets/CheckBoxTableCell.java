@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.home.views.widgets;
+package com.unclezs.novel.app.main.ui.home.views.widgets;
 
 import com.jfoenix.controls.JFXCheckBox;
 import java.util.function.ObjIntConsumer;

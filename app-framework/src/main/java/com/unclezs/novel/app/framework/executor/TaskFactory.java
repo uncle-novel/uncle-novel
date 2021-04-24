@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.framework.executor;
 
+import java.util.concurrent.Callable;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -9,25 +10,19 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TaskFactory {
 
-//  /**
-//   * 创建loading任务
-//   *
-//   * @param task 任务内容
-//   * @param <R>  返回值类型
-//   * @return 任务
-//   */
-//  public static <R> FluentTask<R> createLoadingTask(Function<FluentTask<R>, R> task) {
-//    return new FluentTask<>(task);
-//  }
-
-//  /**
-//   * 创建普通任务
-//   *
-//   * @param task 任务内容
-//   * @param <R>  返回值类型
-//   * @return 任务
-//   */
-//  public static <R> Task<R> createTask(Function<FluentTask<R>, R> task) {
-//    return new FluentTask<>(task, false);
-//  }
+  /**
+   * 创建loading任务
+   *
+   * @param task 任务内容
+   * @param <R>  返回值类型
+   * @return 任务
+   */
+  public static <R> FluentTask<R> create(Callable<R> task) {
+    return new FluentTask<>() {
+      @Override
+      protected R call() throws Exception {
+        return task.call();
+      }
+    };
+  }
 }

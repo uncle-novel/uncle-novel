@@ -1,26 +1,20 @@
-package com.unclezs.novel.app.main.home.views;
+package com.unclezs.novel.app.main.ui.home.views;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.IoUtil;
 import com.google.gson.reflect.TypeToken;
-import com.unclezs.novel.analyzer.core.helper.RuleHelper;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.util.GsonUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.ModalBox;
-import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.components.Toast;
-import com.unclezs.novel.app.framework.components.Toast.Type;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.util.NodeHelper;
-import com.unclezs.novel.app.framework.util.ResourceUtils;
-import com.unclezs.novel.app.main.home.HomeView;
-import com.unclezs.novel.app.main.home.views.widgets.ActionButtonTableCell;
-import com.unclezs.novel.app.main.home.views.widgets.CheckBoxTableCell;
-import com.unclezs.novel.app.main.home.views.widgets.RuleEditorView;
+import com.unclezs.novel.app.main.manager.RuleManager;
+import com.unclezs.novel.app.main.ui.home.views.widgets.ActionButtonTableCell;
+import com.unclezs.novel.app.main.ui.home.views.widgets.CheckBoxTableCell;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +27,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import lombok.EqualsAndHashCode;
@@ -47,9 +40,9 @@ import lombok.EqualsAndHashCode;
 public class RuleManagerView extends SidebarView<StackPane> {
 
   /**
-   * 导出书源的文件名
+   * 书源的文件名
    */
-  public static final String EXPORT_RULES_FILE_NAME = "rules.json";
+  public static final String RULES_FILE_NAME = "rules.json";
   @FXML
   private TableView<AnalyzerRule> rulesTable;
 
@@ -57,21 +50,27 @@ public class RuleManagerView extends SidebarView<StackPane> {
   public void onCreated() {
     rulesTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     createRuleTableColumns();
-    RuleHelper.loadRules(IoUtil.readUtf8(ResourceUtils.stream("rule.json")));
-    rulesTable.getItems().addAll(RuleHelper.rules());
+    rulesTable.setItems(RuleManager.rules());
   }
 
   @Override
   public void onHidden() {
-    for (AnalyzerRule item : rulesTable.getItems()) {
-      System.out.println(item.getName() + " -- " + item.isEnabled());
-    }
-    RuleHelper.setRules(rulesTable.getItems());
+    RuleManager.update(rulesTable.getItems());
   }
 
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
+    AnalyzerRule rule = bundle.get(RuleEditorView.BUNDLE_RULE_KEY);
+    // 新增书源
+    if (rule != null) {
+      rulesTable.getItems().add(rule);
+    }
     rulesTable.refresh();
+  }
+
+  @Override
+  public void onDestroy() {
+    RuleManager.save();
   }
 
   /**
@@ -85,23 +84,27 @@ public class RuleManagerView extends SidebarView<StackPane> {
     id.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(rulesTable.getItems().indexOf(col.getValue()) + 1));
     // 名称
     TableColumn<AnalyzerRule, String> name = new TableColumn<>("名称");
-    name.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.1));
+    name.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.15));
     name.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue().getName()));
     // 分组
     TableColumn<AnalyzerRule, String> group = new TableColumn<>("分类");
-    group.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.1));
+    group.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.10));
     group.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue().getGroup()));
     // 权重
     TableColumn<AnalyzerRule, Integer> weight = new TableColumn<>("权重");
-    weight.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.1));
+    weight.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.05));
     weight.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue().getWeight()));
     // 站点
     TableColumn<AnalyzerRule, String> site = new TableColumn<>("站点");
-    site.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.4));
+    site.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.35));
     site.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue().getSite()));
+    // 书源类型
+    TableColumn<AnalyzerRule, String> type = NodeHelper.addClass(new TableColumn<>("类型"));
+    type.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.1));
+    type.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue().isAudio() ? "有声" : "文字"));
     // 是否启用
     TableColumn<AnalyzerRule, Boolean> enabled = NodeHelper.addClass(new TableColumn<>("启用"), "align-center");
-    enabled.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.1));
+    enabled.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.05));
     enabled.setEditable(true);
     enabled.setCellValueFactory(col -> new ReadOnlyBooleanWrapper(col.getValue().isEnabled()));
     enabled.setCellFactory(col -> new CheckBoxTableCell<>(this::onEnabledChange));
@@ -111,14 +114,9 @@ public class RuleManagerView extends SidebarView<StackPane> {
     operation.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue()));
     operation.setCellFactory(col -> new ActionButtonTableCell<>(this::onEdit, this::onDelete));
     // 添加列
-    rulesTable.getColumns().addAll(id, name, group, weight, site, enabled, operation);
+    rulesTable.getColumns().addAll(id, name, group, weight, site, type, enabled, operation);
     // 禁用resize
     rulesTable.getColumns().forEach(column -> column.setResizable(false));
-    rulesTable.setOnMouseClicked(e -> {
-      if (e.getClickCount() == 2 && e.getButton() == MouseButton.PRIMARY && !rulesTable.getSelectionModel().isEmpty()) {
-        onEdit(rulesTable.getSelectionModel().getSelectedItem(), rulesTable.getSelectionModel().getSelectedIndex());
-      }
-    });
     rulesTable.setOnContextMenuRequested(event -> {
       if (rulesTable.getSelectionModel().isEmpty()) {
         rulesTable.getContextMenu().hide();
@@ -225,7 +223,7 @@ public class RuleManagerView extends SidebarView<StackPane> {
   private void exportRule(List<AnalyzerRule> rules) {
     String ruleJson = GsonUtils.toJson(rules);
     FileChooser fileChooser = new FileChooser();
-    fileChooser.setInitialFileName(EXPORT_RULES_FILE_NAME);
+    fileChooser.setInitialFileName(RULES_FILE_NAME);
     File file = fileChooser.showSaveDialog(AppContext.getStage());
     if (file != null) {
       FileUtil.writeUtf8String(ruleJson, file);
@@ -254,7 +252,6 @@ public class RuleManagerView extends SidebarView<StackPane> {
    */
   @FXML
   private void addRule() {
-    StageDecorator container = AppContext.getView(HomeView.class).getRoot();
-    Toast.toast(getRoot(), "你好啊", Type.SUCCESS, 2000);
+    navigation.navigate(RuleEditorView.class);
   }
 }

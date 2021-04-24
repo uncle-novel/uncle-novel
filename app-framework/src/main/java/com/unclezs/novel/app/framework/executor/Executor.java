@@ -1,31 +1,88 @@
 package com.unclezs.novel.app.framework.executor;
 
-import cn.hutool.core.thread.ThreadUtil;
-import java.util.concurrent.ExecutorService;
+import com.unclezs.novel.analyzer.common.concurrent.ThreadUtils;
+import com.unclezs.novel.analyzer.common.concurrent.factory.DaemonThreadFactory;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
 import lombok.experimental.UtilityClass;
 
 /**
+ * 执行器
+ *
  * @author blog.unclezs.com
  * @date 2021/4/15 23:39
  */
 @UtilityClass
 public class Executor {
 
-  private static final ScheduledThreadPoolExecutor SCHEDULED_THREAD_POOL_EXECUTOR = ThreadUtil.createScheduledExecutor(1);
-  private static final ExecutorService EXECUTOR_SERVICE = ThreadUtil.newExecutor(0);
+  private static final ScheduledThreadPoolExecutor SCHEDULED_THREAD_POOL_EXECUTOR = new ScheduledThreadPoolExecutor(1, new DaemonThreadFactory("scheduled"));
 
+  /**
+   * 提交全局线程池执行
+   *
+   * @param runnable 任务
+   */
   public static void run(Runnable runnable) {
-    EXECUTOR_SERVICE.execute(runnable);
+    ThreadUtils.execute(runnable);
   }
 
+  /**
+   * 提交scheduled池执行
+   *
+   * @param runnable 任务
+   * @param delay    延迟
+   */
   public static void run(Runnable runnable, long delay) {
     SCHEDULED_THREAD_POOL_EXECUTOR.schedule(runnable, delay, TimeUnit.MILLISECONDS);
   }
 
+  /**
+   * 在fx延迟执行
+   *
+   * @param runnable 任务
+   * @param delay    延迟
+   */
   public static void runFx(Runnable runnable, long delay) {
-    run(() -> Platform.runLater(runnable), delay);
+    run(() -> runFx(runnable), delay);
+  }
+
+  /**
+   * 在fx线程执行
+   *
+   * @param runnable 任务
+   */
+  public static void runFx(Runnable runnable) {
+    if (Platform.isFxApplicationThread()) {
+      runnable.run();
+    } else {
+      Platform.runLater(runnable);
+    }
+  }
+
+  /**
+   * 在fx线程执行任务，并且等待完成
+   *
+   * @param task 任务
+   */
+  public static void runFxAndWait(Runnable task) {
+    if (Platform.isFxApplicationThread()) {
+      task.run();
+      return;
+    }
+    final CountDownLatch doneLatch = new CountDownLatch(1);
+    Platform.runLater(() -> {
+      try {
+        task.run();
+      } finally {
+        doneLatch.countDown();
+      }
+    });
+    try {
+      doneLatch.await();
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
   }
 }

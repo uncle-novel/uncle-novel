@@ -59,7 +59,10 @@
   -fx-separator-color: $theme-color-light;
 }
 
-.text-field, .text-area, .input-box {
+.text-field,
+.text-area,
+.input-box,
+.loading-image-view {
   -fx-bg-color: $theme-color-light;
 }
 

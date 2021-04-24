@@ -13,7 +13,7 @@
   xmlns:fx="http://javafx.com/fxml/1" minHeight="400.0" minWidth="400"
   prefHeight="400.0" prefWidth="400.0"
   xmlns="https://javafx.com/javafx/16"
-  fx:controller="com.unclezs.novel.app.main.home.views.TestView">
+  fx:controller="com.unclezs.novel.app.main.ui.home.views.TestView">
   <VBox StackPane.alignment="CENTER" spacing="20">
     <BorderPane>
       <top>

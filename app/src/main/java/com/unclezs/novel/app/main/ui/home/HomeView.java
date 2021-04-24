@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.home;
+package com.unclezs.novel.app.main.ui.home;
 
 import com.jfoenix.controls.JFXPopup;
 import com.unclezs.novel.app.framework.annotation.FxView;
@@ -8,9 +8,9 @@ import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
-import com.unclezs.novel.app.main.home.header.SettingPopupView;
-import com.unclezs.novel.app.main.home.header.ThemePopupView;
-import com.unclezs.novel.app.main.home.views.SearchNovelView;
+import com.unclezs.novel.app.main.ui.home.header.SettingPopupView;
+import com.unclezs.novel.app.main.ui.home.header.ThemePopupView;
+import com.unclezs.novel.app.main.ui.home.views.SearchNovelView;
 
 /**
  * @author blog.unclezs.com

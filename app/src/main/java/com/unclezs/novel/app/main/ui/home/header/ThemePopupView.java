@@ -1,10 +1,10 @@
-package com.unclezs.novel.app.main.home.header;
+package com.unclezs.novel.app.main.ui.home.header;
 
 import com.jfoenix.controls.JFXPopup;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.core.View;
-import com.unclezs.novel.app.main.home.HomeView;
+import com.unclezs.novel.app.main.ui.home.HomeView;
 import java.util.Objects;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;

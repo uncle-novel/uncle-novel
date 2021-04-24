@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns="https://javafx.com/javafx" styleClass="fiction-rule" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.home.views.RuleManagerView">
+<StackPane xmlns="https://javafx.com/javafx" styleClass="fiction-rule" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.ui.home.views.RuleManagerView">
   <VBox styleClass="container" fx:id="container">
     <AnchorPane styleClass="header">
       <VBox.margin>

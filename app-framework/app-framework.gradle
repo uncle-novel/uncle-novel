@@ -7,9 +7,10 @@ dependencies {
     implementation project(":app-localized")
     api "com.github.tulskiy:jkeymaster"
     api "cn.hutool:hutool-core"
+    api "cn.hutool:hutool-cache"
     api "com.jfoenix:jfoenix"
     api "org.slf4j:slf4j-api"
-    api 'org.fxmisc.richtext:richtextfx'
+    api 'com.unclezs:novel-analyzer'
 }
 jar {
     manifest {
@@ -17,7 +18,7 @@ jar {
 }
 // 生成字体图标
 task generateIcon(type: IconTask, group: "common") {
-    url = "https://at.alicdn.com/t/font_1469921_rqfm8qc6hp.svg"
+    url = "https://at.alicdn.com/t/font_1469921_osopikml1g.svg"
     out = "${sourceSets.main.java.srcDirs[0]}"
     outFont = "${sourceSets.main.resources.srcDirs[0]}/fonts/iconfont.ttf"
     packageName = "com.unclezs.novel.app.framework.components.icon"

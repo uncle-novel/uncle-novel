@@ -24,6 +24,7 @@ public class InputBox extends HBox {
   public static final String DEFAULT_STYLE_CLASS = "input-box";
   @Getter
   private final TextField input;
+  @Getter
   private final IconButton action;
   private String icon = "edit";
   /**

@@ -1,0 +1,13 @@
+@import "../define/_global";
+
+.loading-image-view {
+  @include shadow();
+  -fx-bg-color: -fx-base;
+  -fx-background-color: transparent;
+  -fx-padding: 0;
+  -fx-background-insets: 0;
+
+  &.loading {
+    -fx-background-color: -fx-bg-color;
+  }
+}

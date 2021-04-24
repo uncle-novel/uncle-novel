@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.home.header;
+package com.unclezs.novel.app.main.ui.home.header;
 
 import com.jfoenix.controls.JFXPopup;
 import com.unclezs.novel.app.framework.annotation.FxView;

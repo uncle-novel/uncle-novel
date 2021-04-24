@@ -4,8 +4,8 @@
 <?import com.unclezs.novel.app.framework.components.icon.IconButton?>
 <?import com.unclezs.novel.app.framework.components.InputBox?>
 <?import com.unclezs.novel.app.framework.components.NumberTextField?>
-<?import com.unclezs.novel.app.main.home.views.widgets.rule.RuleItem?>
-<?import com.unclezs.novel.app.main.home.views.widgets.rule.RuleItems?>
+<?import com.unclezs.novel.app.main.ui.home.views.widgets.rule.RuleItem?>
+<?import com.unclezs.novel.app.main.ui.home.views.widgets.rule.RuleItems?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns="https://javafx.com/javafx" styleClass="rule-editor" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.home.views.widgets.RuleEditorView">
+<StackPane xmlns="https://javafx.com/javafx" styleClass="rule-editor" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.ui.home.views.RuleEditorView">
   <VBox styleClass="container">
     <AnchorPane styleClass="header">
       <VBox.margin>
@@ -33,7 +33,13 @@
     </AnchorPane>
     <ScrollPane fitToHeight="true" fitToWidth="true" fx:id="panel" VBox.vgrow="ALWAYS">
       <VBox styleClass="rule-container" fx:id="ruleContainer">
-        <RuleItems name="基本信息">
+        <RuleItems title="基本信息" debug="true" onDebug="#debugRule">
+          <RuleItem name="启用书源">
+            <JFXCheckBox userData="enabled"/>
+          </RuleItem>
+          <RuleItem name="有声书源">
+            <JFXCheckBox userData="audio"/>
+          </RuleItem>
           <RuleItem name="书源名称">
             <TextField userData="name"/>
           </RuleItem>
@@ -46,12 +52,9 @@
           <RuleItem name="书源权重">
             <NumberTextField fx:id="weight"/>
           </RuleItem>
-          <RuleItem name="启用书源">
-            <JFXCheckBox userData="enabled"/>
-          </RuleItem>
         </RuleItems>
         <!--搜索规则-->
-        <RuleItems name="搜索规则">
+        <RuleItems title="搜索规则" debug="true" onDebug="#debugSearchRule">
           <RuleItem name="请求参数">
             <RuleItems>
               <RuleItem name="搜索链接">
@@ -139,20 +142,8 @@
             <InputBox userData="search.detail.updateTime"/>
           </RuleItem>
         </RuleItems>
-        <!--正文规则-->
-        <RuleItems name="正文规则">
-          <RuleItem name="正文规则">
-            <InputBox userData="content.content"/>
-          </RuleItem>
-          <RuleItem name="翻页规则">
-            <InputBox userData="content.next"/>
-          </RuleItem>
-          <RuleItem name="启用翻页">
-            <JFXCheckBox userData="content.enableNext"/>
-          </RuleItem>
-        </RuleItems>
         <!--章节规则-->
-        <RuleItems name="章节规则">
+        <RuleItems title="章节规则" debug="true" onDebug="#debugTocRule">
           <RuleItem name="章节列表">
             <InputBox userData="toc.list"/>
           </RuleItem>
@@ -179,7 +170,7 @@
           </RuleItem>
         </RuleItems>
         <!--详情规则-->
-        <RuleItems name="详情规则">
+        <RuleItems title="详情规则" debug="true" onDebug="#debugDetailRule">
           <RuleItem name="小说名称">
             <InputBox userData="detail.title"/>
           </RuleItem>
@@ -209,6 +200,18 @@
           </RuleItem>
           <RuleItem name="更新时间">
             <InputBox userData="detail.updateTime"/>
+          </RuleItem>
+        </RuleItems>
+        <!--正文规则-->
+        <RuleItems title="正文规则" debug="true" onDebug="#debugContentRule">
+          <RuleItem name="正文规则">
+            <InputBox userData="content.content"/>
+          </RuleItem>
+          <RuleItem name="翻页规则">
+            <InputBox userData="content.next"/>
+          </RuleItem>
+          <RuleItem name="启用翻页">
+            <JFXCheckBox userData="content.enableNext"/>
           </RuleItem>
         </RuleItems>
       </VBox>

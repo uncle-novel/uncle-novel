@@ -18,7 +18,6 @@ apply plugin: 'app-packager'
 dependencies {
     implementation project(":app-localized")
     implementation project(":app-framework")
-    implementation('com.unclezs:novel-analyzer')
     implementation "org.freemarker:freemarker"
     implementation "ch.qos.logback:logback-classic"
 }

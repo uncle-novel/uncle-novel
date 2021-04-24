@@ -11,6 +11,7 @@ dependencyManagement {
         dependencySet("cn.hutool:5.5.9") {
             entry "hutool-all"
             entry "hutool-core"
+            entry "hutool-cache"
             entry "hutool-system"
         }
         dependency "org.projectlombok:lombok:1.18.18"

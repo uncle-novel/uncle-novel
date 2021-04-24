@@ -26,6 +26,7 @@
     }
 
     &:selected {
+      @include shadow();
       @include ladderTextFill(-fx-selected-color);
       -fx-background-color: -fx-selected-color;
 

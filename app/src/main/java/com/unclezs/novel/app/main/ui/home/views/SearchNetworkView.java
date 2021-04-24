@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.home.views;
+package com.unclezs.novel.app.main.ui.home.views;
 
 import com.jfoenix.controls.JFXButton;
 import com.unclezs.novel.app.framework.annotation.FxView;

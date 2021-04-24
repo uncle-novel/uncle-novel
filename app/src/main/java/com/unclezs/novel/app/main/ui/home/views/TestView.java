@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.home.views;
+package com.unclezs.novel.app.main.ui.home.views;
 
 import com.jfoenix.controls.JFXToggleButton;
 import com.tulskiy.keymaster.common.HotKey;
@@ -12,8 +12,8 @@ import com.unclezs.novel.app.framework.support.hotkey.HotKeyCombination;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyListener;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
 import com.unclezs.novel.app.framework.support.hotkey.KeyRecorder;
-import com.unclezs.novel.app.main.home.HomeView;
-import com.unclezs.novel.app.main.reader.ReaderView;
+import com.unclezs.novel.app.main.ui.home.HomeView;
+import com.unclezs.novel.app.main.ui.reader.ReaderView;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;

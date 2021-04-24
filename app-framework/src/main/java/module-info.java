@@ -3,22 +3,22 @@
  * @date 2021/04/03 17:27
  */
 open module com.unclezs.novel.app.framework {
+  // core
+  requires novel.analyzer;
   // openjfx
   requires transitive javafx.graphics;
   requires transitive javafx.controls;
   requires transitive javafx.fxml;
   requires transitive com.jfoenix;
-
-  // richtext
-  requires org.fxmisc.richtext;
-  requires flowless;
+  // hutool
+  requires hutool.cache;
+  requires hutool.core;
 
   requires static lombok;
 
   requires jkeymaster;
   requires transitive java.desktop;
   requires org.slf4j;
-  requires hutool.core;
 
   exports com.unclezs.novel.app.framework.core;
   // components

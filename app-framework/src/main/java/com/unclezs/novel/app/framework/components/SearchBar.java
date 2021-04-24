@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.framework.components;
 
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.collection.SimpleObservableList;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
@@ -14,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -57,15 +59,16 @@ public class SearchBar extends HBox implements LocalizedSupport {
   public SearchBar() {
     NodeHelper.addClass(this, DEFAULT_STYLE_CLASS);
     this.input = new TextField();
+    HBox.setHgrow(input, Priority.ALWAYS);
     this.input.setPromptText(prompt);
     IconButton searchButton = new IconButton(IconFont.SEARCH, localized("search"));
     this.getChildren().setAll(input, searchButton);
     this.input.setOnKeyPressed(event -> {
       if (event.getCode() == KeyCode.ENTER) {
-        onSearch.handle(new SearchEvent(input.getText(), types.getValue()));
+        fire();
       }
     });
-    searchButton.setOnMouseClicked(event -> onSearch.handle(new SearchEvent(input.getText(), types.getValue())));
+    searchButton.setOnMouseClicked(event -> fire());
   }
 
   /**
@@ -73,6 +76,15 @@ public class SearchBar extends HBox implements LocalizedSupport {
    */
   public void focus() {
     input.requestFocus();
+  }
+
+  /**
+   * 触发搜索
+   */
+  private void fire() {
+    if (onSearch != null && StringUtils.isNotBlank(input.getText())) {
+      onSearch.handle(new SearchEvent(input.getText(), currentType()));
+    }
   }
 
   /**
@@ -92,6 +104,13 @@ public class SearchBar extends HBox implements LocalizedSupport {
   public void setPrompt(String prompt) {
     this.prompt = prompt;
     this.input.setPromptText(prompt);
+  }
+
+  public String currentType() {
+    if (types == null) {
+      return null;
+    }
+    return types.getValue();
   }
 
   @Override

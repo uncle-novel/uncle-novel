@@ -19,11 +19,15 @@
           }
         }
 
-        & > .name {
-          -fx-font-size: $_14px;
-          -fx-border-width: 0 0 0 4px;
-          -fx-border-color: theme-color;
-          -fx-padding: 0 0 0 $_5px;
+        & > .title-box {
+          -fx-alignment: center-left;
+
+          & > .title {
+            -fx-font-size: $_14px;
+            -fx-border-width: 0 0 0 4px;
+            -fx-border-color: theme-color;
+            -fx-padding: 0 0 0 $_5px;
+          }
         }
 
         .item {

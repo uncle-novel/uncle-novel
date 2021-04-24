@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="https://javafx.com/javafx/16"
   styleClass="search-novel-view"
-  fx:controller="com.unclezs.novel.app.main.home.views.SearchNovelView">
+  fx:controller="com.unclezs.novel.app.main.ui.home.views.SearchNovelView">
   <VBox styleClass="container">
     <AnchorPane styleClass="header">
       <VBox.margin>

@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.home.views.widgets;
+package com.unclezs.novel.app.main.ui.home.views.widgets;
 
 import com.unclezs.novel.app.framework.components.icon.Icon;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
