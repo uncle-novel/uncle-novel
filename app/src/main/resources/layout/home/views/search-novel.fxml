@@ -4,28 +4,24 @@
 <?import com.unclezs.novel.app.framework.components.icon.Icon?>
 <?import com.unclezs.novel.app.framework.components.properties.Str?>
 <?import com.unclezs.novel.app.framework.components.SearchBar?>
-<?import javafx.geometry.Insets?>
+<?import com.unclezs.novel.app.framework.components.TitleBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="https://javafx.com/javafx/16"
-  styleClass="search-novel-view"
-  fx:controller="com.unclezs.novel.app.main.ui.home.views.SearchNovelView">
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="https://javafx.com/javafx/16" styleClass="search-novel" fx:controller="com.unclezs.novel.app.main.ui.home.views.SearchNovelView">
   <VBox styleClass="container">
-    <AnchorPane styleClass="header">
-      <VBox.margin>
-        <Insets top="10"/>
-      </VBox.margin>
-      <Label text="%home.menu.search.internal" styleClass="title" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0"/>
-      <SearchBar onSearch="#search" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="0" fx:id="searchBar">
-        <type>
-          <Str value="%novel.name"/>
-          <Str value="%novel.author"/>
-        </type>
-      </SearchBar>
-    </AnchorPane>
+    <TitleBar title="%home.menu.search.internal">
+      <content>
+        <SearchBar onSearch="#search" AnchorPane.rightAnchor="10" AnchorPane.topAnchor="0" fx:id="searchBar">
+          <type>
+            <Str value="%novel.name"/>
+            <Str value="%novel.author"/>
+          </type>
+        </SearchBar>
+      </content>
+    </TitleBar>
     <ListView VBox.vgrow="ALWAYS" fx:id="listView" styleClass="result-list">
       <placeholder>
         <VBox alignment="CENTER" styleClass="placeholder">

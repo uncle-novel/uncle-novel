@@ -15,7 +15,7 @@
     -fx-border-width: 0 0 1px 0;
     -fx-border-color: -fx-separator-color;
 
-    .label {
+    .label, .check-box {
       @include ladderTextFill(-fx-base);
     }
 
@@ -26,12 +26,21 @@
     }
 
     &:selected {
-      @include shadow();
       @include ladderTextFill(-fx-selected-color);
       -fx-background-color: -fx-selected-color;
 
-      .label {
+      .label, .check-box {
         @include ladderTextFill(-fx-selected-color);
+      }
+
+      .check-box {
+        .box {
+          -fx-border-color: ladder(-fx-selected-color, $white_color 49%, $black_color 50%);
+        }
+
+        &:selected .box {
+          -fx-border-color: transparent;
+        }
       }
     }
   }

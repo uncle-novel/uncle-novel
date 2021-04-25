@@ -20,21 +20,26 @@ public enum IconFont {
   DOWNLOAD('\ue61d'),
   DOWNLOAD_MANAGEMENT('\ue716'),
   CHECKED('\ue602'),
+  TEXT('\ue60b'),
   EXPORT('\ue68a'),
   INFO('\ue9af'),
   EDIT('\ue648'),
   BOOKSHELF('\ue612'),
   GO_BACK('\ue6ab'),
   RULE_AUDIO('\ue657'),
+  ANALYSIS('\ue616'),
   PLUS('\ue790'),
+  AIRPORT('\ue60c'),
   WARN('\ue688'),
   EXIT('\ue634'),
   SUCCESS('\ue76c'),
   CODE('\ue662'),
   IMPORT('\ue615'),
   SAVE('\ue608'),
+  RULE('\ue646'),
   ERROR('\ue647'),
   DELETE('\ue607'),
+  REMOVE('\ue638'),
   ENABLED('\ue68f'),
   ANALYSIS_DOWNLOAD('\ue606'),
   SEARCH('\ue61c'),
@@ -49,7 +54,8 @@ public enum IconFont {
   START('\ue6cb'),
   MENU('\ue600'),
   CONFIRM('\ue8a5'),
-  MAX_RESTORE('\ue609');
+  MAX_RESTORE('\ue609'),
+  RENAME('\ue670');
 
   private final char unicode;
 

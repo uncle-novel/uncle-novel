@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="https://javafx.com/javafx" styleClass="download-manager" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.ui.home.views.DownloadManagerView">
+  <VBox styleClass="container">
+    <TitleBar title="%home.menu.download.management">
+    </TitleBar>
+  </VBox>
+</StackPane>

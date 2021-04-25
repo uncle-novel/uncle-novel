@@ -5,6 +5,26 @@
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 20, 0.19, 0, 6);
 }
 
+@mixin shadow-1() {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 10, 0.12, -1, 2);
+}
+
+@mixin shadow-2() {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 15, 0.16, 0, 4);
+}
+
+@mixin shadow-3() {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 20, 0.16, 0, 6);
+}
+
+@mixin shadow-4() {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 25, 0.25, 0, 8);
+}
+
+@mixin shadow-5() {
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 30, 0.30, 0, 10);
+}
+
 // shadow-bottom-right radius=3
 @mixin shadow-br-3($color) {
   -fx-effect: dropshadow(three-pass-box, $color, 3, 0, 1, 1) !important;
@@ -14,23 +34,21 @@
   -fx-effect: dropshadow(three-pass-box, $color, 1, 0, 1, 1) !important;
 }
 
-
 // 稍微暗点的 字体自适应背景
 @mixin ladderTextFill($bgColor) {
-  -fx-text-fill: ladder($bgColor, $white_color 44%, $black_color 45%);
+  -fx-text-fill: ladder($bgColor, $white_color 59%, $black_color 60%);
 }
 
 // 纯色黑白 字体自适应背景
 @mixin ladderTextFillLight($bgColor) {
-  -fx-text-fill: ladder($bgColor, white 44%, black 45%);
+  -fx-text-fill: ladder($bgColor, white 59%, black 60%);
 }
 
 @mixin ladderTextFillForce($bgColor) {
-  -fx-text-fill: ladder($bgColor, $white_color 44%, $black_color 45%) !important;
+  -fx-text-fill: ladder($bgColor, $white_color 59%, $black_color 60%) !important;
 }
-
 
 // 背景色
 @mixin ladderBgColor($bgColor) {
-  -fx-background-color: ladder($bgColor, $white_color 49%, $black_color 50%);
+  -fx-background-color: ladder($bgColor, $white_color 59%, $black_color 60%);
 }

@@ -27,9 +27,11 @@
 }
 
 .combo-box-base {
+
   -fx-bg-color: -fx-base;
   -fx-selected-color: #009688;
-  -fx-background-color: transparent;
+  -fx-background-color: -fx-bg-color;
+  -fx-min-height: $_25px;
   @include ladderTextFill(-fx-base);
 
   .arrow-button {
@@ -40,7 +42,12 @@
     }
   }
 
-  &:editable > .arrow-button {
-    -fx-background-color: -fx-bg-color;
+  &:editable {
+    -fx-min-height: $_28px;
+    -fx-background-color: transparent;
+
+    & > .arrow-button {
+      -fx-background-color: -fx-bg-color;
+    }
   }
 }

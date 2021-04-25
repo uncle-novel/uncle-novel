@@ -16,7 +16,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Window;
-import lombok.Setter;
 
 /**
  * 模态框
@@ -27,11 +26,6 @@ import lombok.Setter;
 public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
 
   public static final String BUNDLE_NAME = "widgets.modal";
-  /**
-   * 设置统一的owner
-   */
-  @Setter
-  private static Window owner = AppContext.getStage();
   private final JFXDialogLayout layout;
   private final JFXButton cancel;
   private JFXButton submit;
@@ -42,11 +36,11 @@ public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
   private BooleanSupplier successStateSupplier;
 
   private ModalBox() {
-    this(owner);
+    this(AppContext.getInstance().getPrimaryStage());
   }
 
   private ModalBox(Type type, String titleKey) {
-    this(owner);
+    this();
     this.layout.getStyleClass().add(type.name().toLowerCase());
     this.icon = NodeHelper.addClass(new Icon(type.iconFont), "message-icon");
     if (titleKey != null) {

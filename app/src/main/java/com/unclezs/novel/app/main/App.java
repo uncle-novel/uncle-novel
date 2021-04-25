@@ -52,6 +52,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class App extends BaseApplication {
 
+  public static final String APP_STAGE = "app-stage";
+
   /**
    * jfx-launcher更新参数
    */
@@ -62,6 +64,20 @@ public class App extends BaseApplication {
     launch(args);
   }
 
+  /**
+   * 获取APP的舞台
+   *
+   * @return 舞台
+   */
+  public static Stage stage() {
+    return AppContext.getInstance().getPrimaryStage();
+  }
+
+  /**
+   * 初始化
+   *
+   * @throws Exception
+   */
   @Override
   public void init() throws Exception {
     super.init();

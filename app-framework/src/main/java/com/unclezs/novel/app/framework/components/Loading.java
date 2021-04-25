@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXSpinner;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import javafx.scene.layout.VBox;
+import javafx.stage.Window;
 
 /**
  * loading组件
@@ -15,8 +16,12 @@ import javafx.scene.layout.VBox;
  */
 public class Loading extends JFXAlert<Object> {
 
+  public Loading(Window window) {
+    super(window);
+  }
+
   public Loading() {
-    super(AppContext.getStage());
+    super(AppContext.getInstance().getPrimaryStage());
     setOverlayClose(false);
     JFXButton cancel = new JFXButton("取消");
     cancel.setOnAction(e -> hideWithAnimation());

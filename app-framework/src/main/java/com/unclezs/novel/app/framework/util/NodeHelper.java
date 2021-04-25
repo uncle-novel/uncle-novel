@@ -3,8 +3,6 @@ package com.unclezs.novel.app.framework.util;
 
 import com.unclezs.novel.app.framework.exception.FxException;
 import javafx.css.Styleable;
-import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ScrollBar;
@@ -20,7 +18,8 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class NodeHelper {
 
-  public static final String SELECTOR_SCROLL_BAR = ".scroll-bar";
+  public static final String SELECTOR_SCROLL_BAR_VERTICAL = ".scroll-bar:vertical";
+  public static final String SELECTOR_SCROLL_BAR_HORIZONTAL = ".scrollbar:horizontal";
 
   /**
    * 给view设置css class
@@ -58,22 +57,30 @@ public class NodeHelper {
   }
 
   /**
-   * 查找滚动条
+   * 查找纵向滚动条
    *
-   * @param node        容器
-   * @param orientation 方向
+   * @param node 容器
    * @return scrollBar
    */
-  @FXML
-  public static ScrollBar findScrollBar(Node node, Orientation orientation) {
-    for (Node view : node.lookupAll(SELECTOR_SCROLL_BAR)) {
-      if (view instanceof ScrollBar) {
-        ScrollBar scrollBar = (ScrollBar) view;
-        if (scrollBar.getOrientation() == orientation) {
-          return scrollBar;
-        }
-      }
+  public static ScrollBar findVBar(Node node) {
+    ScrollBar vBar = (ScrollBar) node.lookup(SELECTOR_SCROLL_BAR_VERTICAL);
+    if (vBar != null) {
+      return vBar;
     }
-    throw new FxException("滚动条未找到：{}", node);
+    throw new FxException("纵向滚动条未找到：{}", node);
+  }
+
+  /**
+   * 查找横向滚动条
+   *
+   * @param node 容器
+   * @return scrollBar
+   */
+  public static ScrollBar findHBar(Node node) {
+    ScrollBar vBar = (ScrollBar) node.lookup(SELECTOR_SCROLL_BAR_HORIZONTAL);
+    if (vBar != null) {
+      return vBar;
+    }
+    throw new FxException("横向滚动条未找到：{}", node);
   }
 }

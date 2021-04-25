@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.main.ui.home.views;
 
 import cn.hutool.core.text.CharSequenceUtil;
+import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.spider.SearchSpider;
 import com.unclezs.novel.app.framework.annotation.FxView;
@@ -19,10 +20,9 @@ import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookListCell;
 import java.util.Collections;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.StackPane;
@@ -38,13 +38,13 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 public class SearchNovelView extends SidebarView<StackPane> {
 
-  private final AtomicBoolean searching = new AtomicBoolean(false);
   @FXML
   private ListView<Novel> listView;
   @FXML
   private SearchBar searchBar;
   private SearchSpider searcher;
   private ScrollBar scrollBar;
+  private String keyword;
 
   @Override
   public void onShown(SidebarNavigateBundle bundle) {
@@ -55,9 +55,10 @@ public class SearchNovelView extends SidebarView<StackPane> {
   public void onCreated() {
     listView.setCellFactory(BookListCell::new);
     EventUtils.setOnMousePrimaryClick(listView, event -> {
-      ModalBox.none().body(new BookDetailNode(listView.getSelectionModel().getSelectedItem())).title("小说详情").cancel("关闭").show();
+      if (!listView.getSelectionModel().isEmpty()) {
+        ModalBox.none().body(new BookDetailNode(listView.getSelectionModel().getSelectedItem())).title("小说详情").cancel("关闭").show();
+      }
     });
-    add(null);
   }
 
   /**
@@ -67,8 +68,13 @@ public class SearchNovelView extends SidebarView<StackPane> {
    */
   @FXML
   private void search(SearchEvent event) {
+    List<AnalyzerRule> searchRules = RuleManager.textSearchRules();
+    if (searchRules.isEmpty()) {
+      Toast.error("未找到可用于搜索的书源");
+      return;
+    }
+    keyword = event.getInput();
     listView.getItems().clear();
-    String keyword = event.getInput();
     SearchType searchType = SearchType.fromValue(event.getType());
     searcher = new SearchSpider(RuleManager.textRules());
     // 搜索结果处理回调
@@ -84,44 +90,39 @@ public class SearchNovelView extends SidebarView<StackPane> {
       Executor.runFx(() -> listView.getItems().add(novel));
     });
     // 开始搜索
-    if (searching.compareAndSet(false, true)) {
-      TaskFactory.create(() -> {
-        searcher.search(keyword);
-        return Collections.emptyList();
-      }).onSuccess(v -> {
-        // 获取滚动条，用于滚动到底部加载更多
-        if (scrollBar == null) {
-          scrollBar = NodeHelper.findScrollBar(listView, Orientation.VERTICAL);
-          scrollBar.valueProperty().addListener(e -> this.loadMore());
-        }
-      }).onFinally(() -> searching.set(false))
-        .start();
-    }
+    TaskFactory.create(() -> {
+      searcher.search(keyword);
+      return Collections.emptyList();
+    }).onSuccess(v -> {
+      // 获取滚动条，用于滚动到底部加载更多
+      if (scrollBar == null) {
+        scrollBar = NodeHelper.findVBar(listView);
+        scrollBar.valueProperty().addListener(e -> this.loadMore());
+      }
+    }).start();
   }
 
   /**
    * 加载更多数据
    */
   public void loadMore() {
-    if (scrollBar.getValue() != 1 || !searcher.hasMore()) {
+    if (scrollBar.getValue() != 1 || !searcher.hasMore() || searcher.isCanceled()) {
       return;
     }
     // 加载更多
-    if (searching.compareAndSet(false, true)) {
-      scrollBar.setValue(1 - 0.00001);
-      TaskFactory.create(() -> {
-        searcher.loadMore();
-        return searcher.hasMore();
-      }).onSuccess(hasMore -> {
-        if (Boolean.FALSE.equals(hasMore)) {
-          Toast.info(getRoot(), "没有更多了");
-        }
-      }).onFailed(e -> {
-        Toast.error("加载失败");
-        log.error("小说搜索失败:{}", searcher.getKeyword(), e);
-      }).onFinally(() -> searching.set(false))
-        .start();
-    }
+    scrollBar.setValue(1 - 0.00001);
+    TaskFactory.create(() -> {
+      searcher.loadMore();
+      return searcher.hasMore();
+    }).onSuccess(hasMore -> {
+      if (Boolean.FALSE.equals(hasMore)) {
+        Toast.info(getRoot(), "没有更多了");
+      }
+    }).onFailed(e -> {
+      Toast.error("加载失败");
+      log.error("小说搜索失败:{}", searcher.getKeyword(), e);
+    })
+      .start();
   }
 
   public void add(ActionEvent actionEvent) {

@@ -42,7 +42,7 @@ public class ViewFactory {
   public <T> T register(Class<?> clazz, T view) {
     FxView fxView = clazz.getAnnotation(FxView.class);
     if (this.views.get(clazz.getName()) != null && fxView.singleton()) {
-      throw new FxException("view 已经被注册，此次将覆盖注册:{}", clazz);
+      throw new FxException("view 已经被注册，{}", clazz);
     }
     this.views.put(clazz.getName(), view);
     // 设置国际化

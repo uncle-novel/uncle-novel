@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.framework.components;
 
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import javafx.event.EventHandler;
@@ -26,7 +27,11 @@ public class InputBox extends HBox {
   private final TextField input;
   @Getter
   private final IconButton action;
+  @Getter
   private String icon = "edit";
+  @Getter
+  @Setter
+  private boolean validateEmpty = false;
   /**
    * 提示文字
    */
@@ -37,8 +42,7 @@ public class InputBox extends HBox {
    */
   @Getter
   @Setter
-  private EventHandler<? super ActionClickedEvent> onIconClicked = e -> {
-  };
+  private EventHandler<? super ActionClickedEvent> onIconClicked;
 
   public InputBox() {
     NodeHelper.addClass(this, DEFAULT_STYLE_CLASS);
@@ -48,10 +52,23 @@ public class InputBox extends HBox {
     this.getChildren().setAll(input, action);
     this.input.setOnKeyPressed(event -> {
       if (event.getCode() == KeyCode.ENTER) {
-        onIconClicked.handle(new ActionClickedEvent(input.getText()));
+        fire();
       }
     });
-    action.setOnMouseClicked(event -> onIconClicked.handle(new ActionClickedEvent(input.getText())));
+    action.setOnMouseClicked(event -> fire());
+  }
+
+  /**
+   * 触发搜索
+   */
+  private void fire() {
+    if (onIconClicked != null) {
+      // 空校验
+      if (validateEmpty && StringUtils.isBlank(input.getText())) {
+        return;
+      }
+      onIconClicked.handle(new ActionClickedEvent(input.getText()));
+    }
   }
 
   /**

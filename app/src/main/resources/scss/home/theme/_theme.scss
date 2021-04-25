@@ -70,6 +70,10 @@
   -fx-tag-color: $theme-color;
 }
 
+.context-menu {
+  -fx-selected-color: $theme-color;
+}
+
 .combo-box-base {
   -fx-bg-color: $theme-color-light;
   -fx-selected-color: $theme-color;
@@ -79,4 +83,8 @@
   -fx-slected-color: $theme-color;
   -fx-slected-color-light: $theme-color-light;
   -fx-color-dark: $theme-color-dark;
+}
+
+.title-bar {
+  -fx-action-color: $theme-color;
 }

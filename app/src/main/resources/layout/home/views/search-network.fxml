@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" styleClass="search-network" xmlns="https://javafx.com/javafx/16" fx:controller="com.unclezs.novel.app.main.ui.home.views.SearchNetworkView">
+  <VBox styleClass="container">
+    <TitleBar title="%home.menu.search.network">
+    </TitleBar>
+  </VBox>
+</StackPane>

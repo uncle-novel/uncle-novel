@@ -5,8 +5,10 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import com.google.gson.JsonSyntaxException;
+import com.jfoenix.controls.JFXCheckBox;
 import com.unclezs.novel.analyzer.core.helper.RuleHelper;
 import com.unclezs.novel.analyzer.core.helper.RuleTester;
+import com.unclezs.novel.analyzer.core.matcher.matchers.DefaultTextMatcher;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.core.model.SearchRule;
 import com.unclezs.novel.analyzer.core.rule.CommonRule;
@@ -20,7 +22,12 @@ import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
+import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.executor.Executor;
+import com.unclezs.novel.app.main.manager.RuleManager;
+import com.unclezs.novel.app.main.ui.home.views.widgets.rule.CommonRuleEditor;
+import com.unclezs.novel.app.main.ui.home.views.widgets.rule.RuleItem;
+import com.unclezs.novel.app.main.ui.home.views.widgets.rule.RuleItems;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,10 +68,10 @@ import lombok.extern.slf4j.Slf4j;
 public class RuleEditorView extends SidebarView<StackPane> {
 
   public static final String BUNDLE_RULE_KEY = "rule";
-  public static final String SELECTOR_CHECK_BOX = ".check-box";
-  public static final String SELECTOR_COMBO_BOX = ".combo-box";
-  public static final String SELECTOR_TEXT_INPUT = ".item > .text-input";
-  public static final String SELECTOR_INPUT_BOX = ".input-box";
+  private static final String SELECTOR_CHECK_BOX = ".check-box";
+  private static final String SELECTOR_COMBO_BOX = ".combo-box";
+  private static final String SELECTOR_TEXT_INPUT = ".item > .text-input";
+  private static final String SELECTOR_INPUT_BOX = ".input-box";
   private final IntegerStringConverter intStrConverter = new IntegerStringConverter();
   /**
    * 监听器
@@ -77,6 +84,18 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private final List<TextInputControl> inputs = new ArrayList<>();
   private final List<CheckBox> checkBoxes = new ArrayList<>();
   private final List<ComboBox<String>> comboBoxes = new ArrayList<>();
+  /**
+   * 正文解析规则输入框
+   */
+  @FXML
+  private InputBox contentRule;
+  /**
+   * 自动解析模式下拉选择
+   */
+  @FXML
+  private ComboBox<String> autoAnalysisMode;
+  @FXML
+  private RuleItems infoItemsPanel;
   @FXML
   private TextArea sourceEditor;
   @FXML
@@ -89,7 +108,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private TextField weight;
   @FXML
   private TextArea searchParamHeaders;
-  private TextArea editor;
+  private CommonRuleEditor editor;
   private VBox debugContentPanel;
   private VBox debugTocPanel;
   private VBox debugDetailPanel;
@@ -103,6 +122,22 @@ public class RuleEditorView extends SidebarView<StackPane> {
    * 真实规则数据
    */
   private AnalyzerRule realRule;
+  /**
+   * 是否来自书源管理页面
+   */
+  private boolean fromManager = false;
+  /**
+   * 来自哪个页面
+   */
+  private SidebarView<?> from;
+  /**
+   * 保存到书源（解析下载 自动新增时显示）
+   */
+  private RuleItem saveToRule;
+  /**
+   * 保存到书源的开关
+   */
+  private JFXCheckBox saveToRulesSwitch;
 
   /**
    * 创建时获取相关组件
@@ -110,12 +145,16 @@ public class RuleEditorView extends SidebarView<StackPane> {
   @Override
   @SuppressWarnings("unchecked")
   public void onCreate() {
-    ruleContainer.lookupAll(SELECTOR_TEXT_INPUT).stream()
-      .filter(node -> node.getUserData() != null)
-      .forEach(node -> inputs.add((TextInputControl) node));
-    ruleContainer.lookupAll(SELECTOR_INPUT_BOX).forEach(node -> inputBoxes.add((InputBox) node));
-    ruleContainer.lookupAll(SELECTOR_CHECK_BOX).forEach(node -> checkBoxes.add((CheckBox) node));
-    ruleContainer.lookupAll(SELECTOR_COMBO_BOX).forEach(node -> comboBoxes.add((ComboBox<String>) node));
+    ruleContainer.lookupAll(SELECTOR_TEXT_INPUT).stream().filter(node -> node.getUserData() != null).forEach(node -> inputs.add((TextInputControl) node));
+    ruleContainer.lookupAll(SELECTOR_INPUT_BOX).stream().filter(node -> node.getUserData() != null).forEach(node -> inputBoxes.add((InputBox) node));
+    ruleContainer.lookupAll(SELECTOR_CHECK_BOX).stream().filter(node -> node.getUserData() != null).forEach(node -> checkBoxes.add((CheckBox) node));
+    ruleContainer.lookupAll(SELECTOR_COMBO_BOX).stream().filter(node -> node.getUserData() != null).forEach(node -> comboBoxes.add((ComboBox<String>) node));
+
+    autoAnalysisMode.valueProperty().addListener(e -> {
+      int mode = autoAnalysisMode.getItems().indexOf(autoAnalysisMode.getValue()) + 1;
+      contentRule.getInput().setText(DefaultTextMatcher.DEFAULT_RULE_TYPE + mode);
+      rule.getContent().setContent(CommonRule.create(DefaultTextMatcher.DEFAULT_RULE_TYPE, String.valueOf(mode)));
+    });
   }
 
   /**
@@ -125,13 +164,36 @@ public class RuleEditorView extends SidebarView<StackPane> {
    */
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
+    this.fromManager = bundle.getFrom().equals(RuleManagerView.class.getName());
+    this.from = AppContext.getView(bundle.getFrom());
     realRule = bundle.get(BUNDLE_RULE_KEY);
     if (realRule == null) {
       rule = new AnalyzerRule();
     } else {
       rule = realRule.copy();
     }
+    addSaveToRuleItem();
     bindData();
+    // 绑定后会自动生成默认数据，保持一致
+    if (!Objects.equals(rule, realRule)) {
+      BeanUtil.copyProperties(rule, realRule);
+    }
+  }
+
+  private void addSaveToRuleItem() {
+    if (saveToRule != null) {
+      infoItemsPanel.getItems().remove(saveToRule);
+    }
+    if (!fromManager && !RuleManager.exist(rule)) {
+      if (saveToRule == null) {
+        saveToRule = new RuleItem();
+        saveToRule.setName("保存为书源");
+        saveToRulesSwitch = new JFXCheckBox();
+        saveToRulesSwitch.setSelected(true);
+        saveToRule.getChildren().add(saveToRulesSwitch);
+      }
+      infoItemsPanel.getItems().add(saveToRule);
+    }
   }
 
   /**
@@ -143,7 +205,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
     if (realRule == null) {
       bundle.put(BUNDLE_RULE_KEY, rule.copy());
     }
-    navigation.navigate(RuleManagerView.class, bundle);
+    navigation.navigate(from, bundle);
     reset();
     this.realRule = null;
     this.rule = null;
@@ -282,15 +344,14 @@ public class RuleEditorView extends SidebarView<StackPane> {
    */
   @FXML
   private void save() {
-    if (rule.isEffective()) {
-      saveSource();
-      if (realRule != null) {
-        BeanUtil.copyProperties(rule, realRule, CopyOptions.create().ignoreNullValue());
-      }
-      back();
-    } else {
-      Toast.error(getRoot(), "规则不合法！");
+    saveSource();
+    if (realRule != null) {
+      BeanUtil.copyProperties(rule, realRule, CopyOptions.create().ignoreNullValue());
     }
+    if (!fromManager && saveToRulesSwitch != null && saveToRulesSwitch.isSelected()) {
+      RuleManager.addRule(realRule);
+    }
+    back();
   }
 
   /**
@@ -389,25 +450,25 @@ public class RuleEditorView extends SidebarView<StackPane> {
     CommonRule finalRuleItem = ruleItem;
     field.setOnIconClicked(event -> {
       if (editor == null) {
-        editor = new TextArea();
+        editor = new CommonRuleEditor();
       }
-      editor.setText(GsonUtils.PRETTY.toJson(finalRuleItem));
+      editor.setRule(finalRuleItem);
       AtomicBoolean success = new AtomicBoolean(false);
       ModalBox.confirm(save -> {
         success.set(true);
         if (Boolean.TRUE.equals(save)) {
           CommonRule commonRule;
           try {
-            commonRule = GsonUtils.parse(editor.getText(), CommonRule.class);
+            commonRule = editor.getRule();
             BeanUtil.copyProperties(commonRule, finalRuleItem);
             field.getInput().setText(finalRuleItem.ruleString());
           } catch (JsonSyntaxException e) {
             Toast.error((StackPane) editor.getParent(), "格式错误！");
-            log.warn("规则JSON格式错误：规则：{} ，JSON：\n{}", field.getUserData(), editor.getText(), e);
+            log.warn("规则JSON格式错误：规则：{} ，JSON：\n{}", field.getUserData(), editor.getJson(), e);
             success.set(false);
           } catch (Exception e) {
             Toast.error((StackPane) editor.getParent(), "未知错误！");
-            log.error("规则保存失败：规则：{} ，JSON：\n{}", field.getUserData(), editor.getText(), e);
+            log.error("规则保存失败：规则：{} ，JSON：\n{}", field.getUserData(), editor.getJson(), e);
             success.set(false);
           }
         }

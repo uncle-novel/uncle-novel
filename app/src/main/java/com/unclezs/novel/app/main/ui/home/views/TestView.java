@@ -12,6 +12,7 @@ import com.unclezs.novel.app.framework.support.hotkey.HotKeyCombination;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyListener;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
 import com.unclezs.novel.app.framework.support.hotkey.KeyRecorder;
+import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.ui.home.HomeView;
 import com.unclezs.novel.app.main.ui.reader.ReaderView;
 import com.unclezs.novel.app.main.util.DebugUtils;
@@ -132,7 +133,7 @@ public class TestView extends SidebarView<StackPane> {
       }
     });
     cancelGlobal.setOnMouseClicked(e -> HotKeyManager.unregisterGlobal(text.getText()));
-    HotKeyManager.bindWindowHotKeyListener(AppContext.getStage());
+    HotKeyManager.bindWindowHotKeyListener(App.stage());
     view.addEventFilter(KeyEvent.KEY_PRESSED, e -> {
       if (recorder.record(e)) {
         combination = recorder.getCombination();

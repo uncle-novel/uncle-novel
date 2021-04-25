@@ -29,6 +29,11 @@ public class RuleItems extends VBox {
     public void onAdd(RuleItem item) {
       getChildren().add(item);
     }
+
+    @Override
+    public void onRemove(RuleItem item) {
+      getChildren().remove(item);
+    }
   };
   private final HBox titleBox = NodeHelper.addClass(new HBox(), "title-box");
   /**

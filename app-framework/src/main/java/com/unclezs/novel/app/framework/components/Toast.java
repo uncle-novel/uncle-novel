@@ -114,7 +114,7 @@ public class Toast {
    */
   public static void toast(StackPane container, String message, Type type, long time) {
     if (container == null) {
-      container = (StackPane) AppContext.getCurrentSceneView().getRoot();
+      container = (StackPane) AppContext.getInstance().getPrimaryStage().getScene().getRoot();
     }
     if (container == null) {
       log.warn("吐司容器未指定，并且没有找到默认容器！");

@@ -1,0 +1,32 @@
+@import "../define/global";
+
+.title-bar {
+  -fx-action-color: #009688;
+
+  .title {
+    @include ladderTextFill(-fx-base);
+    -fx-font-size: $_20px;
+  }
+
+  .content {
+
+  }
+
+  .actions {
+    @include shadow-br-3(-fx-action-color);
+    -fx-spacing: 5;
+    -fx-background-color: -fx-action-color;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+
+    .button {
+      -fx-font-size: 13px;
+      @include ladderTextFill(-fx-action-color);
+
+      .icon {
+        -fx-icon-size: 11px;
+        -fx-text-fill: inherit;
+      }
+    }
+  }
+}

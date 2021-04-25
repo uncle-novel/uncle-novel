@@ -31,9 +31,9 @@ public abstract class FluentTask<R> extends Task<R> {
       loading.setOnCloseRequest(event -> this.cancel());
       //启动时显示
       super.setOnRunning(e -> loading.show());
-      super.setOnSucceeded(e -> loading.hideWithAnimation());
-      super.setOnFailed(e -> loading.hideWithAnimation());
-      super.setOnCancelled(e -> loading.hideWithAnimation());
+      super.setOnSucceeded(e -> close());
+      super.setOnFailed(e -> close());
+      super.setOnCancelled(e -> close());
     }
   }
 

@@ -1,19 +1,8 @@
 @import "../../define/global";
 
-.search-novel-view {
+.search-novel {
   .container {
     .result-list {
-      .placeholder {
-        & > .tip {
-          -fx-text-fill: theme-color-dark;
-          -fx-font-size: 20px;
-        }
-
-        & > .icon {
-          -fx-text-fill: theme-color-dark;
-          -fx-icon-size: 50px;
-        }
-      }
 
       .list-cell {
         -fx-content-display: GRAPHIC_ONLY;

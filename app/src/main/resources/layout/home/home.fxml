@@ -14,36 +14,54 @@
   fx:id="decorator">
   <SidebarNavigation VBox.vgrow="ALWAYS" prefWidth="${decorator.width}">
     <SidebarMenu name="%home.menu.search">
-      <SidebarMenuItem selected="true"
+      <SidebarMenuItem
         icon="search"
-        text="%home.menu.search.internal" view="com.unclezs.novel.app.main.ui.home.views.SearchNovelView"/>
-      <SidebarMenuItem icon="search_network"
+        text="%home.menu.search.internal"
+        view="com.unclezs.novel.app.main.ui.home.views.SearchNovelView"/>
+      <SidebarMenuItem
+        icon="search_network"
         text="%home.menu.search.network"
         view="com.unclezs.novel.app.main.ui.home.views.SearchNetworkView"/>
-      <SidebarMenuItem icon="search_audio"
+      <SidebarMenuItem
+        icon="search_audio"
         text="%home.menu.search.audio"
         view="com.unclezs.novel.app.main.ui.home.views.SearchAudioView"/>
     </SidebarMenu>
     <SidebarMenu name="%home.menu.read">
-      <SidebarMenuItem icon="bookshelf"
+      <SidebarMenuItem
+        icon="bookshelf"
         text="%home.menu.read.text"
-        view="com.unclezs.novel.app.main.ui.home.views.TestView"/>
-      <SidebarMenuItem icon="audio_bookshelf"
+        view="com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView"/>
+      <SidebarMenuItem
+        icon="audio_bookshelf"
         text="%home.menu.read.audio"
-        view="com.unclezs.novel.app.main.ui.home.views.SearchAudioView"/>
+        view="com.unclezs.novel.app.main.ui.home.views.AudioBookShelfView"/>
     </SidebarMenu>
     <SidebarMenu name="%home.menu.download">
-      <SidebarMenuItem icon="analysis_download"
+      <SidebarMenuItem selected="true"
+        icon="analysis_download"
         text="%home.menu.download.analysis"
-        view="com.unclezs.novel.app.main.ui.home.views.SearchAudioView"/>
-      <SidebarMenuItem icon="download_management"
+        view="com.unclezs.novel.app.main.ui.home.views.AnalysisDownloadView"/>
+      <SidebarMenuItem
+        icon="download_management"
         text="%home.menu.download.management"
-        view="com.unclezs.novel.app.main.ui.home.views.SettingView"/>
+        view="com.unclezs.novel.app.main.ui.home.views.DownloadManagerView"/>
     </SidebarMenu>
     <SidebarMenu name="%home.menu.rule">
-      <SidebarMenuItem icon="rule_text"
+      <SidebarMenuItem
+        icon="rule_text"
         text="%home.menu.rule.text"
         view="com.unclezs.novel.app.main.ui.home.views.RuleManagerView"/>
+    </SidebarMenu>
+    <SidebarMenu name="其他">
+      <SidebarMenuItem
+        icon="rule_text"
+        text="测试"
+        view="com.unclezs.novel.app.main.ui.home.views.TestView"/>
+      <SidebarMenuItem
+        icon="rule_text"
+        text="设置"
+        view="com.unclezs.novel.app.main.ui.home.views.SettingView"/>
     </SidebarMenu>
   </SidebarNavigation>
 </StageDecorator>

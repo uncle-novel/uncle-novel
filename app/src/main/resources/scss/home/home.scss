@@ -3,10 +3,37 @@
 .btn {
   @include ladderTextFillForce(theme-color);
   -fx-background-color: theme-color;
+
+  .icon {
+    -fx-icon-size: 12px !important;
+    @include ladderTextFillForce(theme-color);
+  }
 }
 
-@import "views/search-novel-view";
-@import "views/fiction-rule-view";
+.container {
+  -fx-spacing: $_10px;
+
+  .placeholder {
+    & > .tip {
+      -fx-text-fill: theme-color-dark;
+      -fx-font-size: 20px;
+    }
+
+    & > .icon {
+      -fx-text-fill: theme-color-dark;
+      -fx-icon-size: 50px;
+    }
+  }
+}
+
+@import "views/search-novel";
+@import "views/search-audio";
+@import "views/search-network";
+@import "views/audio-bookshelf";
+@import "views/fiction-bookshelf";
+@import "views/analysis-download";
+@import "views/download-manager";
+@import "views/rule-manager";
 @import "views/rule-editor";
 @import "views/setting";
 @import "header/setting-popup";

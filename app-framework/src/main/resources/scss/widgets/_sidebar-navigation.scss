@@ -23,35 +23,6 @@ $border-radius: 10px;
     -fx-background-radius: 0 0 $stage-border-radius 0;
     -fx-border-radius: 0 0 $stage-border-radius 0;
     -fx-background-color: transparent;
-
-    .container {
-      -fx-spacing: $_10px;
-
-      .header {
-        .title {
-          @include ladderTextFill(-fx-base);
-          -fx-font-size: $_20px;
-        }
-
-        .actions {
-          @include shadow-br-3(-fx-menu-bg-color-selected);
-          -fx-spacing: 5;
-          -fx-background-color: -fx-menu-bg-color-selected;
-          -fx-border-radius: 10;
-          -fx-background-radius: 10;
-
-          .button {
-            -fx-font-size: 13px;
-            @include ladderTextFill(-fx-menu-bg-color-selected);
-
-            .icon {
-              -fx-icon-size: 11px;
-              -fx-text-fill: inherit;
-            }
-          }
-        }
-      }
-    }
   }
 
   // 左侧菜单面板

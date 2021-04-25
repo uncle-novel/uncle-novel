@@ -10,8 +10,8 @@ import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
-import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.util.NodeHelper;
+import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.ui.home.views.widgets.ActionButtonTableCell;
 import com.unclezs.novel.app.main.ui.home.views.widgets.CheckBoxTableCell;
@@ -204,7 +204,7 @@ public class RuleManagerView extends SidebarView<StackPane> {
     FileChooser fileChooser = new FileChooser();
     FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("JSON", "*.json");
     fileChooser.getExtensionFilters().add(filter);
-    File file = fileChooser.showOpenDialog(AppContext.getStage());
+    File file = fileChooser.showOpenDialog(App.stage());
     if (FileUtil.exist(file)) {
       List<AnalyzerRule> rules = GsonUtils.me().fromJson(FileUtil.readUtf8String(file), new TypeToken<List<AnalyzerRule>>() {
       }.getType());
@@ -224,7 +224,7 @@ public class RuleManagerView extends SidebarView<StackPane> {
     String ruleJson = GsonUtils.toJson(rules);
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialFileName(RULES_FILE_NAME);
-    File file = fileChooser.showSaveDialog(AppContext.getStage());
+    File file = fileChooser.showSaveDialog(App.stage());
     if (file != null) {
       FileUtil.writeUtf8String(ruleJson, file);
       Toast.success(getRoot(), "导出成功");

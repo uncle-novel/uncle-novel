@@ -1,5 +1,73 @@
 [
   {
+    "name": "最完美之爱情公寓无防盗爱吃喵的鱼斋书苑",
+    "site": "https://m.zhaishuyuan.com",
+    "enabled": false,
+    "audio": false,
+    "weight": 0,
+    "content": {
+      "enableNext": true,
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "reserve": false,
+      "sort": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "method": "GET",
+        "mediaType": "application/x-www-form-urlencoded",
+        "body": "",
+        "dynamic": false,
+        "enableProxy": false,
+        "autoProxy": true
+      },
+      "list": {},
+      "detailPage": {},
+      "detail": {
+        "url": {},
+        "title": {},
+        "author": {},
+        "category": {},
+        "wordCount": {},
+        "introduce": {},
+        "latestChapterName": {},
+        "latestChapterUrl": {},
+        "coverUrl": {},
+        "state": {},
+        "updateTime": {}
+      }
+    }
+  },
+  {
     "name": "笔趣阁",
     "site": "https://m.biquge.com.cn/",
     "group": "无",
@@ -98,7 +166,7 @@
     "name": "斋书苑",
     "site": "https://www.zhaishuyuan.com/",
     "group": "123",
-    "enabled": true,
+    "enabled": false,
     "audio": false,
     "weight": 0,
     "content": {
@@ -202,7 +270,7 @@
     "name": "全本小说网",
     "site": "http://www.quanben.me/",
     "group": "无1",
-    "enabled": false,
+    "enabled": true,
     "audio": false,
     "weight": 0,
     "content": {
@@ -260,11 +328,13 @@
         "rule": "//*[@id\u003d\"wrapper\"]/table/tbody/tr"
       },
       "detailPage": {
+        "type": "//",
         "rule": "/td[1]/a/@href"
       },
       "detail": {
         "url": {
           "page": "search",
+          "type": "//",
           "rule": "/td[1]/a/@href"
         },
         "title": {
@@ -272,15 +342,33 @@
           "type": "//",
           "rule": "//*[@id\u003d\"info\"]/h1/text()"
         },
-        "author": {},
-        "category": {},
-        "wordCount": {},
-        "introduce": {},
-        "latestChapterName": {},
-        "latestChapterUrl": {},
-        "coverUrl": {},
-        "state": {},
-        "updateTime": {}
+        "author": {
+          "type": "//"
+        },
+        "category": {
+          "type": "//"
+        },
+        "wordCount": {
+          "type": "//"
+        },
+        "introduce": {
+          "type": "//"
+        },
+        "latestChapterName": {
+          "type": "//"
+        },
+        "latestChapterUrl": {
+          "type": "//"
+        },
+        "coverUrl": {
+          "type": "//"
+        },
+        "state": {
+          "type": "//"
+        },
+        "updateTime": {
+          "type": "//"
+        }
       }
     }
   },
@@ -292,6 +380,10 @@
     "weight": 0,
     "content": {
       "enableNext": true,
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
       "next": {
         "type": "xpath",
         "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXNodesList?>
+<?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.icon.IconButton?>
+<?import com.unclezs.novel.app.framework.components.InputBox?>
+<?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="https://javafx.com/javafx" styleClass="analysis-download" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.ui.home.views.AnalysisDownloadView">
+  <VBox styleClass="container">
+    <TitleBar title="%home.menu.download.analysis">
+      <content>
+        <HBox minWidth="250">
+          <InputBox fx:id="input" icon="analysis" HBox.hgrow="ALWAYS" prompt="请输入要解析的目录链接" onIconClicked="#onAnalysis" validateEmpty="true"/>
+        </HBox>
+      </content>
+    </TitleBar>
+    <StackPane VBox.vgrow="ALWAYS">
+      <HBox fx:id="contentPanel">
+        <ListView fx:id="listView" HBox.hgrow="ALWAYS">
+          <placeholder>
+            <VBox alignment="CENTER" styleClass="placeholder">
+              <Icon value="empty"/>
+              <Label styleClass="tip" text="快去解析小说目录，开启你的操作吧~"/>
+            </VBox>
+          </placeholder>
+          <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem text="查看正文" onAction="#displayContent">
+                  <graphic>
+                    <Icon value="text"/>
+                  </graphic>
+                </MenuItem>
+                <MenuItem text="格式化章节名" onAction="#renameChapterNames">
+                  <graphic>
+                    <Icon value="rename"/>
+                  </graphic>
+                </MenuItem>
+                <MenuItem text="章节逆序" onAction="#reverseToc">
+                  <graphic>
+                    <Icon value="remove"/>
+                  </graphic>
+                </MenuItem>
+                <MenuItem text="移除选中" onAction="#removeSelected">
+                  <graphic>
+                    <Icon value="remove"/>
+                  </graphic>
+                </MenuItem>
+                <MenuItem text="勾选选中" onAction="#checkedAllSelected">
+                  <graphic>
+                    <Icon value="enabled"/>
+                  </graphic>
+                </MenuItem>
+                <MenuItem text="取消勾选选中" onAction="#unCheckedAllSelected">
+                  <graphic>
+                    <Icon value="delete"/>
+                  </graphic>
+                </MenuItem>
+              </items>
+            </ContextMenu>
+          </contextMenu>
+        </ListView>
+      </HBox>
+    </StackPane>
+  </VBox>
+  <JFXNodesList rotate="180.0" StackPane.alignment="BOTTOM_RIGHT" styleClass="float-actions" pickOnBounds="false">
+    <StackPane.margin>
+      <Insets bottom="20" right="20"/>
+    </StackPane.margin>
+    <IconButton icon="airport" styleClass="primary-button" pickOnBounds="false"/>
+    <IconButton icon="rule" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="规则配置" onAction="#configRule"/>
+    <IconButton icon="download_management" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="下载小说"/>
+    <IconButton icon="bookshelf" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="加入书架"/>
+  </JFXNodesList>
+</StackPane>

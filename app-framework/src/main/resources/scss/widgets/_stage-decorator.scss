@@ -2,7 +2,7 @@
 
 .stage-decorator {
   -fx-header-bg-color: #3b4252;
-  -fx-bg-color: #FFF;
+  -fx-bg-color: -fx-base;
 
   -fx-background-color: transparent;
   -fx-padding: $_20px;
@@ -15,68 +15,78 @@
     -fx-border-radius: $stage-border-radius;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 20, 0.19, 0, 6);
 
-    .stage-decorator-header {
+    .stage-decorator-root {
+      -fx-background-color: -fx-base;
       -fx-background-radius: $stage-border-radius $stage-border-radius 0 0;
       -fx-border-radius: $stage-border-radius $stage-border-radius 0 0;
-      -fx-alignment: center-right;
-      -fx-min-height: $_50px;
-      -fx-max-height: $_50px;
-      -fx-background-color: -fx-header-bg-color;
+      // 对应header shadow的radius
+      -fx-spacing: 10;
 
-      // 窗口顶部Logo
-      .stage-decorator-logo {
-        -fx-padding: 0 0 0 $_20px;
-        -fx-spacing: $_4px;
-        -fx-alignment: center-left;
-
-        .stage-decorator-logo-icon {
-          -fx-fit-width: 32px;
-          -fx-fit-height: 32px;
-        }
-
-        .stage-decorator-logo-title {
-          @include ladderTextFill(-fx-header-bg-color);
-          -fx-font-size: $_17px;
-        }
-      }
-
-      // 窗口顶部按钮
-      .stage-decorator-actions {
+      .stage-decorator-header {
+        @include shadow-1();
+        -fx-background-radius: $stage-border-radius $stage-border-radius 0 0;
+        -fx-border-radius: $stage-border-radius $stage-border-radius 0 0;
         -fx-alignment: center-right;
-        -fx-padding: 0 $_15px 0 0;
-        -fx-spacing: $_4px;
+        -fx-min-height: $_50px;
+        -fx-max-height: $_50px;
+        -fx-background-color: -fx-header-bg-color;
 
-        .icon-button {
-          @include ladderTextFill(-fx-header-bg-color);
-          -fx-content-display: GRAPHIC_ONLY;
+        // 窗口顶部Logo
+        .stage-decorator-logo {
+          -fx-padding: 0 0 0 $_20px;
+          -fx-spacing: $_4px;
+          -fx-alignment: center-left;
 
-          .icon {
-            -fx-icon-size: 15px;
-            -fx-text-fill: inherit;
+          .stage-decorator-logo-icon {
+            -fx-fit-width: 32px;
+            -fx-fit-height: 32px;
+          }
 
-            &:hover {
-              @include ladderTextFillLight(-fx-header-bg-color);
-            }
+          .stage-decorator-logo-title {
+            @include ladderTextFill(-fx-header-bg-color);
+            -fx-font-size: $_17px;
           }
         }
 
-        .stage-decorator-actions-exit {
+        // 窗口顶部按钮
+        .stage-decorator-actions {
+          -fx-alignment: center-right;
+          -fx-padding: 0 $_15px 0 0;
+          -fx-spacing: $_4px;
 
-          &:hover {
-            -fx-background-color: $md_red_A700;
+          .icon-button {
+            @include ladderTextFill(-fx-header-bg-color);
+            -fx-content-display: GRAPHIC_ONLY;
 
             .icon {
-              -fx-text-fill: white !important;
+              -fx-icon-size: 15px;
+              -fx-text-fill: inherit;
+
+              &:hover {
+                @include ladderTextFillLight(-fx-header-bg-color);
+              }
             }
           }
-        }
 
-        .stage-decorator-action-separator {
-          @include ladderDarkBgColor(-fx-header-bg-color);
-          -fx-pref-width: $_1px;
-          -fx-max-height: $_22px;
+          .stage-decorator-actions-exit {
+
+            &:hover {
+              -fx-background-color: $md_red_A700;
+
+              .icon {
+                -fx-text-fill: white !important;
+              }
+            }
+          }
+
+          .stage-decorator-action-separator {
+            @include ladderBgColor(-fx-header-bg-color);
+            -fx-pref-width: $_1px;
+            -fx-max-height: $_22px;
+          }
         }
       }
+
     }
   }
 }

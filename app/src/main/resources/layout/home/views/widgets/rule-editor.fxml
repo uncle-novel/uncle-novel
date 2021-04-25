@@ -4,36 +4,32 @@
 <?import com.unclezs.novel.app.framework.components.icon.IconButton?>
 <?import com.unclezs.novel.app.framework.components.InputBox?>
 <?import com.unclezs.novel.app.framework.components.NumberTextField?>
+<?import com.unclezs.novel.app.framework.components.TitleBar?>
 <?import com.unclezs.novel.app.main.ui.home.views.widgets.rule.RuleItem?>
 <?import com.unclezs.novel.app.main.ui.home.views.widgets.rule.RuleItems?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns="https://javafx.com/javafx" styleClass="rule-editor" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.ui.home.views.RuleEditorView">
   <VBox styleClass="container">
-    <AnchorPane styleClass="header">
-      <VBox.margin>
-        <Insets top="10"/>
-      </VBox.margin>
-      <Label text="书源制作" styleClass="title" AnchorPane.leftAnchor="10" AnchorPane.topAnchor="0"/>
-      <HBox AnchorPane.rightAnchor="10" AnchorPane.topAnchor="0" styleClass="actions">
-        <IconButton icon="go_back" text="返回" onAction="#goBack"/>
-        <IconButton icon="code" text="源码" onAction="#showSource" fx:id="showSourceButton"/>
-        <IconButton icon="save" text="保存" onAction="#save"/>
-      </HBox>
-    </AnchorPane>
+    <TitleBar title="书源编辑">
+      <content>
+        <HBox styleClass="actions">
+          <IconButton icon="go_back" text="返回" onAction="#goBack"/>
+          <IconButton icon="code" text="源码" onAction="#showSource" fx:id="showSourceButton"/>
+          <IconButton icon="save" text="保存" onAction="#save"/>
+        </HBox>
+      </content>
+    </TitleBar>
     <ScrollPane fitToHeight="true" fitToWidth="true" fx:id="panel" VBox.vgrow="ALWAYS">
       <VBox styleClass="rule-container" fx:id="ruleContainer">
-        <RuleItems title="基本信息" debug="true" onDebug="#debugRule">
+        <RuleItems title="基本信息" debug="true" onDebug="#debugRule" fx:id="infoItemsPanel">
           <RuleItem name="启用书源">
             <JFXCheckBox userData="enabled"/>
           </RuleItem>
@@ -162,9 +158,6 @@
           <RuleItem name="章节过滤">
             <JFXCheckBox userData="toc.filter"/>
           </RuleItem>
-          <RuleItem name="章节逆序">
-            <JFXCheckBox userData="toc.reserve"/>
-          </RuleItem>
           <RuleItem name="乱序重排">
             <JFXCheckBox userData="toc.sort"/>
           </RuleItem>
@@ -205,7 +198,18 @@
         <!--正文规则-->
         <RuleItems title="正文规则" debug="true" onDebug="#debugContentRule">
           <RuleItem name="正文规则">
-            <InputBox userData="content.content"/>
+            <InputBox userData="content.content" fx:id="contentRule"/>
+          </RuleItem>
+          <RuleItem name="智能解析模式">
+            <ComboBox fx:id="autoAnalysisMode" value="推荐模式">
+              <items>
+                <FXCollections fx:factory="observableArrayList">
+                  <String fx:value="推荐模式"/>
+                  <String fx:value="段落模式"/>
+                  <String fx:value="全文模式"/>
+                </FXCollections>
+              </items>
+            </ComboBox>
           </RuleItem>
           <RuleItem name="翻页规则">
             <InputBox userData="content.next"/>

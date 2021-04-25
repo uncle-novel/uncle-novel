@@ -39,13 +39,25 @@
             -fx-max-width: $_90px;
             -fx-padding: 0 0 0 $_15px;
           }
-
-          //.icon {
-          //  -fx-icon-size: 18px;
-          //  -fx-text-fill: theme-color;
-          //}
         }
       }
     }
+  }
+}
+
+.common-rule-editor {
+  .action-box {
+    -fx-alignment: center-left;
+    -fx-spacing: 10;
+  }
+
+  .title-label {
+    -fx-font-size: $_13px !important;
+  }
+
+  .button {
+    @include shadow-1();
+    -fx-pref-width: $_100px;
+    -fx-pref-height: $_30px;
   }
 }
