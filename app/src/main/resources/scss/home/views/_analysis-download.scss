@@ -1,39 +1,4 @@
 @import "../../define/global";
 
 .analysis-download {
-
-  .float-actions {
-    -fx-spacing: 10;
-
-    .icon-button {
-      @include shadow-1();
-      -fx-background-color: theme-color;
-      -fx-background-radius: 45px;
-      -fx-pref-height: 45px;
-      -fx-pref-width: 45px;
-      -fx-min-width: -fx-pref-width;
-      -fx-max-width: -fx-pref-width;
-      -fx-min-height: -fx-pref-height;
-      -fx-max-height: -fx-pref-height;
-
-      .icon {
-        @include ladderTextFill(theme-color);
-        -fx-icon-size: 18px;
-      }
-    }
-
-    .primary-button {
-      -fx-pref-height: 50px;
-      -fx-pref-width: 50px;
-      -fx-min-width: -fx-pref-width;
-      -fx-max-width: -fx-pref-width;
-      -fx-min-height: -fx-pref-height;
-      -fx-max-height: -fx-pref-height;
-
-      .icon {
-        -fx-icon-size: 23px;
-      }
-    }
-  }
-
 }

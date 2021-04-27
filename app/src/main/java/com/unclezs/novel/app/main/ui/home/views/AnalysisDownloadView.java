@@ -19,6 +19,7 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
+import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.model.ChapterProperty;
@@ -143,12 +144,14 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
       if (contentPanel.getChildren().size() == 1) {
         contentPanel.getChildren().add(content);
       }
-      content.clear();
       Chapter item = listView.getSelectionModel().getSelectedItem().getChapter();
       TaskFactory.create(() -> {
         NovelSpider spider = new NovelSpider(rule);
-        spider.content(item.getUrl(), page -> Executor.runFx(() -> content.appendText(page)));
-        return null;
+        return spider.content(item.getUrl());
+      }).onSuccess(pages -> {
+        if (pages != null) {
+          content.setText(pages);
+        }
       }).start();
     }
   }
@@ -185,6 +188,17 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
   @FXML
   private void reverseToc() {
     Collections.reverse(listView.getItems());
+  }
+
+  /**
+   * 浏览器打开
+   */
+  @FXML
+  private void openBrowser() {
+    String url = listView.getSelectionModel().getSelectedItem().getChapter().getUrl();
+    if (UrlUtils.isHttpUrl(url)) {
+      DesktopUtils.openBrowse(url);
+    }
   }
 
   /**

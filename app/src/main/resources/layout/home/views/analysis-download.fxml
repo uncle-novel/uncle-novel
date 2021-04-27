@@ -64,6 +64,11 @@
                     <Icon value="delete"/>
                   </graphic>
                 </MenuItem>
+                <MenuItem text="浏览器打开" onAction="#openBrowser">
+                  <graphic>
+                    <Icon value="browser"/>
+                  </graphic>
+                </MenuItem>
               </items>
             </ContextMenu>
           </contextMenu>

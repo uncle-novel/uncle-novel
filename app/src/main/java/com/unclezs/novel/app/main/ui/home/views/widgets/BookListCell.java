@@ -73,6 +73,10 @@ public class BookListCell extends ListCell<Novel> implements LocalizedSupport {
     // 更新标签
     List<Tag> novelTags = new ArrayList<>();
     // 连载状态
+    if (CharSequenceUtil.isNotBlank(novel.getBroadcast())) {
+      novelTags.add(new Tag(novel.getBroadcast()));
+    }
+    // 连载状态
     if (CharSequenceUtil.isNotBlank(novel.getState())) {
       novelTags.add(new Tag(novel.getState()));
     }

@@ -1,11 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXDrawersStack?>
+<?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.properties.Str?>
+<?import com.unclezs.novel.app.framework.components.SearchBar?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns:fx="https://javafx.com/fxml/1" styleClass="search-audio" xmlns="https://javafx.com/javafx/16" fx:controller="com.unclezs.novel.app.main.ui.home.views.SearchAudioView">
   <VBox styleClass="container">
     <TitleBar title="%home.menu.search.audio">
+      <content>
+        <SearchBar onSearch="#search" fx:id="searchBar">
+          <type>
+            <Str value="%novel.name"/>
+            <Str value="%novel.author"/>
+            <Str value="%novel.speaker"/>
+          </type>
+        </SearchBar>
+      </content>
     </TitleBar>
+    <JFXDrawersStack fx:id="drawers" VBox.vgrow="ALWAYS">
+      <JFXDrawer fx:id="tocDrawer" overLayVisible="true" defaultDrawerSize="300" direction="RIGHT">
+        <sidePane>
+          <ListView fx:id="tocListView"/>
+        </sidePane>
+      </JFXDrawer>
+      <ListView VBox.vgrow="ALWAYS" fx:id="listView" styleClass="result-list">
+        <placeholder>
+          <VBox alignment="CENTER" styleClass="placeholder">
+            <Icon value="empty"/>
+            <Label styleClass="tip" text="%home.search.novel.placeholder"/>
+          </VBox>
+        </placeholder>
+      </ListView>
+    </JFXDrawersStack>
   </VBox>
 </StackPane>

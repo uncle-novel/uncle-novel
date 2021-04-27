@@ -2,7 +2,7 @@
   {
     "name": "最完美之爱情公寓无防盗爱吃喵的鱼斋书苑",
     "site": "https://m.zhaishuyuan.com/",
-    "enabled": true,
+    "enabled": false,
     "audio": false,
     "weight": 0,
     "params": {
@@ -12,6 +12,65 @@
       "content": {
         "type": "auto:",
         "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      },
+      "enableNext": true,
+      "filter": true
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "list": {},
+      "detailPage": {},
+      "detail": {
+        "url": {},
+        "title": {},
+        "author": {},
+        "broadcast": {},
+        "category": {},
+        "wordCount": {},
+        "introduce": {},
+        "latestChapterName": {},
+        "latestChapterUrl": {},
+        "coverUrl": {},
+        "state": {},
+        "updateTime": {}
+      }
+    }
+  },
+  {
+    "name": "520听书网",
+    "site": "http://www.520tingshu.com/",
+    "enabled": false,
+    "audio": true,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "content": {
+        "script": "function getHtmlParas(str) {var sid \u003d str.split(\u0027-\u0027);var n \u003d sid.length;var vid \u003d sid[n - 1].split(\".\")[0];var pid \u003d sid[n - 2];return [pid, vid];}function checkplay(pid, vid) {var jsUrl \u003d utils.match(source, \"regex:\u003cscript src\u003d\\\"(/playdata/.+?)\\\"\u003e##$1\");jsUrl \u003d utils.absUrl(url,jsUrl);var jsContent \u003d utils.get(jsUrl);var flvArray \u003d utils.match(jsContent,\"regex:.+?(\\\\[.+?]]]).+##$1\");var preUrl\u003d eval(flvArray)[pid][1][vid];return preUrl.split(\"$\")[1];}params \u003d getHtmlParas(url);result \u003d checkplay(params[0], params[1]);"
       },
       "next": {
         "type": "xpath",
@@ -42,20 +101,56 @@
       "updateTime": {}
     },
     "search": {
-      "list": {},
-      "detailPage": {},
+      "params": {
+        "url": "http://www.520tingshu.com/modules/article/search.php",
+        "method": "POST",
+        "charset": "GBK",
+        "mediaType": "application/x-www-form-urlencoded",
+        "body": "searchkey\u003d{{keyword}}"
+      },
+      "list": {
+        "type": "css:",
+        "rule": ".book"
+      },
+      "detailPage": {
+        "rule": ""
+      },
       "detail": {
-        "url": {},
-        "title": {},
-        "author": {},
-        "category": {},
-        "wordCount": {},
-        "introduce": {},
-        "latestChapterName": {},
-        "latestChapterUrl": {},
-        "coverUrl": {},
-        "state": {},
-        "updateTime": {}
+        "url": {
+          "type": "css:",
+          "rule": ".titles a@href"
+        },
+        "title": {
+          "type": "css:",
+          "rule": ".titles a@text"
+        },
+        "author": {
+          "type": "css:"
+        },
+        "category": {
+          "type": "css:"
+        },
+        "wordCount": {
+          "type": "css:"
+        },
+        "introduce": {
+          "type": "css:"
+        },
+        "latestChapterName": {
+          "type": "css:"
+        },
+        "latestChapterUrl": {
+          "type": "css:"
+        },
+        "coverUrl": {
+          "type": "css:"
+        },
+        "state": {
+          "type": "css:"
+        },
+        "updateTime": {
+          "type": "css:"
+        }
       }
     }
   },
@@ -173,7 +268,7 @@
     "audio": false,
     "weight": 0,
     "params": {
-      "dynamic": true,
+      "dynamic": false,
       "enabledProxy": false
     },
     "content": {
@@ -442,9 +537,132 @@
     }
   },
   {
+    "name": "聚听网",
+    "site": "https://www.yousxs.com/",
+    "enabled": true,
+    "audio": true,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "content": {
+        "script": "result \u003d utils.match(source, \"regex:url: \u0027(https://.+?skey\u003d)\u0027##$1\")+\u00271246c3c4985246178b36d92a86d2bc96\u0027"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      }
+    },
+    "toc": {
+      "list": {
+        "type": "//",
+        "rule": "//div/div[3]/div[1]/div[2]/div/div/div"
+      },
+      "name": {
+        "type": "//",
+        "rule": "a/text()"
+      },
+      "url": {
+        "type": "//",
+        "rule": "a/@href"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      },
+      "enableNext": true,
+      "filter": true
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "url": "https://www.yousxs.com/classify.html?clsid\u003d\u0026pageNum\u003d{{page}}\u0026novelName\u003d{{keyword}}",
+        "charset": "UTF-8",
+        "mediaType": ""
+      },
+      "list": {
+        "type": "//",
+        "rule": "//div/div[5]/div/div/div[2]/ul/li"
+      },
+      "detailPage": {
+        "type": "//",
+        "rule": "a/@href"
+      },
+      "detail": {
+        "url": {
+          "page": "search",
+          "type": "//",
+          "rule": "a/@href"
+        },
+        "title": {
+          "type": "//",
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/h3/text()"
+        },
+        "author": {
+          "type": "//",
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[1]/text()",
+          "replace": [
+            {
+              "from": "作者：",
+              "to": ""
+            }
+          ]
+        },
+        "broadcast": {
+          "type": "//",
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[2]/text()",
+          "replace": [
+            {
+              "from": "播讲：",
+              "to": ""
+            }
+          ]
+        },
+        "category": {
+          "type": "//",
+          "rule": ""
+        },
+        "wordCount": {
+          "type": "//"
+        },
+        "introduce": {
+          "type": "//",
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[3]/text()"
+        },
+        "latestChapterName": {
+          "type": "//"
+        },
+        "latestChapterUrl": {
+          "type": "//"
+        },
+        "coverUrl": {
+          "type": "//",
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[1]/img/@src"
+        },
+        "state": {
+          "type": "//"
+        },
+        "updateTime": {
+          "type": "//"
+        }
+      }
+    }
+  },
+  {
     "name": "起点中文网",
     "site": "https://book.qidian.com/",
-    "enabled": true,
+    "enabled": false,
     "audio": false,
     "weight": 0,
     "params": {

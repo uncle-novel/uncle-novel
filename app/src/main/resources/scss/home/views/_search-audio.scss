@@ -1,1 +1,27 @@
 @import "../../define/global";
+
+.search-audio {
+  .container {
+    .result-list {
+
+      .list-cell {
+        -fx-content-display: GRAPHIC_ONLY;
+        -fx-padding: $_5px $_5px $_5px $_8px;
+
+        .cell {
+          -fx-alignment: center-left;
+          -fx-spacing: 10;
+
+          .title {
+            -fx-font-size: $_14px;
+            -fx-font-weight: bold;
+          }
+
+          .tags {
+            -fx-spacing: $_10px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -35,11 +35,13 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
 
 
   public static final String DEFAULT_STYLE_CLASS = "book-detail";
+  private final boolean editable;
   @Getter
   private IconButton bookshelf;
   @Getter
   private IconButton analysis;
-  private boolean editable;
+  @Getter
+  private IconButton toc;
 
   public BookDetailNode(Novel novel, boolean editable) {
     this.editable = editable;
@@ -57,23 +59,51 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
     HBox updateTime = createItem("更新时间", novel.getUpdateTime(), Type.EDITABLE, novel::setUpdateTime);
     HBox latestChapter = createItem(localized("novel.chapter.latest"), novel.getLatestChapterName(), Type.EDITABLE, novel::setLatestChapterName);
     HBox desc = createItem(null, CharSequenceUtil.blankToDefault(novel.getIntroduce(), "暂无简介"), "desc");
-    VBox detailContainer = new VBox(title, author, site, latestChapter, wordCount, category, state, updateTime);
+    VBox detailContainer = new VBox(title, author);
+    // 播音
+    if (StringUtils.isNotBlank(novel.getBroadcast())) {
+      HBox broadcast = createItem(localized("novel.speaker"), novel.getBroadcast(), Type.EDITABLE, novel::setBroadcast);
+      detailContainer.getChildren().add(broadcast);
+    }
+    detailContainer.getChildren().addAll(site, latestChapter, wordCount, category, state, updateTime);
     NodeHelper.addClass(detailContainer, "info");
 
     // 容器
     HBox container = new HBox(detailContainer, cover);
     getChildren().addAll(container, desc);
-    if (!editable) {
-      // 操作按钮
-      bookshelf = NodeHelper.addClass(new IconButton("加入书架"), "btn");
-      analysis = NodeHelper.addClass(new IconButton("解析下载"), "btn");
-      HBox actions = NodeHelper.addClass(new HBox(bookshelf, analysis), "actions");
-      getChildren().add(actions);
-    }
   }
 
   public BookDetailNode(Novel novel) {
     this(novel, false);
+  }
+
+  /**
+   * 添加操作按钮
+   *
+   * @param actions 按钮
+   * @return this
+   */
+  public BookDetailNode withActions(Action... actions) {
+    HBox actionsBox = NodeHelper.addClass(new HBox(), "actions");
+    for (Action action : actions) {
+      switch (action) {
+        case ANALYSIS:
+          analysis = NodeHelper.addClass(new IconButton("解析下载"), "btn");
+          actionsBox.getChildren().add(analysis);
+          break;
+        case BOOKSHELF:
+          bookshelf = NodeHelper.addClass(new IconButton("加入书架"), "btn");
+          actionsBox.getChildren().add(bookshelf);
+          break;
+        case TOC:
+          toc = NodeHelper.addClass(new IconButton("查看目录"), "btn");
+          actionsBox.getChildren().add(toc);
+          break;
+        default:
+      }
+    }
+    getChildren().add(actionsBox);
+    return this;
   }
 
   /**
@@ -188,5 +218,23 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
     EDITABLE,
     LINK,
     LABEL;
+  }
+
+  /**
+   * 操作按钮类型
+   */
+  public enum Action {
+    /**
+     * 书架
+     */
+    BOOKSHELF,
+    /**
+     * 解析下载
+     */
+    ANALYSIS,
+    /**
+     * 目录
+     */
+    TOC
   }
 }

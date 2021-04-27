@@ -18,7 +18,7 @@
         icon="search"
         text="%home.menu.search.internal"
         view="com.unclezs.novel.app.main.ui.home.views.SearchNovelView"/>
-      <SidebarMenuItem
+      <SidebarMenuItem selected="true"
         icon="search_network"
         text="%home.menu.search.network"
         view="com.unclezs.novel.app.main.ui.home.views.SearchNetworkView"/>
@@ -38,7 +38,7 @@
         view="com.unclezs.novel.app.main.ui.home.views.AudioBookShelfView"/>
     </SidebarMenu>
     <SidebarMenu name="%home.menu.download">
-      <SidebarMenuItem selected="true"
+      <SidebarMenuItem
         icon="analysis_download"
         text="%home.menu.download.analysis"
         view="com.unclezs.novel.app.main.ui.home.views.AnalysisDownloadView"/>

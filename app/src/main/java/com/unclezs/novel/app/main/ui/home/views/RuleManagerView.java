@@ -56,6 +56,7 @@ public class RuleManagerView extends SidebarView<StackPane> {
   @Override
   public void onHidden() {
     RuleManager.update(rulesTable.getItems());
+    RuleManager.save();
   }
 
   @Override

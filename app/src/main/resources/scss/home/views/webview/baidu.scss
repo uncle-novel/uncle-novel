@@ -1,0 +1,22 @@
+#head,
+#foot,
+#s_tab,
+#rs,
+#content_right {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+#wrapper,
+#container,
+body {
+  width: 500px !important;
+  max-width: 500px !important;
+  margin: 0 0 0 20px !important;
+}
+
+.page-inner {
+  background-color: #FFF;
+  padding: 0 0 10px 0 !important;
+}

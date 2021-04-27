@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXDrawersStack?>
+<?import com.jfoenix.controls.JFXNodesList?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.unclezs.novel.app.framework.components.icon.IconButton?>
-<?import com.unclezs.novel.app.framework.components.InputBox?>
+<?import com.unclezs.novel.app.framework.components.properties.Str?>
+<?import com.unclezs.novel.app.framework.components.SearchBar?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
@@ -13,14 +18,33 @@
   <VBox styleClass="container">
     <TitleBar title="%home.menu.search.network">
       <content>
-        <HBox styleClass="actions">
-          <IconButton icon="search" text="开始获取HTML" fx:id="load"/>
-        </HBox>
+        <SearchBar onSearch="#search" fx:id="searchBar">
+          <type>
+            <Str value="百度"/>
+            <Str value="谷歌"/>
+            <Str value="必应"/>
+          </type>
+        </SearchBar>
       </content>
     </TitleBar>
-    <InputBox onCommit="#load" fx:id="inputBox"/>
-    <TextField fx:id="cookieField"/>
-    <TextField fx:id="userAgent"/>
-    <WebView fx:id="webview"/>
+    <JFXDrawersStack VBox.vgrow="ALWAYS" fx:id="drawer">
+      <JFXDrawer fx:id="tocDrawer" overLayVisible="true" defaultDrawerSize="300" direction="LEFT">
+        <sidePane>
+          <ListView fx:id="tocListView"/>
+        </sidePane>
+      </JFXDrawer>
+      <VBox>
+        <JFXProgressBar fx:id="progress" maxWidth="Infinity" minHeight="3" visible="false"/>
+        <WebView fx:id="webview" VBox.vgrow="ALWAYS" visible="false"/>
+      </VBox>
+    </JFXDrawersStack>
   </VBox>
+  <JFXNodesList rotate="180.0" StackPane.alignment="BOTTOM_RIGHT" styleClass="float-actions" pickOnBounds="false">
+    <StackPane.margin>
+      <Insets bottom="20" right="20"/>
+    </StackPane.margin>
+    <IconButton icon="airport" styleClass="primary-button" pickOnBounds="false"/>
+    <IconButton icon="toc" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="查看目录" onMouseClicked="#showToc"/>
+    <IconButton icon="analysis_download" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="解析下载" onMouseClicked="#analysisDownload"/>
+  </JFXNodesList>
 </StackPane>

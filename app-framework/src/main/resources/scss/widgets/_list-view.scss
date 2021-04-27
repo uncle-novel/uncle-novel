@@ -3,10 +3,10 @@
 .list-view {
   -fx-selected-color: #009688;
   -fx-separator-color: #bbb;
-  -fx-background-color: transparent;
+  -fx-background-color: -fx-base;
 
   &:focused {
-    -fx-background-color: transparent;
+    -fx-background-color: -fx-base;
   }
 
   .list-cell {

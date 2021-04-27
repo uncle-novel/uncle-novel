@@ -121,4 +121,13 @@ public class RuleManager {
   public static List<AnalyzerRule> audioRules() {
     return RULES.stream().filter(rule -> Boolean.TRUE.equals(rule.getEnabled()) && rule.isEffective() && Boolean.TRUE.equals(rule.getAudio())).collect(Collectors.toList());
   }
+
+  /**
+   * 有声小说搜索规则
+   *
+   * @return 规则
+   */
+  public static List<AnalyzerRule> audioSearchRules() {
+    return audioRules().stream().filter(rule -> rule.getSearch() != null && rule.getSearch().isEffective()).collect(Collectors.toList());
+  }
 }

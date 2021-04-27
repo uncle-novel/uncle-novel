@@ -25,6 +25,7 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.executor.Executor;
+import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.ui.home.views.widgets.rule.CommonRuleEditor;
 import com.unclezs.novel.app.main.ui.home.views.widgets.rule.ParamsEditor;
@@ -182,7 +183,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
     addSaveToRuleItem();
     bindData();
     // 绑定后会自动生成默认数据，保持一致
-    if (!Objects.equals(rule, realRule)) {
+    if (realRule != null && !Objects.equals(rule, realRule)) {
       BeanUtil.copyProperties(rule, realRule);
     }
   }
@@ -262,6 +263,18 @@ public class RuleEditorView extends SidebarView<StackPane> {
         }
       }
     }).body(webView).title("登录后点击确定以获取cookie").show();
+  }
+
+  /**
+   * 打开书源地址
+   */
+  @FXML
+  private void openSite() {
+    if (!UrlUtils.isHttpUrl(rule.getSite())) {
+      Toast.error("请先填写正确的书源站点~");
+      return;
+    }
+    DesktopUtils.openBrowse(rule.getSite());
   }
 
   /**
@@ -395,13 +408,17 @@ public class RuleEditorView extends SidebarView<StackPane> {
   @FXML
   private void save() {
     saveSource();
-    if (realRule != null) {
-      BeanUtil.copyProperties(rule, realRule, CopyOptions.create().ignoreNullValue());
+    if (rule.isEffective()) {
+      if (realRule != null) {
+        BeanUtil.copyProperties(rule, realRule, CopyOptions.create().ignoreNullValue());
+      }
+      if (!fromManager && saveToRulesSwitch != null && saveToRulesSwitch.isSelected()) {
+        RuleManager.addRule(realRule);
+      }
+      back();
+    } else {
+      Toast.error("站点链接必须填写！");
     }
-    if (!fromManager && saveToRulesSwitch != null && saveToRulesSwitch.isSelected()) {
-      RuleManager.addRule(realRule);
-    }
-    back();
   }
 
   /**

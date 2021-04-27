@@ -1,6 +1,5 @@
 package com.unclezs.novel.app.main.ui.home.views;
 
-import cn.hutool.core.text.CharSequenceUtil;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.spider.SearchSpider;
@@ -18,6 +17,7 @@ import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.enums.SearchType;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
+import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode.Action;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookListCell;
 import java.util.Collections;
 import java.util.List;
@@ -60,7 +60,7 @@ public class SearchNovelView extends SidebarView<StackPane> {
     EventUtils.setOnMousePrimaryClick(listView, event -> {
       if (!listView.getSelectionModel().isEmpty()) {
         Novel novel = listView.getSelectionModel().getSelectedItem();
-        BookDetailNode bookDetailNode = new BookDetailNode(novel);
+        BookDetailNode bookDetailNode = new BookDetailNode(novel).withActions(Action.BOOKSHELF, Action.ANALYSIS);
         ModalBox detailModal = ModalBox.none().body(bookDetailNode).title("小说详情").cancel("关闭");
         bookDetailNode.getAnalysis().setOnMouseClicked(e -> {
           SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(AnalysisDownloadView.BUNDLE_KEY_NOVEL_INFO, novel);
@@ -81,25 +81,18 @@ public class SearchNovelView extends SidebarView<StackPane> {
   private void search(SearchEvent event) {
     List<AnalyzerRule> searchRules = RuleManager.textSearchRules();
     if (searchRules.isEmpty()) {
-      Toast.error("未找到可用于搜索的书源");
+      Toast.error("未找到可用于搜索的有声书源");
       return;
     }
-    keyword = event.getInput();
-    listView.getItems().clear();
-    SearchType searchType = SearchType.fromValue(event.getType());
     searcher = new SearchSpider(searchRules);
     // 搜索结果处理回调
     searcher.setOnNewItemAddHandler(novel -> {
-      if (searchType == SearchType.NAME && !CharSequenceUtil.containsIgnoreCase(novel.getTitle(), keyword)) {
-        return;
+      if (SearchType.match(event.getType(), keyword, novel)) {
+        Executor.runFx(() -> listView.getItems().add(novel));
       }
-      if (searchType == SearchType.AUTHOR
-        && CharSequenceUtil.isNotBlank(novel.getAuthor()) && !novel.getAuthor().contains(keyword)
-        && !CharSequenceUtil.containsIgnoreCase(novel.getTitle(), keyword)) {
-        return;
-      }
-      Executor.runFx(() -> listView.getItems().add(novel));
     });
+    listView.getItems().clear();
+    keyword = event.getInput();
     // 开始搜索
     TaskFactory.create(() -> {
       searcher.search(keyword);

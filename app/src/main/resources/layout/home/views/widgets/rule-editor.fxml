@@ -43,6 +43,7 @@
           </RuleItem>
           <RuleItem name="书源站点">
             <TextField userData="site"/>
+            <IconButton icon="browser" text="打开" onAction="#openSite" styleClass="btn"/>
           </RuleItem>
           <RuleItem name="书源权重">
             <NumberTextField fx:id="weight"/>
@@ -57,7 +58,7 @@
           </RuleItem>
           <RuleItem name="Cookie">
             <TextField userData="params.cookie" fx:id="cookieField"/>
-            <IconButton text="获取" onAction="#getCookie" styleClass="btn"/>
+            <IconButton icon="cookies" text="获取" onAction="#getCookie" styleClass="btn"/>
           </RuleItem>
           <RuleItem name="User-Agent">
             <TextField userData="params.userAgent"/>
@@ -85,6 +86,9 @@
           </RuleItem>
           <RuleItem name="小说作者">
             <InputBox userData="search.detail.author"/>
+          </RuleItem>
+          <RuleItem name="小说播音">
+            <InputBox userData="search.detail.broadcast"/>
           </RuleItem>
           <RuleItem name="小说分类">
             <InputBox userData="search.detail.category"/>
@@ -145,6 +149,9 @@
           </RuleItem>
           <RuleItem name="小说作者">
             <InputBox userData="detail.author"/>
+          </RuleItem>
+          <RuleItem name="小说播音">
+            <InputBox userData="detail.broadcast"/>
           </RuleItem>
           <RuleItem name="小说分类">
             <InputBox userData="detail.category"/>
