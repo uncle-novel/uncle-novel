@@ -10,10 +10,11 @@ import com.unclezs.novel.analyzer.core.helper.RuleHelper;
 import com.unclezs.novel.analyzer.core.helper.RuleTester;
 import com.unclezs.novel.analyzer.core.matcher.matchers.DefaultTextMatcher;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
-import com.unclezs.novel.analyzer.core.model.SearchRule;
 import com.unclezs.novel.analyzer.core.rule.CommonRule;
 import com.unclezs.novel.analyzer.request.RequestParams;
+import com.unclezs.novel.analyzer.util.CollectionUtils;
 import com.unclezs.novel.analyzer.util.GsonUtils;
+import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.InputBox;
 import com.unclezs.novel.app.framework.components.ModalBox;
@@ -26,9 +27,14 @@ import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.ui.home.views.widgets.rule.CommonRuleEditor;
+import com.unclezs.novel.app.main.ui.home.views.widgets.rule.ParamsEditor;
 import com.unclezs.novel.app.main.ui.home.views.widgets.rule.RuleItem;
 import com.unclezs.novel.app.main.ui.home.views.widgets.rule.RuleItems;
+import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,17 +49,19 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
-import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -63,7 +71,6 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2021/4/21 12:05
  */
 @Slf4j
-@EqualsAndHashCode(callSuper = true)
 @FxView(fxml = "/layout/home/views/widgets/rule-editor.fxml")
 public class RuleEditorView extends SidebarView<StackPane> {
 
@@ -84,6 +91,8 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private final List<TextInputControl> inputs = new ArrayList<>();
   private final List<CheckBox> checkBoxes = new ArrayList<>();
   private final List<ComboBox<String>> comboBoxes = new ArrayList<>();
+  @FXML
+  private TextField cookieField;
   /**
    * 正文解析规则输入框
    */
@@ -106,8 +115,6 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private VBox ruleContainer;
   @FXML
   private TextField weight;
-  @FXML
-  private TextArea searchParamHeaders;
   private CommonRuleEditor editor;
   private VBox debugContentPanel;
   private VBox debugTocPanel;
@@ -180,9 +187,14 @@ public class RuleEditorView extends SidebarView<StackPane> {
     }
   }
 
+  @Override
+  public void onHidden() {
+    this.reset();
+  }
+
   private void addSaveToRuleItem() {
     if (saveToRule != null) {
-      infoItemsPanel.getItems().remove(saveToRule);
+      infoItemsPanel.removeItem(saveToRule);
     }
     if (!fromManager && !RuleManager.exist(rule)) {
       if (saveToRule == null) {
@@ -192,7 +204,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
         saveToRulesSwitch.setSelected(true);
         saveToRule.getChildren().add(saveToRulesSwitch);
       }
-      infoItemsPanel.getItems().add(saveToRule);
+      infoItemsPanel.addItem(0, saveToRule);
     }
   }
 
@@ -206,7 +218,6 @@ public class RuleEditorView extends SidebarView<StackPane> {
       bundle.put(BUNDLE_RULE_KEY, rule.copy());
     }
     navigation.navigate(from, bundle);
-    reset();
     this.realRule = null;
     this.rule = null;
   }
@@ -228,6 +239,45 @@ public class RuleEditorView extends SidebarView<StackPane> {
     debugSearchPanel = null;
     debugTocPanel = null;
     debugPanel = null;
+  }
+
+  /**
+   * 自动登陆以获取Cookie
+   */
+  @FXML
+  private void getCookie() {
+    WebView webView = new WebView();
+    webView.setMaxHeight(400);
+    webView.getEngine().load(rule.getSite());
+    ModalBox.confirm(ok -> {
+      if (Boolean.TRUE.equals(ok)) {
+        try {
+          Map<String, List<String>> map = CookieHandler.getDefault().get(URI.create(UrlUtils.getSite(rule.getSite())), Collections.emptyMap());
+          List<String> cookie = map.get("Cookie");
+          if (CollectionUtils.isNotEmpty(cookie)) {
+            cookieField.setText(cookie.get(0));
+          }
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+      }
+    }).body(webView).title("登录后点击确定以获取cookie").show();
+  }
+
+  /**
+   * 编辑请求参数
+   *
+   * @param event 点击事件
+   */
+  @FXML
+  private void editParams(MouseEvent event) {
+    Node source = (Node) event.getSource();
+    RequestParams params = BeanUtil.getProperty(rule, source.getUserData().toString());
+    if (params == null) {
+      params = new RequestParams();
+      BeanUtil.setProperty(rule, source.getUserData().toString(), params);
+    }
+    ModalBox.none().title("编辑请求参数").cancel("关闭").body(new ParamsEditor(params)).show();
   }
 
   @FXML
@@ -298,7 +348,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
     inputBox.setIcon(IconFont.START.name());
     inputBox.setPrompt(promptText);
     AtomicBoolean running = new AtomicBoolean(false);
-    inputBox.setOnIconClicked(e -> {
+    inputBox.setOnCommit(e -> {
       if (running.get()) {
         Toast.info((StackPane) debugBox.getParent(), "正在测试中，请等待测试完成");
         return;
@@ -401,18 +451,6 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private void bindData() {
     // 特殊数据处理
     bind(weight.focusedProperty(), weight::getText, weight::setText, rule::getWeight, rule::setWeight, intStrConverter);
-    // 搜索规则
-    SearchRule search = rule.getSearch();
-    if (search == null) {
-      search = new SearchRule();
-      rule.setSearch(search);
-    }
-    RequestParams params = search.getParams();
-    if (params == null) {
-      params = new RequestParams();
-      search.setParams(params);
-    }
-    bind(searchParamHeaders, params::getHeaderString, params::setHeaderString);
     // 通用数据绑定
     inputBoxes.forEach(this::bind);
     inputs.forEach(this::bind);
@@ -428,7 +466,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private void bind(CheckBox checkBox) {
     String expression = checkBox.getUserData().toString();
     BooleanProperty property = checkBox.selectedProperty();
-    property.set(BeanUtil.getProperty(rule, expression));
+    property.set(Boolean.TRUE.equals(BeanUtil.getProperty(rule, expression)));
     InvalidationListener listener = e -> BeanUtil.setProperty(rule, expression, property.getValue());
     property.addListener(listener);
     listeners.put(property, listener);
@@ -448,7 +486,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
     }
     // 点击编辑JSON
     CommonRule finalRuleItem = ruleItem;
-    field.setOnIconClicked(event -> {
+    field.setOnCommit(event -> {
       if (editor == null) {
         editor = new CommonRuleEditor();
       }
@@ -540,5 +578,35 @@ public class RuleEditorView extends SidebarView<StackPane> {
     };
     property.addListener(listener);
     listeners.put(property, listener);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+    if (!super.equals(o)) {
+      return false;
+    }
+    RuleEditorView that = (RuleEditorView) o;
+    return fromManager == that.fromManager && Objects.equals(intStrConverter, that.intStrConverter) && Objects.equals(listeners, that.listeners) && Objects
+      .equals(inputBoxes, that.inputBoxes) && Objects.equals(inputs, that.inputs) && Objects.equals(checkBoxes, that.checkBoxes) && Objects
+      .equals(comboBoxes, that.comboBoxes) && Objects.equals(cookieField, that.cookieField) && Objects.equals(contentRule, that.contentRule) && Objects
+      .equals(autoAnalysisMode, that.autoAnalysisMode) && Objects.equals(infoItemsPanel, that.infoItemsPanel) && Objects.equals(sourceEditor, that.sourceEditor) && Objects
+      .equals(panel, that.panel) && Objects.equals(showSourceButton, that.showSourceButton) && Objects.equals(ruleContainer, that.ruleContainer) && Objects
+      .equals(weight, that.weight) && Objects.equals(editor, that.editor) && Objects.equals(debugContentPanel, that.debugContentPanel) && Objects
+      .equals(debugTocPanel, that.debugTocPanel) && Objects.equals(debugDetailPanel, that.debugDetailPanel) && Objects.equals(debugSearchPanel, that.debugSearchPanel)
+      && Objects.equals(debugPanel, that.debugPanel) && Objects.equals(rule, that.rule) && Objects.equals(realRule, that.realRule) && Objects
+      .equals(from, that.from) && Objects.equals(saveToRule, that.saveToRule) && Objects.equals(saveToRulesSwitch, that.saveToRulesSwitch);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects
+      .hash(super.hashCode(), intStrConverter, listeners, inputBoxes, inputs, checkBoxes, comboBoxes, cookieField, contentRule, autoAnalysisMode, infoItemsPanel, sourceEditor, panel, showSourceButton,
+        ruleContainer, weight, editor, debugContentPanel, debugTocPanel, debugDetailPanel, debugSearchPanel, debugPanel, rule, realRule, fromManager, from, saveToRule, saveToRulesSwitch);
   }
 }

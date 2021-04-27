@@ -47,7 +47,7 @@ public class ViewFactory {
     this.views.put(clazz.getName(), view);
     // 设置国际化
     if (CharSequenceUtil.isNotBlank(fxView.bundle())) {
-      ReflectUtils.setFieldValue(clazz, BUNDLE_FIELD_NAME, view, LocalizedSupport.getBundle(fxView.bundle()));
+      ReflectUtils.setFieldValue(BUNDLE_FIELD_NAME, view, LocalizedSupport.getBundle(fxView.bundle()));
     }
     return view;
   }
@@ -104,7 +104,7 @@ public class ViewFactory {
       Object root = loader.load();
       Object controller = loader.getController();
       // 属性注入
-      ReflectUtils.setFieldValue(clazz, ROOT_FIELD_NAME, controller, root);
+      ReflectUtils.setFieldValue(ROOT_FIELD_NAME, controller, root);
       views.put(clazz.getName(), controller);
       return (T) controller;
     } catch (Exception e) {

@@ -10,6 +10,7 @@ import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.NodeHelper;
+import com.unclezs.novel.app.framework.util.ReflectUtils;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import javafx.scene.Node;
@@ -168,6 +169,16 @@ public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
     }
     Label msgLabel = NodeHelper.addClass(new Label(msg, this.icon));
     this.layout.setBody(msgLabel);
+    return this;
+  }
+
+  /**
+   * 禁用关闭动画， 调用hide方法即可
+   *
+   * @return this
+   */
+  public ModalBox disabledAnimateClose() {
+    ReflectUtils.setFieldValue("animateClosing", this, false);
     return this;
   }
 

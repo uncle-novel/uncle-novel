@@ -84,4 +84,12 @@ public class RuleItems extends VBox {
       getChildren().add(0, titleBox);
     }
   }
+
+  public void addItem(int index, RuleItem item) {
+    getChildren().add(index + 1, item);
+  }
+
+  public void removeItem(RuleItem item) {
+    getChildren().remove(item);
+  }
 }

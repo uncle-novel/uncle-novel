@@ -51,7 +51,6 @@ public class ResourceManager {
    * 获取配置文件目录下的文件
    *
    * @param path 文件路径
-   * @return 文件
    */
   public static void saveConfFile(String path, String content) {
     FileUtil.writeUtf8String(content, FileUtil.file(CONF_DIR, path));

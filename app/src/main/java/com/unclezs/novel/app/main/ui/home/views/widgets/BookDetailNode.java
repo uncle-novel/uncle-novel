@@ -1,19 +1,29 @@
 package com.unclezs.novel.app.main.ui.home.views.widgets;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.analyzer.model.Novel;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.components.LoadingImageView;
 import com.unclezs.novel.app.framework.components.Tag;
+import com.unclezs.novel.app.framework.components.icon.Icon;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
+import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
+import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
+import java.util.function.Consumer;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lombok.Getter;
 
 /**
  * 书籍详情节点
@@ -25,31 +35,45 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
 
 
   public static final String DEFAULT_STYLE_CLASS = "book-detail";
+  @Getter
+  private IconButton bookshelf;
+  @Getter
+  private IconButton analysis;
+  private boolean editable;
 
-  public BookDetailNode(Novel novel) {
+  public BookDetailNode(Novel novel, boolean editable) {
+    this.editable = editable;
     NodeHelper.addClass(this, DEFAULT_STYLE_CLASS);
     // 封面
     LoadingImageView cover = new LoadingImageView(BookListCell.NO_COVER, 100, 140);
     cover.setImage(novel.getCoverUrl());
     // 信息
-    HBox title = createItem(null, novel.getTitle(), "title");
-    HBox author = createItem(localized("novel.author"), novel.getAuthor());
-    HBox site = createItem("来源", novel.getUrl(), false, true);
+    HBox title = createItem(null, novel.getTitle(), Type.EDITABLE, novel::setTitle, "title");
+    HBox author = createItem(localized("novel.author"), novel.getAuthor(), Type.EDITABLE, novel::setAuthor);
+    HBox site = createItem("来源", novel.getUrl(), Type.LINK);
     HBox wordCount = createItem("字数", novel.getWordCount());
-    HBox category = createItem("分类", novel.getCategory());
-    HBox state = createItem("状态", novel.getState(), true, false);
-    HBox updateTime = createItem("更新时间", novel.getUpdateTime());
-    HBox latestChapter = createItem(localized("novel.chapter.latest"), novel.getLatestChapterName());
-    HBox desc = createItem(null, novel.getIntroduce(), "desc");
+    HBox category = createItem("分类", novel.getCategory(), Type.EDITABLE, novel::setCategory);
+    HBox state = createItem("状态", novel.getState(), Type.TAG);
+    HBox updateTime = createItem("更新时间", novel.getUpdateTime(), Type.EDITABLE, novel::setUpdateTime);
+    HBox latestChapter = createItem(localized("novel.chapter.latest"), novel.getLatestChapterName(), Type.EDITABLE, novel::setLatestChapterName);
+    HBox desc = createItem(null, CharSequenceUtil.blankToDefault(novel.getIntroduce(), "暂无简介"), "desc");
     VBox detailContainer = new VBox(title, author, site, latestChapter, wordCount, category, state, updateTime);
     NodeHelper.addClass(detailContainer, "info");
-    // 操作按钮
-    IconButton bookshelf = NodeHelper.addClass(new IconButton("加入书架"), "btn");
-    IconButton analysis = NodeHelper.addClass(new IconButton("解析下载"), "btn");
-    HBox actions = NodeHelper.addClass(new HBox(bookshelf, analysis), "actions");
+
     // 容器
     HBox container = new HBox(detailContainer, cover);
-    getChildren().addAll(container, desc, actions);
+    getChildren().addAll(container, desc);
+    if (!editable) {
+      // 操作按钮
+      bookshelf = NodeHelper.addClass(new IconButton("加入书架"), "btn");
+      analysis = NodeHelper.addClass(new IconButton("解析下载"), "btn");
+      HBox actions = NodeHelper.addClass(new HBox(bookshelf, analysis), "actions");
+      getChildren().add(actions);
+    }
+  }
+
+  public BookDetailNode(Novel novel) {
+    this(novel, false);
   }
 
   /**
@@ -61,7 +85,7 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
    * @return 信息列
    */
   private HBox createItem(String labelText, String contentText, String... className) {
-    return createItem(labelText, contentText, false, false, className);
+    return createItem(labelText, contentText, Type.LABEL, className);
   }
 
   /**
@@ -69,33 +93,100 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
    *
    * @param labelText   标签
    * @param contentText 内容
-   * @param tag         是否为标签
-   * @param link        是否为链接
    * @param className   css类名
    * @return 信息列
    */
-  private HBox createItem(String labelText, String contentText, boolean tag, boolean link, String... className) {
+  private HBox createItem(String labelText, String contentText, Type type, String... className) {
+    return createItem(labelText, contentText, type, null, className);
+  }
+
+  /**
+   * 创建信息列
+   *
+   * @param labelText   标签
+   * @param contentText 内容
+   * @param type        盒子类型
+   * @param className   css类名
+   * @return 信息列
+   */
+  private HBox createItem(String labelText, String contentText, Type type, Consumer<String> setter, String... className) {
     HBox box = NodeHelper.addClass(new HBox(), "item");
     if (labelText != null) {
       Label label = NodeHelper.addClass(new Label(labelText.concat(StrUtil.COLON)), "item-label");
       box.getChildren().add(label);
     }
-    Node content;
-    if (tag) {
-      content = new Tag(contentText);
-    } else if (link) {
-      Hyperlink hyperlink = new Hyperlink(contentText);
-      if (UrlUtils.isHttpUrl(contentText)) {
-        hyperlink.setOnAction(e -> DesktopUtils.openBrowse(contentText));
+    if (StringUtils.isNotBlank(contentText) || type == Type.EDITABLE) {
+      Node content;
+      switch (type) {
+        case TAG:
+          content = new Tag(contentText);
+          break;
+        case LINK:
+          Hyperlink hyperlink = new Hyperlink(contentText);
+          if (UrlUtils.isHttpUrl(contentText)) {
+            hyperlink.setOnAction(e -> DesktopUtils.openBrowse(contentText));
+          }
+          content = hyperlink;
+          break;
+        case EDITABLE:
+          content = createEditorBox(contentText, setter);
+          break;
+        case LABEL:
+        default:
+          content = new Label(contentText);
       }
-      content = hyperlink;
-    } else {
-      content = new Label(contentText);
+      box.getChildren().add(NodeHelper.addClass(content, "item-content"));
     }
-    box.getChildren().add(NodeHelper.addClass(content, "item-content"));
     if (className.length > 0) {
       NodeHelper.addClass(box, className);
     }
     return box;
+  }
+
+  /**
+   * 创建可以编辑的节点
+   *
+   * @param text 初始文字
+   * @return 节点
+   */
+  private Node createEditorBox(String text, Consumer<String> setter) {
+    if (!editable) {
+      return new Label(text);
+    }
+    // 显示label
+    Label label = new Label(text);
+    Icon icon = new Icon(IconFont.EDIT);
+    HBox titleBox = NodeHelper.addClass(new HBox(label, icon), "editable-box");
+    // 编辑框
+    TextField editor = new TextField(text);
+    editor.setPromptText("请输入要修改的内容");
+    StackPane panel = new StackPane(titleBox);
+    // 事件绑定
+    EventUtils.setOnMousePrimaryClick(icon, e -> {
+      panel.getChildren().setAll(editor);
+    });
+    editor.setOnKeyPressed(event -> {
+      if (event.getCode() == KeyCode.ENTER) {
+        label.setText(editor.getText());
+        if (setter != null) {
+          setter.accept(editor.getText());
+        }
+        panel.getChildren().setAll(titleBox);
+      }
+    });
+    return panel;
+  }
+
+  /**
+   * 创建盒子的类型
+   */
+  private enum Type {
+    /**
+     * 盒子类型
+     */
+    TAG,
+    EDITABLE,
+    LINK,
+    LABEL;
   }
 }

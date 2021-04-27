@@ -18,7 +18,7 @@
     <TitleBar title="%home.menu.download.analysis">
       <content>
         <HBox minWidth="250">
-          <InputBox fx:id="input" icon="analysis" HBox.hgrow="ALWAYS" prompt="请输入要解析的目录链接" onIconClicked="#onAnalysis" validateEmpty="true"/>
+          <InputBox fx:id="inputBox" icon="analysis" HBox.hgrow="ALWAYS" prompt="请输入要解析的目录链接" onCommit="#onAnalysis" validateEmpty="true"/>
         </HBox>
       </content>
     </TitleBar>
@@ -34,7 +34,7 @@
           <contextMenu>
             <ContextMenu>
               <items>
-                <MenuItem text="查看正文" onAction="#displayContent">
+                <MenuItem text="查看正文" onAction="#analysisContent">
                   <graphic>
                     <Icon value="text"/>
                   </graphic>
@@ -46,7 +46,7 @@
                 </MenuItem>
                 <MenuItem text="章节逆序" onAction="#reverseToc">
                   <graphic>
-                    <Icon value="remove"/>
+                    <Icon value="reverse"/>
                   </graphic>
                 </MenuItem>
                 <MenuItem text="移除选中" onAction="#removeSelected">
@@ -71,7 +71,7 @@
       </HBox>
     </StackPane>
   </VBox>
-  <JFXNodesList rotate="180.0" StackPane.alignment="BOTTOM_RIGHT" styleClass="float-actions" pickOnBounds="false">
+  <JFXNodesList rotate="180.0" fx:id="floatButtons" StackPane.alignment="BOTTOM_RIGHT" styleClass="float-actions" pickOnBounds="false">
     <StackPane.margin>
       <Insets bottom="20" right="20"/>
     </StackPane.margin>
@@ -79,5 +79,6 @@
     <IconButton icon="rule" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="规则配置" onAction="#configRule"/>
     <IconButton icon="download_management" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="下载小说"/>
     <IconButton icon="bookshelf" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="加入书架"/>
+    <IconButton icon="detail" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="书籍详情" onAction="#displayDetail"/>
   </JFXNodesList>
 </StackPane>

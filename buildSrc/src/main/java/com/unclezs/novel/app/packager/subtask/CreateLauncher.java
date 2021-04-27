@@ -73,15 +73,16 @@ public class CreateLauncher extends BaseSubTask {
     try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(jar))) {
       zos.putNextEntry(new ZipEntry(Manifest.EMBEDDED_CONFIG));
       zos.write(manifest.toJson().getBytes(StandardCharsets.UTF_8));
-      ZipFile zipFile = new ZipFile(this.launcherJar);
-      Enumeration<? extends ZipEntry> entries = zipFile.entries();
-      while (entries.hasMoreElements()) {
-        ZipEntry zipEntry = entries.nextElement();
-        if (zipEntry.getName().equals(Manifest.EMBEDDED_CONFIG)) {
-          continue;
+      try (ZipFile zipFile = new ZipFile(this.launcherJar)) {
+        Enumeration<? extends ZipEntry> entries = zipFile.entries();
+        while (entries.hasMoreElements()) {
+          ZipEntry zipEntry = entries.nextElement();
+          if (zipEntry.getName().equals(Manifest.EMBEDDED_CONFIG)) {
+            continue;
+          }
+          zos.putNextEntry(zipEntry);
+          zos.write(zipFile.getInputStream(zipEntry).readAllBytes());
         }
-        zos.putNextEntry(zipEntry);
-        zos.write(zipFile.getInputStream(zipEntry).readAllBytes());
       }
       zos.closeEntry();
     }

@@ -1,10 +1,11 @@
 package com.unclezs.novel.app.main.ui.home.views;
 
-import com.unclezs.novel.analyzer.core.helper.RuleHelper;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import com.jfoenix.controls.JFXNodesList;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.model.Novel;
-import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.analyzer.spider.TocSpider;
 import com.unclezs.novel.analyzer.util.StringUtils;
@@ -19,7 +20,9 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.util.EventUtils;
+import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.model.ChapterProperty;
+import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
 import com.unclezs.novel.app.main.ui.home.views.widgets.ChapterListCell;
 import java.util.Collections;
 import java.util.Objects;
@@ -28,6 +31,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.input.Clipboard;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import lombok.EqualsAndHashCode;
@@ -40,34 +45,58 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AnalysisDownloadView extends SidebarView<StackPane> {
 
+  /**
+   * 传递小说详情数据
+   */
+  public static final String BUNDLE_KEY_NOVEL_INFO = "novel-info";
   private final TextArea content = new TextArea();
+  @FXML
+  private JFXNodesList floatButtons;
   @FXML
   private HBox contentPanel;
   @FXML
   private ListView<ChapterProperty> listView;
   @FXML
-  private InputBox input;
+  private InputBox inputBox;
   private AnalyzerRule rule;
   private Novel novel;
 
   @Override
   public void onCreate() {
-    input.getInput().setText("https://m.zhaishuyuan.com/read/33959");
+    TextField input = inputBox.getInput();
+    input.setText("https://m.zhaishuyuan.com/read/33959");
+    input.focusedProperty().addListener(e -> {
+      if (input.isFocused()) {
+        String tocUrl = Clipboard.getSystemClipboard().getString();
+        if (!Objects.equals(input.getText(), tocUrl) && UrlUtils.isHttpUrl(tocUrl)) {
+          input.setText(tocUrl);
+        }
+      }
+    });
     listView.setCellFactory(param -> new ChapterListCell());
     content.setWrapText(true);
     content.prefWidthProperty().bind(contentPanel.widthProperty().multiply(0.5));
     listView.prefWidthProperty().bind(contentPanel.widthProperty().multiply(0.5));
     contentPanel.getChildren().remove(content);
     listView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-    EventUtils.setOnMouseDoubleClick(listView, event -> {
-      analysisContent();
-    });
+    // 左键双击解析正文
+    EventUtils.setOnMouseDoubleClick(listView, event -> analysisContent());
     // 空数据不弹出上下文菜单
     listView.setOnContextMenuRequested(e -> {
       if (listView.getSelectionModel().isEmpty()) {
         listView.getContextMenu().hide();
       }
     });
+  }
+
+  @Override
+  public void onShow(SidebarNavigateBundle bundle) {
+    Novel novelInfo = bundle.get(BUNDLE_KEY_NOVEL_INFO);
+    if (novelInfo != null) {
+      this.novel = novelInfo;
+      inputBox.getInput().setText(this.novel.getUrl());
+      inputBox.fire();
+    }
   }
 
   public void onAnalysis(ActionClickedEvent event) {
@@ -78,17 +107,24 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
     }
     listView.getItems().clear();
     contentPanel.getChildren().remove(content);
-    AnalyzerRule tocRule = RuleHelper.getRule(tocUrl);
-    this.rule = Objects.requireNonNullElseGet(tocRule, AnalyzerRule::new);
-    rule.setSite(UrlUtils.getSite(tocUrl));
+    if (this.novel != null && !Objects.equals(tocUrl, novel.getUrl())) {
+      this.novel = null;
+    }
+    // 非同一个网站，重新获取规则，这时如果未保存书源则会丢弃修改
+    if (rule == null || !Objects.equals(rule.getSite(), UrlUtils.getSite(tocUrl))) {
+      this.rule = RuleManager.getOrDefault(tocUrl);
+    }
     TocSpider tocSpider = new TocSpider(rule);
-    tocSpider.setOnNewItemAddHandler(chapter -> Executor.runFx(() -> {
-      listView.getItems().add(new ChapterProperty(chapter));
-      listView.scrollTo(listView.getItems().size() - 1);
-    }));
+    tocSpider.setOnNewItemAddHandler(chapter -> Executor.runFx(() -> listView.getItems().add(new ChapterProperty(chapter))));
     TaskFactory.create(() -> {
       tocSpider.toc(tocUrl);
-      this.novel = tocSpider.getNovel();
+      // 小说详情
+      Novel novelInfo = tocSpider.getNovel();
+      if (novel != null) {
+        BeanUtil.copyProperties(novel, novelInfo, CopyOptions.create().ignoreNullValue());
+      }
+      this.novel = novelInfo;
+      // 加载全部
       tocSpider.loadAll();
       return null;
     }).onSuccess(value -> {
@@ -98,10 +134,9 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
     }).start();
   }
 
-  public void displayContent() {
-    analysisContent();
-  }
-
+  /**
+   * 解析正文
+   */
   @FXML
   private void analysisContent() {
     if (!listView.getSelectionModel().isEmpty()) {
@@ -112,9 +147,7 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
       Chapter item = listView.getSelectionModel().getSelectedItem().getChapter();
       TaskFactory.create(() -> {
         NovelSpider spider = new NovelSpider(rule);
-        spider.content(RequestParams.create(item.getUrl()), page -> {
-          Executor.runFx(() -> content.appendText(page));
-        });
+        spider.content(item.getUrl(), page -> Executor.runFx(() -> content.appendText(page)));
         return null;
       }).start();
     }
@@ -146,6 +179,9 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
     listView.getItems().removeAll(listView.getSelectionModel().getSelectedItems());
   }
 
+  /**
+   * 逆序章节
+   */
   @FXML
   private void reverseToc() {
     Collections.reverse(listView.getItems());
@@ -173,6 +209,10 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
     }).title("重命名章节模板设置").show();
   }
 
+  /**
+   * 配置解析规则
+   */
+  @FXML
   public void configRule() {
     if (rule == null) {
       Toast.error(getRoot(), "请先解析目录~");
@@ -180,5 +220,18 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
     }
     SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(RuleEditorView.BUNDLE_RULE_KEY, rule);
     navigation.navigate(RuleEditorView.class, bundle);
+  }
+
+  /**
+   * 显示小说详情
+   */
+  @FXML
+  private void displayDetail() {
+    if (novel == null) {
+      Toast.error(getRoot(), "请先解析目录~");
+      return;
+    }
+    ModalBox.none().body(new BookDetailNode(novel, true)).show();
+    floatButtons.animateList(false);
   }
 }

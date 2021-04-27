@@ -69,7 +69,7 @@ public class LauncherHelper {
   private void generateLibraries() {
     // 生成项目依赖
     for (ResolvedArtifact artifact : project.getConfigurations().getByName("runtimeClasspath").getResolvedConfiguration().getResolvedArtifacts()) {
-      if (artifact.getName().contains("javafx")) {
+      if (artifact.getName().contains("javafx") || artifact.getName().contains("gson")) {
         continue;
       }
       String artifactName;

@@ -108,7 +108,7 @@ packager {
         version = project.version
         changeLog = ["完善打1111包", "了寂寞"]
         launchModule = "com.unclezs.novel.app.main"
-        launchClass = "com.unclezs.novel.app.main.ui.app.App"
+        launchClass = "com.unclezs.novel.app.main.App"
         moduleOptions = file("$projectDir/app.modularity").readLines()
         return launcher
     }
@@ -156,7 +156,7 @@ task packageAlone(type: PackageTask, dependsOn: build) {
     createTar = false
     generateInstaller = false
     mainModule = "com.unclezs.novel.app.main"
-    mainClass = "com.unclezs.novel.app.main.ui.app.App"
+    mainClass = "com.unclezs.novel.app.main.App"
 }
 tasks.withType(UpgradeTask) {
     description = "生成并且部署升级相关文件"

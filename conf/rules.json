@@ -1,12 +1,14 @@
 [
   {
     "name": "最完美之爱情公寓无防盗爱吃喵的鱼斋书苑",
-    "site": "https://m.zhaishuyuan.com",
-    "enabled": false,
+    "site": "https://m.zhaishuyuan.com/",
+    "enabled": true,
     "audio": false,
     "weight": 0,
+    "params": {
+      "dynamic": true
+    },
     "content": {
-      "enableNext": true,
       "content": {
         "type": "auto:",
         "rule": "1"
@@ -25,9 +27,7 @@
         "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
       },
       "enableNext": true,
-      "filter": true,
-      "reserve": false,
-      "sort": false
+      "filter": true
     },
     "detail": {
       "title": {},
@@ -42,14 +42,6 @@
       "updateTime": {}
     },
     "search": {
-      "params": {
-        "method": "GET",
-        "mediaType": "application/x-www-form-urlencoded",
-        "body": "",
-        "dynamic": false,
-        "enableProxy": false,
-        "autoProxy": true
-      },
       "list": {},
       "detailPage": {},
       "detail": {
@@ -74,15 +66,27 @@
     "enabled": false,
     "audio": false,
     "weight": 0,
+    "params": {},
     "content": {
       "enableNext": true,
-      "content": {},
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
       "next": {
         "type": "xpath",
         "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
       }
     },
     "toc": {
+      "params": {
+        "method": "GET",
+        "charset": "UTF-8",
+        "mediaType": "application/json;charset\u003dutf-8",
+        "body": "GET",
+        "dynamic": false,
+        "enableProxy": false
+      },
       "list": {},
       "name": {},
       "url": {},
@@ -92,7 +96,6 @@
       },
       "enableNext": true,
       "filter": true,
-      "reserve": false,
       "sort": false
     },
     "detail": {
@@ -166,9 +169,13 @@
     "name": "斋书苑",
     "site": "https://www.zhaishuyuan.com/",
     "group": "123",
-    "enabled": false,
+    "enabled": true,
     "audio": false,
     "weight": 0,
+    "params": {
+      "dynamic": true,
+      "enabledProxy": false
+    },
     "content": {
       "enableNext": false,
       "content": {},
@@ -187,7 +194,6 @@
       },
       "enableNext": false,
       "filter": false,
-      "reserve": false,
       "sort": false
     },
     "detail": {
@@ -270,9 +276,10 @@
     "name": "全本小说网",
     "site": "http://www.quanben.me/",
     "group": "无1",
-    "enabled": true,
+    "enabled": false,
     "audio": false,
     "weight": 0,
+    "params": {},
     "content": {
       "enableNext": true,
       "content": {},
@@ -298,7 +305,6 @@
       },
       "enableNext": true,
       "filter": true,
-      "reserve": false,
       "sort": false
     },
     "detail": {
@@ -378,6 +384,7 @@
     "enabled": false,
     "audio": false,
     "weight": 0,
+    "params": {},
     "content": {
       "enableNext": true,
       "content": {
@@ -406,7 +413,6 @@
       },
       "enableNext": true,
       "filter": true,
-      "reserve": false,
       "sort": false
     },
     "detail": {},
@@ -432,6 +438,68 @@
         "title": {
           "rule": "/div/h2/a/text()"
         }
+      }
+    }
+  },
+  {
+    "name": "起点中文网",
+    "site": "https://book.qidian.com/",
+    "enabled": true,
+    "audio": false,
+    "weight": 0,
+    "params": {
+      "dynamic": true,
+      "cookie": "_csrfToken\u003dtyMAHpS9p3Fqi2GKQE5M61mQGuRLFdI4CeBGVTB5; newstatisticUUID\u003d1619461095_471970688; _yep_uuid\u003d4fee570d-87e1-7c50-2b5e-dabee54aaed2; e1\u003d%7B%22pid%22%3A%22qd_P_all%22%2C%22eid%22%3A%22qd_A06%22%2C%22l1%22%3A1%7D; e2\u003d; ywkey\u003dywBcZuAE5xgd; ywguid\u003d1585503310; ywopenid\u003d7387FAAE42281F44434B7CF4977CFD3E"
+    },
+    "content": {
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      },
+      "enableNext": true,
+      "filter": true
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {},
+      "list": {},
+      "detailPage": {},
+      "detail": {
+        "url": {},
+        "title": {},
+        "author": {},
+        "category": {},
+        "wordCount": {},
+        "introduce": {},
+        "latestChapterName": {},
+        "latestChapterUrl": {},
+        "coverUrl": {},
+        "state": {},
+        "updateTime": {}
       }
     }
   }

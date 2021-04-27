@@ -30,6 +30,8 @@ import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 搜索小说页面
+ *
  * @author blog.unclezs.com
  * @since 2021/02/27 17:16
  */
@@ -54,9 +56,18 @@ public class SearchNovelView extends SidebarView<StackPane> {
   @Override
   public void onCreated() {
     listView.setCellFactory(BookListCell::new);
+    // 单机查看详情
     EventUtils.setOnMousePrimaryClick(listView, event -> {
       if (!listView.getSelectionModel().isEmpty()) {
-        ModalBox.none().body(new BookDetailNode(listView.getSelectionModel().getSelectedItem())).title("小说详情").cancel("关闭").show();
+        Novel novel = listView.getSelectionModel().getSelectedItem();
+        BookDetailNode bookDetailNode = new BookDetailNode(novel);
+        ModalBox detailModal = ModalBox.none().body(bookDetailNode).title("小说详情").cancel("关闭");
+        bookDetailNode.getAnalysis().setOnMouseClicked(e -> {
+          SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(AnalysisDownloadView.BUNDLE_KEY_NOVEL_INFO, novel);
+          detailModal.disabledAnimateClose().hide();
+          navigation.navigate(AnalysisDownloadView.class, bundle);
+        });
+        detailModal.show();
       }
     });
   }
@@ -76,7 +87,7 @@ public class SearchNovelView extends SidebarView<StackPane> {
     keyword = event.getInput();
     listView.getItems().clear();
     SearchType searchType = SearchType.fromValue(event.getType());
-    searcher = new SearchSpider(RuleManager.textRules());
+    searcher = new SearchSpider(searchRules);
     // 搜索结果处理回调
     searcher.setOnNewItemAddHandler(novel -> {
       if (searchType == SearchType.NAME && !CharSequenceUtil.containsIgnoreCase(novel.getTitle(), keyword)) {

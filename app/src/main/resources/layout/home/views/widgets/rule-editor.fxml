@@ -11,7 +11,6 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -49,54 +48,28 @@
             <NumberTextField fx:id="weight"/>
           </RuleItem>
         </RuleItems>
+        <RuleItems title="全局配置" debug="false">
+          <RuleItem name="启用动态网页">
+            <JFXCheckBox userData="params.dynamic"/>
+          </RuleItem>
+          <RuleItem name="启用代理">
+            <JFXCheckBox userData="params.enabledProxy"/>
+          </RuleItem>
+          <RuleItem name="Cookie">
+            <TextField userData="params.cookie" fx:id="cookieField"/>
+            <IconButton text="获取" onAction="#getCookie" styleClass="btn"/>
+          </RuleItem>
+          <RuleItem name="User-Agent">
+            <TextField userData="params.userAgent"/>
+          </RuleItem>
+        </RuleItems>
         <!--搜索规则-->
         <RuleItems title="搜索规则" debug="true" onDebug="#debugSearchRule">
           <RuleItem name="请求参数">
-            <RuleItems>
-              <RuleItem name="搜索链接">
-                <TextField userData="search.params.url"/>
-              </RuleItem>
-              <RuleItem name="请求方法">
-                <ComboBox editable="true" userData="search.params.method">
-                  <items>
-                    <FXCollections fx:factory="observableArrayList">
-                      <String fx:value="GET"/>
-                      <String fx:value="POST"/>
-                    </FXCollections>
-                  </items>
-                </ComboBox>
-              </RuleItem>
-              <RuleItem name="编码格式">
-                <ComboBox editable="true" userData="search.params.charset">
-                  <items>
-                    <FXCollections fx:factory="observableArrayList">
-                      <String fx:value="UTF-8"/>
-                      <String fx:value="GBK"/>
-                      <String fx:value="GB2312"/>
-                    </FXCollections>
-                  </items>
-                </ComboBox>
-              </RuleItem>
-              <RuleItem name="媒体类型">
-                <ComboBox editable="true" userData="search.params.mediaType">
-                  <items>
-                    <FXCollections fx:factory="observableArrayList">
-                      <String fx:value="application/x-www-form-urlencoded"/>
-                      <String fx:value="application/json;charset=utf-8"/>
-                    </FXCollections>
-                  </items>
-                </ComboBox>
-              </RuleItem>
-              <RuleItem name="请求头">
-                <TextArea fx:id="searchParamHeaders"/>
-              </RuleItem>
-              <RuleItem name="请求体">
-                <TextField userData="search.params.body"/>
-              </RuleItem>
-              <RuleItem name="模拟浏览器">
-                <JFXCheckBox userData="search.params.dynamic"/>
-              </RuleItem>
-            </RuleItems>
+            <IconButton icon="edit" userData="search.params" text="编辑" onMouseClicked="#editParams" styleClass="btn"/>
+          </RuleItem>
+          <RuleItem name="搜索链接">
+            <TextField userData="search.params.url"/>
           </RuleItem>
           <RuleItem name="结果列表">
             <InputBox userData="search.list"/>
@@ -140,6 +113,9 @@
         </RuleItems>
         <!--章节规则-->
         <RuleItems title="章节规则" debug="true" onDebug="#debugTocRule">
+          <RuleItem name="请求参数">
+            <IconButton icon="edit" userData="toc.params" text="编辑" onMouseClicked="#editParams" styleClass="btn"/>
+          </RuleItem>
           <RuleItem name="章节列表">
             <InputBox userData="toc.list"/>
           </RuleItem>
@@ -197,6 +173,9 @@
         </RuleItems>
         <!--正文规则-->
         <RuleItems title="正文规则" debug="true" onDebug="#debugContentRule">
+          <RuleItem name="请求参数">
+            <IconButton icon="edit" userData="content.params" text="编辑" onMouseClicked="#editParams" styleClass="btn"/>
+          </RuleItem>
           <RuleItem name="正文规则">
             <InputBox userData="content.content" fx:id="contentRule"/>
           </RuleItem>

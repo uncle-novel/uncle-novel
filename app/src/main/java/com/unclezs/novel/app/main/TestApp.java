@@ -3,6 +3,7 @@ package com.unclezs.novel.app.main;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.net.CookieHandler;
 
 /**
  * @author blog.unclezs.com
@@ -14,5 +15,6 @@ public class TestApp {
     String res = "com/sun/javafx/scene/control/skin/modena/modena.css";
     Gson gson = new GsonBuilder().serializeNulls().setPrettyPrinting().create();
 //    System.out.println(gson.toJson(new AnalyzerRule()));
+    System.out.println(CookieHandler.getDefault());
   }
 }

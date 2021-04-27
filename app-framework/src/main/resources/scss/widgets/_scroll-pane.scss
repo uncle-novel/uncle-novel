@@ -29,7 +29,7 @@
   .thumb {
     -fx-background-color: -fx-color;
 
-    &:hover {
+    &:hover, &:pressed {
       -fx-background-color: -fx-hover-color;
     }
   }

@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.framework.components.sidebar;
 
 import com.unclezs.novel.app.framework.bundle.BaseBundle;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -31,4 +32,14 @@ public class SidebarNavigateBundle extends BaseBundle {
    * 跳转的标记
    */
   private int flag;
+
+  /**
+   * 是否来自某个页面
+   *
+   * @param clazz 页面
+   * @return true 是
+   */
+  public boolean isFrom(Class<? extends SidebarView<?>> clazz) {
+    return Objects.equals(clazz.getName(), from);
+  }
 }

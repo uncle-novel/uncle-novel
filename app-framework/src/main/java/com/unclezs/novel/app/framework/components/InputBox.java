@@ -42,7 +42,12 @@ public class InputBox extends HBox {
    */
   @Getter
   @Setter
-  private EventHandler<? super ActionClickedEvent> onIconClicked;
+  private EventHandler<? super ActionClickedEvent> onCommit;
+
+  public InputBox(String text) {
+    this();
+    input.setText(text);
+  }
 
   public InputBox() {
     NodeHelper.addClass(this, DEFAULT_STYLE_CLASS);
@@ -55,19 +60,19 @@ public class InputBox extends HBox {
         fire();
       }
     });
-    action.setOnMouseClicked(event -> fire());
+    action.setOnAction(event -> fire());
   }
 
   /**
    * 触发搜索
    */
-  private void fire() {
-    if (onIconClicked != null) {
+  public void fire() {
+    if (onCommit != null) {
       // 空校验
       if (validateEmpty && StringUtils.isBlank(input.getText())) {
         return;
       }
-      onIconClicked.handle(new ActionClickedEvent(input.getText()));
+      onCommit.handle(new ActionClickedEvent(input.getText()));
     }
   }
 

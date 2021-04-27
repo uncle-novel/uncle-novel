@@ -2,13 +2,18 @@ package com.unclezs.novel.app.main;
 
 import cn.hutool.core.util.StrUtil;
 import com.jfoenix.utils.JFXUtilities;
+import com.unclezs.novel.analyzer.request.Http;
+import com.unclezs.novel.analyzer.request.phantomjs.PhantomJsClient;
+import com.unclezs.novel.analyzer.util.SystemUtils;
 import com.unclezs.novel.app.framework.appication.BaseApplication;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.exception.FxException;
 import com.unclezs.novel.app.framework.executor.Executor;
+import com.unclezs.novel.app.framework.util.ReflectUtils;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
+import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.ui.home.HomeView;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import java.util.HashMap;
@@ -52,8 +57,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class App extends BaseApplication {
 
-  public static final String APP_STAGE = "app-stage";
-
   /**
    * jfx-launcher更新参数
    */
@@ -81,6 +84,8 @@ public class App extends BaseApplication {
   @Override
   public void init() throws Exception {
     super.init();
+    // 预热加载HttpProvider 的 SPI
+    ReflectUtils.forName(Http.class.getName());
     DebugUtils.init();
     Random random = new Random();
     int i = random.nextInt(3);
@@ -95,6 +100,10 @@ public class App extends BaseApplication {
   @Override
   public void start(Stage stage) {
     try {
+      System.setProperty(PhantomJsClient.PHANTOMJS_PATH, ResourceManager.binFile("/script/phantomjs").getAbsolutePath().concat(SystemUtils.getExecuteSuffix()));
+      System.setProperty(PhantomJsClient.PHANTOMJS_SCRIPT, ResourceManager.binFile("/script/spider.js").getAbsolutePath());
+      System.out.println(System.getProperty(PhantomJsClient.PHANTOMJS_SCRIPT));
+      System.out.println(System.getProperty(PhantomJsClient.PHANTOMJS_PATH));
       super.start(stage);
       initStage(stage);
       stage.show();

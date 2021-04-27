@@ -36,13 +36,12 @@ public class ReflectUtils {
   /**
    * 设置字段的值
    *
-   * @param clazz     类型
    * @param fieldName 字段名
    * @param bean      实例
    * @param value     值
    */
-  public static void setFieldValue(Class<?> clazz, String fieldName, Object bean, Object value) {
-    Field field = ReflectUtil.getField(clazz, fieldName);
+  public static void setFieldValue(String fieldName, Object bean, Object value) {
+    Field field = ReflectUtil.getField(bean.getClass(), fieldName);
     if (field != null) {
       field.setAccessible(true);
       ReflectUtil.setFieldValue(bean, fieldName, value);

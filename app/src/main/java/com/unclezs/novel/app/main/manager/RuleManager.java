@@ -23,7 +23,9 @@ public class RuleManager {
   private static final ObservableList<AnalyzerRule> RULES;
 
   static {
-    RuleHelper.loadRules(ResourceManager.readConfFile(RULES_FILE_NAME));
+    if (ResourceManager.confFile(RULES_FILE_NAME).exists()) {
+      RuleHelper.loadRules(ResourceManager.readConfFile(RULES_FILE_NAME));
+    }
     RULES = FXCollections.observableList(RuleHelper.rules());
     // 绑定监听
     RuleHelper.setOnRuleChangeListener(RULES::setAll);
@@ -58,6 +60,26 @@ public class RuleManager {
   }
 
   /**
+   * 获取规则
+   *
+   * @param url 网站
+   * @return 规则
+   */
+  public static AnalyzerRule get(String url) {
+    return RuleHelper.getRule(url);
+  }
+
+  /**
+   * 获取规则
+   *
+   * @param url 网站
+   * @return 规则不存在则创建
+   */
+  public static AnalyzerRule getOrDefault(String url) {
+    return RuleHelper.getOrDefault(url);
+  }
+
+  /**
    * 更新全部规则
    *
    * @param rules 所有规则
@@ -79,7 +101,7 @@ public class RuleManager {
    * @return 规则
    */
   public static List<AnalyzerRule> textRules() {
-    return RULES.stream().filter(rule -> rule.isEnabled() && rule.isEffective() && !rule.isAudio()).collect(Collectors.toList());
+    return RULES.stream().filter(rule -> Boolean.TRUE.equals(rule.getEnabled()) && rule.isEffective() && Boolean.FALSE.equals(rule.getAudio())).collect(Collectors.toList());
   }
 
   /**
@@ -97,6 +119,6 @@ public class RuleManager {
    * @return 规则
    */
   public static List<AnalyzerRule> audioRules() {
-    return RULES.stream().filter(rule -> rule.isEnabled() && rule.isEffective() && rule.isAudio()).collect(Collectors.toList());
+    return RULES.stream().filter(rule -> Boolean.TRUE.equals(rule.getEnabled()) && rule.isEffective() && Boolean.TRUE.equals(rule.getAudio())).collect(Collectors.toList());
   }
 }

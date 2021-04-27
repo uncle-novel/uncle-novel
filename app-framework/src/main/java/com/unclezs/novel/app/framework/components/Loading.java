@@ -2,9 +2,11 @@ package com.unclezs.novel.app.framework.components;
 
 import com.jfoenix.controls.JFXAlert;
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSpinner;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.util.NodeHelper;
+import com.unclezs.novel.app.framework.util.ResourceUtils;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Window;
 
@@ -16,6 +18,8 @@ import javafx.stage.Window;
  */
 public class Loading extends JFXAlert<Object> {
 
+  private static final Image LOADING_IMAGE = new Image(ResourceUtils.externalForm("images/loading.gif"));
+
   public Loading(Window window) {
     super(window);
   }
@@ -25,6 +29,6 @@ public class Loading extends JFXAlert<Object> {
     setOverlayClose(false);
     JFXButton cancel = new JFXButton("取消");
     cancel.setOnAction(e -> hideWithAnimation());
-    setContent(NodeHelper.addClass(new VBox(new JFXSpinner(), cancel), "loading"));
+    setContent(NodeHelper.addClass(new VBox(new ImageView(LOADING_IMAGE), cancel), "loading"));
   }
 }

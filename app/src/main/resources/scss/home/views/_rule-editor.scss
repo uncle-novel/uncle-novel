@@ -61,3 +61,30 @@
     -fx-pref-height: $_30px;
   }
 }
+
+.params-editor {
+  -fx-spacing: 10;
+
+  .item {
+    -fx-spacing: $_10px;
+    -fx-alignment: center-left;
+
+    .label, .text-field, .text-area {
+      -fx-font-size: $_12px !important;
+    }
+
+    .check-box {
+      -jfx-disable-visual-focus: true;
+    }
+
+    .text-area {
+      -fx-max-height: $_70px;
+    }
+
+    & > .name {
+      -fx-min-width: $_60px;
+      -fx-max-width: $_60px;
+      -fx-padding: 0;
+    }
+  }
+}
