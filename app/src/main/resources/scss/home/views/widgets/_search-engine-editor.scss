@@ -1,0 +1,9 @@
+@import "../../../define/global";
+
+.search-engine-editor {
+  -fx-spacing: 10;
+
+  .label {
+    -fx-font-size: $_12px !important;
+  }
+}

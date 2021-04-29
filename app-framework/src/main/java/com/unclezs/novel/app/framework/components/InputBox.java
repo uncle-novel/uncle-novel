@@ -2,6 +2,7 @@ package com.unclezs.novel.app.framework.components;
 
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
+import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
@@ -28,7 +29,7 @@ public class InputBox extends HBox {
   @Getter
   private final IconButton action;
   @Getter
-  private String icon = "edit";
+  private String icon = IconFont.EDIT.name();
   @Getter
   @Setter
   private boolean validateEmpty = false;
@@ -53,7 +54,7 @@ public class InputBox extends HBox {
     NodeHelper.addClass(this, DEFAULT_STYLE_CLASS);
     this.input = new TextField();
     HBox.setHgrow(input, Priority.ALWAYS);
-    action = new IconButton(icon, null);
+    action = new IconButton(null, icon, null);
     this.getChildren().setAll(input, action);
     this.input.setOnKeyPressed(event -> {
       if (event.getCode() == KeyCode.ENTER) {

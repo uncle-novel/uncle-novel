@@ -1,17 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.unclezs.novel.app.main.manager.LanguageManager?>
+<?import com.unclezs.novel.app.main.ui.home.views.widgets.setting.ProxySetting?>
+<?import com.unclezs.novel.app.main.ui.home.views.widgets.setting.SearchEngineSetting?>
+<?import com.unclezs.novel.app.main.ui.home.views.widgets.setting.SettingItem?>
+<?import com.unclezs.novel.app.main.ui.home.views.widgets.setting.SettingItems?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1"
   xmlns="https://javafx.com/javafx/16"
   fx:controller="com.unclezs.novel.app.main.ui.home.views.SettingView">
-  <ScrollPane styleClass="setting-view">
+  <ScrollPane styleClass="setting-view" fitToWidth="true">
     <VBox spacing="20">
-      <fx:include source="base.fxml"/>
-      <fx:include source="keymap.fxml"/>
-      <fx:include source="other.fxml"/>
+      <SettingItems name="基本设置">
+        <items>
+          <SettingItem name="系统语言">
+            <content>
+              <ComboBox fx:id="language">
+                <items>
+                  <LanguageManager fx:factory="names"/>
+                </items>
+              </ComboBox>
+            </content>
+          </SettingItem>
+          <SettingItem name="默认行为">
+            <content>
+              <JFXCheckBox fx:id="closeWindow" text="点击关闭时最小化到托盘"/>
+            </content>
+          </SettingItem>
+        </items>
+      </SettingItems>
+      <ProxySetting/>
+      <SettingItems name="搜索引擎管理" styleClass="search-engine-setting">
+        <items>
+          <SearchEngineSetting/>
+        </items>
+      </SettingItems>
     </VBox>
   </ScrollPane>
 </StackPane>

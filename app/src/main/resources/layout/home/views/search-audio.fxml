@@ -3,30 +3,57 @@
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXDrawersStack?>
 <?import com.unclezs.novel.app.framework.components.icon.Icon?>
-<?import com.unclezs.novel.app.framework.components.properties.Str?>
 <?import com.unclezs.novel.app.framework.components.SearchBar?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns:fx="https://javafx.com/fxml/1" styleClass="search-audio" xmlns="https://javafx.com/javafx/16" fx:controller="com.unclezs.novel.app.main.ui.home.views.SearchAudioView">
   <VBox styleClass="container">
     <TitleBar title="%home.menu.search.audio">
       <content>
-        <SearchBar onSearch="#search" fx:id="searchBar">
-          <type>
-            <Str value="%novel.name"/>
-            <Str value="%novel.author"/>
-            <Str value="%novel.speaker"/>
-          </type>
-        </SearchBar>
+        <SearchBar onSearch="#search" fx:id="searchBar"/>
       </content>
     </TitleBar>
     <JFXDrawersStack fx:id="drawers" VBox.vgrow="ALWAYS">
       <JFXDrawer fx:id="tocDrawer" overLayVisible="true" defaultDrawerSize="300" direction="RIGHT">
         <sidePane>
-          <ListView fx:id="tocListView"/>
+          <ListView fx:id="tocListView">
+            <contextMenu>
+              <ContextMenu>
+                <items>
+                  <MenuItem text="校验音频" onAction="#checkAudioEffective">
+                    <graphic>
+                      <Icon value="validate"/>
+                    </graphic>
+                  </MenuItem>
+                  <MenuItem text="复制音频链接" onAction="#copyAudioLink">
+                    <graphic>
+                      <Icon value="copy"/>
+                    </graphic>
+                  </MenuItem>
+                  <MenuItem text="勾选选中" onAction="#checkedAllSelected">
+                    <graphic>
+                      <Icon value="enabled"/>
+                    </graphic>
+                  </MenuItem>
+                  <MenuItem text="取消勾选选中" onAction="#unCheckedAllSelected">
+                    <graphic>
+                      <Icon value="remove"/>
+                    </graphic>
+                  </MenuItem>
+                  <MenuItem text="浏览器打开" onAction="#openBrowser">
+                    <graphic>
+                      <Icon value="browser"/>
+                    </graphic>
+                  </MenuItem>
+                </items>
+              </ContextMenu>
+            </contextMenu>
+          </ListView>
         </sidePane>
       </JFXDrawer>
       <ListView VBox.vgrow="ALWAYS" fx:id="listView" styleClass="result-list">

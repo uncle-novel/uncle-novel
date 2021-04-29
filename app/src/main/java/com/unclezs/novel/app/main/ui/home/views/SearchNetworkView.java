@@ -16,8 +16,16 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
-import com.unclezs.novel.app.framework.util.ResourceUtils;
+import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.RuleManager;
+import com.unclezs.novel.app.main.manager.SettingManager;
+import com.unclezs.novel.app.main.model.SearchEngine;
+import java.util.List;
+import java.util.stream.Collectors;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -38,9 +46,9 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 public class SearchNetworkView extends SidebarView<StackPane> {
 
-  public static final String BAIDU_SEARCH = "https://www.baidu.com/s?wd=";
-  public static final String BAIDU_SEARCH_KEYWORD = "title: (阅读 \"%s\" (最新章节) -(官方网站))";
 
+  public static final String WWW = "www.";
+  public static final String KEYWORD = "{{keyword}}";
   public JFXProgressBar progress;
   public IconButton script;
   @FXML
@@ -53,22 +61,20 @@ public class SearchNetworkView extends SidebarView<StackPane> {
   @FXML
   private SearchBar searchBar;
   private WebEngine engine;
+  private ObservableList<SearchEngine> searchEngines;
+  private LoadListener loadListener;
 
   @Override
   public void onCreate() {
     this.engine = webview.getEngine();
+    this.loadListener = new LoadListener(webview);
     this.engine.getLoadWorker().progressProperty().addListener((observable, oldValue, newValue) -> {
       progress.setProgress(newValue.doubleValue() == 0 ? 0.1 : newValue.doubleValue());
       progress.setVisible(progress.getProgress() != 1);
     });
     this.engine.getLoadWorker().stateProperty().addListener((ob, ov, nv) -> {
-      if (nv == State.SCHEDULED) {
-        String domain = UrlUtils.getDomain(engine.getLocation());
-        if ("baidu".equals(domain)) {
-          engine.setUserStyleSheetLocation(ResourceUtils.externalForm("css/home/views/webview/baidu.css"));
-        } else {
-          engine.setUserStyleSheetLocation(null);
-        }
+      if (nv == State.RUNNING) {
+        initWebViewStylesheet();
       }
     });
     engine.setUserAgent(RequestParams.USER_AGENT_DEFAULT_VALUE);
@@ -76,33 +82,60 @@ public class SearchNetworkView extends SidebarView<StackPane> {
 
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
+    String current = searchBar.getCurrentType();
+    List<String> types = searchEngines.stream()
+      .filter(searchEngine -> Boolean.TRUE.equals(searchEngine.getEnabled()))
+      .map(SearchEngine::getName)
+      .collect(Collectors.toList());
+    // 是否有变化
+    if (!types.equals(searchBar.getTypeItems())) {
+      searchBar.clearType();
+      searchBar.addTypes(types);
+      if (types.contains(current)) {
+        searchBar.setType(current);
+      }
+    }
   }
 
   @Override
   public void onCreated() {
+    this.searchEngines = SettingManager.manager().getSearchEngines();
+    // 监听变化
+    searchEngines.addListener((ListChangeListener<SearchEngine>) c -> {
+      while (c.next()) {
+        for (SearchEngine searchEngine : c.getRemoved()) {
+          searchBar.removeType(searchEngine.getName());
+        }
+        for (SearchEngine searchEngine : c.getAddedSubList()) {
+          if (Boolean.TRUE.equals(searchEngine.getEnabled())) {
+            searchBar.addType(searchEngine.getName());
+          }
+        }
+      }
+    });
+    // 初始化
+    searchEngines.stream()
+      .filter(searchEngine -> Boolean.TRUE.equals(searchEngine.getEnabled()))
+      .forEach(searchEngine -> searchBar.addType(searchEngine.getName()));
   }
 
-
+  /**
+   * 提交搜索
+   *
+   * @param event 搜索事件
+   */
   public void search(SearchEvent event) {
     String type = event.getType();
     String keyword = event.getInput();
-    String url;
-    switch (type) {
-      case "百度":
-        url = BAIDU_SEARCH + String.format(BAIDU_SEARCH_KEYWORD, keyword);
-        break;
-      case "谷歌":
-        url = String.format("https://www.google.com/search?q=%s", keyword);
-        break;
-      case "必应":
-      default:
-        url = String.format("https://www.bing.com/search?q=%s", keyword);
+    for (SearchEngine searchEngine : searchEngines) {
+      if (searchEngine.getName().equals(type)) {
+        engine.load(searchEngine.getUrl().replace(KEYWORD, keyword));
+        webview.setVisible(false);
+        engine.getLoadWorker().progressProperty().addListener(loadListener);
+        return;
+      }
     }
-    System.out.println(url);
-    engine.load(url);
-    if (!webview.isVisible()) {
-      webview.setVisible(true);
-    }
+    Toast.error("没有搜索引擎可用于搜索");
   }
 
   /**
@@ -138,5 +171,50 @@ public class SearchNetworkView extends SidebarView<StackPane> {
     Novel novel = new Novel();
     novel.setUrl(engine.getLocation());
     navigation.navigate(AnalysisDownloadView.class, new SidebarNavigateBundle().put(AnalysisDownloadView.BUNDLE_KEY_NOVEL_INFO, novel));
+  }
+
+  /**
+   * 设置webview自定义样式，没有则设置为null
+   */
+  private void initWebViewStylesheet() {
+    SearchEngine searchEngine = findSearchEngineByCurrentLocation();
+    if (searchEngine == null) {
+      this.engine.setUserStyleSheetLocation(null);
+    } else {
+      this.engine.setUserStyleSheetLocation(ResourceManager.findResource(searchEngine.getStylesheet()));
+    }
+  }
+
+  /**
+   * 查找当前页面的搜索引擎
+   *
+   * @return 搜索引擎
+   */
+  private SearchEngine findSearchEngineByCurrentLocation() {
+    System.out.println(engine.getLocation());
+    String location = UrlUtils.getHost(engine.getLocation());
+    for (SearchEngine searchEngine : searchEngines) {
+      if (searchEngine.getDomain().contains(location)) {
+        return searchEngine;
+      }
+    }
+    return null;
+  }
+
+  static class LoadListener implements InvalidationListener {
+
+    private final WebView webView;
+
+    public LoadListener(WebView webView) {
+      this.webView = webView;
+    }
+
+    @Override
+    public void invalidated(Observable observable) {
+      if (webView.getEngine().getLoadWorker().getProgress() > 0.6D) {
+        webView.setVisible(true);
+        webView.getEngine().getLoadWorker().progressProperty().removeListener(this);
+      }
+    }
   }
 }

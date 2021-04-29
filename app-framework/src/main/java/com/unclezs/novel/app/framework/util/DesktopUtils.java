@@ -54,7 +54,7 @@ public class DesktopUtils {
   }
 
   /**
-   * 复制到剪贴板
+   * 复制到剪贴板 , 须在FX线程调用
    *
    * @param text 要复制的文字
    */
@@ -63,6 +63,5 @@ public class DesktopUtils {
     ClipboardContent content = new ClipboardContent();
     content.put(DataFormat.PLAIN_TEXT, text);
     cb.setContent(content);
-    Toast.success("复制成功");
   }
 }

@@ -2,7 +2,6 @@
 
 
 <?import com.unclezs.novel.app.framework.components.icon.Icon?>
-<?import com.unclezs.novel.app.framework.components.properties.Str?>
 <?import com.unclezs.novel.app.framework.components.SearchBar?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
 <?import javafx.scene.control.Label?>
@@ -13,12 +12,7 @@
   <VBox styleClass="container">
     <TitleBar title="%home.menu.search.internal">
       <content>
-        <SearchBar onSearch="#search" fx:id="searchBar">
-          <type>
-            <Str value="%novel.name"/>
-            <Str value="%novel.author"/>
-          </type>
-        </SearchBar>
+        <SearchBar onSearch="#search" fx:id="searchBar"/>
       </content>
     </TitleBar>
     <ListView VBox.vgrow="ALWAYS" fx:id="listView" styleClass="result-list">

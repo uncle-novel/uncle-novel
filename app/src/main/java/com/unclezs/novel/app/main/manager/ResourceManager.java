@@ -1,7 +1,10 @@
 package com.unclezs.novel.app.main.manager;
 
 import cn.hutool.core.io.FileUtil;
+import com.unclezs.novel.analyzer.util.StringUtils;
+import com.unclezs.novel.app.framework.util.ResourceUtils;
 import java.io.File;
+import java.nio.file.Path;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -62,5 +65,31 @@ public class ResourceManager {
 
   public static File pluginsFile(String path) {
     return FileUtil.file(PLUGINS_DIR, path);
+  }
+
+  /**
+   * 查找资源
+   * <li>1.绝对路径</li>
+   * <li>2.classpath</li>
+   * <li>3.相对于app运行目录</li>
+   *
+   * @param location 资源路径
+   * @return 资源位置
+   */
+  public static String findResource(String location) {
+    if (StringUtils.isBlank(location)) {
+      return null;
+    }
+    if (Path.of(location).isAbsolute()) {
+      return location;
+    }
+    if (ResourceUtils.exist(location)) {
+      return ResourceUtils.externalForm(location);
+    }
+    File resource = FileUtil.file(WORK_DIR, location);
+    if (resource.exists()) {
+      return resource.getAbsolutePath();
+    }
+    return null;
   }
 }

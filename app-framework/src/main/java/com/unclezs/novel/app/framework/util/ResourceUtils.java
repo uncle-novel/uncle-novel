@@ -41,6 +41,16 @@ public class ResourceUtils {
    * 加载classpath资源
    *
    * @param location 路径
+   * @return true 存在
+   */
+  public static boolean exist(String location) {
+    return null != Thread.currentThread().getContextClassLoader().getResource(location);
+  }
+
+  /**
+   * 加载classpath资源
+   *
+   * @param location 路径
    * @return stream
    */
   public static InputStream stream(String location) {

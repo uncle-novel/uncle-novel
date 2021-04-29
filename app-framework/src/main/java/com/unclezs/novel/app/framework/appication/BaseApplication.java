@@ -4,7 +4,6 @@ import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
@@ -65,8 +64,6 @@ public abstract class BaseApplication extends Application {
   @Override
   public void stop() {
     AppContext.getInstance().destroy();
-    Platform.exit();
-    System.exit(0);
   }
 
   /**

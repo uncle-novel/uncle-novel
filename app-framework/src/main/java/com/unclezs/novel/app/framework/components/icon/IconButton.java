@@ -88,6 +88,14 @@ public class IconButton extends JFXButton {
   }
 
   /**
+   * @param text 文字
+   * @param icon 字体图标
+   */
+  public IconButton(String text, IconFont icon) {
+    this(text, icon.name().toLowerCase(), null);
+  }
+
+  /**
    * 设置全部
    *
    * @param text 文字

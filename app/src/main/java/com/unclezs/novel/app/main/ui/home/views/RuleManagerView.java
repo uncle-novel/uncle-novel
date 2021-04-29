@@ -106,7 +106,6 @@ public class RuleManagerView extends SidebarView<StackPane> {
     // 是否启用
     TableColumn<AnalyzerRule, Boolean> enabled = NodeHelper.addClass(new TableColumn<>("启用"), "align-center");
     enabled.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.05));
-    enabled.setEditable(true);
     enabled.setCellValueFactory(col -> new ReadOnlyBooleanWrapper(Boolean.TRUE.equals(col.getValue().getEnabled())));
     enabled.setCellFactory(col -> new CheckBoxTableCell<>(this::onEnabledChange));
     // 操作

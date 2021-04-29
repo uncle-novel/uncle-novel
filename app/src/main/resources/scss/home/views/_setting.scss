@@ -1,36 +1,49 @@
 @import "../../define/global";
+@import "widgets/search-engine-editor";
 
 .setting-view {
   -fx-padding: $_10px;
   -fx-border-color: transparent;
   -fx-background-color: transparent;
 
-  .setting-box {
+  .setting-items {
     -fx-spacing: $_10px;
 
-    .setting-name {
+    .items-name {
       -fx-border-color: theme-color;
       -fx-border-width: 0 0 0 5px;
       -fx-padding: 0 0 0 $_5px;
       -fx-font-size: $_14px;
     }
 
-    .setting-items {
+    .items-box {
       -fx-padding: 0 0 0 $_15px;
       -fx-spacing: $_20px;
 
       .setting-item {
+        -fx-alignment: center-left;
         -fx-spacing: $_10px;
 
-        .setting-item-name {
+        .item-name {
           -fx-text-fill: theme-color-dark;
         }
 
-        .setting-item-content {
+        .item-content {
           -fx-spacing: $_10px;
           -fx-padding: 0 0 0 $_20px;
         }
       }
+    }
+  }
+
+  .search-engine-setting {
+    .search-engine-manager {
+      -fx-max-height: $_150px;
+      -fx-alignment: top-right;
+    }
+
+    .items-box {
+      -fx-padding: 0;
     }
   }
 }

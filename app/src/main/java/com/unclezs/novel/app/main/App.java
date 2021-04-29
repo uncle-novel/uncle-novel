@@ -2,18 +2,14 @@ package com.unclezs.novel.app.main;
 
 import cn.hutool.core.util.StrUtil;
 import com.jfoenix.utils.JFXUtilities;
-import com.unclezs.novel.analyzer.request.Http;
-import com.unclezs.novel.analyzer.request.phantomjs.PhantomJsClient;
-import com.unclezs.novel.analyzer.util.SystemUtils;
 import com.unclezs.novel.app.framework.appication.BaseApplication;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.exception.FxException;
 import com.unclezs.novel.app.framework.executor.Executor;
-import com.unclezs.novel.app.framework.util.ReflectUtils;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
-import com.unclezs.novel.app.main.manager.ResourceManager;
+import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.ui.home.HomeView;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import java.util.HashMap;
@@ -21,6 +17,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
@@ -84,26 +81,13 @@ public class App extends BaseApplication {
   @Override
   public void init() throws Exception {
     super.init();
-    // 预热加载HttpProvider 的 SPI
-    ReflectUtils.forName(Http.class.getName());
+    SettingManager.init();
     DebugUtils.init();
-    Random random = new Random();
-    int i = random.nextInt(3);
-    if (i == 1) {
-      Locale.setDefault(Locale.ENGLISH);
-    } else if (i == 2) {
-      Locale.setDefault(Locale.TAIWAN);
-    }
-
   }
 
   @Override
   public void start(Stage stage) {
     try {
-      System.setProperty(PhantomJsClient.PHANTOMJS_PATH, ResourceManager.binFile("/script/phantomjs").getAbsolutePath().concat(SystemUtils.getExecuteSuffix()));
-      System.setProperty(PhantomJsClient.PHANTOMJS_SCRIPT, ResourceManager.binFile("/script/spider.js").getAbsolutePath());
-      System.out.println(System.getProperty(PhantomJsClient.PHANTOMJS_SCRIPT));
-      System.out.println(System.getProperty(PhantomJsClient.PHANTOMJS_PATH));
       super.start(stage);
       initStage(stage);
       stage.show();
@@ -112,6 +96,17 @@ public class App extends BaseApplication {
       e.printStackTrace();
       throw new FxException(e);
     }
+  }
+
+  /**
+   * App停止事件处理
+   */
+  @Override
+  public void stop() {
+    super.stop();
+    SettingManager.save();
+    Platform.exit();
+    System.exit(0);
   }
 
   private void mockUpdate(Stage stage) {
@@ -156,5 +151,15 @@ public class App extends BaseApplication {
       String version = (String) data.get(VERSION_KEY);
       Executor.run(() -> JFXUtilities.runInFX(() -> ModalBox.none().cancel("了解了").message(whatNew.toString()).title("更新内容 - V".concat(version)).show()), 1000);
     });
+  }
+
+  private void randomLang() {
+    Random random = new Random();
+    int i = random.nextInt(3);
+    if (i == 1) {
+      Locale.setDefault(Locale.ENGLISH);
+    } else if (i == 2) {
+      Locale.setDefault(Locale.TAIWAN);
+    }
   }
 }

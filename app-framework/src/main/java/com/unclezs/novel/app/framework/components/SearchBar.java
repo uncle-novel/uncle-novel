@@ -1,13 +1,12 @@
 package com.unclezs.novel.app.framework.components;
 
 import com.unclezs.novel.analyzer.util.StringUtils;
-import com.unclezs.novel.app.framework.collection.SimpleObservableList;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
-import com.unclezs.novel.app.framework.components.properties.Str;
 import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.NodeHelper;
-import javafx.collections.ObservableList;
+import java.util.Collections;
+import java.util.List;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.control.ComboBox;
@@ -38,17 +37,7 @@ public class SearchBar extends HBox implements LocalizedSupport {
    * 类型下拉框
    */
   @Getter
-  private ComboBox<String> types;
-  /**
-   * 搜索类型
-   */
-  @Getter
-  private final ObservableList<Str> type = new SimpleObservableList<>() {
-    @Override
-    public void onAdd(Str type) {
-      addType(type.getValue());
-    }
-  };
+  private ComboBox<String> typeBox;
   /**
    * 搜索事件监听
    */
@@ -93,12 +82,75 @@ public class SearchBar extends HBox implements LocalizedSupport {
    * @param type 类型
    */
   public void addType(String type) {
-    if (types == null) {
-      types = new ComboBox<>();
-      types.setValue(type);
-      getChildren().add(0, types);
+    if (typeBox == null) {
+      typeBox = new ComboBox<>();
+      typeBox.setValue(type);
+      getChildren().add(0, typeBox);
     }
-    types.getItems().add(type);
+    typeBox.getItems().add(type);
+  }
+
+  /**
+   * 添加类型
+   *
+   * @param types 类型
+   */
+  public void addTypes(String... types) {
+    for (String type : types) {
+      addType(type);
+    }
+  }
+
+  /**
+   * 添加类型
+   *
+   * @param types 类型
+   */
+  public void addTypes(List<String> types) {
+    for (String type : types) {
+      addType(type);
+    }
+  }
+
+  /**
+   * 添加类型
+   *
+   * @param type 类型
+   */
+  public void removeType(String type) {
+    if (typeBox == null) {
+      return;
+    }
+    typeBox.getItems().remove(type);
+  }
+
+  public void clearType() {
+    if (typeBox != null) {
+      typeBox.getItems().clear();
+      getChildren().remove(typeBox);
+      typeBox = null;
+    }
+  }
+
+  public String getCurrentType() {
+    if (typeBox == null) {
+      return null;
+    }
+    return typeBox.getValue();
+  }
+
+  public void setType(String type) {
+    if (typeBox == null) {
+      return;
+    }
+    typeBox.setValue(type);
+  }
+
+  public List<String> getTypeItems() {
+    if (typeBox == null) {
+      return Collections.emptyList();
+    }
+    return typeBox.getItems();
   }
 
   public void setPrompt(String prompt) {
@@ -107,10 +159,10 @@ public class SearchBar extends HBox implements LocalizedSupport {
   }
 
   public String currentType() {
-    if (types == null) {
+    if (typeBox == null) {
       return null;
     }
-    return types.getValue();
+    return typeBox.getValue();
   }
 
   @Override

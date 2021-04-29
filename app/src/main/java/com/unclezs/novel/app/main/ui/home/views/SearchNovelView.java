@@ -55,6 +55,7 @@ public class SearchNovelView extends SidebarView<StackPane> {
 
   @Override
   public void onCreated() {
+    searchBar.addTypes(SearchType.NAME.getDesc(), SearchType.AUTHOR.getDesc());
     listView.setCellFactory(BookListCell::new);
     // 单机查看详情
     EventUtils.setOnMousePrimaryClick(listView, event -> {
@@ -141,7 +142,6 @@ public class SearchNovelView extends SidebarView<StackPane> {
     novelInfo.setCoverUrl("https://img.zhaishuyuan.com/bookpic/s191.jpg");
     novelInfo.setState("已完结");
     novelInfo.setUpdateTime("2017-8-28 19:21:17");
-    System.out.println(novelInfo.getTitle());
     listView.getItems().add(novelInfo);
   }
 }

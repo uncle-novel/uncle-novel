@@ -1,0 +1,44 @@
+#b_header,
+#b_context,
+#mfa_root,
+#ev_talkbox_wrapper,
+#b_footer,
+.b_ans,
+.b_rs {
+  display: none;
+  height: 0 !important;
+  width: 0 !important;
+  max-width: 0 !important;
+  min-width: 0 !important;
+}
+
+body,
+#b_content {
+  width: 500px !important;
+  max-width: 500px !important;
+  min-width: 500px !important;
+  margin: 0 0 0 0px !important;
+  padding: 0 !important;
+}
+
+.b_algo {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  padding: 10px 16px;
+  margin: 10px 0 10px 5px !important;
+}
+
+.b_algo:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+a > strong {
+  font-size: 16px;
+  color: red !important;
+}
+
+a:not(strong) {
+  font-size: 16px;
+  color: black !important;
+}

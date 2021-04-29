@@ -6,7 +6,6 @@
 <?import com.jfoenix.controls.JFXNodesList?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.unclezs.novel.app.framework.components.icon.IconButton?>
-<?import com.unclezs.novel.app.framework.components.properties.Str?>
 <?import com.unclezs.novel.app.framework.components.SearchBar?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
 <?import javafx.geometry.Insets?>
@@ -18,13 +17,7 @@
   <VBox styleClass="container">
     <TitleBar title="%home.menu.search.network">
       <content>
-        <SearchBar onSearch="#search" fx:id="searchBar">
-          <type>
-            <Str value="百度"/>
-            <Str value="谷歌"/>
-            <Str value="必应"/>
-          </type>
-        </SearchBar>
+        <SearchBar onSearch="#search" fx:id="searchBar"/>
       </content>
     </TitleBar>
     <JFXDrawersStack VBox.vgrow="ALWAYS" fx:id="drawer">

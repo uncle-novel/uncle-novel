@@ -18,7 +18,7 @@
         icon="search"
         text="%home.menu.search.internal"
         view="com.unclezs.novel.app.main.ui.home.views.SearchNovelView"/>
-      <SidebarMenuItem selected="true"
+      <SidebarMenuItem
         icon="search_network"
         text="%home.menu.search.network"
         view="com.unclezs.novel.app.main.ui.home.views.SearchNetworkView"/>
@@ -58,7 +58,7 @@
         icon="rule_text"
         text="测试"
         view="com.unclezs.novel.app.main.ui.home.views.TestView"/>
-      <SidebarMenuItem
+      <SidebarMenuItem selected="true"
         icon="rule_text"
         text="设置"
         view="com.unclezs.novel.app.main.ui.home.views.SettingView"/>

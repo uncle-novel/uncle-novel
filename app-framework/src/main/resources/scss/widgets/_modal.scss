@@ -14,7 +14,13 @@
       -fx-border-color: transparent;
 
       .jfx-layout-body .label {
-        -fx-font-size: $_16px;
+        -fx-font-size: $_12px;
+      }
+
+      &.info, &.success, &.error, &.warn, &.confirm {
+        .jfx-layout-body .label {
+          -fx-font-size: $_16px;
+        }
       }
 
       .jfx-layout-heading .label {

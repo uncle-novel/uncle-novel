@@ -51,7 +51,7 @@
                 </MenuItem>
                 <MenuItem text="移除选中" onAction="#removeSelected">
                   <graphic>
-                    <Icon value="remove"/>
+                    <Icon value="delete"/>
                   </graphic>
                 </MenuItem>
                 <MenuItem text="勾选选中" onAction="#checkedAllSelected">
@@ -61,7 +61,7 @@
                 </MenuItem>
                 <MenuItem text="取消勾选选中" onAction="#unCheckedAllSelected">
                   <graphic>
-                    <Icon value="delete"/>
+                    <Icon value="remove"/>
                   </graphic>
                 </MenuItem>
                 <MenuItem text="浏览器打开" onAction="#openBrowser">
