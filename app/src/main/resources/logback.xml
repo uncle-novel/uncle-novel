@@ -114,7 +114,7 @@
     </rollingPolicy>
   </appender>
   <!--历史文件抽离单独保存的时间周期  按天：yyyy-MM-dd 按月:yyyy-MM 按年:yyyy 时分秒类推 -->
-  <logger additivity="false" level="info" name="com.unclezs">
+  <logger additivity="false" level="trace" name="com.unclezs">
     <appender-ref ref="debug"/>
     <appender-ref ref="info"/>
     <appender-ref ref="warn"/>
@@ -123,7 +123,7 @@
   </logger>
 
   <!--Logger部分-->
-  <root level="INFO">
+  <root level="trace">
     <appender-ref ref="console"/>
   </root>
   <timestamp datePattern="yyyy-MM-dd" key="today"/>

@@ -25,7 +25,7 @@ import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.enums.SearchType;
 import com.unclezs.novel.app.main.manager.RuleManager;
-import com.unclezs.novel.app.main.model.ChapterProperty;
+import com.unclezs.novel.app.main.model.ChapterWrapper;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode.Action;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookListCell;
@@ -54,7 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchAudioView extends SidebarView<StackPane> {
 
   @FXML
-  private ListView<ChapterProperty> tocListView;
+  private ListView<ChapterWrapper> tocListView;
   @FXML
   private JFXDrawer tocDrawer;
   @FXML
@@ -165,7 +165,7 @@ public class SearchAudioView extends SidebarView<StackPane> {
     tocDrawer.close();
     tocListView.getItems().clear();
     TocSpider tocSpider = new TocSpider(RuleManager.getOrDefault(tocUrl));
-    tocSpider.setOnNewItemAddHandler(chapter -> Executor.runFx(() -> tocListView.getItems().add(new ChapterProperty(chapter))));
+    tocSpider.setOnNewItemAddHandler(chapter -> Executor.runFx(() -> tocListView.getItems().add(new ChapterWrapper(chapter))));
     TaskFactory.create(() -> {
       tocSpider.toc(tocUrl);
       tocSpider.loadAll();
@@ -249,7 +249,7 @@ public class SearchAudioView extends SidebarView<StackPane> {
    * @param <T>              回调返回类型
    */
   private <T> void withAudioUrl(BiFunction<String, String, T> audioUrlHandler, Consumer<T> onSuccessHandler) {
-    MultipleSelectionModel<ChapterProperty> selectionModel = tocListView.getSelectionModel();
+    MultipleSelectionModel<ChapterWrapper> selectionModel = tocListView.getSelectionModel();
     if (selectionModel.isEmpty()) {
       return;
     }

@@ -59,9 +59,15 @@
   -fx-separator-color: $theme-color-light;
 }
 
+.tab-button {
+  -fx-selected-color: $theme-color;
+  -fx-color: $theme-color-light;
+}
+
 .text-field,
 .text-area,
 .input-box,
+.spinner,
 .loading-image-view {
   -fx-bg-color: $theme-color-light;
 }

@@ -24,7 +24,7 @@ open module com.unclezs.novel.app.main {
   requires logback.core;
 
   requires static lombok;
-  requires freemarker;
+  requires velocity.engine.core;
   requires jkeymaster;
   provides com.unclezs.novel.analyzer.request.spi.HttpProvider with WebEngineHttpClient;
 

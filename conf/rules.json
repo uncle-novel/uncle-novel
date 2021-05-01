@@ -1,1 +1,219 @@
-[]
+[
+  {
+    "name": "斋书苑",
+    "site": "https://www.zhaishuyuan.com/",
+    "group": "123",
+    "enabled": true,
+    "audio": false,
+    "weight": 0,
+    "params": {
+      "dynamic": true,
+      "enabledProxy": false
+    },
+    "content": {
+      "enableNext": false,
+      "content": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      },
+      "enableNext": false,
+      "filter": false,
+      "sort": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "url": "https://www.zhaishuyuan.com/search/?page\u003d{{page}}\u0026key\u003d{{keyword}}",
+        "method": "POST",
+        "charset": "gbk",
+        "mediaType": "application/x-www-form-urlencoded",
+        "body": "",
+        "dynamic": false,
+        "enableProxy": false,
+        "autoProxy": true
+      },
+      "list": {
+        "type": "//",
+        "rule": "//*[@id\u003d\"sitembox\"]/dl"
+      },
+      "detailPage": {},
+      "detail": {
+        "url": {
+          "type": "//",
+          "rule": "/dd[1]/h3/a/@href"
+        },
+        "title": {
+          "type": "//",
+          "rule": "/dd[1]/h3/a/allText()"
+        },
+        "author": {
+          "type": "//",
+          "rule": "/dd[2]/span[1]/text()"
+        },
+        "category": {
+          "type": "//",
+          "rule": "/dd[2]/span[3]/text()"
+        },
+        "wordCount": {
+          "type": "//",
+          "rule": "/dd[2]/span[4]/text()"
+        },
+        "introduce": {
+          "type": "//",
+          "rule": "dd[3]/text()"
+        },
+        "latestChapterName": {
+          "type": "//",
+          "rule": "dd[4]/a/text()"
+        },
+        "latestChapterUrl": {
+          "type": "//",
+          "rule": "dd[4]/a/@href"
+        },
+        "coverUrl": {
+          "type": "//",
+          "rule": "dt[1]/a/img/@_src"
+        },
+        "state": {
+          "type": "//",
+          "rule": "/dd[2]/span[2]/text()"
+        },
+        "updateTime": {
+          "type": "//",
+          "rule": "dd[4]/span/text()"
+        }
+      }
+    }
+  },
+  {
+    "name": "聚听网",
+    "site": "https://www.yousxs.com/",
+    "enabled": true,
+    "audio": true,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "content": {
+        "script": "result \u003d utils.match(source, \"regex:url: \u0027(https://.+?skey\u003d)\u0027##$1\")+\u00271246c3c4985246178b36d92a86d2bc96\u0027"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      }
+    },
+    "toc": {
+      "list": {
+        "type": "//",
+        "rule": "//div/div[3]/div[1]/div[2]/div/div/div"
+      },
+      "name": {
+        "type": "//",
+        "rule": "a/text()"
+      },
+      "url": {
+        "type": "//",
+        "rule": "a/@href"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+      },
+      "enableNext": true,
+      "filter": true
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "url": "https://www.yousxs.com/classify.html?clsid\u003d\u0026pageNum\u003d{{page}}\u0026novelName\u003d{{keyword}}",
+        "charset": "UTF-8",
+        "mediaType": ""
+      },
+      "list": {
+        "type": "//",
+        "rule": "//div/div[5]/div/div/div[2]/ul/li"
+      },
+      "detailPage": {
+        "type": "//",
+        "rule": "a/@href"
+      },
+      "detail": {
+        "url": {
+          "page": "search",
+          "type": "//",
+          "rule": "a/@href"
+        },
+        "title": {
+          "type": "//",
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/h3/text()"
+        },
+        "author": {
+          "type": "//",
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[1]/text()"
+        },
+        "broadcast": {
+          "type": "//",
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[2]/text()"
+        },
+        "category": {
+          "type": "//",
+          "rule": ""
+        },
+        "wordCount": {
+          "type": "//"
+        },
+        "introduce": {
+          "type": "//"
+        },
+        "latestChapterName": {
+          "type": "//"
+        },
+        "latestChapterUrl": {
+          "type": "//"
+        },
+        "coverUrl": {
+          "type": "//",
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[1]/img/@src"
+        },
+        "state": {
+          "type": "//"
+        },
+        "updateTime": {
+          "type": "//"
+        }
+      }
+    }
+  }
+]

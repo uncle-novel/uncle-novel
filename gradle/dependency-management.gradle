@@ -22,7 +22,7 @@ dependencyManagement {
         dependency "com.google.code.gson:gson:2.8.6"
         dependency "org.freemarker:freemarker:2.3.31"
         dependency "ch.qos.logback:logback-classic:1.2.3"
-        dependency 'org.apache.velocity:velocity-engine-core:2.0'
+        dependency 'org.apache.velocity:velocity-engine-core:2.3'
         dependency 'com.netflix.nebula:gradle-ospackage-plugin:8.4.1'
         dependency 'net.jsign:jsign-core:3.1'
         dependency 'org.fxmisc.richtext:richtextfx:0.10.6'

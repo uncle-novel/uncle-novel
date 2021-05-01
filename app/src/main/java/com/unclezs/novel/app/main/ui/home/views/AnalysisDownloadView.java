@@ -8,6 +8,7 @@ import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.analyzer.spider.TocSpider;
+import com.unclezs.novel.analyzer.util.SerializationUtils;
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
@@ -22,10 +23,13 @@ import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.main.manager.RuleManager;
-import com.unclezs.novel.app.main.model.ChapterProperty;
+import com.unclezs.novel.app.main.model.ChapterWrapper;
+import com.unclezs.novel.app.main.model.DownloadBundle;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
 import com.unclezs.novel.app.main.ui.home.views.widgets.ChapterListCell;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -56,7 +60,7 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
   @FXML
   private HBox contentPanel;
   @FXML
-  private ListView<ChapterProperty> listView;
+  private ListView<ChapterWrapper> listView;
   @FXML
   private InputBox inputBox;
   private AnalyzerRule rule;
@@ -66,6 +70,7 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
   public void onCreate() {
     TextField input = inputBox.getInput();
     input.setText("https://m.zhaishuyuan.com/read/33959");
+    // 监听剪贴板
     input.focusedProperty().addListener(e -> {
       if (input.isFocused()) {
         String tocUrl = Clipboard.getSystemClipboard().getString();
@@ -116,7 +121,7 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
       this.rule = RuleManager.getOrDefault(tocUrl);
     }
     TocSpider tocSpider = new TocSpider(rule);
-    tocSpider.setOnNewItemAddHandler(chapter -> Executor.runFx(() -> listView.getItems().add(new ChapterProperty(chapter))));
+    tocSpider.setOnNewItemAddHandler(chapter -> Executor.runFx(() -> listView.getItems().add(new ChapterWrapper(chapter))));
     TaskFactory.create(() -> {
       tocSpider.toc(tocUrl);
       // 小说详情
@@ -125,6 +130,7 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
         BeanUtil.copyProperties(novel, novelInfo, CopyOptions.create().ignoreNullValue());
       }
       this.novel = novelInfo;
+      this.novel.setUrl(tocUrl);
       // 加载全部
       tocSpider.loadAll();
       return null;
@@ -209,9 +215,9 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
     String defaultTemplate = "第{{章节序号}}章 {{章节名}}";
     ModalBox.input(defaultTemplate, "请输入章节重命名模板", tempalte -> {
       int index = 1;
-      ObservableList<ChapterProperty> items = listView.getItems();
+      ObservableList<ChapterWrapper> items = listView.getItems();
       for (int i = 0; i < listView.getItems().size(); i++) {
-        ChapterProperty chapter = items.get(i);
+        ChapterWrapper chapter = items.get(i);
         if (chapter.isSelected()) {
           String name = chapter.getChapter().getName();
           name = StringUtils.remove(name, "[0-9]", "第.*?章");
@@ -245,7 +251,28 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
       Toast.error(getRoot(), "请先解析目录~");
       return;
     }
-    ModalBox.none().body(new BookDetailNode(novel, true)).show();
+    ModalBox.none().body(new BookDetailNode(novel, true)).cancel("关闭").title("小说详情").show();
     floatButtons.animateList(false);
+  }
+
+  @FXML
+  private void download() {
+    if (novel == null) {
+      Toast.error(getRoot(), "请先解析目录~");
+      return;
+    }
+    // 获取选中的章节
+    List<Chapter> selectedChapters = new ArrayList<>();
+    for (ChapterWrapper item : listView.getItems()) {
+      if (item.isSelected()) {
+        selectedChapters.add(item.getChapter());
+      }
+    }
+    SidebarNavigateBundle bundle = new SidebarNavigateBundle();
+    DownloadBundle downloadBundle = new DownloadBundle(novel, rule);
+    // 只下载选中的章节
+    downloadBundle.getNovel().setChapters(SerializationUtils.deepClone(selectedChapters));
+    bundle.put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, downloadBundle);
+    navigation.navigate(DownloadManagerView.class, bundle);
   }
 }

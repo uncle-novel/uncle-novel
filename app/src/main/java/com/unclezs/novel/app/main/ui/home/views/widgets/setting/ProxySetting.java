@@ -12,7 +12,7 @@ import com.unclezs.novel.app.framework.util.ProxyUtils;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.Proxy;
 import java.util.List;
-import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -41,7 +41,7 @@ public class ProxySetting extends SettingItems {
   private static SettingItem createHttpProxy() {
     Proxy proxy = SettingManager.manager().getProxy();
     JFXCheckBox httpProxyCheckBox = new JFXCheckBox("是否启用");
-    BooleanProperty httpProxy = proxy.getHttpProxy();
+    ObjectProperty<Boolean> httpProxy = proxy.getHttpProxy();
     httpProxyCheckBox.selectedProperty().bindBidirectional(httpProxy);
     httpProxy.addListener(e -> ProxyUtils.setEnabledProxy(httpProxy.get()));
     // 主机

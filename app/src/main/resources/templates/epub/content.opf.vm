@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <meta name="cover" content="cover"/>
+    <dc:title>$data.title</dc:title>
+    <dc:identifier opf:scheme="uuid" id="uncle-novel-uuid">$uuid.randomUUID()</dc:identifier>
+    <dc:creator>Uncle小说</dc:creator>
+    <dc:publisher>公众号：书虫无书荒</dc:publisher>
+    <dc:language>zh-cn</dc:language>
+  </metadata>
+  <manifest>
+    <item id="cover" media-type="image/jpeg" href="cover.jpeg"></item>
+    <item id="ncx" media-type="application/x-dtbncx+xml" href="toc.ncx"></item>
+    <item id="toc" media-type="application/xhtml+xml" href="text/toc.html"></item>
+    <item href="style/style.css" id="page_css" media-type="text/css"></item>
+      #foreach($chapter in $data.chapters)
+        <item id="chapter_${chapter.order}" media-type="application/xhtml+xml" href="text/${chapter.order}.html"/>
+      #end
+  </manifest>
+
+  <spine toc="ncx">
+    <itemref idref="toc"/>
+      #foreach($chapter in $data.chapters)
+        <itemref idref="chapter_${chapter.order}"/>
+      #end
+  </spine>
+
+  <guide>
+    <reference type="text" title="正文" href="text/1.html"></reference>
+    <reference type="toc" title="目录" href="text/toc.html"></reference>
+  </guide>
+
+</package>
+

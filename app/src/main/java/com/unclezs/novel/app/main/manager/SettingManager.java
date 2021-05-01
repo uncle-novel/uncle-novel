@@ -2,12 +2,13 @@ package com.unclezs.novel.app.main.manager;
 
 import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.framework.serialize.PropertyJsonSerializer;
+import com.unclezs.novel.app.main.model.DownloadConfig;
 import com.unclezs.novel.app.main.model.Proxy;
 import com.unclezs.novel.app.main.model.SearchEngine;
 import java.io.File;
 import java.util.Locale;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.Getter;
@@ -32,7 +33,11 @@ public class SettingManager {
   /**
    * 系统语言，读取默认
    */
-  private StringProperty lang = new SimpleStringProperty(LanguageManager.name(Locale.getDefault()));
+  private ObjectProperty<String> lang = new SimpleObjectProperty<>(LanguageManager.name(Locale.getDefault()));
+  /**
+   * 下载配置
+   */
+  private DownloadConfig download = new DownloadConfig();
   /**
    * 全网搜书的搜索引擎配置
    */
@@ -64,7 +69,7 @@ public class SettingManager {
       resetDefault();
     }
     // 初始化默认语言
-    Locale.setDefault(LanguageManager.locale(manager.getLang().get()));
+    Locale.setDefault(LanguageManager.locale(manager.getLang().getValue()));
     // 初始化代理
     Proxy.initHttpProxy();
   }

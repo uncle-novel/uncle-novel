@@ -42,13 +42,14 @@
 
     .table-cell {
       @include ladderTextFill(-fx-base);
+      -fx-alignment: center-left;
     }
 
     &:selected, &:filled:selected, &:filled > .table-cell:selected {
       -fx-table-cell-border-color: transparent;
       -fx-background-color: -fx-slected-color;
 
-      .table-cell, .icon {
+      .table-cell, .icon, .label {
         @include ladderTextFill(-fx-slected-color);
       }
 
@@ -61,7 +62,7 @@
   // 序号行居中
   .id {
     -fx-text-fill: -fx-color-dark !important;
-    -fx-alignment: center;
+    -fx-alignment: center !important;
 
     .label {
       -fx-text-fill: inherit;
@@ -70,7 +71,7 @@
   }
 
   .align-center {
-    -fx-alignment: center;
+    -fx-alignment: center !important;
 
     .label {
       -fx-alignment: inherit;
@@ -79,7 +80,7 @@
 
   .action-cell {
     -fx-spacing: 10;
-    -fx-alignment: center;
+    -fx-alignment: center !important;
 
     .icon {
       -fx-icon-size: 13px;

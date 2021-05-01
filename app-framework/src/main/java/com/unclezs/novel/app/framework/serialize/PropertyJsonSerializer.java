@@ -5,6 +5,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleFloatProperty;
@@ -38,6 +39,7 @@ public class PropertyJsonSerializer {
       .registerTypeAdapter(DoubleProperty.class, valuePropertyTypeAdapter)
       .registerTypeAdapter(FloatProperty.class, valuePropertyTypeAdapter)
       .registerTypeAdapter(IntegerProperty.class, valuePropertyTypeAdapter)
+      .registerTypeAdapter(ObjectProperty.class, valuePropertyTypeAdapter)
       .registerTypeAdapter(ObservableValue.class, valuePropertyTypeAdapter)
       .registerTypeAdapter(ObservableList.class, new ListPropertyTypeAdapter())
       .create();

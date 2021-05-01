@@ -3,6 +3,7 @@
 .btn {
   @include ladderTextFillForce(theme-color);
   -fx-background-color: theme-color;
+  -fx-alignment: center;
 
   .icon {
     -fx-icon-size: 12px !important;

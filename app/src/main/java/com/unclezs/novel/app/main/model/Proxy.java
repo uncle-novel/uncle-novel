@@ -3,10 +3,8 @@ package com.unclezs.novel.app.main.model;
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.util.ProxyUtils;
 import com.unclezs.novel.app.main.manager.SettingManager;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,23 +23,23 @@ public class Proxy {
   /**
    * http代理
    */
-  private BooleanProperty httpProxy = new SimpleBooleanProperty(false);
+  private ObjectProperty<Boolean> httpProxy = new SimpleObjectProperty<>(false);
   /**
    * 主机
    */
-  private StringProperty host = new SimpleStringProperty();
+  private ObjectProperty<String> host = new SimpleObjectProperty<>();
   /**
    * 端口
    */
-  private StringProperty port = new SimpleStringProperty();
+  private ObjectProperty<String> port = new SimpleObjectProperty<>();
   /**
    * 用户
    */
-  private StringProperty user = new SimpleStringProperty();
+  private ObjectProperty<String> user = new SimpleObjectProperty<>();
   /**
    * 密码
    */
-  private StringProperty password = new SimpleStringProperty();
+  private ObjectProperty<String> password = new SimpleObjectProperty<>();
 
   /**
    * 初始化HTTP代理

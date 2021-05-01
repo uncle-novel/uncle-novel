@@ -14,7 +14,7 @@ public enum $info.className {
      * 字体图标
      */
 #foreach($icon in $info.icons.entrySet())
-    $icon.key.toUpperCase()('$icon.value')#if($foreach.count==$info.icons.size());#else,#end
+    $icon.key.toUpperCase()('$icon.value')#if($chapter.order==$info.icons.size());#else,#end
 
 #end
 

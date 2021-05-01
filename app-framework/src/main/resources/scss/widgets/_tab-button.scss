@@ -1,0 +1,22 @@
+@import "../define/_global";
+
+.tab-button {
+  // 选中颜色
+  -fx-selected-color: #009688;
+  // 默认颜色
+  -fx-color: rgb(228, 232, 225);
+  -fx-border-color: transparent;
+  -fx-border-radius: 0;
+  -fx-background-radius: 0;
+  -fx-background-color: -fx-selected-color;
+  -fx-opacity: 0.6;
+  @include ladderTextFill(-fx-selected-color);
+
+  .icon {
+    @include ladderTextFill(-fx-selected-color);
+  }
+
+  &:selected {
+    -fx-opacity: 1;
+  }
+}

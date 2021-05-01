@@ -1,0 +1,13 @@
+.spinner {
+  -fx-bg-color: #888;
+  -fx-background-color: -fx-bg-color;
+
+  .text-field {
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+  }
+
+  .decrement-arrow-button, .increment-arrow-button {
+    -fx-background-color: transparent;
+  }
+}

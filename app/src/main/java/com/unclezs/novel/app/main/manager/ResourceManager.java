@@ -26,9 +26,17 @@ public class ResourceManager {
    */
   public static final File PLUGINS_DIR = FileUtil.file(WORK_DIR, "plugins");
   /**
+   * 缓存目录
+   */
+  public static final File CACHE_DIR = FileUtil.file(WORK_DIR, "caches");
+  /**
    * 执行文件文件夹
    */
   public static final File BIN_DIR = FileUtil.file(WORK_DIR, "bin");
+  /**
+   * 默认的文件加载目录
+   */
+  public static final File DOWNLOAD_DIR = FileUtil.file(WORK_DIR, "downloads");
 
   /**
    * 获取配置文件目录下的文件
@@ -38,6 +46,16 @@ public class ResourceManager {
    */
   public static File confFile(String path) {
     return FileUtil.file(CONF_DIR, path);
+  }
+
+  /**
+   * 获取缓存文件目录下的文件
+   *
+   * @param path 文件路径
+   * @return 文件
+   */
+  public static File cacheFile(String path) {
+    return FileUtil.file(CACHE_DIR, path);
   }
 
   /**
@@ -59,10 +77,22 @@ public class ResourceManager {
     FileUtil.writeUtf8String(content, FileUtil.file(CONF_DIR, path));
   }
 
+  /**
+   * 可执行文件目录
+   *
+   * @param path 路径
+   * @return 文件
+   */
   public static File binFile(String path) {
     return FileUtil.file(BIN_DIR, path);
   }
 
+  /**
+   * 插件文件
+   *
+   * @param path 路径
+   * @return 文件
+   */
   public static File pluginsFile(String path) {
     return FileUtil.file(PLUGINS_DIR, path);
   }

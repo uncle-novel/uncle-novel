@@ -191,7 +191,6 @@ public class SearchNetworkView extends SidebarView<StackPane> {
    * @return 搜索引擎
    */
   private SearchEngine findSearchEngineByCurrentLocation() {
-    System.out.println(engine.getLocation());
     String location = UrlUtils.getHost(engine.getLocation());
     for (SearchEngine searchEngine : searchEngines) {
       if (searchEngine.getDomain().contains(location)) {

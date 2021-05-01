@@ -1,0 +1,16 @@
+#* @vtlvariable name="data" type="com.unclezs.novel.analyzer.model.Chapter" *#
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+<head>
+  <title>${data.name}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="stylesheet" type="text/css" href="../style/style.css"/>
+</head>
+<body>
+<h2>${data.name}</h2>
+<div class="chapter">
+    #foreach($paragraph in $data.content.split("\n"))
+      <p>$paragraph</p>
+    #end
+</div>
+</body>
+</html>

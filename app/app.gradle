@@ -18,8 +18,8 @@ apply plugin: 'app-packager'
 dependencies {
     implementation project(":app-localized")
     implementation project(":app-framework")
-    implementation "org.freemarker:freemarker"
     implementation "ch.qos.logback:logback-classic"
+    implementation 'org.apache.velocity:velocity-engine-core'
 }
 
 task obfuscate(type: ProGuardTask) {

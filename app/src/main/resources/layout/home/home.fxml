@@ -42,7 +42,7 @@
         icon="analysis_download"
         text="%home.menu.download.analysis"
         view="com.unclezs.novel.app.main.ui.home.views.AnalysisDownloadView"/>
-      <SidebarMenuItem
+      <SidebarMenuItem selected="true"
         icon="download_management"
         text="%home.menu.download.management"
         view="com.unclezs.novel.app.main.ui.home.views.DownloadManagerView"/>
@@ -58,7 +58,7 @@
         icon="rule_text"
         text="测试"
         view="com.unclezs.novel.app.main.ui.home.views.TestView"/>
-      <SidebarMenuItem selected="true"
+      <SidebarMenuItem
         icon="rule_text"
         text="设置"
         view="com.unclezs.novel.app.main.ui.home.views.SettingView"/>

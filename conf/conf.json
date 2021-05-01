@@ -1,5 +1,15 @@
 {
   "lang": "简体中文",
+  "download": {
+    "folder": "G:\\tmp",
+    "threadNum": 1,
+    "taskNum": 3,
+    "retryNum": 0,
+    "volume": true,
+    "mobi": false,
+    "txt": true,
+    "epub": false
+  },
   "searchEngines": [
     {
       "enabled": true,
@@ -21,7 +31,7 @@
     }
   ],
   "proxy": {
-    "httpProxy": true,
+    "httpProxy": false,
     "host": "127.0.0.1",
     "port": "1081"
   }

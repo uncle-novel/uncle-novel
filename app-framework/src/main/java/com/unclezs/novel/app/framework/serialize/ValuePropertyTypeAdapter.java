@@ -7,12 +7,9 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 
 /**
@@ -47,24 +44,28 @@ public class ValuePropertyTypeAdapter implements JsonSerializer<ObservableValue<
 
   @Override
   public Object deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    Type actualType = ((ParameterizedType) type).getActualTypeArguments()[0];
     JsonPrimitive primitive = jsonElement.getAsJsonPrimitive();
     if (primitive.isBoolean()) {
-      return new SimpleBooleanProperty(primitive.getAsBoolean());
+      return new SimpleObjectProperty<>(primitive.getAsBoolean());
     }
     if (primitive.isString()) {
-      return new SimpleStringProperty(primitive.getAsString());
+      return new SimpleObjectProperty<>(primitive.getAsString());
     }
-    if (primitive.isNumber()) {
-      Number number = primitive.getAsNumber();
-      if (number instanceof Double) {
-        return new SimpleDoubleProperty(primitive.getAsDouble());
-      }
-      if (number instanceof Float) {
-        return new SimpleFloatProperty(primitive.getAsFloat());
-      }
-      if (number instanceof Integer) {
-        return new SimpleIntegerProperty(primitive.getAsInt());
-      }
+    if (actualType == String.class) {
+      return new SimpleObjectProperty<>(primitive.getAsString());
+    }
+    if (actualType == Integer.class) {
+      return new SimpleObjectProperty<>(primitive.getAsInt());
+    }
+    if (actualType == Boolean.class) {
+      return new SimpleObjectProperty<>(primitive.getAsBoolean());
+    }
+    if (actualType == Double.class) {
+      return new SimpleObjectProperty<>(primitive.getAsDouble());
+    }
+    if (actualType == Float.class) {
+      return new SimpleObjectProperty<>(primitive.getAsFloat());
     }
     return null;
   }

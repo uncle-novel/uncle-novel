@@ -33,8 +33,12 @@ public class NumberTextField extends TextField {
    */
   static class NumberUnaryOperator implements UnaryOperator<Change> {
 
+
     @Override
     public Change apply(Change change) {
+      if (change.isDeleted()) {
+        return change;
+      }
       if (NumberUtil.isNumber(change.getText())) {
         return change;
       }

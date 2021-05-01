@@ -1,11 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.TabButton?>
+<?import com.unclezs.novel.app.framework.components.TabGroup?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns="https://javafx.com/javafx" styleClass="download-manager" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.ui.home.views.DownloadManagerView">
   <VBox styleClass="container">
     <TitleBar title="%home.menu.download.management">
+      <content>
+        <HBox>
+          <TabButton text="正在下载" fx:id="tasksTab" styleClass="tasks-tab" selected="true" icon="download">
+            <tabGroup>
+              <TabGroup fx:id="tabs"/>
+            </tabGroup>
+          </TabButton>
+          <TabButton text="历史下载" fx:id="historyTab" tabGroup="$tabs" styleClass="history-tab" icon="download_history"/>
+        </HBox>
+      </content>
     </TitleBar>
+    <StackPane fx:id="container" VBox.vgrow="ALWAYS">
+      <VBox fx:id="tasksPanel">
+        <TableView fx:id="tasksTable" VBox.vgrow="ALWAYS">
+          <placeholder>
+            <VBox alignment="CENTER" styleClass="placeholder">
+              <Icon value="empty"/>
+              <Label styleClass="tip" text="还没有正在下载的任务，去下载一本试试看~"/>
+            </VBox>
+          </placeholder>
+        </TableView>
+      </VBox>
+    </StackPane>
   </VBox>
 </StackPane>

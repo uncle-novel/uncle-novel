@@ -1,1 +1,17 @@
 @import "../../define/global";
+
+$tab-radius: $_5px;
+
+.download-manager {
+  .tab-button {
+    &.history-tab {
+      -fx-border-radius: 0 $tab-radius $tab-radius 0;
+      -fx-background-radius: 0 $tab-radius $tab-radius 0;
+    }
+
+    &.tasks-tab {
+      -fx-border-radius: $tab-radius 0 0 $tab-radius;
+      -fx-background-radius: $tab-radius 0 0 $tab-radius;
+    }
+  }
+}

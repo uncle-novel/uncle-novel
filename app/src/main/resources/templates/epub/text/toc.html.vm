@@ -1,0 +1,15 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN">
+<head>
+  <title>${data.title}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="stylesheet" type="text/css" href="../style/style.css"/>
+</head>
+<body>
+<h2>${data.title}</h2>
+<div class="toc">
+    #foreach($chapter in $data.chapters)
+      <div><a href="${chapter.order}.html">${chapter.name}</a></div>
+    #end
+</div>
+</body>
+</html>
