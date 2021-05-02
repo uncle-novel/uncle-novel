@@ -19,12 +19,12 @@ import org.slf4j.LoggerFactory;
 public class DebugUtils {
 
   public static final String DEBUG_LOGGER_NAME = "com.unclezs";
-  public static Logger DEBUG_LOGGER;
-  public static LoggerContext context;
+  public static final Logger DEBUG_LOGGER;
+  public static final LoggerContext CONTEXT;
 
   static {
-    context = (LoggerContext) LoggerFactory.getILoggerFactory();
-    DEBUG_LOGGER = context.getLogger(DEBUG_LOGGER_NAME);
+    CONTEXT = (LoggerContext) LoggerFactory.getILoggerFactory();
+    DEBUG_LOGGER = CONTEXT.getLogger(DEBUG_LOGGER_NAME);
   }
 
   /**
@@ -37,22 +37,35 @@ public class DebugUtils {
   /**
    * 开启INFO级别以上的日志记录，关闭FX日志
    */
-  public static void init() {
+  public static void info() {
     DEBUG_LOGGER.setLevel(Level.INFO);
+  }
+
+  /**
+   * 调式模式开关
+   *
+   * @param debug true开启调式模式
+   */
+  public static void debug(boolean debug) {
+    if (debug) {
+      debug();
+    } else {
+      info();
+    }
   }
 
   /**
    * 停止日志记录
    */
   public static void stop() {
-    context.stop();
+    CONTEXT.stop();
   }
 
   /**
    * 启动日志记录
    */
   public static void start() {
-    context.start();
+    CONTEXT.start();
   }
 
   /**

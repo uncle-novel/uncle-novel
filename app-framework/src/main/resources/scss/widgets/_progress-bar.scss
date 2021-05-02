@@ -1,24 +1,20 @@
 @import "../define/_global";
 
 .progress-bar {
+  -fx-color: #009688;
+  -fx-bg-color: #888;
   -fx-min-height: 5;
   -fx-indeterminate-bar-length: 100;
   -fx-indeterminate-bar-animation-time: 2;
 
   .track {
-    -fx-background-color: #bfbfbf;
+    -fx-background-color: theme-color-light;
     -fx-background-insets: 0, 0 0 1 0, 1 1 2 1;
   }
 
   .bar {
-    -fx-background-color: linear-gradient(to left, derive($md_teal_300, -7%), derive($md_teal_400, 0%), derive($md_teal_500, -3%), derive($md_teal_500, -9%));
+    -fx-background-color: theme-color;
     -fx-background-insets: 0;
     -fx-padding: 3;
-  }
-
-  &:indeterminate {
-    .bar {
-      -fx-background-color: linear-gradient(to left, transparent, $md_teal_500);
-    }
   }
 }

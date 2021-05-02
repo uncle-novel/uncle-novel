@@ -11,7 +11,6 @@ import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.ui.home.HomeView;
-import com.unclezs.novel.app.main.util.DebugUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -82,7 +81,6 @@ public class App extends BaseApplication {
   public void init() throws Exception {
     super.init();
     SettingManager.init();
-    DebugUtils.init();
   }
 
   @Override

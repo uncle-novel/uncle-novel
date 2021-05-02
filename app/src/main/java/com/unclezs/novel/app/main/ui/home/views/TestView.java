@@ -100,7 +100,7 @@ public class TestView extends SidebarView<StackPane> {
       if (debug.isSelected()) {
         DebugUtils.debug();
       } else {
-        DebugUtils.init();
+        DebugUtils.info();
       }
     });
     StackPane view = getRoot();

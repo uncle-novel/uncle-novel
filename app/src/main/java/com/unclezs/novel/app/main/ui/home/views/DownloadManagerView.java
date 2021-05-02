@@ -21,6 +21,7 @@ import com.unclezs.novel.app.main.ui.home.views.widgets.ProgressBarTableCell;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -55,6 +56,7 @@ public class DownloadManagerView extends SidebarView<StackPane> {
   public void onCreated() {
     createTasksTableColumns();
     restoreBackup();
+    tasksTable.getItems().addListener((Observable observable) -> checkStartTask());
   }
 
   @Override
@@ -78,24 +80,20 @@ public class DownloadManagerView extends SidebarView<StackPane> {
     id.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(tasksTable.getItems().indexOf(param.getValue()) + 1));
     // 名称
     TableColumn<SpiderWrapper, String> name = new TableColumn<>("名称");
-    name.prefWidthProperty().bind(tasksTable.widthProperty().multiply(0.32));
+    name.prefWidthProperty().bind(tasksTable.widthProperty().multiply(0.35));
     name.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getName()));
     // 进度
     TableColumn<SpiderWrapper, SpiderWrapper> progress = new TableColumn<>("进度");
-    progress.prefWidthProperty().bind(tasksTable.widthProperty().multiply(0.32));
+    progress.prefWidthProperty().bind(tasksTable.widthProperty().multiply(0.35));
     progress.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
     progress.setCellFactory(param -> new ProgressBarTableCell());
-    // 失败章节
-    TableColumn<SpiderWrapper, Integer> error = NodeHelper.addClass(new TableColumn<>("失败章节"), "align-center");
-    error.prefWidthProperty().bind(tasksTable.widthProperty().multiply(0.1));
-    error.setCellValueFactory(param -> param.getValue().getErrorCount());
     // 操作
     TableColumn<SpiderWrapper, SpiderWrapper> operation = NodeHelper.addClass(new TableColumn<>("操作"), "align-center");
     operation.prefWidthProperty().bind(tasksTable.widthProperty().multiply(0.15));
     operation.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue()));
     operation.setCellFactory(param -> new DownloadActionTableCell());
 
-    tasksTable.getColumns().addAll(id, name, progress, error, operation);
+    tasksTable.getColumns().addAll(id, name, progress, operation);
     tasksTable.getColumns().forEach(column -> column.setResizable(false));
   }
 
@@ -105,6 +103,30 @@ public class DownloadManagerView extends SidebarView<StackPane> {
   public void onCompleted(SpiderWrapper wrapper) {
     // 移除任务
     tasksTable.getItems().remove(wrapper);
+  }
+
+  /**
+   * 检测是否能够添加新的任务
+   */
+  private synchronized boolean checkStartTask() {
+    // 添加新的任务
+    Integer maxTaskNum = SettingManager.manager().getDownload().getTaskNum().get();
+    long currentRunning = tasksTable.getItems().stream().filter(task -> !task.getSpider().isState(Spider.INIT)).count();
+    long canAdd = maxTaskNum - currentRunning;
+    if (canAdd > 0) {
+      for (SpiderWrapper task : tasksTable.getItems()) {
+        if (task.getSpider().isState(Spider.INIT)) {
+          task.run();
+          // 是否还可以添加新的任务
+          if (--canAdd == 0) {
+            break;
+          }
+        }
+      }
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -128,7 +150,6 @@ public class DownloadManagerView extends SidebarView<StackPane> {
       .savePath(savePath)
       .thread(isAudio ? 1 : downloadConfig.getThreadNum().getValue());
     SpiderWrapper spiderWrapper = new SpiderWrapper(spider, this::onCompleted);
-    spiderWrapper.run();
     tasksTable.getItems().add(spiderWrapper);
   }
 

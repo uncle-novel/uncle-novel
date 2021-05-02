@@ -5,6 +5,7 @@ import com.unclezs.novel.app.framework.serialize.PropertyJsonSerializer;
 import com.unclezs.novel.app.main.model.DownloadConfig;
 import com.unclezs.novel.app.main.model.Proxy;
 import com.unclezs.novel.app.main.model.SearchEngine;
+import com.unclezs.novel.app.main.util.DebugUtils;
 import java.io.File;
 import java.util.Locale;
 import javafx.beans.property.ObjectProperty;
@@ -15,6 +16,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * 设置管理器
+ *
  * @author blog.unclezs.com
  * @date 2021/4/28 12:22
  */
@@ -46,6 +49,10 @@ public class SettingManager {
    * 网络代理
    */
   private Proxy proxy = new Proxy();
+  /**
+   * 调试模式
+   */
+  private ObjectProperty<Boolean> debug = new SimpleObjectProperty<>(false);
 
   /**
    * 获取管理器
@@ -72,6 +79,8 @@ public class SettingManager {
     Locale.setDefault(LanguageManager.locale(manager.getLang().getValue()));
     // 初始化代理
     Proxy.initHttpProxy();
+    // 日志初始化
+    DebugUtils.debug(manager().getDebug().get());
   }
 
   /**

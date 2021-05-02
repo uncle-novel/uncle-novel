@@ -14,4 +14,31 @@ $tab-radius: $_5px;
       -fx-background-radius: $tab-radius 0 0 $tab-radius;
     }
   }
+
+  .table-view {
+    .table-row-cell {
+      &:selected, &:filled:selected, &:filled > .table-cell:selected {
+        -fx-table-cell-border-color: transparent;
+        -fx-background-color: -fx-base;
+
+        .table-cell, .icon, .label {
+          @include ladderTextFill(-fx-base);
+        }
+
+        .check-box .box {
+          -fx-border-color: ladder(-fx-base, $white_color 49%, $black_color 50%);
+        }
+      }
+    }
+
+    .progress-cell {
+      -fx-alignment: center-left;
+
+      .progress-info-box {
+        .label {
+          -fx-font-size: $_11px;
+        }
+      }
+    }
+  }
 }

@@ -2,13 +2,13 @@
   "lang": "简体中文",
   "download": {
     "folder": "G:\\tmp",
-    "threadNum": 1,
-    "taskNum": 3,
+    "threadNum": 10,
+    "taskNum": 1,
     "retryNum": 0,
     "volume": true,
-    "mobi": false,
+    "mobi": true,
     "txt": true,
-    "epub": false
+    "epub": true
   },
   "searchEngines": [
     {
@@ -34,5 +34,6 @@
     "httpProxy": false,
     "host": "127.0.0.1",
     "port": "1081"
-  }
+  },
+  "debug": false
 }

@@ -40,7 +40,7 @@
   .table-row-cell {
     -fx-background-color: transparent;
 
-    .table-cell {
+    .table-cell, .icon, .label {
       @include ladderTextFill(-fx-base);
       -fx-alignment: center-left;
     }

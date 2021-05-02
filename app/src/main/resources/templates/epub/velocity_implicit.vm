@@ -1,0 +1,4 @@
+#* @implicitly included *#
+#* @vtlvariable name="chapter" type="com.unclezs.novel.analyzer.model.Chapter" *#
+#* @vtlvariable name="uuid" type="java.util.UUID" *#
+#* @vtlvariable name="data" type="com.unclezs.novel.analyzer.model.Novel" *#

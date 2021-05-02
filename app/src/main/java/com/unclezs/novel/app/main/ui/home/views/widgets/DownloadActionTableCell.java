@@ -2,11 +2,13 @@ package com.unclezs.novel.app.main.ui.home.views.widgets;
 
 import com.unclezs.novel.analyzer.spider.Spider;
 import com.unclezs.novel.app.framework.components.Toast;
-import com.unclezs.novel.app.framework.components.icon.IconButton;
+import com.unclezs.novel.app.framework.components.icon.Icon;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.model.SpiderWrapper;
+import javafx.beans.InvalidationListener;
 import javafx.scene.control.TableCell;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 
 /**
@@ -16,31 +18,40 @@ import javafx.scene.layout.HBox;
 public class DownloadActionTableCell extends TableCell<SpiderWrapper, SpiderWrapper> {
 
   private final HBox box;
-  private final IconButton start;
-  private final IconButton pause;
+  private final Icon start;
+  private final Icon pause;
+  private final Icon stop;
+  private final Icon retry;
+  private final InvalidationListener stateListener;
   private SpiderWrapper item;
 
   public DownloadActionTableCell() {
     setGraphic(null);
-    this.start = NodeHelper.addClass(new IconButton(IconFont.START, "开始"));
-    this.pause = NodeHelper.addClass(new IconButton(IconFont.PAUSE, "暂停"));
-    IconButton stop = NodeHelper.addClass(new IconButton(IconFont.DELETE, "停止"), "delete");
+    this.start = NodeHelper.addClass(new Icon(IconFont.START));
+    this.start.setTooltip(new Tooltip("开始"));
+    this.pause = NodeHelper.addClass(new Icon(IconFont.PAUSE));
+    this.pause.setTooltip(new Tooltip("暂停"));
+    this.retry = NodeHelper.addClass(new Icon(IconFont.REFRESH));
+    this.retry.setTooltip(new Tooltip("重试失败章节"));
+    this.stop = NodeHelper.addClass(new Icon(IconFont.DELETE), "delete");
+    stop.setTooltip(new Tooltip("停止"));
     this.box = NodeHelper.addClass(new HBox(start, stop), "action-cell");
     start.setOnMouseClicked(event -> {
       item.run();
       Toast.success("启动成功");
-      box.getChildren().set(0, pause);
     });
     pause.setOnMouseClicked(e -> {
       item.pause();
       Toast.success("已暂停");
-      box.getChildren().set(0, start);
     });
+    retry.setOnMouseClicked(e -> item.retry());
     stop.setOnMouseClicked(event -> {
       item.stop();
       getTableView().getItems().remove(item);
       Toast.success("已丢弃任务");
     });
+    // 状态监听
+    this.stateListener = e -> setState();
   }
 
   @Override
@@ -50,13 +61,34 @@ public class DownloadActionTableCell extends TableCell<SpiderWrapper, SpiderWrap
       setGraphic(null);
       setText(null);
     } else {
-      this.item = item;
-      if (item.getSpider().state() == Spider.RUNNING) {
-        box.getChildren().set(0, pause);
-      } else {
-        box.getChildren().set(0, start);
+      // 移除旧的监听
+      if (this.item != null) {
+        this.item.getState().removeListener(stateListener);
       }
+      // 添加新的监听
+      this.item = item;
+      setState();
+      item.getState().addListener(stateListener);
       setGraphic(box);
+    }
+  }
+
+  private void setState() {
+    Integer state = item.getState().get();
+    switch (state) {
+      case Spider.FINISHED:
+        box.getChildren().setAll(retry, stop);
+        break;
+      case Spider.RUNNING:
+        box.getChildren().setAll(pause, stop);
+        break;
+      case Spider.PAUSED:
+        box.getChildren().setAll(start, stop);
+        break;
+      case SpiderWrapper.TRANSCODE:
+        box.getChildren().setAll(stop);
+        break;
+      default:
     }
   }
 }

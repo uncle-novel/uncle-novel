@@ -24,6 +24,14 @@ import lombok.Setter;
 public class SpiderWrapper implements Serializable {
 
   /**
+   * 等待下载中
+   */
+  public static final int WAITING = 1001;
+  /**
+   * 转码中
+   */
+  public static final int TRANSCODE = 1002;
+  /**
    * 下载进度
    */
   private final transient ObjectProperty<Double> progress;
@@ -55,6 +63,10 @@ public class SpiderWrapper implements Serializable {
    */
   @Setter
   private transient Consumer<SpiderWrapper> onCompleted;
+  /**
+   * 当前状态
+   */
+  private transient ObjectProperty<Integer> state;
 
   /**
    * 无参构造，json反序列化时使用
@@ -63,6 +75,7 @@ public class SpiderWrapper implements Serializable {
     this.progress = new SimpleObjectProperty<>();
     this.progressText = new SimpleObjectProperty<>();
     this.errorCount = new SimpleObjectProperty<>();
+    this.state = new SimpleObjectProperty<>(WAITING);
   }
 
   /**
@@ -101,14 +114,20 @@ public class SpiderWrapper implements Serializable {
         progress.set(numberProgress);
         progressText.set(textProgress);
         errorCount.set(spider.errorCount());
+        // 转码状态
+        if (numberProgress == 1) {
+          state.set(TRANSCODE);
+        }
       });
     });
-    spider.onStateChange((old, newState) -> {
+    // 状态切换监听
+    spider.onStateChange((old, newState) -> Executor.runFxAndWait(() -> {
+      state.set(newState);
       if (newState == Spider.COMPLETED && onCompleted != null) {
         // 处理其他完成后逻辑
-        Executor.runFx(() -> onCompleted.accept(this));
+        onCompleted.accept(this);
       }
-    });
+    }));
   }
 
   /**
@@ -143,6 +162,7 @@ public class SpiderWrapper implements Serializable {
    * @param onCompleted 完成回调
    */
   public void init(Consumer<SpiderWrapper> onCompleted) {
+    this.onCompleted = onCompleted;
     // 初始化事件
     init();
     // 初始化爬虫
@@ -155,6 +175,11 @@ public class SpiderWrapper implements Serializable {
 
   public void run() {
     this.spider.runAsync();
+  }
+
+  public void retry() {
+    this.spider.setCurrentTimes(0);
+    run();
   }
 
   public void pause() {

@@ -7,6 +7,7 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.DownloadConfig;
+import com.unclezs.novel.app.main.util.DebugUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Spinner;
@@ -25,6 +26,8 @@ public class SettingView extends SidebarView<StackPane> {
 
   public static final int MAX_THREAD_NUM = 32;
   public static final int MAX_TASK_NUM = 5;
+  @FXML
+  private JFXCheckBox debug;
   @FXML
   private JFXCheckBox volume;
   @FXML
@@ -54,6 +57,8 @@ public class SettingView extends SidebarView<StackPane> {
     language.valueProperty().bindBidirectional(manager.getLang());
     // 下载配置
     initDownloadConfig();
+    // 调式模式
+    initDebugMode();
   }
 
 
@@ -62,14 +67,29 @@ public class SettingView extends SidebarView<StackPane> {
   }
 
   /**
+   * 初始化调试模式
+   */
+  private void initDebugMode() {
+    debug.setSelected(manager.getDebug().get());
+    debug.selectedProperty().addListener(e -> {
+      manager.getDebug().set(debug.isSelected());
+      if (debug.isSelected()) {
+        DebugUtils.debug();
+      } else {
+        DebugUtils.info();
+      }
+    });
+  }
+
+  /**
    * 初始化下载配置
    */
   private void initDownloadConfig() {
     DownloadConfig downloadConfig = manager.getDownload();
-    for (int i = 1; i < MAX_THREAD_NUM; i++) {
+    for (int i = 1; i <= MAX_THREAD_NUM; i++) {
       threadNum.getItems().add(i);
     }
-    for (int i = 1; i < MAX_TASK_NUM; i++) {
+    for (int i = 1; i <= MAX_TASK_NUM; i++) {
       taskNum.getItems().add(i);
     }
     threadNum.valueProperty().bindBidirectional(downloadConfig.getThreadNum());

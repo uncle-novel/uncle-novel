@@ -72,6 +72,11 @@
   -fx-bg-color: $theme-color-light;
 }
 
+.progress-bar {
+  -fx-color: $theme-color;
+  -fx-bg-color: $theme-color-light;
+}
+
 .tag {
   -fx-tag-color: $theme-color;
 }

@@ -1,0 +1,8 @@
+@import "../define/_global";
+
+.tooltip {
+  @include shadow();
+  @include ladderTextFill(-fx-base);
+  -fx-background-color: -fx-base;
+  -fx-font-size: $_12px;
+}

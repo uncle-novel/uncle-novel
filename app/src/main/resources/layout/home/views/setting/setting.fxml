@@ -85,6 +85,15 @@
           <SearchEngineSetting/>
         </items>
       </SettingItems>
+      <SettingItems name="其他配置">
+        <items>
+          <SettingItem name="调试模式">
+            <content>
+              <JFXCheckBox fx:id="debug" text="启用调式模式记录详细日志"/>
+            </content>
+          </SettingItem>
+        </items>
+      </SettingItems>
     </VBox>
   </ScrollPane>
 </StackPane>
