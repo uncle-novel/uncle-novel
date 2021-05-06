@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.main.ui.home.views;
 
+import cn.hutool.core.collection.CollUtil;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXDrawersStack;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
@@ -10,6 +11,7 @@ import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.analyzer.spider.SearchSpider;
 import com.unclezs.novel.analyzer.spider.TocSpider;
+import com.unclezs.novel.analyzer.util.SerializationUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.ModalBox;
@@ -26,6 +28,7 @@ import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.enums.SearchType;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.model.ChapterWrapper;
+import com.unclezs.novel.app.main.model.DownloadBundle;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode.Action;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookListCell;
@@ -35,6 +38,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
@@ -82,11 +86,35 @@ public class SearchAudioView extends SidebarView<StackPane> {
     EventUtils.setOnMousePrimaryClick(listView, event -> {
       if (!listView.getSelectionModel().isEmpty()) {
         Novel novel = listView.getSelectionModel().getSelectedItem();
-        BookDetailNode bookDetailNode = new BookDetailNode(novel).withActions(Action.BOOKSHELF, Action.TOC);
+        BookDetailNode bookDetailNode = new BookDetailNode(novel).withActions(Action.BOOKSHELF, Action.TOC, Action.DOWNLOAD);
         ModalBox detailModal = ModalBox.none().body(bookDetailNode).title("小说详情").cancel("关闭");
         bookDetailNode.getToc().setOnMouseClicked(e -> {
           detailModal.disabledAnimateClose().close();
           showToc();
+        });
+        bookDetailNode.getDownload().setOnMouseClicked(e -> {
+          SidebarNavigateBundle bundle = new SidebarNavigateBundle()
+            .put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, new DownloadBundle(novel, RuleManager.getOrDefault(novel.getUrl())));
+          detailModal.disabledAnimateClose().hide();
+          navigation.navigate(DownloadManagerView.class, bundle);
+        });
+        // 加入书架
+        bookDetailNode.getBookshelf().setOnMouseClicked(e -> {
+          if (CollUtil.isEmpty(novel.getChapters())) {
+            TaskFactory.create(() -> {
+              NovelSpider spider = new NovelSpider(RuleManager.getOrDefault(novel.getUrl()));
+              return spider.toc(novel.getUrl());
+            }).onSuccess(toc -> {
+              Novel currentNovel = SerializationUtils.deepClone(novel);
+              currentNovel.setChapters(toc);
+              SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(AudioBookShelfView.BUNDLE_BOOK_KEY, currentNovel);
+              detailModal.disabledAnimateClose().hide();
+              navigation.navigate(AudioBookShelfView.class, bundle);
+            }).onFailed(error -> {
+              Toast.error("加入书架失败");
+              log.error("加入书架失败：{}", novel, error);
+            }).start();
+          }
         });
         detailModal.show();
       }
@@ -261,6 +289,27 @@ public class SearchAudioView extends SidebarView<StackPane> {
       return audioUrlHandler.apply(url, audioUrl);
     }).onSuccess(onSuccessHandler)
       .start();
+  }
+
+  /**
+   * 下载小说
+   */
+  @FXML
+  private void download() {
+    Novel novel = listView.getSelectionModel().getSelectedItem();
+    List<Chapter> selectedChapters = tocListView.getItems().stream()
+      .filter(ChapterWrapper::isSelected)
+      .map(ChapterWrapper::getChapter)
+      .collect(Collectors.toList());
+    if (selectedChapters.isEmpty()) {
+      Toast.error("至少需要选择一个章节");
+      return;
+    }
+    DownloadBundle downloadBundle = new DownloadBundle(novel, RuleManager.getOrDefault(novel.getUrl()));
+    downloadBundle.getNovel().setChapters(SerializationUtils.deepClone(selectedChapters));
+    SidebarNavigateBundle bundle = new SidebarNavigateBundle()
+      .put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, downloadBundle);
+    navigation.navigate(DownloadManagerView.class, bundle);
   }
 }
 

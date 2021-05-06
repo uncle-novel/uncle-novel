@@ -12,3 +12,6 @@ out/
 tmp/
 .idea
 css/
+conf/
+bin/
+caches/

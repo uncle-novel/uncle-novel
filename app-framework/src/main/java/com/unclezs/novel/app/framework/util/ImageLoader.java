@@ -2,6 +2,8 @@ package com.unclezs.novel.app.framework.util;
 
 import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.TimedCache;
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.URLUtil;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import java.util.function.Consumer;
 import javafx.beans.InvalidationListener;
@@ -43,18 +45,21 @@ public class ImageLoader {
   public void load(String url, Image defaultImage, Consumer<Image> callback) {
     Image cacheImage = get(url);
     if (cacheImage == null) {
-      if (!UrlUtils.isHttpUrl(url)) {
+      if (!UrlUtils.isHttpUrl(url) && FileUtil.exist(url)) {
+        url = URLUtil.getURL(FileUtil.file(url)).toString();
+      } else if (!UrlUtils.isHttpUrl(url)) {
         callback.accept(defaultImage);
         return;
       }
       Image image = new Image(url, true);
       IMAGE_CACHE.put(url, image);
+      String finalUrl = url;
       image.progressProperty().addListener(new InvalidationListener() {
         @Override
         public void invalidated(Observable observable) {
           if (image.getProgress() == 1) {
             if (image.isError()) {
-              IMAGE_CACHE.put(url, defaultImage);
+              IMAGE_CACHE.put(finalUrl, defaultImage);
             } else {
               callback.accept(image);
             }
@@ -66,11 +71,12 @@ public class ImageLoader {
       // 如果重复获取正在加载的图片则创建新的
       if (cacheImage.getProgress() != 1) {
         Image image = new Image(url, true);
+        String finalUrl = url;
         image.progressProperty().addListener(new InvalidationListener() {
           @Override
           public void invalidated(Observable observable) {
             if (image.getProgress() == 1) {
-              callback.accept(get(url));
+              callback.accept(get(finalUrl));
               image.progressProperty().removeListener(this);
             }
           }

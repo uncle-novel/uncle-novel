@@ -5,13 +5,13 @@ import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.app.framework.components.LoadingImageView;
 import com.unclezs.novel.app.framework.components.Tag;
+import com.unclezs.novel.app.framework.components.cell.BaseListCell;
 import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
@@ -23,7 +23,7 @@ import javafx.scene.layout.VBox;
  * @author blog.unclezs.com
  * @date 2021/4/16 22:39
  */
-public class BookListCell extends ListCell<Novel> implements LocalizedSupport {
+public class BookListCell extends BaseListCell<Novel> implements LocalizedSupport {
 
   public static final Image NO_COVER = new Image(ResourceUtils.externalForm("assets/images/no-cover.png"), true);
   private final HBox cell = NodeHelper.addClass(new HBox(), "cell");
@@ -33,7 +33,6 @@ public class BookListCell extends ListCell<Novel> implements LocalizedSupport {
   private final Label latestChapter = new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.chapter.latest").concat(StrUtil.COLON)));
   private final HBox tags = NodeHelper.addClass(new HBox(), "tags");
   private final LoadingImageView cover;
-  private Novel novel;
 
   public BookListCell(ListView<Novel> listView) {
     this.cover = new LoadingImageView(NO_COVER, 65, 85);
@@ -43,16 +42,10 @@ public class BookListCell extends ListCell<Novel> implements LocalizedSupport {
 
 
   @Override
-  protected void updateItem(Novel novel, boolean empty) {
-    super.updateItem(novel, empty);
-    if (novel == null || empty) {
-      setGraphic(null);
-      setText(null);
-    } else {
-      init(novel);
-      if (getGraphic() == null) {
-        setGraphic(cell);
-      }
+  protected void updateItem(Novel novel) {
+    init(novel);
+    if (getGraphic() == null) {
+      setGraphic(cell);
     }
   }
 
@@ -72,7 +65,7 @@ public class BookListCell extends ListCell<Novel> implements LocalizedSupport {
     this.latestChapter.setText(CharSequenceUtil.blankToDefault(novel.getLatestChapterName(), unknown));
     // 更新标签
     List<Tag> novelTags = new ArrayList<>();
-    // 连载状态
+    // 播音
     if (CharSequenceUtil.isNotBlank(novel.getBroadcast())) {
       novelTags.add(new Tag(novel.getBroadcast()));
     }
@@ -88,7 +81,7 @@ public class BookListCell extends ListCell<Novel> implements LocalizedSupport {
     if (CharSequenceUtil.isNotBlank(novel.getWordCount())) {
       novelTags.add(new Tag(novel.getWordCount()));
     }
-    // 字数
+    // 更新时间
     if (CharSequenceUtil.isNotBlank(novel.getUpdateTime())) {
       novelTags.add(new Tag(novel.getUpdateTime()));
     }

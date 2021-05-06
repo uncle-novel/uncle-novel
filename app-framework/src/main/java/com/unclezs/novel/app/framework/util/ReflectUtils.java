@@ -3,6 +3,8 @@ package com.unclezs.novel.app.framework.util;
 import cn.hutool.core.util.ReflectUtil;
 import com.unclezs.novel.app.framework.exception.ReflectionException;
 import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Optional;
 
 /**
@@ -46,5 +48,38 @@ public class ReflectUtils {
       field.setAccessible(true);
       ReflectUtil.setFieldValue(bean, fieldName, value);
     }
+  }
+
+  /**
+   * 通过反射,获得定义Class时声明的父类的范型参数的类型.
+   *
+   * @param clazz 类型
+   * @return 第一个泛型
+   */
+  public static <T> Class<T> getSuperClassGenericType(Class<?> clazz) {
+    return getSuperClassGenericType(clazz, 0);
+  }
+
+  /**
+   * 通过反射,获得定义Class时声明的父类的范型参数的类型.
+   *
+   * @param clazz 类型
+   * @param index 第几个
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> Class<T> getSuperClassGenericType(Class<?> clazz, int index)
+    throws IndexOutOfBoundsException {
+    Type genType = clazz.getGenericSuperclass();
+    if (!(genType instanceof ParameterizedType)) {
+      return (Class<T>) Object.class;
+    }
+    Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
+    if (index >= params.length || index < 0) {
+      return (Class<T>) Object.class;
+    }
+    if (!(params[index] instanceof Class)) {
+      return (Class<T>) Object.class;
+    }
+    return (Class<T>) params[index];
   }
 }

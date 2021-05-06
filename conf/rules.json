@@ -7,7 +7,7 @@
     "audio": false,
     "weight": 0,
     "params": {
-      "dynamic": true,
+      "dynamic": false,
       "enabledProxy": false
     },
     "content": {
@@ -19,6 +19,7 @@
       }
     },
     "toc": {
+      "params": {},
       "list": {},
       "name": {},
       "url": {},
@@ -33,6 +34,7 @@
     "detail": {
       "title": {},
       "author": {},
+      "broadcast": {},
       "category": {},
       "wordCount": {},
       "introduce": {},
@@ -70,6 +72,9 @@
         "author": {
           "type": "//",
           "rule": "/dd[2]/span[1]/text()"
+        },
+        "broadcast": {
+          "type": "//"
         },
         "category": {
           "type": "//",
@@ -115,7 +120,7 @@
     "params": {},
     "content": {
       "content": {
-        "script": "result \u003d utils.match(source, \"regex:url: \u0027(https://.+?skey\u003d)\u0027##$1\")+\u00271246c3c4985246178b36d92a86d2bc96\u0027"
+        "script": "skeyPage \u003d utils.get(\u0027https://www.yousxs.com/js/bootstrap.min.js\u0027);skey \u003d utils.match(skeyPage, \"regex:ey\\\"]\u003d\\\"(.+?)\\\"##$1\");result \u003d utils.match(source, \"regex:url: \u0027(https://.+?skey\u003d)\u0027##$1\") + skey;"
       },
       "next": {
         "type": "xpath",

@@ -27,10 +27,10 @@ import com.unclezs.novel.app.main.model.ChapterWrapper;
 import com.unclezs.novel.app.main.model.DownloadBundle;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
 import com.unclezs.novel.app.main.ui.home.views.widgets.ChapterListCell;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -262,16 +262,18 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
       return;
     }
     // 获取选中的章节
-    List<Chapter> selectedChapters = new ArrayList<>();
-    for (ChapterWrapper item : listView.getItems()) {
-      if (item.isSelected()) {
-        selectedChapters.add(item.getChapter());
-      }
+    List<Chapter> selectedChapters = listView.getItems().stream()
+      .filter(ChapterWrapper::isSelected)
+      .map(ChapterWrapper::getChapter)
+      .collect(Collectors.toList());
+    if (selectedChapters.isEmpty()) {
+      Toast.error("至少需要选择一个章节");
+      return;
     }
-    SidebarNavigateBundle bundle = new SidebarNavigateBundle();
     DownloadBundle downloadBundle = new DownloadBundle(novel, rule);
     // 只下载选中的章节
     downloadBundle.getNovel().setChapters(SerializationUtils.deepClone(selectedChapters));
+    SidebarNavigateBundle bundle = new SidebarNavigateBundle();
     bundle.put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, downloadBundle);
     navigation.navigate(DownloadManagerView.class, bundle);
   }

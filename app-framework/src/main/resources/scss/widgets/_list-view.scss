@@ -29,7 +29,7 @@
       @include ladderTextFill(-fx-selected-color);
       -fx-background-color: -fx-selected-color;
 
-      .label, .check-box {
+      .label, .check-box, .icon {
         @include ladderTextFill(-fx-selected-color);
       }
 

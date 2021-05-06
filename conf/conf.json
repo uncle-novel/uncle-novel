@@ -3,7 +3,7 @@
   "download": {
     "folder": "G:\\tmp",
     "threadNum": 10,
-    "taskNum": 1,
+    "taskNum": 4,
     "retryNum": 0,
     "volume": true,
     "mobi": true,

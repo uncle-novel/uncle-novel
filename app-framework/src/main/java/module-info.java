@@ -36,4 +36,5 @@ open module com.unclezs.novel.app.framework {
   exports com.unclezs.novel.app.framework.serialize;
   exports com.unclezs.novel.app.framework.support;
   exports com.unclezs.novel.app.framework.support.hotkey;
+  exports com.unclezs.novel.app.framework.components.cell;
 }

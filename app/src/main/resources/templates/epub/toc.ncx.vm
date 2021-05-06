@@ -22,12 +22,14 @@
       <content src="text/toc.html"></content>
     </navPoint>
       #foreach($chapter in $data.chapters)
-        <navPoint id="chapter_${chapter.order}" playOrder="${chapter.order}">
-          <navLabel>
-            <text>${chapter.name}</text>
-          </navLabel>
-          <content src="text/${chapter.order}.html"/>
-        </navPoint>
+          #if($chapter.state == "DOWNLOADED")
+            <navPoint id="chapter_${chapter.order}" playOrder="${chapter.order}">
+              <navLabel>
+                <text>${chapter.name}</text>
+              </navLabel>
+              <content src="text/${chapter.order}.html"/>
+            </navPoint>
+          #end
       #end
   </navMap>
 </ncx>

@@ -32,7 +32,7 @@
         icon="bookshelf"
         text="%home.menu.read.text"
         view="com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView"/>
-      <SidebarMenuItem
+      <SidebarMenuItem selected="true"
         icon="audio_bookshelf"
         text="%home.menu.read.audio"
         view="com.unclezs.novel.app.main.ui.home.views.AudioBookShelfView"/>
@@ -42,7 +42,7 @@
         icon="analysis_download"
         text="%home.menu.download.analysis"
         view="com.unclezs.novel.app.main.ui.home.views.AnalysisDownloadView"/>
-      <SidebarMenuItem selected="true"
+      <SidebarMenuItem
         icon="download_management"
         text="%home.menu.download.management"
         view="com.unclezs.novel.app.main.ui.home.views.DownloadManagerView"/>

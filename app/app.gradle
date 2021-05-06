@@ -12,15 +12,17 @@ buildscript {
         classpath 'net.sf.proguard:proguard-gradle:6.2.2'
     }
 }
-apply plugin: 'app-packager'
-
 
 dependencies {
     implementation project(":app-localized")
     implementation project(":app-framework")
     implementation "ch.qos.logback:logback-classic"
     implementation 'org.apache.velocity:velocity-engine-core'
+    implementation "com.j256.ormlite:ormlite-jdbc:5.3"
+    implementation "org.xerial:sqlite-jdbc:3.34.0"
 }
+apply plugin: 'app-packager'
+
 
 task obfuscate(type: ProGuardTask) {
     injars jar
@@ -165,3 +167,4 @@ tasks.withType(UpgradeTask) {
     url = "root@uncle-novel.unclezs.com:/www/wwwroot/uncle-novel.unclezs.com/novel/$profile"
     outDir = file("$buildDir/upgrade")
 }
+

@@ -44,31 +44,7 @@ public class ProgressBarTableCell extends TableCell<SpiderWrapper, SpiderWrapper
     this.cell.setAlignment(Pos.CENTER_LEFT);
     NodeHelper.addClass(cell, "progress-cell");
     // 状态监听
-    this.stateListener = e -> {
-      Integer spiderState = item.getState().get();
-      switch (spiderState) {
-        case Spider.READY:
-        case Spider.INIT:
-          state.setText("初始化...");
-          break;
-        case Spider.RUNNING:
-          state.setText("下载中...");
-          break;
-        case Spider.PAUSED:
-          state.setText("暂停中...");
-          break;
-        case Spider.FINISHED:
-          state.setText("等待操作...");
-          break;
-        case SpiderWrapper.WAITING:
-          state.setText("等待中...");
-          break;
-        case SpiderWrapper.TRANSCODE:
-          state.setText("转码中...");
-          break;
-        default:
-      }
-    };
+    this.stateListener = e -> setState();
   }
 
   /**
@@ -86,6 +62,7 @@ public class ProgressBarTableCell extends TableCell<SpiderWrapper, SpiderWrapper
         this.item.getState().removeListener(stateListener);
       }
       this.item = item;
+      setState();
       this.item.getState().addListener(stateListener);
 
       progressBar.progressProperty().unbind();
@@ -101,6 +78,28 @@ public class ProgressBarTableCell extends TableCell<SpiderWrapper, SpiderWrapper
         return null;
       }, item.getErrorCount()));
       setGraphic(cell);
+    }
+  }
+
+  private void setState() {
+    Integer spiderState = item.getState().get();
+    switch (spiderState) {
+      case Spider.RUNNING:
+        state.setText("下载中...");
+        break;
+      case Spider.PAUSED:
+        state.setText("暂停中...");
+        break;
+      case Spider.COMPLETE:
+        state.setText("等待手动重试...");
+        break;
+      case SpiderWrapper.WAIT_RUN:
+        state.setText("等待中...");
+        break;
+      case Spider.PIPELINE:
+        state.setText("转码中...");
+        break;
+      default:
     }
   }
 }

@@ -75,13 +75,14 @@ public class App extends BaseApplication {
   /**
    * 初始化
    *
-   * @throws Exception
+   * @throws Exception /
    */
   @Override
   public void init() throws Exception {
     super.init();
     SettingManager.init();
   }
+
 
   @Override
   public void start(Stage stage) {

@@ -17,10 +17,6 @@ import lombok.Setter;
  */
 public class AppContext {
 
-  /**
-   * 主要的舞台key
-   */
-  public static final String PRIMARY_STAGE = "primary-stage";
   private static final AppContext CONTEXT = new AppContext();
   private final ViewFactory viewFactory = new ViewFactory();
   private final Map<String, Object> contextBeans = new HashMap<>();

@@ -39,4 +39,9 @@ public class ChapterWrapper {
   public void setChapter(Chapter chapter) {
     this.chapter = chapter;
   }
+
+  @Override
+  public String toString() {
+    return chapter.getName();
+  }
 }

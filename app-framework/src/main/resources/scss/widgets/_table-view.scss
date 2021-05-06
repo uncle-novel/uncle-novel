@@ -54,7 +54,7 @@
       }
 
       .check-box .box {
-        -fx-border-color: ladder(-fx-slected-color, $white_color 49%, $black_color 50%);;
+        -fx-border-color: -fx-color-dark !important;
       }
     }
   }
@@ -87,7 +87,7 @@
       @include ladderTextFill(-fx-base);
 
       &.delete:hover {
-        -fx-text-fill: red;
+        -fx-text-fill: red !important;
       }
     }
   }

@@ -11,6 +11,8 @@
   theme-border-color: $theme-border-color;
   // hover时候的颜色 按钮，菜单等
   theme-hover-color: $theme-hover-color;
+  // 图标hover颜色
+  theme-icon-hover-color: $theme-icon-hover-color;
 }
 
 .stage-decorator {
@@ -47,6 +49,11 @@
   -fx-color: $theme-color-light;
   // 滚动条hover颜色
   -fx-hover-color: $theme-color-dark;
+}
+
+.jfx-slider {
+  -jfx-default-thumb: $theme-color;
+  -jfx-default-track: $theme-color-light;
 }
 
 .check-box {

@@ -16,12 +16,12 @@ import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.enums.SearchType;
 import com.unclezs.novel.app.main.manager.RuleManager;
+import com.unclezs.novel.app.main.model.DownloadBundle;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode.Action;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookListCell;
 import java.util.Collections;
 import java.util.List;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
@@ -61,12 +61,20 @@ public class SearchNovelView extends SidebarView<StackPane> {
     EventUtils.setOnMousePrimaryClick(listView, event -> {
       if (!listView.getSelectionModel().isEmpty()) {
         Novel novel = listView.getSelectionModel().getSelectedItem();
-        BookDetailNode bookDetailNode = new BookDetailNode(novel).withActions(Action.BOOKSHELF, Action.ANALYSIS);
+        BookDetailNode bookDetailNode = new BookDetailNode(novel).withActions(Action.BOOKSHELF, Action.ANALYSIS, Action.DOWNLOAD);
         ModalBox detailModal = ModalBox.none().body(bookDetailNode).title("小说详情").cancel("关闭");
+        // 解析下载
         bookDetailNode.getAnalysis().setOnMouseClicked(e -> {
           SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(AnalysisDownloadView.BUNDLE_KEY_NOVEL_INFO, novel);
           detailModal.disabledAnimateClose().hide();
           navigation.navigate(AnalysisDownloadView.class, bundle);
+        });
+        // 直接下载
+        bookDetailNode.getDownload().setOnMouseClicked(e -> {
+          SidebarNavigateBundle bundle = new SidebarNavigateBundle()
+            .put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, new DownloadBundle(novel, RuleManager.getOrDefault(novel.getUrl())));
+          detailModal.disabledAnimateClose().hide();
+          navigation.navigate(DownloadManagerView.class, bundle);
         });
         detailModal.show();
       }
@@ -128,20 +136,5 @@ public class SearchNovelView extends SidebarView<StackPane> {
       log.error("小说搜索失败:{}", searcher.getKeyword(), e);
     })
       .start();
-  }
-
-  public void add(ActionEvent actionEvent) {
-    Novel novelInfo = new Novel();
-    novelInfo.setAuthor("辰东");
-    novelInfo.setTitle("完美世界");
-    novelInfo.setUrl("https://www.zhaishuyuan.com/read/33959");
-    novelInfo.setCategory("东方玄幻");
-    novelInfo.setWordCount("6593730");
-    novelInfo.setIntroduce("一粒尘可填海，一根草斩尽日月星辰，弹指间天翻地覆。群雄并起，万族林立，诸圣争霸，乱天动地。问苍茫大地，谁主沉浮？！一个少年从大荒中走出，一切从这里开始………");
-    novelInfo.setLatestChapterName("第两千零一十四章 独断万古（大结局）");
-    novelInfo.setCoverUrl("https://img.zhaishuyuan.com/bookpic/s191.jpg");
-    novelInfo.setState("已完结");
-    novelInfo.setUpdateTime("2017-8-28 19:21:17");
-    listView.getItems().add(novelInfo);
   }
 }

@@ -31,6 +31,7 @@ public class CommonRuleEditor extends VBox {
 
   public CommonRuleEditor() {
     NodeHelper.addClass(this, "common-rule-editor");
+    editor.setWrapText(true);
     // 替换规则
     TextField key = new TextField();
     key.setPromptText("请输入净化规则正则");

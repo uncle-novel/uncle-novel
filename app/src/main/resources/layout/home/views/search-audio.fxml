@@ -25,6 +25,11 @@
             <contextMenu>
               <ContextMenu>
                 <items>
+                  <MenuItem text="下载选中章节" onAction="#download">
+                    <graphic>
+                      <Icon value="download"/>
+                    </graphic>
+                  </MenuItem>
                   <MenuItem text="校验音频" onAction="#checkAudioEffective">
                     <graphic>
                       <Icon value="validate"/>

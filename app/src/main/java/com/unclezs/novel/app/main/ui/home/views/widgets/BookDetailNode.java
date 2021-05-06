@@ -41,6 +41,8 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
   @Getter
   private IconButton analysis;
   @Getter
+  private IconButton download;
+  @Getter
   private IconButton toc;
 
   public BookDetailNode(Novel novel, boolean editable) {
@@ -98,6 +100,10 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
         case TOC:
           toc = NodeHelper.addClass(new IconButton("查看目录"), "btn");
           actionsBox.getChildren().add(toc);
+          break;
+        case DOWNLOAD:
+          download = NodeHelper.addClass(new IconButton("直接下载"), "btn");
+          actionsBox.getChildren().add(download);
           break;
         default:
       }
@@ -235,6 +241,10 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
     /**
      * 目录
      */
-    TOC
+    TOC,
+    /**
+     * 直接下载
+     */
+    DOWNLOAD
   }
 }

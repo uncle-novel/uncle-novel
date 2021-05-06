@@ -82,7 +82,12 @@ public class EbookUtils {
       String result = RuntimeUtil.getResult(process);
       process.waitFor();
       // 移动文件到输出目录
-      FileUtil.move(FileUtil.file(tmpDir, filename), FileUtil.file(outDir.getParent(), filename), true);
+      File mobiFile = FileUtil.file(tmpDir, filename);
+      if (mobiFile.exists()) {
+        FileUtil.move(FileUtil.file(tmpDir, filename), FileUtil.file(outDir.getParent(), filename), true);
+      } else {
+        log.warn("mobi");
+      }
       log.trace("生成mobi时kindlegen输出：{}", result);
     } catch (IOException e) {
       log.error("生成mobi文件失败：{}", outDir, e);

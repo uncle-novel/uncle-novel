@@ -14,14 +14,18 @@
     <item id="toc" media-type="application/xhtml+xml" href="text/toc.html"></item>
     <item href="style/style.css" id="page_css" media-type="text/css"></item>
       #foreach($chapter in $data.chapters)
-        <item id="chapter_${chapter.order}" media-type="application/xhtml+xml" href="text/${chapter.order}.html"/>
+          #if($chapter.state == "DOWNLOADED")
+            <item id="chapter_${chapter.order}" media-type="application/xhtml+xml" href="text/${chapter.order}.html"/>
+          #end
       #end
   </manifest>
 
   <spine toc="ncx">
     <itemref idref="toc"/>
       #foreach($chapter in $data.chapters)
-        <itemref idref="chapter_${chapter.order}"/>
+          #if($chapter.state == "DOWNLOADED")
+            <itemref idref="chapter_${chapter.order}"/>
+          #end
       #end
   </spine>
 

@@ -31,6 +31,14 @@ $tab-radius: $_5px;
       }
     }
 
+    .action-cell {
+      .icon {
+        &:hover {
+          -fx-text-fill: theme-icon-hover-color !important;
+        }
+      }
+    }
+
     .progress-cell {
       -fx-alignment: center-left;
 
@@ -38,6 +46,21 @@ $tab-radius: $_5px;
         .label {
           -fx-font-size: $_11px;
         }
+      }
+    }
+
+    .download-action-col {
+      .label {
+        -fx-padding: 0 0 0 $_30px;
+      }
+    }
+
+    .download-action-cell {
+      -fx-alignment: center-left !important;
+
+      .download-action {
+        -fx-padding: 0 0 0 $_10px;
+        -fx-alignment: center-left !important;
       }
     }
   }

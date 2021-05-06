@@ -1,0 +1,7 @@
+@import "../define/_global";
+
+.jfx-slider {
+  .slider-value {
+    -fx-stroke: ladder(-jfx-default-thumb, white 59%, #2d2a2a 60%);
+  }
+}

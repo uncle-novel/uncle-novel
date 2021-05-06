@@ -23,7 +23,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class PropertyJsonSerializer {
 
-  private static final Gson GSON;
+  public static final Gson GSON;
 
   static {
     ValuePropertyTypeAdapter valuePropertyTypeAdapter = new ValuePropertyTypeAdapter();

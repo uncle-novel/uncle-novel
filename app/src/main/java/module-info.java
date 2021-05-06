@@ -7,6 +7,7 @@ import com.unclezs.novel.app.main.spi.WebEngineHttpClient;
 open module com.unclezs.novel.app.main {
   // openjfx
   requires javafx.web;
+  requires javafx.media;
 
   // app framework
   requires com.unclezs.novel.app.framework;
@@ -23,12 +24,17 @@ open module com.unclezs.novel.app.main {
   requires logback.classic;
   requires logback.core;
 
+  requires ormlite.core;
+  requires ormlite.jdbc;
+  requires sqlite.jdbc;
+
   requires static lombok;
   requires velocity.engine.core;
   requires jkeymaster;
   provides com.unclezs.novel.analyzer.request.spi.HttpProvider with WebEngineHttpClient;
 
   exports com.unclezs.novel.app.main;
+  exports com.unclezs.novel.app.main.model to ormlite.core;
 }
 
 // compiler

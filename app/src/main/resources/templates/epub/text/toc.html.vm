@@ -8,7 +8,9 @@
 <h2>${data.title}</h2>
 <div class="toc">
     #foreach($chapter in $data.chapters)
-      <div><a href="${chapter.order}.html">${chapter.name}</a></div>
+        #if($chapter.state == "DOWNLOADED")
+          <div><a href="${chapter.order}.html">${chapter.name}</a></div>
+        #end
     #end
 </div>
 </body>

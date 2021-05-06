@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXMasonryPane?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -8,4 +9,7 @@
     <TitleBar title="%home.menu.read.text">
     </TitleBar>
   </VBox>
+  <StackPane>
+    <JFXMasonryPane fx:id="bookPanel" maxHeight="Infinity" maxWidth="Infinity" nodeOrientation="LEFT_TO_RIGHT" VSpacing="15"/>
+  </StackPane>
 </StackPane>

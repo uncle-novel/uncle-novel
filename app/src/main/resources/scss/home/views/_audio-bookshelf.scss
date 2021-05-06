@@ -1,1 +1,112 @@
 @import "../../define/global";
+
+.audio-bookshelf {
+  .book-list {
+    -fx-padding: 0 0 $_62px 0;
+
+    .list-cell {
+      -fx-content-display: GRAPHIC_ONLY;
+      -fx-padding: $_5px $_5px $_5px $_8px;
+
+      .cell {
+        -fx-alignment: center-left;
+        -fx-spacing: 10;
+
+        .title {
+          -fx-font-size: $_14px;
+          -fx-font-weight: bold;
+        }
+
+        .tags {
+          -fx-spacing: $_10px;
+        }
+      }
+    }
+  }
+
+  .toc-list-cell {
+    .icon {
+      @include ladderTextFill(-fx-base)
+    }
+  }
+
+  .player {
+    -fx-min-height: $_60px;
+    -fx-max-height: $_60px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 25, 0.25, 0, -4);
+    -fx-background-color: -fx-base;
+
+    .progress-bar {
+      -fx-max-height: $_1px;
+      -fx-min-height: $_1px;
+    }
+
+    .player-box {
+      -fx-alignment: center;
+      -fx-padding: 0 10px 0 10px;
+      -fx-spacing: 20;
+
+      .left-box {
+        -fx-padding: 5px 0 0 0;
+        -fx-spacing: 8;
+
+        .title {
+          -fx-font-weight: bold;
+          -fx-font-size: $_13px;
+        }
+
+        .chapter {
+          -fx-text-fill: theme-color-dark;
+        }
+
+        .progress {
+          -fx-spacing: 10;
+          -fx-alignment: center;
+
+          .jfx-slider {
+            .animated-thumb {
+              -fx-pref-width: 100px;
+              -fx-pref-height: 20px;
+              -fx-rotate: 0;
+              -fx-background-radius: 5px;
+
+              .slider-value {
+                -fx-rotate: 0;
+              }
+            }
+          }
+        }
+
+      }
+
+
+      .actions {
+        -fx-spacing: $_10px;
+        -fx-alignment: center;
+        -fx-content-display: graphic-only;
+
+        .next {
+          -fx-icon-size: 18px;
+        }
+
+        .play {
+          -fx-icon-size: 27px;
+        }
+      }
+
+      .timer {
+        -fx-text-fill: theme-color-dark;
+      }
+
+      .toc {
+        .icon {
+          -fx-icon-size: 13px;
+        }
+      }
+
+      .icon {
+        @include ladderTextFill(-fx-base);
+      }
+    }
+  }
+}

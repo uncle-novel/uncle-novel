@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.PlaceHolder?>
 <?import com.unclezs.novel.app.framework.components.TabButton?>
 <?import com.unclezs.novel.app.framework.components.TabGroup?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -24,13 +23,10 @@
       </content>
     </TitleBar>
     <StackPane fx:id="container" VBox.vgrow="ALWAYS">
-      <VBox fx:id="tasksPanel">
+      <VBox fx:id="tasksPanel" spacing="2">
         <TableView fx:id="tasksTable" VBox.vgrow="ALWAYS">
           <placeholder>
-            <VBox alignment="CENTER" styleClass="placeholder">
-              <Icon value="empty"/>
-              <Label styleClass="tip" text="还没有正在下载的任务，去下载一本试试看~"/>
-            </VBox>
+            <PlaceHolder tip="还没有正在下载的任务，去下载一本试试看~"/>
           </placeholder>
         </TableView>
       </VBox>

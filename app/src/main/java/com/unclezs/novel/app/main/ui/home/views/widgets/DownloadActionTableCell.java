@@ -1,11 +1,15 @@
 package com.unclezs.novel.app.main.ui.home.views.widgets;
 
+import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.analyzer.spider.Spider;
+import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.icon.Icon;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
+import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.model.SpiderWrapper;
+import java.io.File;
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.Tooltip;
@@ -22,34 +26,50 @@ public class DownloadActionTableCell extends TableCell<SpiderWrapper, SpiderWrap
   private final Icon pause;
   private final Icon stop;
   private final Icon retry;
+  private final Icon folder;
+  private final Icon save;
   private final InvalidationListener stateListener;
   private SpiderWrapper item;
 
   public DownloadActionTableCell() {
+    NodeHelper.addClass(this, "download-action-cell");
     setGraphic(null);
-    this.start = NodeHelper.addClass(new Icon(IconFont.START));
+    this.start = NodeHelper.addClass(new Icon(IconFont.RUN));
     this.start.setTooltip(new Tooltip("开始"));
-    this.pause = NodeHelper.addClass(new Icon(IconFont.PAUSE));
+    this.pause = NodeHelper.addClass(new Icon(IconFont.PAUSE_RUN));
     this.pause.setTooltip(new Tooltip("暂停"));
-    this.retry = NodeHelper.addClass(new Icon(IconFont.REFRESH));
+    this.retry = NodeHelper.addClass(new Icon(IconFont.RETRY));
     this.retry.setTooltip(new Tooltip("重试失败章节"));
-    this.stop = NodeHelper.addClass(new Icon(IconFont.DELETE), "delete");
+    this.save = NodeHelper.addClass(new Icon(IconFont.SAVE));
+    this.save.setTooltip(new Tooltip("忽略错误"));
+    this.stop = NodeHelper.addClass(new Icon(IconFont.STOP), "delete");
     stop.setTooltip(new Tooltip("停止"));
-    this.box = NodeHelper.addClass(new HBox(start, stop), "action-cell");
+    this.folder = NodeHelper.addClass(new Icon(IconFont.FOLDER));
+    folder.setTooltip(new Tooltip("文件夹"));
+    this.box = NodeHelper.addClass(new HBox(start, stop, folder), "action-cell", "download-action");
     start.setOnMouseClicked(event -> {
-      item.run();
-      Toast.success("启动成功");
+      item.runTask();
+      Toast.success("启动");
     });
     pause.setOnMouseClicked(e -> {
       item.pause();
-      Toast.success("已暂停");
+      Toast.success("暂停");
     });
     retry.setOnMouseClicked(e -> item.retry());
+    save.setOnMouseClicked(e -> {
+      ModalBox.confirm(confirmSave -> {
+        if (Boolean.TRUE.equals(confirmSave)) {
+          item.save();
+        }
+      }).title("确定忽略错误吗").message("忽略错误可能出现章节内容不完整的情况").show();
+    });
     stop.setOnMouseClicked(event -> {
+      String savePath = item.getSpider().getSavePath();
       item.stop();
       getTableView().getItems().remove(item);
-      Toast.success("已丢弃任务");
+      FileUtil.del(savePath);
     });
+    folder.setOnMouseClicked(e -> DesktopUtils.openDir(new File(item.getSpider().getSavePath())));
     // 状态监听
     this.stateListener = e -> setState();
   }
@@ -75,20 +95,22 @@ public class DownloadActionTableCell extends TableCell<SpiderWrapper, SpiderWrap
 
   private void setState() {
     Integer state = item.getState().get();
+    pause.setDisable(false);
     switch (state) {
-      case Spider.FINISHED:
-        box.getChildren().setAll(retry, stop);
+      case Spider.COMPLETE:
+        box.getChildren().setAll(retry, stop, folder, save);
         break;
       case Spider.RUNNING:
-        box.getChildren().setAll(pause, stop);
+      case SpiderWrapper.WAIT_RUN:
+        box.getChildren().setAll(pause, stop, folder);
+        break;
+      case Spider.PIPELINE:
+        box.getChildren().setAll(pause, stop, folder);
+        pause.setDisable(true);
         break;
       case Spider.PAUSED:
-        box.getChildren().setAll(start, stop);
-        break;
-      case SpiderWrapper.TRANSCODE:
-        box.getChildren().setAll(stop);
-        break;
       default:
+        box.getChildren().setAll(start, stop, folder);
     }
   }
 }
