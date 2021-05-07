@@ -22,7 +22,7 @@ $border-radius: 10px;
   .content {
     -fx-background-radius: 0 0 $stage-border-radius 0;
     -fx-border-radius: 0 0 $stage-border-radius 0;
-    -fx-background-color: transparent;
+    -fx-background-color: -fx-base;
   }
 
   // 左侧菜单面板

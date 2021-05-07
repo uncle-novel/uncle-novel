@@ -66,6 +66,7 @@ public enum IconFont {
   PLAY_TOC('\ue626'),
   CODE('\ue662'),
   IMPORT('\ue615'),
+  UPDATE('\ue67c'),
   RULE('\ue646'),
   ERROR('\ue647'),
   DELETE('\ue607'),

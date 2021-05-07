@@ -74,7 +74,7 @@ public class AudioBookListCell extends ListCell<AudioBook> implements LocalizedS
     cover.setImage(book.getCover());
     // 更新小说信息
     String unknown = localized("unknown");
-    this.title.setText(CharSequenceUtil.blankToDefault(book.getTitle(), unknown));
+    this.title.setText(CharSequenceUtil.blankToDefault(book.getName(), unknown));
     this.author.setText(CharSequenceUtil.blankToDefault(book.getAuthor(), unknown));
     this.latestChapter.setText(CharSequenceUtil.blankToDefault(book.getCurrentChapterName(), unknown));
     this.broadcast.setText(CharSequenceUtil.blankToDefault(book.getBroadcast(), unknown));

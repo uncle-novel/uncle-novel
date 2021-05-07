@@ -3,6 +3,7 @@ package com.unclezs.novel.app.framework.components;
 import com.jfoenix.controls.JFXSpinner;
 import com.unclezs.novel.app.framework.util.ImageLoader;
 import com.unclezs.novel.app.framework.util.NodeHelper;
+import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
@@ -22,7 +23,7 @@ public class LoadingImageView extends StackPane {
   private final JFXSpinner loading = new JFXSpinner();
   @Setter
   private Image defaultImage;
-  private ImageView imageView;
+  private final ImageView imageView;
 
   public LoadingImageView(Image defaultImage) {
     this(defaultImage, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
@@ -34,23 +35,21 @@ public class LoadingImageView extends StackPane {
 
   public LoadingImageView(Image defaultImage, double width, double height) {
     this.defaultImage = defaultImage;
+    imageView = new ImageViewPlus(defaultImage, width, height);
     setPrefSize(width, height);
     setMaxSize(width, height);
     setMinSize(width, height);
     NodeHelper.addClass(this, DEFAULT_STYLE_CLASS);
     // loading
     loading.setRadius(10);
+    setPadding(new Insets(0));
   }
 
   /**
    * @param image 图片
    */
   private void setImage(Image image) {
-    if (imageView == null) {
-      imageView = new ImageViewPlus(image, getMaxWidth(), getMaxHeight());
-    } else {
-      imageView.setImage(image);
-    }
+    imageView.setImage(image);
     getChildren().setAll(imageView);
   }
 

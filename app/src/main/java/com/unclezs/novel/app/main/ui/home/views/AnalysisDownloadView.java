@@ -23,8 +23,8 @@ import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.main.manager.RuleManager;
+import com.unclezs.novel.app.main.model.BookBundle;
 import com.unclezs.novel.app.main.model.ChapterWrapper;
-import com.unclezs.novel.app.main.model.DownloadBundle;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
 import com.unclezs.novel.app.main.ui.home.views.widgets.ChapterListCell;
 import java.util.Collections;
@@ -270,11 +270,11 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
       Toast.error("至少需要选择一个章节");
       return;
     }
-    DownloadBundle downloadBundle = new DownloadBundle(novel, rule);
+    BookBundle bookBundle = new BookBundle(novel, rule);
     // 只下载选中的章节
-    downloadBundle.getNovel().setChapters(SerializationUtils.deepClone(selectedChapters));
+    bookBundle.getNovel().setChapters(SerializationUtils.deepClone(selectedChapters));
     SidebarNavigateBundle bundle = new SidebarNavigateBundle();
-    bundle.put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, downloadBundle);
+    bundle.put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, bookBundle);
     navigation.navigate(DownloadManagerView.class, bundle);
   }
 }

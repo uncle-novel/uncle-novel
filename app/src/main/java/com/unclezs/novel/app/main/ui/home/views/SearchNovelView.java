@@ -1,7 +1,9 @@
 package com.unclezs.novel.app.main.ui.home.views;
 
+import cn.hutool.core.collection.CollUtil;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Novel;
+import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.analyzer.spider.SearchSpider;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.ModalBox;
@@ -16,7 +18,7 @@ import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.enums.SearchType;
 import com.unclezs.novel.app.main.manager.RuleManager;
-import com.unclezs.novel.app.main.model.DownloadBundle;
+import com.unclezs.novel.app.main.model.BookBundle;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode.Action;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookListCell;
@@ -72,9 +74,28 @@ public class SearchNovelView extends SidebarView<StackPane> {
         // 直接下载
         bookDetailNode.getDownload().setOnMouseClicked(e -> {
           SidebarNavigateBundle bundle = new SidebarNavigateBundle()
-            .put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, new DownloadBundle(novel, RuleManager.getOrDefault(novel.getUrl())));
+            .put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, new BookBundle(novel, RuleManager.getOrDefault(novel.getUrl())));
           detailModal.disabledAnimateClose().hide();
           navigation.navigate(DownloadManagerView.class, bundle);
+        });
+        // 加入书架
+        bookDetailNode.getBookshelf().setOnMouseClicked(e -> {
+          if (CollUtil.isEmpty(novel.getChapters())) {
+            AnalyzerRule analyzerRule = RuleManager.getOrDefault(novel.getUrl());
+            TaskFactory.create(() -> {
+              NovelSpider spider = new NovelSpider(analyzerRule);
+              return spider.toc(novel.getUrl());
+            }).onSuccess(toc -> {
+              BookBundle bookBundle = new BookBundle(novel, analyzerRule);
+              bookBundle.getNovel().setChapters(toc);
+              SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(FictionBookshelfView.BUNDLE_BOOK_KEY, bookBundle);
+              detailModal.disabledAnimateClose().hide();
+              navigation.navigate(FictionBookshelfView.class, bundle);
+            }).onFailed(error -> {
+              Toast.error("加入书架失败");
+              log.error("加入书架失败：{}", novel, error);
+            }).start();
+          }
         });
         detailModal.show();
       }

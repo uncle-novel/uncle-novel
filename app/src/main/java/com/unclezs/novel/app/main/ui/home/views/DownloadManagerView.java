@@ -16,7 +16,7 @@ import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.dao.DownloadHistoryDao;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
-import com.unclezs.novel.app.main.model.DownloadBundle;
+import com.unclezs.novel.app.main.model.BookBundle;
 import com.unclezs.novel.app.main.model.DownloadConfig;
 import com.unclezs.novel.app.main.model.DownloadHistory;
 import com.unclezs.novel.app.main.model.SpiderWrapper;
@@ -90,10 +90,10 @@ public class DownloadManagerView extends SidebarView<StackPane> {
 
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
-    DownloadBundle downloadBundle = bundle.get(BUNDLE_DOWNLOAD_KEY);
-    if (downloadBundle != null) {
+    BookBundle bookBundle = bundle.get(BUNDLE_DOWNLOAD_KEY);
+    if (bookBundle != null) {
       tasksTab.fireEvent(new ActionEvent());
-      createTask(downloadBundle);
+      createTask(bookBundle);
     }
   }
 
@@ -227,7 +227,7 @@ public class DownloadManagerView extends SidebarView<StackPane> {
    *
    * @param bundle 下载数据包
    */
-  private void createTask(DownloadBundle bundle) {
+  private void createTask(BookBundle bundle) {
     DownloadConfig downloadConfig = SettingManager.manager().getDownload();
     String savePath = downloadConfig.getFolder().getValue();
     if (!FileUtils.exist(savePath)) {

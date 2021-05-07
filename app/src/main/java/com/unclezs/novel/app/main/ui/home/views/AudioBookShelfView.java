@@ -2,40 +2,34 @@ package com.unclezs.novel.app.main.ui.home.views;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import com.google.gson.reflect.TypeToken;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXSlider;
 import com.unclezs.novel.analyzer.model.Chapter;
-import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.request.Http;
 import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
-import com.unclezs.novel.analyzer.util.GsonUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.icon.Icon;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
-import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.executor.FluentTask;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.main.dao.AudioBookDao;
 import com.unclezs.novel.app.main.manager.ResourceManager;
-import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.model.AudioBook;
-import com.unclezs.novel.app.main.model.DownloadBundle;
+import com.unclezs.novel.app.main.model.BookBundle;
+import com.unclezs.novel.app.main.model.BookCache;
 import com.unclezs.novel.app.main.ui.home.views.widgets.AudioBookListCell;
+import com.unclezs.novel.app.main.util.BookHelper;
 import com.unclezs.novel.app.main.util.TimeUtil;
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -68,9 +62,7 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
    * 缓存文件位置
    */
   private static final String CACHE_FOLDER_NAME = "audio";
-  private static final String TOC_CACHE_FILE_NAME = "toc";
   private static final File CACHE_FOLDER = ResourceManager.cacheFile(CACHE_FOLDER_NAME);
-  private static final String CACHE_COVER_FILE_NAME = "cover.jpeg";
   private final AudioBookDao audioBookDao = new AudioBookDao();
   /**
    * 监听器
@@ -150,28 +142,19 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
 
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
-    Novel novel = bundle.get(BUNDLE_BOOK_KEY);
-    if (novel != null) {
-      AudioBook book = AudioBook.fromNovel(novel);
-      book.setId(IdUtil.fastSimpleUUID());
+    BookBundle bookBundle = bundle.get(BUNDLE_BOOK_KEY);
+    if (bookBundle != null) {
+      AudioBook book = AudioBook.fromBookBundle(bookBundle);
       // 编号
       int order = 1;
       for (Chapter chapter : book.getToc()) {
         chapter.setOrder(order++);
       }
-      cacheToc(book);
+      cacheBook(book);
       // 封面
-      Executor.run(() -> {
-        try {
-          RequestParams params = RequestParams.create(book.getCover());
-          params.addHeader(RequestParams.REFERER, book.getUrl());
-          File coverFile = FileUtil.file(CACHE_FOLDER, book.getId(), CACHE_COVER_FILE_NAME);
-          FileUtil.writeBytes(Http.bytes(params), coverFile);
-          book.setCover(coverFile.getAbsolutePath());
-          audioBookDao.update(book);
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+      BookHelper.downloadCover(book.getCover(), book.getUrl(), FileUtil.file(CACHE_FOLDER, book.getId()), cover -> {
+        book.setCover(cover);
+        audioBookDao.update(book);
       });
       bookListView.getItems().add(book);
     }
@@ -180,21 +163,18 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
   @Override
   public void onDestroy() {
     // 更新当前章节缓存
-    cacheToc(currentBook);
+    cacheBook(currentBook);
     // 更新当前进度
     audioBookDao.update(currentBook);
   }
 
   /**
-   * 缓存书籍得章节
+   * 缓存书籍
    *
    * @param book 书籍
    */
-  private void cacheToc(AudioBook book) {
-    if (book != null && CollUtil.isNotEmpty(book.getToc())) {
-      File chapterCache = FileUtil.file(CACHE_FOLDER, book.getId(), TOC_CACHE_FILE_NAME);
-      FileUtil.writeUtf8String(GsonUtils.toJson(book.getToc()), chapterCache);
-    }
+  private void cacheBook(AudioBook book) {
+    BookHelper.cache(new BookCache(book.getRule(), book.getToc()), FileUtil.file(CACHE_FOLDER, book.getId()));
   }
 
   /**
@@ -202,14 +182,10 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
    *
    * @param book 目录
    */
-  private void loadToc(AudioBook book) {
-    File chapterCache = FileUtil.file(CACHE_FOLDER, book.getId(), TOC_CACHE_FILE_NAME);
-    if (!chapterCache.exists()) {
-      return;
-    }
-    List<Chapter> toc = GsonUtils.me().fromJson(FileUtil.readUtf8String(chapterCache), new TypeToken<List<Chapter>>() {
-    }.getType());
-    book.setToc(toc);
+  private void loadCache(AudioBook book) {
+    BookCache bookCache = BookHelper.loadCache(FileUtil.file(CACHE_FOLDER, book.getId()));
+    book.setToc(bookCache.getToc());
+    book.setRule(bookCache.getRule());
   }
 
   /**
@@ -249,15 +225,15 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
       return;
     }
     if (currentBook != null) {
-      cacheToc(currentBook);
+      cacheBook(currentBook);
       audioBookDao.update(currentBook);
     }
     currentBook = book;
     // 如果不存在，则从文件缓存中读取
     if (CollUtil.isEmpty(book.getToc())) {
-      loadToc(currentBook);
+      loadCache(currentBook);
     }
-    titleLabel.setText(book.getTitle());
+    titleLabel.setText(book.getName());
     playChapter(currentBook.getCurrentProgress(), play);
   }
 
@@ -341,7 +317,7 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
       loadMediaTask = new FluentTask<Chapter>(false) {
         @Override
         protected Chapter call() throws Exception {
-          NovelSpider spider = new NovelSpider(RuleManager.getOrDefault(currentBook.getUrl()));
+          NovelSpider spider = new NovelSpider(currentBook.getRule());
           String mediaUrl = spider.content(chapter.getUrl());
           RequestParams params = RequestParams.create(mediaUrl);
           params.addHeader(RequestParams.REFERER, chapter.getUrl());
@@ -354,6 +330,7 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
       }.onSuccess(c -> initPlayer(c, initProgress, play))
         .onFailed(e -> {
           Toast.error("音频获取失败");
+          log.error("获取音频失败：{}", chapter, e);
           loading.setVisible(false);
         });
       loadMediaTask.start();
@@ -460,8 +437,8 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
       return;
     }
     AudioBook book = bookListView.getSelectionModel().getSelectedItem();
-    loadToc(book);
-    DownloadBundle bundle = new DownloadBundle(book.toNovel(), RuleManager.getOrDefault(book.getUrl()));
+    loadCache(book);
+    BookBundle bundle = new BookBundle(book.toNovel(), currentBook.getRule());
     bundle.getNovel().setChapters(book.getToc());
     navigation.navigate(DownloadManagerView.class, new SidebarNavigateBundle().put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, bundle));
   }

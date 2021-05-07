@@ -27,8 +27,8 @@ import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.enums.SearchType;
 import com.unclezs.novel.app.main.manager.RuleManager;
+import com.unclezs.novel.app.main.model.BookBundle;
 import com.unclezs.novel.app.main.model.ChapterWrapper;
-import com.unclezs.novel.app.main.model.DownloadBundle;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode.Action;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookListCell;
@@ -94,20 +94,21 @@ public class SearchAudioView extends SidebarView<StackPane> {
         });
         bookDetailNode.getDownload().setOnMouseClicked(e -> {
           SidebarNavigateBundle bundle = new SidebarNavigateBundle()
-            .put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, new DownloadBundle(novel, RuleManager.getOrDefault(novel.getUrl())));
+            .put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, new BookBundle(novel, RuleManager.getOrDefault(novel.getUrl())));
           detailModal.disabledAnimateClose().hide();
           navigation.navigate(DownloadManagerView.class, bundle);
         });
         // 加入书架
         bookDetailNode.getBookshelf().setOnMouseClicked(e -> {
           if (CollUtil.isEmpty(novel.getChapters())) {
+            AnalyzerRule analyzerRule = RuleManager.getOrDefault(novel.getUrl());
             TaskFactory.create(() -> {
-              NovelSpider spider = new NovelSpider(RuleManager.getOrDefault(novel.getUrl()));
+              NovelSpider spider = new NovelSpider(analyzerRule);
               return spider.toc(novel.getUrl());
             }).onSuccess(toc -> {
-              Novel currentNovel = SerializationUtils.deepClone(novel);
-              currentNovel.setChapters(toc);
-              SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(AudioBookShelfView.BUNDLE_BOOK_KEY, currentNovel);
+              BookBundle bookBundle = new BookBundle(novel, analyzerRule);
+              bookBundle.getNovel().setChapters(toc);
+              SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(AudioBookShelfView.BUNDLE_BOOK_KEY, bookBundle);
               detailModal.disabledAnimateClose().hide();
               navigation.navigate(AudioBookShelfView.class, bundle);
             }).onFailed(error -> {
@@ -305,10 +306,10 @@ public class SearchAudioView extends SidebarView<StackPane> {
       Toast.error("至少需要选择一个章节");
       return;
     }
-    DownloadBundle downloadBundle = new DownloadBundle(novel, RuleManager.getOrDefault(novel.getUrl()));
-    downloadBundle.getNovel().setChapters(SerializationUtils.deepClone(selectedChapters));
+    BookBundle bookBundle = new BookBundle(novel, RuleManager.getOrDefault(novel.getUrl()));
+    bookBundle.getNovel().setChapters(SerializationUtils.deepClone(selectedChapters));
     SidebarNavigateBundle bundle = new SidebarNavigateBundle()
-      .put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, downloadBundle);
+      .put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, bookBundle);
     navigation.navigate(DownloadManagerView.class, bundle);
   }
 }

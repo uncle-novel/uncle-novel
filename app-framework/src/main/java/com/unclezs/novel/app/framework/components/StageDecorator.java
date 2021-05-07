@@ -9,6 +9,7 @@ import com.unclezs.novel.app.framework.util.PlatformUtils;
 import javafx.beans.DefaultProperty;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -23,7 +24,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
@@ -46,7 +46,6 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
    * css类名
    */
   public static final String STAGE_DECORATOR = "stage-decorator";
-  public static final String STAGE_DECORATOR_CONTAINER = "stage-decorator-container";
   public static final String STAGE_DECORATOR_ROOT = "stage-decorator-root";
   public static final String STAGE_DECORATOR_HEADER = "stage-decorator-header";
   public static final String STAGE_DECORATOR_LOGO = "stage-decorator-logo";
@@ -55,6 +54,8 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
   public static final String STAGE_DECORATOR_LOGO_TITLE = "stage-decorator-logo-title";
   public static final String STAGE_DECORATOR_ACTION_SEPARATOR = "stage-decorator-action-separator";
   public static final String STAGE_DECORATOR_ACTIONS_EXIT = "stage-decorator-actions-exit";
+  public static final String HIDDEN_HEADER = "hidden-header";
+  public static final String STAGE_DECORATOR_CONTENT = "stage-decorator-content";
   public static final int CLICK_COUNT_TO_MAX_WINDOW = 2;
   /**
    * 窗口 最大化 还原 全屏相关
@@ -66,13 +67,9 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
    */
   private Stage stage;
   /**
-   * 容器
-   */
-  private StackPane container;
-  /**
    * 真正装内容的根节点
    */
-  private VBox root;
+  private StackPane root;
 
   /**
    * 顶部logo HBox
@@ -181,10 +178,10 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
     this.actions = NodeHelper.addClass(new HBox(), STAGE_DECORATOR_ACTIONS);
     HBox.setHgrow(this.actions, Priority.ALWAYS);
     this.header = NodeHelper.addClass(new HBox(logoBox, actions), STAGE_DECORATOR_HEADER);
+    StackPane.setAlignment(header, Pos.TOP_CENTER);
     // 容器
-    this.root = NodeHelper.addClass(new VBox(header), STAGE_DECORATOR_ROOT);
-    this.container = NodeHelper.addClass(new StackPane(root), STAGE_DECORATOR_CONTAINER);
-    this.getChildren().setAll(container);
+    this.root = NodeHelper.addClass(new StackPane(header), STAGE_DECORATOR_ROOT);
+    this.getChildren().setAll(root);
   }
 
   /**
@@ -196,15 +193,15 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
    */
   private void initStageBehavior() {
     // 点击窗口和点击header时 更新鼠标位值
-    this.container.addEventFilter(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
+    this.root.addEventFilter(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
     header.addEventFilter(MouseEvent.MOUSE_PRESSED, this::updateInitMouseValues);
     // 在边框上显示拖动光标
-    this.container.addEventFilter(MouseEvent.MOUSE_MOVED, this::showDragCursorOnTheBorder);
+    this.root.addEventFilter(MouseEvent.MOUSE_MOVED, this::showDragCursorOnTheBorder);
     // 处理舞台拖动事件
-    this.container.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> isDragging = false);
-    this.container.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::onStageDragged);
+    this.root.addEventFilter(MouseEvent.MOUSE_RELEASED, e -> isDragging = false);
+    this.root.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::onStageDragged);
     this.setOnMouseClicked(e -> {
-      if (e.getTarget().equals(container) && getCursor().equals(Cursor.DEFAULT)) {
+      if (e.getTarget().equals(root) && getCursor().equals(Cursor.DEFAULT)) {
         stage.toBack();
       }
     });
@@ -320,8 +317,11 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
     if (this.content != null) {
       this.root.getChildren().remove(content);
     }
-    this.root.getChildren().add(content);
+    this.root.getChildren().add(0, content);
     this.content = content;
+    if (!this.content.getStyleClass().contains(STAGE_DECORATOR_CONTENT)) {
+      this.content.getStyleClass().add(STAGE_DECORATOR_CONTENT);
+    }
   }
 
   /**
@@ -356,8 +356,8 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
     }
     double x = mouseEvent.getX();
     double y = mouseEvent.getY();
-    if (this.container.getBorder() != null && !this.container.getBorder().getStrokes().isEmpty()) {
-      double borderWidth = this.container.snappedLeftInset();
+    if (this.root.getBorder() != null && !this.root.getBorder().getStrokes().isEmpty()) {
+      double borderWidth = this.root.snappedLeftInset();
       if (isRightEdge(x)) {
         if (y < borderWidth) {
           this.setCursor(Cursor.NE_RESIZE);
@@ -458,8 +458,8 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
    * @return true 是
    */
   private boolean isRightEdge(double x) {
-    final double width = this.container.getWidth();
-    return x < width && x > width - this.container.snappedLeftInset();
+    final double width = this.root.getWidth();
+    return x < width && x > width - this.root.snappedLeftInset();
   }
 
   /**
@@ -469,7 +469,7 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
    * @return true 是
    */
   private boolean isTopEdge(double y) {
-    return y >= 0 && y < this.container.snappedLeftInset();
+    return y >= 0 && y < this.root.snappedLeftInset();
   }
 
   /**
@@ -479,8 +479,8 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
    * @return true 是
    */
   private boolean isBottomEdge(double y) {
-    final double height = this.container.getHeight();
-    return y < height && y > height - this.container.snappedLeftInset();
+    final double height = this.root.getHeight();
+    return y < height && y > height - this.root.snappedLeftInset();
   }
 
   /**
@@ -490,7 +490,7 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
    * @return true 是
    */
   private boolean isLeftEdge(double x) {
-    return x >= 0 && x < this.container.snappedLeftInset();
+    return x >= 0 && x < this.root.snappedLeftInset();
   }
 
   /**
@@ -500,7 +500,7 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
    * @return 舞台宽度
    */
   private boolean setStageWidth(double width) {
-    if (width >= stage.getMinWidth() + this.container.snappedRightInset() + this.container.snappedLeftInset() && width >= header.getMinWidth()) {
+    if (width >= stage.getMinWidth() + this.root.snappedRightInset() + this.root.snappedLeftInset() && width >= header.getMinWidth()) {
       stage.setWidth(width);
       return true;
     } else if (width >= stage.getMinWidth() && width <= header.getMinWidth()) {
@@ -511,13 +511,37 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
   }
 
   /**
+   * 显示窗口头部
+   */
+  public void hideHeader() {
+    if (!isHeaderHidden()) {
+      this.header.getChildren().clear();
+      this.getStyleClass().add(HIDDEN_HEADER);
+    }
+  }
+
+  /**
+   * 隐藏窗口头部
+   */
+  public void showHeader() {
+    if (isHeaderHidden()) {
+      this.header.getChildren().setAll(logoBox, actions);
+      this.getStyleClass().remove(HIDDEN_HEADER);
+    }
+  }
+
+  public boolean isHeaderHidden() {
+    return this.header.getChildren().isEmpty();
+  }
+
+  /**
    * 设置舞台高度
    *
    * @param height 舞台高度
    * @return 舞台高度
    */
   private boolean setStageHeight(double height) {
-    if (height >= (stage.getMinHeight() + this.container.snappedRightInset() + this.container.snappedLeftInset()) && height >= header.getHeight()) {
+    if (height >= (stage.getMinHeight() + this.root.snappedRightInset() + this.root.snappedLeftInset()) && height >= header.getHeight()) {
       stage.setHeight(height);
       return true;
     } else if (height >= stage.getMinHeight() && height <= header.getHeight()) {
@@ -538,12 +562,12 @@ public class StageDecorator extends StackPane implements LocalizedSupport {
     // 切换按钮图标及提示
     if (maximized) {
       this.setPadding(Insets.EMPTY);
-      this.container.setBorder(Border.EMPTY);
+      this.root.setBorder(Border.EMPTY);
       btnMax.setGraphic(restoreIcon);
       btnMax.setTip(localized("decorator.restore"));
     } else {
       this.setPadding(DEFAULT_PADDING);
-      this.container.setBorder(DEFAULT_BORDER);
+      this.root.setBorder(DEFAULT_BORDER);
       btnMax.setGraphic(maxIcon);
       btnMax.setTip(localized("decorator.max"));
     }

@@ -1,0 +1,33 @@
+@import "../define/_global";
+
+
+.jfx-tab-pane {
+  -fx-color: #000;
+
+  .tab-header-background {
+    -fx-background-color: -fx-base;
+  }
+
+  .headers-region {
+    .tab {
+      & > .jfx-rippler {
+        -jfx-rippler-fill: -fx-color;
+      }
+
+      &:selected .tab-container .tab-label {
+        @include ladderTextFill(-fx-base);
+      }
+    }
+
+    .tab-container .tab-label {
+      @include ladderTextFill(-fx-base);
+      -fx-font-weight: BOLD;
+      -fx-padding: 3 10 3 10;
+      -fx-font-size: 13;
+    }
+
+    .tab-selected-line {
+      -fx-background-color: -fx-color;;
+    }
+  }
+}

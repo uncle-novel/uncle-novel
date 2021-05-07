@@ -2,17 +2,20 @@
 
 .title-bar {
   -fx-action-color: #009688;
+  -fx-padding: $_10px $_10px 0 $_10px !important;
+  -fx-alignment: center;
 
   .title {
+    -fx-padding: -$_2px 0 0 0;
     @include ladderTextFill(-fx-base);
     -fx-font-size: $_20px;
   }
 
   .content {
-
   }
 
   .actions {
+    -fx-alignment: center;
     @include shadow-br-3(-fx-action-color);
     -fx-spacing: 5;
     -fx-background-color: -fx-action-color;

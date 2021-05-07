@@ -1,1 +1,51 @@
 @import "../../define/global";
+
+.fiction-bookshelf {
+  .group-panel {
+    -fx-background-color: -fx-base;
+    -jfx-disable-animation: true;
+  }
+
+  .book-node {
+    $node-width: $_95px;
+    $node-height: $_120px;
+    -fx-padding: 0 !important;
+
+    .book-node-container {
+      -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 15, 0.16, 0, 4);
+      -fx-background-color: -fx-base;
+      -fx-pref-height: $node-height !important;
+      -fx-pref-width: $node-width !important;
+      -fx-min-width: -fx-pref-width;
+      -fx-max-width: -fx-pref-width;
+      -fx-max-height: -fx-pref-height;
+      -fx-min-height: -fx-pref-height;
+      -fx-padding: 0;
+      -fx-cursor: hand;
+
+      .title {
+        -fx-wrap-text: true;
+        -fx-alignment: center;
+        -fx-pref-width: $node-width;
+        -fx-background-color: rgba(0, 0, 0, 0.46);
+        -fx-text-fill: white;
+        -fx-padding: $_2px;
+        -fx-opacity: 0;
+      }
+
+      &:hover {
+        .title {
+          -fx-opacity: 1;
+        }
+      }
+
+      .tip {
+        -fx-text-fill: white;
+        -fx-background-color: red;
+        -fx-padding: 1px 5px 1px 5px;
+        -fx-border-radius: 10 0 0 10;
+        -fx-background-radius: 10 0 0 10;
+      }
+    }
+  }
+}

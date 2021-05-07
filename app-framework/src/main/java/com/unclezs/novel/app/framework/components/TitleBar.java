@@ -4,7 +4,8 @@ import com.unclezs.novel.app.framework.util.NodeHelper;
 import javafx.beans.NamedArg;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class TitleBar extends AnchorPane {
+public class TitleBar extends HBox {
 
   public static final String DEFAULT_STYLE_CLASS = "title-bar";
 
@@ -31,11 +32,11 @@ public class TitleBar extends AnchorPane {
     NodeHelper.addClass(this, DEFAULT_STYLE_CLASS);
 
     Label titleLabel = NodeHelper.addClass(new Label(title), "title");
-    AnchorPane.setLeftAnchor(titleLabel, 10D);
+    titleLabel.setMaxWidth(Double.MAX_VALUE);
+    HBox.setHgrow(titleLabel, Priority.ALWAYS);
 
     if (content != null) {
       NodeHelper.addClass(content, "content");
-      AnchorPane.setRightAnchor(content, 10D);
       getChildren().addAll(titleLabel, content);
     } else {
       getChildren().add(titleLabel);

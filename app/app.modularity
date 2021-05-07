@@ -5,3 +5,4 @@
 --add-exports=javafx.base/com.sun.javafx.event=com.jfoenix
 --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix
 --add-exports=javafx.controls/com.sun.javafx.scene.control=com.jfoenix
+--add-exports=javafx.controls/com.sun.javafx.scene.control.skin=com.unclezs.novel.app.main

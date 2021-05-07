@@ -28,11 +28,11 @@
         view="com.unclezs.novel.app.main.ui.home.views.SearchAudioView"/>
     </SidebarMenu>
     <SidebarMenu name="%home.menu.read">
-      <SidebarMenuItem
+      <SidebarMenuItem selected="true"
         icon="bookshelf"
         text="%home.menu.read.text"
         view="com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView"/>
-      <SidebarMenuItem selected="true"
+      <SidebarMenuItem
         icon="audio_bookshelf"
         text="%home.menu.read.audio"
         view="com.unclezs.novel.app.main.ui.home.views.AudioBookShelfView"/>

@@ -6,8 +6,11 @@ import com.unclezs.novel.analyzer.util.SerializationUtils;
 import lombok.Data;
 
 /**
+ * 小说下载数据包
+ *
  * @author blog.unclezs.com
- * @date 2021/5/5 21:28
+ * @date 2021/4/30 15:18
+ * @see com.unclezs.novel.app.main.ui.home.views.DownloadManagerView
  */
 @Data
 public class BookBundle {

@@ -1,15 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXMasonryPane?>
-<?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import com.jfoenix.controls.JFXNodesList?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.icon.IconButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
 <StackPane xmlns="https://javafx.com/javafx" styleClass="fiction-bookshelf" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView">
-  <VBox styleClass="container">
-    <TitleBar title="%home.menu.read.text">
-    </TitleBar>
-  </VBox>
-  <StackPane>
-    <JFXMasonryPane fx:id="bookPanel" maxHeight="Infinity" maxWidth="Infinity" nodeOrientation="LEFT_TO_RIGHT" VSpacing="15"/>
-  </StackPane>
+  <JFXTabPane fx:id="groupPanel" styleClass="group-panel">
+    <fx:define>
+      <ScrollPane fitToWidth="true" hbarPolicy="NEVER">
+        <JFXMasonryPane fx:id="bookPanel" maxHeight="Infinity" cellWidth="126" maxWidth="Infinity">
+          <padding>
+            <Insets left="5"/>
+          </padding>
+        </JFXMasonryPane>
+      </ScrollPane>
+      <ContextMenu fx:id="bookNodeContextMenu">
+        <items>
+          <MenuItem text="设置分组" onAction="#setGroup">
+            <graphic>
+              <Icon value="plus"/>
+            </graphic>
+          </MenuItem>
+        </items>
+      </ContextMenu>
+      <ContextMenu fx:id="groupTabContextMenu">
+        <items>
+          <MenuItem text="删除分组" onAction="#deleteGroup">
+            <graphic>
+              <Icon value="stop"/>
+            </graphic>
+          </MenuItem>
+        </items>
+      </ContextMenu>
+    </fx:define>
+  </JFXTabPane>
+  <JFXNodesList rotate="180.0" fx:id="floatButtons" StackPane.alignment="BOTTOM_RIGHT" styleClass="float-actions" pickOnBounds="false">
+    <StackPane.margin>
+      <Insets bottom="20" right="20"/>
+    </StackPane.margin>
+    <IconButton icon="airport" styleClass="primary-button" pickOnBounds="false"/>
+    <IconButton icon="plus" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="本地导入"/>
+    <IconButton icon="update" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="全部更新"/>
+  </JFXNodesList>
 </StackPane>

@@ -3,6 +3,7 @@ package com.unclezs.novel.app.main;
 import cn.hutool.core.util.StrUtil;
 import com.jfoenix.utils.JFXUtilities;
 import com.unclezs.novel.app.framework.appication.BaseApplication;
+import com.unclezs.novel.app.framework.appication.SceneNavigateBundle;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.core.AppContext;
@@ -10,7 +11,7 @@ import com.unclezs.novel.app.framework.exception.FxException;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.SettingManager;
-import com.unclezs.novel.app.main.ui.home.HomeView;
+import com.unclezs.novel.app.main.ui.reader.ReaderView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -89,6 +90,7 @@ public class App extends BaseApplication {
     try {
       super.start(stage);
       initStage(stage);
+      getIndexView().onShow(new SceneNavigateBundle());
       stage.show();
       checkForUpdate(stage);
     } catch (Throwable e) {
@@ -126,7 +128,8 @@ public class App extends BaseApplication {
 
   @Override
   public SceneView<? extends Parent> getIndexView() {
-    return AppContext.getView(HomeView.class);
+    return AppContext.getView(ReaderView.class);
+//    return AppContext.getView(HomeView.class);
   }
 
   /**
