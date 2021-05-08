@@ -1,0 +1,108 @@
+@import "../../define/global";
+
+.reader-theme-view {
+  -fx-alignment: center-left;
+  -fx-padding: 0;
+  -fx-spacing: $_25px;
+
+  .theme-color-box {
+    -fx-spacing: $_10px;
+    -fx-alignment: center;
+
+    .color-box-item {
+      -fx-alignment: center;
+      -fx-pref-width: $_38px;
+      -fx-pref-height: $_38px;
+      -fx-background-radius: 5px;
+      -fx-border-radius: 5px;
+      -fx-text-fill: white;
+      -fx-font-size: $_11px;
+      -fx-content-display: GRAPHIC_ONLY;
+      @include shadow-br-3(derive(-fx-base, -100%));
+
+      &.current {
+        -fx-icon: "checked";
+
+        .icon {
+          -fx-icon-size: 14px;
+          @include ladderTextFill(theme-color);
+        }
+      }
+
+      &:hover {
+        @include shadow-br-1(derive(-fx-base, -100%));
+      }
+
+      &.default {
+        -fx-background-color: #3b4252;
+      }
+
+      &.dark {
+        -fx-background-color: rgb(43, 43, 43);
+      }
+
+      &.green {
+        -fx-background-color: #ceebce;
+      }
+
+      &.yellow {
+        -fx-background-color: #e6dbbf;
+      }
+
+      &.white {
+        -fx-background-color: #F0F0F0;
+      }
+
+      &.pink {
+        -fx-background-color: #eec5cb;
+      }
+
+      &.purple {
+        -fx-background-color: rgb(155, 89, 182);
+      }
+
+      &.deep-blue {
+        -fx-background-color: rgb(79, 98, 208);
+      }
+
+      &.light-blue {
+        -fx-background-color: rgb(57, 175, 234);
+      }
+
+      &.teal {
+        -fx-background-color: rgb(51, 110, 123);
+      }
+
+      &.orange {
+        -fx-background-color: rgb(255, 143, 87);
+      }
+
+      &.grey {
+        -fx-background-color: rgb(108, 122, 137);
+      }
+    }
+
+    .color-box-item-custom {
+      @extend .color-box-item;
+      -fx-color-label-visible: false;
+      -fx-color-rect-width: 0;
+      -fx-background-color: linear-gradient(to bottom, rgb(225, 233, 237), rgb(253, 253, 254));
+      -fx-color-rect-height: 0;
+      -fx-content-display: graphic_only;
+      -fx-graphic: url('/assets/images/plus.png');
+      -fx-padding: 1 0 0 -3;
+
+      .color-picker-label {
+      }
+
+      .arrow-button {
+        -fx-background-color: transparent;
+
+        .arrow {
+          -fx-background-color: transparent;
+        }
+      }
+    }
+
+  }
+}

@@ -1,0 +1,15 @@
+@import "../../define/_global.scss";
+
+$base: #FFF;
+$theme-bg-color: $base;
+
+$theme-color: #3b4252;
+$theme-color-dark: $md_grey-600;
+$theme-color-light: rgba(59, 66, 82, 0.2);
+$theme-hover-color: $md_grey_400;
+$theme-icon-hover-color: $theme-color;
+$theme-border-color: rgb(224, 224, 224);
+$sidebar-bg-color: $theme-bg-color;
+$header-bg-color: $theme-color;
+
+@import "theme";

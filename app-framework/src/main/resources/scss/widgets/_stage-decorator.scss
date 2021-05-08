@@ -45,6 +45,7 @@
         -fx-alignment: center-right;
         -fx-padding: 0 $_15px 0 0;
         -fx-spacing: $_4px;
+        -fx-min-width: $_200px;
 
         .icon-button {
           @include ladderTextFill(-fx-header-bg-color);

@@ -62,4 +62,9 @@ public class BookLoader extends AbstractBookLoader {
     }
     return null;
   }
+
+  @Override
+  public boolean isCached(int index) {
+    return FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), String.valueOf(index)).exists();
+  }
 }

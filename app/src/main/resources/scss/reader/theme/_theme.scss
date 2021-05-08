@@ -1,0 +1,102 @@
+.root {
+  -fx-base: $theme-bg-color;
+  // 主题背景色
+  theme-bg-color: $theme-bg-color;
+  // 主题的主要颜色，按钮 / 输入框 等等
+  theme-color: $theme-color;
+  theme-color-light: $theme-color-light;
+  // 相对背景的暗色（分隔符、提示文字）
+  theme-color-dark: $theme-color-dark;
+  // 用于边框
+  theme-border-color: $theme-border-color;
+  // hover时候的颜色 按钮，菜单等
+  theme-hover-color: $theme-hover-color;
+  // 图标hover颜色
+  theme-icon-hover-color: $theme-icon-hover-color;
+}
+
+.stage-decorator {
+  -fx-bg-color: $theme-bg-color;
+  -fx-header-bg-color: $header-bg-color;
+  // 装饰器
+  .sidebar-nav {
+    // 真正内容view背景颜色
+    -fx-sidebar-nav-bg-color: $theme-bg-color;
+    // 侧边栏颜色
+    -fx-sidebar-bg-color: $sidebar-bg-color;
+    -fx-sidebar-border-color: $theme-border-color;
+    // 菜单按钮选中时颜色
+    -fx-menu-bg-color-selected: $theme-color;
+    // 菜单按钮hover时颜色
+    -fx-menu-bg-color-hover: $theme-hover-color;
+  }
+}
+
+.jfx-alert-overlay {
+  -fx-bg-color: $theme-bg-color;
+}
+
+.loading {
+  -fx-bg-color: $theme-bg-color;
+}
+
+.scroll-bar {
+  // 滚动条颜色
+  -fx-color: $theme-color-light;
+  // 滚动条hover颜色
+  -fx-hover-color: $theme-color-dark;
+}
+
+.jfx-slider {
+  -jfx-default-thumb: $theme-color;
+  -jfx-default-track: $theme-color-light;
+}
+
+.check-box {
+  -fx-checked-color: $theme-color;
+  -fx-unchecked-color: $theme-color-dark;
+}
+
+.list-view {
+  -fx-selected-color: $theme-color-dark;
+  -fx-separator-color: $theme-color-light;
+}
+
+.tab-button {
+  -fx-selected-color: $theme-color;
+  -fx-color: $theme-color-light;
+}
+
+.jfx-tab-pane {
+  -fx-color: $theme-color;
+}
+
+.text-field,
+.text-area,
+.input-box,
+.spinner,
+.loading-image-view {
+  -fx-bg-color: $theme-color-light;
+}
+
+.progress-bar {
+  -fx-color: $theme-color;
+  -fx-bg-color: $theme-color-light;
+}
+
+.tag {
+  -fx-tag-color: $theme-color;
+}
+
+.context-menu {
+  -fx-selected-color: $theme-color;
+}
+
+.combo-box-base {
+  -fx-bg-color: $theme-color-light;
+  -fx-selected-color: $theme-color;
+}
+
+.reader-container {
+  -fx-bg-color: $theme-color;
+}

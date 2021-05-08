@@ -31,6 +31,7 @@ open module com.unclezs.novel.app.framework {
   exports com.unclezs.novel.app.framework.executor;
   exports com.unclezs.novel.app.framework.appication;
   exports com.unclezs.novel.app.framework.annotation;
+  exports com.unclezs.novel.app.framework.animation;
   exports com.unclezs.novel.app.framework.collection;
   exports com.unclezs.novel.app.framework.exception;
   exports com.unclezs.novel.app.framework.serialize;

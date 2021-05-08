@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.framework.serialize.PropertyJsonSerializer;
 import com.unclezs.novel.app.main.model.DownloadConfig;
 import com.unclezs.novel.app.main.model.Proxy;
+import com.unclezs.novel.app.main.model.ReaderConfig;
 import com.unclezs.novel.app.main.model.SearchEngine;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import java.io.File;
@@ -41,6 +42,10 @@ public class SettingManager {
    * 下载配置
    */
   private DownloadConfig download = new DownloadConfig();
+  /**
+   * 阅读器配置
+   */
+  private ReaderConfig reader = new ReaderConfig();
   /**
    * 全网搜书的搜索引擎配置
    */

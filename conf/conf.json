@@ -10,6 +10,18 @@
     "txt": true,
     "epub": true
   },
+  "reader": {
+    "themeName": "pink",
+    "bgImage": "",
+    "fontSize": 17.428571428571427,
+    "fontFamily": "圆体-简",
+    "align": "JUSTIFY",
+    "showHeader": false,
+    "pageWidth": 0.9206349206349207,
+    "lineSpacing": 3.8095238095238093,
+    "stageWidth": 753.0,
+    "stageHeight": 768.0
+  },
   "searchEngines": [
     {
       "enabled": true,

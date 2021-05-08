@@ -1,3 +1,113 @@
+@import "../define/global";
+
+@import "widgets/theme-view";
+
 .stage-decorator {
 
+  &.hidden-header {
+    .container {
+      -fx-background-radius: 8;
+      -fx-border-radius: 8;
+    }
+  }
+
+  .reader-container {
+    //-fx-bg-color: #ceebce;
+    -fx-background-color: -fx-bg-color;
+    -fx-alignment: center;
+    -fx-padding: 0 0 0 0;
+
+    .content {
+      .title {
+        -fx-font-size: 30px;
+        -fx-font-weight: bold;
+        -fx-alignment: center;
+        @include ladderTextFill(-fx-bg-color);
+      }
+
+      -fx-background-color: -fx-bg-color;
+      -fx-alignment: top-left;
+      -fx-text-overrun: clip;
+      -fx-wrap-text: true;
+      -fx-font-size: 18px;
+      -fx-font-weight: normal !important;
+      @include ladderTextFill(-fx-bg-color);
+    }
+  }
+
+  .setting-box {
+    -fx-spacing: $_20px;
+    -fx-alignment: center;
+    -fx-padding: 0 10 10 10;
+
+    .tipLabel {
+      -fx-pref-width: $_70px;
+      -fx-min-width: $_70px;
+    }
+
+    .chapter-slider-box {
+      -fx-padding: 0 0 0 0;
+      -fx-alignment: center;
+      -fx-spacing: 1;
+
+      .chapter-slider-button {
+        -fx-pref-width: $_70px;
+      }
+
+      .chapter-slider {
+        -fx-block-increment: 1;
+      }
+    }
+
+    .font-selector {
+      .combo-box-base {
+        .label {
+          -fx-alignment: left;
+        }
+      }
+    }
+
+    .setting-action-box {
+      -fx-alignment: center;
+
+      .icon-button {
+        -fx-content-display: top;
+
+        .icon {
+          -fx-icon-size: 18px;
+        }
+      }
+
+      .speak {
+        -fx-icon: "speak";
+
+        &:selected {
+          -fx-icon: "no_speak";
+        }
+      }
+    }
+
+    .align-box {
+      .tab-button {
+        -fx-content-display: graphic_only;
+        -fx-padding: 1 5 2 5;
+        -fx-background-radius: 5;
+
+        .icon {
+          -fx-icon-size: 15px;
+        }
+      }
+    }
+  }
+
+  .jfx-drawer-side-pane {
+    -fx-background-color: -fx-base;
+
+    .list-view {
+      .icon {
+        @include ladderTextFill(theme-color);
+      }
+    }
+  }
 }
+

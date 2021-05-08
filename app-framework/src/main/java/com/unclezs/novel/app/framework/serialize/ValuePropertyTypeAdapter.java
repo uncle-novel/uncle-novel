@@ -39,6 +39,9 @@ public class ValuePropertyTypeAdapter implements JsonSerializer<ObservableValue<
     if (value instanceof Float) {
       return new JsonPrimitive((Float) value);
     }
+    if (value instanceof Number) {
+      return new JsonPrimitive((Number) value);
+    }
     return null;
   }
 
@@ -66,6 +69,9 @@ public class ValuePropertyTypeAdapter implements JsonSerializer<ObservableValue<
     }
     if (actualType == Float.class) {
       return new SimpleObjectProperty<>(primitive.getAsFloat());
+    }
+    if (actualType == Number.class) {
+      return new SimpleObjectProperty<>(primitive.getAsDouble());
     }
     return null;
   }

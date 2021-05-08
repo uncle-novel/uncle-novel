@@ -49,4 +49,12 @@ public abstract class AbstractBookLoader {
    * @return 正文
    */
   public abstract String loadContent(int index);
+
+  /**
+   * 正文是否已经被缓存了
+   *
+   * @param index 索引
+   * @return true 已经被缓存
+   */
+  public abstract boolean isCached(int index);
 }

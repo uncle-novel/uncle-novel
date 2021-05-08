@@ -1,6 +1,8 @@
 package com.unclezs.novel.app.main.ui.home;
 
 import com.jfoenix.controls.JFXPopup;
+import com.jfoenix.controls.JFXPopup.PopupHPosition;
+import com.jfoenix.controls.JFXPopup.PopupVPosition;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.appication.SceneNavigateBundle;
 import com.unclezs.novel.app.framework.appication.SceneView;
@@ -33,7 +35,7 @@ public class HomeView extends SceneView<StageDecorator> {
 
   @Override
   public void onTheme(StageDecorator view, IconButton themeButton) {
-    themePopupView.getRoot().show(themeButton, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 40);
+    themePopupView.getRoot().show(themeButton, PopupVPosition.BOTTOM, PopupHPosition.LEFT, 0, 0);
   }
 
   @Override
