@@ -3,7 +3,6 @@ package com.unclezs.novel.app.main;
 import cn.hutool.core.util.StrUtil;
 import com.jfoenix.utils.JFXUtilities;
 import com.unclezs.novel.app.framework.appication.BaseApplication;
-import com.unclezs.novel.app.framework.appication.SceneNavigateBundle;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.core.AppContext;
@@ -11,12 +10,10 @@ import com.unclezs.novel.app.framework.exception.FxException;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.SettingManager;
-import com.unclezs.novel.app.main.ui.reader.ReaderView;
+import com.unclezs.novel.app.main.ui.home.HomeView;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
@@ -90,7 +87,6 @@ public class App extends BaseApplication {
     try {
       super.start(stage);
       initStage(stage);
-      getIndexView().onShow(new SceneNavigateBundle());
       stage.show();
       checkForUpdate(stage);
     } catch (Throwable e) {
@@ -128,8 +124,8 @@ public class App extends BaseApplication {
 
   @Override
   public SceneView<? extends Parent> getIndexView() {
-    return AppContext.getView(ReaderView.class);
-//    return AppContext.getView(HomeView.class);
+//    return AppContext.getView(ReaderView.class);
+    return AppContext.getView(HomeView.class);
   }
 
   /**
@@ -153,15 +149,5 @@ public class App extends BaseApplication {
       String version = (String) data.get(VERSION_KEY);
       Executor.run(() -> JFXUtilities.runInFX(() -> ModalBox.none().cancel("了解了").message(whatNew.toString()).title("更新内容 - V".concat(version)).show()), 1000);
     });
-  }
-
-  private void randomLang() {
-    Random random = new Random();
-    int i = random.nextInt(3);
-    if (i == 1) {
-      Locale.setDefault(Locale.ENGLISH);
-    } else if (i == 2) {
-      Locale.setDefault(Locale.TAIWAN);
-    }
   }
 }

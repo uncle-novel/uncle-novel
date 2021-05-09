@@ -9,26 +9,26 @@
 <?import com.unclezs.novel.app.framework.components.StageDecorator?>
 <?import com.unclezs.novel.app.framework.components.TabButton?>
 <?import com.unclezs.novel.app.framework.components.TabGroup?>
+<?import com.unclezs.novel.app.main.ui.reader.views.PageView?>
 <?import com.unclezs.novel.app.main.ui.reader.views.ReaderThemeView?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StageDecorator xmlns:fx="http://javafx.com/fxml/1" max="true"
   min="true"
-  minHeight="400.0" minWidth="340.00" prefHeight="700.0"
+  minHeight="150.0" minWidth="300.00" prefHeight="700.0"
   prefWidth="500.0" setting="true"
   xmlns="https://javafx.com/javafx/16"
   fx:controller="com.unclezs.novel.app.main.ui.reader.ReaderView">
   <JFXDrawersStack fx:id="drawer">
     <JFXDrawer fx:id="tocDrawer" defaultDrawerSize="350" direction="LEFT">
       <sidePane>
-        <ListView fx:id="tocListView">
+        <ListView fx:id="tocListView" styleClass="toc-list-view">
           <placeholder>
             <PlaceHolder tip="没有发现章节"/>
           </placeholder>
@@ -37,66 +37,61 @@
     </JFXDrawer>
     <JFXDrawer fx:id="settingDrawer" overLayVisible="true" defaultDrawerSize="320" direction="BOTTOM">
       <sidePane>
-        <VBox styleClass="setting-box">
-          <HBox styleClass="chapter-slider-box">
-            <Label styleClass="chapter-slider-button" onMouseClicked="#preChapter" text="上一章"/>
-            <JFXSlider fx:id="chapterSlider" HBox.hgrow="ALWAYS" min="1" blockIncrement="1"/>
-            <Label styleClass="chapter-slider-button" alignment="center_right" onMouseClicked="#nextChapter" text="下一章"/>
-          </HBox>
-          <FlowPane hgap="20" vgap="30">
-            <HBox>
-              <Label styleClass="tipLabel" text="字体大小"/>
-              <JFXSlider fx:id="fontSizeSlider" max="30" min="12"/>
-            </HBox>
-            <HBox>
-              <Label styleClass="tipLabel" text="行间距离"/>
-              <JFXSlider fx:id="lineSpaceSlider" max="20"/>
-            </HBox>
-            <HBox>
-              <Label styleClass="tipLabel" text="页面宽度"/>
-              <JFXSlider fx:id="pageWidthSlider" min="0.5" max="1"/>
-            </HBox>
-          </FlowPane>
-          <HBox>
-            <Label styleClass="tipLabel" text="字体样式"/>
-            <ComboBox fx:id="fontSelector" styleClass="font-selector" maxWidth="150"/>
-          </HBox>
-          <HBox styleClass="align-box">
-            <Label styleClass="tipLabel">正文布局</Label>
-            <HBox spacing="20">
-              <fx:define>
-                <TabGroup fx:id="alignGroup"/>
-              </fx:define>
-              <TabButton icon="align_left" tabGroup="$alignGroup" id="left" userData="LEFT"/>
-              <TabButton icon="align_right" tabGroup="$alignGroup" id="right" userData="RIGHT"/>
-              <TabButton icon="align_center" tabGroup="$alignGroup" id="center" userData="CENTER"/>
-              <TabButton icon="align_justify" tabGroup="$alignGroup" id="justify" userData="JUSTIFY"/>
-            </HBox>
-          </HBox>
-          <HBox alignment="center_left">
-            <Label styleClass="tipLabel" text="主题背景"/>
-            <ReaderThemeView fx:id="themeView"/>
-          </HBox>
+        <VBox styleClass="setting-box" maxHeight="320">
+          <ScrollPane fitToWidth="true">
+            <VBox styleClass="setting-item-box">
+              <HBox styleClass="chapter-slider-box">
+                <Label styleClass="chapter-slider-button" onMouseClicked="#preChapter" text="上一章"/>
+                <JFXSlider fx:id="chapterSlider" HBox.hgrow="ALWAYS" min="1" blockIncrement="1"/>
+                <Label styleClass="chapter-slider-button" alignment="center_right" onMouseClicked="#nextChapter" text="下一章"/>
+              </HBox>
+              <FlowPane hgap="20" vgap="30">
+                <HBox alignment="center_left">
+                  <Label styleClass="tipLabel" text="字体大小"/>
+                  <JFXSlider fx:id="fontSizeSlider" max="30" min="12"/>
+                </HBox>
+                <HBox alignment="center_left">
+                  <Label styleClass="tipLabel" text="行间距离"/>
+                  <JFXSlider fx:id="lineSpaceSlider" max="20"/>
+                </HBox>
+                <HBox alignment="center_left">
+                  <Label styleClass="tipLabel" text="页面宽度"/>
+                  <JFXSlider fx:id="pageWidthSlider" min="0.5" max="1"/>
+                </HBox>
+              </FlowPane>
+              <HBox alignment="center_left">
+                <Label styleClass="tipLabel" text="字体样式"/>
+                <ComboBox fx:id="fontSelector" styleClass="font-selector" maxWidth="150"/>
+              </HBox>
+              <HBox styleClass="align-box">
+                <Label styleClass="tipLabel">正文布局</Label>
+                <HBox spacing="20">
+                  <fx:define>
+                    <TabGroup fx:id="alignGroup"/>
+                  </fx:define>
+                  <TabButton icon="align_left" tabGroup="$alignGroup" id="left" userData="LEFT"/>
+                  <TabButton icon="align_right" tabGroup="$alignGroup" id="right" userData="RIGHT"/>
+                  <TabButton icon="align_center" tabGroup="$alignGroup" id="center" userData="CENTER"/>
+                  <TabButton icon="align_justify" tabGroup="$alignGroup" id="justify" userData="JUSTIFY"/>
+                </HBox>
+              </HBox>
+              <HBox alignment="center_left">
+                <Label styleClass="tipLabel" text="主题背景"/>
+                <ReaderThemeView fx:id="themeView"/>
+              </HBox>
+            </VBox>
+          </ScrollPane>
           <HBox styleClass="setting-action-box">
-            <IconButton icon="toc" onAction="#showToc" maxWidth="Infinity" HBox.hgrow="always" text="目录"/>
-            <SelectableButton icon="speak" onAction="#speak" selected="false" maxWidth="Infinity" HBox.hgrow="always" text="朗读" styleClass="speak"/>
+            <IconButton icon="toc" ripplerFill="transparent" onAction="#showToc" maxWidth="Infinity" HBox.hgrow="always" text="目录"/>
+            <SelectableButton icon="speak" onAction="#speak" fx:id="speakButton" selected="false" maxWidth="Infinity" HBox.hgrow="always" text="朗读" styleClass="speak"/>
+            <IconButton icon="stop" onAction="#closeSetting" maxWidth="Infinity" HBox.hgrow="always" text="关闭"/>
           </HBox>
         </VBox>
       </sidePane>
     </JFXDrawer>
     <StackPane fx:id="container" styleClass="reader-container">
-      <HBox alignment="center" StackPane.alignment="BOTTOM_CENTER" minHeight="50" maxHeight="50">
-        <StackPane.margin>
-          <Insets bottom="50"/>
-        </StackPane.margin>
-        <Button text="show" fx:id="show"/>
-        <Button text="hide" fx:id="hide"/>
-        <Button text="上一页" fx:id="pre" onAction="#prePage"/>
-        <Button text="下一页" fx:id="next" onAction="#nextPage"/>
-        <Button text="上一章" fx:id="preChapter" onAction="#preChapter"/>
-        <Button text="下一章" fx:id="nextChapter" onAction="#nextChapter"/>
-        <Button text="目录" fx:id="showToc" onAction="#showToc"/>
-      </HBox>
+      <PageView container="$container" fx:id="otherPage"/>
+      <PageView container="$container" fx:id="currentPage"/>
     </StackPane>
   </JFXDrawersStack>
 </StageDecorator>

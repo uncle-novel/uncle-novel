@@ -4,6 +4,7 @@ import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.ui.reader.animation.NextPageTransition;
 import com.unclezs.novel.app.main.ui.reader.animation.PrePageTransition;
 import javafx.animation.Transition;
+import javafx.beans.NamedArg;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
@@ -16,6 +17,7 @@ import lombok.Getter;
  */
 public class PageView extends Label {
 
+  public static final String DEFAULT_STYLE_CLASS = "page-view";
   @Getter
   private final Transition preTransition;
   @Getter
@@ -23,13 +25,14 @@ public class PageView extends Label {
   @Getter
   private final Label title = NodeHelper.addClass(new Label(), "title");
 
-  public PageView(Region container) {
+
+  public PageView(@NamedArg("container") Region container) {
     preTransition = new PrePageTransition(this, container);
     nextTransition = new NextPageTransition(this, container);
     this.setWrapText(true);
     this.setTextOverrun(OverrunStyle.CLIP);
     this.setMaxHeight(Double.MAX_VALUE);
-    this.getStyleClass().add("content");
+    this.getStyleClass().add(DEFAULT_STYLE_CLASS);
     this.setContentDisplay(ContentDisplay.TOP);
     this.title.maxWidthProperty().bind(widthProperty());
   }
@@ -43,9 +46,9 @@ public class PageView extends Label {
     if (titleText == null) {
       this.setGraphic(null);
     } else {
-      System.out.println(titleText);
       this.setGraphic(this.title);
       this.title.setText(titleText);
     }
   }
+
 }

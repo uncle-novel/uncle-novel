@@ -22,8 +22,6 @@ public class Book {
   @DatabaseField
   protected String name;
   @DatabaseField
-  protected String group;
-  @DatabaseField
   protected String author;
   @DatabaseField
   protected String cover;
@@ -34,19 +32,21 @@ public class Book {
    */
   @DatabaseField
   protected int currentChapterIndex;
-  /**
-   * 当前进度
-   */
-  @DatabaseField
-  protected double currentProgress;
   protected List<Chapter> toc;
   protected AnalyzerRule rule;
+  @DatabaseField
+  private String group;
+  /**
+   * 当前页码
+   */
+  @DatabaseField
+  private int currentPage;
 
   /**
    * 从bookBundle转换得到
    *
    * @param bookBundle 小说信息
-   * @return audio book
+   * @return book
    */
   public static Book fromBookBundle(BookBundle bookBundle) {
     Novel novel = bookBundle.getNovel();
@@ -58,6 +58,8 @@ public class Book {
     book.toc = novel.getChapters();
     book.rule = bookBundle.getRule();
     book.id = IdUtil.fastSimpleUUID();
+    book.currentChapterIndex = 0;
+    book.currentPage = 0;
     return book;
   }
 }

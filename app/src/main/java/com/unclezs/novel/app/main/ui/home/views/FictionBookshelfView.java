@@ -10,6 +10,7 @@ import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.core.AppContext;
+import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.main.dao.BookDao;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.model.Book;
@@ -131,7 +132,7 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
       bookNodeContextMenu.show(bookNode, e.getScreenX(), e.getScreenY());
       e.consume();
     });
-    bookNode.setOnMouseClicked(event -> {
+    EventUtils.setOnMousePrimaryClick(bookNode, e -> {
       SceneNavigateBundle bundle = new SceneNavigateBundle();
       bundle.put(ReaderView.BUNDLE_READ_BOOK_KEY, book);
       AppContext.getView(HomeView.class).getApp().navigate(ReaderView.class, bundle);

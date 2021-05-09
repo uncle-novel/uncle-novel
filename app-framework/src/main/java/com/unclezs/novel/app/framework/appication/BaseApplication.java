@@ -56,6 +56,7 @@ public abstract class BaseApplication extends Application {
     // 首页
     loadSceneView(getIndexView());
     initScene();
+    getIndexView().onShow(new SceneNavigateBundle());
   }
 
   /**
@@ -98,9 +99,9 @@ public abstract class BaseApplication extends Application {
       bundle = new SceneNavigateBundle();
       bundle.setFrom(sceneView.getClass().getName());
     }
+    initScene();
     // 触发生命周期
     sceneView.onShow(bundle);
-    initScene();
     stage.show();
   }
 

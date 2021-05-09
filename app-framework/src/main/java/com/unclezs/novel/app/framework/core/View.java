@@ -48,7 +48,7 @@ public class View<V> implements Initializable, LocalizedSupport {
   }
 
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
+  public final void initialize(URL location, ResourceBundle resources) {
     if (resources != null) {
       this.bundleName = resources.getBaseBundleName();
     }

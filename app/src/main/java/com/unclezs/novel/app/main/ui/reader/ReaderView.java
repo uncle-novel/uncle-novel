@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXSlider;
 import com.sun.javafx.scene.control.skin.Utils;
 import com.unclezs.novel.analyzer.model.Chapter;
+import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.appication.SceneNavigateBundle;
 import com.unclezs.novel.app.framework.appication.SceneView;
@@ -14,7 +15,6 @@ import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.components.TabGroup;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
-import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.main.App;
@@ -24,9 +24,13 @@ import com.unclezs.novel.app.main.loader.BookLoader;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.Book;
 import com.unclezs.novel.app.main.model.ReaderConfig;
+import com.unclezs.novel.app.main.model.TTSConfig;
+import com.unclezs.novel.app.main.ui.home.HomeView;
 import com.unclezs.novel.app.main.ui.home.views.TocListCell;
+import com.unclezs.novel.app.main.ui.reader.player.TTSPlayer;
 import com.unclezs.novel.app.main.ui.reader.views.PageView;
 import com.unclezs.novel.app.main.ui.reader.views.ReaderThemeView;
+import com.unclezs.novel.app.main.ui.reader.views.widgets.ReaderContextMenu;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -36,42 +40,41 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.OverrunStyle;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author blog.unclezs.com
  * @since 2021/03/04 12:13
  */
+@Slf4j
 @FxView(fxml = "/layout/reader/reader.fxml")
 public class ReaderView extends SceneView<StageDecorator> {
 
 
   public static final String BUNDLE_READ_BOOK_KEY = "read-book-key";
   public static final String FONT_STYLE_FORMAT = "-fx-font-size: %spx;-fx-font-family: '%s'";
-  public static final String TITLE_STYLE_CLASS = "show-title";
+  public static final double TOC_AREA = 0.05;
+  public static final double REE_PAGE_AREA = 0.3;
+  public static final double NEXT_PAGE_AREA = 0.7;
   private final String[] contents = new String[3];
   /**
    * 当前章节所有页
    */
   private final List<String> pages = new ArrayList<>();
-  public ListView<Chapter> tocListView;
-  public Button hide;
-  public Button show;
-  public Button preChapter;
-  public Button nextChapter;
-  public Button pre;
-  public Button next;
-  public Button showToc;
-  public Label title;
-  private int current = -1;
+  private final IntegerProperty currentChapterIndex = new SimpleIntegerProperty();
+  private final BookDao bookDao = new BookDao();
+  @FXML
+  private ListView<Chapter> tocListView;
+  @FXML
+  private SelectableButton speakButton;
   @FXML
   private StackPane container;
   @FXML
@@ -94,76 +97,82 @@ public class ReaderView extends SceneView<StageDecorator> {
   private JFXSlider lineSpaceSlider;
   @FXML
   private JFXSlider pageWidthSlider;
+  @FXML
+  private PageView currentPage;
+  @FXML
+  private PageView otherPage;
   private Book book;
   private AbstractBookLoader loader;
-  private IntegerProperty currentChapterIndex = new SimpleIntegerProperty();
   private ReaderConfig config;
+  private TTSPlayer player;
+  private ReaderContextMenu contextMenu;
   /**
    * 翻页中
    */
   private boolean turnPaging;
   /**
-   * 页面
+   * 当前页码
    */
-  private PageView currentPage;
-  private PageView otherPage;
+  private int current = -1;
 
   @Override
   public void onCreated() {
     System.out.println("ReaderView created");
     this.config = SettingManager.manager().getReader();
     getRoot().getScene().getStylesheets().add("css/reader/reader.css");
+    // todo 增加shadow隐藏设置
+    // getRoot().getStyleClass().add("no-window-shadow");
+    // getRoot().getStyleClass().add("no-header-shadow");
 
-    this.currentPage = new PageView(container);
-    this.otherPage = new PageView(container);
-    container.getChildren().add(0, otherPage);
-    container.getChildren().add(1, currentPage);
-
+    this.contextMenu = new ReaderContextMenu();
     initSetting();
-    tocListView.setCellFactory(param -> new TocListCell());
+    // 初始化阅读器默认行为
+    initBehavior();
+    tocListView.setCellFactory(param -> new TocListCell(loader::isCached));
     EventUtils.setOnMousePrimaryClick(tocListView, e -> {
       if (!tocListView.getSelectionModel().isEmpty()) {
         toChapter(tocListView.getSelectionModel().getSelectedIndex());
         drawer.toggle(tocDrawer);
       }
     });
-    show.setOnAction(e -> getRoot().showHeader());
-    hide.setOnAction(event -> getRoot().hideHeader());
   }
 
   @Override
   public void onShow(SceneNavigateBundle bundle) {
     App.stage().setWidth(config.getStageWidth().get());
     App.stage().setHeight(config.getStageHeight().get());
+    // 窗口置顶
+    contextMenu.toggleWindowTop(config.isWindowTop());
+    // 获取书籍信息
     Book bundleBook = bundle.get(BUNDLE_READ_BOOK_KEY);
-    List<Book> books = new BookDao().selectAll();
-    if (books.isEmpty()) {
-      return;
-    }
-    bundleBook = books.get(0);
     if (bundleBook != null && book != bundleBook) {
       this.book = bundleBook;
+      getRoot().setTitle(book.getName());
       loader = new BookLoader(book);
       tocListView.getItems().setAll(loader.toc());
-      getRoot().setTitle(book.getName());
-      contents[1] = loader.loadContent(book.getCurrentChapterIndex());
       chapterSlider.setMax(loader.toc().size());
-      current = 0;
+      currentChapterIndex.set(book.getCurrentChapterIndex());
+      current = book.getCurrentPage();
+      loadContent(() -> contents[1] = loader.loadContent(book.getCurrentChapterIndex()), 1);
     }
   }
 
   @Override
   public void onHidden() {
     System.out.println("ReaderView hidden");
+    App.stage().setAlwaysOnTop(false);
   }
 
   @Override
   public void onClose(StageDecorator view, IconButton closeButton) {
     config.getStageWidth().set(App.stage().getWidth());
     config.getStageHeight().set(App.stage().getHeight());
-    super.onClose(view, closeButton);
+    // 阅读进度保存
+    book.setCurrentPage(current);
+    book.setCurrentChapterIndex(getCurrentChapterIndex());
+    bookDao.update(book);
     // 回到首页
-    // app.navigate(HomeView.class, new SceneNavigateBundle().put("data", "reader"));
+    app.navigate(HomeView.class, new SceneNavigateBundle());
   }
 
   @Override
@@ -176,9 +185,45 @@ public class ReaderView extends SceneView<StageDecorator> {
     System.out.println("ReaderView destroy");
   }
 
+  /**
+   * 初始化阅读器行为
+   */
+  private void initBehavior() {
+    container.setOnMouseClicked(event -> {
+      if (event.getButton() == MouseButton.PRIMARY) {
+        double clickX = event.getX();
+        double width = container.getWidth();
+        // 显示目录
+        if (clickX < width * TOC_AREA) {
+          showToc();
+          // 上一页
+        } else if (clickX < width * REE_PAGE_AREA) {
+          prePage();
+          // 下一页
+        } else if (clickX > width * NEXT_PAGE_AREA) {
+          nextPage();
+        } else {
+          // 显示设置
+          drawer.toggle(settingDrawer);
+        }
+        event.consume();
+      }
+      if (contextMenu.isShowing()) {
+        contextMenu.hide();
+      }
+    });
+    // 上下文菜单
+    container.setOnContextMenuRequested(event -> contextMenu.show(getRoot(), event.getScreenX(), event.getScreenY()));
+  }
+
+  /**
+   * 初始化设置
+   */
   private void initSetting() {
     // 设置主题
     themeView.changeTheme(config.getThemeName().get());
+    // 显示头部
+    contextMenu.toggleHeader(!config.isShowHeader());
     // 章节切换
     chapterSlider.valueProperty().bindBidirectional(currentChapterIndex);
     chapterSlider.valueChangingProperty().addListener(e -> {
@@ -210,7 +255,7 @@ public class ReaderView extends SceneView<StageDecorator> {
     // 对齐方式
     alignGroup.setOnSelected(tabButton -> {
       String align = tabButton.getUserData().toString();
-      forEachPageView(content -> content.setTextAlignment(TextAlignment.valueOf(align)));
+      forEachPageView(pageView -> pageView.setTextAlignment(TextAlignment.valueOf(align)));
       config.getAlign().set(align);
     });
     alignGroup.findTab(config.getAlign().get()).setSelected(true);
@@ -229,7 +274,7 @@ public class ReaderView extends SceneView<StageDecorator> {
       forEachPageView(content -> content.setLineSpacing(lineSpaceSlider.getValue()));
       updateDisplayText();
     });
-    forEachPageView(content -> content.setLineSpacing(lineSpaceSlider.getValue()));
+    forEachPageView(pageView -> pageView.setLineSpacing(lineSpaceSlider.getValue()));
   }
 
   /**
@@ -275,26 +320,34 @@ public class ReaderView extends SceneView<StageDecorator> {
     }
     current = page;
     PageView showView;
-    Transition transition = null;
-    switch (type) {
-      case NEXT:
-        showView = otherPage;
-        container.getChildren().remove(otherPage);
-        container.getChildren().add(0, otherPage);
+    // 翻页动画处理
+    if (type != TurnPageType.NONE) {
+      showView = otherPage;
+      container.getChildren().remove(otherPage);
+      Transition transition;
+      if (type == TurnPageType.NEXT) {
+        // 另一页在下方，先复位
+        otherPage.setTranslateX(0);
         transition = currentPage.getNextTransition();
-        break;
-      case PRE:
-        showView = otherPage;
-        container.getChildren().remove(otherPage);
-        container.getChildren().add(1, otherPage);
+        transition.play();
+        container.getChildren().add(0, otherPage);
+      } else {
+        // 另一页在上方，先将隐藏，然后滑出
+        otherPage.setTranslateX(-container.getWidth());
         transition = otherPage.getPreTransition();
-        break;
-      case NONE:
-      default:
-        showView = currentPage;
+        transition.play();
+        container.getChildren().add(1, otherPage);
+      }
+      PageView tmp = currentPage;
+      currentPage = otherPage;
+      otherPage = tmp;
+      transition.setOnFinished(e -> turnPaging = false);
+    } else {
+      showView = currentPage;
+      turnPaging = false;
     }
     // 设置显示页面的文字
-    showView.setText(pages.get(page));
+    showView.setText(currentPageText());
     // 第一页标题处理
     if (page == 0) {
       String titleText = loader.toc().get(getCurrentChapterIndex()).getName();
@@ -302,19 +355,8 @@ public class ReaderView extends SceneView<StageDecorator> {
     } else {
       showView.setTitle(null);
     }
-    if (transition != null) {
-      otherPage.setTranslateX(0);
-      currentPage.setTranslateX(0);
-      Transition finalTransition = transition;
-      Executor.runFx(() -> {
-        PageView tmp = currentPage;
-        currentPage = otherPage;
-        otherPage = tmp;
-        finalTransition.play();
-      });
-      finalTransition.setOnFinished(e -> turnPaging = false);
-    } else {
-      turnPaging = false;
+    if (speakButton.isSelected()) {
+      getPlayer().speak(currentPageText());
     }
   }
 
@@ -355,7 +397,7 @@ public class ReaderView extends SceneView<StageDecorator> {
    * 上一章，直接跳转首页
    */
   @FXML
-  private void preChapter() {
+  public void preChapter() {
     preChapter(false);
   }
 
@@ -392,7 +434,7 @@ public class ReaderView extends SceneView<StageDecorator> {
    * 下一章
    */
   @FXML
-  private void nextChapter() {
+  public void nextChapter() {
     if (turnPaging) {
       return;
     }
@@ -487,9 +529,6 @@ public class ReaderView extends SceneView<StageDecorator> {
     double heightWithTitle = currentPage.getHeight() - currentPage.getTitle().getLayoutBounds().getHeight();
     double height = currentPage.getHeight();
 
-    System.out.println("页面宽度：" + width);
-    System.out.println("页面高度：" + height);
-    System.out.println("带标题页面高度：" + heightWithTitle);
     int index = 0;
     do {
       // 首页区分标题高度
@@ -498,11 +537,6 @@ public class ReaderView extends SceneView<StageDecorator> {
       pageList.add(page);
       index += page.length();
     } while (index < text.length());
-//    for (String page : pageList) {
-//      System.out.println(page.substring(0, 10));
-//      System.out.println(page.substring(page.length() - 10));
-//      System.out.println("=================");
-//    }
     // 更新页码
     this.pages.clear();
     this.pages.addAll(pageList);
@@ -515,6 +549,44 @@ public class ReaderView extends SceneView<StageDecorator> {
   public void speak(ActionEvent event) {
     SelectableButton button = (SelectableButton) event.getSource();
     button.setSelected(!button.isSelected());
+    if (button.isSelected()) {
+      getPlayer().speak(currentPageText());
+    } else {
+      getPlayer().pause();
+    }
+  }
+
+  /**
+   * TTS播放器
+   *
+   * @return TTS播放器
+   */
+  private TTSPlayer getPlayer() {
+    if (player == null) {
+      TTSConfig config = new TTSConfig();
+      RequestParams params = RequestParams.create("http://tts.baidu.com/text2audio");
+      params.setBody("tex={{text}}&per=4007&cuid=baidu_speech_demo&idx=1&cod=2&lan=zh&ctp=1&pdt=160&vol=5&aue=3&pit=5&_res_tag_=audio");
+      params.setMethod("POST");
+      config.setParams(params);
+      config.setName("台湾女声");
+      player = new TTSPlayer(config, () -> {
+        nextPage();
+        player.speak(currentPageText());
+      });
+    }
+    return player;
+  }
+
+  private String currentPageText() {
+    if (current >= 0 && current < pages.size()) {
+      return pages.get(current);
+    }
+    return null;
+  }
+
+  @FXML
+  public void closeSetting() {
+    settingDrawer.close();
   }
 
   /**

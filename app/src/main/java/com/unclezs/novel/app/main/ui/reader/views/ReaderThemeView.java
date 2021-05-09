@@ -4,11 +4,13 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.URLUtil;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
+import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.util.ColorUtil;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
+import com.unclezs.novel.app.main.ui.reader.ReaderView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.FlowPane;
 
 
 /**
@@ -27,14 +28,14 @@ import javafx.scene.layout.VBox;
  * @author blog.unclezs.com
  * @date 2021/03/06 18:16
  */
-public class ReaderThemeView extends VBox {
+public class ReaderThemeView extends FlowPane {
 
   public static final String THEME_FORMAT = "css/reader/theme/%s.css";
   public static final String CUSTOM_THEME_TEMPLATE = "css/reader/theme/custom.css";
   public static final String CURRENT_THEME_STYLE_CLASS = "current";
   public static final String CUSTOM_THEME = "custom";
   public static final File CUSTOM_THEME_FILE = ResourceManager.confFile("reader-theme.css");
-  private static final List<String> THEMES = List.of("green", "dark", "default", "yellow", "white", "pink", "grey", "teal");
+  private static final List<String> THEMES = List.of("green", "dark", "darcula", "default", "yellow", "white", "pink", "grey", "teal");
   private final ColorPicker picker;
   private final List<IconButton> themeButtons = new ArrayList<>();
   private String currentTheme;
@@ -48,16 +49,10 @@ public class ReaderThemeView extends VBox {
       FileUtil.writeUtf8String(theme, CUSTOM_THEME_FILE);
       changeTheme(CUSTOM_THEME);
     });
-    initThemeButton();
-  }
-
-  private void initThemeButton() {
-    HBox line1 = NodeHelper.addClass(new HBox(), "theme-color-box");
     for (String themeNames : THEMES) {
-      line1.getChildren().add(createThemeButton(themeNames));
+      getChildren().add(createThemeButton(themeNames));
     }
-    line1.getChildren().add(picker);
-    getChildren().setAll(line1);
+    getChildren().add(picker);
   }
 
   private IconButton createThemeButton(String name) {
@@ -113,7 +108,7 @@ public class ReaderThemeView extends VBox {
       }
     }
     // 切换主题
-    ObservableList<String> stylesheets = getScene().getStylesheets();
+    ObservableList<String> stylesheets = AppContext.getView(ReaderView.class).getRoot().getScene().getStylesheets();
     stylesheets.add(theme);
     stylesheets.remove(currentTheme);
     this.currentTheme = theme;

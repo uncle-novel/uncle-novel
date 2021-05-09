@@ -5,6 +5,7 @@ import com.unclezs.novel.app.framework.components.cell.BaseListCell;
 import com.unclezs.novel.app.framework.components.icon.Icon;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.util.NodeHelper;
+import java.util.function.Function;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -20,10 +21,17 @@ public class TocListCell extends BaseListCell<Chapter> {
   private final Icon cached = new Icon(IconFont.ENABLED);
   private final Label label = new Label();
   private final HBox cell = new HBox();
+  private Function<Integer, Boolean> cacheStateGetter;
 
   public TocListCell() {
     label.setMaxWidth(Double.MAX_VALUE);
     HBox.setHgrow(label, Priority.ALWAYS);
+    this.cacheStateGetter = index -> getItem().getContent() != null;
+  }
+
+  public TocListCell(Function<Integer, Boolean> cacheStateGetter) {
+    this();
+    this.cacheStateGetter = cacheStateGetter;
   }
 
   @Override
@@ -33,7 +41,7 @@ public class TocListCell extends BaseListCell<Chapter> {
     label.setGraphic(icon);
     label.setText(item.getName());
     cell.getChildren().setAll(label);
-    if (item.getContent() != null) {
+    if (Boolean.TRUE.equals(cacheStateGetter.apply(getIndex()))) {
       cell.getChildren().add(cached);
     }
   }

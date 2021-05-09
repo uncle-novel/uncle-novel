@@ -38,6 +38,10 @@ public class ReaderConfig {
    */
   private boolean showHeader;
   /**
+   * 窗口置顶
+   */
+  private boolean windowTop;
+  /**
    * 页面宽度
    */
   private ObjectProperty<Number> pageWidth = new SimpleObjectProperty<>(100D);

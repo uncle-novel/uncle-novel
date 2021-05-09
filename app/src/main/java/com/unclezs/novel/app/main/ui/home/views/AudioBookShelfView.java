@@ -162,10 +162,12 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
 
   @Override
   public void onDestroy() {
-    // 更新当前章节缓存
-    cacheBook(currentBook);
-    // 更新当前进度
-    audioBookDao.update(currentBook);
+    if (currentBook != null) {
+      // 更新当前章节缓存
+      cacheBook(currentBook);
+      // 更新当前进度
+      audioBookDao.update(currentBook);
+    }
   }
 
   /**

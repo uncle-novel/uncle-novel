@@ -19,6 +19,11 @@ import lombok.EqualsAndHashCode;
 public class AudioBook extends Book {
 
   /**
+   * 当前进度
+   */
+  @DatabaseField
+  private double currentProgress;
+  /**
    * 播音
    */
   @DatabaseField
