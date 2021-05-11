@@ -16,7 +16,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class ResourceManager {
 
-  private static final String WORK_DIR = FileUtil.normalize(new File(".").getAbsolutePath());
+  public static final String WORK_DIR = FileUtil.normalize(new File(".").getAbsolutePath());
   /**
    * 配置文件文件夹
    */
@@ -37,6 +37,10 @@ public class ResourceManager {
    * 默认的文件加载目录
    */
   public static final File DOWNLOAD_DIR = FileUtil.file(WORK_DIR, "downloads");
+  /**
+   * 备份文件目录
+   */
+  public static final File BACKUP_DIR = FileUtil.file(WORK_DIR, "backup");
 
   /**
    * 获取配置文件目录下的文件

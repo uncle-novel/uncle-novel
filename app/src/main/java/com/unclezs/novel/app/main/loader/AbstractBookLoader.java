@@ -1,7 +1,12 @@
 package com.unclezs.novel.app.main.loader;
 
+import cn.hutool.core.io.FileUtil;
+import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.app.main.model.Book;
+import com.unclezs.novel.app.main.model.BookCache;
+import com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView;
+import com.unclezs.novel.app.main.util.BookHelper;
 import java.util.List;
 import lombok.Getter;
 
@@ -15,9 +20,14 @@ public abstract class AbstractBookLoader {
 
   @Getter
   protected Book book;
+  protected List<Chapter> toc;
+  protected AnalyzerRule rule;
 
-  protected AbstractBookLoader(Book book) {
+  public void setBook(Book book) {
     this.book = book;
+    BookCache cache = BookHelper.loadCache(FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId()));
+    this.toc = cache.getToc();
+    this.rule = cache.getRule();
   }
 
 
@@ -26,7 +36,9 @@ public abstract class AbstractBookLoader {
    *
    * @return 章节列表
    */
-  public abstract List<Chapter> toc();
+  public List<Chapter> toc() {
+    return toc;
+  }
 
   /**
    * 获取正文
@@ -56,5 +68,7 @@ public abstract class AbstractBookLoader {
    * @param index 索引
    * @return true 已经被缓存
    */
-  public abstract boolean isCached(int index);
+  public boolean isCached(int index) {
+    return FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), String.valueOf(index)).exists();
+  }
 }

@@ -17,6 +17,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Window;
+import lombok.Getter;
 
 /**
  * 模态框
@@ -27,6 +28,7 @@ import javafx.stage.Window;
 public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
 
   public static final String BUNDLE_NAME = "widgets.modal";
+  @Getter
   private final JFXDialogLayout layout;
   private final JFXButton cancel;
   private JFXButton submit;

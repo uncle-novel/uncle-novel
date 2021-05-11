@@ -5,14 +5,16 @@
   -fx-bg-color: -fx-base;
   -fx-background-color: transparent;
   -fx-padding: $_20px;
+  -fx-background-insets: 0;
 
   .stage-decorator-root {
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 20, 0.19, 0, 6);
     -fx-border-color: transparent;
-    -fx-border-width: 4;
+    -fx-border-width: 4 !important;
     -fx-background-color: transparent;
     -fx-background-radius: $stage-border-radius $stage-border-radius 0 0;
     -fx-border-radius: $stage-border-radius $stage-border-radius 0 0;
+    -fx-background-insets: 0;
 
     .stage-decorator-header {
       @include shadow-1();
@@ -81,7 +83,7 @@
     }
 
     .stage-decorator-content {
-      -fx-padding: $_50px 0 0 0;
+      -fx-padding: $_48px 0 0 0;
       -fx-background-color: transparent;
     }
   }

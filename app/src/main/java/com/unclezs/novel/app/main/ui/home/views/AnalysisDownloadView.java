@@ -8,7 +8,6 @@ import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.analyzer.spider.TocSpider;
-import com.unclezs.novel.analyzer.util.SerializationUtils;
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
@@ -23,13 +22,14 @@ import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.main.manager.RuleManager;
-import com.unclezs.novel.app.main.model.BookBundle;
 import com.unclezs.novel.app.main.model.ChapterWrapper;
-import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
+import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailModal;
 import com.unclezs.novel.app.main.ui.home.views.widgets.ChapterListCell;
+import com.unclezs.novel.app.main.util.BookHelper;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -41,11 +41,13 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author blog.unclezs.com
  * @date 2021/4/25 9:40
  */
+@Slf4j
 @FxView(fxml = "/layout/home/views/analysis-download.fxml")
 @EqualsAndHashCode(callSuper = true)
 public class AnalysisDownloadView extends SidebarView<StackPane> {
@@ -213,7 +215,7 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
   @FXML
   private void renameChapterNames() {
     String defaultTemplate = "第{{章节序号}}章 {{章节名}}";
-    ModalBox.input(defaultTemplate, "请输入章节重命名模板", tempalte -> {
+    ModalBox.input(defaultTemplate, "请输入章节重命名模板", template -> {
       int index = 1;
       ObservableList<ChapterWrapper> items = listView.getItems();
       for (int i = 0; i < listView.getItems().size(); i++) {
@@ -221,7 +223,7 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
         if (chapter.isSelected()) {
           String name = chapter.getChapter().getName();
           name = StringUtils.remove(name, "[0-9]", "第.*?章");
-          String newName = tempalte.replace("{{章节序号}}", String.valueOf(index++)).replace("{{章节名}}", name);
+          String newName = template.replace("{{章节序号}}", String.valueOf(index++)).replace("{{章节名}}", name);
           chapter.getChapter().setName(newName);
         }
       }
@@ -251,7 +253,7 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
       Toast.error(getRoot(), "请先解析目录~");
       return;
     }
-    ModalBox.none().body(new BookDetailNode(novel, true)).cancel("关闭").title("小说详情").show();
+    ModalBox.none().body(new BookDetailModal(novel, false, true)).cancel("关闭").title("小说详情").show();
     floatButtons.animateList(false);
   }
 
@@ -262,19 +264,38 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
       return;
     }
     // 获取选中的章节
-    List<Chapter> selectedChapters = listView.getItems().stream()
-      .filter(ChapterWrapper::isSelected)
-      .map(ChapterWrapper::getChapter)
-      .collect(Collectors.toList());
+    List<Chapter> selectedChapters = selectedChapters();
     if (selectedChapters.isEmpty()) {
       Toast.error("至少需要选择一个章节");
       return;
     }
-    BookBundle bookBundle = new BookBundle(novel, rule);
-    // 只下载选中的章节
-    bookBundle.getNovel().setChapters(SerializationUtils.deepClone(selectedChapters));
-    SidebarNavigateBundle bundle = new SidebarNavigateBundle();
-    bundle.put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, bookBundle);
-    navigation.navigate(DownloadManagerView.class, bundle);
+    BookHelper.submitDownload(novel, rule, selectedChapters);
+  }
+
+  /**
+   * 加入书架
+   */
+  public void addToBookShelf() {
+    novel.setChapters(selectedChapters());
+    // 黑名单章节链接，抓取时自动忽略
+    Set<String> blackChapterUrls = listView.getItems().stream()
+      .filter(chapterWrapper -> !chapterWrapper.isSelected())
+      .map(chapterWrapper -> chapterWrapper.getChapter().getUrl())
+      .collect(Collectors.toSet());
+    rule.getToc().setBlackUrls(blackChapterUrls);
+    BookHelper.addBookShelf(false, novel, rule, null);
+  }
+
+  /**
+   * 选中的章节
+   *
+   * @return 章节
+   */
+  private List<Chapter> selectedChapters() {
+    // 获取选中的章节
+    return listView.getItems().stream()
+      .filter(ChapterWrapper::isSelected)
+      .map(ChapterWrapper::getChapter)
+      .collect(Collectors.toList());
   }
 }

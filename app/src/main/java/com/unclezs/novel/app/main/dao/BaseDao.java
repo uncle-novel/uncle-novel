@@ -7,6 +7,7 @@ import com.unclezs.novel.app.main.model.DownloadHistory;
 import com.unclezs.novel.app.main.util.DbHelper;
 import java.sql.SQLException;
 import java.util.List;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -18,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BaseDao<T> {
 
+  @Getter
   protected Dao<T, Integer> dao;
 
   protected BaseDao() {

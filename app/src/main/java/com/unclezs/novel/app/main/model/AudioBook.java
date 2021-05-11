@@ -62,6 +62,7 @@ public class AudioBook extends Book {
    *
    * @return novel
    */
+  @Override
   public Novel toNovel() {
     Novel novel = new Novel();
     novel.setUrl(url);

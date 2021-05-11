@@ -1,18 +1,12 @@
 package com.unclezs.novel.app.main.loader;
 
 import cn.hutool.core.io.FileUtil;
-import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
-import com.unclezs.novel.analyzer.util.StringUtils;
-import com.unclezs.novel.app.main.model.Book;
-import com.unclezs.novel.app.main.model.BookCache;
 import com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView;
-import com.unclezs.novel.app.main.util.BookHelper;
 import java.io.File;
 import java.io.IOException;
 import java.util.BitSet;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -22,21 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BookLoader extends AbstractBookLoader {
 
-  private final List<Chapter> toc;
-  private final AnalyzerRule rule;
   private final BitSet running = new BitSet();
-
-  public BookLoader(Book book) {
-    super(book);
-    BookCache cache = BookHelper.loadCache(FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId()));
-    this.toc = cache.getToc();
-    this.rule = cache.getRule();
-  }
-
-  @Override
-  public List<Chapter> toc() {
-    return toc;
-  }
 
   @Override
   public String loadContent(int index) {
@@ -50,7 +30,6 @@ public class BookLoader extends AbstractBookLoader {
         try {
           NovelSpider spider = new NovelSpider(rule);
           String content = spider.content(chapter.getUrl());
-          content = StringUtils.removeBlankLines(content);
           FileUtil.writeUtf8String(content, cache);
           return content;
         } catch (IOException e) {
@@ -61,10 +40,5 @@ public class BookLoader extends AbstractBookLoader {
       }
     }
     return null;
-  }
-
-  @Override
-  public boolean isCached(int index) {
-    return FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), String.valueOf(index)).exists();
   }
 }

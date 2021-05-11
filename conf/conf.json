@@ -1,4 +1,5 @@
 {
+  "theme": "grey",
   "lang": "简体中文",
   "download": {
     "folder": "G:\\tmp",
@@ -6,7 +7,7 @@
     "taskNum": 4,
     "retryNum": 0,
     "volume": true,
-    "mobi": true,
+    "mobi": false,
     "txt": true,
     "epub": true
   },
@@ -14,14 +15,14 @@
     "themeName": "custom",
     "bgImage": "",
     "fontSize": 17.428571428571427,
-    "fontFamily": "Myanmar Text",
+    "fontFamily": "圆体-简",
     "align": "JUSTIFY",
     "showHeader": true,
     "windowTop": false,
     "pageWidth": 0.8928571428571428,
     "lineSpacing": 3.8095238095238093,
-    "stageWidth": 628.0,
-    "stageHeight": 591.0
+    "stageWidth": 500.0,
+    "stageHeight": 700.0
   },
   "searchEngines": [
     {
@@ -43,6 +44,19 @@
       "stylesheet": "css/home/views/webview/bing.css"
     }
   ],
+  "bookShelf": {
+    "group": "全部"
+  },
+  "backupConfig": {
+    "url": "https://dav.jianguoyun.com/dav/",
+    "username": "unclezs@qq.com",
+    "password": "adpiy2mmpbv3svq5",
+    "bookshelf": true,
+    "audio": true,
+    "rule": true,
+    "read": true,
+    "setting": true
+  },
   "proxy": {
     "httpProxy": false,
     "host": "127.0.0.1",

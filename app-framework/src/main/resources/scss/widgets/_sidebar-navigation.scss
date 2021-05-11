@@ -18,11 +18,13 @@ $border-radius: 10px;
   -fx-background-color: -fx-sidebar-nav-bg-color;
   -fx-border-color: transparent;
 
+
   // 右侧视图面版
   .content {
     -fx-background-radius: 0 0 $stage-border-radius 0;
     -fx-border-radius: 0 0 $stage-border-radius 0;
     -fx-background-color: -fx-base;
+    -fx-background-insets: 0;
   }
 
   // 左侧菜单面板
@@ -30,11 +32,13 @@ $border-radius: 10px;
     -fx-vbar-policy: NEVER;
     -fx-hbar-policy: NEVER;
     -fx-min-width: $_220px;
+    -fx-max-width: $_220px;
     -fx-background-color: -fx-sidebar-bg-color;
     -fx-border-color: -fx-sidebar-border-color;
     -fx-border-width: 0 1px 0 0;
     -fx-fit-to-height: true;
     -fx-fit-to-width: true;
+    -fx-background-insets: 0;
 
     .viewport {
       -fx-background-color: transparent;

@@ -2,10 +2,13 @@ package com.unclezs.novel.app.main.manager;
 
 import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.framework.serialize.PropertyJsonSerializer;
+import com.unclezs.novel.app.main.model.BackupConfig;
+import com.unclezs.novel.app.main.model.BookShelfConfig;
 import com.unclezs.novel.app.main.model.DownloadConfig;
 import com.unclezs.novel.app.main.model.Proxy;
 import com.unclezs.novel.app.main.model.ReaderConfig;
 import com.unclezs.novel.app.main.model.SearchEngine;
+import com.unclezs.novel.app.main.ui.home.HomeView;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import java.io.File;
 import java.util.Locale;
@@ -35,6 +38,10 @@ public class SettingManager {
    */
   private static SettingManager manager;
   /**
+   * 主题
+   */
+  private String theme = HomeView.DEFAULT_THEME;
+  /**
    * 系统语言，读取默认
    */
   private ObjectProperty<String> lang = new SimpleObjectProperty<>(LanguageManager.name(Locale.getDefault()));
@@ -50,6 +57,14 @@ public class SettingManager {
    * 全网搜书的搜索引擎配置
    */
   private ObservableList<SearchEngine> searchEngines = FXCollections.observableArrayList();
+  /**
+   * 书架配置
+   */
+  private BookShelfConfig bookShelf = new BookShelfConfig();
+  /**
+   * 备份配置
+   */
+  private BackupConfig backupConfig = new BackupConfig();
   /**
    * 网络代理
    */

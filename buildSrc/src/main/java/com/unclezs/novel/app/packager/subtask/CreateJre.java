@@ -10,9 +10,12 @@ import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.JdkUtils;
 import com.unclezs.novel.app.packager.util.Logger;
-
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -87,7 +90,7 @@ public class CreateJre extends BaseSubTask {
         .add("--module-path", getModulePath())
         .add("--add-modules", getRequiredModules())
         .add("--output", destinationFolder)
-        .add("--no-header-files --no-man-pages --strip-debug --compress=2")
+        .add("--strip-debug", "--compress=2", "--no-man-pages", "--no-header-files")
         .exec();
       // 设置jre中可执行文件的执行权限
       File binFolder = new File(destinationFolder, "bin");
@@ -134,7 +137,8 @@ public class CreateJre extends BaseSubTask {
       String modules = ExecUtils.create(jdeps)
         .add("-q")
         .add("--multi-release", String.valueOf(JdkUtils.getJavaMajorVersion()))
-        .add("--ignore-missing-deps --print-module-deps")
+        .add("--ignore-missing-deps")
+        .add("--print-module-deps")
         .add("--module-path", getModulePath())
         .add(jarLibs).add(packager.getJarFile())
         .exec();

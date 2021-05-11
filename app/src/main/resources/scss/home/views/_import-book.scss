@@ -1,0 +1,9 @@
+.import-book {
+  .combo-box {
+
+    & > .list-cell {
+      -fx-alignment: center-left;
+      -fx-padding: 1px 0 1px 8px;
+    }
+  }
+}

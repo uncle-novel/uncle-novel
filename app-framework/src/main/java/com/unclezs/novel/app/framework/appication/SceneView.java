@@ -2,7 +2,7 @@ package com.unclezs.novel.app.framework.appication;
 
 import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.core.View;
-import javafx.scene.Parent;
+import javafx.scene.layout.Region;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +12,7 @@ import lombok.Setter;
  * @author blog.unclezs.com
  * @since 2021/03/04 12:03
  */
-public abstract class SceneView<V extends Parent> extends View<V> implements StageDecorator.ActionHandler {
+public abstract class SceneView<V extends Region> extends View<V> implements StageDecorator.ActionHandler {
 
   @Setter
   @Getter

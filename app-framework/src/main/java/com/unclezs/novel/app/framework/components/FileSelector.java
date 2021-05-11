@@ -7,6 +7,8 @@ import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import java.io.File;
 import javafx.beans.NamedArg;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -52,6 +54,10 @@ public class FileSelector extends HBox {
         input.setText(file.getAbsolutePath());
       }
     });
+  }
+
+  public void setOnChoose(EventHandler<ActionEvent> eventHandler) {
+    choose.setOnAction(eventHandler);
   }
 
   public void setPromptText(String promptText) {

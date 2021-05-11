@@ -2,6 +2,7 @@ package com.unclezs.novel.app.main.ui.home.views.widgets;
 
 import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.analyzer.spider.Spider;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.icon.Icon;
@@ -9,6 +10,7 @@ import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.model.SpiderWrapper;
+import com.unclezs.novel.app.main.util.EbookUtils;
 import java.io.File;
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.TableCell;
@@ -56,18 +58,19 @@ public class DownloadActionTableCell extends TableCell<SpiderWrapper, SpiderWrap
       Toast.success("暂停");
     });
     retry.setOnMouseClicked(e -> item.retry());
-    save.setOnMouseClicked(e -> {
-      ModalBox.confirm(confirmSave -> {
-        if (Boolean.TRUE.equals(confirmSave)) {
-          item.save();
-        }
-      }).title("确定忽略错误吗").message("忽略错误可能出现章节内容不完整的情况").show();
-    });
+    save.setOnMouseClicked(e -> ModalBox.confirm(confirmSave -> {
+      if (Boolean.TRUE.equals(confirmSave)) {
+        item.save();
+      }
+    }).title("确定忽略错误吗").message("忽略错误可能出现章节内容不完整的情况").show());
     stop.setOnMouseClicked(event -> {
       String savePath = item.getSpider().getSavePath();
+      String name = StringUtils.removeInvalidSymbol(item.getName());
       item.stop();
       getTableView().getItems().remove(item);
-      FileUtil.del(savePath);
+      // 删除临时文件
+      FileUtil.del(FileUtil.file(savePath, name));
+      FileUtil.del(FileUtil.file(savePath, name + EbookUtils.EBOOK_TMP_SUFFIX));
     });
     folder.setOnMouseClicked(e -> DesktopUtils.openDir(new File(item.getSpider().getSavePath())));
     // 状态监听

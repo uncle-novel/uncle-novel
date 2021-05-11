@@ -1,17 +1,11 @@
 package com.unclezs.novel.app.main.ui.home.views.widgets;
 
+import com.jfoenix.controls.JFXSpinner;
 import com.unclezs.novel.app.framework.components.LoadingImageView;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.model.Book;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import lombok.Getter;
@@ -24,60 +18,72 @@ import lombok.Getter;
  */
 public class BookNode extends StackPane {
 
-  private static final DataFormat BOOK_NODE_MIME_TYPE = new DataFormat("application/book-node");
   private final LoadingImageView cover = new LoadingImageView(BookListCell.NO_COVER, 95, 120);
   private final Label title = NodeHelper.addClass(new Label(), "title");
   private final Label tip = NodeHelper.addClass(new Label("发现更新"), "tip");
   @Getter
   private final Book book;
+  private JFXSpinner updating;
+  private StackPane container;
 
   public BookNode(Book book) {
     this.book = book;
     NodeHelper.addClass(this, "book-node");
-
     StackPane.setAlignment(title, Pos.BOTTOM_CENTER);
     StackPane.setAlignment(tip, Pos.TOP_RIGHT);
     cover.setImage(book.getCover());
     title.setText(book.getName());
-    StackPane stackPane = NodeHelper.addClass(new StackPane(cover, title, tip), "book-node-container");
-    getChildren().setAll(stackPane);
-
-    stackPane.setOnDragDetected(e -> {
-      Dragboard dragboard = this.startDragAndDrop(TransferMode.COPY_OR_MOVE);
-      ClipboardContent clipboardContent = new ClipboardContent();
-      SnapshotParameters snapshotParameters = new SnapshotParameters();
-      WritableImage snapshot = cover.snapshot(snapshotParameters, null);
-      clipboardContent.putImage(snapshot);
-      clipboardContent.put(BOOK_NODE_MIME_TYPE, getParent().getChildrenUnmodifiable().indexOf(this));
-      dragboard.setContent(clipboardContent);
-    });
-
-    stackPane.setOnDragOver(e -> {
-      Dragboard db = e.getDragboard();
-      if (db.hasContent(BOOK_NODE_MIME_TYPE)) {
-        Integer from = (Integer) db.getContent(BOOK_NODE_MIME_TYPE);
-        int to = getParent().getChildrenUnmodifiable().indexOf(this);
-        if (from != to) {
-          e.acceptTransferModes(TransferMode.MOVE);
-          e.consume();
-        }
-      }
-    });
-
-    stackPane.setOnDragDropped(e -> {
-      Dragboard db = e.getDragboard();
-      if (db.hasContent(BOOK_NODE_MIME_TYPE)) {
-        Pane parent = (Pane) this.getParent();
-        int index = (int) db.getContent(BOOK_NODE_MIME_TYPE);
-        int current = parent.getChildren().indexOf(this);
-        Node node = parent.getChildren().get(index);
-        parent.getChildren().remove(index);
-        parent.getChildren().add(current, node);
-      }
-    });
+    tip.setVisible(book.isUpdate());
+    container = NodeHelper.addClass(new StackPane(cover, title, tip), "book-node-container");
+    getChildren().setAll(container);
   }
 
   private Pane parent() {
     return (Pane) getParent();
+  }
+
+  /**
+   * 设置标题
+   *
+   * @param title 名称
+   */
+  public void setTitle(String title) {
+    book.setName(title);
+    this.title.setText(title);
+  }
+
+  /**
+   * 设置封面
+   *
+   * @param cover 封面
+   */
+  public void setCover(String cover) {
+    book.setCover(cover);
+    this.cover.setImage(cover);
+  }
+
+  /**
+   * 显示更新提示
+   *
+   * @param update 更新了
+   */
+  public void setUpdate(boolean update) {
+    tip.setVisible(update);
+    book.setUpdate(update);
+  }
+
+  /**
+   * 设置更新状态
+   *
+   * @param running 状态
+   */
+  public void setUpdateTaskState(boolean running) {
+    if (updating == null) {
+      updating = new JFXSpinner();
+      updating.setRadius(5);
+      StackPane.setAlignment(updating, Pos.TOP_LEFT);
+      container.getChildren().add(updating);
+    }
+    updating.setVisible(running);
   }
 }

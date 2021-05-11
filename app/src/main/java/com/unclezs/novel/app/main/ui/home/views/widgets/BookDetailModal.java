@@ -6,6 +6,7 @@ import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.components.LoadingImageView;
+import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.components.Tag;
 import com.unclezs.novel.app.framework.components.icon.Icon;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
@@ -14,6 +15,7 @@ import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
+import com.unclezs.novel.app.main.util.BookHelper;
 import java.util.function.Consumer;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
@@ -24,18 +26,24 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
- * 书籍详情节点
+ * 书籍详情模态框
  *
  * @author blog.unclezs.com
  * @date 2021/4/24 17:05
  */
-public class BookDetailNode extends VBox implements LocalizedSupport {
+public class BookDetailModal extends VBox implements LocalizedSupport {
 
 
   public static final String DEFAULT_STYLE_CLASS = "book-detail";
   private final boolean editable;
+  private final Novel novel;
+  /**
+   * 是否为有声
+   */
+  private final boolean audio;
   @Getter
   private IconButton bookshelf;
   @Getter
@@ -44,8 +52,13 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
   private IconButton download;
   @Getter
   private IconButton toc;
+  @Setter
+  @Getter
+  private ModalBox containerModal;
 
-  public BookDetailNode(Novel novel, boolean editable) {
+  public BookDetailModal(Novel novel, boolean audio, boolean editable) {
+    this.audio = audio;
+    this.novel = novel;
     this.editable = editable;
     NodeHelper.addClass(this, DEFAULT_STYLE_CLASS);
     // 封面
@@ -75,8 +88,18 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
     getChildren().addAll(container, desc);
   }
 
-  public BookDetailNode(Novel novel) {
+  public BookDetailModal(Novel novel) {
     this(novel, false);
+  }
+
+  public BookDetailModal(Novel novel, boolean audio) {
+    this(novel, audio, false);
+  }
+
+  public void show() {
+    ModalBox detailModal = ModalBox.none().body(this).title("小说详情").cancel("关闭");
+    this.setContainerModal(detailModal);
+    detailModal.show();
   }
 
   /**
@@ -85,16 +108,21 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
    * @param actions 按钮
    * @return this
    */
-  public BookDetailNode withActions(Action... actions) {
+  public BookDetailModal withActions(Action... actions) {
     HBox actionsBox = NodeHelper.addClass(new HBox(), "actions");
     for (Action action : actions) {
       switch (action) {
         case ANALYSIS:
           analysis = NodeHelper.addClass(new IconButton("解析下载"), "btn");
+          analysis.setOnMouseClicked(e -> {
+            containerModal.disabledAnimateClose().close();
+            BookHelper.submitAnalysis(novel);
+          });
           actionsBox.getChildren().add(analysis);
           break;
         case BOOKSHELF:
           bookshelf = NodeHelper.addClass(new IconButton("加入书架"), "btn");
+          bookshelf.setOnMouseClicked(e -> BookHelper.addBookShelf(audio, novel, null, () -> containerModal.disabledAnimateClose().close()));
           actionsBox.getChildren().add(bookshelf);
           break;
         case TOC:
@@ -103,6 +131,10 @@ public class BookDetailNode extends VBox implements LocalizedSupport {
           break;
         case DOWNLOAD:
           download = NodeHelper.addClass(new IconButton("直接下载"), "btn");
+          download.setOnMouseClicked(e -> {
+            containerModal.disabledAnimateClose().close();
+            BookHelper.submitDownload(novel, null, null);
+          });
           actionsBox.getChildren().add(download);
           break;
         default:

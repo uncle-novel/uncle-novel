@@ -205,6 +205,15 @@ public class RuleManagerView extends SidebarView<StackPane> {
     FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("JSON", "*.json");
     fileChooser.getExtensionFilters().add(filter);
     File file = fileChooser.showOpenDialog(App.stage());
+    importRule(file);
+  }
+
+  /**
+   * 导入书源
+   *
+   * @param file 文件
+   */
+  public void importRule(File file) {
     if (FileUtil.exist(file)) {
       List<AnalyzerRule> rules = GsonUtils.me().fromJson(FileUtil.readUtf8String(file), new TypeToken<List<AnalyzerRule>>() {
       }.getType());

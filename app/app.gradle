@@ -14,12 +14,14 @@ buildscript {
 }
 
 dependencies {
+
     implementation project(":app-localized")
     implementation project(":app-framework")
     implementation "ch.qos.logback:logback-classic"
     implementation 'org.apache.velocity:velocity-engine-core'
     implementation "com.j256.ormlite:ormlite-jdbc:5.3"
     implementation "org.xerial:sqlite-jdbc:3.34.0"
+    implementation "com.github.lookfirst:sardine:5.10"
 }
 apply plugin: 'app-packager'
 
@@ -37,7 +39,7 @@ def packagerDir = "${projectDir}/packager"
 packager {
     name = "Uncle小说"
     version = project.version
-    description = "提供网络小说的下载及阅读功能"
+    description = "Uncle小说"
 
     url = "https://github.com/unclezs/NovelHarvester"
     organizationName = "unclezs"

@@ -15,7 +15,7 @@
       "content": {},
       "next": {
         "type": "xpath",
-        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
       }
     },
     "toc": {
@@ -25,9 +25,10 @@
       "url": {},
       "next": {
         "type": "xpath",
-        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
       },
       "enableNext": false,
+      "blackUrls": [],
       "filter": false,
       "sort": false
     },
@@ -46,7 +47,7 @@
     },
     "search": {
       "params": {
-        "url": "https://www.zhaishuyuan.com/search/?page\u003d{{page}}\u0026key\u003d{{keyword}}",
+        "url": "https://www.zhaishuyuan.com/search/?page={{page}}&key={{keyword}}",
         "method": "POST",
         "charset": "gbk",
         "mediaType": "application/x-www-form-urlencoded",
@@ -57,7 +58,7 @@
       },
       "list": {
         "type": "//",
-        "rule": "//*[@id\u003d\"sitembox\"]/dl"
+        "rule": "//*[@id=\"sitembox\"]/dl"
       },
       "detailPage": {},
       "detail": {
@@ -114,17 +115,17 @@
   {
     "name": "聚听网",
     "site": "https://www.yousxs.com/",
-    "enabled": true,
+    "enabled": false,
     "audio": true,
     "weight": 0,
     "params": {},
     "content": {
       "content": {
-        "script": "skeyPage \u003d utils.get(\u0027https://www.yousxs.com/js/bootstrap.min.js\u0027);skey \u003d utils.match(skeyPage, \"regex:ey\\\"]\u003d\\\"(.+?)\\\"##$1\");result \u003d utils.match(source, \"regex:url: \u0027(https://.+?skey\u003d)\u0027##$1\") + skey;"
+        "script": "skeyPage = utils.get('https://www.yousxs.com/js/bootstrap.min.js');skey = utils.match(skeyPage, \"regex:ey\\\"]=\\\"(.+?)\\\"##$1\");result = utils.match(source, \"regex:url: '(https://.+?skey=)'##$1\") + skey;"
       },
       "next": {
         "type": "xpath",
-        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
       }
     },
     "toc": {
@@ -142,7 +143,7 @@
       },
       "next": {
         "type": "xpath",
-        "rule": "//a[text()~\u003d\u0027.*?下[一]{0,1}[页节].*\u0027]/@href"
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
       },
       "enableNext": true,
       "filter": true
@@ -162,7 +163,7 @@
     },
     "search": {
       "params": {
-        "url": "https://www.yousxs.com/classify.html?clsid\u003d\u0026pageNum\u003d{{page}}\u0026novelName\u003d{{keyword}}",
+        "url": "https://www.yousxs.com/classify.html?clsid=&pageNum={{page}}&novelName={{keyword}}",
         "charset": "UTF-8",
         "mediaType": ""
       },
@@ -217,6 +218,119 @@
         },
         "updateTime": {
           "type": "//"
+        }
+      }
+    }
+  },
+  {
+    "name": "28听书网",
+    "site": "https://m.28ts.com/",
+    "enabled": true,
+    "audio": true,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "content": {
+        "type": "//",
+        "rule": "//*[@id=\"play\"]/@src",
+        "script": "page = utils.get(utils.absUrl('https://m.28ts.com/mp3/1651/1.html',result));url = utils.match(page, \"regex:url\\\\d+? = '(http.+?)'##$1\");suffix = utils.match(page, \"regex:url\\\\d+?[+]*?'(.+?)'##$1\");result = url+suffix;"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      }
+    },
+    "toc": {
+      "params": {},
+      "list": {
+        "type": "//",
+        "rule": "//*[@id=\"playlist\"]/ul/li"
+      },
+      "name": {
+        "type": "//",
+        "rule": "a/text()"
+      },
+      "url": {
+        "type": "//",
+        "rule": "a/@href"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      },
+      "enableNext": false,
+      "filter": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "url": "https://m.28ts.com/search.html",
+        "method": "POST",
+        "charset": "UTF-8",
+        "mediaType": "application/x-www-form-urlencoded",
+        "body": "searchword={{keyword}}&&page={{page}}"
+      },
+      "list": {
+        "type": "//",
+        "rule": "//div[5]/div[1]/ul"
+      },
+      "detailPage": {},
+      "detail": {
+        "url": {
+          "type": "//",
+          "rule": "li/dl/dt/a/@href"
+        },
+        "title": {
+          "type": "//",
+          "rule": "li/dl/dt/a/text()"
+        },
+        "author": {
+          "type": "//",
+          "rule": "li/dl/dd[2]/span[1]/text()"
+        },
+        "broadcast": {
+          "type": "//",
+          "rule": "li/dl/dd[2]/span[2]/text()"
+        },
+        "category": {
+          "type": "//"
+        },
+        "wordCount": {
+          "type": "//"
+        },
+        "introduce": {
+          "type": "//",
+          "rule": "li/dl/dd[1]/text()"
+        },
+        "latestChapterName": {
+          "type": "//",
+          "rule": ""
+        },
+        "latestChapterUrl": {
+          "type": "//"
+        },
+        "coverUrl": {
+          "type": "//",
+          "rule": "li/div/a/img/@src"
+        },
+        "state": {
+          "type": "//"
+        },
+        "updateTime": {
+          "type": "//",
+          "rule": "li/dl/dd[2]/span[4]/text()"
         }
       }
     }

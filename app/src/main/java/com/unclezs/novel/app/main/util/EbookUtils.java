@@ -27,10 +27,10 @@ import lombok.extern.slf4j.Slf4j;
 @UtilityClass
 public class EbookUtils {
 
-  public static final String KINDLEGEN = "kindlegen";
+  private static final String KINDLEGEN = "kindlegen";
   private static final String EPUB_SUFFIX = ".epub";
   private static final String MOBI_SUFFIX = ".mobi";
-  private static final String EBOOK_TMP_SUFFIX = "_Ebook";
+  public static final String EBOOK_TMP_SUFFIX = "_Ebook";
   private static final String MIMETYPE = "mimetype";
   private static final String EPUB_TEMPLATES = "templates/epub/";
   private static final String OUT_PATH_STYLE_CSS = "style/style.css";

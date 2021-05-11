@@ -77,7 +77,7 @@
               </HBox>
               <HBox alignment="center_left">
                 <Label styleClass="tipLabel" text="主题背景"/>
-                <ReaderThemeView fx:id="themeView"/>
+                <ReaderThemeView fx:id="themeView" HBox.hgrow="ALWAYS"/>
               </HBox>
             </VBox>
           </ScrollPane>

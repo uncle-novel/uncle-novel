@@ -28,7 +28,7 @@
         view="com.unclezs.novel.app.main.ui.home.views.SearchAudioView"/>
     </SidebarMenu>
     <SidebarMenu name="%home.menu.read">
-      <SidebarMenuItem selected="true"
+      <SidebarMenuItem
         icon="bookshelf"
         text="%home.menu.read.text"
         view="com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView"/>
@@ -58,7 +58,7 @@
         icon="rule_text"
         text="测试"
         view="com.unclezs.novel.app.main.ui.home.views.TestView"/>
-      <SidebarMenuItem
+      <SidebarMenuItem selected="true"
         icon="rule_text"
         text="设置"
         view="com.unclezs.novel.app.main.ui.home.views.SettingView"/>

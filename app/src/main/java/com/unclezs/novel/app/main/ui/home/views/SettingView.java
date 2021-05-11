@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  * @since 2021/03/05 17:26
  */
 @Slf4j
-@FxView(fxml = "/layout/home/views/setting/setting.fxml")
+@FxView(fxml = "/layout/home/views/widgets/setting.fxml")
 @EqualsAndHashCode(callSuper = false)
 public class SettingView extends SidebarView<StackPane> {
 

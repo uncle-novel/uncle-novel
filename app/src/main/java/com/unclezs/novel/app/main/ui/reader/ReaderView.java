@@ -21,6 +21,7 @@ import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.dao.BookDao;
 import com.unclezs.novel.app.main.loader.AbstractBookLoader;
 import com.unclezs.novel.app.main.loader.BookLoader;
+import com.unclezs.novel.app.main.loader.TxtLoader;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.Book;
 import com.unclezs.novel.app.main.model.ReaderConfig;
@@ -32,6 +33,7 @@ import com.unclezs.novel.app.main.ui.reader.views.PageView;
 import com.unclezs.novel.app.main.ui.reader.views.ReaderThemeView;
 import com.unclezs.novel.app.main.ui.reader.views.widgets.ReaderContextMenu;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 import javafx.animation.Transition;
@@ -40,6 +42,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.OverrunStyle;
@@ -62,8 +65,8 @@ public class ReaderView extends SceneView<StageDecorator> {
   public static final String BUNDLE_READ_BOOK_KEY = "read-book-key";
   public static final String FONT_STYLE_FORMAT = "-fx-font-size: %spx;-fx-font-family: '%s'";
   public static final double TOC_AREA = 0.05;
-  public static final double REE_PAGE_AREA = 0.3;
-  public static final double NEXT_PAGE_AREA = 0.7;
+  public static final double PRE_PAGE_AREA = 0.4;
+  public static final double NEXT_PAGE_AREA = 0.6;
   private final String[] contents = new String[3];
   /**
    * 当前章节所有页
@@ -135,12 +138,12 @@ public class ReaderView extends SceneView<StageDecorator> {
         drawer.toggle(tocDrawer);
       }
     });
+    App.stage().setWidth(config.getStageWidth().get());
+    App.stage().setHeight(config.getStageHeight().get());
   }
 
   @Override
   public void onShow(SceneNavigateBundle bundle) {
-    App.stage().setWidth(config.getStageWidth().get());
-    App.stage().setHeight(config.getStageHeight().get());
     // 窗口置顶
     contextMenu.toggleWindowTop(config.isWindowTop());
     // 获取书籍信息
@@ -148,29 +151,37 @@ public class ReaderView extends SceneView<StageDecorator> {
     if (bundleBook != null && book != bundleBook) {
       this.book = bundleBook;
       getRoot().setTitle(book.getName());
-      loader = new BookLoader(book);
+      if (book.isLocal()) {
+        loader = new TxtLoader();
+      } else {
+        loader = new BookLoader();
+      }
+      loader.setBook(book);
       tocListView.getItems().setAll(loader.toc());
       chapterSlider.setMax(loader.toc().size());
       currentChapterIndex.set(book.getCurrentChapterIndex());
-      current = book.getCurrentPage();
-      loadContent(() -> contents[1] = loader.loadContent(book.getCurrentChapterIndex()), 1);
+      loadContent(() -> {
+        contents[1] = contents(1);
+        current = book.getCurrentPage();
+        updateDisplayText();
+      }, 1);
     }
   }
 
   @Override
-  public void onHidden() {
-    System.out.println("ReaderView hidden");
-    App.stage().setAlwaysOnTop(false);
-  }
-
-  @Override
   public void onClose(StageDecorator view, IconButton closeButton) {
+    App.stage().setAlwaysOnTop(false);
     config.getStageWidth().set(App.stage().getWidth());
     config.getStageHeight().set(App.stage().getHeight());
     // 阅读进度保存
     book.setCurrentPage(current);
     book.setCurrentChapterIndex(getCurrentChapterIndex());
     bookDao.update(book);
+    // 初始化
+    current = -1;
+    forEachPageView(pageView -> pageView.setText(null));
+    // 清空页面缓存
+    clearCaches();
     // 回到首页
     app.navigate(HomeView.class, new SceneNavigateBundle());
   }
@@ -192,15 +203,17 @@ public class ReaderView extends SceneView<StageDecorator> {
     container.setOnMouseClicked(event -> {
       if (event.getButton() == MouseButton.PRIMARY) {
         double clickX = event.getX();
+        double clickY = event.getY();
         double width = container.getWidth();
+        double height = container.getHeight();
         // 显示目录
         if (clickX < width * TOC_AREA) {
           showToc();
           // 上一页
-        } else if (clickX < width * REE_PAGE_AREA) {
+        } else if (clickX < width * PRE_PAGE_AREA || (clickY < height * PRE_PAGE_AREA && clickX < width * NEXT_PAGE_AREA)) {
           prePage();
           // 下一页
-        } else if (clickX > width * NEXT_PAGE_AREA) {
+        } else if (clickX > width * NEXT_PAGE_AREA || (clickY > height * NEXT_PAGE_AREA && clickX > width * PRE_PAGE_AREA)) {
           nextPage();
         } else {
           // 显示设置
@@ -458,9 +471,7 @@ public class ReaderView extends SceneView<StageDecorator> {
    * @param index 第几章
    */
   private void toChapter(int index) {
-    contents[0] = null;
-    contents[1] = null;
-    contents[2] = null;
+    clearCaches();
     currentChapterIndex.set(index);
     loadContent(() -> {
       contents[1] = contents(1);
@@ -491,7 +502,7 @@ public class ReaderView extends SceneView<StageDecorator> {
   public void loadContent(Runnable onSuccess, int... indexes) {
     boolean needLoad = false;
     for (int index : indexes) {
-      if (contents[index] == null && !loader.isCached(getCurrentChapterIndex() + index - 1)) {
+      if (!loader.isCached(getCurrentChapterIndex() + index - 1)) {
         needLoad = true;
         break;
       }
@@ -526,17 +537,22 @@ public class ReaderView extends SceneView<StageDecorator> {
     String fontFamily = config.getFontFamily().get();
     Font font = Font.font(fontFamily, fontsize);
     double width = currentPage.getWidth();
-    double heightWithTitle = currentPage.getHeight() - currentPage.getTitle().getLayoutBounds().getHeight();
-    double height = currentPage.getHeight();
+    Insets padding = currentPage.getLabelPadding();
+    double height = currentPage.getHeight() - currentPage.snappedBottomInset() - currentPage.snappedTopInset() - currentPage.snapSizeY(padding.getTop()) - currentPage.snapSizeY(padding.getBottom());
+    double heightWithTitle = height - currentPage.getTitle().getLayoutBounds().getHeight() - currentPage.getTitle().getGraphicTextGap();
 
-    int index = 0;
     do {
       // 首页区分标题高度
-      double pageHeight = index == 0 ? heightWithTitle : height;
-      String page = Utils.computeClippedWrappedText(font, text.substring(index), width, pageHeight, lineSpacing, OverrunStyle.CLIP, CharSequenceUtil.EMPTY, TextBoundsType.LOGICAL_VERTICAL_CENTER);
+      double pageHeight = pageList.isEmpty() ? heightWithTitle : height;
+      String page = Utils.computeClippedWrappedText(font, text, width, pageHeight, lineSpacing, OverrunStyle.CLIP, CharSequenceUtil.EMPTY, TextBoundsType.LOGICAL_VERTICAL_CENTER);
       pageList.add(page);
-      index += page.length();
-    } while (index < text.length());
+      text = text.substring(page.length()).trim();
+    } while (text.length() > 0);
+    for (String page : pageList) {
+      System.out.println(page.substring(0, 10));
+      System.out.println(page.substring(page.length() - 10));
+      System.out.println("=================");
+    }
     // 更新页码
     this.pages.clear();
     this.pages.addAll(pageList);
@@ -577,11 +593,24 @@ public class ReaderView extends SceneView<StageDecorator> {
     return player;
   }
 
+  /**
+   * 当前页的文字
+   *
+   * @return 文字
+   */
   private String currentPageText() {
     if (current >= 0 && current < pages.size()) {
       return pages.get(current);
     }
     return null;
+  }
+
+  /**
+   * 清空页面缓存
+   */
+  private void clearCaches() {
+    pages.clear();
+    Arrays.fill(contents, null);
   }
 
   @FXML

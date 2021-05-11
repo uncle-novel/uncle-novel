@@ -1,12 +1,9 @@
 package com.unclezs.novel.app.main.ui.home.views;
 
-import cn.hutool.core.collection.CollUtil;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Novel;
-import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.analyzer.spider.SearchSpider;
 import com.unclezs.novel.app.framework.annotation.FxView;
-import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.components.SearchBar;
 import com.unclezs.novel.app.framework.components.SearchBar.SearchEvent;
 import com.unclezs.novel.app.framework.components.Toast;
@@ -18,9 +15,8 @@ import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.enums.SearchType;
 import com.unclezs.novel.app.main.manager.RuleManager;
-import com.unclezs.novel.app.main.model.BookBundle;
-import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode;
-import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailNode.Action;
+import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailModal;
+import com.unclezs.novel.app.main.ui.home.views.widgets.BookDetailModal.Action;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookListCell;
 import java.util.Collections;
 import java.util.List;
@@ -63,41 +59,7 @@ public class SearchNovelView extends SidebarView<StackPane> {
     EventUtils.setOnMousePrimaryClick(listView, event -> {
       if (!listView.getSelectionModel().isEmpty()) {
         Novel novel = listView.getSelectionModel().getSelectedItem();
-        BookDetailNode bookDetailNode = new BookDetailNode(novel).withActions(Action.BOOKSHELF, Action.ANALYSIS, Action.DOWNLOAD);
-        ModalBox detailModal = ModalBox.none().body(bookDetailNode).title("小说详情").cancel("关闭");
-        // 解析下载
-        bookDetailNode.getAnalysis().setOnMouseClicked(e -> {
-          SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(AnalysisDownloadView.BUNDLE_KEY_NOVEL_INFO, novel);
-          detailModal.disabledAnimateClose().hide();
-          navigation.navigate(AnalysisDownloadView.class, bundle);
-        });
-        // 直接下载
-        bookDetailNode.getDownload().setOnMouseClicked(e -> {
-          SidebarNavigateBundle bundle = new SidebarNavigateBundle()
-            .put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, new BookBundle(novel, RuleManager.getOrDefault(novel.getUrl())));
-          detailModal.disabledAnimateClose().hide();
-          navigation.navigate(DownloadManagerView.class, bundle);
-        });
-        // 加入书架
-        bookDetailNode.getBookshelf().setOnMouseClicked(e -> {
-          if (CollUtil.isEmpty(novel.getChapters())) {
-            AnalyzerRule analyzerRule = RuleManager.getOrDefault(novel.getUrl());
-            TaskFactory.create(() -> {
-              NovelSpider spider = new NovelSpider(analyzerRule);
-              return spider.toc(novel.getUrl());
-            }).onSuccess(toc -> {
-              BookBundle bookBundle = new BookBundle(novel, analyzerRule);
-              bookBundle.getNovel().setChapters(toc);
-              SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(FictionBookshelfView.BUNDLE_BOOK_KEY, bookBundle);
-              detailModal.disabledAnimateClose().hide();
-              navigation.navigate(FictionBookshelfView.class, bundle);
-            }).onFailed(error -> {
-              Toast.error("加入书架失败");
-              log.error("加入书架失败：{}", novel, error);
-            }).start();
-          }
-        });
-        detailModal.show();
+        new BookDetailModal(novel).withActions(Action.BOOKSHELF, Action.ANALYSIS, Action.DOWNLOAD).show();
       }
     });
   }

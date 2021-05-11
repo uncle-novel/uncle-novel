@@ -30,6 +30,7 @@
     -fx-padding: 0 0 0 0;
 
     .page-view {
+      -fx-padding: $_5px 0 $_5px 0;
       -fx-background-color: -fx-bg-color;
       -fx-alignment: top-left;
       -fx-text-overrun: clip;

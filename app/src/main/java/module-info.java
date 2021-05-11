@@ -19,6 +19,7 @@ open module com.unclezs.novel.app.main {
   requires hutool.core;
 
   requires jsoup;
+  requires okhttp3;
 
   requires org.slf4j;
   requires logback.classic;

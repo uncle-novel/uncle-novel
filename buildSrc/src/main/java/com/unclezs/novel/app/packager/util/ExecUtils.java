@@ -5,9 +5,8 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.RuntimeUtil;
 import com.unclezs.novel.app.packager.exception.PackageException;
-import lombok.experimental.UtilityClass;
-
 import java.io.File;
+import lombok.experimental.UtilityClass;
 
 /**
  * 命令行工具
@@ -120,7 +119,9 @@ public class ExecUtils {
           String path = ((File) arg).getAbsolutePath();
           this.cmd.append(CharSequenceUtil.SPACE).append(CharSequenceUtil.containsBlank(path) ? CharSequenceUtil.wrap(path, "\"") : path);
         } else {
-          this.cmd.append(CharSequenceUtil.SPACE).append(arg.toString().trim());
+          String argStr = arg.toString();
+          argStr = CharSequenceUtil.containsBlank(argStr) ? CharSequenceUtil.wrap(argStr, "\"") : argStr;
+          this.cmd.append(CharSequenceUtil.SPACE).append(argStr.trim());
         }
       }
       return this;

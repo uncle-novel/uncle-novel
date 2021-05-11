@@ -83,7 +83,7 @@
     <IconButton icon="airport" styleClass="primary-button" pickOnBounds="false"/>
     <IconButton icon="rule" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="规则配置" onAction="#configRule"/>
     <IconButton icon="download_management" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="下载小说" onAction="#download"/>
-    <IconButton icon="bookshelf" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="加入书架"/>
+    <IconButton icon="bookshelf" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="加入书架" onAction="#addToBookShelf"/>
     <IconButton icon="detail" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="书籍详情" onAction="#displayDetail"/>
   </JFXNodesList>
 </StackPane>

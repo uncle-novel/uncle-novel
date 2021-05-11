@@ -56,13 +56,13 @@ import lombok.extern.slf4j.Slf4j;
 public class AudioBookShelfView extends SidebarView<StackPane> {
 
   public static final String BUNDLE_BOOK_KEY = "bundle-audio-book";
-  private static final String INIT_TIME = "00:00";
-  private static final String CHAPTER_CACHE_FILE_FORMAT = "%d.mp3";
   /**
    * 缓存文件位置
    */
-  private static final String CACHE_FOLDER_NAME = "audio";
-  private static final File CACHE_FOLDER = ResourceManager.cacheFile(CACHE_FOLDER_NAME);
+  public static final String CACHE_FOLDER_NAME = "audio";
+  public static final File CACHE_FOLDER = ResourceManager.cacheFile(CACHE_FOLDER_NAME);
+  private static final String INIT_TIME = "00:00";
+  private static final String CHAPTER_CACHE_FILE_FORMAT = "%d.mp3";
   private final AudioBookDao audioBookDao = new AudioBookDao();
   /**
    * 监听器
@@ -305,6 +305,9 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
    * @param play         自动播放
    */
   private void playChapter(double initProgress, boolean play) {
+    if (currentBook.getToc().isEmpty()) {
+      return;
+    }
     Chapter chapter = currentBook.getToc().get(currentBook.getCurrentChapterIndex());
     loading.setVisible(true);
     // 设置当前章节

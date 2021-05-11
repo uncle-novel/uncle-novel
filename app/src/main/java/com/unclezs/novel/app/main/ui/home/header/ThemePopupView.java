@@ -4,9 +4,11 @@ import com.jfoenix.controls.JFXPopup;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.core.View;
+import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.ui.home.HomeView;
 import java.util.Objects;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -24,7 +26,8 @@ public class ThemePopupView extends View<JFXPopup> {
 
   public static final String THEME_FORMAT = "css/home/theme/%s.css";
   public static final String CURRENT_THEME_STYLE_CLASS = "current";
-  public VBox box;
+  @FXML
+  private VBox box;
   private String currentTheme;
   private Scene scene;
 
@@ -72,5 +75,7 @@ public class ThemePopupView extends View<JFXPopup> {
     stylesheets.add(theme);
     stylesheets.remove(currentTheme);
     this.currentTheme = theme;
+    // 设置主题色
+    SettingManager.manager().setTheme(themeName);
   }
 }

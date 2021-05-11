@@ -4,8 +4,8 @@ import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import javafx.application.Application;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +25,20 @@ public abstract class BaseApplication extends Application {
   /**
    * 当前view
    */
-  protected SceneView<? extends Parent> currentView;
+  protected SceneView<? extends Region> currentView;
   private Stage stage;
+  /**
+   * 舞台坐标，切换舞台场景时使用
+   */
+  private double stageX = -1;
+  private double stageY = -1;
 
   /**
    * 返回首页 初次自动加载
    *
    * @return 视图
    */
-  public abstract SceneView<? extends Parent> getIndexView();
+  public abstract SceneView<? extends Region> getIndexView();
 
   /**
    * 初始化 preloader 加载
@@ -72,7 +77,7 @@ public abstract class BaseApplication extends Application {
    *
    * @param viewClass 继承SceneView 的class
    */
-  public void navigate(Class<? extends SceneView<? extends Parent>> viewClass) {
+  public void navigate(Class<? extends SceneView<? extends Region>> viewClass) {
     navigate(viewClass, null);
   }
 
@@ -82,13 +87,13 @@ public abstract class BaseApplication extends Application {
    * @param viewClass 继承SceneView 的class
    * @param bundle    数据
    */
-  public void navigate(Class<? extends SceneView<? extends Parent>> viewClass, SceneNavigateBundle bundle) {
+  public void navigate(Class<? extends SceneView<? extends Region>> viewClass, SceneNavigateBundle bundle) {
     // view生命周期回调
     if (currentView != null) {
       currentView.onHidden();
     }
     // 加载sceneView
-    SceneView<? extends Parent> sceneView = AppContext.getView(viewClass);
+    SceneView<? extends Region> sceneView = AppContext.getView(viewClass);
     loadSceneView(sceneView);
     // 先隐藏 再显示 过渡效果
     if (stage.isShowing()) {
@@ -111,7 +116,7 @@ public abstract class BaseApplication extends Application {
    *
    * @param sceneView 场景View
    */
-  private void loadSceneView(SceneView<? extends Parent> sceneView) {
+  private void loadSceneView(SceneView<? extends Region> sceneView) {
     this.currentView = sceneView;
     if (sceneView.getRoot().getScene() == null) {
       // 注入application用于导航
@@ -130,10 +135,23 @@ public abstract class BaseApplication extends Application {
    */
   private void initScene() {
     stage.setScene(currentView.getRoot().getScene());
-    stage.setMinWidth(currentView.getRoot().minWidth(-1));
-    stage.setMinHeight(currentView.getRoot().minHeight(-1));
-    stage.setHeight(stage.getMinHeight());
-    stage.setWidth(stage.getMinWidth());
-    stage.centerOnScreen();
+    stage.setMinWidth(currentView.getRoot().getMinWidth());
+    stage.setMinHeight(currentView.getRoot().getMinHeight());
+    if (currentView.getRoot().getWidth() == 0) {
+      stage.setHeight(currentView.getRoot().getPrefHeight());
+      stage.setWidth(currentView.getRoot().getPrefWidth());
+    } else {
+      stage.setHeight(currentView.getRoot().getHeight());
+      stage.setWidth(currentView.getRoot().getWidth());
+    }
+    // 舞台位置
+    double x = stage.getX();
+    double y = stage.getY();
+    if (stageX > 0 && stageY > 0) {
+      stage.setX(stageX);
+      stage.setY(stageY);
+    }
+    stageX = x;
+    stageY = y;
   }
 }

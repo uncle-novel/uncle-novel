@@ -54,7 +54,11 @@ public class Executor {
    * @param runnable 任务
    */
   public static void runFx(Runnable runnable) {
-    Platform.runLater(runnable);
+    if (Platform.isFxApplicationThread()) {
+      runnable.run();
+    } else {
+      Platform.runLater(runnable);
+    }
   }
 
   /**
@@ -63,6 +67,10 @@ public class Executor {
    * @param task 任务
    */
   public static void runFxAndWait(Runnable task) {
+    if (Platform.isFxApplicationThread()) {
+      task.run();
+      return;
+    }
     final CountDownLatch doneLatch = new CountDownLatch(1);
     Platform.runLater(() -> {
       try {

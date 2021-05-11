@@ -7,15 +7,15 @@
 <JFXPopup xmlns:fx="http://javafx.com/fxml" xmlns="https://javafx.com/javafx" fx:controller="com.unclezs.novel.app.main.ui.home.header.SettingPopupView"
   fx:id="popup">
   <VBox spacing="10" styleClass="home-setting-popup">
-    <IconButton icon="&#xf092;" text="GitHub源码"/>
-    <IconButton icon="&#xf013;" text="设置"/>
-    <IconButton icon="&#xf23b;" text="打赏"/>
-    <IconButton icon="&#xf170;" text="关于"/>
-    <IconButton icon="&#xf170;" text="更新历史"/>
-    <IconButton icon="&#xf1da;" text="查看日志"/>
-    <IconButton icon="&#xf0f6;" text="问题反馈"/>
-    <IconButton icon="&#xf188;" text="免责声明"/>
+    <IconButton icon="github" text="GitHub源码" onAction="#github"/>
     <Pane styleClass="home-setting-popup-delimiter"/>
+    <IconButton icon="reward" text="打赏" onAction="#reward"/>
+    <IconButton icon="config" text="设置" onAction="#setting"/>
+    <IconButton icon="about" text="关于" onAction="#about"/>
+    <IconButton icon="download_history" text="更新历史" onAction="#update"/>
+    <IconButton icon="log" text="查看日志" onAction="#showLog"/>
+    <IconButton icon="feedback" text="问题反馈" onAction="#feedback"/>
     <Pane styleClass="home-setting-popup-delimiter"/>
+    <IconButton icon="statement" text="免责声明" onAction="#statement"/>
   </VBox>
 </JFXPopup>

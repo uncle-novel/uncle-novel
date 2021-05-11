@@ -10,6 +10,7 @@ import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
+import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.ui.home.header.SettingPopupView;
 import com.unclezs.novel.app.main.ui.home.header.ThemePopupView;
 import com.unclezs.novel.app.main.ui.home.views.SearchNovelView;
@@ -30,19 +31,19 @@ public class HomeView extends SceneView<StageDecorator> {
     getRoot().getScene().getStylesheets().add("css/home/home.css");
     // 初始化主题样式
     themePopupView = AppContext.getView(ThemePopupView.class);
-    themePopupView.changeTheme(DEFAULT_THEME);
+    themePopupView.changeTheme(SettingManager.manager().getTheme());
   }
 
   @Override
   public void onTheme(StageDecorator view, IconButton themeButton) {
-    themePopupView.getRoot().show(themeButton, PopupVPosition.BOTTOM, PopupHPosition.LEFT, 0, 0);
+    themePopupView.getRoot().show(themeButton, PopupVPosition.TOP, PopupHPosition.RIGHT, 0, 40);
   }
 
   @Override
   public void onSetting(StageDecorator view, IconButton settingButton) {
     SettingPopupView settingPopupView = AppContext.getView(SettingPopupView.class);
     JFXPopup settingPopup = settingPopupView.getRoot();
-    settingPopup.show(settingButton, JFXPopup.PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 40);
+    settingPopup.show(settingButton, PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 40);
   }
 
   @Override

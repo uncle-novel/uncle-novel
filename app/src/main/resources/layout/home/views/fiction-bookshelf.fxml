@@ -22,9 +22,39 @@
       </ScrollPane>
       <ContextMenu fx:id="bookNodeContextMenu">
         <items>
+          <MenuItem text="开始阅读" onAction="#readBook">
+            <graphic>
+              <Icon value="read"/>
+            </graphic>
+          </MenuItem>
+          <MenuItem text="获取更新" onAction="#checkUpdate">
+            <graphic>
+              <Icon value="update"/>
+            </graphic>
+          </MenuItem>
           <MenuItem text="设置分组" onAction="#setGroup">
             <graphic>
-              <Icon value="plus"/>
+              <Icon value="group"/>
+            </graphic>
+          </MenuItem>
+          <MenuItem text="下载本书" onAction="#addDownload">
+            <graphic>
+              <Icon value="download"/>
+            </graphic>
+          </MenuItem>
+          <MenuItem text="更换封面" onAction="#changeCover">
+            <graphic>
+              <Icon value="cover"/>
+            </graphic>
+          </MenuItem>
+          <MenuItem text="重命名" onAction="#renameBook">
+            <graphic>
+              <Icon value="rename"/>
+            </graphic>
+          </MenuItem>
+          <MenuItem text="移除书架" onAction="#deleteBook">
+            <graphic>
+              <Icon value="stop"/>
             </graphic>
           </MenuItem>
         </items>
@@ -45,7 +75,7 @@
       <Insets bottom="20" right="20"/>
     </StackPane.margin>
     <IconButton icon="airport" styleClass="primary-button" pickOnBounds="false"/>
-    <IconButton icon="plus" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="本地导入"/>
-    <IconButton icon="update" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="全部更新"/>
+    <IconButton icon="plus" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="本地导入" onAction="#importBook"/>
+    <IconButton icon="update" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="全部更新" onAction="#updateToc"/>
   </JFXNodesList>
 </StackPane>

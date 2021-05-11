@@ -15,8 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.application.Platform;
-import javafx.scene.Parent;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import lombok.extern.slf4j.Slf4j;
@@ -123,7 +123,7 @@ public class App extends BaseApplication {
   }
 
   @Override
-  public SceneView<? extends Parent> getIndexView() {
+  public SceneView<? extends Region> getIndexView() {
 //    return AppContext.getView(ReaderView.class);
     return AppContext.getView(HomeView.class);
   }

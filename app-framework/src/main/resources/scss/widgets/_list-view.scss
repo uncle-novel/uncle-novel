@@ -4,6 +4,7 @@
   -fx-selected-color: #009688;
   -fx-separator-color: #bbb;
   -fx-background-color: -fx-base;
+  -fx-background-insets: 0;
 
   &:focused {
     -fx-background-color: -fx-base;
@@ -30,7 +31,7 @@
       -fx-background-color: -fx-selected-color;
 
       .label, .check-box, .icon {
-        @include ladderTextFill(-fx-selected-color);
+        @include ladderTextFillForce(-fx-selected-color);
       }
 
       .check-box {

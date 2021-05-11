@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.unclezs.novel.app.framework.components.FileSelector?>
 <?import com.unclezs.novel.app.main.manager.LanguageManager?>
+<?import com.unclezs.novel.app.main.ui.home.views.widgets.setting.BackupSettingView?>
 <?import com.unclezs.novel.app.main.ui.home.views.widgets.setting.ProxySetting?>
 <?import com.unclezs.novel.app.main.ui.home.views.widgets.setting.SearchEngineSetting?>
 <?import com.unclezs.novel.app.main.ui.home.views.widgets.setting.SettingItem?>
@@ -85,6 +86,7 @@
           <SearchEngineSetting/>
         </items>
       </SettingItems>
+      <BackupSettingView/>
       <SettingItems name="其他配置">
         <items>
           <SettingItem name="调试模式">
