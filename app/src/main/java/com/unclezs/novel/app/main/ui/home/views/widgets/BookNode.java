@@ -24,7 +24,7 @@ public class BookNode extends StackPane {
   @Getter
   private final Book book;
   private JFXSpinner updating;
-  private StackPane container;
+  private final StackPane container;
 
   public BookNode(Book book) {
     this.book = book;

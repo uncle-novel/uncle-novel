@@ -3,7 +3,7 @@
     "name": "斋书苑",
     "site": "https://www.zhaishuyuan.com/",
     "group": "123",
-    "enabled": true,
+    "enabled": false,
     "audio": false,
     "weight": 0,
     "params": {
@@ -30,7 +30,9 @@
       "enableNext": false,
       "blackUrls": [],
       "filter": false,
-      "sort": false
+      "sort": false,
+      "autoNext": true,
+      "forceNext": false
     },
     "detail": {
       "title": {},
@@ -113,9 +115,290 @@
     }
   },
   {
+    "name": "笔趣阁",
+    "site": "https://m.biqugeu.net/",
+    "enabled": true,
+    "audio": false,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "autoNext": true,
+      "forceNext": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "url": "https://m.biqugeu.net/SearchBook.php?keyword={{keyword}}&page={{page}}",
+        "charset": "UTF-8",
+        "mediaType": "application/x-www-form-urlencoded"
+      },
+      "list": {
+        "type": "//",
+        "rule": "//div[@class='bookbox']"
+      },
+      "detailPage": {},
+      "detail": {
+        "url": {
+          "type": "//",
+          "rule": "/div[1]/a/@href"
+        },
+        "title": {
+          "type": "//",
+          "rule": "/div[2]/h4/i/a/text()"
+        },
+        "author": {
+          "type": "//",
+          "rule": "/div[2]/div[1]/text()",
+          "replace": [
+            {
+              "from": "作者：",
+              "to": ""
+            }
+          ]
+        },
+        "broadcast": {
+          "type": "//"
+        },
+        "category": {
+          "type": "//"
+        },
+        "wordCount": {
+          "type": "//"
+        },
+        "introduce": {
+          "type": "//",
+          "rule": "/div[2]/div[5]/text()",
+          "replace": [
+            {
+              "from": "简介：",
+              "to": ""
+            }
+          ]
+        },
+        "latestChapterName": {
+          "type": "//"
+        },
+        "latestChapterUrl": {
+          "type": "//"
+        },
+        "coverUrl": {
+          "type": "//",
+          "rule": "/div[1]/a/img/@src"
+        },
+        "state": {
+          "type": "//"
+        },
+        "updateTime": {
+          "type": "//"
+        }
+      }
+    }
+  },
+  {
+    "name": "遮天_遮天",
+    "site": "https://m.qidian.com/",
+    "enabled": true,
+    "audio": false,
+    "weight": 0,
+    "params": {
+      "dynamic": false,
+      "cookie": "_yep_uuid=f9f1a69d-4483-0936-fa18-026a8cd6b674; e2=%7B%22pid%22%3A%22qd_P_xiangqing%22%2C%22eid%22%3A%22%22%7D; e1=%7B%22pid%22%3A%22qd_P_xiangqing%22%2C%22eid%22%3A%22%22%2C%22l1%22%3A2%7D; _csrfToken=fZv0AQ23TMWdRtGTrwuwhvN1ZYlPWVshExFEkwgd; newstatisticUUID=1619406065_349900643; qdrs=0%7C3%7C0%7C0%7C1; qdgd=1; showSectionCommentGuide=1; rcr=1735921; lrbc=1735921%7C30194132%7C1; ywguid=1585503310; ywopenid=7387FAAE42281F44434B7CF4977CFD3E; e2=%7B%22pid%22%3A%22qd_P_qdlogin%22%2C%22eid%22%3A%22%22%7D; ywkey=yw3z11D2B3zE; e1=%7B%22pid%22%3A%22qd_p_qidian%22%2C%22eid%22%3A%22qd_A08%22%2C%22l1%22%3A1%7D"
+    },
+    "content": {
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      }
+    },
+    "toc": {
+      "params": {
+        "dynamic": true
+      },
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "sort": false,
+      "autoNext": true,
+      "forceNext": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "list": {},
+      "detailPage": {},
+      "detail": {
+        "url": {},
+        "title": {},
+        "author": {},
+        "broadcast": {},
+        "category": {},
+        "wordCount": {},
+        "introduce": {},
+        "latestChapterName": {},
+        "latestChapterUrl": {},
+        "coverUrl": {},
+        "state": {},
+        "updateTime": {}
+      }
+    }
+  },
+  {
+    "name": "快眼看书",
+    "site": "https://www.see023.com/",
+    "enabled": false,
+    "audio": false,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "autoNext": true,
+      "forceNext": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "url": "https://www.see023.com/search7d.html?searchkey={{keyword}}&p={{page}}",
+        "charset": "UTF-8",
+        "mediaType": ""
+      },
+      "list": {
+        "type": "//",
+        "rule": "//*[@id=\"hotcontent\"]/div/div[@class='item']"
+      },
+      "detailPage": {
+        "rule": ""
+      },
+      "detail": {
+        "url": {
+          "type": "//",
+          "rule": "/div[1]/a/@href"
+        },
+        "title": {
+          "type": "//",
+          "rule": "/div[1]/a/@title"
+        },
+        "author": {
+          "type": "//",
+          "rule": "/dl/div/a/text()"
+        },
+        "broadcast": {
+          "type": "//"
+        },
+        "category": {
+          "type": "//"
+        },
+        "wordCount": {
+          "type": "//"
+        },
+        "introduce": {
+          "type": "//",
+          "rule": "/dl/dd/text()"
+        },
+        "latestChapterName": {
+          "type": "//"
+        },
+        "latestChapterUrl": {
+          "type": "//"
+        },
+        "coverUrl": {
+          "type": "//",
+          "rule": "///div[1]/a/img/@data-original"
+        },
+        "state": {
+          "type": "//"
+        },
+        "updateTime": {
+          "type": "//"
+        }
+      }
+    }
+  },
+  {
     "name": "聚听网",
     "site": "https://www.yousxs.com/",
-    "enabled": false,
+    "enabled": true,
     "audio": true,
     "weight": 0,
     "params": {},
@@ -146,7 +429,9 @@
         "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
       },
       "enableNext": true,
-      "filter": true
+      "filter": true,
+      "autoNext": true,
+      "forceNext": false
     },
     "detail": {
       "title": {},
@@ -187,11 +472,23 @@
         },
         "author": {
           "type": "//",
-          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[1]/text()"
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[1]/text()",
+          "replace": [
+            {
+              "from": "作者：",
+              "to": ""
+            }
+          ]
         },
         "broadcast": {
           "type": "//",
-          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[2]/text()"
+          "rule": "//div/div[3]/div[1]/div[1]/div/div/div[2]/p[2]/text()",
+          "replace": [
+            {
+              "from": "播讲：",
+              "to": ""
+            }
+          ]
         },
         "category": {
           "type": "//",
@@ -259,7 +556,9 @@
         "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
       },
       "enableNext": false,
-      "filter": false
+      "filter": false,
+      "autoNext": true,
+      "forceNext": false
     },
     "detail": {
       "title": {},
@@ -332,6 +631,141 @@
           "type": "//",
           "rule": "li/dl/dd[2]/span[4]/text()"
         }
+      }
+    }
+  },
+  {
+    "name": "环视小说",
+    "site": "https://www.h4xs.cc/",
+    "group": "",
+    "enabled": true,
+    "audio": false,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      }
+    },
+    "toc": {
+      "list": {
+        "type": "css:",
+        "rule": ".post-title"
+      },
+      "name": {
+        "rule": "a@text"
+      },
+      "url": {
+        "rule": "a@href"
+      },
+      "next": {
+        "rule": "#content > div:nth-child(2) > nav > ul > li.next.right > a@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "autoNext": true,
+      "forceNext": true
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "list": {},
+      "detailPage": {},
+      "detail": {
+        "url": {},
+        "title": {},
+        "author": {},
+        "broadcast": {},
+        "category": {},
+        "wordCount": {},
+        "introduce": {},
+        "latestChapterName": {},
+        "latestChapterUrl": {},
+        "coverUrl": {},
+        "state": {},
+        "updateTime": {}
+      }
+    }
+  },
+  {
+    "name": "遮天辰东著仙侠起点中文网",
+    "site": "https://book.qidian.com/",
+    "enabled": true,
+    "audio": false,
+    "weight": 0,
+    "params": {
+      "dynamic": true,
+      "cookie": "_yep_uuid=f9f1a69d-4483-0936-fa18-026a8cd6b674; e2=%7B%22pid%22%3A%22qd_P_xiangqing%22%2C%22eid%22%3A%22%22%7D; e1=%7B%22pid%22%3A%22qd_P_xiangqing%22%2C%22eid%22%3A%22%22%2C%22l1%22%3A2%7D; _csrfToken=fZv0AQ23TMWdRtGTrwuwhvN1ZYlPWVshExFEkwgd; newstatisticUUID=1619406065_349900643; qdrs=0%7C3%7C0%7C0%7C1; qdgd=1; showSectionCommentGuide=1; rcr=1735921; lrbc=1735921%7C30194132%7C1; ywguid=1585503310; ywopenid=7387FAAE42281F44434B7CF4977CFD3E; e2=%7B%22pid%22%3A%22qd_P_qdlogin%22%2C%22eid%22%3A%22%22%7D; ywkey=yw3z11D2B3zE; e1=%7B%22pid%22%3A%22qd_p_qidian%22%2C%22eid%22%3A%22qd_A08%22%2C%22l1%22%3A1%7D"
+    },
+    "content": {
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "autoNext": true,
+      "forceNext": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {},
+      "list": {},
+      "detailPage": {},
+      "detail": {
+        "url": {},
+        "title": {},
+        "author": {},
+        "broadcast": {},
+        "category": {},
+        "wordCount": {},
+        "introduce": {},
+        "latestChapterName": {},
+        "latestChapterUrl": {},
+        "coverUrl": {},
+        "state": {},
+        "updateTime": {}
       }
     }
   }

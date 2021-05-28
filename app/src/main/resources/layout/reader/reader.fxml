@@ -5,7 +5,6 @@
 <?import com.jfoenix.controls.JFXSlider?>
 <?import com.unclezs.novel.app.framework.components.icon.IconButton?>
 <?import com.unclezs.novel.app.framework.components.PlaceHolder?>
-<?import com.unclezs.novel.app.framework.components.SelectableButton?>
 <?import com.unclezs.novel.app.framework.components.StageDecorator?>
 <?import com.unclezs.novel.app.framework.components.TabButton?>
 <?import com.unclezs.novel.app.framework.components.TabGroup?>
@@ -83,7 +82,7 @@
           </ScrollPane>
           <HBox styleClass="setting-action-box">
             <IconButton icon="toc" ripplerFill="transparent" onAction="#showToc" maxWidth="Infinity" HBox.hgrow="always" text="目录"/>
-            <SelectableButton icon="speak" onAction="#speak" fx:id="speakButton" selected="false" maxWidth="Infinity" HBox.hgrow="always" text="朗读" styleClass="speak"/>
+<!--            <SelectableButton icon="speak" onAction="#speak" fx:id="speakButton" selected="false" maxWidth="Infinity" HBox.hgrow="always" text="朗读" styleClass="speak"/>-->
             <IconButton icon="stop" onAction="#closeSetting" maxWidth="Infinity" HBox.hgrow="always" text="关闭"/>
           </HBox>
         </VBox>

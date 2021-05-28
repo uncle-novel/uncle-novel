@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Window;
+import lombok.Setter;
 
 /**
  * loading组件
@@ -19,6 +20,8 @@ import javafx.stage.Window;
 public class Loading extends JFXAlert<Object> {
 
   private static final Image LOADING_IMAGE = new Image(ResourceUtils.externalForm("images/loading.gif"));
+  @Setter
+  private Runnable onCancel;
 
   public Loading(Window window) {
     super(window);
@@ -28,7 +31,12 @@ public class Loading extends JFXAlert<Object> {
     super(AppContext.getInstance().getPrimaryStage());
     setOverlayClose(false);
     JFXButton cancel = new JFXButton("取消");
-    cancel.setOnAction(e -> hideWithAnimation());
+    cancel.setOnAction(e -> {
+      if (onCancel != null) {
+        onCancel.run();
+      }
+      hideWithAnimation();
+    });
     setContent(NodeHelper.addClass(new VBox(new ImageView(LOADING_IMAGE), cancel), "loading"));
   }
 }

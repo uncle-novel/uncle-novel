@@ -1,4 +1,11 @@
 @import "../../define/global";
 
 .search-network {
+  .progress-bar {
+    -fx-min-height: 2;
+
+    .bar {
+      -fx-padding: 2;
+    }
+  }
 }

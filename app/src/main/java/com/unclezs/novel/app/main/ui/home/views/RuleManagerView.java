@@ -30,11 +30,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 书源管理
+ *
  * @author blog.unclezs.com
  * @date 2021/4/20 11:16
  */
+@Slf4j
 @FxView(fxml = "/layout/home/views/rule-manager.fxml")
 @EqualsAndHashCode(callSuper = true)
 public class RuleManagerView extends SidebarView<StackPane> {
@@ -215,12 +219,17 @@ public class RuleManagerView extends SidebarView<StackPane> {
    */
   public void importRule(File file) {
     if (FileUtil.exist(file)) {
-      List<AnalyzerRule> rules = GsonUtils.me().fromJson(FileUtil.readUtf8String(file), new TypeToken<List<AnalyzerRule>>() {
-      }.getType());
-      Set<String> ruleSites = rulesTable.getItems().stream().map(rule -> UrlUtils.getHost(rule.getSite())).collect(Collectors.toSet());
-      rules.stream()
-        .filter(rule -> rule.isEffective() && !ruleSites.contains(UrlUtils.getHost(rule.getSite())))
-        .forEach(rule -> rulesTable.getItems().add(rule));
+      try {
+        List<AnalyzerRule> rules = GsonUtils.me().fromJson(FileUtil.readUtf8String(file), new TypeToken<List<AnalyzerRule>>() {
+        }.getType());
+        Set<String> ruleSites = rulesTable.getItems().stream().map(rule -> UrlUtils.getHost(rule.getSite())).collect(Collectors.toSet());
+        rules.stream()
+          .filter(rule -> rule.isEffective() && !ruleSites.contains(UrlUtils.getHost(rule.getSite())))
+          .forEach(rule -> rulesTable.getItems().add(rule));
+      } catch (Exception e) {
+        Toast.error("导入失败");
+        log.error("书源导入失败", e);
+      }
     }
   }
 

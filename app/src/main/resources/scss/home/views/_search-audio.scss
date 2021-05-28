@@ -23,5 +23,13 @@
         }
       }
     }
+
+    .progress-bar {
+      -fx-min-height: 1;
+
+      .bar {
+        -fx-padding: 1;
+      }
+    }
   }
 }

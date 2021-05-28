@@ -1,0 +1,11 @@
+.\runtime\bin\java ^
+ --add-exports=javafx.graphics/com.sun.javafx.css=com.unclezs.novel.app.framework ^
+ --add-exports=javafx.graphics/com.sun.javafx.stage=com.unclezs.novel.app.main,com.jfoenix ^
+ --add-exports=javafx.graphics/com.sun.javafx.scene=com.jfoenix ^
+ --add-exports=javafx.base/com.sun.javafx.binding=com.jfoenix ^
+ --add-exports=javafx.base/com.sun.javafx.event=com.jfoenix ^
+ --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix ^
+ --add-exports=javafx.controls/com.sun.javafx.scene.control=com.jfoenix ^
+ --add-exports=javafx.controls/com.sun.javafx.scene.control.skin=com.unclezs.novel.app.main ^
+ --add-opens=com.jfoenix/com.jfoenix.controls=com.unclezs.novel.app.framework ^
+ --module-path ".\libraries;app.jar" -m com.unclezs.novel.app.main/com.unclezs.novel.app.main.App

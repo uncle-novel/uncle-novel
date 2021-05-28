@@ -230,9 +230,7 @@ public class BookDetailModal extends VBox implements LocalizedSupport {
     editor.setPromptText("请输入要修改的内容");
     StackPane panel = new StackPane(titleBox);
     // 事件绑定
-    EventUtils.setOnMousePrimaryClick(icon, e -> {
-      panel.getChildren().setAll(editor);
-    });
+    EventUtils.setOnMousePrimaryClick(icon, e -> panel.getChildren().setAll(editor));
     editor.setOnKeyPressed(event -> {
       if (event.getCode() == KeyCode.ENTER) {
         label.setText(editor.getText());
@@ -255,7 +253,7 @@ public class BookDetailModal extends VBox implements LocalizedSupport {
     TAG,
     EDITABLE,
     LINK,
-    LABEL;
+    LABEL
   }
 
   /**

@@ -8,6 +8,7 @@ import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.core.View;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.main.manager.ResourceManager;
+import com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView;
 import com.unclezs.novel.app.main.ui.home.views.SettingView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Hyperlink;
@@ -57,7 +58,7 @@ public class SettingPopupView extends View<JFXPopup> {
    */
   @FXML
   private void setting() {
-    AppContext.getView(SettingView.class).getNavigation().navigate(SettingView.class);
+    AppContext.getView(FictionBookshelfView.class).getNavigation().navigate(SettingView.class);
     popup.hide();
   }
 

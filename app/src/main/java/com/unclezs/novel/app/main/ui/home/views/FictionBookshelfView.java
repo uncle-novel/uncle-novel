@@ -319,6 +319,8 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
     if (cache.getToc().size() == toc.size()) {
       return Collections.emptyList();
     }
+    // 新的章节
+    List<Chapter> newChapters = toc.subList(cache.getToc().size(), toc.size());
     // 更新章节
     cache.setToc(toc);
     BookHelper.cache(cache, cacheFile);
@@ -326,7 +328,7 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
     Executor.runFx(() -> bookNode.setUpdate(true));
     bookDao.update(book);
     // 返回更新的章节
-    return toc.subList(cache.getToc().size(), toc.size());
+    return newChapters;
   }
 
   /**
@@ -350,7 +352,11 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
     FileUtil.del(FileUtil.file(CACHE_FOLDER, book.getId()));
     // 如果是本地小说则提示是否删除本地小说文件
     if (book.isLocal() && FileUtil.exist(book.getUrl())) {
-      ModalBox.confirm(delete -> FileUtil.del(book.getUrl())).message("是否删除本地小说文件").cancel("不了").submit("删除").showAndWait();
+      ModalBox.confirm(delete -> {
+        if (Boolean.TRUE.equals(delete)) {
+          FileUtil.del(book.getUrl());
+        }
+      }).message("是否删除本地小说文件").cancel("不了").submit("删除").showAndWait();
     }
     bookNodes.remove(node);
   }

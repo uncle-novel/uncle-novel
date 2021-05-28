@@ -11,6 +11,21 @@
   }
 }
 
+.stop-search {
+  -fx-background-color: #d42323;
+  -fx-background-radius: 35px;
+  -fx-pref-width: 40px;
+  -fx-pref-height: 40px;
+  -fx-content-display: GRAPHIC_ONLY;
+  @include shadow();
+
+  .icon {
+    -fx-background-radius: inherit;
+    -fx-icon-size: 12px;
+    -fx-text-fill: #eae2e2;
+  }
+}
+
 .container {
   -fx-spacing: $_10px;
 
@@ -25,7 +40,6 @@
       -fx-icon-size: 50px;
     }
   }
-
 }
 
 .float-actions {

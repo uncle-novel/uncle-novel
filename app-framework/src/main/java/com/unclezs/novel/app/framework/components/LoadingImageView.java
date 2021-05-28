@@ -21,9 +21,9 @@ public class LoadingImageView extends StackPane {
   public static final String DEFAULT_STYLE_CLASS = "loading-image-view";
   public static final String LOADING_STYLE_CLASS = "loading";
   private final JFXSpinner loading = new JFXSpinner();
+  private final ImageView imageView;
   @Setter
   private Image defaultImage;
-  private final ImageView imageView;
 
   public LoadingImageView(Image defaultImage) {
     this(defaultImage, Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);

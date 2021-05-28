@@ -27,7 +27,7 @@
         </sidePane>
       </JFXDrawer>
       <VBox>
-        <JFXProgressBar fx:id="progress" maxWidth="Infinity" minHeight="3" visible="false"/>
+        <JFXProgressBar fx:id="progress" maxHeight="2" maxWidth="Infinity" minHeight="3" visible="false"/>
         <WebView fx:id="webview" VBox.vgrow="ALWAYS" visible="false"/>
       </VBox>
     </JFXDrawersStack>

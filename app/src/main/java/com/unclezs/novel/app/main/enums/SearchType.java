@@ -11,6 +11,10 @@ import lombok.Getter;
  */
 public enum SearchType implements LocalizedSupport {
   /**
+   * 全部
+   */
+  ALL("novel.all"),
+  /**
    * 书名
    */
   NAME("novel.name"),

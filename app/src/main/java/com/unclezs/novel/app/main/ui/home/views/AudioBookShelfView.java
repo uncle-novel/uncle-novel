@@ -334,7 +334,10 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
         }
       }.onSuccess(c -> initPlayer(c, initProgress, play))
         .onFailed(e -> {
-          Toast.error("音频获取失败");
+          // 自动播放才显示弹窗
+          if (play) {
+            Toast.error("音频获取失败");
+          }
           log.error("获取音频失败：{}", chapter, e);
           loading.setVisible(false);
         });

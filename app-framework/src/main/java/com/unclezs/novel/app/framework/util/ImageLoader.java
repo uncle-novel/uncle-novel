@@ -23,7 +23,7 @@ public class ImageLoader {
   /**
    * 图片缓存
    */
-  private static final TimedCache<String, Image> IMAGE_CACHE = CacheUtil.newTimedCache(60L * 1000L);
+  private static final TimedCache<String, Image> IMAGE_CACHE = CacheUtil.newTimedCache(5 * 60L * 1000L);
 
   /**
    * 直接读取缓存，可能为null
@@ -44,6 +44,7 @@ public class ImageLoader {
    */
   public void load(String url, Image defaultImage, Consumer<Image> callback) {
     Image cacheImage = get(url);
+    // 先查看缓存
     if (cacheImage == null) {
       if (!UrlUtils.isHttpUrl(url) && FileUtil.exist(url)) {
         url = URLUtil.getURL(FileUtil.file(url)).toString();
@@ -60,6 +61,7 @@ public class ImageLoader {
           if (image.getProgress() == 1) {
             if (image.isError()) {
               IMAGE_CACHE.put(finalUrl, defaultImage);
+              callback.accept(defaultImage);
             } else {
               callback.accept(image);
             }

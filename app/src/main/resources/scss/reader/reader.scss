@@ -126,7 +126,7 @@
       -fx-background-color: theme-color;
 
       .label {
-        @include ladderTextFillForce(theme-color);
+        @include ladderTextFill(theme-color);
       }
 
       .icon {

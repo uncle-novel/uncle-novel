@@ -132,6 +132,9 @@
           <RuleItem name="翻页规则">
             <InputBox userData="toc.next"/>
           </RuleItem>
+          <RuleItem name="自动翻页">
+            <JFXCheckBox userData="toc.autoNext"/>
+          </RuleItem>
           <RuleItem name="启用翻页">
             <JFXCheckBox userData="toc.enableNext"/>
           </RuleItem>

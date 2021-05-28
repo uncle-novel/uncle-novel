@@ -1,5 +1,5 @@
 {
-  "theme": "grey",
+  "theme": "default",
   "lang": "简体中文",
   "download": {
     "folder": "G:\\tmp",
@@ -12,15 +12,15 @@
     "epub": true
   },
   "reader": {
-    "themeName": "custom",
+    "themeName": "green",
     "bgImage": "",
     "fontSize": 17.428571428571427,
     "fontFamily": "圆体-简",
     "align": "JUSTIFY",
     "showHeader": true,
     "windowTop": false,
-    "pageWidth": 0.8928571428571428,
-    "lineSpacing": 3.8095238095238093,
+    "pageWidth": 0.869047619047619,
+    "lineSpacing": 0.0,
     "stageWidth": 500.0,
     "stageHeight": 700.0
   },

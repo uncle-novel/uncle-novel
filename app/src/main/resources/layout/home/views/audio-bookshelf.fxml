@@ -26,7 +26,7 @@
             <items>
               <MenuItem text="浏览器打开">
                 <graphic>
-                  <Icon value="browse"/>
+                  <Icon value="browser"/>
                 </graphic>
               </MenuItem>
               <MenuItem text="复制音频链接">

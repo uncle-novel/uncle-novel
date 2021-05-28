@@ -65,8 +65,8 @@ public class ReaderView extends SceneView<StageDecorator> {
   public static final String BUNDLE_READ_BOOK_KEY = "read-book-key";
   public static final String FONT_STYLE_FORMAT = "-fx-font-size: %spx;-fx-font-family: '%s'";
   public static final double TOC_AREA = 0.05;
-  public static final double PRE_PAGE_AREA = 0.4;
-  public static final double NEXT_PAGE_AREA = 0.6;
+  public static final double PRE_PAGE_AREA = 0.35;
+  public static final double NEXT_PAGE_AREA = 0.65;
   private final String[] contents = new String[3];
   /**
    * 当前章节所有页
@@ -148,7 +148,7 @@ public class ReaderView extends SceneView<StageDecorator> {
     contextMenu.toggleWindowTop(config.isWindowTop());
     // 获取书籍信息
     Book bundleBook = bundle.get(BUNDLE_READ_BOOK_KEY);
-    if (bundleBook != null && book != bundleBook) {
+    if (bundleBook != null) {
       this.book = bundleBook;
       getRoot().setTitle(book.getName());
       if (book.isLocal()) {
@@ -368,9 +368,6 @@ public class ReaderView extends SceneView<StageDecorator> {
     } else {
       showView.setTitle(null);
     }
-    if (speakButton.isSelected()) {
-      getPlayer().speak(currentPageText());
-    }
   }
 
   /**
@@ -548,11 +545,6 @@ public class ReaderView extends SceneView<StageDecorator> {
       pageList.add(page);
       text = text.substring(page.length()).trim();
     } while (text.length() > 0);
-    for (String page : pageList) {
-      System.out.println(page.substring(0, 10));
-      System.out.println(page.substring(page.length() - 10));
-      System.out.println("=================");
-    }
     // 更新页码
     this.pages.clear();
     this.pages.addAll(pageList);

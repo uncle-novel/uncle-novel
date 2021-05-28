@@ -2,9 +2,12 @@
 
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXDrawersStack?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.icon.IconButton?>
 <?import com.unclezs.novel.app.framework.components.SearchBar?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -18,6 +21,7 @@
         <SearchBar onSearch="#search" fx:id="searchBar"/>
       </content>
     </TitleBar>
+    <JFXProgressBar maxWidth="Infinity" fx:id="loadingBar" visible="false"/>
     <JFXDrawersStack fx:id="drawers" VBox.vgrow="ALWAYS">
       <JFXDrawer fx:id="tocDrawer" overLayVisible="true" defaultDrawerSize="300" direction="RIGHT">
         <sidePane>
@@ -71,4 +75,10 @@
       </ListView>
     </JFXDrawersStack>
   </VBox>
+
+  <IconButton StackPane.alignment="BOTTOM_RIGHT" visible="false" managed="false" fx:id="loading" icon="stop_loading" styleClass="stop-search" pickOnBounds="false">
+    <StackPane.margin>
+      <Insets bottom="30" right="30"/>
+    </StackPane.margin>
+  </IconButton>
 </StackPane>

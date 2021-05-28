@@ -21,7 +21,6 @@ dependencies {
     implementation 'org.apache.velocity:velocity-engine-core'
     implementation "com.j256.ormlite:ormlite-jdbc:5.3"
     implementation "org.xerial:sqlite-jdbc:3.34.0"
-    implementation "com.github.lookfirst:sardine:5.10"
 }
 apply plugin: 'app-packager'
 
@@ -55,7 +54,7 @@ packager {
     customizedJre = false
     jreDirName = "runtime"
     vmArgs = [
-            "-Djava.util.logging.config.outFile=conf/jul.properties",
+            "-Djava.util.logging.config.file=conf/jul.properties",
             "--add-modules ALL-SYSTEM",
             "--add-opens=java.base/java.lang=com.unclezs.jfx.launcher"
     ]
@@ -103,6 +102,8 @@ packager {
         ]
         // 其他资源
         resource("$packagerDir/resource/conf/jul.properties", "conf")
+        resource("$rootDir/conf/core.db", "conf")
+        resource("$rootDir/conf/rules.json", "conf")
 
 //        url = outFile("$buildDir/server").toURI().toURL().toString()
         url = "http://uncle-novel.unclezs.com/novel/${profile}"

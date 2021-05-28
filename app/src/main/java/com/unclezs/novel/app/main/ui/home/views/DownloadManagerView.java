@@ -234,7 +234,6 @@ public class DownloadManagerView extends SidebarView<StackPane> {
       Toast.error("下载文件夹不存在");
       return;
     }
-    boolean isAudio = Boolean.TRUE.equals(bundle.getRule().getAudio());
     Novel novel = bundle.getNovel();
     Spider spider = new Spider();
     spider.setUrl(novel.getUrl());
@@ -242,7 +241,7 @@ public class DownloadManagerView extends SidebarView<StackPane> {
     spider.setAnalyzerRule(bundle.getRule());
     spider.setRetryTimes(downloadConfig.getRetryNum().getValue());
     spider.setSavePath(savePath);
-    spider.setThreadNum(isAudio ? 1 : downloadConfig.getThreadNum().getValue());
+    spider.setThreadNum(downloadConfig.getThreadNum().getValue());
     SpiderWrapper spiderWrapper = new SpiderWrapper(spider, this::onCompleted);
     tasksTable.getItems().add(spiderWrapper);
     // 如果还有任务数量剩余则直接启动

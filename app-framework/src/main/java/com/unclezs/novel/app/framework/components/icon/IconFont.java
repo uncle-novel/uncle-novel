@@ -26,6 +26,7 @@ public enum IconFont {
   GITHUB('\ue67c'),
   EDIT('\ue648'),
   BOOKSHELF('\ue612'),
+  STOP_LOADING('\ue63b'),
   NO_TOP('\ue7f3'),
   ANALYSIS('\ue616'),
   AIRPORT('\ue60c'),
