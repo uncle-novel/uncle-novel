@@ -12,10 +12,12 @@ import com.unclezs.novel.app.framework.components.icon.Icon;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.support.LocalizedSupport;
+import com.unclezs.novel.app.framework.util.Choosers;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.util.BookHelper;
+import java.io.File;
 import java.util.function.Consumer;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
@@ -64,6 +66,15 @@ public class BookDetailModal extends VBox implements LocalizedSupport {
     // 封面
     LoadingImageView cover = new LoadingImageView(BookListCell.NO_COVER, 100, 140);
     cover.setImage(novel.getCoverUrl());
+    if (editable) {
+      cover.setOnMouseClicked(e -> {
+        File file = Choosers.chooseImage("小说封面");
+        if (file != null) {
+          novel.setCoverUrl(file.getAbsolutePath());
+          cover.setImage(novel.getCoverUrl());
+        }
+      });
+    }
     // 信息
     HBox title = createItem(null, novel.getTitle(), Type.EDITABLE, novel::setTitle, "title");
     HBox author = createItem(localized("novel.author"), novel.getAuthor(), Type.EDITABLE, novel::setAuthor);
@@ -82,6 +93,10 @@ public class BookDetailModal extends VBox implements LocalizedSupport {
     }
     detailContainer.getChildren().addAll(site, latestChapter, wordCount, category, state, updateTime);
     NodeHelper.addClass(detailContainer, "info");
+    // 有声小说不显示
+    if (audio) {
+      detailContainer.getChildren().remove(wordCount);
+    }
 
     // 容器
     HBox container = new HBox(detailContainer, cover);

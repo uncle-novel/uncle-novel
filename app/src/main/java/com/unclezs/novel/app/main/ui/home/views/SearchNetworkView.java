@@ -30,6 +30,7 @@ import javafx.concurrent.Worker.State;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import lombok.EqualsAndHashCode;
@@ -56,6 +57,8 @@ public class SearchNetworkView extends SidebarView<StackPane> {
   @FXML
   public JFXDrawer tocDrawer;
   public JFXDrawersStack drawer;
+  @FXML
+  public VBox placeholder;
   @FXML
   private WebView webview;
   @FXML
@@ -125,6 +128,11 @@ public class SearchNetworkView extends SidebarView<StackPane> {
    * @param event 搜索事件
    */
   public void search(SearchEvent event) {
+    if (placeholder.isVisible()) {
+      placeholder.setVisible(false);
+      placeholder.setManaged(false);
+    }
+
     String type = event.getType();
     String keyword = event.getInput();
     for (SearchEngine searchEngine : searchEngines) {

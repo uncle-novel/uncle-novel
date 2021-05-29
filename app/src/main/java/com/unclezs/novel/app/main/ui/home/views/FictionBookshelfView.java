@@ -16,6 +16,7 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
+import com.unclezs.novel.app.framework.util.Choosers;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.dao.BookDao;
@@ -49,8 +50,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 小说书架
@@ -58,6 +59,7 @@ import lombok.EqualsAndHashCode;
  * @author blog.unclezs.com
  * @date 2021/4/25 9:40
  */
+@Slf4j
 @FxView(fxml = "/layout/home/views/fiction-bookshelf.fxml")
 @EqualsAndHashCode(callSuper = true)
 public class FictionBookshelfView extends SidebarView<StackPane> {
@@ -134,6 +136,8 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
         .filter(tab -> tab.getText().equals(selectedGroup))
         .findFirst().ifPresent(tab -> groupPanel.getSelectionModel().select(tab));
     }
+    // 自动检测更新
+    checkUpdateGroup();
   }
 
   @Override
@@ -248,9 +252,7 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
   @FXML
   private void changeCover() {
     BookNode node = (BookNode) bookNodeContextMenu.getOwnerNode();
-    FileChooser chooser = new FileChooser();
-    chooser.getExtensionFilters().add(new ExtensionFilter("小说封面", "*.jpg", "*.png", "*.jpeg"));
-    File file = chooser.showOpenDialog(App.stage());
+    File file = Choosers.chooseImage("小说封面");
     if (file != null) {
       // 复制封面到缓存目录
       Book book = node.getBook();
@@ -266,7 +268,11 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
   @FXML
   private void checkUpdate() {
     BookNode node = (BookNode) bookNodeContextMenu.getOwnerNode();
-    TaskFactory.create(() -> updateToc(node))
+    if (node.getBook().isLocal()) {
+      Toast.warn("本地书籍无需更新");
+      return;
+    }
+    TaskFactory.create(() -> checkUpdateGroup(node))
       .onSuccess(news -> {
         if (news.isEmpty()) {
           Toast.success("暂无更新");
@@ -277,15 +283,18 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
           view.setMaxHeight(200);
           ModalBox.none().body(view).title("发现新章节").show();
         }
-      }).onFailed(e -> Toast.error("获取更新失败")).start();
+      }).onFailed(e -> {
+      Toast.error("获取更新失败");
+      log.error("获取书籍更新失败：{}", node.getBook().getName(), e);
+    }).start();
   }
 
 
   /**
-   * 更新目录
+   * 获取当前分组的更新
    */
   @FXML
-  private void updateToc() {
+  private void checkUpdateGroup() {
     floatButtons.animateList(false);
     // todo 控制线程数量
     for (Node node : bookPanel.getChildren()) {
@@ -294,7 +303,7 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
         // 只更新非本地书籍
         if (!bookNode.getBook().isLocal()) {
           bookNode.setUpdateTaskState(true);
-          TaskFactory.create(false, () -> updateToc(bookNode))
+          TaskFactory.create(false, () -> checkUpdateGroup(bookNode))
             .onFinally(() -> bookNode.setUpdateTaskState(false))
             .start();
         }
@@ -303,11 +312,11 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
   }
 
   /**
-   * 更新目录
+   * 获取当前分组的更新
    *
    * @return 更新的章节列表
    */
-  private List<Chapter> updateToc(BookNode bookNode) throws IOException {
+  private List<Chapter> checkUpdateGroup(BookNode bookNode) throws IOException {
     Book book = bookNode.getBook();
     if (book.isLocal()) {
       return Collections.emptyList();

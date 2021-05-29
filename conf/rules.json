@@ -140,6 +140,7 @@
         "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
       },
       "enableNext": true,
+      "blackUrls": [],
       "filter": true,
       "autoNext": true,
       "forceNext": false

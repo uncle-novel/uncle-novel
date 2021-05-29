@@ -76,6 +76,6 @@
     </StackPane.margin>
     <IconButton icon="airport" styleClass="primary-button" pickOnBounds="false"/>
     <IconButton icon="plus" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="本地导入" onAction="#importBook"/>
-    <IconButton icon="update" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="全部更新" onAction="#updateToc"/>
+    <IconButton icon="update" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="全部更新" onAction="#checkUpdateGroup"/>
   </JFXNodesList>
 </StackPane>

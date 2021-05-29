@@ -5,10 +5,12 @@
 <?import com.jfoenix.controls.JFXDrawersStack?>
 <?import com.jfoenix.controls.JFXNodesList?>
 <?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.unclezs.novel.app.framework.components.icon.Icon?>
 <?import com.unclezs.novel.app.framework.components.icon.IconButton?>
 <?import com.unclezs.novel.app.framework.components.SearchBar?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -29,6 +31,10 @@
       <VBox>
         <JFXProgressBar fx:id="progress" maxHeight="2" maxWidth="Infinity" minHeight="3" visible="false"/>
         <WebView fx:id="webview" VBox.vgrow="ALWAYS" visible="false"/>
+      </VBox>
+      <VBox alignment="CENTER" styleClass="placeholder" fx:id="placeholder">
+        <Icon value="empty"/>
+        <Label styleClass="tip" text="%home.search.novel.placeholder"/>
       </VBox>
     </JFXDrawersStack>
   </VBox>

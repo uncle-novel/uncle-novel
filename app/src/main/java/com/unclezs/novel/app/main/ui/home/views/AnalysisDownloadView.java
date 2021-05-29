@@ -71,7 +71,7 @@ public class AnalysisDownloadView extends SidebarView<StackPane> {
   @Override
   public void onCreate() {
     TextField input = inputBox.getInput();
-    input.setText("https://m.zhaishuyuan.com/read/33959");
+    input.setText("https://m.biqugeu.net/booklist/14.html");
     // 监听剪贴板
     input.focusedProperty().addListener(e -> {
       if (input.isFocused()) {
