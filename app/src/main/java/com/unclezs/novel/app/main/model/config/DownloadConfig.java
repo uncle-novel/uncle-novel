@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.model;
+package com.unclezs.novel.app.main.model.config;
 
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import javafx.beans.property.ObjectProperty;

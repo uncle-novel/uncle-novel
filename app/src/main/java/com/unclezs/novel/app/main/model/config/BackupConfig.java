@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.model;
+package com.unclezs.novel.app.main.model.config;
 
 import com.unclezs.novel.analyzer.util.StringUtils;
 import javafx.beans.property.ObjectProperty;

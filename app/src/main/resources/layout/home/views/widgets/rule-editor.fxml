@@ -42,7 +42,7 @@
             <TextField userData="group"/>
           </RuleItem>
           <RuleItem name="书源站点">
-            <TextField userData="site"/>
+            <TextField userData="site" promptText="必填"/>
             <IconButton icon="browser" text="打开" onAction="#openSite" styleClass="btn"/>
           </RuleItem>
           <RuleItem name="书源权重">
@@ -70,19 +70,19 @@
             <IconButton icon="edit" userData="search.params" text="编辑" onMouseClicked="#editParams" styleClass="btn"/>
           </RuleItem>
           <RuleItem name="搜索链接">
-            <TextField userData="search.params.url"/>
+            <TextField userData="search.params.url" promptText="必填"/>
           </RuleItem>
           <RuleItem name="结果列表">
-            <InputBox userData="search.list"/>
+            <InputBox userData="search.list" prompt="必填"/>
           </RuleItem>
           <RuleItem name="详情页面">
             <InputBox userData="search.detailPage"/>
           </RuleItem>
           <RuleItem name="目录地址">
-            <InputBox userData="search.detail.url"/>
+            <InputBox userData="search.detail.url" prompt="必填"/>
           </RuleItem>
           <RuleItem name="小说名称">
-            <InputBox userData="search.detail.title"/>
+            <InputBox userData="search.detail.title" prompt="必填"/>
           </RuleItem>
           <RuleItem name="小说作者">
             <InputBox userData="search.detail.author"/>

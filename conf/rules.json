@@ -1,25 +1,24 @@
 [
   {
-    "name": "斋书苑",
-    "site": "https://www.zhaishuyuan.com/",
-    "group": "123",
-    "enabled": false,
-    "audio": false,
+    "name": "海洋听书网",
+    "site": "http://m.ychy.com/",
+    "group": "优质有声",
+    "enabled": true,
+    "audio": true,
     "weight": 0,
-    "params": {
-      "dynamic": false,
-      "enabledProxy": false
-    },
+    "params": {},
     "content": {
-      "enableNext": false,
-      "content": {},
+      "content": {
+        "type": "//",
+        "rule": "//div[4]/script[1]/@src",
+        "script": "function getHtmlParas(str){var sid=str.split(\"-\");var n=sid.length;var vid=sid[n-1].split(\".\")[0];var pid=0;vid=vid-1;return[pid,vid]}var params=getHtmlParas(url);var jsUrl=utils.absUrl(url,result);var dataJs=utils.get(jsUrl);dataJs=dataJs.replaceAll(\",urlinfo.+?;\",\";result = VideoListJson;\");var VideoListJson=eval(dataJs);result=VideoListJson[params[0]][1][params[1]].split(\"$\")[1];"
+      },
       "next": {
         "type": "xpath",
         "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
       }
     },
     "toc": {
-      "params": {},
       "list": {},
       "name": {},
       "url": {},
@@ -27,10 +26,8 @@
         "type": "xpath",
         "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
       },
-      "enableNext": false,
-      "blackUrls": [],
-      "filter": false,
-      "sort": false,
+      "enableNext": true,
+      "filter": true,
       "autoNext": true,
       "forceNext": false
     },
@@ -49,14 +46,141 @@
     },
     "search": {
       "params": {
-        "url": "https://www.zhaishuyuan.com/search/?page={{page}}&key={{keyword}}",
+        "url": "http://m.ychy.com/search.asp?page={{page}}&searchword={{keyword}}&searchtype=-1",
+        "method": "GET",
+        "charset": "GBK",
+        "mediaType": "application/x-www-form-urlencoded"
+      },
+      "list": {
+        "type": "//",
+        "rule": "//*[@id=\"cateList_wap\"]/div"
+      },
+      "detailPage": {},
+      "detail": {
+        "url": {
+          "type": "//",
+          "rule": "@bookid",
+          "replace": [
+            {
+              "from": "(.+)",
+              "to": "http://m.ychy.com/book/$1.html"
+            }
+          ]
+        },
+        "title": {
+          "type": "//",
+          "rule": "div[2]/h4/text()"
+        },
+        "author": {
+          "type": "//",
+          "rule": "div[2]/div[1]/text()",
+          "replace": [
+            {
+              "from": ".+?播音:(.*)",
+              "to": "$1"
+            }
+          ]
+        },
+        "broadcast": {
+          "type": "//",
+          "rule": "div[2]/div[1]/text()",
+          "replace": [
+            {
+              "from": "作者：(.+?)播音.*",
+              "to": "$1"
+            }
+          ]
+        },
+        "category": {
+          "type": "//",
+          "rule": ""
+        },
+        "wordCount": {
+          "type": "//"
+        },
+        "introduce": {
+          "type": "//",
+          "rule": "div[2]/div[@class='intro_line']/allText()",
+          "replace": [
+            {
+              "from": "简介：",
+              "to": ""
+            }
+          ]
+        },
+        "latestChapterName": {
+          "type": "//"
+        },
+        "latestChapterUrl": {
+          "type": "//"
+        },
+        "coverUrl": {
+          "type": "//",
+          "rule": "//div[1]/img/@orgsrc"
+        },
+        "state": {
+          "type": "//",
+          "rule": "div[2]/div[3]/text()"
+        },
+        "updateTime": {
+          "type": "//"
+        }
+      }
+    }
+  },
+  {
+    "name": "妙笔阁",
+    "site": "https://www.imiaobige.com/",
+    "group": "有图",
+    "enabled": true,
+    "audio": false,
+    "weight": 0,
+    "params": {
+      "cookie": ""
+    },
+    "content": {
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "autoNext": true,
+      "forceNext": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "params": {
+        "url": "https://www.imiaobige.com/search.html",
         "method": "POST",
-        "charset": "gbk",
+        "charset": "UTF-8",
         "mediaType": "application/x-www-form-urlencoded",
-        "body": "",
-        "dynamic": false,
-        "enableProxy": false,
-        "autoProxy": true
+        "body": "searchkey={{keyword}}"
       },
       "list": {
         "type": "//",
@@ -66,58 +190,137 @@
       "detail": {
         "url": {
           "type": "//",
-          "rule": "/dd[1]/h3/a/@href"
+          "rule": "/dt/a/@href",
+          "replace": [
+            {
+              "from": ".html",
+              "to": ""
+            },
+            {
+              "from": "novel",
+              "to": "read"
+            }
+          ]
         },
         "title": {
           "type": "//",
-          "rule": "/dd[1]/h3/a/allText()"
+          "rule": "/dd[1]/h3/a/text()"
         },
         "author": {
           "type": "//",
-          "rule": "/dd[2]/span[1]/text()"
+          "rule": "/dd[2]/a[2]/text()"
         },
         "broadcast": {
           "type": "//"
         },
         "category": {
           "type": "//",
-          "rule": "/dd[2]/span[3]/text()"
+          "rule": "/dd[2]/a[1]/text()"
         },
         "wordCount": {
           "type": "//",
-          "rule": "/dd[2]/span[4]/text()"
+          "rule": "/dd[2]/span[2]/text()"
         },
         "introduce": {
           "type": "//",
-          "rule": "dd[3]/text()"
+          "rule": "/dd[3]/text()"
         },
         "latestChapterName": {
           "type": "//",
-          "rule": "dd[4]/a/text()"
+          "rule": "/dd[4]/a/text()"
         },
         "latestChapterUrl": {
           "type": "//",
-          "rule": "dd[4]/a/@href"
+          "rule": "/dd[4]/a/@href"
         },
         "coverUrl": {
           "type": "//",
-          "rule": "dt[1]/a/img/@_src"
+          "rule": "/dt/a/img/@src"
         },
         "state": {
           "type": "//",
-          "rule": "/dd[2]/span[2]/text()"
+          "rule": "/dd[2]/span[1]/text()"
         },
         "updateTime": {
           "type": "//",
-          "rule": "dd[4]/span/text()"
+          "rule": "/dd[4]/span/text()"
         }
+      }
+    }
+  },
+  {
+    "name": "起点移动版",
+    "site": "https://m.qidian.com/",
+    "enabled": false,
+    "audio": false,
+    "weight": 0,
+    "params": {
+      "dynamic": false,
+      "cookie": "_yep_uuid=f9f1a69d-4483-0936-fa18-026a8cd6b674; e2=%7B%22pid%22%3A%22qd_P_xiangqing%22%2C%22eid%22%3A%22%22%7D; e1=%7B%22pid%22%3A%22qd_P_xiangqing%22%2C%22eid%22%3A%22%22%2C%22l1%22%3A2%7D; _csrfToken=fZv0AQ23TMWdRtGTrwuwhvN1ZYlPWVshExFEkwgd; newstatisticUUID=1619406065_349900643; qdrs=0%7C3%7C0%7C0%7C1; qdgd=1; showSectionCommentGuide=1; rcr=1735921; lrbc=1735921%7C30194132%7C1; ywguid=1585503310; ywopenid=7387FAAE42281F44434B7CF4977CFD3E; e2=%7B%22pid%22%3A%22qd_P_qdlogin%22%2C%22eid%22%3A%22%22%7D; ywkey=yw3z11D2B3zE; e1=%7B%22pid%22%3A%22qd_p_qidian%22%2C%22eid%22%3A%22qd_A08%22%2C%22l1%22%3A1%7D"
+    },
+    "content": {
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      }
+    },
+    "toc": {
+      "params": {
+        "dynamic": true
+      },
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "sort": false,
+      "autoNext": true,
+      "forceNext": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "list": {},
+      "detailPage": {},
+      "detail": {
+        "url": {},
+        "title": {},
+        "author": {},
+        "broadcast": {},
+        "category": {},
+        "wordCount": {},
+        "introduce": {},
+        "latestChapterName": {},
+        "latestChapterUrl": {},
+        "coverUrl": {},
+        "state": {},
+        "updateTime": {}
       }
     }
   },
   {
     "name": "笔趣阁",
     "site": "https://m.biqugeu.net/",
-    "enabled": true,
+    "enabled": false,
     "audio": false,
     "weight": 0,
     "params": {},
@@ -227,75 +430,6 @@
     }
   },
   {
-    "name": "遮天_遮天",
-    "site": "https://m.qidian.com/",
-    "enabled": true,
-    "audio": false,
-    "weight": 0,
-    "params": {
-      "dynamic": false,
-      "cookie": "_yep_uuid=f9f1a69d-4483-0936-fa18-026a8cd6b674; e2=%7B%22pid%22%3A%22qd_P_xiangqing%22%2C%22eid%22%3A%22%22%7D; e1=%7B%22pid%22%3A%22qd_P_xiangqing%22%2C%22eid%22%3A%22%22%2C%22l1%22%3A2%7D; _csrfToken=fZv0AQ23TMWdRtGTrwuwhvN1ZYlPWVshExFEkwgd; newstatisticUUID=1619406065_349900643; qdrs=0%7C3%7C0%7C0%7C1; qdgd=1; showSectionCommentGuide=1; rcr=1735921; lrbc=1735921%7C30194132%7C1; ywguid=1585503310; ywopenid=7387FAAE42281F44434B7CF4977CFD3E; e2=%7B%22pid%22%3A%22qd_P_qdlogin%22%2C%22eid%22%3A%22%22%7D; ywkey=yw3z11D2B3zE; e1=%7B%22pid%22%3A%22qd_p_qidian%22%2C%22eid%22%3A%22qd_A08%22%2C%22l1%22%3A1%7D"
-    },
-    "content": {
-      "content": {
-        "type": "auto:",
-        "rule": "1"
-      },
-      "next": {
-        "type": "xpath",
-        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
-      }
-    },
-    "toc": {
-      "params": {
-        "dynamic": true
-      },
-      "list": {},
-      "name": {},
-      "url": {},
-      "next": {
-        "type": "xpath",
-        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
-      },
-      "enableNext": true,
-      "filter": true,
-      "sort": false,
-      "autoNext": true,
-      "forceNext": false
-    },
-    "detail": {
-      "title": {},
-      "author": {},
-      "broadcast": {},
-      "category": {},
-      "wordCount": {},
-      "introduce": {},
-      "latestChapterName": {},
-      "latestChapterUrl": {},
-      "coverUrl": {},
-      "state": {},
-      "updateTime": {}
-    },
-    "search": {
-      "list": {},
-      "detailPage": {},
-      "detail": {
-        "url": {},
-        "title": {},
-        "author": {},
-        "broadcast": {},
-        "category": {},
-        "wordCount": {},
-        "introduce": {},
-        "latestChapterName": {},
-        "latestChapterUrl": {},
-        "coverUrl": {},
-        "state": {},
-        "updateTime": {}
-      }
-    }
-  },
-  {
     "name": "快眼看书",
     "site": "https://www.see023.com/",
     "enabled": false,
@@ -399,7 +533,7 @@
   {
     "name": "聚听网",
     "site": "https://www.yousxs.com/",
-    "enabled": true,
+    "enabled": false,
     "audio": true,
     "weight": 0,
     "params": {},
@@ -521,9 +655,78 @@
     }
   },
   {
+    "name": "环视小说",
+    "site": "https://www.h4xs.cc/",
+    "group": "",
+    "enabled": false,
+    "audio": false,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      }
+    },
+    "toc": {
+      "list": {
+        "type": "css:",
+        "rule": ".post-title"
+      },
+      "name": {
+        "rule": "a@text"
+      },
+      "url": {
+        "rule": "a@href"
+      },
+      "next": {
+        "rule": "#content > div:nth-child(2) > nav > ul > li.next.right > a@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "autoNext": true,
+      "forceNext": true
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "list": {},
+      "detailPage": {},
+      "detail": {
+        "url": {},
+        "title": {},
+        "author": {},
+        "broadcast": {},
+        "category": {},
+        "wordCount": {},
+        "introduce": {},
+        "latestChapterName": {},
+        "latestChapterUrl": {},
+        "coverUrl": {},
+        "state": {},
+        "updateTime": {}
+      }
+    }
+  },
+  {
     "name": "28听书网",
     "site": "https://m.28ts.com/",
-    "enabled": true,
+    "enabled": false,
     "audio": true,
     "weight": 0,
     "params": {},
@@ -636,78 +839,9 @@
     }
   },
   {
-    "name": "环视小说",
-    "site": "https://www.h4xs.cc/",
-    "group": "",
-    "enabled": true,
-    "audio": false,
-    "weight": 0,
-    "params": {},
-    "content": {
-      "content": {
-        "type": "auto:",
-        "rule": "1"
-      },
-      "next": {
-        "type": "xpath",
-        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
-      }
-    },
-    "toc": {
-      "list": {
-        "type": "css:",
-        "rule": ".post-title"
-      },
-      "name": {
-        "rule": "a@text"
-      },
-      "url": {
-        "rule": "a@href"
-      },
-      "next": {
-        "rule": "#content > div:nth-child(2) > nav > ul > li.next.right > a@href"
-      },
-      "enableNext": true,
-      "filter": true,
-      "autoNext": true,
-      "forceNext": true
-    },
-    "detail": {
-      "title": {},
-      "author": {},
-      "broadcast": {},
-      "category": {},
-      "wordCount": {},
-      "introduce": {},
-      "latestChapterName": {},
-      "latestChapterUrl": {},
-      "coverUrl": {},
-      "state": {},
-      "updateTime": {}
-    },
-    "search": {
-      "list": {},
-      "detailPage": {},
-      "detail": {
-        "url": {},
-        "title": {},
-        "author": {},
-        "broadcast": {},
-        "category": {},
-        "wordCount": {},
-        "introduce": {},
-        "latestChapterName": {},
-        "latestChapterUrl": {},
-        "coverUrl": {},
-        "state": {},
-        "updateTime": {}
-      }
-    }
-  },
-  {
-    "name": "遮天辰东著仙侠起点中文网",
+    "name": "起点PC版",
     "site": "https://book.qidian.com/",
-    "enabled": true,
+    "enabled": false,
     "audio": false,
     "weight": 0,
     "params": {

@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.model;
+package com.unclezs.novel.app.main.model.config;
 
 import cn.hutool.core.net.URLEncoder;
 import com.unclezs.novel.analyzer.request.RequestParams;

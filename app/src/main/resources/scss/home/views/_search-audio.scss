@@ -2,6 +2,8 @@
 
 .search-audio {
   .container {
+    -fx-spacing: 0;
+
     .result-list {
 
       .list-cell {
@@ -25,10 +27,10 @@
     }
 
     .progress-bar {
-      -fx-min-height: 1;
+      -fx-min-height: 2;
 
       .bar {
-        -fx-padding: 1;
+        -fx-padding: 2;
       }
     }
   }

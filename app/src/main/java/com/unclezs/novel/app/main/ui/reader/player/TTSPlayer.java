@@ -8,7 +8,7 @@ import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.executor.FluentTask;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.main.manager.ResourceManager;
-import com.unclezs.novel.app.main.model.TTSConfig;
+import com.unclezs.novel.app.main.model.config.TTSConfig;
 import java.io.File;
 import java.io.IOException;
 import javafx.scene.media.Media;

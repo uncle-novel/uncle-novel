@@ -210,20 +210,6 @@ public class RuleEditorView extends SidebarView<StackPane> {
   }
 
   /**
-   * 返回书源页面，重置初始状态，移除监听。直接调用则丢弃修改。
-   */
-  private void back() {
-    SidebarNavigateBundle bundle = new SidebarNavigateBundle();
-    // 新增时回传
-    if (realRule == null) {
-      bundle.put(BUNDLE_RULE_KEY, rule.copy());
-    }
-    navigation.navigate(from, bundle);
-    this.realRule = null;
-    this.rule = null;
-  }
-
-  /**
    * 重置到初始状态
    */
   private void reset() {
@@ -391,14 +377,28 @@ public class RuleEditorView extends SidebarView<StackPane> {
   @FXML
   private void goBack() {
     if (Objects.equals(rule, realRule)) {
-      back();
+      back(false);
     } else {
       ModalBox.confirm(confirm -> {
         if (Boolean.TRUE.equals(confirm)) {
-          back();
+          back(false);
         }
       }).message("将会丢失全部修改！").show();
     }
+  }
+
+  /**
+   * 返回书源页面，重置初始状态，移除监听。直接调用则丢弃修改。
+   */
+  private void back(boolean save) {
+    SidebarNavigateBundle bundle = new SidebarNavigateBundle();
+    // 新增时回传
+    if (realRule == null && save) {
+      bundle.put(BUNDLE_RULE_KEY, rule.copy());
+    }
+    navigation.navigate(from, bundle);
+    this.realRule = null;
+    this.rule = null;
   }
 
 
@@ -412,10 +412,11 @@ public class RuleEditorView extends SidebarView<StackPane> {
       if (realRule != null) {
         BeanUtil.copyProperties(rule, realRule, CopyOptions.create().ignoreNullValue());
       }
+      // 从解析页面过来的，可以选择是否保存书源
       if (!fromManager && saveToRulesSwitch != null && saveToRulesSwitch.isSelected()) {
         RuleManager.addRule(realRule);
       }
-      back();
+      back(true);
     } else {
       Toast.error("站点链接必须填写！");
     }

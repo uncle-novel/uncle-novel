@@ -3,8 +3,8 @@
   "lang": "简体中文",
   "download": {
     "folder": "G:\\tmp",
-    "threadNum": 10,
-    "taskNum": 4,
+    "threadNum": 1,
+    "taskNum": 1,
     "retryNum": 0,
     "volume": true,
     "mobi": false,

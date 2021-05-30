@@ -36,6 +36,7 @@ open module com.unclezs.novel.app.main {
 
   exports com.unclezs.novel.app.main;
   exports com.unclezs.novel.app.main.model to ormlite.core;
+  exports com.unclezs.novel.app.main.model.config to ormlite.core;
 }
 
 // compiler

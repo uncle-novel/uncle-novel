@@ -21,7 +21,11 @@
         <SearchBar onSearch="#search" fx:id="searchBar"/>
       </content>
     </TitleBar>
-    <JFXProgressBar maxWidth="Infinity" fx:id="loadingBar" visible="false"/>
+    <JFXProgressBar maxWidth="Infinity" maxHeight="1" fx:id="loadingBar" visible="false">
+      <VBox.margin>
+        <Insets top="10"/>
+      </VBox.margin>
+    </JFXProgressBar>
     <JFXDrawersStack fx:id="drawers" VBox.vgrow="ALWAYS">
       <JFXDrawer fx:id="tocDrawer" overLayVisible="true" defaultDrawerSize="300" direction="RIGHT">
         <sidePane>

@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.main.ui.home.views.widgets.setting;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
 import cn.hutool.core.util.ZipUtil;
 import com.google.gson.reflect.TypeToken;
 import com.jfoenix.controls.JFXCheckBox;
@@ -9,6 +10,7 @@ import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.core.AppContext;
+import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.dao.AudioBookDao;
 import com.unclezs.novel.app.main.dao.BookDao;
@@ -16,9 +18,9 @@ import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.AudioBook;
-import com.unclezs.novel.app.main.model.BackupConfig;
 import com.unclezs.novel.app.main.model.Book;
 import com.unclezs.novel.app.main.model.WebDav;
+import com.unclezs.novel.app.main.model.config.BackupConfig;
 import com.unclezs.novel.app.main.ui.home.views.AudioBookShelfView;
 import com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView;
 import com.unclezs.novel.app.main.ui.home.views.RuleManagerView;
@@ -29,6 +31,7 @@ import java.util.List;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 备份与恢复配置页面
@@ -36,9 +39,10 @@ import javafx.scene.layout.HBox;
  * @author blog.unclezs.com
  * @date 2021/5/10 23:27
  */
+@Slf4j
 public class BackupSettingView extends SettingItems {
 
-  public static final String WEB_DAV_BACKUP_PATH = "uncle-novel/backup.zip";
+  public static final String WEB_DAV_BACKUP_FILE_NAME = "backup.zip";
   public static final File BACKUP_LOCAL_FILE = FileUtil.file(ResourceManager.WORK_DIR, "backup.zip");
   public static final File BACKUP_BOOK_DIR = FileUtil.file(ResourceManager.BACKUP_DIR, FictionBookshelfView.CACHE_FOLDER_NAME);
   public static final File BACKUP_AUDIO_DIR = FileUtil.file(ResourceManager.BACKUP_DIR, AudioBookShelfView.CACHE_FOLDER_NAME);
@@ -90,24 +94,34 @@ public class BackupSettingView extends SettingItems {
     TextField password = createTextField("授权码", config.getPassword());
 
     IconButton backup = NodeHelper.addClass(new IconButton("备份"), "btn");
-    backup.setOnAction(e -> {
-      if (enabledWebDav()) {
-        backup();
-      } else {
-        Toast.error("请先填写WebDav配置");
-      }
-    });
+    backup.setOnAction(e -> doSync(true));
     IconButton restore = NodeHelper.addClass(new IconButton("恢复"), "btn");
-    restore.setOnAction(e -> {
-      if (enabledWebDav()) {
-        restore();
-      } else {
-        Toast.error("请先填写WebDav配置");
-      }
-    });
+    restore.setOnAction(e -> doSync(false));
     HBox box = new HBox(url, username, password, backup, restore);
     box.setSpacing(10);
     return new SettingItem("WebDav配置", box);
+  }
+
+  private void doSync(final boolean backup) {
+    if (enabledWebDav()) {
+      String type = backup ? "备份" : "恢复";
+      TaskFactory.create(() -> {
+        if (backup) {
+          backup();
+        } else {
+          restore();
+        }
+        return null;
+      }).onFailed(e -> {
+        String message = String.format("%s失败", type);
+        log.error("{}：{}", message, e.getMessage(), e);
+        Toast.error(message + ": " + e.getMessage());
+      })
+        .onSuccess(v -> Toast.success(String.format("%s成功", type)))
+        .start();
+    } else {
+      Toast.error("请先填写WebDav配置");
+    }
   }
 
   /**
@@ -125,6 +139,7 @@ public class BackupSettingView extends SettingItems {
       File settingFile = ResourceManager.confFile(SettingManager.CONFIG_FILE_NAME);
       FileUtil.copy(settingFile, confDir, true);
     }
+    // 文本小说
     if (Boolean.TRUE.equals(config.getBookshelf().get())) {
       List<Book> books = new BookDao().selectAll();
       if (!books.isEmpty()) {
@@ -137,6 +152,7 @@ public class BackupSettingView extends SettingItems {
         FileUtil.writeUtf8String(GsonUtils.toJson(books), FileUtil.file(BACKUP_BOOK_DIR, "book.json"));
       }
     }
+    // 有声小说
     if (Boolean.TRUE.equals(config.getAudio().get())) {
       List<AudioBook> books = new AudioBookDao().selectAll();
       if (!books.isEmpty()) {
@@ -154,6 +170,7 @@ public class BackupSettingView extends SettingItems {
       File ruleFile = ResourceManager.confFile(RuleManager.RULES_FILE_NAME);
       FileUtil.copy(ruleFile, confDir, true);
     }
+    // 压缩文件
     File zip = ZipUtil.zip(dir.getAbsolutePath(), BACKUP_LOCAL_FILE.getAbsolutePath());
     getWebDav().upload(zip);
     FileUtil.del(zip);
@@ -169,6 +186,9 @@ public class BackupSettingView extends SettingItems {
     FileUtil.del(dir);
 
     getWebDav().download(BACKUP_LOCAL_FILE);
+    if (!BACKUP_LOCAL_FILE.exists()) {
+      throw new IORuntimeException("云端备份不存在");
+    }
     ZipUtil.unzip(BACKUP_LOCAL_FILE);
     File confDir = FileUtil.file(dir, "conf");
     // 设置数据
@@ -224,12 +244,17 @@ public class BackupSettingView extends SettingItems {
     FileUtil.del(dir);
   }
 
+  /**
+   * 创建 WebDev，默认文件夹 /uncle-novel
+   *
+   * @return WebDav
+   */
   private WebDav getWebDav() {
-    WebDav webDav = new WebDav(WEB_DAV_BACKUP_PATH);
-    webDav.setUrl(config.getUrl().get());
-    webDav.setPassword(config.getPassword().get());
-    webDav.setUsername(config.getUsername().get());
-    return webDav;
+    return WebDav.createDefault()
+      .setUrl(config.getUrl().get())
+      .setPassword(config.getPassword().get())
+      .setUsername(config.getUsername().get())
+      .child(WEB_DAV_BACKUP_FILE_NAME);
   }
 
   private boolean enabledWebDav() {

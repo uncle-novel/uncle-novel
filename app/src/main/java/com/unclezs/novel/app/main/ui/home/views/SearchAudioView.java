@@ -236,6 +236,7 @@ public class SearchAudioView extends SidebarView<StackPane> implements Callback 
       String audioUrl = spider.content(url);
       return audioUrlHandler.apply(url, audioUrl);
     }).onSuccess(onSuccessHandler)
+      .onFailed(e -> Toast.error("获取音频失败"))
       .start();
   }
 

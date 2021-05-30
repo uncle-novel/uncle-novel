@@ -25,7 +25,7 @@ import javafx.scene.layout.VBox;
  */
 public class BookListCell extends BaseListCell<Novel> implements LocalizedSupport {
 
-  public static final Image NO_COVER = new Image(ResourceUtils.externalForm("assets/images/no-cover.png"), true);
+  public static final Image NO_COVER = new Image(ResourceUtils.externalForm("assets/images/no-cover.jpg"), true);
   private final HBox cell = NodeHelper.addClass(new HBox(), "cell");
   private final Label title = NodeHelper.addClass(new Label(), "title");
   private final Label author = new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.author").concat(StrUtil.COLON)));
@@ -35,7 +35,7 @@ public class BookListCell extends BaseListCell<Novel> implements LocalizedSuppor
   private final LoadingImageView cover;
 
   public BookListCell(ListView<Novel> listView) {
-    this.cover = new LoadingImageView(NO_COVER, 65, 85);
+    this.cover = new LoadingImageView(NO_COVER, 65, 90);
     desc.prefWidthProperty().bind(listView.widthProperty().subtract(100));
     cell.getChildren().addAll(cover, new VBox(title, author, latestChapter, desc, tags));
   }

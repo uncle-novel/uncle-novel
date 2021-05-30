@@ -6,6 +6,7 @@ import com.unclezs.novel.analyzer.spider.pipline.TxtPipeline;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.main.manager.SettingManager;
+import com.unclezs.novel.app.main.model.config.DownloadConfig;
 import com.unclezs.novel.app.main.pipeline.EbookPipeline;
 import com.unclezs.novel.app.main.ui.home.views.DownloadManagerView;
 import java.io.Serializable;

@@ -18,7 +18,11 @@
         <SearchBar onSearch="#search" fx:id="searchBar"/>
       </content>
     </TitleBar>
-    <JFXProgressBar maxWidth="Infinity" fx:id="loadingBar" visible="false"/>
+    <JFXProgressBar maxWidth="Infinity" maxHeight="1" fx:id="loadingBar" visible="false">
+      <VBox.margin>
+        <Insets top="10"/>
+      </VBox.margin>
+    </JFXProgressBar>
     <ListView VBox.vgrow="ALWAYS" fx:id="listView" styleClass="result-list">
       <placeholder>
         <VBox alignment="CENTER" styleClass="placeholder">

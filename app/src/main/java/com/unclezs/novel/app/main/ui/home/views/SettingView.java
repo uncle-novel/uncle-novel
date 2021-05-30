@@ -6,7 +6,7 @@ import com.unclezs.novel.app.framework.components.FileSelector;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.main.manager.SettingManager;
-import com.unclezs.novel.app.main.model.DownloadConfig;
+import com.unclezs.novel.app.main.model.config.DownloadConfig;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;

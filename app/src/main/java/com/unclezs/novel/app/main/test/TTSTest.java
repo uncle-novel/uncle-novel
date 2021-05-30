@@ -2,7 +2,7 @@ package com.unclezs.novel.app.main.test;
 
 import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.util.GsonUtils;
-import com.unclezs.novel.app.main.model.TTSConfig;
+import com.unclezs.novel.app.main.model.config.TTSConfig;
 
 /**
  * @author blog.unclezs.com

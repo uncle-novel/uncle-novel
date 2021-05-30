@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.model;
+package com.unclezs.novel.app.main.model.config;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

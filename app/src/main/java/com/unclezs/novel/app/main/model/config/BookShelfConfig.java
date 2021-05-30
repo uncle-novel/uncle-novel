@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.model;
+package com.unclezs.novel.app.main.model.config;
 
 import com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView;
 import lombok.Data;

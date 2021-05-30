@@ -25,7 +25,7 @@ import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.Book;
 import com.unclezs.novel.app.main.model.BookBundle;
 import com.unclezs.novel.app.main.model.BookCache;
-import com.unclezs.novel.app.main.model.BookShelfConfig;
+import com.unclezs.novel.app.main.model.config.BookShelfConfig;
 import com.unclezs.novel.app.main.ui.home.HomeView;
 import com.unclezs.novel.app.main.ui.home.views.widgets.BookNode;
 import com.unclezs.novel.app.main.ui.reader.ReaderView;

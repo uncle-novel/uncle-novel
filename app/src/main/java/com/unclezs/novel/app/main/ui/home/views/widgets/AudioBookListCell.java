@@ -37,7 +37,7 @@ public class AudioBookListCell extends ListCell<AudioBook> implements LocalizedS
   private final Consumer<AudioBook> onPrimaryClick;
 
   public AudioBookListCell(ContextMenu contextMenu, Consumer<AudioBook> onPrimaryClick) {
-    this.cover = new LoadingImageView(BookListCell.NO_COVER, 65, 85);
+    this.cover = new LoadingImageView(BookListCell.NO_COVER, 65, 90);
     VBox infoBox = new VBox(title, author, broadcast, latestChapter, tags);
     infoBox.setSpacing(4);
     infoBox.setAlignment(Pos.CENTER_LEFT);

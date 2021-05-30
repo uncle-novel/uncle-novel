@@ -4,7 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import com.google.gson.reflect.TypeToken;
 import com.unclezs.novel.analyzer.request.Http;
 import com.unclezs.novel.analyzer.util.GsonUtils;
-import com.unclezs.novel.app.main.model.TTSConfig;
+import com.unclezs.novel.app.main.model.config.TTSConfig;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;

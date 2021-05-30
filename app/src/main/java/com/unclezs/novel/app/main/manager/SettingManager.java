@@ -2,12 +2,12 @@ package com.unclezs.novel.app.main.manager;
 
 import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.framework.serialize.PropertyJsonSerializer;
-import com.unclezs.novel.app.main.model.BackupConfig;
-import com.unclezs.novel.app.main.model.BookShelfConfig;
-import com.unclezs.novel.app.main.model.DownloadConfig;
 import com.unclezs.novel.app.main.model.Proxy;
-import com.unclezs.novel.app.main.model.ReaderConfig;
 import com.unclezs.novel.app.main.model.SearchEngine;
+import com.unclezs.novel.app.main.model.config.BackupConfig;
+import com.unclezs.novel.app.main.model.config.BookShelfConfig;
+import com.unclezs.novel.app.main.model.config.DownloadConfig;
+import com.unclezs.novel.app.main.model.config.ReaderConfig;
 import com.unclezs.novel.app.main.ui.home.HomeView;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import java.io.File;
