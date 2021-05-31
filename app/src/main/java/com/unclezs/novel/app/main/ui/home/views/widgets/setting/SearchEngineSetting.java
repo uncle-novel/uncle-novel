@@ -8,17 +8,21 @@ import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.util.NodeHelper;
-import com.unclezs.novel.app.main.manager.SettingManager;
+import com.unclezs.novel.app.main.dao.SearchEngineDao;
 import com.unclezs.novel.app.main.model.SearchEngine;
 import com.unclezs.novel.app.main.ui.home.views.widgets.ActionButtonTableCell;
 import com.unclezs.novel.app.main.ui.home.views.widgets.CheckBoxTableCell;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 搜索引擎管理器
@@ -26,6 +30,7 @@ import javafx.scene.layout.VBox;
  * @author blog.unclezs.com
  * @date 2021/4/28 15:48
  */
+@Slf4j
 public class SearchEngineSetting extends VBox {
 
   private final TableView<SearchEngine> table = new TableView<>();
@@ -33,9 +38,12 @@ public class SearchEngineSetting extends VBox {
   public SearchEngineSetting() {
     NodeHelper.addClass(this, "search-engine-manager");
     IconButton add = NodeHelper.addClass(new IconButton("添加", IconFont.PLUS), "btn");
-    add.setOnMouseClicked(e -> addSearchEngine());
-    getChildren().addAll(add, table);
-    table.setItems(SettingManager.manager().getSearchEngines());
+    IconButton importDefault = NodeHelper.addClass(new IconButton("导入默认", IconFont.IMPORT), "btn");
+    add.setOnAction(e -> addSearchEngine());
+    importDefault.setOnAction(e -> importDefaultSearchEngines());
+    HBox actions = NodeHelper.addClass(new HBox(importDefault, add), "actions");
+    getChildren().addAll(actions, table);
+    table.setItems(SearchEngineDao.me().all());
     createColumns();
     table.getSelectionModel().selectFirst();
   }
@@ -79,6 +87,7 @@ public class SearchEngineSetting extends VBox {
   private void onDeleteSearchEngine(SearchEngine searchEngine, int index) {
     ModalBox.confirm(delete -> {
       if (Boolean.TRUE.equals(delete)) {
+        SearchEngineDao.me().delete(table.getItems().get(index));
         table.getItems().remove(index);
       }
     }).title("确定删除吗？")
@@ -97,6 +106,7 @@ public class SearchEngineSetting extends VBox {
     ModalBox.confirm(save -> {
       if (Boolean.TRUE.equals(save)) {
         BeanUtil.copyProperties(editor.getResult(), searchEngine);
+        SearchEngineDao.me().update(searchEngine);
         table.refresh();
       }
     }).body(editor).title("编辑搜索引擎").show();
@@ -109,6 +119,7 @@ public class SearchEngineSetting extends VBox {
    * @param index   当前行
    */
   private void onSearchEngineEnabledChange(Boolean enabled, int index) {
+    SearchEngineDao.me().update(table.getItems().get(index));
     table.getItems().get(index).setEnabled(Boolean.TRUE.equals(enabled));
   }
 
@@ -131,6 +142,7 @@ public class SearchEngineSetting extends VBox {
           validate.set(false);
           return;
         }
+        SearchEngineDao.me().save(engine);
         table.getItems().add(engine);
       }
     }).body(editor).success(() -> {
@@ -138,5 +150,19 @@ public class SearchEngineSetting extends VBox {
       validate.set(true);
       return success;
     }).title("添加搜索引擎").show();
+  }
+
+
+  /**
+   * 导入默认搜索引擎
+   */
+  private void importDefaultSearchEngines() {
+    List<SearchEngine> engines = SearchEngine.getDefault();
+    table.getItems().addAll(SearchEngine.getDefault());
+    try {
+      SearchEngineDao.me().getDao().create(engines);
+    } catch (SQLException e) {
+      log.error("添加默认搜索引擎失败", e);
+    }
   }
 }

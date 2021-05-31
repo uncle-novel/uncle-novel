@@ -11,6 +11,7 @@ import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.ui.home.HomeView;
+import com.unclezs.novel.app.main.util.TrayManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -56,6 +58,7 @@ public class App extends BaseApplication {
    */
   public static final String CHANGE_LOG_KEY = "changeLog";
   public static final String VERSION_KEY = "version";
+  public static final String NAME = "Uncle小说";
 
   public static void main(String[] args) {
     launch(args);
@@ -71,6 +74,33 @@ public class App extends BaseApplication {
   }
 
   /**
+   * 提交退出事件
+   */
+  public static void requestExit() {
+    Platform.setImplicitExit(true);
+    stage().fireEvent(new WindowEvent(stage(), WindowEvent.WINDOW_CLOSE_REQUEST));
+  }
+
+  /**
+   * 显示窗口
+   */
+  public static void requestShow() {
+    if (!stage().isShowing()) {
+      Platform.setImplicitExit(false);
+      stage().show();
+    }
+    stage().toFront();
+  }
+
+  /**
+   * 最小化到系统托盘
+   */
+  public static void tray() {
+    Platform.setImplicitExit(false);
+    stage().fireEvent(new WindowEvent(stage(), WindowEvent.WINDOW_CLOSE_REQUEST));
+  }
+
+  /**
    * 初始化
    *
    * @throws Exception /
@@ -79,8 +109,9 @@ public class App extends BaseApplication {
   public void init() throws Exception {
     super.init();
     SettingManager.init();
+    // 初始化托盘图标
+    TrayManager.init();
   }
-
 
   @Override
   public void start(Stage stage) {

@@ -1,6 +1,9 @@
 {
-  "theme": "default",
-  "lang": "简体中文",
+  "basic": {
+    "tray": false,
+    "theme": "default",
+    "lang": "简体中文"
+  },
   "download": {
     "folder": "G:\\tmp",
     "threadNum": 1,
@@ -24,26 +27,6 @@
     "stageWidth": 500.0,
     "stageHeight": 700.0
   },
-  "searchEngines": [
-    {
-      "enabled": true,
-      "name": "百度",
-      "url": "https://www.baidu.com/s?wd\u003dtitle: (阅读 \"{{keyword}}\" (最新章节) -(官方网站))",
-      "stylesheet": "css/home/views/webview/baidu.css"
-    },
-    {
-      "enabled": true,
-      "name": "谷歌",
-      "url": "https://www.google.com.hk/search?q\u003d{{keyword}} 小说最新章节",
-      "stylesheet": "css/home/views/webview/google.css"
-    },
-    {
-      "enabled": true,
-      "name": "必应",
-      "url": "https://cn.bing.com/search?q\u003d{{keyword}} 小说最新章节",
-      "stylesheet": "css/home/views/webview/bing.css"
-    }
-  ],
   "bookShelf": {
     "group": "全部"
   },

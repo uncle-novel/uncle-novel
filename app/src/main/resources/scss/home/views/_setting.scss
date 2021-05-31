@@ -40,6 +40,11 @@
     .search-engine-manager {
       -fx-max-height: $_150px;
       -fx-alignment: top-right;
+
+      .actions {
+        -fx-alignment: center-right;
+        -fx-spacing: 10;
+      }
     }
 
     .items-box {

@@ -1,6 +1,9 @@
 package com.unclezs.novel.app.main.model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -12,27 +15,34 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class SearchEngine {
+@DatabaseTable(tableName = "search_engine")
+public class SearchEngine implements Serializable {
 
   public static final String STYLESHEET_PATH = "css/home/views/webview/";
   private static final String BAIDU_SEARCH_URL = "https://www.baidu.com/s?wd=title: (阅读 \"{{keyword}}\" (最新章节) -(官方网站))";
   private static final String GOOGLE_SEARCH_URL = "https://www.google.com.hk/search?q={{keyword}} 小说最新章节";
   private static final String BY_SEARCH_URL = "https://cn.bing.com/search?q={{keyword}} 小说最新章节";
+  @DatabaseField(generatedId = true)
+  private int id;
   /**
    * 是否启用
    */
+  @DatabaseField
   private Boolean enabled;
   /**
    * 搜索引擎名称
    */
+  @DatabaseField
   private String name;
   /**
    * 搜索引擎链接
    */
+  @DatabaseField
   private String url;
   /**
    * 美化样式
    */
+  @DatabaseField
   private String stylesheet;
 
   public SearchEngine() {

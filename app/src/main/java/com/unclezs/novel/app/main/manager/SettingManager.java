@@ -3,19 +3,16 @@ package com.unclezs.novel.app.main.manager;
 import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.framework.serialize.PropertyJsonSerializer;
 import com.unclezs.novel.app.main.model.Proxy;
-import com.unclezs.novel.app.main.model.SearchEngine;
 import com.unclezs.novel.app.main.model.config.BackupConfig;
+import com.unclezs.novel.app.main.model.config.BasicConfig;
 import com.unclezs.novel.app.main.model.config.BookShelfConfig;
 import com.unclezs.novel.app.main.model.config.DownloadConfig;
 import com.unclezs.novel.app.main.model.config.ReaderConfig;
-import com.unclezs.novel.app.main.ui.home.HomeView;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import java.io.File;
 import java.util.Locale;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,13 +35,9 @@ public class SettingManager {
    */
   private static SettingManager manager;
   /**
-   * 主题
+   * 基本设置
    */
-  private String theme = HomeView.DEFAULT_THEME;
-  /**
-   * 系统语言，读取默认
-   */
-  private ObjectProperty<String> lang = new SimpleObjectProperty<>(LanguageManager.name(Locale.getDefault()));
+  private BasicConfig basic = new BasicConfig();
   /**
    * 下载配置
    */
@@ -53,10 +46,6 @@ public class SettingManager {
    * 阅读器配置
    */
   private ReaderConfig reader = new ReaderConfig();
-  /**
-   * 全网搜书的搜索引擎配置
-   */
-  private ObservableList<SearchEngine> searchEngines = FXCollections.observableArrayList();
   /**
    * 书架配置
    */
@@ -96,7 +85,7 @@ public class SettingManager {
       resetDefault();
     }
     // 初始化默认语言
-    Locale.setDefault(LanguageManager.locale(manager.getLang().getValue()));
+    Locale.setDefault(LanguageManager.locale(manager.basic.getLang().getValue()));
     // 初始化代理
     Proxy.initHttpProxy();
     // 日志初始化
@@ -111,7 +100,9 @@ public class SettingManager {
     FileUtil.writeUtf8String(PropertyJsonSerializer.toJson(manager), confFile);
   }
 
+  /**
+   * 恢复默认设置 todo
+   */
   public static void resetDefault() {
-    manager().getSearchEngines().setAll(SearchEngine.getDefault());
   }
 }

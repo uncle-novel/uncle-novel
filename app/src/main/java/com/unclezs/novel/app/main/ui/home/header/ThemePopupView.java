@@ -76,6 +76,6 @@ public class ThemePopupView extends View<JFXPopup> {
     stylesheets.remove(currentTheme);
     this.currentTheme = theme;
     // 设置主题色
-    SettingManager.manager().setTheme(themeName);
+    SettingManager.manager().getBasic().setTheme(themeName);
   }
 }

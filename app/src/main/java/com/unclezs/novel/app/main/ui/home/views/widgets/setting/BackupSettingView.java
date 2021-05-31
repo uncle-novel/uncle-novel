@@ -2,11 +2,11 @@ package com.unclezs.novel.app.main.ui.home.views.widgets.setting;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IORuntimeException;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ZipUtil;
 import com.google.gson.reflect.TypeToken;
 import com.jfoenix.controls.JFXCheckBox;
 import com.unclezs.novel.analyzer.util.GsonUtils;
-import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.core.AppContext;
@@ -46,6 +46,9 @@ public class BackupSettingView extends SettingItems {
   public static final File BACKUP_LOCAL_FILE = FileUtil.file(ResourceManager.WORK_DIR, "backup.zip");
   public static final File BACKUP_BOOK_DIR = FileUtil.file(ResourceManager.BACKUP_DIR, FictionBookshelfView.CACHE_FOLDER_NAME);
   public static final File BACKUP_AUDIO_DIR = FileUtil.file(ResourceManager.BACKUP_DIR, AudioBookShelfView.CACHE_FOLDER_NAME);
+  public static final String BOOK_BACKUP_NAME = "book.json";
+  public static final String AUDIO_BACKUP_NAME = "audio.json";
+  public static final String CONF_BACKUP_NAME = "conf";
   private final BackupConfig config = SettingManager.manager().getBackupConfig();
 
   public BackupSettingView() {
@@ -132,24 +135,22 @@ public class BackupSettingView extends SettingItems {
     FileUtil.del(BACKUP_LOCAL_FILE);
     FileUtil.del(dir);
 
-    File confDir = FileUtil.file(dir, "conf");
+    File confDir = FileUtil.file(dir, CONF_BACKUP_NAME);
     FileUtil.mkdir(confDir);
     // 设置数据
     if (Boolean.TRUE.equals(config.getSetting().get())) {
       File settingFile = ResourceManager.confFile(SettingManager.CONFIG_FILE_NAME);
-      FileUtil.copy(settingFile, confDir, true);
+      copy(settingFile, confDir);
     }
     // 文本小说
     if (Boolean.TRUE.equals(config.getBookshelf().get())) {
       List<Book> books = new BookDao().selectAll();
       if (!books.isEmpty()) {
         for (Book book : books) {
-          File cover = FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), BookHelper.COVER_NAME);
-          File manifest = FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), BookHelper.MANIFEST);
-          FileUtil.copy(cover, FileUtil.file(BACKUP_BOOK_DIR, book.getId(), BookHelper.COVER_NAME), true);
-          FileUtil.copy(manifest, FileUtil.file(BACKUP_BOOK_DIR, book.getId(), BookHelper.MANIFEST), true);
+          copy(FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), BookHelper.COVER_NAME), FileUtil.file(BACKUP_BOOK_DIR, book.getId(), BookHelper.COVER_NAME));
+          copy(FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), BookHelper.MANIFEST), FileUtil.file(BACKUP_BOOK_DIR, book.getId(), BookHelper.MANIFEST));
         }
-        FileUtil.writeUtf8String(GsonUtils.toJson(books), FileUtil.file(BACKUP_BOOK_DIR, "book.json"));
+        FileUtil.writeUtf8String(GsonUtils.toJson(books), FileUtil.file(BACKUP_BOOK_DIR, BOOK_BACKUP_NAME));
       }
     }
     // 有声小说
@@ -157,18 +158,18 @@ public class BackupSettingView extends SettingItems {
       List<AudioBook> books = new AudioBookDao().selectAll();
       if (!books.isEmpty()) {
         for (AudioBook book : books) {
-          File cover = FileUtil.file(AudioBookShelfView.CACHE_FOLDER, book.getId(), BookHelper.COVER_NAME);
-          File manifest = FileUtil.file(AudioBookShelfView.CACHE_FOLDER, book.getId(), BookHelper.MANIFEST);
-          FileUtil.copy(cover, FileUtil.file(BACKUP_AUDIO_DIR, book.getId(), BookHelper.COVER_NAME), true);
-          FileUtil.copy(manifest, FileUtil.file(BACKUP_AUDIO_DIR, book.getId(), BookHelper.MANIFEST), true);
+          copy(FileUtil.file(AudioBookShelfView.CACHE_FOLDER, book.getId(), BookHelper.COVER_NAME),
+            FileUtil.file(BACKUP_AUDIO_DIR, book.getId(), BookHelper.COVER_NAME));
+          copy(FileUtil.file(AudioBookShelfView.CACHE_FOLDER, book.getId(), BookHelper.MANIFEST),
+            FileUtil.file(BACKUP_AUDIO_DIR, book.getId(), BookHelper.MANIFEST));
         }
-        FileUtil.writeUtf8String(GsonUtils.toJson(books), FileUtil.file(BACKUP_AUDIO_DIR, "audio.json"));
+        FileUtil.writeUtf8String(GsonUtils.toJson(books), FileUtil.file(BACKUP_AUDIO_DIR, AUDIO_BACKUP_NAME));
       }
     }
     // 规则数据
     if (Boolean.TRUE.equals(config.getRule().get())) {
       File ruleFile = ResourceManager.confFile(RuleManager.RULES_FILE_NAME);
-      FileUtil.copy(ruleFile, confDir, true);
+      copy(ruleFile, confDir);
     }
     // 压缩文件
     File zip = ZipUtil.zip(dir.getAbsolutePath(), BACKUP_LOCAL_FILE.getAbsolutePath());
@@ -190,21 +191,21 @@ public class BackupSettingView extends SettingItems {
       throw new IORuntimeException("云端备份不存在");
     }
     ZipUtil.unzip(BACKUP_LOCAL_FILE);
-    File confDir = FileUtil.file(dir, "conf");
+    File confDir = FileUtil.file(dir, CONF_BACKUP_NAME);
     // 设置数据
     File settingFile = FileUtil.file(confDir, SettingManager.CONFIG_FILE_NAME);
     if (settingFile.exists()) {
-      FileUtil.copy(settingFile, ResourceManager.CONF_DIR, true);
+      copy(settingFile, ResourceManager.CONF_DIR);
     }
     // 规则数据
     File ruleFile = FileUtil.file(confDir, RuleManager.RULES_FILE_NAME);
     if (ruleFile.exists()) {
-      FileUtil.copy(ruleFile, ResourceManager.CONF_DIR, true);
+      copy(ruleFile, ResourceManager.CONF_DIR);
       AppContext.getView(RuleManagerView.class).importRule(ruleFile);
     }
     // 小说数据
     if (BACKUP_BOOK_DIR.exists()) {
-      File file = FileUtil.file(BACKUP_BOOK_DIR, "book.json");
+      File file = FileUtil.file(BACKUP_BOOK_DIR, BOOK_BACKUP_NAME);
       String string = FileUtil.readUtf8String(file);
       List<Book> books = GsonUtils.me().fromJson(string, new TypeToken<List<Book>>() {
       }.getType());
@@ -214,15 +215,15 @@ public class BackupSettingView extends SettingItems {
         try {
           bookDao.getDao().createOrUpdate(book);
         } catch (SQLException e) {
-          e.printStackTrace();
+          log.error("恢复文本小说时出现错误：{}", book, e);
         }
       }
       if (!books.isEmpty()) {
-        FileUtil.copy(BACKUP_BOOK_DIR, FictionBookshelfView.CACHE_FOLDER.getParentFile(), true);
+        copy(BACKUP_BOOK_DIR, FictionBookshelfView.CACHE_FOLDER.getParentFile());
       }
     }
     if (BACKUP_AUDIO_DIR.exists()) {
-      File file = FileUtil.file(BACKUP_AUDIO_DIR, "audio.json");
+      File file = FileUtil.file(BACKUP_AUDIO_DIR, AUDIO_BACKUP_NAME);
       String string = FileUtil.readUtf8String(file);
       List<AudioBook> books = GsonUtils.me().fromJson(string, new TypeToken<List<AudioBook>>() {
       }.getType());
@@ -232,11 +233,11 @@ public class BackupSettingView extends SettingItems {
         try {
           bookDao.getDao().createOrUpdate(book);
         } catch (SQLException e) {
-          e.printStackTrace();
+          log.error("恢复有声小说时出现错误：{}", book, e);
         }
       }
       if (!books.isEmpty()) {
-        FileUtil.copy(BACKUP_AUDIO_DIR, AudioBookShelfView.CACHE_FOLDER.getParentFile(), true);
+        copy(BACKUP_AUDIO_DIR, AudioBookShelfView.CACHE_FOLDER.getParentFile());
       }
     }
     // 删除备份文件
@@ -258,6 +259,14 @@ public class BackupSettingView extends SettingItems {
   }
 
   private boolean enabledWebDav() {
-    return StringUtils.isNotBlank(this.config.getPassword().get()) || StringUtils.isNotBlank(this.config.getUrl().get()) || StringUtils.isNotBlank(this.config.getUsername().get());
+    return !CharSequenceUtil.hasBlank(this.config.getPassword().get(), this.config.getUrl().get(), this.config.getUsername().get());
+  }
+
+  private void copy(File src, File target) {
+    if (!src.exists()) {
+      log.warn("文件不存在，忽略：{}", src);
+      return;
+    }
+    FileUtil.copy(src, target, true);
   }
 }

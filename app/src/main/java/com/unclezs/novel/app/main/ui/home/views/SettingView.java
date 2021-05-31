@@ -27,6 +27,8 @@ public class SettingView extends SidebarView<StackPane> {
   public static final int MAX_THREAD_NUM = 32;
   public static final int MAX_TASK_NUM = 5;
   @FXML
+  private JFXCheckBox tray;
+  @FXML
   private JFXCheckBox debug;
   @FXML
   private JFXCheckBox volume;
@@ -54,7 +56,8 @@ public class SettingView extends SidebarView<StackPane> {
   @Override
   public void onCreated() {
     manager = SettingManager.manager();
-    language.valueProperty().bindBidirectional(manager.getLang());
+    language.valueProperty().bindBidirectional(manager.getBasic().getLang());
+    tray.selectedProperty().bindBidirectional(manager.getBasic().getTray());
     // 下载配置
     initDownloadConfig();
     // 调式模式

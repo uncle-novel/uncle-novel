@@ -11,14 +11,13 @@ import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.SearchBar;
 import com.unclezs.novel.app.framework.components.SearchBar.SearchEvent;
 import com.unclezs.novel.app.framework.components.Toast;
-import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
+import com.unclezs.novel.app.main.dao.SearchEngineDao;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.RuleManager;
-import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.SearchEngine;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -50,15 +49,16 @@ public class SearchNetworkView extends SidebarView<StackPane> {
 
   public static final String WWW = "www.";
   public static final String KEYWORD = "{{keyword}}";
-  public JFXProgressBar progress;
-  public IconButton script;
   @FXML
-  public ListView<String> tocListView;
+  private JFXProgressBar progress;
   @FXML
-  public JFXDrawer tocDrawer;
-  public JFXDrawersStack drawer;
+  private ListView<String> tocListView;
   @FXML
-  public VBox placeholder;
+  private JFXDrawer tocDrawer;
+  @FXML
+  private JFXDrawersStack drawer;
+  @FXML
+  private VBox placeholder;
   @FXML
   private WebView webview;
   @FXML
@@ -102,7 +102,7 @@ public class SearchNetworkView extends SidebarView<StackPane> {
 
   @Override
   public void onCreated() {
-    this.searchEngines = SettingManager.manager().getSearchEngines();
+    this.searchEngines = SearchEngineDao.me().all();
     // 监听变化
     searchEngines.addListener((ListChangeListener<SearchEngine>) c -> {
       while (c.next()) {

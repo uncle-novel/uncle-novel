@@ -34,7 +34,7 @@
           </SettingItem>
           <SettingItem name="默认行为">
             <content>
-              <JFXCheckBox fx:id="closeWindow" text="点击关闭时最小化到托盘"/>
+              <JFXCheckBox fx:id="tray" text="点击关闭时最小化到托盘"/>
             </content>
           </SettingItem>
         </items>

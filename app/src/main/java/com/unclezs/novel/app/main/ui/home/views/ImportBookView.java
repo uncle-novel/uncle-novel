@@ -290,9 +290,6 @@ public class ImportBookView extends SidebarView<StackPane> {
    */
   private void loadRules() {
     rules = txtTocRuleDao.selectAllByOrder();
-    if (rules.isEmpty()) {
-      rules = txtTocRuleDao.importDefault();
-    }
     ruleSelector.getItems().setAll(rules.stream().map(TxtTocRule::getName).collect(Collectors.toList()));
     if (!ruleSelector.getItems().isEmpty()) {
       ruleSelector.getSelectionModel().select(0);

@@ -25,6 +25,7 @@ public class TxtTocRuleDao extends BaseDao<TxtTocRule> {
     TxtTocRuleDao dao = new TxtTocRuleDao();
     TableUtils.dropTable(dao.dao, true);
     TableUtils.createTable(dao.dao);
+    dao.importDefault();
   }
 
 

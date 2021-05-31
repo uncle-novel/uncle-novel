@@ -30,8 +30,8 @@ public abstract class BaseApplication extends Application {
   /**
    * 舞台坐标，切换舞台场景时使用
    */
-  private double stageX = -1;
-  private double stageY = -1;
+  protected double stageX = -1;
+  protected double stageY = -1;
 
   /**
    * 返回首页 初次自动加载

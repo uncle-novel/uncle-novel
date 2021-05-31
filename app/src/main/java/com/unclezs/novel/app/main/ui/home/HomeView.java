@@ -3,6 +3,7 @@ package com.unclezs.novel.app.main.ui.home;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXPopup.PopupHPosition;
 import com.jfoenix.controls.JFXPopup.PopupVPosition;
+import com.unclezs.novel.analyzer.common.concurrent.ThreadUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.appication.SceneNavigateBundle;
 import com.unclezs.novel.app.framework.appication.SceneView;
@@ -10,10 +11,10 @@ import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
+import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.ui.home.header.SettingPopupView;
 import com.unclezs.novel.app.main.ui.home.header.ThemePopupView;
-import com.unclezs.novel.app.main.ui.home.views.SearchNovelView;
 
 /**
  * @author blog.unclezs.com
@@ -31,7 +32,7 @@ public class HomeView extends SceneView<StageDecorator> {
     getRoot().getScene().getStylesheets().add("css/home/home.css");
     // 初始化主题样式
     themePopupView = AppContext.getView(ThemePopupView.class);
-    themePopupView.changeTheme(SettingManager.manager().getTheme());
+    themePopupView.changeTheme(SettingManager.manager().getBasic().getTheme());
   }
 
   @Override
@@ -56,14 +57,22 @@ public class HomeView extends SceneView<StageDecorator> {
   }
 
   @Override
+  public void onClose(StageDecorator view, IconButton closeButton) {
+    if (Boolean.TRUE.equals(SettingManager.manager().getBasic().getTray().get())) {
+      App.tray();
+    } else {
+      App.requestExit();
+    }
+  }
+
+  @Override
   public void onHidden() {
     System.out.println("HomeView hidden");
   }
 
   @Override
   public void onDestroy() {
-    new Thread(HotKeyManager::unbind).start();
-    SearchNovelView view = AppContext.getView(SearchNovelView.class);
+    ThreadUtils.newThread(HotKeyManager::unbind, false).start();
     System.out.println("HomeView destroy");
   }
 }
