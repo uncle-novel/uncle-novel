@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.unclezs.novel.app.framework.components.PlaceHolder?>
+<?import com.unclezs.novel.app.framework.components.TabButton?>
+<?import com.unclezs.novel.app.framework.components.TabGroup?>
+<?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="https://javafx.com/javafx" styleClass="download-manager" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.views.home.DownloadManagerView">
+  <VBox styleClass="container">
+    <TitleBar title="%home.menu.download.management">
+      <content>
+        <HBox>
+          <TabButton text="%download.manager.running" fx:id="tasksTab" styleClass="tasks-tab" selected="true" icon="download">
+            <tabGroup>
+              <TabGroup fx:id="tabs"/>
+            </tabGroup>
+          </TabButton>
+          <TabButton text="%download.manager.history" fx:id="historyTab" tabGroup="$tabs" styleClass="history-tab" icon="download_history"/>
+        </HBox>
+      </content>
+    </TitleBar>
+    <StackPane fx:id="container" VBox.vgrow="ALWAYS">
+      <VBox fx:id="tasksPanel" spacing="2">
+        <TableView fx:id="tasksTable" VBox.vgrow="ALWAYS">
+          <placeholder>
+            <PlaceHolder tip="%download.manager.placeholder"/>
+          </placeholder>
+        </TableView>
+      </VBox>
+    </StackPane>
+  </VBox>
+</StackPane>

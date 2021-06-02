@@ -533,7 +533,7 @@
   {
     "name": "聚听网",
     "site": "https://www.yousxs.com/",
-    "enabled": false,
+    "enabled": true,
     "audio": true,
     "weight": 0,
     "params": {},

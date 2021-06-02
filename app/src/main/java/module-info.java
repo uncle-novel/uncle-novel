@@ -1,4 +1,4 @@
-import com.unclezs.novel.app.main.spi.WebEngineHttpClient;
+import com.unclezs.novel.app.main.core.spi.WebEngineHttpClient;
 
 /**
  * @author blog.unclezs.com
@@ -37,6 +37,9 @@ open module com.unclezs.novel.app.main {
   exports com.unclezs.novel.app.main;
   exports com.unclezs.novel.app.main.model to ormlite.core;
   exports com.unclezs.novel.app.main.model.config to ormlite.core;
+  exports com.unclezs.novel.app.main.core.spider to ormlite.core;
+  exports com.unclezs.novel.app.main.db.beans to ormlite.core;
+  exports com.unclezs.novel.app.main.core.webdav to ormlite.core;
 }
 
 // compiler

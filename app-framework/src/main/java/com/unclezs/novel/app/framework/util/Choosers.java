@@ -2,6 +2,7 @@ package com.unclezs.novel.app.framework.util;
 
 import com.unclezs.novel.app.framework.core.AppContext;
 import java.io.File;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import lombok.experimental.UtilityClass;
@@ -29,6 +30,29 @@ public class Choosers {
     return dir;
   }
 
+  /**
+   * 选择文件夹
+   *
+   * @return 文件夹
+   */
+  public static File chooseFolder() {
+    DirectoryChooser chooser = new DirectoryChooser();
+    chooser.setInitialDirectory(dir);
+    updateDir(chooser.showDialog(AppContext.getInstance().getPrimaryStage()));
+    return dir;
+  }
+
+  /**
+   * 选择文件
+   *
+   * @return 文件
+   */
+  public static File chooseFile() {
+    FileChooser chooser = new FileChooser();
+    chooser.setInitialDirectory(dir);
+    updateDir(chooser.showOpenDialog(AppContext.getInstance().getPrimaryStage()));
+    return dir;
+  }
 
   private static void updateDir(File file) {
     if (file != null) {

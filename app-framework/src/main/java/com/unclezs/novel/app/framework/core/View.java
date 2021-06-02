@@ -19,7 +19,7 @@ public class View<V> implements Initializable, LocalizedSupport {
   /**
    * 国际化资源包
    */
-  protected String bundleName;
+  protected ResourceBundle bundle;
   /**
    * 控制器对应的视图
    */
@@ -50,7 +50,7 @@ public class View<V> implements Initializable, LocalizedSupport {
   @Override
   public final void initialize(URL location, ResourceBundle resources) {
     if (resources != null) {
-      this.bundleName = resources.getBaseBundleName();
+      this.bundle = resources;
     }
     onCreate();
   }

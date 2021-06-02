@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.icon.IconButton?>
+<?import com.unclezs.novel.app.framework.components.SearchBar?>
+<?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="https://javafx.com/javafx/16" styleClass="search-novel" fx:controller="com.unclezs.novel.app.main.views.home.SearchNovelView">
+  <VBox styleClass="container">
+    <TitleBar title="%home.menu.search.internal">
+      <content>
+        <SearchBar onSearch="#search" fx:id="searchBar"/>
+      </content>
+    </TitleBar>
+    <JFXProgressBar maxWidth="Infinity" maxHeight="1" fx:id="loadingBar" visible="false">
+      <VBox.margin>
+        <Insets top="10"/>
+      </VBox.margin>
+    </JFXProgressBar>
+    <ListView VBox.vgrow="ALWAYS" fx:id="listView" styleClass="result-list">
+      <placeholder>
+        <VBox alignment="CENTER" styleClass="placeholder">
+          <Icon value="empty"/>
+          <Label styleClass="tip" text="%home.search.novel.placeholder"/>
+        </VBox>
+      </placeholder>
+    </ListView>
+  </VBox>
+  <IconButton StackPane.alignment="BOTTOM_RIGHT" visible="false" managed="false" fx:id="loading" icon="stop_loading" styleClass="stop-search" pickOnBounds="false">
+    <StackPane.margin>
+      <Insets bottom="30" right="30"/>
+    </StackPane.margin>
+  </IconButton>
+</StackPane>

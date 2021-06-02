@@ -15,29 +15,31 @@
     "epub": true
   },
   "reader": {
-    "themeName": "green",
+    "themeName": "darcula",
     "bgImage": "",
     "fontSize": 17.428571428571427,
     "fontFamily": "圆体-简",
     "align": "JUSTIFY",
     "showHeader": true,
     "windowTop": false,
+    "showShadow": false,
     "pageWidth": 0.869047619047619,
     "lineSpacing": 0.0,
     "stageWidth": 500.0,
     "stageHeight": 700.0
   },
   "bookShelf": {
-    "group": "全部"
+    "group": "全部",
+    "autoUpdate": false
   },
-  "backupConfig": {
+  "backup": {
     "url": "https://dav.jianguoyun.com/dav/",
     "username": "unclezs@qq.com",
     "password": "adpiy2mmpbv3svq5",
     "bookshelf": true,
     "audio": true,
     "rule": true,
-    "read": true,
+    "searchEngine": true,
     "setting": true
   },
   "proxy": {
@@ -45,5 +47,14 @@
     "host": "127.0.0.1",
     "port": "1081"
   },
-  "debug": false
+  "hotkey": {
+    "readerNextPage": "UP",
+    "readerPrePage": "DOWN",
+    "readerNextChapter": "",
+    "readerPreChapter": "",
+    "readerToc": "",
+    "globalBossKey": "",
+    "enabledGlobal": true
+  },
+  "debug": true
 }

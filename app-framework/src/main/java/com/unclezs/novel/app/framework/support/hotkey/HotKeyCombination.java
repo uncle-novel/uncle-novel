@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.framework.support.hotkey;
 
+import com.unclezs.novel.analyzer.util.StringUtils;
 import java.util.Objects;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
@@ -21,15 +22,11 @@ public class HotKeyCombination {
   /**
    * 组合键 文本
    */
-  private String text;
+  private String stroke;
   /**
    * 组合键
    */
-  private KeyCodeCombination combination;
-  /**
-   * 触发后的动作
-   */
-  private HotKeyListener listener;
+  private KeyCombination combination;
 
   public HotKeyCombination(KeyCode keyCode, KeyCombination.Modifier... modifiers) {
     this.combination = new KeyCodeCombination(keyCode, modifiers);
@@ -39,11 +36,25 @@ public class HotKeyCombination {
       keyStroke.append(modifier.getKey().getName().toLowerCase()).append(" ");
     }
     keyStroke.append(keyCode.getName().toUpperCase());
-    this.text = keyStroke.toString();
+    this.stroke = keyStroke.toString();
+  }
+
+  private HotKeyCombination() {
+
+  }
+
+  public static HotKeyCombination fromStroke(String stroke) {
+    if (StringUtils.isBlank(stroke)) {
+      return null;
+    }
+    HotKeyCombination hotKeyCombination = new HotKeyCombination();
+    hotKeyCombination.setCombination(KeyCombination.keyCombination(stroke));
+    hotKeyCombination.setStroke(stroke);
+    return hotKeyCombination;
   }
 
   public KeyStroke getKeyStroke() {
-    return KeyStroke.getKeyStroke(text);
+    return KeyStroke.getKeyStroke(stroke);
   }
 
   @Override
@@ -55,16 +66,16 @@ public class HotKeyCombination {
       return false;
     }
     HotKeyCombination that = (HotKeyCombination) o;
-    return Objects.equals(text, that.text);
+    return Objects.equals(stroke, that.stroke);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(text);
+    return Objects.hash(stroke);
   }
 
   @Override
   public String toString() {
-    return text;
+    return stroke;
   }
 }

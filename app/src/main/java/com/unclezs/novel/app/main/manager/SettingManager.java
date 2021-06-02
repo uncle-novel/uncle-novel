@@ -2,11 +2,12 @@ package com.unclezs.novel.app.main.manager;
 
 import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.framework.serialize.PropertyJsonSerializer;
-import com.unclezs.novel.app.main.model.Proxy;
 import com.unclezs.novel.app.main.model.config.BackupConfig;
 import com.unclezs.novel.app.main.model.config.BasicConfig;
 import com.unclezs.novel.app.main.model.config.BookShelfConfig;
 import com.unclezs.novel.app.main.model.config.DownloadConfig;
+import com.unclezs.novel.app.main.model.config.HotKeyConfig;
+import com.unclezs.novel.app.main.model.config.ProxyConfig;
 import com.unclezs.novel.app.main.model.config.ReaderConfig;
 import com.unclezs.novel.app.main.util.DebugUtils;
 import java.io.File;
@@ -53,11 +54,15 @@ public class SettingManager {
   /**
    * 备份配置
    */
-  private BackupConfig backupConfig = new BackupConfig();
+  private BackupConfig backup = new BackupConfig();
   /**
    * 网络代理
    */
-  private Proxy proxy = new Proxy();
+  private ProxyConfig proxy = new ProxyConfig();
+  /**
+   * 快捷键
+   */
+  private HotKeyConfig hotkey = new HotKeyConfig();
   /**
    * 调试模式
    */
@@ -82,12 +87,11 @@ public class SettingManager {
       manager = PropertyJsonSerializer.fromJson(confJson, SettingManager.class);
     } else {
       manager = new SettingManager();
-      resetDefault();
     }
     // 初始化默认语言
     Locale.setDefault(LanguageManager.locale(manager.basic.getLang().getValue()));
     // 初始化代理
-    Proxy.initHttpProxy();
+    ProxyConfig.initHttpProxy();
     // 日志初始化
     DebugUtils.debug(manager().getDebug().get());
   }
@@ -98,11 +102,5 @@ public class SettingManager {
   public static void save() {
     File confFile = ResourceManager.confFile(CONFIG_FILE_NAME);
     FileUtil.writeUtf8String(PropertyJsonSerializer.toJson(manager), confFile);
-  }
-
-  /**
-   * 恢复默认设置 todo
-   */
-  public static void resetDefault() {
   }
 }

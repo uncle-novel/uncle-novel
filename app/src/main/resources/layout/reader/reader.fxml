@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXDrawer?>
 <?import com.jfoenix.controls.JFXDrawersStack?>
 <?import com.jfoenix.controls.JFXSlider?>
@@ -8,8 +9,8 @@
 <?import com.unclezs.novel.app.framework.components.StageDecorator?>
 <?import com.unclezs.novel.app.framework.components.TabButton?>
 <?import com.unclezs.novel.app.framework.components.TabGroup?>
-<?import com.unclezs.novel.app.main.ui.reader.views.PageView?>
-<?import com.unclezs.novel.app.main.ui.reader.views.ReaderThemeView?>
+<?import com.unclezs.novel.app.main.views.reader.PageView?>
+<?import com.unclezs.novel.app.main.views.reader.ReaderThemeView?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -23,7 +24,7 @@
   minHeight="150.0" minWidth="300.00" prefHeight="700.0"
   prefWidth="500.0" setting="true"
   xmlns="https://javafx.com/javafx/16"
-  fx:controller="com.unclezs.novel.app.main.ui.reader.ReaderView">
+  fx:controller="com.unclezs.novel.app.main.views.reader.ReaderView">
   <JFXDrawersStack fx:id="drawer">
     <JFXDrawer fx:id="tocDrawer" defaultDrawerSize="350" direction="LEFT">
       <sidePane>
@@ -62,6 +63,10 @@
                 <Label styleClass="tipLabel" text="字体样式"/>
                 <ComboBox fx:id="fontSelector" styleClass="font-selector" maxWidth="150"/>
               </HBox>
+              <HBox alignment="center_left">
+                <Label styleClass="tipLabel" text="窗口阴影"/>
+                <JFXCheckBox fx:id="showShadow"/>
+              </HBox>
               <HBox styleClass="align-box">
                 <Label styleClass="tipLabel">正文布局</Label>
                 <HBox spacing="20">
@@ -82,7 +87,7 @@
           </ScrollPane>
           <HBox styleClass="setting-action-box">
             <IconButton icon="toc" ripplerFill="transparent" onAction="#showToc" maxWidth="Infinity" HBox.hgrow="always" text="目录"/>
-<!--            <SelectableButton icon="speak" onAction="#speak" fx:id="speakButton" selected="false" maxWidth="Infinity" HBox.hgrow="always" text="朗读" styleClass="speak"/>-->
+            <!--            <SelectableButton icon="speak" onAction="#speak" fx:id="speakButton" selected="false" maxWidth="Infinity" HBox.hgrow="always" text="朗读" styleClass="speak"/>-->
             <IconButton icon="stop" onAction="#closeSetting" maxWidth="Infinity" HBox.hgrow="always" text="关闭"/>
           </HBox>
         </VBox>

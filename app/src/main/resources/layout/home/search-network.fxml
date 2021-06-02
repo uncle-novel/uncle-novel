@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXDrawersStack?>
+<?import com.jfoenix.controls.JFXNodesList?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.icon.IconButton?>
+<?import com.unclezs.novel.app.framework.components.SearchBar?>
+<?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.web.WebView?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1" styleClass="search-network" xmlns="https://javafx.com/javafx/16" fx:controller="com.unclezs.novel.app.main.views.home.SearchNetworkView">
+  <VBox styleClass="container">
+    <TitleBar title="%home.menu.search.network">
+      <content>
+        <SearchBar onSearch="#search" fx:id="searchBar"/>
+      </content>
+    </TitleBar>
+    <JFXDrawersStack VBox.vgrow="ALWAYS" fx:id="drawer">
+      <JFXDrawer fx:id="tocDrawer" overLayVisible="true" defaultDrawerSize="300" direction="LEFT">
+        <sidePane>
+          <ListView fx:id="tocListView"/>
+        </sidePane>
+      </JFXDrawer>
+      <StackPane>
+        <VBox>
+          <JFXProgressBar fx:id="progress" maxHeight="2" maxWidth="Infinity" minHeight="3" visible="false"/>
+          <WebView fx:id="webview" VBox.vgrow="ALWAYS" visible="false"/>
+        </VBox>
+        <VBox alignment="CENTER" styleClass="placeholder" fx:id="placeholder">
+          <Icon value="empty"/>
+          <Label styleClass="tip" text="%home.search.novel.placeholder"/>
+        </VBox>
+      </StackPane>
+    </JFXDrawersStack>
+  </VBox>
+  <JFXNodesList rotate="180.0" StackPane.alignment="BOTTOM_RIGHT" styleClass="float-actions" pickOnBounds="false">
+    <StackPane.margin>
+      <Insets bottom="20" right="20"/>
+    </StackPane.margin>
+    <IconButton icon="airport" styleClass="primary-button" pickOnBounds="false"/>
+    <IconButton icon="toc" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="查看目录" onMouseClicked="#showToc"/>
+    <IconButton icon="analysis_download" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="解析下载" onMouseClicked="#analysisDownload"/>
+  </JFXNodesList>
+</StackPane>

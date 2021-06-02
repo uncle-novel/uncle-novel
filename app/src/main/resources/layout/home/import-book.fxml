@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.icon.IconButton?>
+<?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" styleClass="import-book" fx:controller="com.unclezs.novel.app.main.views.home.ImportBookView">
+  <VBox styleClass="container">
+    <TitleBar title="导入本地小说">
+      <content>
+        <HBox styleClass="actions">
+          <IconButton icon="go_back" text="返回书架" onAction="#backToBookShelf"/>
+          <IconButton icon="save" text="加入书架" onAction="#addToBookShelf"/>
+          <IconButton icon="analysis_download" text="解析目录" onAction="#analysis"/>
+        </HBox>
+      </content>
+    </TitleBar>
+    <VBox spacing="10" VBox.vgrow="ALWAYS">
+      <padding>
+        <Insets top="10" left="10" right="10"/>
+      </padding>
+      <HBox spacing="5" alignment="center">
+        <Label text="当前文件"/>
+        <TextField promptText="下载文件保存位置" fx:id="fileInput" HBox.hgrow="ALWAYS"/>
+        <ComboBox editable="true" fx:id="encoding" maxWidth="100"/>
+        <IconButton text="选择小说" icon="dir" styleClass="btn" onAction="#selectTxtFile"/>
+      </HBox>
+      <HBox spacing="5" alignment="center">
+        <Label text="匹配正则"/>
+        <TextField fx:id="ruleInput" HBox.hgrow="ALWAYS"/>
+        <IconButton styleClass="btn" icon="save" text="保存规则" onAction="#saveRule"/>
+      </HBox>
+      <HBox spacing="5" alignment="center_left">
+        <Label text="已有规则"/>
+        <ComboBox fx:id="ruleSelector" HBox.hgrow="ALWAYS" maxWidth="Infinity"/>
+        <IconButton styleClass="btn" icon="delete" text="删除规则" onAction="#deleteRule"/>
+        <IconButton styleClass="btn" icon="import" text="导入默认" onAction="#importDefaultRules"/>
+      </HBox>
+      <HBox VBox.vgrow="ALWAYS" fx:id="resultBox">
+        <ListView fx:id="toc" HBox.hgrow="ALWAYS">
+          <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem text="重命名章节名" onAction="#renameChapterNames">
+                  <graphic>
+                    <Icon value="rename"/>
+                  </graphic>
+                </MenuItem>
+              </items>
+            </ContextMenu>
+          </contextMenu>
+        </ListView>
+        <TextArea fx:id="content" HBox.hgrow="ALWAYS" wrapText="true"/>
+      </HBox>
+    </VBox>
+  </VBox>
+</StackPane>

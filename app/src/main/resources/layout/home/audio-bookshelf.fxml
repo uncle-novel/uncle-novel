@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDrawer?>
+<?import com.jfoenix.controls.JFXDrawersStack?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXSlider?>
+<?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.PlaceHolder?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<JFXDrawersStack fx:id="drawer" xmlns="https://javafx.com/javafx" styleClass="audio-bookshelf" xmlns:fx="http://javafx.com/fxml"
+  fx:controller="com.unclezs.novel.app.main.views.home.AudioBookShelfView">
+  <JFXDrawer fx:id="tocDrawer" defaultDrawerSize="200" direction="RIGHT">
+    <sidePane>
+      <ListView fx:id="tocListView">
+        <placeholder>
+          <PlaceHolder tip="没有发现章节"/>
+        </placeholder>
+        <contextMenu>
+          <ContextMenu>
+            <items>
+              <MenuItem text="浏览器打开">
+                <graphic>
+                  <Icon value="browser"/>
+                </graphic>
+              </MenuItem>
+              <MenuItem text="复制音频链接">
+                <graphic>
+                  <Icon value="copy"/>
+                </graphic>
+              </MenuItem>
+              <MenuItem text="检测音频失效">
+                <graphic>
+                  <Icon value="validate"/>
+                </graphic>
+              </MenuItem>
+            </items>
+          </ContextMenu>
+        </contextMenu>
+      </ListView>
+    </sidePane>
+  </JFXDrawer>
+  <StackPane styleClass="container">
+    <fx:define>
+      <ContextMenu fx:id="bookContextMenu">
+        <items>
+          <MenuItem text="下载本书" onAction="#download">
+            <graphic>
+              <Icon value="download"/>
+            </graphic>
+          </MenuItem>
+          <MenuItem text="浏览器打开" onAction="#openBrowser">
+            <graphic>
+              <Icon value="browser"/>
+            </graphic>
+          </MenuItem>
+          <MenuItem text="移除书架" onAction="#removeBook">
+            <graphic>
+              <Icon value="remove"/>
+            </graphic>
+          </MenuItem>
+        </items>
+      </ContextMenu>
+    </fx:define>
+    <ListView fx:id="bookListView" styleClass="book-list" VBox.vgrow="ALWAYS">
+      <placeholder>
+        <PlaceHolder tip="还没有有声小说~"/>
+      </placeholder>
+    </ListView>
+    <VBox styleClass="player" StackPane.alignment="bottom_center">
+      <JFXProgressBar fx:id="loading" maxWidth="Infinity" visible="false"/>
+      <HBox styleClass="player-box" VBox.vgrow="ALWAYS">
+        <VBox HBox.hgrow="ALWAYS" styleClass="left-box">
+          <HBox spacing="5" alignment="center">
+            <HBox spacing="1" maxWidth="Infinity" alignment="center_left" HBox.hgrow="ALWAYS">
+              <Label text="小说名称" styleClass="title" fx:id="titleLabel"/>
+              <Label text="-" styleClass="chapter"/>
+              <Label text="章节名称" styleClass="chapter" fx:id="chapterLabel"/>
+            </HBox>
+            <Icon value="play_toc" styleClass="toc" onMouseClicked="#showToc"/>
+          </HBox>
+          <HBox HBox.hgrow="ALWAYS" styleClass="progress">
+            <Label text="00:00" styleClass="timer" fx:id="currentTime"/>
+            <JFXSlider maxWidth="Infinity" fx:id="progress" HBox.hgrow="ALWAYS" max="1"/>
+            <Label text="00:00" styleClass="timer" fx:id="totalTime"/>
+          </HBox>
+        </VBox>
+        <HBox styleClass="actions">
+          <Icon value="play_pre" styleClass="next" onMouseClicked="#playPrevious"/>
+          <Icon value="play" styleClass="play" fx:id="playButton" onMouseClicked="#play"/>
+          <Icon value="play_next" styleClass="next" onMouseClicked="#playNext"/>
+        </HBox>
+      </HBox>
+    </VBox>
+  </StackPane>
+</JFXDrawersStack>

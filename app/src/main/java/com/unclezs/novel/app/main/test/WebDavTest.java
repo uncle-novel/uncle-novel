@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.main.test;
 
 import cn.hutool.core.io.FileUtil;
-import com.unclezs.novel.app.main.model.WebDav;
+import com.unclezs.novel.app.main.core.webdav.WebDav;
 import java.io.IOException;
 
 /**

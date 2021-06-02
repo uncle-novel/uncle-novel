@@ -3,6 +3,7 @@ package com.unclezs.novel.app.main.model;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.util.SerializationUtils;
+import com.unclezs.novel.app.main.views.home.DownloadManagerView;
 import lombok.Data;
 
 /**
@@ -10,7 +11,7 @@ import lombok.Data;
  *
  * @author blog.unclezs.com
  * @date 2021/4/30 15:18
- * @see com.unclezs.novel.app.main.ui.home.views.DownloadManagerView
+ * @see DownloadManagerView
  */
 @Data
 public class BookBundle {

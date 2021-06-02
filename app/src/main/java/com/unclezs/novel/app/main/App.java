@@ -9,9 +9,10 @@ import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.exception.FxException;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
+import com.unclezs.novel.app.main.manager.HotkeyManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
-import com.unclezs.novel.app.main.ui.home.HomeView;
 import com.unclezs.novel.app.main.util.TrayManager;
+import com.unclezs.novel.app.main.views.home.HomeView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -111,6 +112,8 @@ public class App extends BaseApplication {
     SettingManager.init();
     // 初始化托盘图标
     TrayManager.init();
+    // 初始化
+    HotkeyManager.init();
   }
 
   @Override

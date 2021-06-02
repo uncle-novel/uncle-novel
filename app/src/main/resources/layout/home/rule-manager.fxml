@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.unclezs.novel.app.framework.components.icon.Icon?>
+<?import com.unclezs.novel.app.framework.components.icon.IconButton?>
+<?import com.unclezs.novel.app.framework.components.TitleBar?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns="https://javafx.com/javafx" styleClass="rule-manager" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.views.home.RuleManagerView">
+  <VBox styleClass="container" fx:id="container">
+    <TitleBar title="%home.menu.rule.text">
+      <content>
+        <HBox styleClass="actions">
+          <IconButton icon="plus" text="%rule.manager.add" onAction="#addRule"/>
+          <IconButton icon="import" text="%rule.manager.import" onAction="#importRule"/>
+          <IconButton icon="export" text="%rule.manager.export" onAction="#exportAll"/>
+        </HBox>
+      </content>
+    </TitleBar>
+    <TableView fx:id="rulesTable" prefWidth="${container.width}">
+      <placeholder>
+        <VBox alignment="CENTER" styleClass="placeholder">
+          <Icon value="empty"/>
+          <Label styleClass="tip" text="%home.view.fiction.rule.empty"/>
+        </VBox>
+      </placeholder>
+      <contextMenu>
+        <ContextMenu>
+          <items>
+            <MenuItem text="%rule.manager.menu.export" onAction="#exportSelected">
+              <graphic>
+                <Icon value="export"/>
+              </graphic>
+            </MenuItem>
+            <MenuItem text="%rule.manager.menu.disabled" onAction="#disabledSelected">
+              <graphic>
+                <Icon value="disabled"/>
+              </graphic>
+            </MenuItem>
+            <MenuItem text="%rule.manager.menu.enabled" onAction="#enabledSelected">
+              <graphic>
+                <Icon value="enabled"/>
+              </graphic>
+            </MenuItem>
+            <MenuItem text="%rule.manager.menu.delete" onAction="#deleteSelected">
+              <graphic>
+                <Icon value="delete"/>
+              </graphic>
+            </MenuItem>
+          </items>
+        </ContextMenu>
+      </contextMenu>
+    </TableView>
+  </VBox>
+</StackPane>

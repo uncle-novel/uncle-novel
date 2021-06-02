@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.unclezs.novel.app.framework.components.FileSelector?>
+<?import com.unclezs.novel.app.main.manager.LanguageManager?>
+<?import com.unclezs.novel.app.main.views.components.setting.BackupSettingView?>
+<?import com.unclezs.novel.app.main.views.components.setting.ProxySetting?>
+<?import com.unclezs.novel.app.main.views.components.setting.SearchEngineSetting?>
+<?import com.unclezs.novel.app.main.views.components.setting.SettingItem?>
+<?import com.unclezs.novel.app.main.views.components.setting.SettingItems?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<StackPane xmlns:fx="http://javafx.com/fxml/1"
+  xmlns="https://javafx.com/javafx/16"
+  fx:controller="com.unclezs.novel.app.main.views.home.SettingView">
+  <ScrollPane styleClass="setting-view" fitToWidth="true">
+    <VBox spacing="20">
+      <SettingItems name="%setting.basic">
+        <items>
+          <SettingItem name="%setting.basic.lang">
+            <content>
+              <ComboBox fx:id="language">
+                <items>
+                  <LanguageManager fx:factory="names"/>
+                </items>
+              </ComboBox>
+            </content>
+          </SettingItem>
+          <SettingItem name="%setting.basic.behavior">
+            <content>
+              <JFXCheckBox fx:id="tray" text="%setting.basic.tray"/>
+            </content>
+          </SettingItem>
+        </items>
+      </SettingItems>
+      <SettingItems name="%setting.download">
+        <items>
+          <SettingItem name="%setting.download.common">
+            <content>
+              <VBox spacing="10">
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                  <Label text="%setting.download.thread" minWidth="90"/>
+                  <ComboBox fx:id="threadNum" minWidth="60"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                  <Label text="%setting.download.task" minWidth="90"/>
+                  <ComboBox fx:id="taskNum" minWidth="60"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="10">
+                  <Label text="%setting.download.retry" minWidth="90"/>
+                  <Spinner fx:id="retryNum" maxWidth="60" max="99" min="0" editable="true"/>
+                </HBox>
+              </VBox>
+            </content>
+          </SettingItem>
+          <SettingItem name="%setting.download.type">
+            <content>
+              <HBox spacing="10">
+                <JFXCheckBox text="TXT" fx:id="txt"/>
+                <JFXCheckBox text="EPUB" fx:id="epub"/>
+                <JFXCheckBox text="MOBI" fx:id="mobi"/>
+              </HBox>
+            </content>
+          </SettingItem>
+          <SettingItem name="%setting.download.location">
+            <content>
+              <FileSelector maxWidth="400" promptText="%setting.download.location" chooseText="%setting.download.location.select" openText="%setting.download.location.open" fx:id="downloadFolder"/>
+            </content>
+          </SettingItem>
+          <SettingItem name="%setting.download.other">
+            <content>
+              <JFXCheckBox fx:id="volume" text="%setting.download.volume"/>
+            </content>
+          </SettingItem>
+        </items>
+      </SettingItems>
+      <SettingItems name="%setting.bookshelf">
+        <items>
+          <SettingItem name="%setting.bookshelf.update">
+            <content>
+              <JFXCheckBox fx:id="bookAutoUpdate" text="%setting.bookshelf.update.auto"/>
+            </content>
+          </SettingItem>
+        </items>
+      </SettingItems>
+      <SettingItems name="%setting.hotkey">
+        <items>
+          <SettingItem name="%setting.hotkey.app">
+            <content>
+              <FlowPane hgap="20" vgap="10">
+                <VBox spacing="3">
+                  <Label text="%setting.hotkey.app.reader.pre.chapter"/>
+                  <TextField fx:id="readerNextChapter" promptText="%setting.hotkey.none"/>
+                </VBox>
+                <VBox spacing="3">
+                  <Label text="%setting.hotkey.app.reader.next.chapter"/>
+                  <TextField fx:id="readerPreChapter" promptText="%setting.hotkey.none"/>
+                </VBox>
+                <VBox spacing="3">
+                  <Label text="%setting.hotkey.app.reader.pre.page"/>
+                  <TextField fx:id="readerPrePage" promptText="%setting.hotkey.none"/>
+                </VBox>
+                <VBox spacing="3">
+                  <Label text="%setting.hotkey.app.reader.next.page"/>
+                  <TextField fx:id="readerNextPage" promptText="%setting.hotkey.none"/>
+                </VBox>
+                <VBox spacing="3">
+                  <Label text="%setting.hotkey.app.reader.toc"/>
+                  <TextField fx:id="readerToc" promptText="%setting.hotkey.none"/>
+                </VBox>
+              </FlowPane>
+            </content>
+          </SettingItem>
+          <SettingItem name="%setting.hotkey.global">
+            <content>
+              <VBox spacing="5">
+                <FlowPane hgap="20">
+                  <VBox spacing="3">
+                    <Label text="%setting.hotkey.global.boss"/>
+                    <TextField fx:id="bossKey" promptText="%setting.hotkey.none"/>
+                  </VBox>
+                </FlowPane>
+                <JFXCheckBox fx:id="enabledGlobalHotKey" text="%setting.hotkey.global.enabled"/>
+              </VBox>
+            </content>
+          </SettingItem>
+        </items>
+      </SettingItems>
+      <ProxySetting/>
+      <SettingItems name="%setting.search.engine" styleClass="search-engine-setting">
+        <items>
+          <SearchEngineSetting/>
+        </items>
+      </SettingItems>
+      <BackupSettingView/>
+      <SettingItems name="%setting.other">
+        <items>
+          <SettingItem name="%setting.other.debug">
+            <content>
+              <JFXCheckBox fx:id="debug" text="%setting.other.debug.enabled"/>
+            </content>
+          </SettingItem>
+        </items>
+      </SettingItems>
+    </VBox>
+  </ScrollPane>
+</StackPane>

@@ -25,6 +25,6 @@ public class BackupConfig {
   private ObjectProperty<Boolean> bookshelf = new SimpleObjectProperty<>(true);
   private ObjectProperty<Boolean> audio = new SimpleObjectProperty<>(true);
   private ObjectProperty<Boolean> rule = new SimpleObjectProperty<>(true);
-  private ObjectProperty<Boolean> read = new SimpleObjectProperty<>(true);
+  private ObjectProperty<Boolean> searchEngine = new SimpleObjectProperty<>(true);
   private ObjectProperty<Boolean> setting = new SimpleObjectProperty<>(true);
 }

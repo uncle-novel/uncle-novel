@@ -25,12 +25,26 @@ public interface LocalizedSupport {
   }
 
   /**
+   * 从app.properties中读取
+   *
+   * @param key key
+   * @return 国际化后的
+   */
+  static String app(String key) {
+    return LocalizedSupport.getBundle(LocalizedSupport.BASE_BUNDLE_NAME).getString(key);
+  }
+
+  /**
    * 读取国际化字符串
    *
    * @param key 字符串key
    * @return 国际化字符串
    */
   default String localized(String key) {
+    ResourceBundle bundle = getBundle();
+    if (bundle != null) {
+      return bundle.getString(key);
+    }
     if (getBundleName() == null) {
       throw new UnsupportedOperationException("未配置国际化资源包");
     }
@@ -44,5 +58,14 @@ public interface LocalizedSupport {
    */
   default String getBundleName() {
     return BASE_BUNDLE_NAME;
+  }
+
+  /**
+   * 获取 Bundle
+   *
+   * @return bundle
+   */
+  default ResourceBundle getBundle() {
+    return null;
   }
 }

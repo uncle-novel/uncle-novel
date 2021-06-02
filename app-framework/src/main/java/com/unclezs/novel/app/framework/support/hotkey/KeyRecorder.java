@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import lombok.Getter;
@@ -31,7 +30,7 @@ public class KeyRecorder {
    * 辅助功能键
    */
   private static final Set<KeyCode> MODIFIERS = CollectionUtil.newHashSet(KeyCode.CONTROL, KeyCode.SHIFT, KeyCode.META, KeyCode.ALT, KeyCode.WINDOWS,
-      KeyCode.UNDEFINED);
+    KeyCode.UNDEFINED);
   private boolean shift;
   private boolean ctrl;
   private boolean meta;
@@ -58,19 +57,30 @@ public class KeyRecorder {
     }
     List<KeyCombination.Modifier> combinations = new ArrayList<>();
     if (ctrl) {
-      combinations.add(KeyCodeCombination.CONTROL_DOWN);
+      combinations.add(KeyCombination.CONTROL_DOWN);
     }
     if (shift) {
-      combinations.add(KeyCodeCombination.SHIFT_DOWN);
+      combinations.add(KeyCombination.SHIFT_DOWN);
     }
     if (meta) {
-      combinations.add(KeyCodeCombination.META_DOWN);
+      combinations.add(KeyCombination.META_DOWN);
     }
     if (alt) {
-      combinations.add(KeyCodeCombination.ALT_DOWN);
+      combinations.add(KeyCombination.ALT_DOWN);
     }
-    this.combination = new HotKeyCombination(keyCode,
-      combinations.toArray(new KeyCombination.Modifier[0]));
+    this.combination = new HotKeyCombination(keyCode, combinations.toArray(new KeyCombination.Modifier[0]));
+  }
+
+  /**
+   * 重置为空
+   */
+  public void reset() {
+    this.keyText = null;
+    this.alt = false;
+    this.shift = false;
+    this.ctrl = false;
+    this.meta = false;
+    this.effective = false;
   }
 
   /**

@@ -1,6 +1,8 @@
 package com.unclezs.novel.app.main.model.config;
 
-import com.unclezs.novel.app.main.ui.home.views.FictionBookshelfView;
+import com.unclezs.novel.app.main.views.home.FictionBookshelfView;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import lombok.Data;
 
 /**
@@ -14,4 +16,9 @@ public class BookShelfConfig {
    * 选中的分组
    */
   private String group = FictionBookshelfView.GROUP_ALL;
+
+  /**
+   * 书架书籍自动更新
+   */
+  private ObjectProperty<Boolean> autoUpdate = new SimpleObjectProperty<>(false);
 }

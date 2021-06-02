@@ -1,7 +1,7 @@
 package com.unclezs.novel.app.main.model.config;
 
 import com.unclezs.novel.app.main.manager.LanguageManager;
-import com.unclezs.novel.app.main.ui.home.HomeView;
+import com.unclezs.novel.app.main.views.home.HomeView;
 import java.util.Locale;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;

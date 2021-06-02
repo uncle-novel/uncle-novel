@@ -56,7 +56,7 @@ $border-radius: 10px;
       // 菜单分组
       .sidebar-menu {
         -fx-pref-width: $_166px;
-        -fx-padding: $_20px 0 0 $_10px;
+        -fx-padding: $_10px 0 0 $_10px;
         -fx-text-fill: ladder(-fx-sidebar-bg-color, $md_grey_200 45%, $md_grey_300 46%, $md_grey_400 59%, $md_grey_500 60%);
       }
 

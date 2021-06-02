@@ -4,7 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.unclezs.novel.analyzer.util.GsonUtils;
-import com.unclezs.novel.app.main.model.TxtTocRule;
+import com.unclezs.novel.app.main.db.beans.TxtTocRule;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

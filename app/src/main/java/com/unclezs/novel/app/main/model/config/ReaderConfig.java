@@ -42,6 +42,10 @@ public class ReaderConfig {
    */
   private boolean windowTop;
   /**
+   * 显示shadow
+   */
+  private boolean showShadow;
+  /**
    * 页面宽度
    */
   private ObjectProperty<Number> pageWidth = new SimpleObjectProperty<>(100D);
