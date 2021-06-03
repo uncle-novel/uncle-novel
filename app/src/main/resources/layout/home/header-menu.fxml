@@ -10,7 +10,6 @@
     <IconButton icon="github" text="GitHub源码" onAction="#github"/>
     <Pane styleClass="home-setting-popup-delimiter"/>
     <IconButton icon="reward" text="打赏" onAction="#reward"/>
-    <IconButton icon="config" text="设置" onAction="#setting"/>
     <IconButton icon="about" text="关于" onAction="#about"/>
     <IconButton icon="download_history" text="更新历史" onAction="#update"/>
     <IconButton icon="log" text="查看日志" onAction="#showLog"/>

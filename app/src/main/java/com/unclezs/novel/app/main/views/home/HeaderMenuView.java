@@ -4,7 +4,6 @@ import cn.hutool.core.io.FileUtil;
 import com.jfoenix.controls.JFXPopup;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.ModalBox;
-import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.core.View;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.main.manager.ResourceManager;
@@ -47,15 +46,6 @@ public class HeaderMenuView extends View<JFXPopup> {
     ImageView rewardImage = new ImageView("/assets/images/reward.jpg");
     rewardBox.setCenter(rewardImage);
     ModalBox.none().title("赞赏开发者").body(rewardBox).show();
-    popup.hide();
-  }
-
-  /**
-   * 设置
-   */
-  @FXML
-  private void setting() {
-    AppContext.getView(FictionBookshelfView.class).getNavigation().navigate(SettingView.class);
     popup.hide();
   }
 

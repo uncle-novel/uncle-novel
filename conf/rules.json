@@ -129,6 +129,69 @@
     }
   },
   {
+    "name": "完美至尊",
+    "site": "https://www.xinshuhaige.org/",
+    "enabled": true,
+    "audio": false,
+    "weight": 0,
+    "params": {},
+    "content": {
+      "content": {
+        "type": "auto:",
+        "rule": "1"
+      },
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      }
+    },
+    "toc": {
+      "list": {},
+      "name": {},
+      "url": {},
+      "next": {
+        "type": "xpath",
+        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+      },
+      "enableNext": true,
+      "filter": true,
+      "sort": true,
+      "autoNext": true,
+      "forceNext": false
+    },
+    "detail": {
+      "title": {},
+      "author": {},
+      "broadcast": {},
+      "category": {},
+      "wordCount": {},
+      "introduce": {},
+      "latestChapterName": {},
+      "latestChapterUrl": {},
+      "coverUrl": {},
+      "state": {},
+      "updateTime": {}
+    },
+    "search": {
+      "list": {},
+      "detailPage": {},
+      "detail": {
+        "url": {},
+        "title": {},
+        "author": {},
+        "broadcast": {},
+        "category": {},
+        "wordCount": {},
+        "introduce": {},
+        "latestChapterName": {},
+        "latestChapterUrl": {},
+        "coverUrl": {},
+        "state": {},
+        "updateTime": {}
+      }
+    }
+  },
+  {
     "name": "妙笔阁",
     "site": "https://www.imiaobige.com/",
     "group": "有图",

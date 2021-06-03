@@ -15,7 +15,7 @@
     "epub": true
   },
   "reader": {
-    "themeName": "darcula",
+    "themeName": "green",
     "bgImage": "",
     "fontSize": 17.428571428571427,
     "fontFamily": "圆体-简",
@@ -25,7 +25,7 @@
     "showShadow": false,
     "pageWidth": 0.869047619047619,
     "lineSpacing": 0.0,
-    "stageWidth": 500.0,
+    "stageWidth": 526.0,
     "stageHeight": 700.0
   },
   "bookShelf": {

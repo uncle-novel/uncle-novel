@@ -18,7 +18,7 @@ import lombok.Data;
 @DatabaseTable(tableName = "search_engine")
 public class SearchEngine implements Serializable {
 
-  public static final String STYLESHEET_PATH = "css/home/views/webview/";
+  public static final String STYLESHEET_PATH = "css/home/webview/";
   private static final String BAIDU_SEARCH_URL = "https://www.baidu.com/s?wd=title: (阅读 \"{{keyword}}\" (最新章节) -(官方网站))";
   private static final String GOOGLE_SEARCH_URL = "https://www.google.com.hk/search?q={{keyword}} 小说最新章节";
   private static final String BY_SEARCH_URL = "https://cn.bing.com/search?q={{keyword}} 小说最新章节";

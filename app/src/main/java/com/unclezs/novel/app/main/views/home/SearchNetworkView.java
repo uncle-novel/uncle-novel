@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXProgressBar;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.spider.TocSpider;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.SearchBar;
@@ -96,6 +97,10 @@ public class SearchNetworkView extends SidebarView<StackPane> {
       if (types.contains(current)) {
         searchBar.setType(current);
       }
+    }
+    // 如果为空选中默认
+    if (StringUtils.isBlank(searchBar.getCurrentType()) && !types.isEmpty()) {
+      searchBar.setType(types.get(0));
     }
   }
 
