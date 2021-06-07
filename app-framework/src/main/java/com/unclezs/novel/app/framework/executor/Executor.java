@@ -3,6 +3,7 @@ package com.unclezs.novel.app.framework.executor;
 import com.unclezs.novel.analyzer.common.concurrent.ThreadUtils;
 import com.unclezs.novel.analyzer.common.concurrent.factory.DaemonThreadFactory;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import javafx.application.Platform;
@@ -34,8 +35,8 @@ public class Executor {
    * @param runnable 任务
    * @param delay    延迟
    */
-  public static void run(Runnable runnable, long delay) {
-    SCHEDULED_THREAD_POOL_EXECUTOR.schedule(runnable, delay, TimeUnit.MILLISECONDS);
+  public static ScheduledFuture<?> run(Runnable runnable, long delay) {
+    return SCHEDULED_THREAD_POOL_EXECUTOR.schedule(runnable, delay, TimeUnit.MILLISECONDS);
   }
 
   /**

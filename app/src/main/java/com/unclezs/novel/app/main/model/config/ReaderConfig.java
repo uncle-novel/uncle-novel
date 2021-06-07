@@ -2,6 +2,7 @@ package com.unclezs.novel.app.main.model.config;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.text.Font;
 import lombok.Data;
 
 /**
@@ -28,11 +29,19 @@ public class ReaderConfig {
   /**
    * 字体
    */
-  private ObjectProperty<String> fontFamily = new SimpleObjectProperty<>("仿宋");
+  private ObjectProperty<String> fontFamily = new SimpleObjectProperty<>(Font.getDefault().getFamily());
   /**
    * 正文对齐方式
    */
   private ObjectProperty<String> align = new SimpleObjectProperty<>("LEFT");
+  /**
+   * TTS小说朗读引擎
+   */
+  private ObjectProperty<Integer> speaker = new SimpleObjectProperty<>(0);
+  /**
+   * TTS朗读速度
+   */
+  private ObjectProperty<Double> speed = new SimpleObjectProperty<>(1D);
   /**
    * 显示头部
    */

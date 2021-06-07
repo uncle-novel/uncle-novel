@@ -41,6 +41,10 @@ public class ResourceManager {
    * 备份文件目录
    */
   public static final File BACKUP_DIR = FileUtil.file(WORK_DIR, "backup");
+  /**
+   * 字体文件目录
+   */
+  public static final File FONTS_DIR = FileUtil.file(WORK_DIR, "fonts");
 
   /**
    * 获取配置文件目录下的文件

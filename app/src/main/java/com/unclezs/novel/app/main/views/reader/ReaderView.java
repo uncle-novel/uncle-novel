@@ -1,13 +1,16 @@
 package com.unclezs.novel.app.main.views.reader;
 
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.text.CharSequenceUtil;
+import com.google.gson.reflect.TypeToken;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXSlider;
 import com.sun.javafx.scene.control.skin.Utils;
 import com.unclezs.novel.analyzer.model.Chapter;
-import com.unclezs.novel.analyzer.request.RequestParams;
+import com.unclezs.novel.analyzer.util.GsonUtils;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.appication.SceneNavigateBundle;
 import com.unclezs.novel.app.framework.appication.SceneView;
@@ -16,9 +19,11 @@ import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.components.TabGroup;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
+import com.unclezs.novel.app.framework.executor.DebounceTask;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
 import com.unclezs.novel.app.framework.util.EventUtils;
+import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.core.loader.AbstractBookLoader;
 import com.unclezs.novel.app.main.core.loader.BookLoader;
@@ -37,19 +42,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import javafx.animation.Transition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.OverrunStyle;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
@@ -67,9 +74,10 @@ public class ReaderView extends SceneView<StageDecorator> {
   public static final String BUNDLE_READ_BOOK_KEY = "read-book-key";
   public static final String FONT_STYLE_FORMAT = "-fx-font-size: %spx;-fx-font-family: '%s'";
   public static final double TOC_AREA = 0.05;
-  public static final double PRE_PAGE_AREA = 0.35;
-  public static final double NEXT_PAGE_AREA = 0.65;
-  public static final String[] SHADOW_STYLE_CLASS = {"no-window-shadow", "no-header-shadow"};
+  public static final double PRE_PAGE_AREA = 0.25;
+  public static final double NEXT_PAGE_AREA = 0.75;
+  private static final String[] NO_SHADOW_STYLE_CLASS = {"no-window-shadow", "no-header-shadow"};
+  public static final String DEFAULTS_TTS_CONFIG = "assets/defaults/tts.json";
   private final String[] contents = new String[3];
   /**
    * 当前章节所有页
@@ -78,11 +86,23 @@ public class ReaderView extends SceneView<StageDecorator> {
   private final IntegerProperty currentChapterIndex = new SimpleIntegerProperty();
   private final BookDao bookDao = new BookDao();
   @FXML
+  private SelectableButton speakButton;
+  @FXML
+  private SelectableButton playButton;
+  @FXML
+  private ComboBox<String> speakerSelector;
+  @FXML
+  private JFXSlider ttsSpeedSlider;
+  @FXML
+  private ScrollPane settingView;
+  @FXML
+  private VBox ttsSettingBox;
+  @FXML
+  private VBox settingBox;
+  @FXML
   private JFXCheckBox showShadow;
   @FXML
   private ListView<Chapter> tocListView;
-  @FXML
-  private SelectableButton speakButton;
   @FXML
   private StackPane container;
   @FXML
@@ -114,6 +134,7 @@ public class ReaderView extends SceneView<StageDecorator> {
   private ReaderConfig config;
   private TTSPlayer player;
   private ReaderContextMenu contextMenu;
+  private DisplayPageTask displayPageTask;
   /**
    * 翻页中
    */
@@ -130,7 +151,10 @@ public class ReaderView extends SceneView<StageDecorator> {
     getRoot().getScene().getStylesheets().add("css/reader/reader.css");
 
     this.contextMenu = new ReaderContextMenu();
+    // 初始化阅读器设置
     initSetting();
+    // TTS 播放器
+    initTTSPlayer();
     // 初始化阅读器默认行为
     initBehavior();
     // 初始化热键
@@ -144,6 +168,8 @@ public class ReaderView extends SceneView<StageDecorator> {
     });
     App.stage().setWidth(config.getStageWidth().get());
     App.stage().setHeight(config.getStageHeight().get());
+    // 初始化设置面板
+    setSettingView(false);
   }
 
   @Override
@@ -186,13 +212,15 @@ public class ReaderView extends SceneView<StageDecorator> {
     forEachPageView(pageView -> pageView.setText(null));
     // 清空页面缓存
     clearCaches();
+    // 停止TTS
+    stopSpeaking();
     // 回到首页
     app.navigate(HomeView.class, new SceneNavigateBundle());
   }
 
   @Override
   public void onSetting(StageDecorator view, IconButton settingButton) {
-    drawer.toggle(settingDrawer);
+    showOperationView();
   }
 
   @Override
@@ -221,7 +249,7 @@ public class ReaderView extends SceneView<StageDecorator> {
           nextPage();
         } else {
           // 显示设置
-          drawer.toggle(settingDrawer);
+          showOperationView();
         }
         event.consume();
       }
@@ -275,13 +303,11 @@ public class ReaderView extends SceneView<StageDecorator> {
       toChapter(getCurrentChapterIndex());
     });
     // 页面宽度
-    container.widthProperty().addListener(e -> {
-      forEachPageView(view -> {
-        if (view.getTranslateX() < 0) {
-          view.setTranslateX(-container.getWidth());
-        }
-      });
-    });
+    container.widthProperty().addListener(e -> forEachPageView(view -> {
+      if (view.getTranslateX() < 0) {
+        view.setTranslateX(-container.getWidth());
+      }
+    }));
     forEachPageView(pageView -> {
       pageView.widthProperty().addListener(e -> updateDisplayText());
       pageView.heightProperty().addListener(e -> updateDisplayText());
@@ -299,12 +325,12 @@ public class ReaderView extends SceneView<StageDecorator> {
     // 字体选择器
     fontSelector.getItems().setAll(Font.getFamilies());
     fontSelector.valueProperty().bindBidirectional(config.getFontFamily());
-    fontSelector.valueProperty().addListener(e -> setFont());
+    fontSelector.valueProperty().addListener(e -> updateFont());
     // 字体大小选择器
     fontSizeSlider.valueProperty().bindBidirectional(config.getFontSize());
-    fontSizeSlider.valueProperty().addListener(e -> setFont());
+    fontSizeSlider.valueProperty().addListener(e -> updateFont());
     // 初始化字体
-    setFont();
+    updateFont();
     // 行间距选择器
     lineSpaceSlider.valueProperty().bindBidirectional(config.getLineSpacing());
     lineSpaceSlider.valueProperty().addListener(e -> {
@@ -313,14 +339,36 @@ public class ReaderView extends SceneView<StageDecorator> {
     });
     forEachPageView(pageView -> pageView.setLineSpacing(lineSpaceSlider.getValue()));
     // 窗口阴影
-    showShadow.selectedProperty().addListener(e -> {
-      if (showShadow.isSelected()) {
-        getRoot().getStyleClass().removeAll(SHADOW_STYLE_CLASS);
-      } else {
-        getRoot().getStyleClass().addAll(SHADOW_STYLE_CLASS);
-      }
-    });
     showShadow.setSelected(config.isShowShadow());
+    showShadow.selectedProperty().addListener(e -> updateShadow());
+    updateShadow();
+  }
+
+  /**
+   * 初始化TTS播放器
+   */
+  private void initTTSPlayer() {
+    // TTS配置
+    List<TTSConfig> ttsConfigs = GsonUtils.me().fromJson(IoUtil.readUtf8(ResourceUtils.stream(DEFAULTS_TTS_CONFIG)), new TypeToken<List<TTSConfig>>() {
+    }.getType());
+    speakerSelector.getItems().setAll(ttsConfigs.stream().map(TTSConfig::getName).collect(Collectors.toList()));
+    speakerSelector.getSelectionModel().select(config.getSpeaker().get());
+    speakerSelector.valueProperty().addListener(e -> {
+      int index = speakerSelector.getSelectionModel().getSelectedIndex();
+      config.getSpeaker().set(index);
+      player.setConfig(ttsConfigs.get(index));
+    });
+    // TTS朗读速度
+    ttsSpeedSlider.setValueFactory(slider -> Bindings.createStringBinding(() -> String.valueOf((int) (slider.getValue() * 10)), slider.valueProperty()));
+    ttsSpeedSlider.setValue(config.getSpeed().get());
+    ttsSpeedSlider.valueProperty().addListener(e -> {
+      player.setSpeed(ttsSpeedSlider.getValue());
+      config.getSpeed().set(ttsSpeedSlider.getValue());
+    });
+    player = new TTSPlayer(ttsConfigs.get(config.getSpeaker().get()), () -> {
+      nextPage();
+      playTTS(true);
+    });
   }
 
   /**
@@ -333,12 +381,27 @@ public class ReaderView extends SceneView<StageDecorator> {
     handler.accept(otherPage);
   }
 
-  private void setFont() {
+  /**
+   * 更新字体
+   */
+  private void updateFont() {
     forEachPageView(content -> {
       content.setStyle(String.format(FONT_STYLE_FORMAT, fontSizeSlider.getValue(), fontSelector.getValue()));
       content.getTitle().setStyle(String.format(FONT_STYLE_FORMAT, fontSizeSlider.getValue() + 12, fontSelector.getValue()));
     });
     updateDisplayText();
+  }
+
+  /**
+   * 更新阴影
+   */
+  private void updateShadow() {
+    if (showShadow.isSelected()) {
+      getRoot().getStyleClass().removeAll(NO_SHADOW_STYLE_CLASS);
+    } else {
+      getRoot().getStyleClass().addAll(NO_SHADOW_STYLE_CLASS);
+    }
+    config.setShowShadow(showShadow.isSelected());
   }
 
   /**
@@ -352,11 +415,24 @@ public class ReaderView extends SceneView<StageDecorator> {
   }
 
   /**
-   * 显示一页
+   * 显示一页 防抖100ms
    *
    * @param page 页码
    */
   private void displayPage(int page, TurnPageType type) {
+    if (displayPageTask == null) {
+      displayPageTask = new DisplayPageTask(() -> this.displayPageByDebounce(displayPageTask.page, displayPageTask.type), 100L);
+    }
+    displayPageTask.init(page, type);
+    displayPageTask.run();
+  }
+
+  /**
+   * 显示一页
+   *
+   * @param page 页码
+   */
+  private void displayPageByDebounce(int page, TurnPageType type) {
     if (turnPaging) {
       return;
     }
@@ -401,6 +477,27 @@ public class ReaderView extends SceneView<StageDecorator> {
     } else {
       showView.setTitle(null);
     }
+    // 停止朗读
+    if (speakButton.isSelected()) {
+      playTTS(true);
+    }
+  }
+
+  /**
+   * 显示操作面板
+   */
+  private void showOperationView() {
+    drawer.toggle(settingDrawer);
+  }
+
+  /**
+   * 切换设置面板
+   *
+   * @param tts 是否未tts
+   */
+  private void setSettingView(boolean tts) {
+    settingView.setContent(tts ? ttsSettingBox : settingBox);
+    settingDrawer.setDefaultDrawerSize(tts ? 150 : 320);
   }
 
   /**
@@ -571,7 +668,6 @@ public class ReaderView extends SceneView<StageDecorator> {
     Insets padding = currentPage.getLabelPadding();
     double height = currentPage.getHeight() - currentPage.snappedBottomInset() - currentPage.snappedTopInset() - currentPage.snapSizeY(padding.getTop()) - currentPage.snapSizeY(padding.getBottom());
     double heightWithTitle = height - currentPage.getTitle().getLayoutBounds().getHeight() - currentPage.getTitle().getGraphicTextGap();
-
     do {
       // 首页区分标题高度
       double pageHeight = pageList.isEmpty() ? heightWithTitle : height;
@@ -584,39 +680,13 @@ public class ReaderView extends SceneView<StageDecorator> {
     this.pages.addAll(pageList);
   }
 
+  /**
+   * 获取当前章节索引
+   *
+   * @return 索引
+   */
   public int getCurrentChapterIndex() {
     return currentChapterIndex.get();
-  }
-
-  public void speak(ActionEvent event) {
-    SelectableButton button = (SelectableButton) event.getSource();
-    button.setSelected(!button.isSelected());
-    if (button.isSelected()) {
-      getPlayer().speak(currentPageText());
-    } else {
-      getPlayer().pause();
-    }
-  }
-
-  /**
-   * TTS播放器
-   *
-   * @return TTS播放器
-   */
-  private TTSPlayer getPlayer() {
-    if (player == null) {
-      TTSConfig config = new TTSConfig();
-      RequestParams params = RequestParams.create("http://tts.baidu.com/text2audio");
-      params.setBody("tex={{text}}&per=4007&cuid=baidu_speech_demo&idx=1&cod=2&lan=zh&ctp=1&pdt=160&vol=5&aue=3&pit=5&_res_tag_=audio");
-      params.setMethod("POST");
-      config.setParams(params);
-      config.setName("台湾女声");
-      player = new TTSPlayer(config, () -> {
-        nextPage();
-        player.speak(currentPageText());
-      });
-    }
-    return player;
   }
 
   /**
@@ -645,6 +715,93 @@ public class ReaderView extends SceneView<StageDecorator> {
   }
 
   /**
+   * 朗读按钮点击
+   */
+  @FXML
+  private void onSpeakClicked() {
+    if (speakButton.isSelected()) {
+      stopSpeaking();
+    } else {
+      startSpeaking();
+    }
+    settingDrawer.close();
+  }
+
+  /**
+   * 播放/暂停点击
+   */
+  @FXML
+  private void onPlayClicked() {
+    if (playButton.isSelected()) {
+      pauseTTS();
+    } else {
+      playTTS(false);
+    }
+    settingDrawer.close();
+  }
+
+  /**
+   * 开始朗读
+   */
+  private void startSpeaking() {
+    speakButton.setSelected(true);
+    speakButton.setText("停止");
+    playTTS(true);
+    setSettingView(true);
+    playButton.setVisible(true);
+    playButton.setManaged(true);
+  }
+
+  /**
+   * 停止朗读
+   */
+  private void stopSpeaking() {
+    if (!speakButton.isSelected()) {
+      return;
+    }
+    speakButton.setSelected(false);
+    speakButton.setText("朗读");
+    pauseTTS();
+    player.dispose();
+    setSettingView(false);
+    playButton.setVisible(false);
+    playButton.setManaged(false);
+  }
+
+  /**
+   * 播放 TTS
+   */
+  private void playTTS(boolean isNew) {
+    if (speakButton.isSelected()) {
+      playButton.setSelected(true);
+      playButton.setText("暂停");
+      if (isNew) {
+        String pageText = currentPageText();
+        // 标题
+        if (current == 0) {
+          String titleText = loader.toc().get(getCurrentChapterIndex()).getName();
+          pageText = titleText + StringUtils.LF + pageText;
+        }
+        player.setText(pageText);
+        player.speak();
+      } else {
+        player.play();
+      }
+    }
+  }
+
+  /**
+   * 暂停 TTS
+   */
+  private void pauseTTS() {
+    if (speakButton.isSelected() && playButton.isSelected()) {
+      playButton.setSelected(false);
+      playButton.setText("播放");
+      player.pause();
+    }
+  }
+
+  /**
    * 翻页类型
    */
   private enum TurnPageType {
@@ -660,5 +817,23 @@ public class ReaderView extends SceneView<StageDecorator> {
      * 未翻页
      */
     NONE
+  }
+
+  /**
+   * 展示页码任务 防抖
+   */
+  static class DisplayPageTask extends DebounceTask {
+
+    private int page = 0;
+    private TurnPageType type = TurnPageType.NONE;
+
+    public DisplayPageTask(Runnable runnable, Long delay) {
+      super(runnable, delay);
+    }
+
+    public void init(int page, TurnPageType type) {
+      this.page = page;
+      this.type = type;
+    }
   }
 }

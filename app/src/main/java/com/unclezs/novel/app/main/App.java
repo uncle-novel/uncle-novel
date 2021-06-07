@@ -8,8 +8,10 @@ import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.exception.FxException;
 import com.unclezs.novel.app.framework.executor.Executor;
+import com.unclezs.novel.app.framework.support.fonts.FontsLoader;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.HotkeyManager;
+import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.util.TrayManager;
 import com.unclezs.novel.app.main.views.home.HomeView;
@@ -114,6 +116,8 @@ public class App extends BaseApplication {
     TrayManager.init();
     // 初始化
     HotkeyManager.init();
+    // 加载字体
+    FontsLoader.loadFonts(ResourceManager.FONTS_DIR);
   }
 
   @Override

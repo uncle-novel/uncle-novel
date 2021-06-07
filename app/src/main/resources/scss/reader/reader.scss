@@ -95,6 +95,7 @@
           }
         }
       }
+
     }
 
     .setting-action-box {
@@ -105,6 +106,7 @@
         -fx-content-display: top;
 
         .icon {
+          @include ladderTextFill(-fx-base);
           -fx-icon-size: 18px;
         }
       }
@@ -114,6 +116,14 @@
 
         &:selected {
           -fx-icon: "no_speak";
+        }
+      }
+
+      .play {
+        -fx-icon: "play";
+
+        &:selected {
+          -fx-icon: "play_pause";
         }
       }
     }

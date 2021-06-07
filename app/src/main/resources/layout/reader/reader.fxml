@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXSlider?>
 <?import com.unclezs.novel.app.framework.components.icon.IconButton?>
 <?import com.unclezs.novel.app.framework.components.PlaceHolder?>
+<?import com.unclezs.novel.app.framework.components.SelectableButton?>
 <?import com.unclezs.novel.app.framework.components.StageDecorator?>
 <?import com.unclezs.novel.app.framework.components.TabButton?>
 <?import com.unclezs.novel.app.framework.components.TabGroup?>
@@ -38,8 +39,8 @@
     <JFXDrawer fx:id="settingDrawer" overLayVisible="true" defaultDrawerSize="320" direction="BOTTOM">
       <sidePane>
         <VBox styleClass="setting-box" maxHeight="320">
-          <ScrollPane fitToWidth="true">
-            <VBox styleClass="setting-item-box">
+          <ScrollPane fitToWidth="true" fx:id="settingView">
+            <VBox fx:id="settingBox" styleClass="setting-item-box">
               <HBox styleClass="chapter-slider-box">
                 <Label styleClass="chapter-slider-button" onMouseClicked="#preChapter" text="上一章"/>
                 <JFXSlider fx:id="chapterSlider" HBox.hgrow="ALWAYS" min="1" blockIncrement="1"/>
@@ -84,10 +85,21 @@
                 <ReaderThemeView fx:id="themeView" HBox.hgrow="ALWAYS"/>
               </HBox>
             </VBox>
+            <VBox fx:id="ttsSettingBox" styleClass="setting-item-box">
+              <HBox alignment="center_left">
+                <Label styleClass="tipLabel" text="朗读引擎"/>
+                <ComboBox fx:id="speakerSelector" styleClass="speaker-selector" maxWidth="150"/>
+              </HBox>
+              <HBox alignment="center_left">
+                <Label styleClass="tipLabel" text="朗读语速"/>
+                <JFXSlider fx:id="ttsSpeedSlider" max="1.5" min="0.5"/>
+              </HBox>
+            </VBox>
           </ScrollPane>
           <HBox styleClass="setting-action-box">
             <IconButton icon="toc" ripplerFill="transparent" onAction="#showToc" maxWidth="Infinity" HBox.hgrow="always" text="目录"/>
-            <!--            <SelectableButton icon="speak" onAction="#speak" fx:id="speakButton" selected="false" maxWidth="Infinity" HBox.hgrow="always" text="朗读" styleClass="speak"/>-->
+            <SelectableButton onAction="#onSpeakClicked" fx:id="speakButton" selected="false" maxWidth="Infinity" HBox.hgrow="always" text="朗读" styleClass="speak"/>
+            <SelectableButton onAction="#onPlayClicked" visible="false" managed="false" fx:id="playButton" selected="false" maxWidth="Infinity" HBox.hgrow="always" text="暂停" styleClass="play"/>
             <IconButton icon="stop" onAction="#closeSetting" maxWidth="Infinity" HBox.hgrow="always" text="关闭"/>
           </HBox>
         </VBox>

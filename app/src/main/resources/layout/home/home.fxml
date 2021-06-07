@@ -54,7 +54,7 @@
         view="com.unclezs.novel.app.main.views.home.RuleManagerView"/>
     </SidebarMenu>
     <SidebarMenu name="%home.menu.setting">
-      <SidebarMenuItem selected="true"
+      <SidebarMenuItem
         icon="config"
         text="%home.menu.setting.app"
         view="com.unclezs.novel.app.main.views.home.SettingView"/>

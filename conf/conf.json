@@ -15,21 +15,23 @@
     "epub": true
   },
   "reader": {
-    "themeName": "green",
+    "themeName": "default",
     "bgImage": "",
     "fontSize": 17.428571428571427,
     "fontFamily": "圆体-简",
     "align": "JUSTIFY",
+    "speaker": 1,
+    "speed": 1.007936507936508,
     "showHeader": true,
     "windowTop": false,
-    "showShadow": false,
+    "showShadow": true,
     "pageWidth": 0.869047619047619,
     "lineSpacing": 0.0,
-    "stageWidth": 526.0,
+    "stageWidth": 500.0,
     "stageHeight": 700.0
   },
   "bookShelf": {
-    "group": "全部",
+    "group": "有N",
     "autoUpdate": false
   },
   "backup": {
@@ -53,7 +55,7 @@
     "readerNextChapter": "",
     "readerPreChapter": "",
     "readerToc": "",
-    "globalBossKey": "",
+    "globalBossKey": "alt U",
     "enabledGlobal": true
   },
   "debug": true

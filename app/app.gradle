@@ -62,7 +62,7 @@ packager {
     vmOptionsFile = file("${packagerDir}/resource/conf/vm.options")
     linuxConfig {
         iconFile = file("${packagerDir}/icon/favicon.png")
-        return linuxConfig;
+        return linuxConfig
     }
     macConfig {
         generateDmg = true
