@@ -32,6 +32,8 @@ open module com.unclezs.novel.app.main {
   requires static lombok;
   requires velocity.engine.core;
   requires jkeymaster;
+
+  // spi
   provides com.unclezs.novel.analyzer.request.spi.HttpProvider with WebEngineHttpClient;
 
   exports com.unclezs.novel.app.main;

@@ -9,4 +9,33 @@
   * {
     -fx-background-color: transparent !important;
   }
+
+  .context-menu {
+    -fx-background-color: -fx-base !important;
+
+    .icon, .label {
+      @include ladderTextFillForce(-fx-base);
+    }
+
+    .menu-item:hover, .menu-item:focused {
+      -fx-background-color: -fx-selected-color !important;
+
+      .icon, .label {
+        @include ladderTextFillForce(-fx-selected-color);
+      }
+    }
+  }
+}
+
+.text-area > .scroll-pane > .scroll-bar:vertical {
+  // 滚动条hover颜色
+  -fx-hover-color: #888;
+
+  .thumb {
+    -fx-background-color: -fx-color !important;
+
+    &:hover, &:pressed {
+      -fx-background-color: -fx-hover-color !important;
+    }
+  }
 }

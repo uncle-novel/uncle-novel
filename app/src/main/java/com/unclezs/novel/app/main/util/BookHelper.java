@@ -18,7 +18,7 @@ import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.model.BookBundle;
 import com.unclezs.novel.app.main.model.BookCache;
-import com.unclezs.novel.app.main.views.home.AnalysisDownloadView;
+import com.unclezs.novel.app.main.views.home.AnalysisView;
 import com.unclezs.novel.app.main.views.home.AudioBookShelfView;
 import com.unclezs.novel.app.main.views.home.DownloadManagerView;
 import com.unclezs.novel.app.main.views.home.FictionBookshelfView;
@@ -96,8 +96,8 @@ public class BookHelper {
    * @param novel 小说
    */
   public static void submitAnalysis(Novel novel) {
-    SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(AnalysisDownloadView.BUNDLE_KEY_NOVEL_INFO, novel);
-    AppContext.getView(AnalysisDownloadView.class).getNavigation().navigate(AnalysisDownloadView.class, bundle);
+    SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(AnalysisView.BUNDLE_KEY_NOVEL_INFO, novel);
+    AppContext.getView(AnalysisView.class).getNavigation().navigate(AnalysisView.class, bundle);
   }
 
   /**

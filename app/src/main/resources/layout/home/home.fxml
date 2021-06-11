@@ -41,7 +41,7 @@
       <SidebarMenuItem
         icon="analysis_download"
         text="%home.menu.download.analysis"
-        view="com.unclezs.novel.app.main.views.home.AnalysisDownloadView"/>
+        view="com.unclezs.novel.app.main.views.home.AnalysisView"/>
       <SidebarMenuItem
         icon="download_management"
         text="%home.menu.download.management"

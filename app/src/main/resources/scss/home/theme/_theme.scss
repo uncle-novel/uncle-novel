@@ -51,6 +51,14 @@
   -fx-hover-color: $theme-color-dark;
 }
 
+.text-area {
+  // 滚动条颜色
+  -fx-color: $theme-color-light;
+  // 滚动条hover颜色
+  -fx-hover-color: $theme-color-dark;
+  -fx-selected-color: $theme-color;
+}
+
 .jfx-slider {
   -jfx-default-thumb: $theme-color;
   -jfx-default-track: $theme-color-light;

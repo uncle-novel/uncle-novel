@@ -129,69 +129,6 @@
     }
   },
   {
-    "name": "完美至尊",
-    "site": "https://www.xinshuhaige.org/",
-    "enabled": true,
-    "audio": false,
-    "weight": 0,
-    "params": {},
-    "content": {
-      "content": {
-        "type": "auto:",
-        "rule": "1"
-      },
-      "next": {
-        "type": "xpath",
-        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
-      }
-    },
-    "toc": {
-      "list": {},
-      "name": {},
-      "url": {},
-      "next": {
-        "type": "xpath",
-        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
-      },
-      "enableNext": true,
-      "filter": true,
-      "sort": true,
-      "autoNext": true,
-      "forceNext": false
-    },
-    "detail": {
-      "title": {},
-      "author": {},
-      "broadcast": {},
-      "category": {},
-      "wordCount": {},
-      "introduce": {},
-      "latestChapterName": {},
-      "latestChapterUrl": {},
-      "coverUrl": {},
-      "state": {},
-      "updateTime": {}
-    },
-    "search": {
-      "list": {},
-      "detailPage": {},
-      "detail": {
-        "url": {},
-        "title": {},
-        "author": {},
-        "broadcast": {},
-        "category": {},
-        "wordCount": {},
-        "introduce": {},
-        "latestChapterName": {},
-        "latestChapterUrl": {},
-        "coverUrl": {},
-        "state": {},
-        "updateTime": {}
-      }
-    }
-  },
-  {
     "name": "妙笔阁",
     "site": "https://www.imiaobige.com/",
     "group": "有图",
@@ -386,7 +323,9 @@
     "enabled": false,
     "audio": false,
     "weight": 0,
-    "params": {},
+    "params": {
+      "dynamic": true
+    },
     "content": {
       "content": {
         "type": "auto:",
@@ -408,7 +347,7 @@
       "enableNext": true,
       "blackUrls": [],
       "filter": true,
-      "autoNext": true,
+      "autoNext": false,
       "forceNext": false
     },
     "detail": {
@@ -833,8 +772,9 @@
     }
   },
   {
-    "name": "_完美世界免费阅读_",
-    "site": "https://www.soshuw.com/",
+    "name": "环视小说",
+    "site": "https://www.h4xs.cc/",
+    "group": "",
     "enabled": true,
     "audio": false,
     "weight": 0,
@@ -850,19 +790,26 @@
       }
     },
     "toc": {
-      "list": {},
-      "name": {},
-      "url": {},
+      "list": {
+        "type": "css:",
+        "rule": ".post-title"
+      },
+      "name": {
+        "type": "css:",
+        "rule": "a@text"
+      },
+      "url": {
+        "type": "css:",
+        "rule": "a@href"
+      },
       "next": {
-        "type": "xpath",
-        "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
+        "type": "//",
+        "rule": "//*[@id=\"content\"]/div[2]/nav/ul/li[2]/a/@href"
       },
       "enableNext": true,
-      "blackUrls": [],
-      "filter": true,
-      "sort": true,
+      "filter": false,
       "autoNext": true,
-      "forceNext": false
+      "forceNext": true
     },
     "detail": {
       "title": {},
@@ -904,12 +851,12 @@
     "weight": 0,
     "params": {
       "dynamic": true,
-      "cookie": "_yep_uuid=f9f1a69d-4483-0936-fa18-026a8cd6b674; e2=%7B%22pid%22%3A%22qd_P_xiangqing%22%2C%22eid%22%3A%22%22%7D; e1=%7B%22pid%22%3A%22qd_P_xiangqing%22%2C%22eid%22%3A%22%22%2C%22l1%22%3A2%7D; _csrfToken=fZv0AQ23TMWdRtGTrwuwhvN1ZYlPWVshExFEkwgd; newstatisticUUID=1619406065_349900643; qdrs=0%7C3%7C0%7C0%7C1; qdgd=1; showSectionCommentGuide=1; rcr=1735921; lrbc=1735921%7C30194132%7C1; ywguid=1585503310; ywopenid=7387FAAE42281F44434B7CF4977CFD3E; e2=%7B%22pid%22%3A%22qd_P_qdlogin%22%2C%22eid%22%3A%22%22%7D; ywkey=yw3z11D2B3zE; e1=%7B%22pid%22%3A%22qd_p_qidian%22%2C%22eid%22%3A%22qd_A08%22%2C%22l1%22%3A1%7D"
+      "cookie": "_yep_uuid=7edb4d36-2af8-fa5a-4668-f006513a99e1; e1=%7B%22pid%22%3A%22qd_P_vipread%22%2C%22eid%22%3A%22%22%7D; e2=%7B%22pid%22%3A%22qd_P_vipread%22%2C%22eid%22%3A%22%22%7D; _csrfToken=fZv0AQ23TMWdRtGTrwuwhvN1ZYlPWVshExFEkwgd; newstatisticUUID=1619406065_349900643; qdrs=0%7C3%7C0%7C0%7C1; qdgd=1; showSectionCommentGuide=1; rcr=1735921; e1=%7B%22pid%22%3A%22qd_P_my_bookshelf%22%2C%22eid%22%3A%22qd_M198%22%2C%22l3%22%3A2%2C%22l2%22%3A3%2C%22l1%22%3A3%7D; e2=%7B%22pid%22%3A%22qd_P_recentread%22%2C%22eid%22%3A%22%22%2C%22l3%22%3A3%2C%22l1%22%3A3%7D; lrbc=1735921%7C30194132%7C1; pageOps=1; bc=1735921; ywguid=1585503310; ywkey=ywTDIcbvr4Nr; ywopenid=7387FAAE42281F44434B7CF4977CFD3E"
     },
     "content": {
       "content": {
-        "type": "auto:",
-        "rule": "1"
+        "type": "css:",
+        "rule": ".read-content.j_readContent .content-wrap@text"
       },
       "next": {
         "type": "xpath",
@@ -917,16 +864,25 @@
       }
     },
     "toc": {
-      "list": {},
-      "name": {},
-      "url": {},
+      "list": {
+        "type": "//",
+        "rule": "//a[@data-eid='qd_G55']"
+      },
+      "name": {
+        "type": "//",
+        "rule": "text()"
+      },
+      "url": {
+        "type": "//",
+        "rule": "@href"
+      },
       "next": {
         "type": "xpath",
         "rule": "//a[text()~='.*?下[一]{0,1}[页节].*']/@href"
       },
-      "enableNext": true,
-      "filter": true,
-      "autoNext": true,
+      "enableNext": false,
+      "filter": false,
+      "autoNext": false,
       "forceNext": false
     },
     "detail": {

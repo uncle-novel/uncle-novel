@@ -1,7 +1,6 @@
 package com.unclezs.novel.app.main.views.home;
 
 import cn.hutool.core.io.FileUtil;
-import com.google.gson.reflect.TypeToken;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.spider.Spider;
 import com.unclezs.novel.analyzer.util.FileUtils;
@@ -55,6 +54,7 @@ public class DownloadManagerView extends SidebarView<StackPane> {
    * 要下载的小说
    */
   public static final String BUNDLE_DOWNLOAD_KEY = "bundle_download_key";
+  public static final File TMP_DIR = ResourceManager.cacheFile("downloads");
   /**
    * 下载历史DAO
    */
@@ -75,17 +75,12 @@ public class DownloadManagerView extends SidebarView<StackPane> {
   @Override
   public void onCreated() {
     createTasksTableColumns();
-    restoreBackup();
+    restore();
     // 最大任务数量控制
     tasksTable.getItems().addListener((Observable observable) -> runTask());
     SettingManager.manager().getDownload().getTaskNum().addListener(e -> runTask());
     historyTab.setOnAction(e -> container.getChildren().setAll(getHistoryPanel()));
     tasksTab.setOnAction(e -> container.getChildren().setAll(tasksPanel));
-  }
-
-  @Override
-  public void onDestroy() {
-    backup();
   }
 
   @Override
@@ -186,6 +181,8 @@ public class DownloadManagerView extends SidebarView<StackPane> {
    * 处理完成后
    */
   public void onCompleted(SpiderWrapper wrapper) {
+    // 删除缓存
+    FileUtil.del(FileUtil.file(DownloadManagerView.TMP_DIR, wrapper.getId()));
     // 移除任务
     tasksTable.getItems().remove(wrapper);
     // 保存下载历史，不存在下载历史页面则直接入库
@@ -251,34 +248,6 @@ public class DownloadManagerView extends SidebarView<StackPane> {
   }
 
   /**
-   * 备份下载任务
-   */
-  private void backup() {
-    if (!tasksTable.getItems().isEmpty()) {
-      File file = ResourceManager.cacheFile("downloads.json");
-      ArrayList<SpiderWrapper> downloadTasks = new ArrayList<>(tasksTable.getItems());
-      downloadTasks.forEach(SpiderWrapper::pause);
-      String tmp = PropertyJsonSerializer.toJson(downloadTasks);
-      FileUtil.writeUtf8String(tmp, file);
-    }
-  }
-
-  /**
-   * 恢复备份任务
-   */
-  private void restoreBackup() {
-    File file = ResourceManager.cacheFile("downloads.json");
-    if (file.exists()) {
-      List<SpiderWrapper> tasks = PropertyJsonSerializer.GSON.fromJson(FileUtil.readUtf8String(file), new TypeToken<List<SpiderWrapper>>() {
-      }.getType());
-      tasksTable.getItems().addAll(tasks);
-      // 完成时
-      tasks.forEach(task -> task.init(this::onCompleted));
-      FileUtil.del(file);
-    }
-  }
-
-  /**
    * 剩余可以运行的任务数量
    *
    * @return 任务数量
@@ -287,5 +256,25 @@ public class DownloadManagerView extends SidebarView<StackPane> {
     Integer maxTaskNum = SettingManager.manager().getDownload().getTaskNum().get();
     long currentRunning = tasksTable.getItems().stream().filter(task -> task.isState(Spider.RUNNING)).count();
     return (int) (maxTaskNum - currentRunning);
+  }
+
+
+  /**
+   * 从临时文件中恢复下载任务
+   */
+  public void restore() {
+    if (FileUtil.exist(TMP_DIR)) {
+      List<String> names = FileUtil.listFileNames(TMP_DIR.getAbsolutePath());
+      List<SpiderWrapper> tasks = new ArrayList<>();
+      for (String name : names) {
+        String json = FileUtil.readUtf8String(FileUtil.file(TMP_DIR, name));
+        SpiderWrapper task = PropertyJsonSerializer.fromJson(json, SpiderWrapper.class);
+        task.setId(name);
+        task.init(this::onCompleted);
+        task.pause();
+        tasks.add(task);
+      }
+      tasksTable.getItems().setAll(tasks);
+    }
   }
 }

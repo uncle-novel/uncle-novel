@@ -183,7 +183,7 @@ public class SearchNetworkView extends SidebarView<StackPane> {
     }
     Novel novel = new Novel();
     novel.setUrl(engine.getLocation());
-    navigation.navigate(AnalysisDownloadView.class, new SidebarNavigateBundle().put(AnalysisDownloadView.BUNDLE_KEY_NOVEL_INFO, novel));
+    navigation.navigate(AnalysisView.class, new SidebarNavigateBundle().put(AnalysisView.BUNDLE_KEY_NOVEL_INFO, novel));
   }
 
   /**

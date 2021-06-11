@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns="https://javafx.com/javafx" styleClass="analysis-download" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.views.home.AnalysisDownloadView">
+<StackPane xmlns="https://javafx.com/javafx" styleClass="analysis-download" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.views.home.AnalysisView">
   <VBox styleClass="container">
     <TitleBar title="%home.menu.download.analysis">
       <content>
@@ -42,6 +42,11 @@
                 <MenuItem text="格式化章节名" onAction="#renameChapterNames">
                   <graphic>
                     <Icon value="rename"/>
+                  </graphic>
+                </MenuItem>
+                <MenuItem text="章节排序" onAction="#sortToc">
+                  <graphic>
+                    <Icon value="sort"/>
                   </graphic>
                 </MenuItem>
                 <MenuItem text="章节逆序" onAction="#reverseToc">

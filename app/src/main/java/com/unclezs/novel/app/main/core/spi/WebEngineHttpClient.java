@@ -23,7 +23,7 @@ import javafx.concurrent.Worker.State;
 import javafx.scene.web.WebEngine;
 
 /**
- * 采用openjfx的webEngine抓取动态网页，只支持单线程，多线程开销太大，性能太低
+ * 采用openjfx的webEngine抓取动态网页，如果开始后页面切换可能会出现卡顿
  *
  * @author blog.unclezs.com
  * @date 2021/4/26 11:58
@@ -71,9 +71,12 @@ public class WebEngineHttpClient implements HttpProvider {
     }
     AtomicReference<String> content = new AtomicReference<>();
     CountDownLatch countDownLatch = new CountDownLatch(1);
+    // 持有引用，防止被回收
+    AtomicReference<WebEngine> webEngineAtomicReference = new AtomicReference<>();
     // 开始加载
     Executor.runFx(() -> {
       WebEngine engine = new WebEngine();
+      webEngineAtomicReference.set(engine);
       setCookies(params);
       engine.getLoadWorker().stateProperty().addListener(new ChangeListener<>() {
         @Override
@@ -100,6 +103,8 @@ public class WebEngineHttpClient implements HttpProvider {
       success = countDownLatch.await(MAX_WAIT_TIME, TimeUnit.SECONDS);
       if (success) {
         return content.get();
+      } else {
+        webEngineAtomicReference.set(null);
       }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();

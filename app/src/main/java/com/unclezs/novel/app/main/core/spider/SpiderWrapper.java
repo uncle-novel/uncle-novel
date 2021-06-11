@@ -1,14 +1,18 @@
 package com.unclezs.novel.app.main.core.spider;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
 import com.unclezs.novel.analyzer.spider.Spider;
 import com.unclezs.novel.analyzer.spider.pipline.MediaFilePipeline;
 import com.unclezs.novel.analyzer.spider.pipline.TxtPipeline;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.executor.Executor;
+import com.unclezs.novel.app.framework.serialize.PropertyJsonSerializer;
 import com.unclezs.novel.app.main.core.pipeline.EbookPipeline;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.config.DownloadConfig;
 import com.unclezs.novel.app.main.views.home.DownloadManagerView;
+import java.io.File;
 import java.io.Serializable;
 import java.util.function.Consumer;
 import javafx.beans.property.ObjectProperty;
@@ -62,6 +66,14 @@ public class SpiderWrapper implements Serializable {
    */
   private String name;
   /**
+   * 唯一任务ID
+   */
+  private String id;
+  /**
+   * 任务临时文件
+   */
+  private transient File tmpFile;
+  /**
    * 完成时回调，反序列化后需要手动重新设置
    */
   @Setter
@@ -75,6 +87,10 @@ public class SpiderWrapper implements Serializable {
     this.progressText = new SimpleObjectProperty<>();
     this.errorCount = new SimpleObjectProperty<>();
     this.state = new SimpleObjectProperty<>(WAIT_RUN);
+    if (this.id == null) {
+      this.id = IdUtil.fastSimpleUUID();
+    }
+    setId(id);
   }
 
   /**
@@ -108,6 +124,7 @@ public class SpiderWrapper implements Serializable {
     this.name = spider.getNovel().getTitle();
     // 事件监听
     spider.setProgressChangeHandler((numberProgress, textProgress) -> {
+      backup();
       Executor.runFx(() -> {
         progress.set(numberProgress);
         progressText.set(textProgress);
@@ -258,5 +275,20 @@ public class SpiderWrapper implements Serializable {
   public void save() {
     this.spider.setIgnoreError(true);
     runTask();
+  }
+
+  /**
+   * 设置ID
+   */
+  public void setId(String id) {
+    this.id = id;
+    this.tmpFile = FileUtil.file(DownloadManagerView.TMP_DIR, id);
+  }
+
+  /**
+   * 保存临时文件
+   */
+  private void backup() {
+    FileUtil.writeUtf8String(PropertyJsonSerializer.toJson(this), tmpFile);
   }
 }

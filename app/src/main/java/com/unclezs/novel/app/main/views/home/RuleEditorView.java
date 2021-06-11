@@ -26,6 +26,7 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
+import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.views.components.rule.CommonRuleEditor;
 import com.unclezs.novel.app.main.views.components.rule.ParamsEditor;
@@ -340,6 +341,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
    */
   private VBox createDebugBox(String promptText, BiConsumer<RuleTester, String> starter) {
     TextArea console = new TextArea();
+    NodeHelper.addClass(console, "rule-debug-console");
     console.setWrapText(true);
     VBox debugBox = new VBox();
     debugBox.setSpacing(10);

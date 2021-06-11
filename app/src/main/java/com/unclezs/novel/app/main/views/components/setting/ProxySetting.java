@@ -44,7 +44,7 @@ public class ProxySetting extends SettingItems {
     JFXCheckBox httpProxyCheckBox = new JFXCheckBox(LocalizedSupport.app("setting.proxy.enabled"));
     ObjectProperty<Boolean> httpProxy = proxyConfig.getHttpProxy();
     httpProxyCheckBox.selectedProperty().bindBidirectional(httpProxy);
-    httpProxy.addListener(e -> ProxyUtils.setEnabledProxy(httpProxy.get()));
+    httpProxy.addListener(e -> ProxyConfig.initHttpProxy());
     // 主机
     TextField host = new TextField();
     host.setPromptText(LocalizedSupport.app("setting.proxy.host"));

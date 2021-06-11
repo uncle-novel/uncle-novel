@@ -72,6 +72,7 @@ public enum IconFont {
   READ('\ue61f'),
   GO_BACK('\ue6ab'),
   RULE_AUDIO('\ue657'),
+  SORT('\ue628'),
   ALIGN_RIGHT('\ue620'),
   PAUSE('\ue60f'),
   PLUS('\ue790'),

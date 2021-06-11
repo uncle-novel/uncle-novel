@@ -6,13 +6,13 @@
   },
   "download": {
     "folder": "G:\\tmp",
-    "threadNum": 1,
+    "threadNum": 10,
     "taskNum": 1,
     "retryNum": 0,
     "volume": true,
     "mobi": false,
     "txt": true,
-    "epub": true
+    "epub": false
   },
   "reader": {
     "themeName": "default",
@@ -31,7 +31,7 @@
     "stageHeight": 700.0
   },
   "bookShelf": {
-    "group": "有N",
+    "group": "全部",
     "autoUpdate": false
   },
   "backup": {

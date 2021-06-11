@@ -6,6 +6,7 @@ import com.unclezs.novel.app.main.model.ChapterProperty;
 import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
 
 /**
@@ -16,6 +17,7 @@ import javafx.scene.control.CheckBox;
  */
 public class ChapterListCell extends BaseListCell<ChapterProperty> {
 
+  public static final String LOAD_MORE = "加载更多";
   private final CheckBox checkBox = new JFXCheckBox();
   private ObservableValue<Boolean> booleanProperty;
 
@@ -36,7 +38,15 @@ public class ChapterListCell extends BaseListCell<ChapterProperty> {
 
   @Override
   protected void updateItem(ChapterProperty item) {
-    setGraphic(checkBox);
+    if (item.getChapter() == null) {
+      setGraphic(null);
+      setText(LOAD_MORE);
+      setAlignment(Pos.CENTER);
+    } else {
+      setGraphic(checkBox);
+      setText(item.getChapter().getName());
+      setAlignment(Pos.CENTER_LEFT);
+    }
     if (booleanProperty != null) {
       checkBox.selectedProperty().unbindBidirectional((BooleanProperty) booleanProperty);
     }
@@ -44,6 +54,5 @@ public class ChapterListCell extends BaseListCell<ChapterProperty> {
     if (booleanProperty != null) {
       checkBox.selectedProperty().bindBidirectional((BooleanProperty) booleanProperty);
     }
-    setText(item.getChapter().getName());
   }
 }

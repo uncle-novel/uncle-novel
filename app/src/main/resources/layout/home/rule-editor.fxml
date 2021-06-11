@@ -132,11 +132,14 @@
           <RuleItem name="翻页规则">
             <InputBox userData="toc.next"/>
           </RuleItem>
+          <RuleItem name="启用翻页">
+            <JFXCheckBox userData="toc.enableNext"/>
+          </RuleItem>
           <RuleItem name="自动翻页">
             <JFXCheckBox userData="toc.autoNext"/>
           </RuleItem>
-          <RuleItem name="启用翻页">
-            <JFXCheckBox userData="toc.enableNext"/>
+          <RuleItem name="强制翻页">
+            <JFXCheckBox userData="toc.forceNext"/>
           </RuleItem>
           <RuleItem name="章节过滤">
             <JFXCheckBox userData="toc.filter"/>
@@ -205,6 +208,9 @@
           </RuleItem>
           <RuleItem name="启用翻页">
             <JFXCheckBox userData="content.enableNext"/>
+          </RuleItem>
+          <RuleItem name="移除章节标题">
+            <JFXCheckBox userData="content.removeTitle"/>
           </RuleItem>
         </RuleItems>
       </VBox>

@@ -11,6 +11,7 @@ import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.core.spider.SpiderWrapper;
 import com.unclezs.novel.app.main.util.EbookUtils;
+import com.unclezs.novel.app.main.views.home.DownloadManagerView;
 import java.io.File;
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.TableCell;
@@ -69,8 +70,12 @@ public class DownloadActionTableCell extends TableCell<SpiderWrapper, SpiderWrap
       item.stop();
       getTableView().getItems().remove(item);
       // 删除临时文件
-      FileUtil.del(FileUtil.file(savePath, name));
-      FileUtil.del(FileUtil.file(savePath, name + EbookUtils.EBOOK_TMP_SUFFIX));
+      if (StringUtils.isNotBlank(savePath) && StringUtils.isNotBlank(name)) {
+        FileUtil.del(FileUtil.file(savePath, name));
+        FileUtil.del(FileUtil.file(savePath, name + EbookUtils.EBOOK_TMP_SUFFIX));
+      }
+      // 删除缓存
+      FileUtil.del(FileUtil.file(DownloadManagerView.TMP_DIR, item.getId()));
     });
     folder.setOnMouseClicked(e -> DesktopUtils.openDir(new File(item.getSpider().getSavePath())));
     // 状态监听
