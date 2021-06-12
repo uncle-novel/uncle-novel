@@ -26,12 +26,19 @@ public abstract class BaseApplication extends Application {
    * 当前view
    */
   protected SceneView<? extends Region> currentView;
-  private Stage stage;
   /**
    * 舞台坐标，切换舞台场景时使用
    */
   protected double stageX = -1;
   protected double stageY = -1;
+  private Stage stage;
+
+  /**
+   * 停止应用，销毁上下文
+   */
+  public static void destroy() {
+    AppContext.getInstance().destroy();
+  }
 
   /**
    * 返回首页 初次自动加载
@@ -62,14 +69,6 @@ public abstract class BaseApplication extends Application {
     loadSceneView(getIndexView());
     initScene();
     getIndexView().onShow(new SceneNavigateBundle());
-  }
-
-  /**
-   * 停止应用，销毁上下文
-   */
-  @Override
-  public void stop() {
-    AppContext.getInstance().destroy();
   }
 
   /**

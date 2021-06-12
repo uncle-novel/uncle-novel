@@ -32,7 +32,7 @@
     "stageHeight": 700.0
   },
   "bookShelf": {
-    "group": "完本",
+    "group": "全部",
     "autoUpdate": false
   },
   "backup": {

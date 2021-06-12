@@ -1,6 +1,5 @@
 package com.unclezs.novel.app.main;
 
-import com.unclezs.novel.analyzer.common.concurrent.ThreadUtils;
 import com.unclezs.novel.app.framework.appication.BaseApplication;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.core.AppContext;
@@ -68,14 +67,6 @@ public class App extends BaseApplication {
   }
 
   /**
-   * 提交退出事件
-   */
-  public static void requestExit() {
-    Platform.setImplicitExit(true);
-    stage().fireEvent(new WindowEvent(stage(), WindowEvent.WINDOW_CLOSE_REQUEST));
-  }
-
-  /**
    * 显示窗口
    */
   public static void requestShow() {
@@ -92,6 +83,19 @@ public class App extends BaseApplication {
   public static void tray() {
     Platform.setImplicitExit(false);
     stage().fireEvent(new WindowEvent(stage(), WindowEvent.WINDOW_CLOSE_REQUEST));
+  }
+
+  /**
+   * App停止事件处理
+   */
+  public static void stopApp() {
+    Platform.setImplicitExit(true);
+    stage().fireEvent(new WindowEvent(stage(), WindowEvent.WINDOW_CLOSE_REQUEST));
+    destroy();
+    SettingManager.save();
+    // 释放全局热键
+    HotKeyManager.unbind();
+    System.exit(0);
   }
 
   /**
@@ -126,19 +130,6 @@ public class App extends BaseApplication {
     stage.show();
     UpdateUtils.checkForUpdate(stage);
     log.trace("启动耗时：{}ms", (System.currentTimeMillis() - start));
-  }
-
-  /**
-   * App停止事件处理
-   */
-  @Override
-  public void stop() {
-    super.stop();
-    SettingManager.save();
-    // 释放全局热键
-    ThreadUtils.newThread(HotKeyManager::unbind, false).start();
-    Platform.exit();
-    System.exit(0);
   }
 
   /**

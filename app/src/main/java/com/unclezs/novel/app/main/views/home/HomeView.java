@@ -51,7 +51,7 @@ public class HomeView extends SceneView<StageDecorator> {
     if (Boolean.TRUE.equals(SettingManager.manager().getBasic().getTray().get())) {
       App.tray();
     } else {
-      App.requestExit();
+      App.stopApp();
     }
   }
 }

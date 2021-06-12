@@ -113,10 +113,10 @@ packager {
         configPath = "conf/app.json"
         appName = packager.name
         version = project.version
-        changeLog = ["完善打1111包", "了寂寞"]
+        changeLog = ["1.修复了一些问题","2.测试版本更新"]
         launchModule = "com.unclezs.novel.app.main"
         launchClass = "com.unclezs.novel.app.main.App"
-        moduleOptions = file("$projectDir/app.modularity").readLines().stream().filter(arg -> arg.startsWith("--")).collect()
+        moduleOptions = file("$projectDir/app.modularity").readLines()
         return launcher
     }
 }

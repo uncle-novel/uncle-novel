@@ -6,4 +6,4 @@
 --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix
 --add-exports=javafx.controls/com.sun.javafx.scene.control=com.jfoenix
 --add-exports=javafx.controls/com.sun.javafx.scene.control.skin=com.unclezs.novel.app.main
-//--add-opens=com.jfoenix/com.jfoenix.controls=com.unclezs.novel.app.framework
+--add-opens=com.jfoenix/com.jfoenix.controls=com.unclezs.novel.app.framework
