@@ -7,7 +7,9 @@ import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.core.View;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.main.manager.ResourceManager;
+import com.unclezs.novel.app.main.manager.SettingManager;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -22,6 +24,14 @@ import javafx.scene.layout.VBox;
 @FxView(fxml = "/layout/home/header-menu.fxml")
 public class HeaderMenuView extends View<JFXPopup> {
 
+  public static final String GITHUB = "https://github.com/unclezs/NovelHarvester";
+  /**
+   * 免责声明
+   */
+  private static final String DISCLAIMERS = "https://app.unclezs.com/common/disclaimers.html";
+  public static final String LOGS_DIR = "logs";
+  public static final String FEEDBACK_URL = "https://support.qq.com/products/169599";
+  public static final String CHANGE_LOG_URL = "https://unclezs.gitee.io/service/%E6%9B%B4%E6%96%B0%E8%AF%B4%E6%98%8E.html";
   @FXML
   private JFXPopup popup;
 
@@ -30,9 +40,8 @@ public class HeaderMenuView extends View<JFXPopup> {
    */
   @FXML
   public void github() {
-    DesktopUtils.openBrowse("https://github.com/unclezs/NovelHarvester");
+    DesktopUtils.openBrowse(GITHUB);
   }
-
 
   /**
    * 打赏
@@ -55,16 +64,15 @@ public class HeaderMenuView extends View<JFXPopup> {
   @FXML
   public void about() {
     VBox box = new VBox();
-//    if (App.versionInfo != null) {
-    box.getChildren().add(new Label(String.format("当前版本：%s\n\n", "5.0.0")));
-//    }
-    box.getChildren().add(new Label("Uncle小说软件是@Uncle业余时间兴趣开发，软件完全免费且开源，可以下载全网小说也可以在线阅读\n\n"));
-    box.getChildren().add(new Label("开发者 QQ：1585503310\n微信：z1585503310"));
-    HBox qgBox = new HBox();
-    Label qg = new Label("问题反馈QQ群：");
-    Hyperlink qgLink = new Hyperlink("774716671");
-    qgBox.getChildren().addAll(qg, qgLink);
-    qgLink.setOnAction(e -> DesktopUtils.openBrowse("https://shang.qq.com/wpa/qunwpa?idkey=e49493cef7cb08f05a60d84feed2338ddbde2930cae9deac75b7f3b7f4fac697"));
+    box.setSpacing(10);
+    box.getChildren().add(new Label(String.format("当前版本：%s", SettingManager.manager().getVersion())));
+    box.getChildren().add(new Label("Uncle小说软件是@Unclezs业余时间兴趣开发，软件完全免费且开源，可以下载全网小说也可以在线阅读"));
+    box.getChildren().add(new Label("邮箱：unclezs@qq.com"));
+    Label qqGroupLabel = new Label("问题反馈QQ群：");
+    Hyperlink qqGroupLink = new Hyperlink("774716671");
+    qqGroupLink.setOnAction(e -> DesktopUtils.openBrowse("https://shang.qq.com/wpa/qunwpa?idkey=e49493cef7cb08f05a60d84feed2338ddbde2930cae9deac75b7f3b7f4fac697"));
+    HBox qgBox = new HBox(qqGroupLabel, qqGroupLink);
+    qgBox.setAlignment(Pos.CENTER_LEFT);
     box.getChildren().add(qgBox);
     ModalBox.none().title("关于").body(box).show();
   }
@@ -75,7 +83,7 @@ public class HeaderMenuView extends View<JFXPopup> {
    */
   @FXML
   private void statement() {
-    ModalBox.none().title("免责声明").message("软件仅供技术交流，请勿用于商业及非法用途，\n" + "如产生法律纠纷与本人无关，如有侵权请联系我删除.").show();
+    DesktopUtils.openBrowse(DISCLAIMERS);
   }
 
   /**
@@ -83,7 +91,7 @@ public class HeaderMenuView extends View<JFXPopup> {
    */
   @FXML
   private void update() {
-    DesktopUtils.openBrowse("https://unclezs.gitee.io/service/%E6%9B%B4%E6%96%B0%E8%AF%B4%E6%98%8E.html");
+    DesktopUtils.openBrowse(CHANGE_LOG_URL);
   }
 
   /**
@@ -91,7 +99,7 @@ public class HeaderMenuView extends View<JFXPopup> {
    */
   @FXML
   private void showLog() {
-    DesktopUtils.openDir(FileUtil.file(ResourceManager.WORK_DIR, "logs"));
+    DesktopUtils.openDir(FileUtil.file(ResourceManager.WORK_DIR, LOGS_DIR));
   }
 
   /**
@@ -99,6 +107,6 @@ public class HeaderMenuView extends View<JFXPopup> {
    */
   @FXML
   private void feedback() {
-    DesktopUtils.openBrowse("https://support.qq.com/products/169599");
+    DesktopUtils.openBrowse(FEEDBACK_URL);
   }
 }

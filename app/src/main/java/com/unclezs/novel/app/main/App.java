@@ -1,23 +1,18 @@
 package com.unclezs.novel.app.main;
 
-import cn.hutool.core.util.StrUtil;
-import com.jfoenix.utils.JFXUtilities;
+import com.unclezs.novel.analyzer.common.concurrent.ThreadUtils;
 import com.unclezs.novel.app.framework.appication.BaseApplication;
 import com.unclezs.novel.app.framework.appication.SceneView;
-import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.core.AppContext;
-import com.unclezs.novel.app.framework.exception.FxException;
-import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.support.fonts.FontsLoader;
+import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.HotkeyManager;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.util.TrayManager;
+import com.unclezs.novel.app.main.util.UpdateUtils;
 import com.unclezs.novel.app.main.views.home.HomeView;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javafx.application.Platform;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
@@ -56,12 +51,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class App extends BaseApplication {
 
-  /**
-   * jfx-launcher更新参数
-   */
-  public static final String CHANGE_LOG_KEY = "changeLog";
-  public static final String VERSION_KEY = "version";
   public static final String NAME = "Uncle小说";
+  long start;
 
   public static void main(String[] args) {
     launch(args);
@@ -110,6 +101,7 @@ public class App extends BaseApplication {
    */
   @Override
   public void init() throws Exception {
+    start = System.currentTimeMillis();
     super.init();
     SettingManager.init();
     // 初始化托盘图标
@@ -120,17 +112,20 @@ public class App extends BaseApplication {
     FontsLoader.loadFonts(ResourceManager.FONTS_DIR);
   }
 
+  /**
+   * 启动
+   *
+   * @param stage 舞台
+   * @throws Exception 启动失败
+   */
   @Override
-  public void start(Stage stage) {
-    try {
-      super.start(stage);
-      initStage(stage);
-      stage.show();
-      checkForUpdate(stage);
-    } catch (Throwable e) {
-      e.printStackTrace();
-      throw new FxException(e);
-    }
+  public void start(Stage stage) throws Exception {
+    super.init();
+    super.start(stage);
+    initStage(stage);
+    stage.show();
+    UpdateUtils.checkForUpdate(stage);
+    log.trace("启动耗时：{}ms", (System.currentTimeMillis() - start));
   }
 
   /**
@@ -140,17 +135,17 @@ public class App extends BaseApplication {
   public void stop() {
     super.stop();
     SettingManager.save();
+    // 释放全局热键
+    ThreadUtils.newThread(HotKeyManager::unbind, false).start();
     Platform.exit();
     System.exit(0);
   }
 
-  private void mockUpdate(Stage stage) {
-    Map<String, Object> map = new HashMap<>();
-    map.put(CHANGE_LOG_KEY, List.of("我是谁呢", "你又是谁呢"));
-    map.put(VERSION_KEY, "5.5.54");
-    stage.setUserData(map);
-  }
-
+  /**
+   * 初始化舞台
+   *
+   * @param stage 舞台
+   */
   private void initStage(Stage stage) {
     stage.initStyle(StageStyle.TRANSPARENT);
     // 图标
@@ -160,32 +155,13 @@ public class App extends BaseApplication {
     }
   }
 
+  /**
+   * 首页
+   *
+   * @return 首页 HomeView
+   */
   @Override
   public SceneView<? extends Region> getIndexView() {
-//    return AppContext.getView(ReaderView.class);
     return AppContext.getView(HomeView.class);
-  }
-
-  /**
-   * 检测更新，有新版本则显示更新内容
-   *
-   * @param stage 舞台
-   */
-  @SuppressWarnings("unchecked")
-  public void checkForUpdate(Stage stage) {
-    Object userData = stage.getUserData();
-    if (userData == null) {
-      return;
-    }
-    Executor.run(() -> {
-      Map<String, Object> data = (Map<String, Object>) userData;
-      List<String> changeLog = (List<String>) data.get(CHANGE_LOG_KEY);
-      StringBuilder whatNew = new StringBuilder();
-      for (String newItem : changeLog) {
-        whatNew.append(newItem).append(StrUtil.LF);
-      }
-      String version = (String) data.get(VERSION_KEY);
-      Executor.run(() -> JFXUtilities.runInFX(() -> ModalBox.none().cancel("了解了").message(whatNew.toString()).title("更新内容 - V".concat(version)).show()), 1000);
-    });
   }
 }

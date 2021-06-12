@@ -6,7 +6,6 @@ import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.FileSelector;
 import com.unclezs.novel.app.framework.components.Toast;
-import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
 import com.unclezs.novel.app.framework.support.hotkey.KeyRecorder;
@@ -110,11 +109,6 @@ public class SettingView extends SidebarView<StackPane> {
     initDownloadConfig();
     // 调式模式
     initDebugMode();
-  }
-
-
-  @Override
-  public void onShow(SidebarNavigateBundle bundle) {
   }
 
   /**

@@ -34,6 +34,11 @@ public class SidebarMenuItem extends SelectableButton {
     setOnAction(e -> {
       SidebarNavigateBundle bundle = new SidebarNavigateBundle();
       bundle.setMenuTrigger(true);
+      // 未加载则加载
+      if (sidebarView == null) {
+        this.sidebarView = AppContext.getView(ReflectUtils.forName(view));
+        this.sidebarView.setNavigation(navigation);
+      }
       navigation.navigate(sidebarView, bundle);
     });
   }
@@ -45,6 +50,7 @@ public class SidebarMenuItem extends SelectableButton {
    */
   public void setView(String view) {
     this.view = view;
+    // 注释掉此行则进行导航栏页面懒加载
     this.sidebarView = AppContext.getView(ReflectUtils.forName(view));
   }
 }

@@ -25,9 +25,10 @@ public class ParamsEditor extends VBox {
     dynamicCheckbox.setSelected(Boolean.TRUE.equals(params.getDynamic()));
     addItem("动态网页", dynamicCheckbox).selectedProperty().addListener((ov, o, n) -> params.setDynamic(n));
 
-    CheckBox enableProxyCheckbox = new JFXCheckBox();
-    enableProxyCheckbox.setSelected(Boolean.TRUE.equals(params.getEnableProxy()));
-    addItem("启用代理", enableProxyCheckbox).selectedProperty().addListener((ov, o, n) -> params.setEnableProxy(n));
+    // 代理支持
+    // CheckBox enableProxyCheckbox = new JFXCheckBox();
+    // enableProxyCheckbox.setSelected(Boolean.TRUE.equals(params.getEnableProxy()));
+    // addItem("启用代理", enableProxyCheckbox).selectedProperty().addListener((ov, o, n) -> params.setEnableProxy(n));
 
     ComboBox<String> methodBox = new ComboBox<>(FXCollections.observableArrayList("GET", "POST"));
     methodBox.setValue(params.getMethod());

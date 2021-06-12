@@ -47,7 +47,6 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 public class SearchNetworkView extends SidebarView<StackPane> {
 
-
   public static final String KEYWORD = "{{keyword}}";
   @FXML
   private JFXProgressBar progress;
@@ -102,6 +101,8 @@ public class SearchNetworkView extends SidebarView<StackPane> {
     if (StringUtils.isBlank(searchBar.getCurrentType()) && !types.isEmpty()) {
       searchBar.setType(types.get(0));
     }
+    // 获取焦点
+    Executor.runFx(() -> searchBar.getInput().requestFocus(), 100);
   }
 
   @Override

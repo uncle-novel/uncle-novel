@@ -30,7 +30,7 @@
   <property name="total_size_cap" value="${totalSizeCap :- 0}"/>
   <property name="history_time" value="${historyTime :- yyyy-MM-dd}"/>
   <property name="app_name" value="${appName :- log}"/>
-
+  <timestamp datePattern="yyyy-MM-dd" key="today"/>
   <!--属性部分-->
   <!--日志文件路径-->
   <appender class="ch.qos.logback.core.ConsoleAppender" name="console">
@@ -113,7 +113,7 @@
       <fileNamePattern>${log_path}/error/%d{${history_time}}-error.log</fileNamePattern>
     </rollingPolicy>
   </appender>
-  <!--历史文件抽离单独保存的时间周期  按天：yyyy-MM-dd 按月:yyyy-MM 按年:yyyy 时分秒类推 -->
+
   <logger additivity="false" level="trace" name="com.unclezs">
     <appender-ref ref="debug"/>
     <appender-ref ref="info"/>
@@ -121,10 +121,7 @@
     <appender-ref ref="error"/>
     <appender-ref ref="console"/>
   </logger>
-
-  <!--Logger部分-->
-  <root level="trace">
+  <root level="off">
     <appender-ref ref="console"/>
   </root>
-  <timestamp datePattern="yyyy-MM-dd" key="today"/>
 </configuration>

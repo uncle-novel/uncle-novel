@@ -53,9 +53,9 @@
           <RuleItem name="启用动态网页">
             <JFXCheckBox userData="params.dynamic"/>
           </RuleItem>
-          <RuleItem name="启用代理">
+          <!--<RuleItem name="启用代理">
             <JFXCheckBox userData="params.enabledProxy"/>
-          </RuleItem>
+          </RuleItem>-->
           <RuleItem name="Cookie">
             <TextField userData="params.cookie" fx:id="cookieField"/>
             <IconButton icon="cookies" text="获取" onAction="#getCookie" styleClass="btn"/>

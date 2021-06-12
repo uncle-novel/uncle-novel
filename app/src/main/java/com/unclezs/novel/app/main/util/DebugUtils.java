@@ -6,6 +6,7 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.joran.JoranConfigurator;
 import ch.qos.logback.core.joran.spi.JoranException;
 import ch.qos.logback.core.util.StatusPrinter;
+import java.util.Objects;
 import lombok.experimental.UtilityClass;
 import org.slf4j.LoggerFactory;
 
@@ -91,7 +92,7 @@ public class DebugUtils {
       configurator.setContext(context);
       context.reset();
       if (configInClasspath != null && !configInClasspath.isEmpty()) {
-        configurator.doConfigure(DebugUtils.class.getResource(configInClasspath));
+        configurator.doConfigure(Objects.requireNonNull(DebugUtils.class.getResource(configInClasspath)));
       }
     } catch (JoranException ignored) {
       StatusPrinter.print(context);

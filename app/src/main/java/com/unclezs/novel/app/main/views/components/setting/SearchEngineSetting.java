@@ -15,6 +15,7 @@ import com.unclezs.novel.app.main.views.components.cell.ActionButtonTableCell;
 import com.unclezs.novel.app.main.views.components.cell.CheckBoxTableCell;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -120,8 +121,12 @@ public class SearchEngineSetting extends VBox implements LocalizedSupport {
    * @param index   当前行
    */
   private void onSearchEngineEnabledChange(Boolean enabled, int index) {
-    SearchEngineDao.me().update(table.getItems().get(index));
-    table.getItems().get(index).setEnabled(Boolean.TRUE.equals(enabled));
+    SearchEngine engine = table.getItems().get(index);
+    if (Objects.equals(engine.getEnabled(), enabled)) {
+      return;
+    }
+    SearchEngineDao.me().update(engine);
+    engine.setEnabled(Boolean.TRUE.equals(enabled));
   }
 
   /**

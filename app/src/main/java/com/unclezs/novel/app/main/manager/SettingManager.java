@@ -35,6 +35,7 @@ public class SettingManager {
    * 初始化默认的设置管理器
    */
   private static SettingManager manager;
+  private String version = "5.0";
   /**
    * 基本设置
    */

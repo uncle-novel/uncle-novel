@@ -4,6 +4,7 @@ import proguard.gradle.ProGuardTask
 
 // prod / dev
 def profile = "dev"
+def debug = "dev" == profile
 buildscript {
     repositories {
         mavenCentral()
@@ -14,7 +15,6 @@ buildscript {
 }
 
 dependencies {
-
     implementation project(":app-localized")
     implementation project(":app-framework")
     implementation "ch.qos.logback:logback-classic"
@@ -80,7 +80,7 @@ packager {
         internalName = packager.name
         companyName = "unclezs"
         copyright = "blog.unclezs.com"
-        fileDescription = "Uncle小说 提供网络小说下载阅读功能"
+        fileDescription = "Uncle小说"
         productVersion = project.version
         // inno setup配置
         showSelectInstallDirPage = true
@@ -102,10 +102,12 @@ packager {
         ]
         // 其他资源
         resource("$packagerDir/resource/conf/jul.properties", "conf")
-        resource("$rootDir/conf/core.db", "conf")
-        resource("$rootDir/conf/rules.json", "conf")
+        resource("$packagerDir/resource/conf/core.db", "conf")
+        if (debug) {
+            resource("$rootDir/conf/rules.json", "conf")
+        }
 
-//        url = outFile("$buildDir/server").toURI().toURL().toString()
+        // url = outFile("$buildDir/server").toURI().toURL().toString()
         url = "http://uncle-novel.unclezs.com/novel/${profile}"
         // 配置文件在打包时已经确定，如果修改需要重新打包发布
         configPath = "conf/app.json"
@@ -114,7 +116,7 @@ packager {
         changeLog = ["完善打1111包", "了寂寞"]
         launchModule = "com.unclezs.novel.app.main"
         launchClass = "com.unclezs.novel.app.main.App"
-        moduleOptions = file("$projectDir/app.modularity").readLines()
+        moduleOptions = file("$projectDir/app.modularity").readLines().stream().filter(arg -> arg.startsWith("--")).collect()
         return launcher
     }
 }

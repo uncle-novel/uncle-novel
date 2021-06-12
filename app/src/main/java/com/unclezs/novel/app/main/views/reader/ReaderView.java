@@ -146,7 +146,6 @@ public class ReaderView extends SceneView<StageDecorator> {
 
   @Override
   public void onCreated() {
-    System.out.println("ReaderView created");
     this.config = SettingManager.manager().getReader();
     getRoot().getScene().getStylesheets().add("css/reader/reader.css");
 
@@ -225,7 +224,6 @@ public class ReaderView extends SceneView<StageDecorator> {
 
   @Override
   public void onDestroy() {
-    System.out.println("ReaderView destroy");
   }
 
   /**

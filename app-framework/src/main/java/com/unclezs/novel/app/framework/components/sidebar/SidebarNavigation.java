@@ -2,6 +2,7 @@ package com.unclezs.novel.app.framework.components.sidebar;
 
 import com.unclezs.novel.app.framework.collection.SimpleObservableList;
 import com.unclezs.novel.app.framework.core.AppContext;
+import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +112,9 @@ public class SidebarNavigation extends HBox {
     this.menuItems.addAll(menu.getMenuItems());
     this.sidebar.getChildren().addAll(menu.getMenuItems());
     for (SidebarMenuItem menuItem : menu.getMenuItems()) {
-      menuItem.getSidebarView().setNavigation(this);
+      if (menuItem.getSidebarView() != null) {
+        menuItem.getSidebarView().setNavigation(this);
+      }
       menuItem.setNavigation(this);
       // 设置默认页面
       if (menuItem.isSelected()) {
@@ -149,12 +152,15 @@ public class SidebarNavigation extends HBox {
         }
       });
     }
-    // onShow 周期函数触发
-    view.onShow(bundle);
-    // 切换页面
-    content.getChildren().setAll(view.getRoot());
-    this.currentView = view;
-    view.onShown(bundle);
+    SidebarNavigateBundle finalBundle = bundle;
+    Executor.runFx(() -> {
+      // onShow 周期函数触发
+      view.onShow(finalBundle);
+      // 切换页面
+      content.getChildren().setAll(view.getRoot());
+      this.currentView = view;
+      view.onShown(finalBundle);
+    }, 40);
   }
 
   /**
