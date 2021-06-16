@@ -101,22 +101,34 @@ packager {
                 "vmoptions": "conf",
         ]
         // 其他资源
+        resource("$packagerDir/bin/mac/kindlegen", null, "MAC", "bin")
+        resource("$packagerDir/bin/win/kindlegen.exe", null, "WIN", "bin")
+        resource("$packagerDir/bin/linux/kindlegen_linux", null, "LINUX", "bin")
         resource("$packagerDir/resource/conf/jul.properties", "conf")
         resource("$packagerDir/resource/conf/core.db", "conf")
+        resource("$packagerDir/fonts/pingfang-simple-bold.ttf", "fonts")
         if (debug) {
             resource("$rootDir/conf/rules.json", "conf")
         }
-
         // url = outFile("$buildDir/server").toURI().toURL().toString()
         url = "http://uncle-novel.unclezs.com/novel/${profile}"
         // 配置文件在打包时已经确定，如果修改需要重新打包发布
         configPath = "conf/app.json"
         appName = packager.name
         version = project.version
-        changeLog = ["1.修复了一些问题","2.测试版本更新"]
         launchModule = "com.unclezs.novel.app.main"
         launchClass = "com.unclezs.novel.app.main.App"
         moduleOptions = file("$projectDir/app.modularity").readLines()
+        // 更新日志
+        changeLog = []
+        for (String line : file("$rootDir/changelogs").readLines()){
+            if (line.trim().blank || line.trim().empty) {
+                break
+            }
+            if (!line.startsWith("//")) {
+                changeLog.add(line)
+            }
+        }
         return launcher
     }
 }
@@ -168,7 +180,7 @@ task packageAlone(type: PackageTask, dependsOn: build) {
 tasks.withType(UpgradeTask) {
     description = "生成并且部署升级相关文件"
     dryRun = false
-    rsync = true
+    rsync = false
     url = "root@uncle-novel.unclezs.com:/www/wwwroot/uncle-novel.unclezs.com/novel/$profile"
     outDir = file("$buildDir/upgrade")
 }

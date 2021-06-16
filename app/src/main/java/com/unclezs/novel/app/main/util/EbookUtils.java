@@ -9,6 +9,7 @@ import com.unclezs.novel.analyzer.request.Http;
 import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.util.CollectionUtils;
 import com.unclezs.novel.analyzer.util.StringUtils;
+import com.unclezs.novel.analyzer.util.SystemUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.ResourceManager;
@@ -27,10 +28,11 @@ import lombok.extern.slf4j.Slf4j;
 @UtilityClass
 public class EbookUtils {
 
+  public static final String EBOOK_TMP_SUFFIX = "_Ebook";
   private static final String KINDLEGEN = "kindlegen";
+  private static final String KINDLEGEN_LINUX = "kindlegen_linux";
   private static final String EPUB_SUFFIX = ".epub";
   private static final String MOBI_SUFFIX = ".mobi";
-  public static final String EBOOK_TMP_SUFFIX = "_Ebook";
   private static final String MIMETYPE = "mimetype";
   private static final String EPUB_TEMPLATES = "templates/epub/";
   private static final String OUT_PATH_STYLE_CSS = "style/style.css";
@@ -69,7 +71,7 @@ public class EbookUtils {
   public static void toMobi(File outDir) {
     File tmpDir = FileUtil.file(outDir.getAbsolutePath().concat(EBOOK_TMP_SUFFIX));
     // kindlegen可执行文件
-    String gen = ResourceManager.binFile(KINDLEGEN).getAbsolutePath();
+    String gen = SystemUtils.isLinux() ? ResourceManager.binFile(KINDLEGEN_LINUX).getAbsolutePath() : ResourceManager.binFile(KINDLEGEN).getAbsolutePath();
     // content.opf文件
     String opf = FileUtil.file(tmpDir, OUT_PATH_CONTENT_OPF).getAbsolutePath();
     // cmd命令

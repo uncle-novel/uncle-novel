@@ -82,6 +82,7 @@ public enum IconFont {
   DOWNLOAD_SIMPLE('\ue61a'),
   SUCCESS('\ue76c'),
   PAUSE_RUN('\ue645'),
+  OFFICIAL_SITE('\ue6d7'),
   PLAY_TOC('\ue626'),
   NEXT('\ue64a'),
   CODE('\ue662'),

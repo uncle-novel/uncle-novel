@@ -12,7 +12,8 @@ out/
 tmp/
 .idea
 css/
-conf/
-bin/
-caches/
-backup/
+/conf/
+/bin/
+/caches/
+/backup/
+/fonts/

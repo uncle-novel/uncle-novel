@@ -5,13 +5,6 @@
 */
 @import "define/_global";
 
-@font-face {
-  font-family: '.PingFang SC';
-  font-style: normal;
-  font-weight: normal;
-  src: url("/fonts/pingfang-simple-bold.ttf");
-}
-
 .root {
   -fx-font-family: ".PingFang SC";
 }
