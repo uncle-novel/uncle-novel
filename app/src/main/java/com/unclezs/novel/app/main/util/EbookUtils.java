@@ -8,6 +8,7 @@ import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.request.Http;
 import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.util.CollectionUtils;
+import com.unclezs.novel.analyzer.util.FileUtils;
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.SystemUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
@@ -68,10 +69,12 @@ public class EbookUtils {
    *
    * @param outDir 输出文件位置
    */
+  @SuppressWarnings("all")
   public static void toMobi(File outDir) {
     File tmpDir = FileUtil.file(outDir.getAbsolutePath().concat(EBOOK_TMP_SUFFIX));
     // kindlegen可执行文件
     String gen = SystemUtils.isLinux() ? ResourceManager.binFile(KINDLEGEN_LINUX).getAbsolutePath() : ResourceManager.binFile(KINDLEGEN).getAbsolutePath();
+    FileUtil.file(gen).setExecutable(true,false);
     // content.opf文件
     String opf = FileUtil.file(tmpDir, OUT_PATH_CONTENT_OPF).getAbsolutePath();
     // cmd命令
@@ -88,7 +91,7 @@ public class EbookUtils {
       if (mobiFile.exists()) {
         FileUtil.move(FileUtil.file(tmpDir, filename), FileUtil.file(outDir.getParent(), filename), true);
       } else {
-        log.warn("mobi");
+        log.warn("mobi文件不存在");
       }
       log.trace("生成mobi时kindlegen输出：{}", result);
     } catch (IOException e) {
