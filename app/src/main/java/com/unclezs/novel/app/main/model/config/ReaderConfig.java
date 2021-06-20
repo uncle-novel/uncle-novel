@@ -45,7 +45,7 @@ public class ReaderConfig {
   /**
    * 显示头部
    */
-  private boolean showHeader;
+  private boolean showHeader  = true;
   /**
    * 窗口置顶
    */
@@ -53,11 +53,11 @@ public class ReaderConfig {
   /**
    * 显示shadow
    */
-  private boolean showShadow;
+  private boolean showShadow = true;
   /**
    * 页面宽度
    */
-  private ObjectProperty<Number> pageWidth = new SimpleObjectProperty<>(100D);
+  private ObjectProperty<Number> pageWidth = new SimpleObjectProperty<>(0.9D);
   /**
    * 行间距
    */

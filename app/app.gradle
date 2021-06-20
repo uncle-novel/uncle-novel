@@ -104,9 +104,9 @@ packager {
                 "vmoptions": "conf",
         ]
         // 其他资源
-//        resource("$packagerDir/bin/mac/kindlegen", null, "MAC", "bin")
-//        resource("$packagerDir/bin/win/kindlegen.exe", null, "WIN", "bin")
-//        resource("$packagerDir/bin/linux/kindlegen_linux", null, "LINUX", "bin")
+        resource("$packagerDir/bin/mac/kindlegen", null, "MAC", "bin")
+        resource("$packagerDir/bin/win/kindlegen.exe", null, "WIN", "bin")
+        resource("$packagerDir/bin/linux/kindlegen_linux", null, "LINUX", "bin")
         resource("$packagerDir/fonts/pingfang-simple-bold.ttf", "fonts")
         resource("$packagerDir/resource/conf/jul.properties", "conf")
         resource("$packagerDir/resource/conf/core.db", "conf")

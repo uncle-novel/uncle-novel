@@ -248,10 +248,10 @@ public class ReaderView extends SceneView<StageDecorator> {
           // 显示设置
           showOperationView();
         }
+        if (contextMenu.isShowing()) {
+          contextMenu.hide();
+        }
         event.consume();
-      }
-      if (contextMenu.isShowing()) {
-        contextMenu.hide();
       }
     });
     // 上下文菜单
@@ -312,6 +312,7 @@ public class ReaderView extends SceneView<StageDecorator> {
     });
     pageWidthSlider.valueProperty().bindBidirectional(config.getPageWidth());
     pageWidthSlider.setValueFactory(slider -> Bindings.createStringBinding(() -> ((int) (slider.getValue() * 100)) + "%", slider.valueProperty()));
+
     // 对齐方式
     alignGroup.setOnSelected(tabButton -> {
       String align = tabButton.getUserData().toString();
