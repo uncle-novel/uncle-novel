@@ -37,8 +37,9 @@ public class LanguageManager {
    * @return 如：简体中文
    */
   public static String name(Locale locale) {
+    String localeString = String.format("%s_%s", locale.getLanguage(), locale.getCountry());
     for (Entry<String, String> entry : LANG.entrySet()) {
-      if (entry.getValue().equals(locale.toString())) {
+      if (entry.getValue().equals(localeString)) {
         return entry.getKey();
       }
     }

@@ -2,23 +2,23 @@
 
 .audio-bookshelf {
   .book-list {
-    -fx-padding: 0 0 $_62px 0;
+    -fx-padding: 0 0 62px 0;
 
     .list-cell {
       -fx-content-display: GRAPHIC_ONLY;
-      -fx-padding: $_5px $_5px $_5px $_8px;
+      -fx-padding: 5px 5px 5px 8px;
 
       .cell {
         -fx-alignment: center-left;
         -fx-spacing: 10;
 
         .title {
-          -fx-font-size: $_14px;
+          -fx-font-size: 14px;
           -fx-font-weight: bold;
         }
 
         .tags {
-          -fx-spacing: $_10px;
+          -fx-spacing: 10px;
         }
       }
     }
@@ -31,14 +31,14 @@
   }
 
   .player {
-    -fx-min-height: $_60px;
-    -fx-max-height: $_60px;
+    -fx-min-height: 60px;
+    -fx-max-height: 60px;
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.26), 25, 0.25, 0, -4);
     -fx-background-color: -fx-base;
 
     .progress-bar {
-      -fx-max-height: $_1px;
-      -fx-min-height: $_1px;
+      -fx-max-height: 1px;
+      -fx-min-height: 1px;
     }
 
     .player-box {
@@ -52,7 +52,7 @@
 
         .title {
           -fx-font-weight: bold;
-          -fx-font-size: $_13px;
+          -fx-font-size: 13px;
         }
 
         .chapter {
@@ -81,7 +81,7 @@
 
 
       .actions {
-        -fx-spacing: $_10px;
+        -fx-spacing: 10px;
         -fx-alignment: center;
         -fx-content-display: graphic-only;
 

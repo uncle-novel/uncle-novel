@@ -4,7 +4,7 @@
   -fx-tag-color: #009688;
   @include ladderTextFillForce(-fx-tag-color);
   -fx-background-color: -fx-tag-color;
-  -fx-padding: $_1px $_3px $_1px $_3px;
-  -fx-background-radius: $_3px;
-  -fx-border-radius: $_3px;
+  -fx-padding: 1px 3px 1px 3px;
+  -fx-background-radius: 3px;
+  -fx-border-radius: 3px;
 }

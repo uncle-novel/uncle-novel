@@ -5,12 +5,12 @@
   -fx-alignment: center-left;
 
   .info {
-    -fx-spacing: $_5px;
-    -fx-min-width: $_280px;
-    -fx-max-width: $_280px;
+    -fx-spacing: 5px;
+    -fx-min-width: 280px;
+    -fx-max-width: 280px;
 
     .label {
-      -fx-font-size: $_12px !important;
+      -fx-font-size: 12px !important;
     }
 
     .item {
@@ -18,41 +18,41 @@
 
       &.title {
         .item-content {
-          -fx-font-size: $_15px !important;
+          -fx-font-size: 15px !important;
           -fx-font-weight: bold !important;
         }
       }
 
       .editable-box {
         -fx-alignment: center-left;
-        -fx-spacing: $_5px;
+        -fx-spacing: 5px;
 
         .text-field {
-          -fx-font-size: $_12px !important;
+          -fx-font-size: 12px !important;
           -fx-font-weight: normal !important;
         }
 
         .icon {
-          -fx-min-width: $_20px;
+          -fx-min-width: 20px;
         }
 
         .label {
-          -fx-max-width: $_200px;
+          -fx-max-width: 200px;
         }
       }
 
       .item-label {
-        -fx-min-width: $_30px;
+        -fx-min-width: 30px;
       }
     }
   }
 
   .desc .label {
-    -fx-font-size: $_12px !important;
-    -fx-max-height: $_200px;
+    -fx-font-size: 12px !important;
+    -fx-max-height: 200px;
   }
 
   .actions {
-    -fx-spacing: $_20px;
+    -fx-spacing: 20px;
   }
 }

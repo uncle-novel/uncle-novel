@@ -3,17 +3,17 @@
 .toast {
 
   .box {
-    -fx-spacing: $_10px;
+    -fx-spacing: 10px;
     -fx-alignment: BOTTOM_CENTER;
-    -fx-max-height: $_120px;
+    -fx-max-height: 120px;
   }
 
   .label {
     @include shadow();
-    -fx-padding: $_5px $_10px $_5px $_10px;
+    -fx-padding: 5px 10px 5px 10px;
     -fx-background-radius: 5px;
     -fx-border-radius: 5px;
-    -fx-font-size: $_12px !important;
+    -fx-font-size: 12px !important;
   }
 
   .icon {

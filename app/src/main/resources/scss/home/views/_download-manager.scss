@@ -1,6 +1,6 @@
 @import "../../define/global";
 
-$tab-radius: $_5px;
+$tab-radius: 5px;
 
 .download-manager {
   .tab-button {
@@ -44,14 +44,14 @@ $tab-radius: $_5px;
 
       .progress-info-box {
         .label {
-          -fx-font-size: $_11px;
+          -fx-font-size: 11px;
         }
       }
     }
 
     .download-action-col {
       .label {
-        -fx-padding: 0 0 0 $_30px;
+        -fx-padding: 0 0 0 30px;
       }
     }
 
@@ -59,7 +59,7 @@ $tab-radius: $_5px;
       -fx-alignment: center-left !important;
 
       .download-action {
-        -fx-padding: 0 0 0 $_10px;
+        -fx-padding: 0 0 0 10px;
         -fx-alignment: center-left !important;
       }
     }

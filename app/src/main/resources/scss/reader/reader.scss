@@ -30,7 +30,7 @@
     -fx-padding: 0 0 0 0;
 
     .page-view {
-      -fx-padding: $_5px 0 $_5px 0;
+      -fx-padding: 5px 0 5px 0;
       -fx-background-color: -fx-bg-color;
       -fx-alignment: top-left;
       -fx-text-overrun: clip;
@@ -53,12 +53,12 @@
     -fx-padding: 0 10 0 10;
 
     .tipLabel {
-      -fx-pref-width: $_70px;
-      -fx-min-width: $_70px;
+      -fx-pref-width: 70px;
+      -fx-min-width: 70px;
     }
 
     .setting-item-box {
-      -fx-spacing: $_20px;
+      -fx-spacing: 20px;
       -fx-padding: 10 0 10 0;
 
       .chapter-slider-box {
@@ -66,7 +66,7 @@
         -fx-spacing: 1;
 
         .chapter-slider-button {
-          -fx-pref-width: $_70px;
+          -fx-pref-width: 70px;
         }
 
         .chapter-slider {

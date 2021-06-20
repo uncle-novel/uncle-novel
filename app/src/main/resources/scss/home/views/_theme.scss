@@ -1,24 +1,24 @@
 @import "../../define/global";
 
 .home-theme-popup {
-  -fx-pref-height: $_150px;
-  -fx-pref-width: $_320px;
+  -fx-pref-height: 150px;
+  -fx-pref-width: 320px;
   -fx-alignment: center;
-  -fx-padding: 0 $_10px 0 $_10px;
-  -fx-spacing: $_25px;
+  -fx-padding: 0 10px 0 10px;
+  -fx-spacing: 25px;
 
 
   .theme-popup-color-box {
-    -fx-spacing: $_10px;
+    -fx-spacing: 10px;
     -fx-alignment: center;
 
     .color-box-item {
-      -fx-pref-width: $_38px;
-      -fx-pref-height: $_38px;
+      -fx-pref-width: 38px;
+      -fx-pref-height: 38px;
       -fx-background-radius: 5px;
       -fx-border-radius: 5px;
       -fx-text-fill: white;
-      -fx-font-size: $_11px;
+      -fx-font-size: 11px;
       -fx-content-display: GRAPHIC_ONLY;
       @include shadow-br-3(derive(-fx-base, -100%));
 

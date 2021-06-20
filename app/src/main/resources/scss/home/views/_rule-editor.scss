@@ -3,18 +3,18 @@
 .rule-editor {
   .container {
     .rule-container {
-      -fx-padding: $_10px $_10px $_10px 0;
+      -fx-padding: 10px 10px 10px 0;
 
       .items {
-        -fx-padding: 0 0 $_10px $_5px;
+        -fx-padding: 0 0 10px 5px;
         -fx-spacing: 10px;
 
         &.no-name {
-          -fx-padding: 0 0 $_10px 0;
+          -fx-padding: 0 0 10px 0;
 
           & > .item > .name {
-            -fx-min-width: $_70px;
-            -fx-max-width: $_70px;
+            -fx-min-width: 70px;
+            -fx-max-width: 70px;
             -fx-padding: 0;
           }
         }
@@ -23,21 +23,21 @@
           -fx-alignment: center-left;
 
           & > .title {
-            -fx-font-size: $_14px;
+            -fx-font-size: 14px;
             -fx-border-width: 0 0 0 4px;
             -fx-border-color: theme-color;
-            -fx-padding: 0 0 0 $_5px;
+            -fx-padding: 0 0 0 5px;
           }
         }
 
         .item {
-          -fx-spacing: $_10px;
+          -fx-spacing: 10px;
           -fx-alignment: center-left;
 
           & > .name {
-            -fx-min-width: $_90px;
-            -fx-max-width: $_90px;
-            -fx-padding: 0 0 0 $_15px;
+            -fx-min-width: 90px;
+            -fx-max-width: 90px;
+            -fx-padding: 0 0 0 15px;
           }
         }
       }
@@ -52,13 +52,13 @@
   }
 
   .title-label {
-    -fx-font-size: $_13px !important;
+    -fx-font-size: 13px !important;
   }
 
   .button {
     @include shadow-1();
-    -fx-pref-width: $_100px;
-    -fx-pref-height: $_30px;
+    -fx-pref-width: 100px;
+    -fx-pref-height: 30px;
   }
 }
 
@@ -66,11 +66,11 @@
   -fx-spacing: 10;
 
   .item {
-    -fx-spacing: $_10px;
+    -fx-spacing: 10px;
     -fx-alignment: center-left;
 
     .label, .text-field, .text-area {
-      -fx-font-size: $_12px !important;
+      -fx-font-size: 12px !important;
     }
 
     .check-box {
@@ -78,12 +78,12 @@
     }
 
     .text-area {
-      -fx-max-height: $_70px;
+      -fx-max-height: 70px;
     }
 
     & > .name {
-      -fx-min-width: $_60px;
-      -fx-max-width: $_60px;
+      -fx-min-width: 60px;
+      -fx-max-width: 60px;
       -fx-padding: 0;
     }
   }

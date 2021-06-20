@@ -1,7 +1,5 @@
 package com.unclezs.novel.app.packager.subtask.mac;
 
-import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
-
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import com.unclezs.novel.app.packager.model.MacConfig;
@@ -11,9 +9,12 @@ import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.util.Arrays;
-import org.apache.commons.lang3.StringUtils;
+
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 /**
  * Creates a DMG image file including all app folder's content only for MacOS so app could be easily distributed
@@ -83,11 +84,9 @@ public class GenerateDmg extends BaseSubTask {
     ExecUtils.create("hdiutil").add("create")
       .add("-srcfolder", appFolder)
       .add("-volname", volumeName)
-      .add("-ov -fs HFS+ -format UDRW")
+      .add("-ov", "-fs", "HFS+", "-format", "UDRW")
       .add(tempDmgFile)
       .exec();
-//    execute("hdiutil", "create", "-srcfolder", appFolder, "-volname", volumeName, "-ov", "-fs",
-//        "HFS+", "-format", "UDRW", tempDmgFile);
 
     if (mountFolder.exists()) {
       Logger.info("Unmounting volume: " + mountFolder);
@@ -98,8 +97,7 @@ public class GenerateDmg extends BaseSubTask {
 
     // mounts image
     Logger.info("Mounting image: " + tempDmgFile.getAbsolutePath());
-    String result = ExecUtils.exec("hdiutil", "attach", "-readwrite", "-noverify", "-noautoopen",
-      tempDmgFile);
+    String result = ExecUtils.exec("hdiutil", "attach", "-readwrite", "-noverify", "-noautoopen", tempDmgFile);
     String deviceName = Arrays.stream(result.split("\n"))
       .filter(s -> s.contains(mountFolder.getAbsolutePath()))
       .map(StringUtils::normalizeSpace)
@@ -129,7 +127,7 @@ public class GenerateDmg extends BaseSubTask {
 
     // makes sure it's not world writeable and user readable
     Logger.info("Fixing permissions...");
-    ExecUtils.create("chmod").add("-Rf u+r,go-w").add(mountFolder).exec();
+    ExecUtils.create("chmod").add("-Rf", "u+r,go-w").add(mountFolder).exec();
 
     // makes the top window open itself on mount:
     Logger.info("Blessing ...");
@@ -154,7 +152,7 @@ public class GenerateDmg extends BaseSubTask {
     Logger.info("Compressing disk image...");
     ExecUtils.create("hdiutil")
       .add("convert", tempDmgFile)
-      .add("-ov -format UDZO -imagekey zlib-level=9")
+      .add("-ov","-format", "UDZO", "-imagekey", "zlib-level=9")
       .add("-o", dmgFile)
       .exec();
     FileUtils.del(tempDmgFile);

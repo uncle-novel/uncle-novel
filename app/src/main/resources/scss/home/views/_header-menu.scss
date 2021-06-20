@@ -2,21 +2,21 @@
 
 .home-setting-popup {
   @include ladderTextFill(theme-bg-color);
-  -fx-padding: $_10px;
+  -fx-padding: 10px;
   -fx-alignment: center-left;
   -fx-background-color: theme-bg-color;
 
   .icon-button {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-font-size: $_13px;
-    -fx-pref-width: $_140px;
+    -fx-font-size: 13px;
+    -fx-pref-width: 140px;
     -fx-text-fill: inherit;
     -fx-border-radius: 3px;
-    -fx-min-height: $_30px;
+    -fx-min-height: 30px;
     -fx-background-radius: 3px;
     -fx-alignment: center-left;
-    -fx-padding: 0 0 0 $_10px;
+    -fx-padding: 0 0 0 10px;
 
     &:hover {
       @include ladderTextFill(theme-color);
@@ -26,16 +26,16 @@
 
     .icon {
       -fx-icon-size: 14px;
-      -fx-max-width: $_18px;
-      -fx-min-width: $_18px;
-      -fx-pref-width: $_18px;
+      -fx-max-width: 18px;
+      -fx-min-width: 18px;
+      -fx-pref-width: 18px;
       -fx-text-fill: inherit;
     }
   }
 
   .home-setting-popup-delimiter {
-    -fx-max-height: $_1px;
-    -fx-min-height: $_1px;
+    -fx-max-height: 1px;
+    -fx-min-height: 1px;
     -fx-background-color: theme-color-dark;
   }
 }

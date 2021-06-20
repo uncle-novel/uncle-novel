@@ -8,19 +8,19 @@
 
       .list-cell {
         -fx-content-display: GRAPHIC_ONLY;
-        -fx-padding: $_5px $_5px $_5px $_8px;
+        -fx-padding: 5px 5px 5px 8px;
 
         .cell {
           -fx-alignment: center-left;
           -fx-spacing: 10;
 
           .title {
-            -fx-font-size: $_14px;
+            -fx-font-size: 14px;
             -fx-font-weight: bold;
           }
 
           .tags {
-            -fx-spacing: $_10px;
+            -fx-spacing: 10px;
           }
         }
       }

@@ -31,8 +31,8 @@ $border-radius: 10px;
   .sidebar {
     -fx-vbar-policy: NEVER;
     -fx-hbar-policy: NEVER;
-    -fx-min-width: $_220px;
-    -fx-max-width: $_220px;
+    -fx-min-width: 220px;
+    -fx-max-width: 220px;
     -fx-background-color: -fx-sidebar-bg-color;
     -fx-border-color: -fx-sidebar-border-color;
     -fx-border-width: 0 1px 0 0;
@@ -48,15 +48,15 @@ $border-radius: 10px;
     .sidebar-menus {
       -fx-alignment: top-center;
       @include ladderTextFill(-fx-sidebar-bg-color);
-      -fx-spacing: $_10px;
-      -fx-pref-width: $_210px;
+      -fx-spacing: 10px;
+      -fx-pref-width: 210px;
       -fx-background-radius: 0 0 0 $stage-border-radius;
       -fx-border-radius: 0 0 0 $stage-border-radius;
 
       // 菜单分组
       .sidebar-menu {
-        -fx-pref-width: $_166px;
-        -fx-padding: $_10px 0 0 $_10px;
+        -fx-pref-width: 166px;
+        -fx-padding: 10px 0 0 10px;
         -fx-text-fill: ladder(-fx-sidebar-bg-color, $md_grey_200 45%, $md_grey_300 46%, $md_grey_400 59%, $md_grey_500 60%);
       }
 
@@ -64,8 +64,8 @@ $border-radius: 10px;
       .sidebar-menu-item {
         -fx-background-color: transparent;
         -fx-border-color: transparent;
-        -fx-font-size: $_13px;
-        -fx-pref-width: $_166px;
+        -fx-font-size: 13px;
+        -fx-pref-width: 166px;
         -fx-text-fill: inherit;
         -fx-min-height: 30;
         -fx-border-radius: 3px;

@@ -6,7 +6,7 @@
 
   .jfx-alert-content-container {
     -fx-background-color: transparent;
-    -fx-padding: $_20px;
+    -fx-padding: 20px;
 
     .jfx-dialog-layout {
       @include shadow;
@@ -14,12 +14,12 @@
       -fx-border-color: transparent;
 
       .jfx-layout-body .label {
-        -fx-font-size: $_12px;
+        -fx-font-size: 12px;
       }
 
       &.info, &.success, &.error, &.warn, &.confirm {
         .jfx-layout-body .label {
-          -fx-font-size: $_16px;
+          -fx-font-size: 16px;
         }
       }
 

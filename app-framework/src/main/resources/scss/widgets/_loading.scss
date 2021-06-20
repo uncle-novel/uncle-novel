@@ -4,16 +4,16 @@
   -fx-bg-color: -fx-base;
 
   @include shadow;
-  -fx-pref-width: $_65px;
-  -fx-max-width: $_70px;
-  -fx-max-height: $_90px;
+  -fx-pref-width: 65px;
+  -fx-max-width: 70px;
+  -fx-max-height: 90px;
   -fx-alignment: center;
-  -fx-spacing: $_15px;
-  -fx-padding: $_10px 0 $_10px 0;
+  -fx-spacing: 15px;
+  -fx-padding: 10px 0 10px 0;
   -fx-background-color: -fx-bg-color;
 
   .jfx-spinner {
-    -jfx-radius: $_13px;
+    -jfx-radius: 13px;
   }
 
   .jfx-button {

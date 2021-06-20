@@ -9,15 +9,15 @@
   }
 
   .box {
-    -fx-pref-width: $_14px;
-    -fx-pref-height: $_14px;
+    -fx-pref-width: 14px;
+    -fx-pref-height: 14px;
     -fx-border-width: 1px;
   }
 
   .mark {
     -fx-shape: "M10 15.172l9.192-9.193 1.415 1.414L10 18l-6.364-6.364 1.414-1.414z";
-    -fx-max-width: $_10px;
-    -fx-max-height: $_8px;
+    -fx-max-width: 10px;
+    -fx-max-height: 8px;
   }
 }
 
