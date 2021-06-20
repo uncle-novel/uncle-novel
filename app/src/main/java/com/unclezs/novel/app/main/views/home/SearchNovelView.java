@@ -13,6 +13,7 @@ import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.core.NovelSearcher;
 import com.unclezs.novel.app.main.core.NovelSearcher.Callback;
 import com.unclezs.novel.app.main.enums.SearchType;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.BookDetailModal;
 import com.unclezs.novel.app.main.views.components.BookDetailModal.Action;
 import com.unclezs.novel.app.main.views.components.cell.BookListCell;
@@ -34,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 public class SearchNovelView extends SidebarView<StackPane> implements Callback {
 
+  private static final String PAGE_NAME = "搜索小说";
   @FXML
   private JFXProgressBar loadingBar;
   @FXML
@@ -62,6 +64,11 @@ public class SearchNovelView extends SidebarView<StackPane> implements Callback 
       }
     });
     loading.setOnAction(e -> novelSearcher.cancel());
+  }
+
+  @Override
+  public void onShow(SidebarNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
   }
 
   /**

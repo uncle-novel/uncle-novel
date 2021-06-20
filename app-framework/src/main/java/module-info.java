@@ -9,24 +9,20 @@ open module com.unclezs.novel.app.framework {
   requires transitive javafx.graphics;
   requires transitive javafx.controls;
   requires transitive javafx.fxml;
+  requires transitive java.desktop;
   requires transitive com.jfoenix;
-  // hutool
-  requires hutool.cache;
-  requires hutool.core;
 
   requires static lombok;
-
+  requires hutool.cache;
+  requires hutool.core;
   requires jkeymaster;
   requires com.google.gson;
-  requires transitive java.desktop;
   requires org.slf4j;
 
   exports com.unclezs.novel.app.framework.core;
-  // components
   exports com.unclezs.novel.app.framework.components;
   exports com.unclezs.novel.app.framework.components.icon;
   exports com.unclezs.novel.app.framework.components.sidebar;
-
   exports com.unclezs.novel.app.framework.util;
   exports com.unclezs.novel.app.framework.executor;
   exports com.unclezs.novel.app.framework.appication;

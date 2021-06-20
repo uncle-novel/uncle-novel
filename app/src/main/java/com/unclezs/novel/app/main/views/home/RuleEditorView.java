@@ -28,6 +28,7 @@ import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.manager.RuleManager;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.rule.CommonRuleEditor;
 import com.unclezs.novel.app.main.views.components.rule.ParamsEditor;
 import com.unclezs.novel.app.main.views.components.rule.RuleItem;
@@ -81,6 +82,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private static final String SELECTOR_COMBO_BOX = ".combo-box";
   private static final String SELECTOR_TEXT_INPUT = ".item > .text-input";
   private static final String SELECTOR_INPUT_BOX = ".input-box";
+  private static final String PAGE_NAME = "书源编辑";
   private final IntegerStringConverter intStrConverter = new IntegerStringConverter();
   /**
    * 监听器
@@ -173,6 +175,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
    */
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
     this.fromManager = bundle.getFrom().equals(RuleManagerView.class.getName());
     this.from = AppContext.getView(bundle.getFrom());
     realRule = bundle.get(BUNDLE_RULE_KEY);

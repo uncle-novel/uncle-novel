@@ -24,7 +24,6 @@ allprojects {
 
 
 subprojects { project ->
-//  apply plugin: "checkstyle"
 
     apply plugin: "java"
     apply from: "${rootDir}/gradle/publications.gradle"
@@ -66,11 +65,6 @@ subprojects { project ->
         useJUnitPlatform()
         include(["**/*Tests.class", "**/*Test.class"])
     }
-
-//  checkstyle {
-//    toolVersion = "8.41"
-//    configDirectory.set(rootProject.outFile("src/checkstyle"))
-//  }
 }
 
 configure(jfxProject) { project ->

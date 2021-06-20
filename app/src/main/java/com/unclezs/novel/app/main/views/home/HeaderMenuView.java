@@ -25,14 +25,14 @@ import javafx.scene.layout.VBox;
 public class HeaderMenuView extends View<JFXPopup> {
 
   public static final String GITHUB = "https://github.com/unclezs/NovelHarvester";
-  /**
-   * 免责声明
-   */
-  private static final String DISCLAIMERS = "https://app.unclezs.com/common/disclaimers.html";
   public static final String LOGS_DIR = "logs";
   public static final String FEEDBACK_URL = "https://support.qq.com/products/169599";
   public static final String CHANGE_LOG_URL = "https://app.unclezs.com/usage/pc/changelog.html";
   public static final String OFFICIAL_SITE = "https://app.unclezs.com";
+  /**
+   * 免责声明
+   */
+  private static final String DISCLAIMERS = "https://app.unclezs.com/common/disclaimers.html";
   @FXML
   private JFXPopup popup;
 

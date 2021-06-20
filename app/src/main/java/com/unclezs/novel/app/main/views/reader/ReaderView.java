@@ -34,6 +34,7 @@ import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.config.HotKeyConfig;
 import com.unclezs.novel.app.main.model.config.ReaderConfig;
 import com.unclezs.novel.app.main.model.config.TTSConfig;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.cell.TocListCell;
 import com.unclezs.novel.app.main.views.home.HomeView;
 import com.unclezs.novel.app.main.views.reader.player.TTSPlayer;
@@ -78,6 +79,7 @@ public class ReaderView extends SceneView<StageDecorator> {
   public static final double NEXT_PAGE_AREA = 0.75;
   private static final String[] NO_SHADOW_STYLE_CLASS = {"no-window-shadow", "no-header-shadow"};
   public static final String DEFAULTS_TTS_CONFIG = "assets/defaults/tts.json";
+  private static final String PAGE_NAME = "阅读器";
   private final String[] contents = new String[3];
   /**
    * 当前章节所有页
@@ -173,6 +175,7 @@ public class ReaderView extends SceneView<StageDecorator> {
 
   @Override
   public void onShow(SceneNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
     // 窗口置顶
     contextMenu.toggleWindowTop(config.isWindowTop());
     // 获取书籍信息
@@ -220,10 +223,6 @@ public class ReaderView extends SceneView<StageDecorator> {
   @Override
   public void onSetting(StageDecorator view, IconButton settingButton) {
     showOperationView();
-  }
-
-  @Override
-  public void onDestroy() {
   }
 
   /**

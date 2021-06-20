@@ -24,6 +24,10 @@ dependencyManagement {
         dependency 'org.apache.velocity:velocity-engine-core:2.3'
         dependency 'com.netflix.nebula:gradle-ospackage-plugin:8.4.1'
         dependency 'net.jsign:jsign-core:3.1'
+        dependency "com.j256.ormlite:ormlite-jdbc:5.3"
+        dependency "org.xerial:sqlite-jdbc:3.34.0"
+        dependency 'com.github.oshi:oshi-core:5.7.5'
+        dependency 'com.mixpanel:mixpanel-java:1.4.4'
 
     }
     generatedPomCustomization {

@@ -42,9 +42,9 @@ public class CreateLauncher extends BaseSubTask {
   @Override
   protected File run() throws Exception {
     Dependency dependency = project.getDependencies().create(launcher.getCoordinate());
-    Configuration launcher = project.getConfigurations().maybeCreate(LAUNCHER);
-    launcher.getDependencies().add(dependency);
-    launcher.getResolvedConfiguration().getResolvedArtifacts().forEach(artifact -> {
+    Configuration launcherConfig = project.getConfigurations().maybeCreate(LAUNCHER);
+    launcherConfig.getDependencies().add(dependency);
+    launcherConfig.getResolvedConfiguration().getResolvedArtifacts().forEach(artifact -> {
       String libName = artifact.getName().concat(".").concat(artifact.getExtension());
       if (libName.contains(LAUNCHER)) {
         launcherJar = artifact.getFile();

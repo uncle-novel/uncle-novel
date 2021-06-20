@@ -6,6 +6,7 @@ import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.FileSelector;
 import com.unclezs.novel.app.framework.components.Toast;
+import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
 import com.unclezs.novel.app.framework.support.hotkey.KeyRecorder;
@@ -14,6 +15,7 @@ import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.config.DownloadConfig;
 import com.unclezs.novel.app.main.model.config.HotKeyConfig;
 import com.unclezs.novel.app.main.util.DebugUtils;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -37,6 +39,7 @@ public class SettingView extends SidebarView<StackPane> {
 
   public static final int MAX_THREAD_NUM = 32;
   public static final int MAX_TASK_NUM = 5;
+  private static final String PAGE_NAME = "软件设置";
   /**
    * 快捷键
    */
@@ -109,6 +112,11 @@ public class SettingView extends SidebarView<StackPane> {
     initDownloadConfig();
     // 调式模式
     initDebugMode();
+  }
+
+  @Override
+  public void onShow(SidebarNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
   }
 
   /**

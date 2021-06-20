@@ -3,7 +3,7 @@ import com.unclezs.novel.app.packager.task.UpgradeTask
 import proguard.gradle.ProGuardTask
 
 // prod / dev
-def profile = "dev"
+def profile = "prod"
 def debug = "dev" == profile
 buildscript {
     repositories {
@@ -19,8 +19,10 @@ dependencies {
     implementation project(":app-framework")
     implementation "ch.qos.logback:logback-classic"
     implementation 'org.apache.velocity:velocity-engine-core'
-    implementation "com.j256.ormlite:ormlite-jdbc:5.3"
-    implementation "org.xerial:sqlite-jdbc:3.34.0"
+    implementation "com.j256.ormlite:ormlite-jdbc"
+    implementation "org.xerial:sqlite-jdbc"
+    implementation 'com.github.oshi:oshi-core'
+    implementation 'com.mixpanel:mixpanel-java'
 }
 apply plugin: 'app-packager'
 
@@ -56,7 +58,8 @@ packager {
     vmArgs = [
             "-Djava.util.logging.config.file=conf/jul.properties",
             "--add-modules ALL-SYSTEM",
-            "--add-opens=java.base/java.lang=com.unclezs.jfx.launcher"
+            "--add-opens=java.base/java.lang=com.unclezs.jfx.launcher",
+            "-DmixPanel.token=${findProperty("mixPanel.token")}"
     ]
     vmOptionsFilePath = "conf/launcher.vmoptions"
     vmOptionsFile = file("${packagerDir}/resource/conf/vm.options")
@@ -79,7 +82,7 @@ packager {
         x64 = true
         internalName = packager.name
         companyName = "unclezs"
-        copyright = "blog.unclezs.com"
+        copyright = "app.unclezs.com"
         fileDescription = "Uncle小说"
         productVersion = project.version
         // inno setup配置
@@ -101,12 +104,12 @@ packager {
                 "vmoptions": "conf",
         ]
         // 其他资源
-        resource("$packagerDir/bin/mac/kindlegen", null, "MAC", "bin")
-        resource("$packagerDir/bin/win/kindlegen.exe", null, "WIN", "bin")
-        resource("$packagerDir/bin/linux/kindlegen_linux", null, "LINUX", "bin")
+//        resource("$packagerDir/bin/mac/kindlegen", null, "MAC", "bin")
+//        resource("$packagerDir/bin/win/kindlegen.exe", null, "WIN", "bin")
+//        resource("$packagerDir/bin/linux/kindlegen_linux", null, "LINUX", "bin")
+        resource("$packagerDir/fonts/pingfang-simple-bold.ttf", "fonts")
         resource("$packagerDir/resource/conf/jul.properties", "conf")
         resource("$packagerDir/resource/conf/core.db", "conf")
-        resource("$packagerDir/fonts/pingfang-simple-bold.ttf", "fonts")
         if (debug) {
             resource("$rootDir/conf/rules.json", "conf")
         }
@@ -121,7 +124,7 @@ packager {
         moduleOptions = file("$projectDir/app.modularity").readLines()
         // 更新日志
         changeLog = []
-        for (String line : file("$rootDir/changelogs").readLines()){
+        for (String line : file("$rootDir/changelogs").readLines()) {
             if (line.trim().blank || line.trim().empty) {
                 break
             }

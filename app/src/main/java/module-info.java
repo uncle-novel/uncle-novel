@@ -15,24 +15,26 @@ open module com.unclezs.novel.app.main {
   requires novel.analyzer;
   requires com.google.gson;
 
-  // hutool
-  requires hutool.core;
-
-  requires jsoup;
-  requires okhttp3;
-
+  // logback
   requires org.slf4j;
   requires logback.classic;
   requires logback.core;
 
+  // sqlite
   requires ormlite.core;
   requires ormlite.jdbc;
   requires sqlite.jdbc;
 
+  // common
   requires static lombok;
   requires velocity.engine.core;
   requires jkeymaster;
-
+  requires com.github.oshi;
+  requires mixpanel.java;
+  requires json;
+  requires hutool.core;
+  requires jsoup;
+  requires okhttp3;
   // spi
   provides com.unclezs.novel.analyzer.request.spi.HttpProvider with WebEngineHttpClient;
 

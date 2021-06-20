@@ -29,6 +29,7 @@ import com.unclezs.novel.app.main.enums.SearchType;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.model.BookBundle;
 import com.unclezs.novel.app.main.model.ChapterProperty;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.BookDetailModal;
 import com.unclezs.novel.app.main.views.components.BookDetailModal.Action;
 import com.unclezs.novel.app.main.views.components.cell.BookListCell;
@@ -56,6 +57,7 @@ import lombok.extern.slf4j.Slf4j;
 @EqualsAndHashCode(callSuper = true)
 public class SearchAudioView extends SidebarView<StackPane> implements Callback {
 
+  private static final String PAGE_NAME = "搜索有声";
   @FXML
   private JFXProgressBar loadingBar;
   @FXML
@@ -97,6 +99,11 @@ public class SearchAudioView extends SidebarView<StackPane> implements Callback 
       }
     });
     loading.setOnAction(e -> novelSearcher.cancel());
+  }
+
+  @Override
+  public void onShow(SidebarNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
   }
 
   /**

@@ -27,6 +27,7 @@ import com.unclezs.novel.app.main.model.BookBundle;
 import com.unclezs.novel.app.main.model.BookCache;
 import com.unclezs.novel.app.main.model.config.BookShelfConfig;
 import com.unclezs.novel.app.main.util.BookHelper;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.BookNode;
 import com.unclezs.novel.app.main.views.components.cell.TocListCell;
 import com.unclezs.novel.app.main.views.reader.ReaderView;
@@ -69,6 +70,7 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
   public static final String GROUP_LOCAL = "本地";
   public static final String CACHE_FOLDER_NAME = "book";
   public static final File CACHE_FOLDER = ResourceManager.cacheFile(CACHE_FOLDER_NAME);
+  private static final String PAGE_NAME = "小说书架";
   private final ObservableList<BookNode> bookNodes = FXCollections.observableArrayList();
   private final BookDao bookDao = new BookDao();
   private final ObservableSet<String> groups = FXCollections.observableSet();
@@ -144,6 +146,7 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
 
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
     BookBundle bookBundle = bundle.get(BUNDLE_BOOK_KEY);
     if (bookBundle != null) {
       Book book = Book.fromBookBundle(bookBundle);

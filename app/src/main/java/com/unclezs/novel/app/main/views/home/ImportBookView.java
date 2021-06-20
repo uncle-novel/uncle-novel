@@ -19,6 +19,7 @@ import com.unclezs.novel.app.main.db.dao.TxtTocRuleDao;
 import com.unclezs.novel.app.main.model.BookCache;
 import com.unclezs.novel.app.main.util.BookHelper;
 import com.unclezs.novel.app.main.util.EncodingDetect;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.cell.TocListCell;
 import java.io.File;
 import java.sql.SQLException;
@@ -49,6 +50,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ImportBookView extends SidebarView<StackPane> {
 
   public static final String BUNDLE_FILE_KEY = "bundle-file-key";
+  public static final String PAGE_NAME = "导入本地小说";
   private final TxtTocRuleDao txtTocRuleDao = new TxtTocRuleDao();
   /**
    * 编码选择
@@ -98,6 +100,7 @@ public class ImportBookView extends SidebarView<StackPane> {
 
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
     File bookFile = bundle.get(BUNDLE_FILE_KEY);
     if (bookFile != null) {
       setFile(bookFile.getAbsolutePath());

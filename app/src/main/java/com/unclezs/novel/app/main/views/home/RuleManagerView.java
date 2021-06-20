@@ -13,6 +13,7 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.manager.RuleManager;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.cell.ActionButtonTableCell;
 import com.unclezs.novel.app.main.views.components.cell.CheckBoxTableCell;
 import java.io.File;
@@ -47,6 +48,7 @@ public class RuleManagerView extends SidebarView<StackPane> {
    * 书源的文件名
    */
   public static final String RULES_FILE_NAME = "rules.json";
+  private static final String PAGE_NAME = "书源管理";
   @FXML
   private TableView<AnalyzerRule> rulesTable;
 
@@ -65,6 +67,7 @@ public class RuleManagerView extends SidebarView<StackPane> {
 
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
     AnalyzerRule rule = bundle.get(RuleEditorView.BUNDLE_RULE_KEY);
     // 新增书源
     if (rule != null) {

@@ -20,6 +20,7 @@ import com.unclezs.novel.app.main.db.beans.SearchEngine;
 import com.unclezs.novel.app.main.db.dao.SearchEngineDao;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.RuleManager;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.beans.InvalidationListener;
@@ -48,6 +49,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SearchNetworkView extends SidebarView<StackPane> {
 
   public static final String KEYWORD = "{{keyword}}";
+  private static final String PAGE_NAME = "全网搜书";
   @FXML
   private JFXProgressBar progress;
   @FXML
@@ -84,6 +86,7 @@ public class SearchNetworkView extends SidebarView<StackPane> {
 
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
     String current = searchBar.getCurrentType();
     List<String> types = searchEngines.stream()
       .filter(searchEngine -> Boolean.TRUE.equals(searchEngine.getEnabled()))

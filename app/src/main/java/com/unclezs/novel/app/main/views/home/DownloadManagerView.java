@@ -19,6 +19,7 @@ import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.BookBundle;
 import com.unclezs.novel.app.main.model.config.DownloadConfig;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.cell.DownloadActionTableCell;
 import com.unclezs.novel.app.main.views.components.cell.DownloadHistoryActionTableCell;
 import com.unclezs.novel.app.main.views.components.cell.ProgressBarTableCell;
@@ -55,6 +56,7 @@ public class DownloadManagerView extends SidebarView<StackPane> {
    */
   public static final String BUNDLE_DOWNLOAD_KEY = "bundle_download_key";
   public static final File TMP_DIR = ResourceManager.cacheFile("downloads");
+  private static final String PAGE_NAME = "下载管理";
   /**
    * 下载历史DAO
    */
@@ -85,6 +87,7 @@ public class DownloadManagerView extends SidebarView<StackPane> {
 
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
     BookBundle bookBundle = bundle.get(BUNDLE_DOWNLOAD_KEY);
     if (bookBundle != null) {
       tasksTab.fireEvent(new ActionEvent());

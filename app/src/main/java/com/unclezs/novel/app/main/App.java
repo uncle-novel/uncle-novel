@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.main;
 
+import cn.hutool.core.lang.Dict;
 import com.unclezs.novel.app.framework.appication.BaseApplication;
 import com.unclezs.novel.app.framework.appication.SceneView;
 import com.unclezs.novel.app.framework.core.AppContext;
@@ -9,6 +10,8 @@ import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.HotkeyManager;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
+import com.unclezs.novel.app.main.util.TimeUtil;
 import com.unclezs.novel.app.main.util.TrayManager;
 import com.unclezs.novel.app.main.util.UpdateUtils;
 import com.unclezs.novel.app.main.views.home.HomeView;
@@ -51,7 +54,9 @@ import lombok.extern.slf4j.Slf4j;
 public class App extends BaseApplication {
 
   public static final String NAME = "Uncle小说";
-  long start;
+  private static final String EVENT_LAUNCH = "启动应用";
+  private static final String EVENT_STOP = "停止应用";
+  private static final long LAUNCH_TIME = System.currentTimeMillis();
 
   public static void main(String[] args) {
     launch(args);
@@ -95,6 +100,7 @@ public class App extends BaseApplication {
     SettingManager.save();
     // 释放全局热键
     HotKeyManager.unbind();
+    MixPanelHelper.sendEvent(EVENT_STOP, Dict.create().set("使用时常", TimeUtil.secondToTime((System.currentTimeMillis() - LAUNCH_TIME) / 1000D)));
     System.exit(0);
   }
 
@@ -105,7 +111,6 @@ public class App extends BaseApplication {
    */
   @Override
   public void init() throws Exception {
-    start = System.currentTimeMillis();
     super.init();
     SettingManager.init();
     // 初始化托盘图标
@@ -129,7 +134,8 @@ public class App extends BaseApplication {
     initStage(stage);
     stage.show();
     UpdateUtils.checkForUpdate(stage);
-    log.trace("启动耗时：{}ms", (System.currentTimeMillis() - start));
+    MixPanelHelper.event(EVENT_LAUNCH);
+    log.trace("启动耗时：{}ms", (System.currentTimeMillis() - LAUNCH_TIME));
   }
 
   /**

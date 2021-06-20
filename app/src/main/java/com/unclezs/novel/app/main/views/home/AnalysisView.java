@@ -26,6 +26,7 @@ import com.unclezs.novel.app.main.core.ChapterComparator;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.model.ChapterProperty;
 import com.unclezs.novel.app.main.util.BookHelper;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.BookDetailModal;
 import com.unclezs.novel.app.main.views.components.cell.ChapterListCell;
 import java.util.Collections;
@@ -58,6 +59,7 @@ public class AnalysisView extends SidebarView<StackPane> {
    * 传递小说详情数据
    */
   public static final String BUNDLE_KEY_NOVEL_INFO = "novel-info";
+  public static final String PAGE_NAME = "解析下载";
   private final TextArea content = new TextArea();
   @FXML
   private JFXNodesList floatButtons;
@@ -74,7 +76,6 @@ public class AnalysisView extends SidebarView<StackPane> {
   @Override
   public void onCreate() {
     TextField input = inputBox.getInput();
-    input.setText("https://m.biqugeu.net/booklist/14.html");
     // 监听剪贴板
     input.focusedProperty().addListener(e -> {
       if (input.isFocused()) {
@@ -102,6 +103,7 @@ public class AnalysisView extends SidebarView<StackPane> {
 
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
+    MixPanelHelper.event(PAGE_NAME);
     Novel novelInfo = bundle.get(BUNDLE_KEY_NOVEL_INFO);
     if (novelInfo != null) {
       this.novel = novelInfo;

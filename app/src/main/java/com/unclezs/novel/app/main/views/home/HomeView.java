@@ -11,6 +11,7 @@ import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.manager.SettingManager;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 
 /**
  * @author blog.unclezs.com
@@ -32,11 +33,13 @@ public class HomeView extends SceneView<StageDecorator> {
 
   @Override
   public void onTheme(StageDecorator view, IconButton themeButton) {
+    MixPanelHelper.event("主页头部主题");
     themeView.getRoot().show(themeButton, PopupVPosition.TOP, PopupHPosition.RIGHT, 0, 40);
   }
 
   @Override
   public void onSetting(StageDecorator view, IconButton settingButton) {
+    MixPanelHelper.event("主页头部菜单");
     HeaderMenuView headerMenuView = AppContext.getView(HeaderMenuView.class);
     JFXPopup settingPopup = headerMenuView.getRoot();
     settingPopup.show(settingButton, PopupVPosition.TOP, JFXPopup.PopupHPosition.RIGHT, 0, 40);
