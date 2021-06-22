@@ -152,7 +152,7 @@ task packageWin64(type: PackageTask, dependsOn: build) {
     description = "打64位Windows的包,EXE、Setup"
     platform = "win"
     createTar = false
-    generateInstaller = true
+    generateInstaller = false
 }
 task packageWin32(type: PackageTask, dependsOn: build) {
     description = "打32位Windows的包,EXE、Setup"

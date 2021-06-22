@@ -30,7 +30,7 @@ subprojects { project ->
     apply from: "${rootDir}/gradle/dependency-management.gradle"
 
     sourceSets {
-        main.output.resourcesDir = main.java.outputDir
+        main.output.resourcesDir = main.java.classesDirectory
     }
 
     ext.compilerArgs = []

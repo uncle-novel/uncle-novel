@@ -10,3 +10,4 @@
 -Dkotlinx.coroutines.debug=off
 -Djdk.module.illegalAccess.silent=true
 -XX:+UseCompressedOops
+-Dfile.encoding=UTF-8

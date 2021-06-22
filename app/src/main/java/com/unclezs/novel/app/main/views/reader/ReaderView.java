@@ -77,8 +77,8 @@ public class ReaderView extends SceneView<StageDecorator> {
   public static final double TOC_AREA = 0.05;
   public static final double PRE_PAGE_AREA = 0.25;
   public static final double NEXT_PAGE_AREA = 0.75;
-  private static final String[] NO_SHADOW_STYLE_CLASS = {"no-window-shadow", "no-header-shadow"};
   public static final String DEFAULTS_TTS_CONFIG = "assets/defaults/tts.json";
+  private static final String[] NO_SHADOW_STYLE_CLASS = {"no-window-shadow", "no-header-shadow"};
   private static final String PAGE_NAME = "阅读器";
   private final String[] contents = new String[3];
   /**

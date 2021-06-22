@@ -8,6 +8,7 @@ import com.unclezs.novel.app.framework.core.View;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
+import com.unclezs.novel.app.main.util.MixPanelHelper;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Hyperlink;
@@ -49,6 +50,7 @@ public class HeaderMenuView extends View<JFXPopup> {
    */
   @FXML
   private void reward() {
+    MixPanelHelper.event("查看赞赏");
     BorderPane rewardBox = new BorderPane();
     Label title = new Label("欢迎打赏捐助，您的打赏捐助是对我最大的支持");
     title.getStyleClass().add("reward-title");
@@ -64,6 +66,7 @@ public class HeaderMenuView extends View<JFXPopup> {
    */
   @FXML
   public void about() {
+    MixPanelHelper.event("查看关于");
     VBox box = new VBox();
     box.setSpacing(10);
     box.getChildren().add(new Label(String.format("当前版本：%s", SettingManager.manager().getVersion())));
