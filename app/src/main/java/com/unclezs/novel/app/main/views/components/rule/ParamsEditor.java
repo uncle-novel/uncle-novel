@@ -3,7 +3,6 @@ package com.unclezs.novel.app.main.views.components.rule;
 import com.jfoenix.controls.JFXCheckBox;
 import com.unclezs.novel.analyzer.request.MediaType;
 import com.unclezs.novel.analyzer.request.RequestParams;
-import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
@@ -49,13 +48,13 @@ public class ParamsEditor extends VBox {
     headerArea.setPromptText("格式为  key: value ，一行一个");
     headerArea.setText(params.getHeaderString());
     addItem("请求头", headerArea).focusedProperty().addListener((ov, o, n) -> {
-      if (Boolean.FALSE.equals(n) && StringUtils.isNotBlank(headerArea.getText())) {
+      if (Boolean.FALSE.equals(n)) {
         params.setHeaderString(headerArea.getText());
       }
     });
     TextField bodyField = new TextField(params.getBody());
     addItem("请求体", bodyField).focusedProperty().addListener(e -> {
-      if (!bodyField.isFocused() && StringUtils.isNotBlank(bodyField.getText())) {
+      if (!bodyField.isFocused()) {
         params.setBody(bodyField.getText());
       }
     });
