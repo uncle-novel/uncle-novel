@@ -31,9 +31,17 @@ public class FontsLoader {
       return;
     }
     for (String filename : fonts) {
-      String fontUrl = URLUtil.getURL(FileUtil.file(dir, filename)).toExternalForm();
-      Font font = Font.loadFont(fontUrl, Font.getDefault().getSize());
-      log.debug("加载{}字体成功", font.getFamily());
+      try {
+        String fontUrl = URLUtil.getURL(FileUtil.file(dir, filename)).toExternalForm();
+        Font font = Font.loadFont(fontUrl, Font.getDefault().getSize());
+        if (font != null) {
+          log.debug("加载{}字体成功", font.getFamily());
+        } else {
+          log.error("加载{}字体失败", filename);
+        }
+      } catch (Exception e) {
+        log.error("加载{}字体失败", filename, e);
+      }
     }
   }
 }

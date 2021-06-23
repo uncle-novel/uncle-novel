@@ -42,6 +42,7 @@ import com.unclezs.novel.app.main.views.reader.widgets.ReaderContextMenu;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import javafx.animation.Transition;
@@ -275,6 +276,21 @@ public class ReaderView extends SceneView<StageDecorator> {
       } else if (HotKeyManager.windowHotKeyMatch(hotKeyConfig.getReaderToc(), event)) {
         showToc();
       }
+    });
+    // 滚轮翻页
+    AtomicBoolean nextPage = new AtomicBoolean(false);
+    DebounceTask scrollTurnPageTask = DebounceTask.build(() -> {
+      if (nextPage.get()) {
+        nextPage();
+      } else {
+        prePage();
+      }
+    }, 100L, true);
+    getRoot().getScene().setOnScroll(e -> {
+      System.out.println(e.getDeltaY());
+      System.out.println(e.getY());
+      nextPage.set(e.getDeltaY() < 0);
+      scrollTurnPageTask.run();
     });
   }
 

@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.main.manager;
 
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyCombination;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
@@ -38,11 +39,26 @@ public class HotkeyManager {
   }
 
   /**
-   * 初始化全局热键
+   * 初始化热键
    */
   public static void init() {
     HotKeyConfig config = SettingManager.manager().getHotkey();
     registerBossKey(config.getGlobalBossKey());
+    if (StringUtils.isNotBlank(config.getReaderNextChapter())) {
+      HotKeyManager.registerWindowHotkey(HotKeyCombination.fromStroke(config.getReaderNextChapter()));
+    }
+    if (StringUtils.isNotBlank(config.getReaderToc())) {
+      HotKeyManager.registerWindowHotkey(HotKeyCombination.fromStroke(config.getReaderToc()));
+    }
+    if (StringUtils.isNotBlank(config.getReaderNextPage())) {
+      HotKeyManager.registerWindowHotkey(HotKeyCombination.fromStroke(config.getReaderNextPage()));
+    }
+    if (StringUtils.isNotBlank(config.getReaderPreChapter())) {
+      HotKeyManager.registerWindowHotkey(HotKeyCombination.fromStroke(config.getReaderPreChapter()));
+    }
+    if (StringUtils.isNotBlank(config.getReaderPrePage())) {
+      HotKeyManager.registerWindowHotkey(HotKeyCombination.fromStroke(config.getReaderPrePage()));
+    }
   }
 
   public static void destroy() {
