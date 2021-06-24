@@ -168,8 +168,11 @@ public class ReaderView extends SceneView<StageDecorator> {
         drawer.toggle(tocDrawer);
       }
     });
+    // 窗口初始大小
     App.stage().setWidth(config.getStageWidth().get());
     App.stage().setHeight(config.getStageHeight().get());
+    getRoot().setPrefHeight(config.getStageHeight().get());
+    getRoot().setPrefWidth(config.getStageWidth().get());
     // 初始化设置面板
     setSettingView(false);
   }
@@ -287,8 +290,6 @@ public class ReaderView extends SceneView<StageDecorator> {
       }
     }, 100L, true);
     getRoot().getScene().setOnScroll(e -> {
-      System.out.println(e.getDeltaY());
-      System.out.println(e.getY());
       nextPage.set(e.getDeltaY() < 0);
       scrollTurnPageTask.run();
     });

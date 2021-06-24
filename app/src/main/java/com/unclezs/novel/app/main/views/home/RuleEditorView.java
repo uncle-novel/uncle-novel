@@ -56,6 +56,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -64,6 +65,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
@@ -401,7 +403,16 @@ public class RuleEditorView extends SidebarView<StackPane> {
       result.setPromptText("请输入result");
       source.setPromptText("请输入source");
       url.setPromptText("请输入url");
-      IconButton run = NodeHelper.addClass(new IconButton("运行"), "btn");
+      IconButton run = NodeHelper.addClass(new IconButton("运行", IconFont.RUN), "btn");
+      IconButton copy = NodeHelper.addClass(new IconButton("复制转义后的脚本", IconFont.COPY), "btn");
+      copy.setOnAction(e -> {
+        if (StringUtils.isBlank(script.getText())) {
+          Toast.error((StackPane) debugBox.getParent(), "请先输入脚本");
+          return;
+        }
+        DesktopUtils.copy(GsonUtils.toJson(script.getText()));
+        Toast.success((StackPane) debugBox.getParent(), "复制成功");
+      });
       run.setOnAction(e -> {
         if (StringUtils.isBlank(script.getText())) {
           Toast.error((StackPane) debugBox.getParent(), "请先输入脚本");
@@ -421,7 +432,10 @@ public class RuleEditorView extends SidebarView<StackPane> {
           }).onFinally(ScriptContext::remove)
           .start();
       });
-      debugBox.getChildren().setAll(result, source, url, script, console, run);
+      HBox actions = new HBox(copy, run);
+      actions.setAlignment(Pos.CENTER_RIGHT);
+      actions.setSpacing(10);
+      debugBox.getChildren().setAll(result, source, url, script, console, actions);
       debugScriptPanel = debugBox;
     }
     ModalBox.none().body(debugScriptPanel).title("预处理脚本调试工具").show();

@@ -201,7 +201,7 @@ public class SearchAudioView extends SidebarView<StackPane> implements Callback 
   @FXML
   private void copyAudioLink() {
     withAudioUrl((chapterUrl, audioUrl) -> audioUrl, audioUrl -> {
-      DesktopUtils.copyLink(audioUrl);
+      DesktopUtils.copy(audioUrl);
       Toast.success("复制成功");
     });
   }

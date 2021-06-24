@@ -220,7 +220,7 @@
           <padding>
             <Insets left="20"/>
           </padding>
-          <IconButton onAction="#showScriptDebugBox" styleClass="btn" text="预处理脚本调试工具" icon="debug"/>
+          <IconButton onAction="#showScriptDebugBox" styleClass="btn" text="预处理脚本调试工具" icon="code"/>
         </HBox>
       </VBox>
     </ScrollPane>

@@ -58,7 +58,7 @@ public class DesktopUtils {
    *
    * @param text 要复制的文字
    */
-  public static void copyLink(String text) {
+  public static void copy(String text) {
     Clipboard cb = Clipboard.getSystemClipboard();
     ClipboardContent content = new ClipboardContent();
     content.put(DataFormat.PLAIN_TEXT, text);
