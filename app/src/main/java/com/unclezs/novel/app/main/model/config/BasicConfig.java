@@ -5,6 +5,7 @@ import com.unclezs.novel.app.main.views.home.HomeView;
 import java.util.Locale;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.text.Font;
 import lombok.Data;
 
 /**
@@ -27,4 +28,8 @@ public class BasicConfig {
    * 系统语言，读取默认
    */
   private ObjectProperty<String> lang = new SimpleObjectProperty<>(LanguageManager.name(Locale.getDefault()));
+  /**
+   * 系统默认字体
+   */
+  private ObjectProperty<String> fonts = new SimpleObjectProperty<>(Font.getDefault().getFamily());
 }
