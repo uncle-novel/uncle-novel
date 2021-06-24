@@ -12,8 +12,11 @@ import com.unclezs.novel.analyzer.core.matcher.matchers.DefaultTextMatcher;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.core.rule.CommonRule;
 import com.unclezs.novel.analyzer.request.RequestParams;
+import com.unclezs.novel.analyzer.script.ScriptContext;
+import com.unclezs.novel.analyzer.script.ScriptUtils;
 import com.unclezs.novel.analyzer.util.CollectionUtils;
 import com.unclezs.novel.analyzer.util.GsonUtils;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.InputBox;
@@ -25,6 +28,7 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.executor.Executor;
+import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.manager.RuleManager;
@@ -125,6 +129,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private VBox debugDetailPanel;
   private VBox debugSearchPanel;
   private VBox debugPanel;
+  private VBox debugScriptPanel;
   /**
    * 用于数据绑定
    */
@@ -376,6 +381,53 @@ public class RuleEditorView extends SidebarView<StackPane> {
     return debugBox;
   }
 
+
+  /**
+   * 创建JS脚本测试容器
+   */
+  public void showScriptDebugBox() {
+    if (debugScriptPanel == null) {
+      TextArea console = NodeHelper.addClass(new TextArea(), "rule-debug-console");
+      console.setMaxHeight(60);
+      console.setWrapText(true);
+      console.setPromptText("此处为输出结果");
+      TextArea script = new TextArea();
+      script.setPromptText("在此输入预处理脚本");
+      VBox debugBox = new VBox();
+      debugBox.setSpacing(10);
+      TextField result = new TextField();
+      TextField source = new TextField();
+      TextField url = new TextField();
+      result.setPromptText("请输入result");
+      source.setPromptText("请输入source");
+      url.setPromptText("请输入url");
+      IconButton run = NodeHelper.addClass(new IconButton("运行"), "btn");
+      run.setOnAction(e -> {
+        if (StringUtils.isBlank(script.getText())) {
+          Toast.error((StackPane) debugBox.getParent(), "请先输入脚本");
+          return;
+        }
+        TaskFactory.create(() -> {
+          ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_RESULT, result.getText());
+          ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_URL, url.getText());
+          ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_SOURCE, source.getText());
+          String res = ScriptUtils.execute(script.getText(), ScriptContext.current());
+          ScriptContext.remove();
+          return res;
+        }).onSuccess(console::setText)
+          .onFailed(err -> {
+            console.setText(ExceptionUtil.stacktraceToString(err));
+            Toast.error((StackPane) debugBox.getParent(), "执行失败");
+          }).onFinally(ScriptContext::remove)
+          .start();
+      });
+      debugBox.getChildren().setAll(result, source, url, script, console, run);
+      debugScriptPanel = debugBox;
+    }
+    ModalBox.none().body(debugScriptPanel).title("预处理脚本调试工具").show();
+  }
+
+
   /**
    * 返回书源页面，重置初始状态，移除监听。直接调用则丢弃修改。
    */
@@ -405,7 +457,6 @@ public class RuleEditorView extends SidebarView<StackPane> {
     this.realRule = null;
     this.rule = null;
   }
-
 
   /**
    * 保存修改

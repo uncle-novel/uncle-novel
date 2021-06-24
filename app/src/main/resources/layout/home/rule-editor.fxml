@@ -9,6 +9,7 @@
 <?import com.unclezs.novel.app.main.views.components.rule.RuleItems?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -213,6 +214,14 @@
             <JFXCheckBox userData="content.removeTitle"/>
           </RuleItem>
         </RuleItems>
+        <!--调试工具-->
+        <RuleItems title="调试工具"/>
+        <HBox alignment="CENTER_LEFT">
+          <padding>
+            <Insets left="20"/>
+          </padding>
+          <IconButton onAction="#showScriptDebugBox" styleClass="btn" text="预处理脚本调试工具" icon="debug"/>
+        </HBox>
       </VBox>
     </ScrollPane>
   </VBox>
