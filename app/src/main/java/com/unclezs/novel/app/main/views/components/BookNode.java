@@ -4,10 +4,10 @@ import com.jfoenix.controls.JFXSpinner;
 import com.unclezs.novel.app.framework.components.LoadingImageView;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.db.beans.Book;
+import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.views.components.cell.BookListCell;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import lombok.Getter;
 
@@ -19,13 +19,14 @@ import lombok.Getter;
  */
 public class BookNode extends StackPane {
 
+  public static final String SHOW_TITLE_STYLE_CSS = "show-title";
   private final LoadingImageView cover = new LoadingImageView(BookListCell.NO_COVER, 95, 120);
   private final Label title = NodeHelper.addClass(new Label(), "title");
   private final Label tip = NodeHelper.addClass(new Label("发现更新"), "tip");
   @Getter
   private final Book book;
-  private JFXSpinner updating;
   private final StackPane container;
+  private JFXSpinner updating;
 
   public BookNode(Book book) {
     this.book = book;
@@ -37,10 +38,7 @@ public class BookNode extends StackPane {
     tip.setVisible(book.isUpdate());
     container = NodeHelper.addClass(new StackPane(cover, title, tip), "book-node-container");
     getChildren().setAll(container);
-  }
-
-  private Pane parent() {
-    return (Pane) getParent();
+    showTitle(SettingManager.manager().getBookShelf().getAlwaysShowBookTitle().get());
   }
 
   /**
@@ -86,5 +84,17 @@ public class BookNode extends StackPane {
       container.getChildren().add(updating);
     }
     updating.setVisible(running);
+  }
+
+  /**
+   * 总是显示标题
+   *
+   * @param show true显示
+   */
+  public void showTitle(boolean show) {
+    title.getStyleClass().remove(SHOW_TITLE_STYLE_CSS);
+    if (show) {
+      title.getStyleClass().add(SHOW_TITLE_STYLE_CSS);
+    }
   }
 }

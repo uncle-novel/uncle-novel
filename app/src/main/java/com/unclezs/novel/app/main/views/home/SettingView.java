@@ -8,6 +8,7 @@ import com.unclezs.novel.app.framework.components.FileSelector;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
+import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
 import com.unclezs.novel.app.framework.support.hotkey.KeyRecorder;
 import com.unclezs.novel.app.main.manager.HotkeyManager;
@@ -25,6 +26,7 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,6 +64,8 @@ public class SettingView extends SidebarView<StackPane> {
    */
   @FXML
   private JFXCheckBox bookAutoUpdate;
+  @FXML
+  private JFXCheckBox bookTitleStyle;
   /**
    * 基本设置
    */
@@ -69,6 +73,8 @@ public class SettingView extends SidebarView<StackPane> {
   private JFXCheckBox tray;
   @FXML
   private ComboBox<String> language;
+  @FXML
+  private ComboBox<String> fonts;
   /**
    * 调试模式
    */
@@ -93,7 +99,6 @@ public class SettingView extends SidebarView<StackPane> {
   private ComboBox<Integer> threadNum;
   @FXML
   private FileSelector downloadFolder;
-
   /**
    * 设置管理器
    */
@@ -103,9 +108,13 @@ public class SettingView extends SidebarView<StackPane> {
   public void onCreated() {
     manager = SettingManager.manager();
     language.valueProperty().bindBidirectional(manager.getBasic().getLang());
+    fonts.getItems().setAll(Font.getFamilies());
+    fonts.valueProperty().bindBidirectional(manager.getBasic().getFonts());
+    fonts.valueProperty().addListener(e -> AppContext.getView(HomeView.class).changeFont(fonts.getValue()));
     tray.selectedProperty().bindBidirectional(manager.getBasic().getTray());
     // 书架
     bookAutoUpdate.selectedProperty().bindBidirectional(manager.getBookShelf().getAutoUpdate());
+    bookTitleStyle.selectedProperty().bindBidirectional(manager.getBookShelf().getAlwaysShowBookTitle());
     // 热键
     initHotKey();
     // 下载配置
@@ -242,5 +251,4 @@ public class SettingView extends SidebarView<StackPane> {
       }
     });
   }
-
 }

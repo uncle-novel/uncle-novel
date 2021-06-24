@@ -11,6 +11,8 @@ import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.gradle.api.DefaultTask;
@@ -47,6 +49,9 @@ public class UpgradeTask extends DefaultTask {
   @Input
   @Optional
   private Boolean rsync = false;
+  @Input
+  @Optional
+  private List<String> excludes = new ArrayList<>();
 
   public UpgradeTask() {
     setGroup(PackagePlugin.GROUP_NAME);
@@ -69,6 +74,9 @@ public class UpgradeTask extends DefaultTask {
   public void deploy() {
     if (Boolean.TRUE.equals(dryRun)) {
       return;
+    }
+    for (String exclude : excludes) {
+      FileUtil.del(FileUtil.file(outDir, exclude));
     }
     if (url.startsWith(FILE_SCHEME)) {
       File serverDir = new File(URI.create(url));

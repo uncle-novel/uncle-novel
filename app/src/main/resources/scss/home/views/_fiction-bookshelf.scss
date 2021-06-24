@@ -31,7 +31,12 @@
         -fx-text-fill: white;
         -fx-padding: 2px;
         -fx-opacity: 0;
+
+        &.show-title {
+          -fx-opacity: 1;
+        }
       }
+
 
       &:hover {
         .title {

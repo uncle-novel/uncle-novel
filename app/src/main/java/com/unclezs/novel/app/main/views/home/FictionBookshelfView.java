@@ -142,6 +142,8 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
     if (Boolean.TRUE.equals(this.bookShelfConfig.getAutoUpdate().get())) {
       checkUpdateGroup();
     }
+    // 标题显示监听
+    listenerTitleVisible();
   }
 
   @Override
@@ -275,6 +277,13 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
       node.setCover(cover.getAbsolutePath());
       bookDao.update(book);
     }
+  }
+
+  /**
+   * 标题显示监听
+   */
+  private void listenerTitleVisible() {
+    bookShelfConfig.getAlwaysShowBookTitle().addListener(e -> bookNodes.forEach(node -> node.showTitle(bookShelfConfig.getAlwaysShowBookTitle().get())));
   }
 
   /**

@@ -27,10 +27,16 @@
         <items>
           <SettingItem name="%setting.basic.lang">
             <content>
-              <ComboBox fx:id="language">
+              <ComboBox fx:id="language" maxWidth="150">
                 <items>
                   <LanguageManager fx:factory="names"/>
                 </items>
+              </ComboBox>
+            </content>
+          </SettingItem>
+          <SettingItem name="%setting.basic.fonts">
+            <content>
+              <ComboBox fx:id="fonts" maxWidth="150">
               </ComboBox>
             </content>
           </SettingItem>
@@ -87,6 +93,11 @@
           <SettingItem name="%setting.bookshelf.update">
             <content>
               <JFXCheckBox fx:id="bookAutoUpdate" text="%setting.bookshelf.update.auto"/>
+            </content>
+          </SettingItem>
+          <SettingItem name="%setting.bookshelf.style">
+            <content>
+              <JFXCheckBox fx:id="bookTitleStyle" text="%setting.bookshelf.style.title"/>
             </content>
           </SettingItem>
         </items>

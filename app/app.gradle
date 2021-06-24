@@ -186,5 +186,7 @@ tasks.withType(UpgradeTask) {
     rsync = false
     url = "root@uncle-novel.unclezs.com:/www/wwwroot/uncle-novel.unclezs.com/novel/$profile"
     outDir = file("$buildDir/upgrade")
+    // 排除不常更新，但是比较大的
+    excludes = ["bin", "fonts", "runtime/modules/sqlite-jdbc.jar", "runtime/modules/jfoenix.jar"]
 }
 

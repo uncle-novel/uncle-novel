@@ -21,4 +21,8 @@ public class BookShelfConfig {
    * 书架书籍自动更新
    */
   private ObjectProperty<Boolean> autoUpdate = new SimpleObjectProperty<>(false);
+  /**
+   * 总是显示标题
+   */
+  private ObjectProperty<Boolean> alwaysShowBookTitle = new SimpleObjectProperty<>(false);
 }

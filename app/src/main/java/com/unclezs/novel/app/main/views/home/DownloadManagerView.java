@@ -231,7 +231,7 @@ public class DownloadManagerView extends SidebarView<StackPane> {
     DownloadConfig downloadConfig = SettingManager.manager().getDownload();
     String savePath = downloadConfig.getFolder().getValue();
     if (!FileUtils.exist(savePath)) {
-      Toast.error("下载文件夹不存在");
+      Toast.error("下载文件夹不存在，请在设置中更换");
       return;
     }
     Novel novel = bundle.getNovel();
