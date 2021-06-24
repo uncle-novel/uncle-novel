@@ -4,6 +4,7 @@ import cn.hutool.core.bean.BeanPath;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.util.NumberUtil;
 import com.google.gson.JsonSyntaxException;
 import com.jfoenix.controls.JFXCheckBox;
 import com.unclezs.novel.analyzer.core.helper.RuleHelper;
@@ -70,7 +71,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -89,7 +89,6 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private static final String SELECTOR_TEXT_INPUT = ".item > .text-input";
   private static final String SELECTOR_INPUT_BOX = ".input-box";
   private static final String PAGE_NAME = "书源编辑";
-  private final IntegerStringConverter intStrConverter = new IntegerStringConverter();
   /**
    * 监听器
    */
@@ -544,7 +543,17 @@ public class RuleEditorView extends SidebarView<StackPane> {
    */
   private void bindData() {
     // 特殊数据处理
-    bind(weight.focusedProperty(), weight::getText, weight::setText, rule::getWeight, rule::setWeight, intStrConverter);
+    bind(weight.focusedProperty(), weight::getText, weight::setText, rule::getWeight, rule::setWeight, new StringConverter<>() {
+      @Override
+      public String toString(Integer object) {
+        return String.valueOf(object);
+      }
+
+      @Override
+      public Integer fromString(String string) {
+        return NumberUtil.isNumber(string) ? Integer.parseInt(string) : 0;
+      }
+    });
     // 通用数据绑定
     inputBoxes.forEach(this::bind);
     inputs.forEach(this::bind);
@@ -686,7 +695,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
       return false;
     }
     RuleEditorView that = (RuleEditorView) o;
-    return fromManager == that.fromManager && Objects.equals(intStrConverter, that.intStrConverter) && Objects.equals(listeners, that.listeners) && Objects
+    return fromManager == that.fromManager && Objects.equals(listeners, that.listeners) && Objects
       .equals(inputBoxes, that.inputBoxes) && Objects.equals(inputs, that.inputs) && Objects.equals(checkBoxes, that.checkBoxes) && Objects
       .equals(comboBoxes, that.comboBoxes) && Objects.equals(cookieField, that.cookieField) && Objects.equals(contentRule, that.contentRule) && Objects
       .equals(autoAnalysisMode, that.autoAnalysisMode) && Objects.equals(infoItemsPanel, that.infoItemsPanel) && Objects.equals(sourceEditor, that.sourceEditor) && Objects
@@ -700,7 +709,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
   @Override
   public int hashCode() {
     return Objects
-      .hash(super.hashCode(), intStrConverter, listeners, inputBoxes, inputs, checkBoxes, comboBoxes, cookieField, contentRule, autoAnalysisMode, infoItemsPanel, sourceEditor, panel, showSourceButton,
+      .hash(super.hashCode(), listeners, inputBoxes, inputs, checkBoxes, comboBoxes, cookieField, contentRule, autoAnalysisMode, infoItemsPanel, sourceEditor, panel, showSourceButton,
         ruleContainer, weight, editor, debugContentPanel, debugTocPanel, debugDetailPanel, debugSearchPanel, debugPanel, rule, realRule, fromManager, from, saveToRule, saveToRulesSwitch);
   }
 }

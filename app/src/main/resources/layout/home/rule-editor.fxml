@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.unclezs.novel.app.framework.components.icon.IconButton?>
 <?import com.unclezs.novel.app.framework.components.InputBox?>
-<?import com.unclezs.novel.app.framework.components.NumberTextField?>
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
 <?import com.unclezs.novel.app.main.views.components.rule.RuleItem?>
 <?import com.unclezs.novel.app.main.views.components.rule.RuleItems?>
@@ -47,7 +46,7 @@
             <IconButton icon="browser" text="打开" onAction="#openSite" styleClass="btn"/>
           </RuleItem>
           <RuleItem name="书源权重">
-            <NumberTextField fx:id="weight"/>
+            <TextField fx:id="weight"/>
           </RuleItem>
         </RuleItems>
         <RuleItems title="全局配置" debug="false">

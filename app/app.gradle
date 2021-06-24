@@ -124,7 +124,7 @@ packager {
         moduleOptions = file("$projectDir/app.modularity").readLines()
         // 更新日志
         changeLog = []
-        for (String line : file("$rootDir/changelogs").readLines()) {
+        for (String line : file("$rootDir/changelog").readLines()) {
 //            if (line.trim().blank || line.trim().empty) {
 //                break
 //            }
