@@ -125,9 +125,9 @@ packager {
         // 更新日志
         changeLog = []
         for (String line : file("$rootDir/changelogs").readLines()) {
-            if (line.trim().blank || line.trim().empty) {
-                break
-            }
+//            if (line.trim().blank || line.trim().empty) {
+//                break
+//            }
             if (!line.startsWith("//")) {
                 changeLog.add(line)
             }

@@ -8,7 +8,6 @@ import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.request.Http;
 import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.util.CollectionUtils;
-import com.unclezs.novel.analyzer.util.FileUtils;
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.SystemUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
@@ -31,6 +30,7 @@ public class EbookUtils {
 
   public static final String EBOOK_TMP_SUFFIX = "_Ebook";
   private static final String KINDLEGEN = "kindlegen";
+  private static final String KINDLEGEN_EXE = "kindlegen.exe";
   private static final String KINDLEGEN_LINUX = "kindlegen_linux";
   private static final String EPUB_SUFFIX = ".epub";
   private static final String MOBI_SUFFIX = ".mobi";
@@ -73,8 +73,13 @@ public class EbookUtils {
   public static void toMobi(File outDir) {
     File tmpDir = FileUtil.file(outDir.getAbsolutePath().concat(EBOOK_TMP_SUFFIX));
     // kindlegen可执行文件
-    String gen = SystemUtils.isLinux() ? ResourceManager.binFile(KINDLEGEN_LINUX).getAbsolutePath() : ResourceManager.binFile(KINDLEGEN).getAbsolutePath();
-    FileUtil.file(gen).setExecutable(true,false);
+    String gen = null;
+    if (SystemUtils.isWindows()) {
+      gen = ResourceManager.binFile(KINDLEGEN_EXE).getAbsolutePath();
+    } else {
+      gen = SystemUtils.isLinux() ? ResourceManager.binFile(KINDLEGEN_LINUX).getAbsolutePath() : ResourceManager.binFile(KINDLEGEN).getAbsolutePath();
+    }
+    FileUtil.file(gen).setExecutable(true, false);
     // content.opf文件
     String opf = FileUtil.file(tmpDir, OUT_PATH_CONTENT_OPF).getAbsolutePath();
     // cmd命令

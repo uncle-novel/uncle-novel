@@ -8,6 +8,8 @@ import com.unclezs.novel.app.main.manager.SettingManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
 
@@ -52,7 +54,13 @@ public class UpdateUtils {
       if (!Boolean.TRUE.equals(hasNew)) {
         return;
       }
-      Executor.run(() -> JFXUtilities.runInFX(() -> ModalBox.none().cancel("了解了").message(whatNew.toString()).title("更新内容 - V".concat(version)).show()), 1000);
+      Label changelog = new Label(whatNew.toString());
+      changelog.setWrapText(true);
+      ScrollPane content = new ScrollPane();
+      content.setContent(changelog);
+      content.setFitToWidth(true);
+      content.setMaxHeight(200);
+      Executor.run(() -> JFXUtilities.runInFX(() -> ModalBox.none().cancel("了解了").body(content).title("当前版本 - V".concat(version).concat(" - 欢迎关注微信公众号【书虫无书荒】")).show()), 1000);
     });
   }
 
