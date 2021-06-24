@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.main.core.pipeline;
 
 import cn.hutool.core.io.FileUtil;
+import com.unclezs.novel.analyzer.core.helper.AnalyzerHelper;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.spider.pipline.AbstractTextPipeline;
 import com.unclezs.novel.app.main.util.EbookUtils;
@@ -20,9 +21,17 @@ public class EbookPipeline extends AbstractTextPipeline {
   private boolean epub;
 
   @Override
-  public void processChapter(Chapter chapter) {
+  public void process(Chapter chapter) {
+    // 预处理文本格式
+    chapter.setContent(AnalyzerHelper.formatContent(chapter.getContent()));
     // 生成章节
     EbookUtils.generateChapter(chapter, new File(getFilePath()));
+
+  }
+
+  @Override
+  public void processChapter(Chapter chapter) {
+    // do nothing
   }
 
   @Override

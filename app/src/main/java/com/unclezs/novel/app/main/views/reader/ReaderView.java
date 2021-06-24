@@ -55,6 +55,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
@@ -278,6 +279,8 @@ public class ReaderView extends SceneView<StageDecorator> {
         prePage();
       } else if (HotKeyManager.windowHotKeyMatch(hotKeyConfig.getReaderToc(), event)) {
         showToc();
+      } else if (event.getCode() == KeyCode.ESCAPE) {
+        onClose(getRoot(), null);
       }
     });
     // 滚轮翻页

@@ -395,14 +395,17 @@ public class RuleEditorView extends SidebarView<StackPane> {
       console.setPromptText("此处为输出结果");
       TextArea script = new TextArea();
       script.setPromptText("在此输入预处理脚本");
+      script.setMaxHeight(120);
       VBox debugBox = new VBox();
       debugBox.setSpacing(10);
       TextField result = new TextField();
       TextField source = new TextField();
       TextField url = new TextField();
+      TextField params = new TextField();
       result.setPromptText("请输入result");
       source.setPromptText("请输入source");
       url.setPromptText("请输入url");
+      params.setPromptText("请输入params的json");
       IconButton run = NodeHelper.addClass(new IconButton("运行", IconFont.RUN), "btn");
       IconButton copy = NodeHelper.addClass(new IconButton("复制转义后的脚本", IconFont.COPY), "btn");
       copy.setOnAction(e -> {
@@ -422,6 +425,9 @@ public class RuleEditorView extends SidebarView<StackPane> {
           ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_RESULT, result.getText());
           ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_URL, url.getText());
           ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_SOURCE, source.getText());
+          if (StringUtils.isNotBlank(params.getText())) {
+            ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_PARAMS, GsonUtils.parse(params.getText(), RequestParams.class));
+          }
           String res = ScriptUtils.execute(script.getText(), ScriptContext.current());
           ScriptContext.remove();
           return res;
@@ -435,7 +441,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
       HBox actions = new HBox(copy, run);
       actions.setAlignment(Pos.CENTER_RIGHT);
       actions.setSpacing(10);
-      debugBox.getChildren().setAll(result, source, url, script, console, actions);
+      debugBox.getChildren().setAll(result, source, url, params, script, console, actions);
       debugScriptPanel = debugBox;
     }
     ModalBox.none().body(debugScriptPanel).title("预处理脚本调试工具").show();
