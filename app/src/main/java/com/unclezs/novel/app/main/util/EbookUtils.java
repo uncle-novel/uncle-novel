@@ -86,7 +86,7 @@ public class EbookUtils {
     String filename = outDir.getName().concat(MOBI_SUFFIX);
     try {
       // kindlegen的输出目录与opf输入目录一样
-      String command = String.format("%s %s -c1 -o %s", gen, opf, filename);
+      String command = String.format("%s -dont_append_sourc %s -c1 -o %s", gen, opf, filename);
       Process process = Runtime.getRuntime().exec(command);
       // 读取输出流等待执行完成
       String result = RuntimeUtil.getResult(process);
