@@ -109,7 +109,8 @@ packager {
         resource("$packagerDir/bin/linux/kindlegen_linux", null, "LINUX", "bin")
         resource("$packagerDir/fonts/pingfang-simple-bold.ttf", "fonts")
         resource("$packagerDir/resource/conf/jul.properties", "conf")
-        resource("$packagerDir/resource/conf/core.db", "conf")
+        // 打包时使用
+        //resource("$packagerDir/resource/conf/core.db", "conf")
         if (debug) {
             resource("$rootDir/conf/rules.json", "conf")
         }
