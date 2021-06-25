@@ -2,7 +2,7 @@
 name: 需求帮助
 about: 提出使用中的一些疑问
 title: ''
-labels: 'question'
+labels: question
 assignees: ''
 
 ---

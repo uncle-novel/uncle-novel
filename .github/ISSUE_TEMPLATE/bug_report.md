@@ -2,7 +2,7 @@
 name: 提交BUG
 about: 提交BUG及问题
 title: ''
-labels: 'bug'
+labels: bug
 assignees: ''
 
 ---

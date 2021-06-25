@@ -2,12 +2,10 @@
 name: 新增功能
 about: 如果你有想增加的功能
 title: ''
-labels: 'enhancement'
+labels: enhancement
 assignees: ''
 
 ---
-
-
 
 **功能描述**
 
