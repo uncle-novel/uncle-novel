@@ -6,6 +6,9 @@
 </p>
 
 <p align="center">
+    <a href="https://github.com/unclezs/jfx-launcher/actions/workflows/gradle.yml">
+    <img src="https://img.shields.io/github/workflow/status/unclezs/NovelHarvester/Java%20CI%20with%20Gradle" alt="gradle build"/>
+    </a>
 	<img src="https://img.shields.io/github/downloads/unclezs/NovelHarvester/total"/>
 	<img src="https://img.shields.io/badge/openjdk-11-green"/>
 	<img src="https://img.shields.io/badge/platform-win linux mac-green"/>
