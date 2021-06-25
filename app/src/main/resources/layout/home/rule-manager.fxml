@@ -21,7 +21,7 @@
         </HBox>
       </content>
     </TitleBar>
-    <TableView fx:id="rulesTable" prefWidth="${container.width}">
+    <TableView fx:id="rulesTable" prefWidth="${container.width}" prefHeight="${container.height}">
       <placeholder>
         <VBox alignment="CENTER" styleClass="placeholder">
           <Icon value="empty"/>

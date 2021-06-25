@@ -96,7 +96,7 @@ public class RuleManagerView extends SidebarView<StackPane> {
     name.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue().getName()));
     // 分组
     TableColumn<AnalyzerRule, String> group = new TableColumn<>(localized("rule.manager.table.category"));
-    group.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.10));
+    group.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.08));
     group.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue().getGroup()));
     // 权重
     TableColumn<AnalyzerRule, Integer> weight = NodeHelper.addClass(new TableColumn<>(localized("rule.manager.table.weight")), "align-center");
@@ -229,6 +229,7 @@ public class RuleManagerView extends SidebarView<StackPane> {
         rules.stream()
           .filter(rule -> rule.isEffective() && !ruleSites.contains(UrlUtils.getHost(rule.getSite())))
           .forEach(rule -> rulesTable.getItems().add(rule));
+        RuleManager.save();
       } catch (Exception e) {
         Toast.error("导入失败");
         log.error("书源导入失败", e);
