@@ -17,11 +17,60 @@
 	<img src="https://img.shields.io/badge/platform-win linux mac-green"/>
 </p>
 
+### 介绍
+
+- [Uncle小说介绍](https://mp.weixin.qq.com/s/04_v4p5Svhm_26HslyKRtA
+  )
+
+Uncle小说是一款桌面端的小说阅读器，支持有声小说在线收听。其核心为目录解析功能，辅以书源模式进行（全网小说）小说的内容获取。
+
+同时提供了 [小程序版本](https://app.unclezs.com/guide/mp/) 与 [安卓版本](https://github.com/unclezs/uncle-novel-android) 。
+
+### 主要功能
+
+- 搜书文本小说
+- 搜书有声小说
+- 全网搜书
+- 文本小说书架
+- 文本小说阅读器
+- 有声小说书架
+- 解析下载
+- 下载管理
+- 书源管理
+- 软件设置
+- 全局热键
+- 主题定制
+- 国际化支持
+- 备份与恢复（WebDav）
+
+### 预览
+
+#### 书架
+
+书架提供了书籍的分组管理功能，同时支持按照分组批量更新书籍，也可以导入本地TXT小说到书架。
+
+<img src="https://gitee.com/unclezs/image-blog/raw/master/20210626022910.png"/>
+
+#### 阅读器
+
+<img src="https://gitee.com/unclezs/image-blog/raw/master/20210626023012.png"/>
+<img src="https://gitee.com/unclezs/image-blog/raw/master/20210626023021.png"/>
+
+#### 软件设置
+
+<img src="https://gitee.com/unclezs/image-blog/raw/master/20210626023047.png"/>
+
+#### 其他
+
+更多的功能预览请下载体验吧~
+
 ### 下载地址
 
 - 关注公众号【书虫无书荒】回复【9999】
-- QQ群文件：774716671
+- QQ群文件：774716671、973161541
 - [访问官网](https://app.unclezs.com)
+- [安卓版地址](https://github.com/unclezs/uncle-novel-android)
+- [小程序版地址](https://app.unclezs.com/guide/mp/)
 
 ### 喝杯咖啡~
 
