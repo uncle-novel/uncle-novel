@@ -10,7 +10,7 @@ ext {
 }
 
 allprojects {
-    group = "com.unclezs.novel.app.jfx"
+    group = "com.unclezs.novel.app"
     version = property("app.version")
     description = "Uncle Novel Project"
 
@@ -74,6 +74,7 @@ configure(jfxProject) { project ->
         version = "16"
         modules = ["javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web"]
     }
+
     jar {
         exclude "**/scss/**"
     }
