@@ -47,6 +47,11 @@
               <Icon value="cover"/>
             </graphic>
           </MenuItem>
+          <MenuItem text="获取封面" onAction="#searchCover">
+            <graphic>
+              <Icon value="airport"/>
+            </graphic>
+          </MenuItem>
           <MenuItem text="重命名" onAction="#renameBook">
             <graphic>
               <Icon value="rename"/>

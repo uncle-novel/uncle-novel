@@ -26,8 +26,7 @@ public class Choosers {
     FileChooser chooser = new FileChooser();
     chooser.setInitialDirectory(dir);
     chooser.getExtensionFilters().add(new ExtensionFilter(tip, "*.jpg", "*.png", "*.jpeg"));
-    updateDir(chooser.showOpenDialog(AppContext.getInstance().getPrimaryStage()));
-    return dir;
+    return updateDir(chooser.showOpenDialog(AppContext.getInstance().getPrimaryStage()));
   }
 
   /**
@@ -38,8 +37,7 @@ public class Choosers {
   public static File chooseFolder() {
     DirectoryChooser chooser = new DirectoryChooser();
     chooser.setInitialDirectory(dir);
-    updateDir(chooser.showDialog(AppContext.getInstance().getPrimaryStage()));
-    return dir;
+    return updateDir(chooser.showDialog(AppContext.getInstance().getPrimaryStage()));
   }
 
   /**
@@ -50,14 +48,18 @@ public class Choosers {
   public static File chooseFile() {
     FileChooser chooser = new FileChooser();
     chooser.setInitialDirectory(dir);
-    updateDir(chooser.showOpenDialog(AppContext.getInstance().getPrimaryStage()));
-    return dir;
+    return updateDir(chooser.showOpenDialog(AppContext.getInstance().getPrimaryStage()));
   }
 
-  private static void updateDir(File file) {
+  private static File updateDir(File file) {
     if (file != null) {
-      dir = file;
+      if (file.isDirectory()) {
+        dir = file;
+      } else {
+        dir = file.getParentFile();
+      }
     }
+    return file;
   }
 
 }

@@ -209,6 +209,9 @@
           <RuleItem name="启用翻页">
             <JFXCheckBox userData="content.enableNext"/>
           </RuleItem>
+          <RuleItem name="繁体转简体">
+            <JFXCheckBox userData="content.traditionToSimple"/>
+          </RuleItem>
           <RuleItem name="移除章节标题">
             <JFXCheckBox userData="content.removeTitle"/>
           </RuleItem>

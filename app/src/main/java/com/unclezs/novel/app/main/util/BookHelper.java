@@ -2,6 +2,7 @@ package com.unclezs.novel.app.main.util;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.IORuntimeException;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.model.Novel;
@@ -10,6 +11,7 @@ import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.analyzer.util.GsonUtils;
 import com.unclezs.novel.analyzer.util.SerializationUtils;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.core.AppContext;
@@ -53,17 +55,32 @@ public class BookHelper {
       return;
     }
     // 封面
-    Executor.run(() -> {
-      try {
-        File coverFile = FileUtil.file(outDir, COVER_NAME);
-        RequestParams params = RequestParams.create(cover);
+    Executor.run(() -> callback.accept(downloadCover(cover, referer, outDir)));
+  }
+
+  /**
+   * 封面下载
+   *
+   * @param cover   封面
+   * @param referer 防盗链
+   * @param outDir  输出目录
+   */
+  public static String downloadCover(String cover, String referer, File outDir) {
+    if (cover == null) {
+      return null;
+    }
+    try {
+      File coverFile = FileUtil.file(outDir, COVER_NAME);
+      RequestParams params = RequestParams.create(cover);
+      if (StringUtils.isNotBlank(referer)) {
         params.addHeader(RequestParams.REFERER, referer);
-        FileUtil.writeBytes(Http.bytes(params), coverFile);
-        callback.accept(coverFile.getAbsolutePath());
-      } catch (IOException e) {
-        e.printStackTrace();
       }
-    });
+      FileUtil.writeBytes(Http.bytes(params), coverFile);
+      return coverFile.getAbsolutePath();
+    } catch (IOException e) {
+      log.error("封面下载失败：{}", cover, e);
+      throw new IORuntimeException("封面获取失败", e);
+    }
   }
 
   /**

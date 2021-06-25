@@ -1,4 +1,4 @@
-package com.unclezs.novel.app.main.util;
+package com.unclezs.novel.app.main.manager;
 
 import cn.hutool.core.util.ArrayUtil;
 import com.unclezs.novel.app.framework.executor.Executor;

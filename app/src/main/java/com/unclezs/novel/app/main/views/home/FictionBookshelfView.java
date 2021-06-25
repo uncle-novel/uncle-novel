@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXNodesList;
 import com.jfoenix.controls.JFXTabPane;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
+import com.unclezs.novel.analyzer.spider.helper.SpiderHelper;
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.appication.SceneNavigateBundle;
@@ -273,10 +274,34 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
     if (file != null) {
       // 复制封面到缓存目录
       Book book = node.getBook();
-      File cover = FileUtil.copyFile(file, FileUtil.file(CACHE_FOLDER, book.getId(), BookHelper.COVER_NAME));
+      File cover = FileUtil.copy(file, FileUtil.file(CACHE_FOLDER, book.getId(), BookHelper.COVER_NAME), true);
       node.setCover(cover.getAbsolutePath());
       bookDao.update(book);
     }
+  }
+
+  /**
+   * 获取封面
+   */
+  @FXML
+  public void searchCover() {
+    BookNode node = (BookNode) bookNodeContextMenu.getOwnerNode();
+    Book book = node.getBook();
+    String name = book.getName();
+    TaskFactory.create(() -> {
+      String cover = SpiderHelper.getCover(name);
+      log.trace("获取到《{}》小说封面：{}", cover, name);
+      // 封面
+      cover = BookHelper.downloadCover(cover, null, FileUtil.file(CACHE_FOLDER, book.getId()));
+      return cover;
+    }).onSuccess(cover -> {
+      node.setCover(cover);
+      bookDao.update(book);
+      Toast.success("封面获取成功");
+    }).onFailed(e -> {
+      log.error("封面获取失败：{}", book.getName(), e);
+      Toast.error("封面获取失败");
+    }).start();
   }
 
   /**
