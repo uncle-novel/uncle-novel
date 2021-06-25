@@ -12,12 +12,12 @@
 	<img src="https://img.shields.io/badge/platform-win linux mac-green"/>
 </p>
 
-## Uncle小说 PC版
-
-OpenJfx实现.
-
 ## 下载地址
 
-关注公众号【书虫无书荒】回复【9999】
+- 关注公众号【书虫无书荒】回复【9999】
+- QQ群文件：774716671
+- [访问官网](https://app.unclezs.com)
 
-百度网盘链接：https://pan.baidu.com/s/11a62y0v6uUzcVROKjS_-Rw 提取码：9999 天翼云盘链接：https://cloud.189.cn/t/fEjiimNF7773 提取码：1bap
+## 喝杯咖啡~
+
+<img src="https://gitee.com/unclezs/image-blog/raw/master/20210105090216.jpeg"/>
