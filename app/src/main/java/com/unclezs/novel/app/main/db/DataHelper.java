@@ -1,12 +1,14 @@
 package com.unclezs.novel.app.main.db;
 
+import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.app.main.db.dao.AudioBookDao;
 import com.unclezs.novel.app.main.db.dao.BookDao;
 import com.unclezs.novel.app.main.db.dao.DownloadHistoryDao;
 import com.unclezs.novel.app.main.db.dao.SearchEngineDao;
 import com.unclezs.novel.app.main.db.dao.TxtTocRuleDao;
-import java.sql.SQLException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.SQLException;
 
 /**
  * @author blog.unclezs.com
@@ -24,6 +26,7 @@ public class DataHelper {
    */
   public static void initDb() {
     try {
+      FileUtil.mkdir(FileUtil.file("conf"));
       String[] args = {};
       AudioBookDao.main(args);
       BookDao.main(args);
