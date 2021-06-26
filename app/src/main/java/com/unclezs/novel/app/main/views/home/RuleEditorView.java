@@ -38,19 +38,6 @@ import com.unclezs.novel.app.main.views.components.rule.CommonRuleEditor;
 import com.unclezs.novel.app.main.views.components.rule.ParamsEditor;
 import com.unclezs.novel.app.main.views.components.rule.RuleItem;
 import com.unclezs.novel.app.main.views.components.rule.RuleItems;
-import java.io.IOException;
-import java.net.CookieHandler;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -72,6 +59,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.util.StringConverter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * 书源编辑页面
@@ -182,6 +183,12 @@ public class RuleEditorView extends SidebarView<StackPane> {
   @Override
   public void onShow(SidebarNavigateBundle bundle) {
     MixPanelHelper.event(PAGE_NAME);
+    // 切换为非源码模式
+    if (isSourceMode()) {
+      sourceEditor.setText(null);
+      showSource();
+    }
+    reset();
     this.fromManager = bundle.getFrom().equals(RuleManagerView.class.getName());
     this.from = AppContext.getView(bundle.getFrom());
     realRule = bundle.get(BUNDLE_RULE_KEY);
@@ -506,10 +513,11 @@ public class RuleEditorView extends SidebarView<StackPane> {
       sourceEditor = new TextArea();
     }
     if (isSourceMode()) {
-      saveSource();
-      sourceEditor.setText(null);
-      showSourceButton.setText("源码");
-      panel.setContent(ruleContainer);
+      if(saveSource()){
+        sourceEditor.setText(null);
+        showSourceButton.setText("源码");
+        panel.setContent(ruleContainer);
+      }
     } else {
       showSourceButton.setText("规则");
       sourceEditor.setText(GsonUtils.PRETTY.toJson(rule));
@@ -519,13 +527,23 @@ public class RuleEditorView extends SidebarView<StackPane> {
 
   /**
    * 保存源码
+   *
+   * @return true 成功
    */
-  private void saveSource() {
+  private boolean saveSource() {
     if (isSourceMode()) {
       reset();
-      rule = RuleHelper.parseRule(sourceEditor.getText(), AnalyzerRule.class);
-      bindData();
+      if (StringUtils.isNotBlank(sourceEditor.getText())) {
+        try {
+          rule = RuleHelper.parseRule(sourceEditor.getText(), AnalyzerRule.class);
+          bindData();
+        } catch (Exception e) {
+          Toast.error("书源格式错误");
+          return false;
+        }
+      }
     }
+    return true;
   }
 
   /**

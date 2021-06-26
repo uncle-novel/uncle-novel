@@ -13,10 +13,10 @@ import com.unclezs.novel.analyzer.util.SystemUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.ResourceManager;
-import java.io.File;
-import java.io.IOException;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
 
 /**
  * Ebook生成工具
@@ -86,7 +86,7 @@ public class EbookUtils {
     String filename = outDir.getName().concat(MOBI_SUFFIX);
     try {
       // kindlegen的输出目录与opf输入目录一样
-      String command = String.format("%s -dont_append_sourc %s -c1 -o %s", gen, opf, filename);
+      String command = String.format("%s -dont_append_source %s -c1 -o %s", gen, opf, filename);
       Process process = Runtime.getRuntime().exec(command);
       // 读取输出流等待执行完成
       String result = RuntimeUtil.getResult(process);
@@ -99,11 +99,11 @@ public class EbookUtils {
         log.warn("mobi文件不存在");
       }
       log.trace("生成mobi时kindlegen输出：{}", result);
-    } catch (IOException e) {
-      log.error("生成mobi文件失败：{}", outDir, e);
     } catch (InterruptedException e) {
       log.error("生成mobi时文件被中断：{}", outDir, e);
       Thread.currentThread().interrupt();
+    } catch (Exception e) {
+      log.error("生成mobi文件失败：{}", outDir, e);
     }
   }
 

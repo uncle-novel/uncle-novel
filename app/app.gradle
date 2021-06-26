@@ -123,12 +123,16 @@ packager {
         launchModule = "com.unclezs.novel.app.main"
         launchClass = "com.unclezs.novel.app.main.App"
         moduleOptions = file("$projectDir/app.modularity").readLines()
-        // 更新日志
+        // 更新日志 , 最多显示5个版本的更新内容
         changeLog = []
+        def changeLogNum = 0;
         for (String line : file("$rootDir/changelog").readLines()) {
-//            if (line.trim().blank || line.trim().empty) {
-//                break
-//            }
+            if (line.trim().blank || line.trim().empty) {
+                changeLogNum++;
+                if (changeLogNum > 5) {
+                    break
+                }
+            }
             if (!line.startsWith("//")) {
                 changeLog.add(line)
             }

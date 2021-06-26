@@ -34,11 +34,11 @@ public class CommonRuleEditor extends VBox {
     editor.setWrapText(true);
     // 替换规则
     TextField key = new TextField();
-    key.setPromptText("请输入净化规则正则");
+    key.setPromptText("请输入替换文字，正则以regex:开头");
     TextField value = new TextField();
-    value.setPromptText("请输入替换模板$1代表第一组，类推");
-    HBox keyBox = createActionBox("替换规则正则", key);
-    HBox valueBox = createActionBox("替换规则模板", value);
+    value.setPromptText("请输入替换为的文字，正则以$组号替换");
+    HBox keyBox = createActionBox("替换文字或正则", key);
+    HBox valueBox = createActionBox("替换文字或模板", value);
     IconButton add = NodeHelper.addClass(new IconButton("添加", IconFont.PLUS, null), "btn");
     IconButton remove = NodeHelper.addClass(new IconButton("删除", IconFont.DELETE, null), "btn");
     add.setOnMouseClicked(e -> {
