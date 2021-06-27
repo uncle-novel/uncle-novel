@@ -19,12 +19,7 @@
 
 ### 介绍
 
-- [Uncle小说介绍](https://mp.weixin.qq.com/s/04_v4p5Svhm_26HslyKRtA
-  )
-
 Uncle小说是一款桌面端的小说阅读器，支持有声小说在线收听。其核心为目录解析功能，辅以书源模式进行（全网小说）小说的内容获取。
-
-同时提供了 [小程序版本](https://app.unclezs.com/guide/mp/) 与 [安卓版本](https://github.com/unclezs/uncle-novel-android) 。
 
 ### 主要功能
 
