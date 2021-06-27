@@ -44,16 +44,16 @@ Uncle小说是一款桌面端的小说阅读器，支持有声小说在线收听
 
 书架提供了书籍的分组管理功能，同时支持按照分组批量更新书籍，也可以导入本地TXT小说到书架。
 
-<img width="600" src="https://gitee.com/unclezs/image-blog/raw/master/20210626022910.png"/>
+<img width="600" src="https://github.com/unclezs/NovelHarvester/raw/main/app/packager/screenshot/home.png"/>
 
 #### 阅读器
 
-<img width="600" src="https://gitee.com/unclezs/image-blog/raw/master/20210626023012.png"/>
-<img width="600" src="https://gitee.com/unclezs/image-blog/raw/master/20210626023021.png"/>
+<img width="600" src="https://github.com/unclezs/NovelHarvester/raw/main/app/packager/screenshot/read.png"/>
+<img width="600" src="https://github.com/unclezs/NovelHarvester/raw/main/app/packager/screenshot/read1.png"/>
 
 #### 软件设置
 
-<img width="600" src="https://gitee.com/unclezs/image-blog/raw/master/20210626023047.png"/>
+<img width="600" src="https://github.com/unclezs/NovelHarvester/raw/main/app/packager/screenshot/setting.png"/>
 
 #### 其他
 
