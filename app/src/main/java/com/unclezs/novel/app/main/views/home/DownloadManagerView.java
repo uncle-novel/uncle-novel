@@ -3,7 +3,6 @@ package com.unclezs.novel.app.main.views.home;
 import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.spider.Spider;
-import com.unclezs.novel.analyzer.util.FileUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.PlaceHolder;
 import com.unclezs.novel.app.framework.components.TabButton;
@@ -24,10 +23,6 @@ import com.unclezs.novel.app.main.views.components.cell.DownloadActionTableCell;
 import com.unclezs.novel.app.main.views.components.cell.DownloadHistoryActionTableCell;
 import com.unclezs.novel.app.main.views.components.cell.ProgressBarTableCell;
 import com.unclezs.novel.app.main.views.components.cell.TagsTableCell;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ListChangeListener;
@@ -41,6 +36,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author blog.unclezs.com
@@ -230,7 +230,7 @@ public class DownloadManagerView extends SidebarView<StackPane> {
   private void createTask(BookBundle bundle) {
     DownloadConfig downloadConfig = SettingManager.manager().getDownload();
     String savePath = downloadConfig.getFolder().getValue();
-    if (!FileUtils.exist(savePath)) {
+    if (!FileUtil.mkdir(savePath).exists()) {
       Toast.error("下载文件夹不存在，请在设置中更换");
       return;
     }

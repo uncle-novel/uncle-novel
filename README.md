@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/unclezs/jfx-launcher/actions/workflows/gradle.yml">
+    <a href="https://github.com/unclezs/NovelHarverster/actions/workflows/gradle.yml">
     <img src="https://img.shields.io/github/workflow/status/unclezs/NovelHarvester/Java%20CI%20with%20Gradle" alt="gradle build"/>
     </a>
     <a href="https://github.com/unclezs/jfx-launcher/blob/main/LICENSE">
@@ -49,16 +49,16 @@ Uncle小说是一款桌面端的小说阅读器，支持有声小说在线收听
 
 书架提供了书籍的分组管理功能，同时支持按照分组批量更新书籍，也可以导入本地TXT小说到书架。
 
-<img src="https://gitee.com/unclezs/image-blog/raw/master/20210626022910.png"/>
+<img width="600" src="https://gitee.com/unclezs/image-blog/raw/master/20210626022910.png"/>
 
 #### 阅读器
 
-<img src="https://gitee.com/unclezs/image-blog/raw/master/20210626023012.png"/>
-<img src="https://gitee.com/unclezs/image-blog/raw/master/20210626023021.png"/>
+<img width="600" src="https://gitee.com/unclezs/image-blog/raw/master/20210626023012.png"/>
+<img width="600" src="https://gitee.com/unclezs/image-blog/raw/master/20210626023021.png"/>
 
 #### 软件设置
 
-<img src="https://gitee.com/unclezs/image-blog/raw/master/20210626023047.png"/>
+<img width="600" src="https://gitee.com/unclezs/image-blog/raw/master/20210626023047.png"/>
 
 #### 其他
 
@@ -66,11 +66,9 @@ Uncle小说是一款桌面端的小说阅读器，支持有声小说在线收听
 
 ### 下载地址
 
-- 关注公众号【书虫无书荒】回复【9999】
-- QQ群文件：774716671、973161541
-- [访问官网](https://app.unclezs.com)
-- [安卓版地址](https://github.com/unclezs/uncle-novel-android)
-- [小程序版地址](https://app.unclezs.com/guide/mp/)
+- [github release](https://github.com/unclezs/NovelHarvester/releases)
+- [百度网盘 - 提取码：9999](https://pan.baidu.com/s/11a62y0v6uUzcVROKjS_-Rw)
+- [天翼云盘 - 提取码：1bap](https://cloud.189.cn/t/fEjiimNF7773)
 
 ### 喝杯咖啡~
 
