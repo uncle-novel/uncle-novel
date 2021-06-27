@@ -152,6 +152,13 @@ public class DownloadManagerView extends SidebarView<StackPane> {
     return historyTable;
   }
 
+  @Override
+  public void onDestroy() {
+    if (tasksTable.getItems().isEmpty()) {
+      FileUtil.del(ResourceManager.DOWNLOAD_DIR);
+    }
+  }
+
   /**
    * 创建下载任务列表表格
    */

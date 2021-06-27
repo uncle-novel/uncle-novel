@@ -11,7 +11,8 @@
     <Pane styleClass="home-setting-popup-delimiter"/>
     <IconButton icon="official_site" text="访问官网" onAction="#officialSite"/>
     <IconButton icon="reward" text="赞助开发" onAction="#reward"/>
-    <IconButton icon="download_history" text="更新历史" onAction="#update"/>
+    <IconButton icon="doc" text="使用教程" onAction="#doc"/>
+    <IconButton icon="confirm" text="常见问题" onAction="#questions"/>
     <IconButton icon="log" text="查看日志" onAction="#showLog"/>
     <IconButton icon="feedback" text="问题反馈" onAction="#feedback"/>
     <Pane styleClass="home-setting-popup-delimiter"/>

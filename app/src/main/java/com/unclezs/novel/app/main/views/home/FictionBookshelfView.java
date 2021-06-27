@@ -4,6 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import com.jfoenix.controls.JFXMasonryPane;
 import com.jfoenix.controls.JFXNodesList;
 import com.jfoenix.controls.JFXTabPane;
+import com.unclezs.novel.analyzer.core.comparator.ChapterComparator;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.analyzer.spider.helper.SpiderHelper;
@@ -32,12 +33,6 @@ import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.BookNode;
 import com.unclezs.novel.app.main.views.components.cell.TocListCell;
 import com.unclezs.novel.app.main.views.reader.ReaderView;
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -54,6 +49,13 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 小说书架
@@ -376,6 +378,10 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
     List<Chapter> toc = novelSpider.toc(book.getUrl());
     if (cache.getToc().size() == toc.size()) {
       return Collections.emptyList();
+    }
+    // 重排序
+    if (!toc.get(0).getUrl().equals(cache.getToc().get(0).getUrl())) {
+      toc.sort(new ChapterComparator());
     }
     // 新的章节
     List<Chapter> newChapters = toc.subList(cache.getToc().size(), toc.size());

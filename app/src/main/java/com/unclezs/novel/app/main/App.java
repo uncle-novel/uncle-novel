@@ -54,6 +54,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class App extends BaseApplication {
 
+  public static final boolean SHOW_INFO = false;
   public static final String NAME = "Uncle小说";
   private static final String EVENT_LAUNCH = "启动应用";
   private static final String EVENT_STOP = "停止应用";

@@ -4,14 +4,16 @@ import cn.hutool.core.util.StrUtil;
 import com.jfoenix.utils.JFXUtilities;
 import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.executor.Executor;
+import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.manager.SettingManager;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author blog.unclezs.com
@@ -60,7 +62,13 @@ public class UpdateUtils {
       content.setContent(changelog);
       content.setFitToWidth(true);
       content.setMaxHeight(200);
-      Executor.run(() -> JFXUtilities.runInFX(() -> ModalBox.none().cancel("了解了").body(content).title("当前版本 - V".concat(version).concat(" - 欢迎关注微信公众号【书虫无书荒】")).show()), 1000);
+      Executor.run(() -> JFXUtilities.runInFX(() -> {
+        String info = "当前版本 - V".concat(version);
+        if (App.SHOW_INFO) {
+          info = info.concat(" - 欢迎关注微信公众号【书虫无书荒】");
+        }
+        ModalBox.none().cancel("了解了").body(content).title(info).show();
+      }), 1000);
     });
   }
 
