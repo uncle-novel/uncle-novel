@@ -243,9 +243,10 @@ public class SearchAudioView extends SidebarView<StackPane> implements Callback 
     if (selectionModel.isEmpty()) {
       return;
     }
+    Novel novel = listView.getSelectionModel().getSelectedItem();
     Chapter chapter = selectionModel.getSelectedItem().getChapter();
     String url = chapter.getUrl();
-    NovelSpider spider = new NovelSpider(RuleManager.getOrDefault(url));
+    NovelSpider spider = new NovelSpider(RuleManager.getOrDefault(novel.getSite()));
     TaskFactory.create(() -> {
       String audioUrl = spider.content(url);
       return audioUrlHandler.apply(url, audioUrl);
