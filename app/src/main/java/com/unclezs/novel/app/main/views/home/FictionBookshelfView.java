@@ -52,9 +52,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -379,14 +381,16 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
     if (cache.getToc().size() == toc.size()) {
       return Collections.emptyList();
     }
-    // 重排序
-    if (!toc.get(0).getUrl().equals(cache.getToc().get(0).getUrl())) {
-      toc.sort(new ChapterComparator());
-    }
     // 新的章节
-    List<Chapter> newChapters = toc.subList(cache.getToc().size(), toc.size());
+    Set<String> olds = cache.getToc().stream().map(Chapter::getUrl).collect(Collectors.toSet());
+    List<Chapter> newChapters = new ArrayList<>();
+    for (Chapter chapter : toc) {
+      if (!olds.contains(chapter.getUrl())) {
+        newChapters.add(chapter);
+      }
+    }
     // 更新章节
-    cache.setToc(toc);
+    cache.getToc().addAll(newChapters);
     BookHelper.cache(cache, cacheFile);
     // 标记更新
     Executor.runFx(() -> bookNode.setUpdate(true));

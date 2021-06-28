@@ -147,6 +147,9 @@
           <RuleItem name="乱序重排">
             <JFXCheckBox userData="toc.sort"/>
           </RuleItem>
+          <RuleItem name="章节逆序">
+            <JFXCheckBox userData="toc.reverse"/>
+          </RuleItem>
         </RuleItems>
         <!--详情规则-->
         <RuleItems title="详情规则" debug="true" onDebug="#debugDetailRule">

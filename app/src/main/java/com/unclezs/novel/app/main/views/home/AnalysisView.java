@@ -29,11 +29,6 @@ import com.unclezs.novel.app.main.util.BookHelper;
 import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.BookDetailModal;
 import com.unclezs.novel.app.main.views.components.cell.ChapterListCell;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
-import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -45,6 +40,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author blog.unclezs.com
@@ -246,6 +247,7 @@ public class AnalysisView extends SidebarView<StackPane> {
   @FXML
   private void reverseToc() {
     Collections.reverse(listView.getItems());
+    rule.getToc().setReverse(!Boolean.TRUE.equals(rule.getToc().getReverse()));
   }
 
   /**
@@ -254,6 +256,7 @@ public class AnalysisView extends SidebarView<StackPane> {
   @FXML
   private void sortToc() {
     listView.getItems().sort(new ChapterComparator());
+    rule.getToc().setSort(!Boolean.TRUE.equals(rule.getToc().getSort()));
   }
 
   /**
@@ -340,6 +343,7 @@ public class AnalysisView extends SidebarView<StackPane> {
       .filter(chapterProperty -> chapterProperty.getChapter() != null && !chapterProperty.isSelected())
       .map(chapterProperty -> chapterProperty.getChapter().getUrl())
       .collect(Collectors.toSet());
+
     rule.getToc().setBlackUrls(blackChapterUrls);
     BookHelper.addBookShelf(false, novel, rule, null);
   }
