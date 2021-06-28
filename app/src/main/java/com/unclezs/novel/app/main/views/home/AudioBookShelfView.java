@@ -21,6 +21,7 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.framework.executor.FluentTask;
+import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.main.db.beans.AudioBook;
@@ -33,8 +34,6 @@ import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.util.TimeUtil;
 import com.unclezs.novel.app.main.views.components.cell.AudioBookListCell;
 import com.unclezs.novel.app.main.views.components.cell.TocListCell;
-import java.io.File;
-import java.util.Objects;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
@@ -43,6 +42,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
@@ -50,6 +50,12 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 /**
  * @author blog.unclezs.com
@@ -530,6 +536,76 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
     if (currentBook != null) {
       DesktopUtils.openBrowse(currentBook.getUrl());
     }
+  }
+
+  /**
+   * 获取有声音频链接 并且回调处理
+   *
+   * @param audioUrlHandler  处理函数 入参为<章节链接，有声音频链接>
+   * @param onSuccessHandler 成功回调 FX线程
+   * @param <T>              回调返回类型
+   */
+  private <T> void withAudioUrl(BiFunction<String, String, T> audioUrlHandler, Consumer<T> onSuccessHandler) {
+    MultipleSelectionModel<Chapter> selectionModel = tocListView.getSelectionModel();
+    if (selectionModel.isEmpty()) {
+      return;
+    }
+    AudioBook novel = bookListView.getSelectionModel().getSelectedItem();
+    Chapter chapter = selectionModel.getSelectedItem();
+    String url = chapter.getUrl();
+    NovelSpider spider = new NovelSpider(novel.getRule());
+    TaskFactory.create(() -> {
+      String audioUrl = spider.content(url);
+      return audioUrlHandler.apply(url, audioUrl);
+    }).onSuccess(onSuccessHandler)
+      .onFailed(e -> Toast.error("获取音频失败"))
+      .start();
+  }
+
+  /**
+   * 检测音频有效
+   */
+  @FXML
+  private void checkAudioEffective() {
+    withAudioUrl((chapterUrl, audioUrl) -> {
+      AtomicBoolean validate = new AtomicBoolean(false);
+      try {
+        RequestParams params = RequestParams.create(audioUrl);
+        params.addHeader(RequestParams.REFERER, chapterUrl);
+        validate.set(Http.validate(params));
+      } catch (Exception e) {
+        log.warn("音频检测失败: 章节：{} 音频:{}", chapterUrl, audioUrl, e);
+      }
+      return validate.get();
+    }, validate -> {
+      if (Boolean.TRUE.equals(validate)) {
+        Toast.success("音频有效");
+      } else {
+        Toast.error("音频无效");
+      }
+    });
+  }
+
+  /**
+   * 浏览器打开
+   */
+  @FXML
+  private void openChapterLinkBrowser() {
+    String url = tocListView.getSelectionModel().getSelectedItem().getUrl();
+    if (UrlUtils.isHttpUrl(url)) {
+      DesktopUtils.openBrowse(url);
+    }
+  }
+
+  /**
+   * 复制音频链接
+   */
+  @FXML
+  private void copyAudioLink() {
+    withAudioUrl((chapterUrl, audioUrl) -> audioUrl, audioUrl -> {
+      DesktopUtils.copy(audioUrl);
+      Toast.success("复制成功");
+    });
   }
 
   /**

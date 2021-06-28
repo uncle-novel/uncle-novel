@@ -24,17 +24,17 @@
         <contextMenu>
           <ContextMenu>
             <items>
-              <MenuItem text="浏览器打开">
+              <MenuItem text="浏览器打开" onAction="#openChapterLinkBrowser">
                 <graphic>
                   <Icon value="browser"/>
                 </graphic>
               </MenuItem>
-              <MenuItem text="复制音频链接">
+              <MenuItem text="复制音频链接" onAction="#copyAudioLink">
                 <graphic>
                   <Icon value="copy"/>
                 </graphic>
               </MenuItem>
-              <MenuItem text="检测音频失效">
+              <MenuItem text="检测音频失效" onAction="#checkAudioEffective">
                 <graphic>
                   <Icon value="validate"/>
                 </graphic>
