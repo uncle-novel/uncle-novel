@@ -126,7 +126,7 @@ public class AnalysisView extends SidebarView<StackPane> {
     }
     // 非同一个网站，重新获取规则，这时如果未保存书源则会丢弃修改
     if (rule == null || !Objects.equals(rule.getSite(), UrlUtils.getSite(tocUrl))) {
-      this.rule = RuleManager.getOrDefault(tocUrl);
+      this.rule = RuleManager.getOrDefault(novel == null ? tocUrl : novel.getSite());
     }
     tocSpider = new TocSpider(rule);
     tocSpider.setOnNewItemAddHandler(chapter -> Executor.runFx(() -> listView.getItems().add(new ChapterProperty(chapter))));

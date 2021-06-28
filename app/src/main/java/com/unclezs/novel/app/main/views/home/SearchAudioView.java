@@ -3,6 +3,7 @@ package com.unclezs.novel.app.main.views.home;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXProgressBar;
+import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.model.Novel;
 import com.unclezs.novel.analyzer.request.Http;
@@ -34,11 +35,6 @@ import com.unclezs.novel.app.main.views.components.BookDetailModal;
 import com.unclezs.novel.app.main.views.components.BookDetailModal.Action;
 import com.unclezs.novel.app.main.views.components.cell.BookListCell;
 import com.unclezs.novel.app.main.views.components.cell.ChapterListCell;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MultipleSelectionModel;
@@ -47,6 +43,12 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.StackPane;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * @author blog.unclezs.com
@@ -147,17 +149,22 @@ public class SearchAudioView extends SidebarView<StackPane> implements Callback 
     }
     tocDrawer.close();
     tocListView.getItems().clear();
-    TocSpider tocSpider = new TocSpider(RuleManager.getOrDefault(tocUrl));
+    AnalyzerRule rule = RuleManager.getOrDefault(novel.getSite());
+    TocSpider tocSpider = new TocSpider(rule);
     tocSpider.setOnNewItemAddHandler(chapter -> Executor.runFx(() -> tocListView.getItems().add(new ChapterProperty(chapter))));
     TaskFactory.create(() -> {
       tocSpider.toc(tocUrl);
-      tocSpider.loadAll();
+      if (Boolean.TRUE.equals(rule.getToc().getAutoNext())) {
+        tocSpider.loadAll();
+      }
       return null;
     }).onSuccess(v -> drawers.toggle(tocDrawer))
       .onFailed(e -> {
         Toast.error("目录解析失败");
         log.error("目录查看失败：链接：{}", tocUrl, e);
-      }).start();
+      })
+      .onCanceled(tocSpider::cancel)
+      .start();
   }
 
   /**
