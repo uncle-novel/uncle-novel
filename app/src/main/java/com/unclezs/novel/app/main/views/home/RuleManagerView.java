@@ -1,37 +1,52 @@
 package com.unclezs.novel.app.main.views.home;
 
 import cn.hutool.core.io.FileUtil;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.unclezs.novel.analyzer.core.helper.RuleHelper;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
+import com.unclezs.novel.analyzer.request.Http;
+import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.util.GsonUtils;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.components.Toast;
+import com.unclezs.novel.app.framework.components.icon.Icon;
+import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
+import com.unclezs.novel.app.framework.executor.TaskFactory;
+import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.cell.ActionButtonTableCell;
 import com.unclezs.novel.app.main.views.components.cell.CheckBoxTableCell;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 书源管理
@@ -51,6 +66,10 @@ public class RuleManagerView extends SidebarView<StackPane> {
   private static final String PAGE_NAME = "书源管理";
   @FXML
   private TableView<AnalyzerRule> rulesTable;
+  /**
+   * 导入书源菜单
+   */
+  private ContextMenu importRuleMenu;
 
   @Override
   public void onCreated() {
@@ -204,10 +223,47 @@ public class RuleManagerView extends SidebarView<StackPane> {
   }
 
   /**
+   * 复制选中规则到剪贴板
+   */
+  @FXML
+  private void copySelectedRule() {
+    ArrayList<AnalyzerRule> selected = new ArrayList<>(rulesTable.getSelectionModel().getSelectedItems());
+    DesktopUtils.copy(GsonUtils.toJson(selected));
+    Toast.success("复制成功");
+  }
+
+  /**
    * 导入规则，并去重
    */
   @FXML
-  private void importRule() {
+  private void importRule(MouseEvent event) {
+    if (importRuleMenu == null) {
+      importRuleMenu = new ContextMenu();
+      importRuleMenu.setHideOnEscape(true);
+      MenuItem file = new MenuItem("本地导入", new Icon(IconFont.FOLDER));
+      file.setOnAction(e -> this.importRuleFromFile());
+      MenuItem url = new MenuItem("网络导入", new Icon(IconFont.BROWSER));
+      url.setOnAction(e -> this.importRuleFromUrl());
+      MenuItem clipboard = new MenuItem("剪贴板导入", new Icon(IconFont.COPY));
+      clipboard.setOnAction(e -> this.importRule(Clipboard.getSystemClipboard().getString()));
+      importRuleMenu.getItems().setAll(file, url, clipboard);
+    }
+    importRuleMenu.show(App.stage(), event.getScreenX(), event.getScreenY());
+  }
+
+  /**
+   * 从URL导入书源
+   */
+  public void importRuleFromUrl() {
+    ModalBox.input("请输入书源链接", this::importRuleFromUrl)
+      .title("网络导入 - 请输入书源链接")
+      .show();
+  }
+
+  /**
+   * 从URL导入书源
+   */
+  public void importRuleFromFile() {
     FileChooser fileChooser = new FileChooser();
     FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("JSON", "*.json");
     fileChooser.getExtensionFilters().add(filter);
@@ -215,27 +271,68 @@ public class RuleManagerView extends SidebarView<StackPane> {
     importRule(file);
   }
 
+
   /**
-   * 导入书源
+   * 从本地文件导入书源
    *
    * @param file 文件
    */
   public void importRule(File file) {
     if (FileUtil.exist(file)) {
-      try {
-        List<AnalyzerRule> rules = GsonUtils.me().fromJson(FileUtil.readUtf8String(file), new TypeToken<List<AnalyzerRule>>() {
-        }.getType());
-        Set<String> ruleSites = rulesTable.getItems().stream().map(rule -> UrlUtils.getHost(rule.getSite())).collect(Collectors.toSet());
+      importRule(FileUtil.readUtf8String(file));
+    }
+  }
+
+  /**
+   * 从URL导入书源
+   *
+   * @param url 书源链接
+   */
+  public void importRuleFromUrl(String url) {
+    if (!UrlUtils.isHttpUrl(url)) {
+      Toast.error("请输入正确的书源链接");
+    }
+    TaskFactory.create(() -> {
+      RequestParams params = RequestParams.create(url);
+      params.setCharset(StandardCharsets.UTF_8.name());
+      return Http.content(params);
+    })
+      .onSuccess(this::importRule)
+      .start();
+  }
+
+
+  /**
+   * 导入规则
+   *
+   * @param ruleJson 规则JSON
+   */
+  public void importRule(String ruleJson) {
+    if (StringUtils.isBlank(ruleJson)) {
+      Toast.error("导入失败，格式错误");
+      return;
+    }
+    try {
+      Set<String> ruleSites = rulesTable.getItems().stream().map(rule -> UrlUtils.getHost(rule.getSite())).collect(Collectors.toSet());
+      JsonElement element = JsonParser.parseString(ruleJson);
+      if (element.isJsonArray()) {
+        List<AnalyzerRule> rules = RuleHelper.parseRules(ruleJson, AnalyzerRule.class);
         rules.stream()
           .filter(rule -> rule.isEffective() && !ruleSites.contains(UrlUtils.getHost(rule.getSite())))
           .forEach(rule -> rulesTable.getItems().add(rule));
-        RuleManager.save();
-      } catch (Exception e) {
-        Toast.error("导入失败");
-        log.error("书源导入失败", e);
+      } else {
+        AnalyzerRule rule = RuleHelper.parseRule(ruleJson, AnalyzerRule.class);
+        RuleManager.addRule(rule);
       }
+      Toast.success("导入成功");
+      rulesTable.refresh();
+      RuleManager.save();
+    } catch (Exception e) {
+      log.error("书源导入失败", e);
+      Toast.error("导入失败，格式错误");
     }
   }
+
 
   /**
    * 导出书源
