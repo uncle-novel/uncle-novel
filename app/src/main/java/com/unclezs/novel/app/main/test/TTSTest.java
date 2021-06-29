@@ -1,7 +1,8 @@
 package com.unclezs.novel.app.main.test;
 
-import com.unclezs.novel.analyzer.request.RequestParams;
-import com.unclezs.novel.analyzer.util.GsonUtils;
+import com.unclezs.novel.analyzer.util.FileUtils;
+
+import java.io.IOException;
 
 /**
  * @author blog.unclezs.com
@@ -9,7 +10,7 @@ import com.unclezs.novel.analyzer.util.GsonUtils;
  */
 public class TTSTest {
 
-  public static void main(String[] args) {
-    System.out.println(GsonUtils.NULL_PRETTY.toJson(new RequestParams()));
+  public static void main(String[] args) throws IOException {
+    FileUtils.touch("G:\\tmp/- 飞速中文网 -/38.第三十八章 青阳剑，月音琴.txt".replace("\\", "/"));
   }
 }

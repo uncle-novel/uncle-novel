@@ -345,7 +345,7 @@ public class AnalysisView extends SidebarView<StackPane> {
       .collect(Collectors.toSet());
 
     rule.getToc().setBlackUrls(blackChapterUrls);
-    BookHelper.addBookShelf(false, novel, rule, null);
+    BookHelper.addBookShelf(Boolean.TRUE.equals(rule.getAudio()), novel, rule, null);
   }
 
   /**
