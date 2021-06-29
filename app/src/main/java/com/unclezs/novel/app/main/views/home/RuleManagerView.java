@@ -228,7 +228,7 @@ public class RuleManagerView extends SidebarView<StackPane> {
   @FXML
   private void copySelectedRule() {
     ArrayList<AnalyzerRule> selected = new ArrayList<>(rulesTable.getSelectionModel().getSelectedItems());
-    DesktopUtils.copy(GsonUtils.toJson(selected));
+    DesktopUtils.copy(RuleHelper.GSON.toJson(selected));
     Toast.success("复制成功");
   }
 
@@ -340,7 +340,7 @@ public class RuleManagerView extends SidebarView<StackPane> {
    * @param rules 规则列表
    */
   private void exportRule(List<AnalyzerRule> rules) {
-    String ruleJson = GsonUtils.toJson(rules);
+    String ruleJson = RuleHelper.GSON.toJson(rules);
     FileChooser fileChooser = new FileChooser();
     fileChooser.setInitialFileName(RULES_FILE_NAME);
     File file = fileChooser.showSaveDialog(App.stage());
