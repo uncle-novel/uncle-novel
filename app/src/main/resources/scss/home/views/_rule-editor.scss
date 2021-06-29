@@ -49,6 +49,11 @@
   .action-box {
     -fx-alignment: center-left;
     -fx-spacing: 10;
+
+    .combo-box {
+      -fx-pref-width: 120;
+      -fx-alignment: center-left;
+    }
   }
 
   .title-label {
@@ -57,7 +62,6 @@
 
   .button {
     @include shadow-1();
-    -fx-pref-width: 100px;
     -fx-pref-height: 30px;
   }
 }

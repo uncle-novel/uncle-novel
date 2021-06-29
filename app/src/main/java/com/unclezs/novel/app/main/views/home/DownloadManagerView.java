@@ -277,12 +277,18 @@ public class DownloadManagerView extends SidebarView<StackPane> {
       List<String> names = FileUtil.listFileNames(TMP_DIR.getAbsolutePath());
       List<SpiderWrapper> tasks = new ArrayList<>();
       for (String name : names) {
-        String json = FileUtil.readUtf8String(FileUtil.file(TMP_DIR, name));
-        SpiderWrapper task = PropertyJsonSerializer.fromJson(json, SpiderWrapper.class);
-        task.setId(name);
-        task.init(this::onCompleted);
-        task.pause();
-        tasks.add(task);
+        File file = FileUtil.file(TMP_DIR, name);
+        try {
+          String json = FileUtil.readUtf8String(file);
+          SpiderWrapper task = PropertyJsonSerializer.fromJson(json, SpiderWrapper.class);
+          task.setId(name);
+          task.init(this::onCompleted);
+          task.pause();
+          tasks.add(task);
+        } catch (Exception e) {
+          log.warn("加载下载任务备份失败：{}", file.getAbsoluteFile(), e);
+          FileUtil.del(file);
+        }
       }
       tasksTable.getItems().setAll(tasks);
     }

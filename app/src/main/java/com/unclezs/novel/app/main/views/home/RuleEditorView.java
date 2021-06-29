@@ -4,17 +4,16 @@ import cn.hutool.core.bean.BeanPath;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.google.gson.JsonSyntaxException;
 import com.jfoenix.controls.JFXCheckBox;
 import com.unclezs.novel.analyzer.core.helper.RuleHelper;
 import com.unclezs.novel.analyzer.core.helper.RuleTester;
-import com.unclezs.novel.analyzer.core.matcher.matchers.DefaultTextMatcher;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.core.rule.CommonRule;
+import com.unclezs.novel.analyzer.core.rule.RuleConstant;
 import com.unclezs.novel.analyzer.request.RequestParams;
-import com.unclezs.novel.analyzer.script.ScriptContext;
-import com.unclezs.novel.analyzer.script.ScriptUtils;
 import com.unclezs.novel.analyzer.util.CollectionUtils;
 import com.unclezs.novel.analyzer.util.GsonUtils;
 import com.unclezs.novel.analyzer.util.StringUtils;
@@ -29,6 +28,7 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.executor.Executor;
+import com.unclezs.novel.app.framework.executor.FluentTask;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
@@ -38,13 +38,13 @@ import com.unclezs.novel.app.main.views.components.rule.CommonRuleEditor;
 import com.unclezs.novel.app.main.views.components.rule.ParamsEditor;
 import com.unclezs.novel.app.main.views.components.rule.RuleItem;
 import com.unclezs.novel.app.main.views.components.rule.RuleItems;
+import com.unclezs.novel.app.main.views.components.rule.ScriptDebugBox;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -53,7 +53,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
@@ -69,6 +68,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -170,8 +170,8 @@ public class RuleEditorView extends SidebarView<StackPane> {
 
     autoAnalysisMode.valueProperty().addListener(e -> {
       int mode = autoAnalysisMode.getItems().indexOf(autoAnalysisMode.getValue()) + 1;
-      contentRule.getInput().setText(DefaultTextMatcher.DEFAULT_RULE_TYPE + mode);
-      rule.getContent().setContent(CommonRule.create(DefaultTextMatcher.DEFAULT_RULE_TYPE, String.valueOf(mode)));
+      contentRule.getInput().setText(RuleConstant.TYPE_AUTO + StringUtils.COLON + mode);
+      rule.getContent().setContent(CommonRule.create(RuleConstant.TYPE_AUTO, String.valueOf(mode)));
     });
   }
 
@@ -355,6 +355,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
    * @param starter    执行器
    * @return 容器
    */
+  @SuppressWarnings("unchecked")
   private VBox createDebugBox(String promptText, BiConsumer<RuleTester, String> starter) {
     TextArea console = new TextArea();
     NodeHelper.addClass(console, "rule-debug-console");
@@ -367,12 +368,19 @@ public class RuleEditorView extends SidebarView<StackPane> {
     AtomicBoolean running = new AtomicBoolean(false);
     inputBox.setOnCommit(e -> {
       if (running.get()) {
-        Toast.info((StackPane) debugBox.getParent(), "正在测试中，请等待测试完成");
-        return;
+        boolean retry = (boolean) ModalBox.confirm(s -> {
+        }).title("正在测试中，是否重新测试？").submit("重试").showAndWait().orElse(false);
+        if (retry) {
+          return;
+        }
+        FluentTask<Object> task = (FluentTask<Object>) debugBox.getUserData();
+        if (task != null) {
+          task.cancel();
+        }
       }
       running.set(true);
       console.clear();
-      Executor.run(() -> {
+      FluentTask<Object> task = TaskFactory.create(false, () -> {
         try {
           RuleTester tester = new RuleTester(rule.copy(), msg -> Executor.runFx(() -> console.appendText(msg)));
           starter.accept(tester, e.getInput());
@@ -383,72 +391,21 @@ public class RuleEditorView extends SidebarView<StackPane> {
         } finally {
           running.set(false);
         }
-      });
+        return null;
+      }).onFinally(() -> debugBox.setUserData(null));
+      debugBox.setUserData(task);
+      task.start();
     });
     debugBox.getChildren().setAll(inputBox, console);
     return debugBox;
   }
-
 
   /**
    * 创建JS脚本测试容器
    */
   public void showScriptDebugBox() {
     if (debugScriptPanel == null) {
-      TextArea console = NodeHelper.addClass(new TextArea(), "rule-debug-console");
-      console.setMaxHeight(60);
-      console.setWrapText(true);
-      console.setPromptText("此处为输出结果");
-      TextArea script = new TextArea();
-      script.setPromptText("在此输入预处理脚本");
-      script.setMaxHeight(120);
-      VBox debugBox = new VBox();
-      debugBox.setSpacing(10);
-      TextField result = new TextField();
-      TextField source = new TextField();
-      TextField url = new TextField();
-      TextField params = new TextField();
-      result.setPromptText("请输入result");
-      source.setPromptText("请输入source");
-      url.setPromptText("请输入url");
-      params.setPromptText("请输入params的json");
-      IconButton run = NodeHelper.addClass(new IconButton("运行", IconFont.RUN), "btn");
-      IconButton copy = NodeHelper.addClass(new IconButton("复制转义后的脚本", IconFont.COPY), "btn");
-      copy.setOnAction(e -> {
-        if (StringUtils.isBlank(script.getText())) {
-          Toast.error((StackPane) debugBox.getParent(), "请先输入脚本");
-          return;
-        }
-        DesktopUtils.copy(GsonUtils.toJson(script.getText()));
-        Toast.success((StackPane) debugBox.getParent(), "复制成功");
-      });
-      run.setOnAction(e -> {
-        if (StringUtils.isBlank(script.getText())) {
-          Toast.error((StackPane) debugBox.getParent(), "请先输入脚本");
-          return;
-        }
-        TaskFactory.create(() -> {
-          ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_RESULT, result.getText());
-          ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_URL, url.getText());
-          ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_SOURCE, source.getText());
-          if (StringUtils.isNotBlank(params.getText())) {
-            ScriptContext.put(ScriptContext.SCRIPT_CONTEXT_VAR_PARAMS, GsonUtils.parse(params.getText(), RequestParams.class));
-          }
-          String res = ScriptUtils.execute(script.getText(), ScriptContext.current());
-          ScriptContext.remove();
-          return res;
-        }).onSuccess(console::setText)
-          .onFailed(err -> {
-            console.setText(ExceptionUtil.stacktraceToString(err));
-            Toast.error((StackPane) debugBox.getParent(), "执行失败");
-          }).onFinally(ScriptContext::remove)
-          .start();
-      });
-      HBox actions = new HBox(copy, run);
-      actions.setAlignment(Pos.CENTER_RIGHT);
-      actions.setSpacing(10);
-      debugBox.getChildren().setAll(result, source, url, params, script, console, actions);
-      debugScriptPanel = debugBox;
+      debugScriptPanel = new ScriptDebugBox();
     }
     ModalBox.none().body(debugScriptPanel).title("预处理脚本调试工具").show();
   }
@@ -513,7 +470,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
       sourceEditor = new TextArea();
     }
     if (isSourceMode()) {
-      if(saveSource()){
+      if (saveSource()) {
         sourceEditor.setText(null);
         showSourceButton.setText("源码");
         panel.setContent(ruleContainer);
@@ -599,7 +556,8 @@ public class RuleEditorView extends SidebarView<StackPane> {
    * @param field InputBox
    */
   private void bind(InputBox field) {
-    BeanPath resolver = new BeanPath(field.getUserData().toString());
+    String fieldExpression = field.getUserData().toString();
+    BeanPath resolver = new BeanPath(fieldExpression);
     CommonRule ruleItem = (CommonRule) resolver.get(rule);
     if (ruleItem == null) {
       ruleItem = new CommonRule();
@@ -612,6 +570,9 @@ public class RuleEditorView extends SidebarView<StackPane> {
         editor = new CommonRuleEditor();
       }
       editor.setRule(finalRuleItem);
+      // 是否显示common rule 的page字段
+      boolean showPage = StringUtils.startWith(fieldExpression, "search") && !CharSequenceUtil.equalsAny(fieldExpression, "search.detailPage", "search.list");
+      editor.setShowPage(showPage);
       AtomicBoolean success = new AtomicBoolean(false);
       ModalBox.confirm(save -> {
         success.set(true);

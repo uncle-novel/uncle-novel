@@ -3,6 +3,7 @@ package com.unclezs.novel.app.main.views.components.rule;
 import com.jfoenix.controls.JFXCheckBox;
 import com.unclezs.novel.analyzer.request.MediaType;
 import com.unclezs.novel.analyzer.request.RequestParams;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
@@ -49,13 +50,20 @@ public class ParamsEditor extends VBox {
     headerArea.setText(params.getHeaderString());
     addItem("请求头", headerArea).focusedProperty().addListener((ov, o, n) -> {
       if (Boolean.FALSE.equals(n)) {
-        params.setHeaderString(headerArea.getText());
+        params.setHeaderString(StringUtils.nullToEmpty(headerArea.getText()));
       }
     });
     TextField bodyField = new TextField(params.getBody());
     addItem("请求体", bodyField).focusedProperty().addListener(e -> {
       if (!bodyField.isFocused()) {
         params.setBody(bodyField.getText());
+      }
+    });
+    TextField script = new TextField(params.getScript());
+    script.setPromptText("预处理脚本，在请求完成后处理源码，最终返回源码");
+    addItem("预处理脚本", script).focusedProperty().addListener(e -> {
+      if (!script.isFocused()) {
+        params.setScript(script.getText());
       }
     });
   }

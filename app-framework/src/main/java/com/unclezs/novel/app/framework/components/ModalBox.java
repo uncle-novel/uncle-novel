@@ -11,13 +11,14 @@ import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.framework.util.ReflectUtils;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Window;
 import lombok.Getter;
+
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 
 /**
  * 模态框
@@ -274,10 +275,12 @@ public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
    */
   private ModalBox createConfirm(Consumer<Boolean> callback) {
     submitButton().setOnMouseClicked(event -> {
+      setResult(true);
       callback.accept(true);
       closeModal();
     });
     cancel.setOnMouseClicked(event -> {
+      setResult(false);
       callback.accept(false);
       closeModal();
     });

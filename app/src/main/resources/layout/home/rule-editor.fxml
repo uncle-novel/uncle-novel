@@ -53,6 +53,9 @@
           <RuleItem name="启用动态网页">
             <JFXCheckBox userData="params.dynamic"/>
           </RuleItem>
+          <RuleItem name="自动防盗链">
+            <JFXCheckBox userData="params.autoReferer"/>
+          </RuleItem>
           <!--<RuleItem name="启用代理">
             <JFXCheckBox userData="params.enabledProxy"/>
           </RuleItem>-->
@@ -193,7 +196,7 @@
             <IconButton icon="edit" userData="content.params" text="编辑" onMouseClicked="#editParams" styleClass="btn"/>
           </RuleItem>
           <RuleItem name="正文规则">
-            <InputBox userData="content.content" fx:id="contentRule"/>
+            <InputBox userData="content.content" fx:id="contentRule" prompt="为空时 请求参数预处理脚本为空则返回链接，否则返回章节网页源码"/>
           </RuleItem>
           <RuleItem name="智能解析模式">
             <ComboBox fx:id="autoAnalysisMode" value="推荐模式">

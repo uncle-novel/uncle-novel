@@ -5,6 +5,11 @@ import com.unclezs.novel.analyzer.request.spi.HttpProvider;
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.executor.Executor;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker.State;
+import javafx.scene.web.WebEngine;
+
 import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URI;
@@ -17,10 +22,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Worker.State;
-import javafx.scene.web.WebEngine;
 
 /**
  * 采用openjfx的webEngine抓取动态网页，如果开始后页面切换可能会出现卡顿
@@ -32,7 +33,6 @@ public class WebEngineHttpClient implements HttpProvider {
 
   public static final int MAX_WAIT_TIME = 30;
   public static final String GET_DOM_JS_SCRIPT = "document.documentElement.outerHTML";
-  public static final String SCROLL_WINDOW_JS_SCRIPT = "window.scrollTo({ top:200})";
 
   /**
    * 设置请求头
@@ -82,10 +82,16 @@ public class WebEngineHttpClient implements HttpProvider {
         @Override
         public void changed(ObservableValue<? extends State> observable, State old, State newState) {
           if (newState == State.SUCCEEDED) {
-            // 滚动窗口，防止有些网页需要滚动后才加载
-            engine.executeScript(SCROLL_WINDOW_JS_SCRIPT);
             Executor.runFx(() -> {
-              String result = engine.executeScript(GET_DOM_JS_SCRIPT).toString();
+              String result;
+              // 有脚本则执行脚本
+              if (StringUtils.isNotBlank(params.getScript())) {
+                result = engine.executeScript(params.getScript()).toString();
+              } else {
+                // 没有则直接获取源码
+                result = engine.executeScript(GET_DOM_JS_SCRIPT).toString();
+              }
+              engine.loadContent(StringUtils.EMPTY);
               content.set(result);
               countDownLatch.countDown();
             }, 500);
@@ -103,11 +109,11 @@ public class WebEngineHttpClient implements HttpProvider {
       success = countDownLatch.await(MAX_WAIT_TIME, TimeUnit.SECONDS);
       if (success) {
         return content.get();
-      } else {
-        webEngineAtomicReference.set(null);
       }
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
+    } finally {
+      webEngineAtomicReference.set(null);
     }
     return StringUtils.EMPTY;
   }
