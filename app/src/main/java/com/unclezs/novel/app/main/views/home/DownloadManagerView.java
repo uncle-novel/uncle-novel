@@ -155,7 +155,7 @@ public class DownloadManagerView extends SidebarView<StackPane> {
   @Override
   public void onDestroy() {
     if (tasksTable.getItems().isEmpty()) {
-      FileUtil.del(ResourceManager.DOWNLOAD_DIR);
+      FileUtil.del(TMP_DIR);
     }
   }
 
