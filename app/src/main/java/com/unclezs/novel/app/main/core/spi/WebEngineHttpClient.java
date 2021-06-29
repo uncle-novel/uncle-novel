@@ -76,6 +76,10 @@ public class WebEngineHttpClient implements HttpProvider {
     // 开始加载
     Executor.runFx(() -> {
       WebEngine engine = new WebEngine();
+      // 非默认UA 则设置UA
+      if (StringUtils.isNotBlank(params.getUrl()) || !params.getHeader(RequestParams.USER_AGENT).equals(RequestParams.USER_AGENT_DEFAULT_VALUE)) {
+        engine.setUserAgent(params.getHeader(RequestParams.USER_AGENT));
+      }
       webEngineAtomicReference.set(engine);
       setCookies(params);
       engine.getLoadWorker().stateProperty().addListener(new ChangeListener<>() {
@@ -94,7 +98,7 @@ public class WebEngineHttpClient implements HttpProvider {
               engine.loadContent(StringUtils.EMPTY);
               content.set(result);
               countDownLatch.countDown();
-            }, 500);
+            }, params.getDynamicDelayTime() == null ? 500L : params.getDynamicDelayTime());
             engine.getLoadWorker().stateProperty().removeListener(this);
           } else if (newState == State.CANCELLED || newState == State.FAILED) {
             countDownLatch.countDown();

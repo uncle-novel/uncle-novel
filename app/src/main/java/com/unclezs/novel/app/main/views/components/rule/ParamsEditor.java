@@ -66,6 +66,16 @@ public class ParamsEditor extends VBox {
         params.setScript(script.getText());
       }
     });
+    TextField delay = new TextField(String.valueOf(params.getDynamicDelayTime()));
+    delay.setPromptText("动态网页脚本延迟执行时间毫秒数");
+    addItem("脚本延迟", delay).focusedProperty().addListener(e -> {
+      if (!delay.isFocused()) {
+        try {
+          params.setDynamicDelayTime(Long.parseLong(delay.getText()));
+        } catch (Exception ignored) {
+        }
+      }
+    });
   }
 
   private <T extends Node> T addItem(String name, T content) {
