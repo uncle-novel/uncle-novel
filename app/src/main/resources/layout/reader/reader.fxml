@@ -70,6 +70,10 @@
                                 <Label styleClass="tipLabel" text="窗口阴影"/>
                                 <JFXCheckBox fx:id="showShadow"/>
                             </HBox>
+                            <HBox alignment="center_left">
+                                <Label styleClass="tipLabel" text="翻页动画"/>
+                                <JFXCheckBox fx:id="flipAnimation"/>
+                            </HBox>
                             <HBox styleClass="font-type-box">
                                 <Label styleClass="tipLabel">简繁互转</Label>
                                 <HBox spacing="20">

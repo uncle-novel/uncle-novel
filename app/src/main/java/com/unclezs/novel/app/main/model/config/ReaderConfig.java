@@ -59,6 +59,10 @@ public class ReaderConfig {
    */
   private boolean showShadow = true;
   /**
+   * 翻页动画
+   */
+  private ObjectProperty<Boolean> flipAnimation = new SimpleObjectProperty<>(false);
+  /**
    * 页面宽度
    */
   private ObjectProperty<Number> pageWidth = new SimpleObjectProperty<>(0.9D);

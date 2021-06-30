@@ -108,6 +108,8 @@ public class ReaderView extends SceneView<StageDecorator> {
   @FXML
   private JFXCheckBox showShadow;
   @FXML
+  private JFXCheckBox flipAnimation;
+  @FXML
   private ListView<Chapter> tocListView;
   @FXML
   private StackPane container;
@@ -374,6 +376,9 @@ public class ReaderView extends SceneView<StageDecorator> {
     showShadow.setSelected(config.isShowShadow());
     showShadow.selectedProperty().addListener(e -> updateShadow());
     updateShadow();
+    // 翻页动画
+    flipAnimation.setSelected(config.getFlipAnimation().get());
+    flipAnimation.selectedProperty().bindBidirectional(config.getFlipAnimation());
   }
 
   /**
@@ -474,6 +479,10 @@ public class ReaderView extends SceneView<StageDecorator> {
     }
     current = page;
     PageView showView;
+    // 是否启用翻页动画
+    if (!flipAnimation.isSelected()) {
+      type = TurnPageType.NONE;
+    }
     // 翻页动画处理
     if (type != TurnPageType.NONE) {
       showView = otherPage;
