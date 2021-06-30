@@ -15,7 +15,8 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" styleClass="search-network" xmlns="https://javafx.com/javafx/16" fx:controller="com.unclezs.novel.app.main.views.home.SearchNetworkView">
+<StackPane xmlns:fx="http://javafx.com/fxml/1" styleClass="search-network" xmlns="https://javafx.com/javafx/16"
+           fx:controller="com.unclezs.novel.app.main.views.home.SearchNetworkView">
   <VBox styleClass="container">
     <TitleBar title="%home.menu.search.network">
       <content>
@@ -46,6 +47,9 @@
     </StackPane.margin>
     <IconButton icon="airport" styleClass="primary-button" pickOnBounds="false"/>
     <IconButton icon="toc" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="查看目录" onMouseClicked="#showToc"/>
-    <IconButton icon="analysis_download" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="解析下载" onMouseClicked="#analysisDownload"/>
+    <IconButton icon="analysis_download" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="解析下载"
+                onMouseClicked="#analysisDownload"/>
+    <IconButton icon="pre" contentDisplay="GRAPHIC_ONLY" pickOnBounds="false" tip="返回上页"
+                onMouseClicked="#prePage"/>
   </JFXNodesList>
 </StackPane>

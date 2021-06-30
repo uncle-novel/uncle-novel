@@ -21,8 +21,6 @@ import com.unclezs.novel.app.main.db.dao.SearchEngineDao;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.util.MixPanelHelper;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.collections.ListChangeListener;
@@ -36,6 +34,9 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 全网搜书
@@ -144,6 +145,12 @@ public class SearchNetworkView extends SidebarView<StackPane> {
 
     String type = event.getType();
     String keyword = event.getInput();
+    // 输入为url
+    if (UrlUtils.isHttpUrl(keyword)) {
+      webview.setVisible(false);
+      engine.getLoadWorker().progressProperty().addListener(loadListener);
+      return;
+    }
     for (SearchEngine searchEngine : searchEngines) {
       if (searchEngine.getName().equals(type)) {
         engine.load(searchEngine.getUrl().replace(KEYWORD, keyword));
@@ -215,6 +222,18 @@ public class SearchNetworkView extends SidebarView<StackPane> {
       }
     }
     return null;
+  }
+
+  /**
+   * 返回上页
+   */
+  public void prePage() {
+    int currentIndex = engine.getHistory().getCurrentIndex();
+    if (currentIndex > 0) {
+      engine.getHistory().go(-1);
+    } else {
+      Toast.info("没有上页了");
+    }
   }
 
   static class LoadListener implements InvalidationListener {
