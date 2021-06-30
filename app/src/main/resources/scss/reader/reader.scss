@@ -86,12 +86,25 @@
         -fx-alignment: center-left;
 
         .tab-button {
-          -fx-content-display: graphic_only;
           -fx-padding: 1 5 2 5;
           -fx-background-radius: 5;
-
+          -fx-font-size: 15px;
           .icon {
             -fx-icon-size: 15px;
+          }
+        }
+      }
+
+      .font-type-box {
+        -fx-alignment: center-left;
+
+        .tab-button {
+          -fx-padding: 1 5 2 5;
+          -fx-background-radius: 5;
+          -fx-font-size: 13px;
+
+          .icon {
+            -fx-icon-size: 13px;
           }
         }
       }

@@ -18,7 +18,7 @@ jar {
 }
 // 生成字体图标
 task generateIcon(type: IconTask, group: "common") {
-    url = "https://at.alicdn.com/t/font_1469921_cumh1uz2g7.json"
+    url = "https://at.alicdn.com/t/font_1469921_exy14bhfli.json"
     out = "${sourceSets.main.java.srcDirs[0]}"
     outFont = "${sourceSets.main.resources.srcDirs[0]}/fonts/iconfont.ttf"
     packageName = "com.unclezs.novel.app.framework.components.icon"

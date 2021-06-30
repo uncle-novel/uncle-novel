@@ -35,6 +35,7 @@ open module com.unclezs.novel.app.main {
   requires hutool.core;
   requires jsoup;
   requires okhttp3;
+  requires opencc4j;
   // spi
   provides com.unclezs.novel.analyzer.request.spi.HttpProvider with WebEngineHttpClient;
 

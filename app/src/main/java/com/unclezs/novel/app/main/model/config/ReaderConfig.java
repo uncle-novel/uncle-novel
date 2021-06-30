@@ -35,6 +35,10 @@ public class ReaderConfig {
    */
   private ObjectProperty<String> align = new SimpleObjectProperty<>("LEFT");
   /**
+   * 简体繁体互转
+   */
+  private ObjectProperty<Integer> simpleTraditional = new SimpleObjectProperty<>(0);
+  /**
    * TTS小说朗读引擎
    */
   private ObjectProperty<Integer> speaker = new SimpleObjectProperty<>(0);
@@ -45,7 +49,7 @@ public class ReaderConfig {
   /**
    * 显示头部
    */
-  private boolean showHeader  = true;
+  private boolean showHeader = true;
   /**
    * 窗口置顶
    */

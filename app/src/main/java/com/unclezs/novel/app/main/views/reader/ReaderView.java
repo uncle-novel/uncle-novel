@@ -2,6 +2,7 @@ package com.unclezs.novel.app.main.views.reader;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.text.CharSequenceUtil;
+import com.github.houbb.opencc4j.util.ZhConverterUtil;
 import com.google.gson.reflect.TypeToken;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXDrawer;
@@ -39,12 +40,6 @@ import com.unclezs.novel.app.main.views.components.cell.TocListCell;
 import com.unclezs.novel.app.main.views.home.HomeView;
 import com.unclezs.novel.app.main.views.reader.player.TTSPlayer;
 import com.unclezs.novel.app.main.views.reader.widgets.ReaderContextMenu;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
 import javafx.animation.Transition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
@@ -64,6 +59,13 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 /**
  * @author blog.unclezs.com
@@ -123,6 +125,8 @@ public class ReaderView extends SceneView<StageDecorator> {
   private JFXDrawersStack drawer;
   @FXML
   private TabGroup alignGroup;
+  @FXML
+  private TabGroup simpleTraditionalGroup;
   @FXML
   private JFXSlider fontSizeSlider;
   @FXML
@@ -286,6 +290,10 @@ public class ReaderView extends SceneView<StageDecorator> {
     // 滚轮翻页
     AtomicBoolean nextPage = new AtomicBoolean(false);
     DebounceTask scrollTurnPageTask = DebounceTask.build(() -> {
+      // drawer显示时不触发
+      if (settingDrawer.isOpened() || tocDrawer.isOpened()) {
+        return;
+      }
       if (nextPage.get()) {
         nextPage();
       } else {
@@ -332,7 +340,13 @@ public class ReaderView extends SceneView<StageDecorator> {
     });
     pageWidthSlider.valueProperty().bindBidirectional(config.getPageWidth());
     pageWidthSlider.setValueFactory(slider -> Bindings.createStringBinding(() -> ((int) (slider.getValue() * 100)) + "%", slider.valueProperty()));
-
+    // 简体与繁体
+    simpleTraditionalGroup.setOnSelected(tabButton -> {
+      forEachPageView(pageView -> updateDisplayText());
+      config.getSimpleTraditional().set(simpleTraditionalGroup.getTabs().indexOf(tabButton));
+    });
+    Integer simpleToTraIndex = config.getSimpleTraditional().get();
+    simpleTraditionalGroup.getTabs().get(simpleToTraIndex == null ? 0 : simpleToTraIndex).setSelected(true);
     // 对齐方式
     alignGroup.setOnSelected(tabButton -> {
       String align = tabButton.getUserData().toString();
@@ -714,9 +728,31 @@ public class ReaderView extends SceneView<StageDecorator> {
    */
   private String currentPageText() {
     if (current >= 0 && current < pages.size()) {
-      return pages.get(current);
+      String result = pages.get(current);
+      return transformationSimpleTraditional(result);
     }
     return null;
+  }
+
+  /**
+   * 简体与繁体互相转换
+   *
+   * @param src 原始字符
+   * @return 转换后的
+   */
+  private String transformationSimpleTraditional(String src) {
+    if (StringUtils.isBlank(src)) {
+      return src;
+    }
+    // 简体与繁体互转
+    Integer mode = config.getSimpleTraditional().get();
+    mode = mode == null ? 0 : mode;
+    if (mode == 1) {
+      src = ZhConverterUtil.toSimple(src);
+    } else if (mode == 2) {
+      src = ZhConverterUtil.toTraditional(src);
+    }
+    return src;
   }
 
   /**
