@@ -61,7 +61,7 @@ public class ReaderConfig {
   /**
    * 翻页动画
    */
-  private ObjectProperty<Boolean> flipAnimation = new SimpleObjectProperty<>(false);
+  private ObjectProperty<Boolean> flipAnimation = new SimpleObjectProperty<>(true);
   /**
    * 页面宽度
    */

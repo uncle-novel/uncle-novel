@@ -3,15 +3,16 @@ package com.unclezs.novel.app.main.views.home;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.core.util.URLUtil;
 import com.jfoenix.controls.JFXDrawer;
 import com.jfoenix.controls.JFXDrawersStack;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXSlider;
 import com.unclezs.novel.analyzer.model.Chapter;
+import com.unclezs.novel.analyzer.model.ChapterState;
 import com.unclezs.novel.analyzer.request.Http;
 import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.Toast;
@@ -73,7 +74,6 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
   public static final String CACHE_FOLDER_NAME = "audio";
   public static final File CACHE_FOLDER = ResourceManager.cacheFile(CACHE_FOLDER_NAME);
   private static final String INIT_TIME = "00:00";
-  private static final String CHAPTER_CACHE_FILE_FORMAT = "%d.mp3";
   private static final String PAGE_NAME = "有声书架";
   private final AudioBookDao audioBookDao = new AudioBookDao();
   /**
@@ -362,7 +362,7 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
     }
     loadMediaTask = new FluentTask<Chapter>(false) {
       @Override
-      protected Chapter call() throws Exception {
+      protected Chapter call() {
         loadChapter(currentBook, chapter);
         return chapter;
       }
@@ -405,13 +405,9 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
       if (!UrlUtils.isHttpUrl(mediaUrl)) {
         mediaUrl = new NovelSpider(book.getRule()).content(chapter.getUrl());
         chapter.setContent(mediaUrl);
+        chapter.setState(ChapterState.DOWNLOADED);
       }
       log.trace("获取到音频媒体地址：{}", mediaUrl);
-      RequestParams params = RequestParams.create(mediaUrl);
-      params.addHeader(RequestParams.REFERER, chapter.getUrl());
-      String filename = String.format(CHAPTER_CACHE_FILE_FORMAT, chapter.getOrder());
-      FileUtil.writeBytes(Http.bytes(params), FileUtil.file(CACHE_FOLDER, book.getId(), filename));
-      chapter.setContent(filename);
     } catch (Exception e) {
       log.warn("预加载有声章节失败：{}", chapter, e);
     }
@@ -476,12 +472,10 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
    * @param play         是否播放
    */
   private void initPlayer(Chapter chapter, double initProgress, boolean play) {
-    String mediaUrl = URLUtil.getURL(FileUtil.file(CACHE_FOLDER, currentBook.getId(), chapter.getContent())).toExternalForm();
-    if (!FileUtil.exist(mediaUrl)) {
-      log.warn("媒体链接不存在：{}", mediaUrl);
+    if (chapter.getState() != ChapterState.DOWNLOADED && StringUtils.isBlank(chapter.getUrl())) {
       return;
     }
-    Media media = new Media(mediaUrl);
+    Media media = new Media(chapter.getUrl());
     if (player != null) {
       pause();
       player.dispose();
@@ -496,7 +490,7 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
     player.currentTimeProperty().addListener(progressChangeListener);
     player.setOnError(() -> {
       if (play) {
-        Toast.error("音频加载失败");
+        Toast.error("音频播放失败：" + player.getError().getType());
       }
       loading.setVisible(false);
     });
