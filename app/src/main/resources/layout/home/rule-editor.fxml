@@ -211,7 +211,7 @@
             </ComboBox>
           </RuleItem>
           <RuleItem name="下载延迟">
-            <TextField userData="content.delayTime" promptText="下载延迟，每个章节下载完成后的延迟毫秒数"/>
+            <TextField fx:id="delayTime" promptText="下载延迟，每个章节下载完成后的延迟毫秒数"/>
           </RuleItem>
           <RuleItem name="翻页规则">
             <InputBox userData="content.next" prompt="翻页规则，匹配出下一页URL即可"/>

@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/github/workflow/status/unclezs/NovelHarvester/Java%20CI%20with%20Gradle" alt="gradle build"/>
     </a>
     <a href="https://travis-ci.org/unclezs/NovelHarvester">
-    <img src="https://img.shields.io/travis/unclezs/NovelHarvester/main.svg?style=flat&logo=travis" alt="Travis Build"/>
+    <img src="https://img.shields.io/travis/com/unclezs/NovelHarvester/main?logo=travis" alt="Travis Build"/>
     </a>
     <a href="https://github.com/unclezs/jfx-launcher/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/unclezs/NovelHarvester?color=%2340C0D0&label=License" alt="GitHub license"/>

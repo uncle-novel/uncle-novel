@@ -68,7 +68,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -125,6 +124,8 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private VBox ruleContainer;
   @FXML
   private TextField weight;
+  @FXML
+  private TextField delayTime;
   private CommonRuleEditor editor;
   private VBox debugContentPanel;
   private VBox debugTocPanel;
@@ -517,18 +518,30 @@ public class RuleEditorView extends SidebarView<StackPane> {
    * 组件与规则Bean的数据监听绑定
    */
   private void bindData() {
-    // 特殊数据处理
-    bind(weight.focusedProperty(), weight::getText, weight::setText, rule::getWeight, rule::setWeight, new StringConverter<>() {
+    StringConverter<Integer> integerStringConverter = new StringConverter<>() {
       @Override
       public String toString(Integer object) {
-        return String.valueOf(object);
+        return object == null ? null : String.valueOf(object);
       }
 
       @Override
       public Integer fromString(String string) {
         return NumberUtil.isNumber(string) ? Integer.parseInt(string) : 0;
       }
-    });
+    };
+    StringConverter<Long> longStringConverter = new StringConverter<>() {
+      @Override
+      public String toString(Long object) {
+        return object == null ? null : String.valueOf(object);
+      }
+
+      @Override
+      public Long fromString(String string) {
+        return NumberUtil.isNumber(string) ? Long.parseLong(string) : 0;
+      }
+    };
+    bind(weight.focusedProperty(), weight::getText, weight::setText, rule::getWeight, rule::setWeight, integerStringConverter);
+    bind(delayTime.focusedProperty(), delayTime::getText, delayTime::setText, rule.getContent()::getDelayTime, rule.getContent()::setDelayTime, longStringConverter);
     // 通用数据绑定
     inputBoxes.forEach(this::bind);
     inputs.forEach(this::bind);
