@@ -7,6 +7,8 @@ import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.components.PlaceHolder;
 import com.unclezs.novel.app.framework.components.TabButton;
 import com.unclezs.novel.app.framework.components.Toast;
+import com.unclezs.novel.app.framework.components.icon.Icon;
+import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarNavigateBundle;
 import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.serialize.PropertyJsonSerializer;
@@ -29,6 +31,8 @@ import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Priority;
@@ -95,6 +99,13 @@ public class DownloadManagerView extends SidebarView<StackPane> {
     }
   }
 
+  @Override
+  public void onDestroy() {
+    if (tasksTable.getItems().isEmpty()) {
+      FileUtil.del(TMP_DIR);
+    }
+  }
+
   /**
    * 创建下载历史面板
    */
@@ -148,15 +159,13 @@ public class DownloadManagerView extends SidebarView<StackPane> {
 
       historyTable.getColumns().addAll(id, name, type, date, operation);
       historyTable.getColumns().forEach(column -> column.setResizable(false));
+      ContextMenu contextMenu = new ContextMenu();
+      MenuItem clearHistory = new MenuItem("清空下载历史", new Icon(IconFont.DELETE));
+      clearHistory.setOnAction(e ->  historyTable.getItems().clear());
+      contextMenu.getItems().add(clearHistory);
+      historyTable.setContextMenu(contextMenu);
     }
     return historyTable;
-  }
-
-  @Override
-  public void onDestroy() {
-    if (tasksTable.getItems().isEmpty()) {
-      FileUtil.del(TMP_DIR);
-    }
   }
 
   /**
