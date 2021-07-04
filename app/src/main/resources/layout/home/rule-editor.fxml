@@ -6,7 +6,6 @@
 <?import com.unclezs.novel.app.framework.components.TitleBar?>
 <?import com.unclezs.novel.app.main.views.components.rule.RuleItem?>
 <?import com.unclezs.novel.app.main.views.components.rule.RuleItems?>
-<?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ComboBox?>
@@ -15,7 +14,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns="https://javafx.com/javafx" styleClass="rule-editor" xmlns:fx="http://javafx.com/fxml" fx:controller="com.unclezs.novel.app.main.views.home.RuleEditorView">
+<?import java.lang.String?>
+<StackPane xmlns="https://javafx.com/javafx" styleClass="rule-editor" xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.unclezs.novel.app.main.views.home.RuleEditorView">
   <VBox styleClass="container">
     <TitleBar title="书源编辑">
       <content>
@@ -36,17 +37,17 @@
             <JFXCheckBox userData="audio"/>
           </RuleItem>
           <RuleItem name="书源名称">
-            <TextField userData="name"/>
+            <TextField userData="name" promptText="书源名称"/>
           </RuleItem>
           <RuleItem name="书源分组">
-            <TextField userData="group"/>
+            <TextField userData="group" promptText="书源的分组"/>
           </RuleItem>
           <RuleItem name="书源站点">
-            <TextField userData="site" promptText="必填"/>
+            <TextField userData="site" promptText="必填，格式如 https://app.unclezs.com/"/>
             <IconButton icon="browser" text="打开" onAction="#openSite" styleClass="btn"/>
           </RuleItem>
-          <RuleItem name="书源权重">
-            <TextField fx:id="weight"/>
+          <RuleItem name="搜索权重">
+            <TextField fx:id="weight" promptText="搜索时使用的权重，权重越高越先被搜索"/>
           </RuleItem>
         </RuleItems>
         <RuleItems title="全局配置" debug="false">
@@ -60,11 +61,11 @@
             <JFXCheckBox userData="params.enabledProxy"/>
           </RuleItem>-->
           <RuleItem name="Cookie">
-            <TextField userData="params.cookie" fx:id="cookieField"/>
+            <TextField userData="params.cookie" fx:id="cookieField" promptText="全局Cookie，用于模拟登陆，会覆盖自定义的参数"/>
             <IconButton icon="cookies" text="获取" onAction="#getCookie" styleClass="btn"/>
           </RuleItem>
           <RuleItem name="User-Agent">
-            <TextField userData="params.userAgent"/>
+            <TextField userData="params.userAgent" promptText="全局的User-Agent，会覆盖自定义的参数"/>
           </RuleItem>
         </RuleItems>
         <!--搜索规则-->
@@ -76,46 +77,46 @@
             <TextField userData="search.params.url" promptText="必填"/>
           </RuleItem>
           <RuleItem name="结果列表">
-            <InputBox userData="search.list" prompt="必填"/>
+            <InputBox userData="search.list" prompt="必填，匹配出搜索结果的节点列表"/>
           </RuleItem>
           <RuleItem name="详情页面">
-            <InputBox userData="search.detailPage"/>
+            <InputBox userData="search.detailPage" prompt="匹配出详情页面的链接，注意填写此项后，各项规则指定填写page"/>
           </RuleItem>
           <RuleItem name="目录地址">
-            <InputBox userData="search.detail.url" prompt="必填"/>
+            <InputBox userData="search.detail.url" prompt="必填，目录地址链接"/>
           </RuleItem>
           <RuleItem name="小说名称">
-            <InputBox userData="search.detail.title" prompt="必填"/>
+            <InputBox userData="search.detail.title" prompt="必填，小说名称"/>
           </RuleItem>
           <RuleItem name="小说作者">
-            <InputBox userData="search.detail.author"/>
+            <InputBox userData="search.detail.author" prompt="小说作者"/>
           </RuleItem>
           <RuleItem name="小说播音">
-            <InputBox userData="search.detail.broadcast"/>
+            <InputBox userData="search.detail.broadcast" prompt="小说播音"/>
           </RuleItem>
           <RuleItem name="小说分类">
-            <InputBox userData="search.detail.category"/>
+            <InputBox userData="search.detail.category" prompt="小说分类"/>
           </RuleItem>
           <RuleItem name="小说字数">
-            <InputBox userData="search.detail.wordCount"/>
+            <InputBox userData="search.detail.wordCount" prompt="小说字数"/>
           </RuleItem>
           <RuleItem name="小说简介">
-            <InputBox userData="search.detail.introduce"/>
+            <InputBox userData="search.detail.introduce" prompt="小说简介"/>
           </RuleItem>
           <RuleItem name="最新章节名称">
-            <InputBox userData="search.detail.latestChapterName"/>
+            <InputBox userData="search.detail.latestChapterName" prompt="最新章节名称"/>
           </RuleItem>
           <RuleItem name="最新章节链接">
-            <InputBox userData="search.detail.latestChapterUrl"/>
+            <InputBox userData="search.detail.latestChapterUrl" prompt="最新章节链接"/>
           </RuleItem>
           <RuleItem name="封面链接">
-            <InputBox userData="search.detail.coverUrl"/>
+            <InputBox userData="search.detail.coverUrl" prompt="封面链接"/>
           </RuleItem>
           <RuleItem name="连载状态">
-            <InputBox userData="search.detail.state"/>
+            <InputBox userData="search.detail.state" prompt="连载状态"/>
           </RuleItem>
           <RuleItem name="更新时间">
-            <InputBox userData="search.detail.updateTime"/>
+            <InputBox userData="search.detail.updateTime" prompt="更新时间"/>
           </RuleItem>
         </RuleItems>
         <!--章节规则-->
@@ -124,16 +125,16 @@
             <IconButton icon="edit" userData="toc.params" text="编辑" onMouseClicked="#editParams" styleClass="btn"/>
           </RuleItem>
           <RuleItem name="章节列表">
-            <InputBox userData="toc.list"/>
+            <InputBox userData="toc.list" prompt="章节列表，如果不使用自动解析则必填"/>
           </RuleItem>
           <RuleItem name="章节名称">
-            <InputBox userData="toc.name"/>
+            <InputBox userData="toc.name" prompt="章节名称，如果不使用自动解析则必填"/>
           </RuleItem>
           <RuleItem name="章节链接">
-            <InputBox userData="toc.url"/>
+            <InputBox userData="toc.url" prompt="章节链接，如果不使用自动解析则必填"/>
           </RuleItem>
           <RuleItem name="翻页规则">
-            <InputBox userData="toc.next"/>
+            <InputBox userData="toc.next" prompt="翻页规则，匹配出下一页URL即可"/>
           </RuleItem>
           <RuleItem name="启用翻页">
             <JFXCheckBox userData="toc.enableNext"/>
@@ -157,37 +158,37 @@
         <!--详情规则-->
         <RuleItems title="详情规则" debug="true" onDebug="#debugDetailRule">
           <RuleItem name="小说名称">
-            <InputBox userData="detail.title"/>
+            <InputBox userData="detail.title" prompt="小说名称"/>
           </RuleItem>
           <RuleItem name="小说作者">
-            <InputBox userData="detail.author"/>
+            <InputBox userData="detail.author" prompt="小说作者"/>
           </RuleItem>
           <RuleItem name="小说播音">
-            <InputBox userData="detail.broadcast"/>
+            <InputBox userData="detail.broadcast" prompt="小说播音"/>
           </RuleItem>
           <RuleItem name="小说分类">
-            <InputBox userData="detail.category"/>
+            <InputBox userData="detail.category" prompt="小说分类"/>
           </RuleItem>
           <RuleItem name="小说字数">
-            <InputBox userData="detail.wordCount"/>
+            <InputBox userData="detail.wordCount" prompt="小说字数"/>
           </RuleItem>
           <RuleItem name="小说简介">
-            <InputBox userData="detail.introduce"/>
+            <InputBox userData="detail.introduce" prompt="小说简介"/>
           </RuleItem>
           <RuleItem name="最新章节名称">
-            <InputBox userData="detail.latestChapterName"/>
+            <InputBox userData="detail.latestChapterName" prompt="最新章节名称"/>
           </RuleItem>
           <RuleItem name="最新章节链接">
-            <InputBox userData="detail.latestChapterUrl"/>
+            <InputBox userData="detail.latestChapterUrl" prompt="最新章节链接"/>
           </RuleItem>
           <RuleItem name="封面链接">
-            <InputBox userData="detail.coverUrl"/>
+            <InputBox userData="detail.coverUrl" prompt="封面链接"/>
           </RuleItem>
           <RuleItem name="连载状态">
-            <InputBox userData="detail.state"/>
+            <InputBox userData="detail.state" prompt="连载状态"/>
           </RuleItem>
           <RuleItem name="更新时间">
-            <InputBox userData="detail.updateTime"/>
+            <InputBox userData="detail.updateTime" prompt="更新时间"/>
           </RuleItem>
         </RuleItems>
         <!--正文规则-->
@@ -209,8 +210,11 @@
               </items>
             </ComboBox>
           </RuleItem>
+          <RuleItem name="下载延迟">
+            <TextField userData="content.delayTime" promptText="下载延迟，每个章节下载完成后的延迟毫秒数"/>
+          </RuleItem>
           <RuleItem name="翻页规则">
-            <InputBox userData="content.next"/>
+            <InputBox userData="content.next" prompt="翻页规则，匹配出下一页URL即可"/>
           </RuleItem>
           <RuleItem name="启用翻页">
             <JFXCheckBox userData="content.enableNext"/>

@@ -4,11 +4,13 @@ import cn.hutool.core.bean.BeanUtil;
 import com.unclezs.novel.analyzer.core.helper.RuleHelper;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.util.GsonUtils;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import lombok.experimental.UtilityClass;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 规则管理器
@@ -101,7 +103,9 @@ public class RuleManager {
    * @return 规则
    */
   public static List<AnalyzerRule> textRules() {
-    return RULES.stream().filter(rule -> Boolean.TRUE.equals(rule.getEnabled()) && rule.isEffective() && Boolean.FALSE.equals(rule.getAudio())).collect(Collectors.toList());
+    return RULES.stream()
+      .filter(rule -> Boolean.TRUE.equals(rule.getEnabled()) && rule.isEffective() && Boolean.FALSE.equals(rule.getAudio()))
+      .collect(Collectors.toList());
   }
 
   /**
@@ -110,7 +114,10 @@ public class RuleManager {
    * @return 规则
    */
   public static List<AnalyzerRule> textSearchRules() {
-    return textRules().stream().filter(rule -> rule.getSearch() != null && rule.getSearch().isEffective()).collect(Collectors.toList());
+    return textRules().stream()
+      .filter(rule -> rule.getSearch() != null && rule.getSearch().isEffective())
+      .sorted(Comparator.comparingInt(AnalyzerRule::getWeight))
+      .collect(Collectors.toList());
   }
 
   /**
@@ -128,6 +135,9 @@ public class RuleManager {
    * @return 规则
    */
   public static List<AnalyzerRule> audioSearchRules() {
-    return audioRules().stream().filter(rule -> rule.getSearch() != null && rule.getSearch().isEffective()).collect(Collectors.toList());
+    return audioRules().stream()
+      .filter(rule -> rule.getSearch() != null && rule.getSearch().isEffective())
+      .sorted(Comparator.comparingInt(AnalyzerRule::getWeight))
+      .collect(Collectors.toList());
   }
 }
