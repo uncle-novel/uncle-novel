@@ -402,10 +402,7 @@ public class ReaderView extends SceneView<StageDecorator> {
       player.setSpeed(ttsSpeedSlider.getValue());
       config.getSpeed().set(ttsSpeedSlider.getValue());
     });
-    player = new TTSPlayer(ttsConfigs.get(config.getSpeaker().get()), () -> {
-      nextPage();
-      // playTTS(true);
-    });
+    player = new TTSPlayer(ttsConfigs.get(config.getSpeaker().get()), this::nextPage);
   }
 
   /**
