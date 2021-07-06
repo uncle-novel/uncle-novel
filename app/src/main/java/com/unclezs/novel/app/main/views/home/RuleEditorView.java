@@ -311,6 +311,8 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private void showDebugBox(Region panel, String title) {
     ModalBox modalBox = ModalBox.none();
     panel.setMinWidth(App.stage().getWidth() - 200);
+    TextArea console = (TextArea) panel.lookup("#console");
+    console.setMinHeight(App.stage().getHeight() / 2);
     modalBox.body(panel).cancel("关闭").title(title).show();
   }
 
@@ -369,7 +371,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private VBox createDebugBox(String promptText, BiConsumer<RuleTester, String> starter) {
     TextArea console = new TextArea();
     NodeHelper.addClass(console, "rule-debug-console");
-    console.setMinHeight(App.stage().getHeight() / 2);
+    console.setId("console");
     console.setWrapText(false);
     VBox debugBox = new VBox();
     debugBox.setSpacing(10);
