@@ -1,0 +1,7 @@
+checks:
+  java: true
+
+build:
+  environment:
+    sdkman:
+      - java@11.0.2-open
