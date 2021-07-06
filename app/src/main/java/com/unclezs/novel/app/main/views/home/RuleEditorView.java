@@ -32,6 +32,7 @@ import com.unclezs.novel.app.framework.executor.FluentTask;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.util.DesktopUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
+import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.manager.RuleManager;
 import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.rule.CommonRuleEditor;
@@ -53,6 +54,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
@@ -302,7 +305,13 @@ public class RuleEditorView extends SidebarView<StackPane> {
     if (debugPanel == null) {
       debugPanel = createDebugBox("请输入小说名称", RuleTester::test);
     }
-    ModalBox.none().body(debugPanel).title("规则测试").show();
+    showDebugBox(debugPanel, "规则测试");
+  }
+
+  private void showDebugBox(Region panel, String title) {
+    ModalBox modalBox = ModalBox.none();
+    panel.setMinWidth(App.stage().getWidth() - 200);
+    modalBox.body(panel).cancel("关闭").title(title).show();
   }
 
   /**
@@ -313,7 +322,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
     if (debugSearchPanel == null) {
       debugSearchPanel = createDebugBox("请输入小说名称", RuleTester::search);
     }
-    ModalBox.none().body(debugSearchPanel).title("小说搜索规则测试").show();
+    showDebugBox(debugSearchPanel, "小说搜索规则测试");
   }
 
   /**
@@ -324,7 +333,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
     if (debugTocPanel == null) {
       debugTocPanel = createDebugBox("请输入目录链接", RuleTester::toc);
     }
-    ModalBox.none().body(debugTocPanel).title("目录规则测试").show();
+    showDebugBox(debugTocPanel, "目录规则测试");
   }
 
   /**
@@ -335,7 +344,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
     if (debugDetailPanel == null) {
       debugDetailPanel = createDebugBox("请输入目录链接", RuleTester::detail);
     }
-    ModalBox.none().body(debugDetailPanel).title("详情规则测试").show();
+    showDebugBox(debugDetailPanel, "详情规则测试");
   }
 
   /**
@@ -346,7 +355,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
     if (debugContentPanel == null) {
       debugContentPanel = createDebugBox("请输入正文链接", RuleTester::content);
     }
-    ModalBox.none().body(debugContentPanel).title("正文规则测试").show();
+    showDebugBox(debugContentPanel, "正文规则测试");
   }
 
   /**
@@ -360,13 +369,15 @@ public class RuleEditorView extends SidebarView<StackPane> {
   private VBox createDebugBox(String promptText, BiConsumer<RuleTester, String> starter) {
     TextArea console = new TextArea();
     NodeHelper.addClass(console, "rule-debug-console");
-    console.setWrapText(true);
+    console.setMinHeight(App.stage().getHeight() / 2);
+    console.setWrapText(false);
     VBox debugBox = new VBox();
     debugBox.setSpacing(10);
     InputBox inputBox = new InputBox();
     inputBox.setIcon(IconFont.START.name());
     inputBox.setPrompt(promptText);
     AtomicBoolean running = new AtomicBoolean(false);
+    RuleTester tester = new RuleTester(rule);
     inputBox.setOnCommit(e -> {
       if (running.get()) {
         boolean retry = (boolean) ModalBox.confirm(s -> {
@@ -383,7 +394,7 @@ public class RuleEditorView extends SidebarView<StackPane> {
       console.clear();
       FluentTask<Object> task = TaskFactory.create(false, () -> {
         try {
-          RuleTester tester = new RuleTester(rule.copy(), msg -> Executor.runFx(() -> console.appendText(msg)));
+          tester.init(rule.copy(), msg -> Executor.runFx(() -> console.appendText(msg)));
           starter.accept(tester, e.getInput());
         } catch (Exception exception) {
           Executor.runFx(() -> console.appendText(ExceptionUtil.getSimpleMessage(exception)));
@@ -397,7 +408,20 @@ public class RuleEditorView extends SidebarView<StackPane> {
       debugBox.setUserData(task);
       task.start();
     });
-    debugBox.getChildren().setAll(inputBox, console);
+    JFXCheckBox showSource = new JFXCheckBox("显示源码");
+    showSource.setSelected(tester.isShowSource());
+    JFXCheckBox showRule = new JFXCheckBox("显示规则");
+    showRule.setSelected(tester.isShowRule());
+    JFXCheckBox showAllData = new JFXCheckBox("显示全部匹配结果");
+    showAllData.setSelected(tester.isShowAllData());
+    JFXCheckBox consoleWrap = new JFXCheckBox("自动换行");
+    showSource.selectedProperty().addListener(e -> tester.setShowSource(showSource.isSelected()));
+    showRule.selectedProperty().addListener(e -> tester.setShowRule(showRule.isSelected()));
+    showAllData.selectedProperty().addListener(e -> tester.setShowAllData(showAllData.isSelected()));
+    consoleWrap.selectedProperty().bindBidirectional(console.wrapTextProperty());
+    HBox optionsBox = new HBox(showSource, showRule, showAllData, consoleWrap);
+    optionsBox.setSpacing(10);
+    debugBox.getChildren().setAll(inputBox, console, optionsBox);
     return debugBox;
   }
 
