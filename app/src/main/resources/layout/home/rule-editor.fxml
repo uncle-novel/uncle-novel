@@ -119,8 +119,8 @@
             <InputBox userData="search.detail.updateTime" prompt="更新时间"/>
           </RuleItem>
         </RuleItems>
-        <!--章节规则-->
-        <RuleItems title="章节规则" debug="true" onDebug="#debugTocRule">
+        <!--目录规则-->
+        <RuleItems title="目录规则" debug="true" onDebug="#debugTocRule">
           <RuleItem name="请求参数">
             <IconButton icon="edit" userData="toc.params" text="编辑" onMouseClicked="#editParams" styleClass="btn"/>
           </RuleItem>
@@ -136,6 +136,12 @@
           <RuleItem name="翻页规则">
             <InputBox userData="toc.next" prompt="翻页规则，匹配出下一页URL即可"/>
           </RuleItem>
+          <RuleItem name="排序脚本">
+            <TextField userData="toc.sortScript" promptText="目录排序脚本，自定义乱序重拍脚本，覆盖默认策略"/>
+          </RuleItem>
+          <RuleItem name="乱序重排">
+            <JFXCheckBox userData="toc.sort"/>
+          </RuleItem>
           <RuleItem name="启用翻页">
             <JFXCheckBox userData="toc.enableNext"/>
           </RuleItem>
@@ -148,10 +154,7 @@
           <RuleItem name="章节过滤">
             <JFXCheckBox userData="toc.filter"/>
           </RuleItem>
-          <RuleItem name="乱序重排">
-            <JFXCheckBox userData="toc.sort"/>
-          </RuleItem>
-          <RuleItem name="章节逆序">
+          <RuleItem name="目录逆序">
             <JFXCheckBox userData="toc.reverse"/>
           </RuleItem>
         </RuleItems>

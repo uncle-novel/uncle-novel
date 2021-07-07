@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXNodesList;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.model.Novel;
+import com.unclezs.novel.analyzer.script.ScriptUtils;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.analyzer.spider.TocSpider;
 import com.unclezs.novel.analyzer.spider.helper.SpiderHelper;
@@ -41,6 +42,7 @@ import javafx.scene.layout.StackPane;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.script.SimpleBindings;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -255,7 +257,16 @@ public class AnalysisView extends SidebarView<StackPane> {
    */
   @FXML
   private void sortToc() {
-    listView.getItems().sort(new ChapterComparator());
+    if (StringUtils.isBlank(rule.getToc().getSortScript())) {
+      listView.getItems().sort(new ChapterComparator());
+    } else {
+      listView.getItems().sort((o1, o2) -> {
+        SimpleBindings bindings = new SimpleBindings();
+        bindings.put(TocSpider.COMPARATOR_A, o1.getChapter());
+        bindings.put(TocSpider.COMPARATOR_B, o2.getChapter());
+        return (int) Double.parseDouble(ScriptUtils.execute(rule.getToc().getSortScript(), bindings));
+      });
+    }
     rule.getToc().setSort(!Boolean.TRUE.equals(rule.getToc().getSort()));
   }
 
