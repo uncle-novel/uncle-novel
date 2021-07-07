@@ -9,7 +9,7 @@
     <a href="https://github.com/unclezs/NovelHarverster/actions/workflows/gradle.yml">
     <img src="https://img.shields.io/github/workflow/status/unclezs/NovelHarvester/Java%20CI%20with%20Gradle" alt="gradle build"/>
     </a>
-    <a href="https://travis-ci.org/unclezs/NovelHarvester">
+    <a href="https://travis-ci.com/unclezs/NovelHarvester">
     <img src="https://img.shields.io/travis/com/unclezs/NovelHarvester/main?logo=travis" alt="Travis Build"/>
     </a>
     <a href="https://github.com/unclezs/jfx-launcher/blob/main/LICENSE">
