@@ -181,6 +181,7 @@ task packageAlone(type: PackageTask, dependsOn: build) {
     vmArgs = file("$projectDir/app.modularity").readLines()
     enabledLauncher = false
     createTar = false
+    createZip = false
     generateInstaller = false
     mainModule = "com.unclezs.novel.app.main"
     mainClass = "com.unclezs.novel.app.main.App"
