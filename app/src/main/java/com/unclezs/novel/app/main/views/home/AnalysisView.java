@@ -218,22 +218,23 @@ public class AnalysisView extends SidebarView<StackPane> {
   }
 
   /**
-   * 勾选选中
+   * 全部选中
    */
-  @FXML
-  private void checkedAllSelected() {
-    listView.getSelectionModel().getSelectedItems().forEach(item -> item.setSelected(true));
+  public void checkedAll() {
+    listView.getItems().forEach(item -> item.setSelected(true));
+    listView.getSelectionModel().selectAll();
     listView.refresh();
   }
 
   /**
-   * 取消勾选选中
+   * 全部不选中
    */
-  @FXML
-  private void unCheckedAllSelected() {
-    listView.getSelectionModel().getSelectedItems().forEach(item -> item.setSelected(false));
+  public void uncheckedAll() {
+    listView.getItems().forEach(item -> item.setSelected(false));
+    listView.getSelectionModel().clearSelection();
     listView.refresh();
   }
+
 
   /**
    * 移除选中章节

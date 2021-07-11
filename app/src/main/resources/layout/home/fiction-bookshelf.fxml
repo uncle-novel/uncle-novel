@@ -42,6 +42,11 @@
               <Icon value="download"/>
             </graphic>
           </MenuItem>
+          <MenuItem text="解析下载" onAction="#analysisDownload">
+            <graphic>
+              <Icon value="analysis_download"/>
+            </graphic>
+          </MenuItem>
           <MenuItem text="更换封面" onAction="#changeCover">
             <graphic>
               <Icon value="cover"/>

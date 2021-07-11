@@ -54,19 +54,19 @@
                     <Icon value="reverse"/>
                   </graphic>
                 </MenuItem>
-                <MenuItem text="移除选中" onAction="#removeSelected">
-                  <graphic>
-                    <Icon value="delete"/>
-                  </graphic>
-                </MenuItem>
-                <MenuItem text="勾选选中" onAction="#checkedAllSelected">
+                <MenuItem text="全部选中" onAction="#checkedAll">
                   <graphic>
                     <Icon value="enabled"/>
                   </graphic>
                 </MenuItem>
-                <MenuItem text="取消勾选选中" onAction="#unCheckedAllSelected">
+                <MenuItem text="全部不选中" onAction="#uncheckedAll">
                   <graphic>
                     <Icon value="remove"/>
+                  </graphic>
+                </MenuItem>
+                <MenuItem text="移除选中" onAction="#removeSelected">
+                  <graphic>
+                    <Icon value="delete"/>
                   </graphic>
                 </MenuItem>
                 <MenuItem text="浏览器打开" onAction="#openBrowser">

@@ -255,6 +255,21 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
   }
 
   /**
+   * 上下文菜单 解析下载
+   */
+  @FXML
+  private void analysisDownload() {
+    BookNode node = (BookNode) bookNodeContextMenu.getOwnerNode();
+    Book book = node.getBook();
+    if (book.isLocal()) {
+      Toast.error("本地小说无需下载");
+      return;
+    }
+    SidebarNavigateBundle bundle = new SidebarNavigateBundle().put(AnalysisView.BUNDLE_KEY_NOVEL_INFO, book.toNovel());
+    AppContext.getView(AnalysisView.class).getNavigation().navigate(AnalysisView.class, bundle);
+  }
+
+  /**
    * 上下文菜单 重命名书籍
    */
   @FXML
