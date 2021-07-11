@@ -25,6 +25,10 @@ public class ProxyConfig {
    */
   private ObjectProperty<Boolean> httpProxy = new SimpleObjectProperty<>(false);
   /**
+   * 使用系统代理
+   */
+  private ObjectProperty<Boolean> useSystem = new SimpleObjectProperty<>(true);
+  /**
    * 主机
    */
   private ObjectProperty<String> host = new SimpleObjectProperty<>();
@@ -52,7 +56,7 @@ public class ProxyConfig {
       ProxyUtils.setHttpProxyUser(proxyConfig.getUser().get());
       ProxyUtils.setHttpProxyPassword(proxyConfig.getPassword().get());
     }
-    ProxyUtils.setEnabledProxy(proxyConfig.getHttpProxy().get());
+    ProxyUtils.setEnabledAppProxy(proxyConfig.getHttpProxy().get());
   }
 
   public static boolean isUseProxy() {

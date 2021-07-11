@@ -2,6 +2,9 @@ package com.unclezs.novel.app.framework.util;
 
 import com.unclezs.novel.analyzer.request.proxy.HttpProxy;
 import com.unclezs.novel.analyzer.util.StringUtils;
+import lombok.Setter;
+import lombok.experimental.UtilityClass;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
@@ -10,8 +13,6 @@ import java.net.ProxySelector;
 import java.net.SocketAddress;
 import java.net.URI;
 import java.util.List;
-import lombok.Setter;
-import lombok.experimental.UtilityClass;
 
 /**
  * 系统属性工具类
@@ -39,12 +40,21 @@ public class ProxyUtils {
     ProxySelector.setDefault(SYSTEM_PROXY_SELECTOR);
   }
 
-  public static void setEnabledProxy(boolean enabled) {
+  public static void setEnabledAppProxy(boolean enabled) {
     if (enabled) {
       proxies = List.of(getHttpProxy());
     } else {
       proxies = List.of(Proxy.NO_PROXY);
     }
+    SYSTEM_PROXY_SELECTOR.setEnabledAppProxy(enabled);
+  }
+
+  /**
+   * 设置启用系统代理
+   *
+   * @param enabled true 启用
+   */
+  public static void setEnabledSystemProxy(boolean enabled) {
     SYSTEM_PROXY_SELECTOR.setEnabledSystemProxy(enabled);
   }
 
@@ -135,11 +145,16 @@ public class ProxyUtils {
 
     private static final List<Proxy> NO_PROXY_LIST = List.of(Proxy.NO_PROXY);
     @Setter
+    private boolean enabledAppProxy = false;
+    @Setter
     private boolean enabledSystemProxy = false;
 
     @Override
     public List<Proxy> select(URI uri) {
       if (enabledSystemProxy) {
+        return DEFAULT_SELECTOR.select(uri);
+      }
+      if (enabledAppProxy) {
         return proxies;
       }
       return NO_PROXY_LIST;

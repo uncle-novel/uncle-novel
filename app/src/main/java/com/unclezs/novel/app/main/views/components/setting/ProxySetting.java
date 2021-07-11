@@ -2,6 +2,7 @@ package com.unclezs.novel.app.main.views.components.setting;
 
 import com.jfoenix.controls.JFXCheckBox;
 import com.unclezs.novel.analyzer.request.proxy.HttpProxy;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
@@ -12,13 +13,14 @@ import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.framework.util.ProxyUtils;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.config.ProxyConfig;
-import java.util.List;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
+
+import java.util.List;
 
 /**
  * @author blog.unclezs.com
@@ -27,11 +29,26 @@ import org.jsoup.Jsoup;
 @Slf4j
 public class ProxySetting extends SettingItems {
 
-  public static final String PROXY_TEST_URL = "http://www.cip.cc/";
-  public static final String PROXY_INFO_SELECTOR = ".kq-well pre";
+  public static final String PROXY_TEST_URL = "https://ip.900cha.com";
+  public static final String PROXY_INFO_SELECTOR = ".list-unstyled";
 
   public ProxySetting() {
-    super(LocalizedSupport.app("setting.proxy"), List.of(createHttpProxy()));
+    super(LocalizedSupport.app("setting.proxy"), List.of(createSystemProxy(), createHttpProxy()));
+  }
+
+  /**
+   * 创建系统代理Item
+   *
+   * @return 系统代理Item
+   */
+  private static SettingItem createSystemProxy() {
+    ProxyConfig proxyConfig = SettingManager.manager().getProxy();
+    // 系统代理
+    JFXCheckBox useSystemCheckBox = new JFXCheckBox("启用系统代理");
+    useSystemCheckBox.selectedProperty().bindBidirectional(proxyConfig.getUseSystem());
+    useSystemCheckBox.selectedProperty().addListener(e -> ProxyUtils.setEnabledSystemProxy(useSystemCheckBox.isSelected()));
+    ProxyUtils.setEnabledSystemProxy(useSystemCheckBox.isSelected());
+    return new SettingItem("系统代理", useSystemCheckBox);
   }
 
   /**
@@ -41,6 +58,7 @@ public class ProxySetting extends SettingItems {
    */
   private static SettingItem createHttpProxy() {
     ProxyConfig proxyConfig = SettingManager.manager().getProxy();
+    // 启用自定义代理
     JFXCheckBox httpProxyCheckBox = new JFXCheckBox(LocalizedSupport.app("setting.proxy.enabled"));
     ObjectProperty<Boolean> httpProxy = proxyConfig.getHttpProxy();
     httpProxyCheckBox.selectedProperty().bindBidirectional(httpProxy);
@@ -68,22 +86,14 @@ public class ProxySetting extends SettingItems {
     // 代理测试
     IconButton debug = NodeHelper.addClass(new IconButton(LocalizedSupport.app("setting.proxy.test"), IconFont.DEBUG), "btn");
     debug.setOnMouseClicked(e -> testHttpProxy());
-    IconButton getProxy = NodeHelper.addClass(new IconButton(LocalizedSupport.app("setting.proxy.system"), IconFont.AIRPORT), "btn");
-    getProxy.setOnMouseClicked(e -> {
-      HttpProxy systemProxy = ProxyUtils.getSystemProxy();
-      if (systemProxy != HttpProxy.NO_PROXY) {
-        host.setText(systemProxy.getHost());
-        port.setText(String.valueOf(systemProxy.getPort()));
-        Toast.success(LocalizedSupport.app("setting.proxy.system.success"));
-      } else {
-        Toast.info(LocalizedSupport.app("setting.proxy.system.error"));
-      }
-    });
-    HBox hostPortBox = new HBox(host, port, getProxy);
+
+    HBox optionsBox = new HBox(httpProxyCheckBox);
+    optionsBox.setSpacing(10);
+    HBox hostPortBox = new HBox(host, port, debug);
     hostPortBox.setSpacing(20);
-    HBox userPasswordBox = new HBox(user, password, debug);
+    HBox userPasswordBox = new HBox(user, password);
     userPasswordBox.setSpacing(20);
-    VBox container = new VBox(httpProxyCheckBox, hostPortBox, userPasswordBox);
+    VBox container = new VBox(optionsBox, hostPortBox, userPasswordBox);
     container.setSpacing(5);
     return new SettingItem(LocalizedSupport.app("setting.proxy.http"), container);
   }
@@ -92,8 +102,12 @@ public class ProxySetting extends SettingItems {
    * 测试代理
    */
   private static void testHttpProxy() {
-    TaskFactory.create(() -> Jsoup.connect(PROXY_TEST_URL).get().select(PROXY_INFO_SELECTOR).text())
-      .onSuccess(content -> ModalBox.none().message(content).show())
+    TaskFactory.create(() -> Jsoup.connect(PROXY_TEST_URL).followRedirects(true).get().select(PROXY_INFO_SELECTOR).first().select("li").eachText())
+      .onSuccess(content -> {
+        StringBuilder message = new StringBuilder();
+        content.forEach(str -> message.append(str).append(StringUtils.LF));
+        ModalBox.none().message(message.toString()).show();
+      })
       .onFailed(e -> {
         log.error("请求代理失败", e);
         Toast.error(LocalizedSupport.app("setting.proxy.invalid"));
