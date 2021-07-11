@@ -3,19 +3,21 @@ package com.unclezs.novel.app.main.views.components.cell;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.analyzer.model.Novel;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.components.LoadingImageView;
 import com.unclezs.novel.app.framework.components.Tag;
 import com.unclezs.novel.app.framework.components.cell.BaseListCell;
 import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 搜索小说结果
@@ -59,10 +61,10 @@ public class BookListCell extends BaseListCell<Novel> implements LocalizedSuppor
     cover.setImage(novel.getCoverUrl());
     // 更新小说信息
     String unknown = localized("unknown");
-    this.title.setText(CharSequenceUtil.blankToDefault(novel.getTitle(), unknown));
-    this.author.setText(CharSequenceUtil.blankToDefault(novel.getAuthor(), unknown));
-    this.desc.setText(CharSequenceUtil.blankToDefault(novel.getIntroduce(), localized("none")));
-    this.latestChapter.setText(CharSequenceUtil.blankToDefault(novel.getLatestChapterName(), unknown));
+    this.title.setText(CharSequenceUtil.blankToDefault(novel.getTitle(), unknown).replace(StringUtils.LF, StringUtils.EMPTY));
+    this.author.setText(CharSequenceUtil.blankToDefault(novel.getAuthor(), unknown).replace(StringUtils.LF, StringUtils.EMPTY));
+    this.desc.setText(CharSequenceUtil.blankToDefault(novel.getIntroduce(), localized("none")).replace(StringUtils.LF, StringUtils.EMPTY));
+    this.latestChapter.setText(CharSequenceUtil.blankToDefault(novel.getLatestChapterName(), unknown).replace(StringUtils.LF, StringUtils.EMPTY));
     // 更新标签
     List<Tag> novelTags = new ArrayList<>();
     // 播音

@@ -86,12 +86,22 @@ public class ProxySetting extends SettingItems {
     // 代理测试
     IconButton debug = NodeHelper.addClass(new IconButton(LocalizedSupport.app("setting.proxy.test"), IconFont.DEBUG), "btn");
     debug.setOnMouseClicked(e -> testHttpProxy());
-
+    IconButton getProxy = NodeHelper.addClass(new IconButton(LocalizedSupport.app("setting.proxy.system"), IconFont.AIRPORT), "btn");
+    getProxy.setOnMouseClicked(e -> {
+      HttpProxy systemProxy = ProxyUtils.getSystemProxy();
+      if (systemProxy != HttpProxy.NO_PROXY) {
+        host.setText(systemProxy.getHost());
+        port.setText(String.valueOf(systemProxy.getPort()));
+        Toast.success(LocalizedSupport.app("setting.proxy.system.success"));
+      } else {
+        Toast.info(LocalizedSupport.app("setting.proxy.system.error"));
+      }
+    });
     HBox optionsBox = new HBox(httpProxyCheckBox);
     optionsBox.setSpacing(10);
-    HBox hostPortBox = new HBox(host, port, debug);
+    HBox hostPortBox = new HBox(host, port, getProxy);
     hostPortBox.setSpacing(20);
-    HBox userPasswordBox = new HBox(user, password);
+    HBox userPasswordBox = new HBox(user, password, debug);
     userPasswordBox.setSpacing(20);
     VBox container = new VBox(optionsBox, hostPortBox, userPasswordBox);
     container.setSpacing(5);
