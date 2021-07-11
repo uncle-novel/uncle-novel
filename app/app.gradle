@@ -3,7 +3,7 @@ import com.unclezs.novel.app.packager.task.UpgradeTask
 import proguard.gradle.ProGuardTask
 
 // prod / dev
-def profile = "dev"
+def profile = "prod"
 def debug = "dev" == profile
 buildscript {
     repositories {
@@ -62,7 +62,7 @@ packager {
             "-DmixPanel.token=${findProperty("mixPanel.token")}"
     ]
     vmOptionsFilePath = "conf/launcher.vmoptions"
-    vmOptionsFile = file("${packagerDir}/resource/conf/vm.options")
+    vmOptionsFile = file("${packagerDir}/resource/conf/launcher.vmoptions")
     linuxConfig {
         iconFile = file("${packagerDir}/icon/favicon.png")
         return linuxConfig
@@ -109,6 +109,7 @@ packager {
         resource("$packagerDir/bin/linux/kindlegen_linux", null, "LINUX", "bin")
         resource("$packagerDir/fonts/pingfang-simple-bold.ttf", "fonts")
         resource("$packagerDir/resource/conf/jul.properties", "conf")
+        resource("$packagerDir/resource/conf/launcher.vmoptions", "conf")
         // 打包时使用
         //resource("$packagerDir/resource/conf/core.db", "conf")
         if (debug) {
