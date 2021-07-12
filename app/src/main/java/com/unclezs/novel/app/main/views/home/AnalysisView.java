@@ -368,7 +368,7 @@ public class AnalysisView extends SidebarView<StackPane> {
   private List<Chapter> selectedChapters() {
     // 获取选中的章节
     return listView.getItems().stream()
-      .filter(ChapterProperty::isSelected)
+      .filter(chapterProperty -> chapterProperty.isSelected() && UrlUtils.isHttpUrl(chapterProperty.getChapter().getUrl()))
       .map(ChapterProperty::getChapter)
       .collect(Collectors.toList());
   }

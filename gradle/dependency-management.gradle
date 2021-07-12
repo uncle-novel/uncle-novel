@@ -6,7 +6,7 @@ props.load(file("../gradle.properties").newDataInputStream())
 dependencyManagement {
     dependencies {
         dependency "com.unclezs:jfx-launcher:${props.getProperty("app.launcher.version")}"
-        dependency "com.unclezs:novel-analyzer:1.0.23"
+        dependency "com.unclezs:novel-analyzer:1.0.24"
 
         dependencySet("cn.hutool:5.5.9") {
             entry "hutool-all"
