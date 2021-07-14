@@ -3,7 +3,7 @@ import com.unclezs.novel.app.packager.task.UpgradeTask
 import proguard.gradle.ProGuardTask
 
 // prod / dev
-def profile = "dev"
+def profile = "prod"
 def debug = "dev" == profile
 buildscript {
     repositories {
