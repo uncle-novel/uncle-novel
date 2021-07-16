@@ -63,6 +63,7 @@ import java.io.File;
 public class App extends BaseApplication {
   public static final File FONT_CSS_FILE = ResourceManager.confFile("font.css");
   public static final String FONT_CSS_FORMAT = ".root{-fx-font-family: '%s';}";
+  public static final String FONT_CSS_URL = URLUtil.getURL(FONT_CSS_FILE).toExternalForm();
   public static final boolean SHOW_INFO = true;
   public static final String NAME = "Uncle小说";
   private static final String EVENT_LAUNCH = "启动应用";
@@ -195,9 +196,8 @@ public class App extends BaseApplication {
   public void changeFont(String font) {
     String css = String.format(FONT_CSS_FORMAT, font);
     FileUtil.writeUtf8String(css, FONT_CSS_FILE);
-    String fontCssUrl = URLUtil.getURL(FONT_CSS_FILE).toExternalForm();
     ObservableList<String> stylesheets = currentView.getRoot().getScene().getStylesheets();
-    stylesheets.remove(fontCssUrl);
-    stylesheets.add(fontCssUrl);
+    stylesheets.remove(FONT_CSS_URL);
+    stylesheets.add(FONT_CSS_URL);
   }
 }

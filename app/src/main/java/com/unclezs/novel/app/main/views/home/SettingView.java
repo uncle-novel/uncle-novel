@@ -11,6 +11,7 @@ import com.unclezs.novel.app.framework.components.sidebar.SidebarView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
 import com.unclezs.novel.app.framework.support.hotkey.KeyRecorder;
+import com.unclezs.novel.app.framework.util.FontUtils;
 import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.manager.HotkeyManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
@@ -110,7 +111,7 @@ public class SettingView extends SidebarView<StackPane> {
   public void onCreated() {
     manager = SettingManager.manager();
     language.valueProperty().bindBidirectional(manager.getBasic().getLang());
-    fonts.getItems().setAll(Font.getFamilies());
+    fonts.getItems().setAll(FontUtils.getAllFontFamilies());
     fonts.valueProperty().bindBidirectional(manager.getBasic().getFonts());
     fonts.valueProperty().addListener(e -> ((App) AppContext.getView(HomeView.class).getApp()).changeFont(fonts.getValue()));
     tray.selectedProperty().bindBidirectional(manager.getBasic().getTray());

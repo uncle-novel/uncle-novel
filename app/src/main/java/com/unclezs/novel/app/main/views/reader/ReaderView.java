@@ -1,9 +1,7 @@
 package com.unclezs.novel.app.main.views.reader;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.URLUtil;
 import com.github.houbb.opencc4j.util.ZhConverterUtil;
 import com.google.gson.reflect.TypeToken;
 import com.jfoenix.controls.JFXCheckBox;
@@ -26,6 +24,7 @@ import com.unclezs.novel.app.framework.executor.DebounceTask;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
 import com.unclezs.novel.app.framework.util.EventUtils;
+import com.unclezs.novel.app.framework.util.FontUtils;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.core.loader.AbstractBookLoader;
@@ -33,7 +32,6 @@ import com.unclezs.novel.app.main.core.loader.BookLoader;
 import com.unclezs.novel.app.main.core.loader.TxtLoader;
 import com.unclezs.novel.app.main.db.beans.Book;
 import com.unclezs.novel.app.main.db.dao.BookDao;
-import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.config.HotKeyConfig;
 import com.unclezs.novel.app.main.model.config.ReaderConfig;
@@ -47,7 +45,6 @@ import javafx.animation.Transition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
@@ -64,7 +61,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -362,7 +358,7 @@ public class ReaderView extends SceneView<StageDecorator> {
     });
     alignGroup.findTab(config.getAlign().get()).setSelected(true);
     // 字体选择器
-    fontSelector.getItems().setAll(Font.getFamilies());
+    fontSelector.getItems().setAll(FontUtils.getAllFontFamilies());
     fontSelector.valueProperty().bindBidirectional(config.getFontFamily());
     fontSelector.valueProperty().addListener(e -> updateFont());
     // 字体大小选择器

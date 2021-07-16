@@ -1,6 +1,6 @@
 package com.unclezs.novel.app.main.test;
 
-import com.unclezs.novel.analyzer.util.FileUtils;
+import com.unclezs.novel.app.framework.util.FontUtils;
 
 import java.io.IOException;
 
@@ -11,6 +11,7 @@ import java.io.IOException;
 public class TTSTest {
 
   public static void main(String[] args) throws IOException {
-    FileUtils.touch("G:\\tmp/- 飞速中文网 -/38.第三十八章 青阳剑，月音琴.txt".replace("\\", "/"));
+
+    System.out.println(FontUtils.getAllFontFamilies());
   }
 }
