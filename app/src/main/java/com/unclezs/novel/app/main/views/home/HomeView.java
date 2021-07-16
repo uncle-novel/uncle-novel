@@ -14,8 +14,9 @@ import com.unclezs.novel.app.main.App;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.util.MixPanelHelper;
-import java.io.File;
 import javafx.collections.ObservableList;
+
+import java.io.File;
 
 /**
  * @author blog.unclezs.com
@@ -24,8 +25,6 @@ import javafx.collections.ObservableList;
 @FxView(fxml = "/layout/home/home.fxml")
 public class HomeView extends SceneView<StageDecorator> {
 
-  public static final File FONT_CSS_FILE = ResourceManager.confFile("font.css");
-  public static final String FONT_CSS_FORMAT = ".root{-fx-font-family: '%s';}";
   public static final String DEFAULT_THEME = "default";
   private ThemeView themeView;
 
@@ -35,8 +34,6 @@ public class HomeView extends SceneView<StageDecorator> {
     // 初始化主题样式
     themeView = AppContext.getView(ThemeView.class);
     themeView.changeTheme(SettingManager.manager().getBasic().getTheme());
-    // 初始化默认字体
-    changeFont(SettingManager.manager().getBasic().getFonts().get());
   }
 
   @Override
@@ -60,19 +57,5 @@ public class HomeView extends SceneView<StageDecorator> {
     } else {
       App.stopApp();
     }
-  }
-
-  /**
-   * 更改系统字体
-   *
-   * @param font 字体
-   */
-  public void changeFont(String font) {
-    String css = String.format(FONT_CSS_FORMAT, font);
-    FileUtil.writeUtf8String(css, FONT_CSS_FILE);
-    String fontCssUrl = URLUtil.getURL(FONT_CSS_FILE).toExternalForm();
-    ObservableList<String> stylesheets = getRoot().getScene().getStylesheets();
-    stylesheets.remove(fontCssUrl);
-    stylesheets.add(fontCssUrl);
   }
 }

@@ -1,6 +1,8 @@
 package com.unclezs.novel.app.main;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.URLUtil;
 import com.unclezs.novel.analyzer.common.concurrent.ThreadUtils;
 import com.unclezs.novel.app.framework.appication.BaseApplication;
 import com.unclezs.novel.app.framework.appication.SceneView;
@@ -17,12 +19,18 @@ import com.unclezs.novel.app.main.util.TimeUtil;
 import com.unclezs.novel.app.main.util.UpdateUtils;
 import com.unclezs.novel.app.main.views.home.HomeView;
 import javafx.application.Platform;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
 
 /**
  * <pre>
@@ -53,12 +61,18 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class App extends BaseApplication {
-
+  public static final File FONT_CSS_FILE = ResourceManager.confFile("font.css");
+  public static final String FONT_CSS_FORMAT = ".root{-fx-font-family: '%s';}";
   public static final boolean SHOW_INFO = true;
   public static final String NAME = "Uncle小说";
   private static final String EVENT_LAUNCH = "启动应用";
   private static final String EVENT_STOP = "停止应用";
   private static final long LAUNCH_TIME = System.currentTimeMillis();
+  /**
+   * 当前应用字体
+   */
+  protected ObjectProperty<String> font = new SimpleObjectProperty<>();
+
 
   public static void main(String[] args) {
     launch(args);
@@ -164,5 +178,26 @@ public class App extends BaseApplication {
   @Override
   public SceneView<? extends Region> getIndexView() {
     return AppContext.getView(HomeView.class);
+  }
+
+  @Override
+  public void onSceneChange(Scene scene) {
+    super.onSceneChange(scene);
+    // 切换字体
+    changeFont(SettingManager.manager().getBasic().getFonts().get());
+  }
+
+  /**
+   * 更改应用字体
+   *
+   * @param font 字体
+   */
+  public void changeFont(String font) {
+    String css = String.format(FONT_CSS_FORMAT, font);
+    FileUtil.writeUtf8String(css, FONT_CSS_FILE);
+    String fontCssUrl = URLUtil.getURL(FONT_CSS_FILE).toExternalForm();
+    ObservableList<String> stylesheets = currentView.getRoot().getScene().getStylesheets();
+    stylesheets.remove(fontCssUrl);
+    stylesheets.add(fontCssUrl);
   }
 }

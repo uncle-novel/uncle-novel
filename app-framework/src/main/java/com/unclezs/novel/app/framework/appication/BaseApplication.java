@@ -152,5 +152,15 @@ public abstract class BaseApplication extends Application {
     }
     stageX = x;
     stageY = y;
+    onSceneChange(currentView.getRoot().getScene());
+  }
+
+  /**
+   * 在场景切换之前触发
+   *
+   * @param scene 场景
+   */
+  public void onSceneChange(Scene scene) {
+    // do something
   }
 }

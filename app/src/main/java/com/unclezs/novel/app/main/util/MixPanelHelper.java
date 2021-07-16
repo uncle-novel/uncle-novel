@@ -3,9 +3,8 @@ package com.unclezs.novel.app.main.util;
 import com.mixpanel.mixpanelapi.ClientDelivery;
 import com.mixpanel.mixpanelapi.MessageBuilder;
 import com.mixpanel.mixpanelapi.MixpanelAPI;
+import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.executor.Executor;
-import java.util.Map;
-import java.util.Map.Entry;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
@@ -13,6 +12,9 @@ import oshi.SystemInfo;
 import oshi.hardware.ComputerSystem;
 import oshi.hardware.HardwareAbstractionLayer;
 import oshi.software.os.OSSession;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * MixPanel分析工具
@@ -64,6 +66,9 @@ public class MixPanelHelper {
    */
   public static void sendEvent(String name, Map<String, Object> eventPropsMap) {
     try {
+      if (StringUtils.isBlank(TOKEN)) {
+        return;
+      }
       MixpanelAPI mixpanel = new MixpanelAPI();
       MessageBuilder messageBuilder = new MessageBuilder(TOKEN);
       JSONObject eventProps = null;
