@@ -58,22 +58,6 @@ Uncle小说是一款桌面端的小说阅读器，支持有声小说在线收听
 
 <img width="600" src="https://github.com/unclezs/NovelHarvester/raw/main/app/packager/screenshot/setting.png"/>
 
-#### 其他
-
-更多的功能预览请下载体验吧~
-
-### 下载地址
-
-- [github release](https://github.com/unclezs/NovelHarvester/releases)
-- [百度网盘 - 提取码：9999](https://pan.baidu.com/s/11a62y0v6uUzcVROKjS_-Rw)
-- [天翼云盘 - 提取码：1bap](https://cloud.189.cn/t/fEjiimNF7773)
-
-### 贡献代码
-
-查看 Wiki中 [贡献代码规范](https://github.com/unclezs/NovelHarvester/wiki/%E8%B4%A1%E7%8C%AE%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83)
-
-欢迎一起维护本项目！！
-
 ### 喝杯咖啡~
 
 <img src="https://gitee.com/unclezs/image-blog/raw/master/20210105090216.jpeg"/>
