@@ -58,6 +58,7 @@ packager {
     vmArgs = [
             "-Djava.util.logging.config.file=conf/jul.properties",
             "--add-modules ALL-SYSTEM",
+            "-Dfile.encoding=UTF-8",
             "--add-opens=java.base/java.lang=com.unclezs.jfx.launcher",
             "-DmixPanel.token=${findProperty("mixPanel.token")}"
     ]
@@ -111,7 +112,7 @@ packager {
         resource("$packagerDir/resource/conf/jul.properties", "conf")
         resource("$packagerDir/resource/conf/launcher.vmoptions", "conf")
         // 打包时使用
-        //resource("$packagerDir/resource/conf/core.db", "conf")
+        // resource("$packagerDir/resource/conf/core.db", "conf")
         if (debug) {
             resource("$rootDir/conf/rules.json", "conf")
         }

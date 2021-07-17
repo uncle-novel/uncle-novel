@@ -6,6 +6,7 @@ import cn.hutool.core.util.URLUtil;
 import com.unclezs.novel.analyzer.common.concurrent.ThreadUtils;
 import com.unclezs.novel.app.framework.appication.BaseApplication;
 import com.unclezs.novel.app.framework.appication.SceneView;
+import com.unclezs.novel.app.framework.components.ModalBox;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.support.fonts.FontsLoader;
 import com.unclezs.novel.app.framework.support.hotkey.HotKeyManager;
@@ -64,7 +65,7 @@ public class App extends BaseApplication {
   public static final File FONT_CSS_FILE = ResourceManager.confFile("font.css");
   public static final String FONT_CSS_FORMAT = ".root{-fx-font-family: '%s';}";
   public static final String FONT_CSS_URL = URLUtil.getURL(FONT_CSS_FILE).toExternalForm();
-  public static final boolean SHOW_INFO = true;
+  public static final boolean SHOW_INFO = false;
   public static final String NAME = "Uncle小说";
   private static final String EVENT_LAUNCH = "启动应用";
   private static final String EVENT_STOP = "停止应用";
@@ -152,6 +153,9 @@ public class App extends BaseApplication {
     super.start(stage);
     initStage(stage);
     stage.show();
+    ModalBox.none().message("bye~").title("bye~").cancel("bye~").showAndWait();
+    App.stopApp();
+    // 检测更新
     UpdateUtils.checkForUpdate(stage);
     MixPanelHelper.event(EVENT_LAUNCH);
     log.trace("启动耗时：{}ms", (System.currentTimeMillis() - LAUNCH_TIME));
