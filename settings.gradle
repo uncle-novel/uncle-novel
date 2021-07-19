@@ -1,4 +1,4 @@
-rootProject.name = 'NovelHarvester'
+rootProject.name = 'uncle-novel'
 include 'app'
 include 'app-framework'
 include 'app-localized'

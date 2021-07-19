@@ -42,7 +42,7 @@ packager {
     version = project.version
     description = "Uncle小说"
 
-    url = "https://github.com/unclezs/NovelHarvester"
+    url = "https://github.com/unclezs/uncle-novel"
     organizationName = "unclezs"
     organizationUrl = "https://blog.unclezs.com"
     organizationEmail = "email@unclezs.com"

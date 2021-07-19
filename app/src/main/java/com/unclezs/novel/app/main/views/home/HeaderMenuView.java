@@ -26,7 +26,7 @@ import javafx.scene.layout.VBox;
 @FxView(fxml = "/layout/home/header-menu.fxml")
 public class HeaderMenuView extends View<JFXPopup> {
 
-  public static final String GITHUB = "https://github.com/unclezs/NovelHarvester";
+  public static final String GITHUB = "https://github.com/unclezs/uncle-novel";
   public static final String LOGS_DIR = "logs";
   public static final String FEEDBACK_URL = "https://support.qq.com/products/169599";
   public static final String DOC_URL = "https://app.unclezs.com/guide/pc/";
