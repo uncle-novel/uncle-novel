@@ -60,9 +60,6 @@ Uncle小说是一款桌面端的小说阅读器，支持有声小说在线收听
 
 <img width="600" src="https://github.com/unclezs/uncle-novel/raw/main/app/packager/screenshot/setting.png"/>
 
-### QQ群
-
-955549674
 
 ### 喝杯咖啡~
 
