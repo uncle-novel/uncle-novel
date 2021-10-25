@@ -61,6 +61,7 @@ public class ProxyConfig {
 
   public static boolean isUseProxy() {
     ProxyConfig proxyConfig = SettingManager.manager().getProxy();
-    return proxyConfig.getHttpProxy().get() && !StringUtils.isBlank(proxyConfig.getHost().get()) && !StringUtils.isBlank(proxyConfig.getPort().get());
+    return proxyConfig.getHttpProxy().get() && !StringUtils.isBlank(proxyConfig.getHost().get())
+      && !StringUtils.isBlank(proxyConfig.getPort().get());
   }
 }

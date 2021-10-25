@@ -3,11 +3,12 @@ package com.unclezs.novel.app.main.views.components.cell;
 import com.jfoenix.controls.JFXCheckBox;
 import com.unclezs.novel.app.framework.components.cell.BaseListCell;
 import com.unclezs.novel.app.main.model.ChapterProperty;
-import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.control.CheckBox;
+
+import java.util.Objects;
 
 /**
  * 章节节点

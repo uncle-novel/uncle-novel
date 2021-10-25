@@ -1,7 +1,5 @@
 package com.unclezs.novel.app.main.views.home;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.URLUtil;
 import com.jfoenix.controls.JFXPopup;
 import com.jfoenix.controls.JFXPopup.PopupHPosition;
 import com.jfoenix.controls.JFXPopup.PopupVPosition;
@@ -11,12 +9,8 @@ import com.unclezs.novel.app.framework.components.StageDecorator;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.main.App;
-import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.util.MixPanelHelper;
-import javafx.collections.ObservableList;
-
-import java.io.File;
 
 /**
  * @author blog.unclezs.com

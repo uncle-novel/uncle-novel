@@ -2,13 +2,14 @@ package com.unclezs.novel.app.main.views.components.rule;
 
 import com.unclezs.novel.app.framework.collection.SimpleObservableList;
 import com.unclezs.novel.app.framework.util.NodeHelper;
-import java.util.List;
 import javafx.beans.DefaultProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import lombok.Getter;
+
+import java.util.List;
 
 /**
  * @author blog.unclezs.com

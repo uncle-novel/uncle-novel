@@ -1,12 +1,13 @@
 package com.unclezs.novel.app.main.manager;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import lombok.experimental.UtilityClass;
+
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import lombok.experimental.UtilityClass;
 
 /**
  * 支持的语言

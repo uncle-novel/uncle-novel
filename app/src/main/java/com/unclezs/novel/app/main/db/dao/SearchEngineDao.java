@@ -3,9 +3,10 @@ package com.unclezs.novel.app.main.db.dao;
 import com.j256.ormlite.table.TableUtils;
 import com.unclezs.novel.app.main.db.BaseDao;
 import com.unclezs.novel.app.main.db.beans.SearchEngine;
-import java.sql.SQLException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.sql.SQLException;
 
 /**
  * @author blog.unclezs.com

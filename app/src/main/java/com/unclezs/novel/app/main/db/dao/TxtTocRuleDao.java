@@ -7,11 +7,12 @@ import com.unclezs.novel.analyzer.util.GsonUtils;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.db.BaseDao;
 import com.unclezs.novel.app.main.db.beans.TxtTocRule;
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author blog.unclezs.com

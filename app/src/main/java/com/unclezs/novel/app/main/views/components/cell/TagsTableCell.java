@@ -2,10 +2,11 @@ package com.unclezs.novel.app.main.views.components.cell;
 
 import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.framework.components.Tag;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.scene.control.TableCell;
 import javafx.scene.layout.HBox;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 表格标签列

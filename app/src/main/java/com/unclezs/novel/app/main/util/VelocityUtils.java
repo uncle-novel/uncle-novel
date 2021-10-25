@@ -1,9 +1,6 @@
 package com.unclezs.novel.app.main.util;
 
 import cn.hutool.core.io.FileUtil;
-import java.io.File;
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 import lombok.experimental.UtilityClass;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -11,6 +8,10 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.apache.velocity.util.StringBuilderWriter;
+
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.util.UUID;
 
 /**
  * Velocity工具

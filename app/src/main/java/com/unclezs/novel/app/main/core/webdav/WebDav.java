@@ -6,8 +6,6 @@ import com.unclezs.novel.analyzer.request.Http;
 import com.unclezs.novel.analyzer.request.RequestParams;
 import com.unclezs.novel.analyzer.request.okhttp.OkHttpClient;
 import com.unclezs.novel.analyzer.util.StringUtils;
-import java.io.File;
-import java.io.IOException;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Credentials;
@@ -16,6 +14,9 @@ import okhttp3.Request.Builder;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * WebDav工具

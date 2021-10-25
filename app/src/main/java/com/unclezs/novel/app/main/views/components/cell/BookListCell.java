@@ -30,9 +30,12 @@ public class BookListCell extends BaseListCell<Novel> implements LocalizedSuppor
   public static final Image NO_COVER = new Image(ResourceUtils.externalForm("assets/images/no-cover.jpg"), true);
   private final HBox cell = NodeHelper.addClass(new HBox(), "cell");
   private final Label title = NodeHelper.addClass(new Label(), "title");
-  private final Label author = new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.author").concat(StrUtil.COLON)));
-  private final Label desc = new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.desc").concat(StrUtil.COLON)));
-  private final Label latestChapter = new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.chapter.latest").concat(StrUtil.COLON)));
+  private final Label author =
+    new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.author").concat(StrUtil.COLON)));
+  private final Label desc =
+    new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.desc").concat(StrUtil.COLON)));
+  private final Label latestChapter =
+    new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.chapter.latest").concat(StrUtil.COLON)));
   private final HBox tags = NodeHelper.addClass(new HBox(), "tags");
   private final LoadingImageView cover;
 
@@ -61,10 +64,15 @@ public class BookListCell extends BaseListCell<Novel> implements LocalizedSuppor
     cover.setImage(novel.getCoverUrl());
     // 更新小说信息
     String unknown = localized("unknown");
-    this.title.setText(CharSequenceUtil.blankToDefault(novel.getTitle(), unknown).replace(StringUtils.LF, StringUtils.EMPTY));
-    this.author.setText(CharSequenceUtil.blankToDefault(novel.getAuthor(), unknown).replace(StringUtils.LF, StringUtils.EMPTY));
-    this.desc.setText(CharSequenceUtil.blankToDefault(novel.getIntroduce(), localized("none")).replace(StringUtils.LF, StringUtils.EMPTY));
-    this.latestChapter.setText(CharSequenceUtil.blankToDefault(novel.getLatestChapterName(), unknown).replace(StringUtils.LF, StringUtils.EMPTY));
+    this.title.setText(
+      CharSequenceUtil.blankToDefault(novel.getTitle(), unknown).replace(StringUtils.LF, StringUtils.EMPTY));
+    this.author.setText(
+      CharSequenceUtil.blankToDefault(novel.getAuthor(), unknown).replace(StringUtils.LF, StringUtils.EMPTY));
+    this.desc.setText(CharSequenceUtil.blankToDefault(novel.getIntroduce(), localized("none")).replace(StringUtils.LF,
+      StringUtils.EMPTY));
+    this.latestChapter.setText(
+      CharSequenceUtil.blankToDefault(novel.getLatestChapterName(), unknown).replace(StringUtils.LF,
+        StringUtils.EMPTY));
     // 更新标签
     List<Tag> novelTags = new ArrayList<>();
     // 播音

@@ -7,8 +7,9 @@ import com.unclezs.novel.app.main.db.beans.Book;
 import com.unclezs.novel.app.main.model.BookCache;
 import com.unclezs.novel.app.main.util.BookHelper;
 import com.unclezs.novel.app.main.views.home.FictionBookshelfView;
-import java.util.List;
 import lombok.Getter;
+
+import java.util.List;
 
 /**
  * 书籍加载器
@@ -69,6 +70,7 @@ public abstract class AbstractBookLoader {
    * @return true 已经被缓存
    */
   public boolean isCached(int index) {
-    return index < toc.size() && FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), String.valueOf(index)).exists();
+    return index < toc.size() && FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(),
+      String.valueOf(index)).exists();
   }
 }

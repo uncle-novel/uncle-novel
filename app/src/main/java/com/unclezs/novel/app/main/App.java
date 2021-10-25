@@ -119,7 +119,8 @@ public class App extends BaseApplication {
       SettingManager.save();
       // 释放全局热键
       HotKeyManager.unbind();
-      MixPanelHelper.sendEvent(EVENT_STOP, Dict.create().set("使用时常", TimeUtil.secondToTime((System.currentTimeMillis() - LAUNCH_TIME) / 1000D)));
+      MixPanelHelper.sendEvent(EVENT_STOP,
+        Dict.create().set("使用时常", TimeUtil.secondToTime((System.currentTimeMillis() - LAUNCH_TIME) / 1000D)));
       System.exit(0);
     }, false).start();
   }

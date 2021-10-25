@@ -1,12 +1,13 @@
 package com.unclezs.novel.app.main.views.components.setting;
 
 import com.unclezs.novel.app.framework.util.NodeHelper;
-import java.util.List;
 import javafx.beans.NamedArg;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
+
+import java.util.List;
 
 /**
  * @author blog.unclezs.com

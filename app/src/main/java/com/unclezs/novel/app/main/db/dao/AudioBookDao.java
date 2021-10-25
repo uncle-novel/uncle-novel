@@ -3,6 +3,7 @@ package com.unclezs.novel.app.main.db.dao;
 import com.j256.ormlite.table.TableUtils;
 import com.unclezs.novel.app.main.db.BaseDao;
 import com.unclezs.novel.app.main.db.beans.AudioBook;
+
 import java.sql.SQLException;
 
 /**

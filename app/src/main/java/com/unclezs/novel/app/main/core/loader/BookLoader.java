@@ -5,10 +5,11 @@ import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.main.views.home.FictionBookshelfView;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.BitSet;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author blog.unclezs.com

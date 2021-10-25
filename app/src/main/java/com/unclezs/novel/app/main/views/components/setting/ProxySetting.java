@@ -46,7 +46,8 @@ public class ProxySetting extends SettingItems {
     // 系统代理
     JFXCheckBox useSystemCheckBox = new JFXCheckBox("启用系统代理");
     useSystemCheckBox.selectedProperty().bindBidirectional(proxyConfig.getUseSystem());
-    useSystemCheckBox.selectedProperty().addListener(e -> ProxyUtils.setEnabledSystemProxy(useSystemCheckBox.isSelected()));
+    useSystemCheckBox.selectedProperty().addListener(
+      e -> ProxyUtils.setEnabledSystemProxy(useSystemCheckBox.isSelected()));
     ProxyUtils.setEnabledSystemProxy(useSystemCheckBox.isSelected());
     return new SettingItem("系统代理", useSystemCheckBox);
   }
@@ -84,9 +85,11 @@ public class ProxySetting extends SettingItems {
     password.textProperty().bindBidirectional(proxyConfig.getPassword());
     proxyConfig.getPassword().addListener(e -> ProxyUtils.setHttpProxyHost(proxyConfig.getPassword().get()));
     // 代理测试
-    IconButton debug = NodeHelper.addClass(new IconButton(LocalizedSupport.app("setting.proxy.test"), IconFont.DEBUG), "btn");
+    IconButton debug =
+      NodeHelper.addClass(new IconButton(LocalizedSupport.app("setting.proxy.test"), IconFont.DEBUG), "btn");
     debug.setOnMouseClicked(e -> testHttpProxy());
-    IconButton getProxy = NodeHelper.addClass(new IconButton(LocalizedSupport.app("setting.proxy.system"), IconFont.AIRPORT), "btn");
+    IconButton getProxy =
+      NodeHelper.addClass(new IconButton(LocalizedSupport.app("setting.proxy.system"), IconFont.AIRPORT), "btn");
     getProxy.setOnMouseClicked(e -> {
       HttpProxy systemProxy = ProxyUtils.getSystemProxy();
       if (systemProxy != HttpProxy.NO_PROXY) {
@@ -112,7 +115,9 @@ public class ProxySetting extends SettingItems {
    * 测试代理
    */
   private static void testHttpProxy() {
-    TaskFactory.create(() -> Jsoup.connect(PROXY_TEST_URL).followRedirects(true).get().select(PROXY_INFO_SELECTOR).first().select("li").eachText())
+    TaskFactory.create(
+        () -> Jsoup.connect(PROXY_TEST_URL).followRedirects(true).get().select(PROXY_INFO_SELECTOR).first().select(
+          "li").eachText())
       .onSuccess(content -> {
         StringBuilder message = new StringBuilder();
         content.forEach(str -> message.append(str).append(StringUtils.LF));

@@ -7,7 +7,6 @@ import com.unclezs.novel.analyzer.core.helper.RuleHelper;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.request.Http;
 import com.unclezs.novel.analyzer.request.RequestParams;
-import com.unclezs.novel.analyzer.util.GsonUtils;
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.framework.annotation.FxView;
@@ -118,7 +117,8 @@ public class RuleManagerView extends SidebarView<StackPane> {
     group.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.08));
     group.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue().getGroup()));
     // 权重
-    TableColumn<AnalyzerRule, Integer> weight = NodeHelper.addClass(new TableColumn<>(localized("rule.manager.table.weight")), "align-center");
+    TableColumn<AnalyzerRule, Integer> weight =
+      NodeHelper.addClass(new TableColumn<>(localized("rule.manager.table.weight")), "align-center");
     weight.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.1));
     weight.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue().getWeight()));
     // 站点
@@ -126,16 +126,20 @@ public class RuleManagerView extends SidebarView<StackPane> {
     site.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.25));
     site.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue().getSite()));
     // 书源类型
-    TableColumn<AnalyzerRule, String> type = NodeHelper.addClass(new TableColumn<>(localized("rule.manager.table.type")));
+    TableColumn<AnalyzerRule, String> type =
+      NodeHelper.addClass(new TableColumn<>(localized("rule.manager.table.type")));
     type.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.1));
-    type.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(Boolean.TRUE.equals(col.getValue().getAudio()) ? "有声" : "文字"));
+    type.setCellValueFactory(
+      col -> new ReadOnlyObjectWrapper<>(Boolean.TRUE.equals(col.getValue().getAudio()) ? "有声" : "文字"));
     // 是否启用
-    TableColumn<AnalyzerRule, Boolean> enabled = NodeHelper.addClass(new TableColumn<>(localized("rule.manager.table.enabled")), "align-center");
+    TableColumn<AnalyzerRule, Boolean> enabled =
+      NodeHelper.addClass(new TableColumn<>(localized("rule.manager.table.enabled")), "align-center");
     enabled.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.1));
     enabled.setCellValueFactory(col -> new ReadOnlyBooleanWrapper(Boolean.TRUE.equals(col.getValue().getEnabled())));
     enabled.setCellFactory(col -> new CheckBoxTableCell<>(this::onEnabledChange));
     // 操作
-    TableColumn<AnalyzerRule, AnalyzerRule> operation = NodeHelper.addClass(new TableColumn<>(localized("rule.manager.table.operation")), "align-center");
+    TableColumn<AnalyzerRule, AnalyzerRule> operation =
+      NodeHelper.addClass(new TableColumn<>(localized("rule.manager.table.operation")), "align-center");
     operation.prefWidthProperty().bind(rulesTable.widthProperty().multiply(0.13));
     operation.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue()));
     operation.setCellFactory(col -> new ActionButtonTableCell<>(this::onEdit, this::onDelete));
@@ -158,10 +162,10 @@ public class RuleManagerView extends SidebarView<StackPane> {
    */
   private void onDelete(AnalyzerRule rule, int index) {
     ModalBox.confirm(delete -> {
-      if (Boolean.TRUE.equals(delete)) {
-        rulesTable.getItems().remove(index);
-      }
-    }).title("确定删除吗？")
+        if (Boolean.TRUE.equals(delete)) {
+          rulesTable.getItems().remove(index);
+        }
+      }).title("确定删除吗？")
       .message(String.format("是否删除规则：%s", rule.getName()))
       .show();
   }
@@ -293,10 +297,10 @@ public class RuleManagerView extends SidebarView<StackPane> {
       Toast.error("请输入正确的书源链接");
     }
     TaskFactory.create(() -> {
-      RequestParams params = RequestParams.create(url);
-      params.setCharset(StandardCharsets.UTF_8.name());
-      return Http.content(params);
-    })
+        RequestParams params = RequestParams.create(url);
+        params.setCharset(StandardCharsets.UTF_8.name());
+        return Http.content(params);
+      })
       .onSuccess(this::importRule)
       .start();
   }
@@ -313,7 +317,8 @@ public class RuleManagerView extends SidebarView<StackPane> {
       return;
     }
     try {
-      Set<String> ruleSites = rulesTable.getItems().stream().map(rule -> UrlUtils.getHost(rule.getSite())).collect(Collectors.toSet());
+      Set<String> ruleSites =
+        rulesTable.getItems().stream().map(rule -> UrlUtils.getHost(rule.getSite())).collect(Collectors.toSet());
       JsonElement element = JsonParser.parseString(ruleJson);
       if (element.isJsonArray()) {
         List<AnalyzerRule> rules = RuleHelper.parseRules(ruleJson, AnalyzerRule.class);
@@ -357,11 +362,11 @@ public class RuleManagerView extends SidebarView<StackPane> {
   private void deleteSelected() {
     ObservableList<AnalyzerRule> rules = rulesTable.getSelectionModel().getSelectedItems();
     ModalBox.confirm(delete -> {
-      if (Boolean.TRUE.equals(delete)) {
-        rulesTable.getItems().removeAll(rules);
-        Toast.success(getRoot(), "删除成功");
-      }
-    }).title("确定删除吗？")
+        if (Boolean.TRUE.equals(delete)) {
+          rulesTable.getItems().removeAll(rules);
+          Toast.success(getRoot(), "删除成功");
+        }
+      }).title("确定删除吗？")
       .message(String.format("是否删除选中的%d条规则?", rules.size()))
       .show();
   }

@@ -3,9 +3,10 @@ package com.unclezs.novel.app.main.manager;
 import cn.hutool.core.io.FileUtil;
 import com.unclezs.novel.analyzer.util.StringUtils;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
+import lombok.experimental.UtilityClass;
+
 import java.io.File;
 import java.nio.file.Path;
-import lombok.experimental.UtilityClass;
 
 /**
  * 资源管理器

@@ -5,10 +5,11 @@ import com.unclezs.novel.app.framework.util.ReflectUtils;
 import com.unclezs.novel.app.main.db.beans.DownloadHistory;
 import com.unclezs.novel.app.main.exception.DbException;
 import com.unclezs.novel.app.main.util.DbHelper;
-import java.sql.SQLException;
-import java.util.List;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * 基础DAO

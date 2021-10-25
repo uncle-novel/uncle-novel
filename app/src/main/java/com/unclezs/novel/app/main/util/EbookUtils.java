@@ -77,7 +77,9 @@ public class EbookUtils {
     if (SystemUtils.isWindows()) {
       gen = ResourceManager.binFile(KINDLEGEN_EXE).getAbsolutePath();
     } else {
-      gen = SystemUtils.isLinux() ? ResourceManager.binFile(KINDLEGEN_LINUX).getAbsolutePath() : ResourceManager.binFile(KINDLEGEN).getAbsolutePath();
+      gen = SystemUtils.isLinux() ?
+        ResourceManager.binFile(KINDLEGEN_LINUX).getAbsolutePath() :
+        ResourceManager.binFile(KINDLEGEN).getAbsolutePath();
     }
     FileUtil.file(gen).setExecutable(true, false);
     // content.opf文件
@@ -118,7 +120,8 @@ public class EbookUtils {
   public static File toEbook(Novel novel, File outDir, boolean generateChapter) {
     File tmpDir = FileUtil.file(outDir.getAbsolutePath().concat(EBOOK_TMP_SUFFIX));
     // META-INF/container.xml
-    FileUtil.writeFromStream(ResourceUtils.stream(TEMPLATE_CONTAINER_XML), FileUtil.file(tmpDir, OUT_PATH_CONTAINER_XML));
+    FileUtil.writeFromStream(ResourceUtils.stream(TEMPLATE_CONTAINER_XML),
+      FileUtil.file(tmpDir, OUT_PATH_CONTAINER_XML));
     // mimetype
     FileUtil.writeFromStream(ResourceUtils.stream(TEMPLATE_MIMETYPE), FileUtil.file(tmpDir, MIMETYPE));
     // stylesheet
@@ -146,7 +149,8 @@ public class EbookUtils {
    */
   public static void generateChapter(Chapter chapter, File outDir) {
     File tmpDir = FileUtil.file(outDir.getAbsolutePath().concat(EBOOK_TMP_SUFFIX));
-    VelocityUtils.render(TEMPLATE_CHAPTER, chapter, FileUtil.file(tmpDir, String.format("text/%d.html", chapter.getOrder())));
+    VelocityUtils.render(TEMPLATE_CHAPTER, chapter,
+      FileUtil.file(tmpDir, String.format("text/%d.html", chapter.getOrder())));
   }
 
   /**

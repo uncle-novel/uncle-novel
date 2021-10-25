@@ -22,10 +22,11 @@ import com.unclezs.novel.app.main.util.BookHelper;
 import com.unclezs.novel.app.main.views.home.AudioBookShelfView;
 import com.unclezs.novel.app.main.views.home.FictionBookshelfView;
 import com.unclezs.novel.app.main.views.home.RuleManagerView;
-import java.io.File;
-import java.util.List;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * @author blog.unclezs.com
@@ -42,11 +43,13 @@ public class BackupViewModel {
   /**
    * 文本小说备份目录
    */
-  public static final File BACKUP_BOOK_DIR = FileUtil.file(ResourceManager.BACKUP_DIR, FictionBookshelfView.CACHE_FOLDER_NAME);
+  public static final File BACKUP_BOOK_DIR =
+    FileUtil.file(ResourceManager.BACKUP_DIR, FictionBookshelfView.CACHE_FOLDER_NAME);
   /**
    * 有声小说备份目录
    */
-  public static final File BACKUP_AUDIO_DIR = FileUtil.file(ResourceManager.BACKUP_DIR, AudioBookShelfView.CACHE_FOLDER_NAME);
+  public static final File BACKUP_AUDIO_DIR =
+    FileUtil.file(ResourceManager.BACKUP_DIR, AudioBookShelfView.CACHE_FOLDER_NAME);
   /**
    * 文本小说备份数据文件名
    */
@@ -119,7 +122,8 @@ public class BackupViewModel {
   }
 
   public boolean enabledWebDav() {
-    return !CharSequenceUtil.hasBlank(this.config.getPassword().get(), this.config.getUrl().get(), this.config.getUsername().get());
+    return !CharSequenceUtil.hasBlank(this.config.getPassword().get(), this.config.getUrl().get(),
+      this.config.getUsername().get());
   }
 
   /**
@@ -136,8 +140,10 @@ public class BackupViewModel {
       List<Book> books = new BookDao().selectAll();
       if (!books.isEmpty()) {
         for (Book book : books) {
-          copy(FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), BookHelper.COVER_NAME), FileUtil.file(BACKUP_BOOK_DIR, book.getId(), BookHelper.COVER_NAME));
-          copy(FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), BookHelper.MANIFEST), FileUtil.file(BACKUP_BOOK_DIR, book.getId(), BookHelper.MANIFEST));
+          copy(FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), BookHelper.COVER_NAME),
+            FileUtil.file(BACKUP_BOOK_DIR, book.getId(), BookHelper.COVER_NAME));
+          copy(FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId(), BookHelper.MANIFEST),
+            FileUtil.file(BACKUP_BOOK_DIR, book.getId(), BookHelper.MANIFEST));
         }
         FileUtil.writeUtf8String(GsonUtils.toJson(books), FileUtil.file(BACKUP_BOOK_DIR, BACKUP_BOOK_NAME));
       }
@@ -162,7 +168,8 @@ public class BackupViewModel {
     }
     // 搜索引擎
     if (Boolean.TRUE.equals(config.getSearchEngine().get())) {
-      FileUtil.writeUtf8String(GsonUtils.toJson(SearchEngineDao.me().all()), FileUtil.file(backupDir, BACKUP_NAME_SEARCH_ENGINES));
+      FileUtil.writeUtf8String(GsonUtils.toJson(SearchEngineDao.me().all()),
+        FileUtil.file(backupDir, BACKUP_NAME_SEARCH_ENGINES));
     }
     // 创建压缩文件
     return ZipUtil.zip(backupDir.getAbsolutePath(), BACKUP_LOCAL_FILE.getAbsolutePath());
@@ -210,8 +217,9 @@ public class BackupViewModel {
     // 搜索引擎
     File searchEngineJsonFile = FileUtil.file(backupDir, BACKUP_NAME_SEARCH_ENGINES);
     if (searchEngineJsonFile.exists()) {
-      List<SearchEngine> searchEngines = GsonUtils.me().fromJson(FileUtil.readUtf8String(searchEngineJsonFile), new TypeToken<List<SearchEngine>>() {
-      }.getType());
+      List<SearchEngine> searchEngines =
+        GsonUtils.me().fromJson(FileUtil.readUtf8String(searchEngineJsonFile), new TypeToken<List<SearchEngine>>() {
+        }.getType());
       searchEngines.forEach(searchEngine -> SearchEngineDao.me().createOrUpdate(searchEngine));
       SearchEngineDao.me().all().setAll(SearchEngineDao.me().selectAll());
     }

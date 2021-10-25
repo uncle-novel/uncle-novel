@@ -12,13 +12,14 @@ import com.unclezs.novel.app.main.core.pipeline.EbookPipeline;
 import com.unclezs.novel.app.main.manager.SettingManager;
 import com.unclezs.novel.app.main.model.config.DownloadConfig;
 import com.unclezs.novel.app.main.views.home.DownloadManagerView;
-import java.io.File;
-import java.io.Serializable;
-import java.util.function.Consumer;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.File;
+import java.io.Serializable;
+import java.util.function.Consumer;
 
 /**
  * 爬虫任务包装，适用于FX监听任务

@@ -25,7 +25,6 @@ import javafx.scene.control.Spinner;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
@@ -113,7 +112,8 @@ public class SettingView extends SidebarView<StackPane> {
     language.valueProperty().bindBidirectional(manager.getBasic().getLang());
     fonts.getItems().setAll(FontUtils.getAllFontFamilies());
     fonts.valueProperty().bindBidirectional(manager.getBasic().getFonts());
-    fonts.valueProperty().addListener(e -> ((App) AppContext.getView(HomeView.class).getApp()).changeFont(fonts.getValue()));
+    fonts.valueProperty().addListener(
+      e -> ((App) AppContext.getView(HomeView.class).getApp()).changeFont(fonts.getValue()));
     tray.selectedProperty().bindBidirectional(manager.getBasic().getTray());
     // 书架
     bookAutoUpdate.selectedProperty().bindBidirectional(manager.getBookShelf().getAutoUpdate());
@@ -191,10 +191,14 @@ public class SettingView extends SidebarView<StackPane> {
     });
     // 监听修改
     KeyRecorder recorder = new KeyRecorder();
-    listenerHotKeyRecord(key -> HotkeyManager.triggerBossKey(), recorder, bossKey, hotkeyConfig::setGlobalBossKey, hotkeyConfig::getGlobalBossKey);
-    listenerHotKeyRecord(null, recorder, readerNextChapter, hotkeyConfig::setReaderNextChapter, hotkeyConfig::getReaderNextChapter);
-    listenerHotKeyRecord(null, recorder, readerPreChapter, hotkeyConfig::setReaderPreChapter, hotkeyConfig::getReaderPreChapter);
-    listenerHotKeyRecord(null, recorder, readerNextPage, hotkeyConfig::setReaderNextPage, hotkeyConfig::getReaderNextPage);
+    listenerHotKeyRecord(key -> HotkeyManager.triggerBossKey(), recorder, bossKey, hotkeyConfig::setGlobalBossKey,
+      hotkeyConfig::getGlobalBossKey);
+    listenerHotKeyRecord(null, recorder, readerNextChapter, hotkeyConfig::setReaderNextChapter,
+      hotkeyConfig::getReaderNextChapter);
+    listenerHotKeyRecord(null, recorder, readerPreChapter, hotkeyConfig::setReaderPreChapter,
+      hotkeyConfig::getReaderPreChapter);
+    listenerHotKeyRecord(null, recorder, readerNextPage, hotkeyConfig::setReaderNextPage,
+      hotkeyConfig::getReaderNextPage);
     listenerHotKeyRecord(null, recorder, readerPrePage, hotkeyConfig::setReaderPrePage, hotkeyConfig::getReaderPrePage);
     listenerHotKeyRecord(null, recorder, readerToc, hotkeyConfig::setReaderToc, hotkeyConfig::getReaderToc);
   }
@@ -208,7 +212,8 @@ public class SettingView extends SidebarView<StackPane> {
    * @param setter   /
    * @param getter   /
    */
-  private void listenerHotKeyRecord(HotKeyListener listener, KeyRecorder recorder, TextField input, Consumer<String> setter, Supplier<String> getter) {
+  private void listenerHotKeyRecord(HotKeyListener listener, KeyRecorder recorder, TextField input,
+    Consumer<String> setter, Supplier<String> getter) {
     boolean global = listener != null;
     input.setOnKeyPressed(event -> {
       if (event.getCode() == KeyCode.BACK_SPACE) {

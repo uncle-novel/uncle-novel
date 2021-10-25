@@ -42,12 +42,13 @@ import javafx.scene.layout.StackPane;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.script.SimpleBindings;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.script.SimpleBindings;
 
 /**
  * @author blog.unclezs.com
@@ -131,7 +132,8 @@ public class AnalysisView extends SidebarView<StackPane> {
       this.rule = RuleManager.getOrDefault(novel == null ? tocUrl : novel.getSite());
     }
     tocSpider = new TocSpider(rule);
-    tocSpider.setOnNewItemAddHandler(chapter -> Executor.runFx(() -> listView.getItems().add(new ChapterProperty(chapter))));
+    tocSpider.setOnNewItemAddHandler(
+      chapter -> Executor.runFx(() -> listView.getItems().add(new ChapterProperty(chapter))));
     TaskFactory.create(() -> {
       tocSpider.toc(tocUrl);
       // 小说详情

@@ -24,12 +24,13 @@ import com.unclezs.novel.app.main.views.home.AnalysisView;
 import com.unclezs.novel.app.main.views.home.AudioBookShelfView;
 import com.unclezs.novel.app.main.views.home.DownloadManagerView;
 import com.unclezs.novel.app.main.views.home.FictionBookshelfView;
+import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Consumer;
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author blog.unclezs.com
@@ -180,6 +181,7 @@ public class BookHelper {
     }
     SidebarNavigateBundle bundle = new SidebarNavigateBundle()
       .put(audio ? AudioBookShelfView.BUNDLE_BOOK_KEY : FictionBookshelfView.BUNDLE_BOOK_KEY, bookBundle);
-    AppContext.getView(FictionBookshelfView.class).getNavigation().navigate(audio ? AudioBookShelfView.class : FictionBookshelfView.class, bundle);
+    AppContext.getView(FictionBookshelfView.class).getNavigation().navigate(
+      audio ? AudioBookShelfView.class : FictionBookshelfView.class, bundle);
   }
 }

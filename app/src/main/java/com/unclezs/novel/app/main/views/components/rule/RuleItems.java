@@ -4,7 +4,6 @@ import com.unclezs.novel.app.framework.collection.SimpleObservableList;
 import com.unclezs.novel.app.framework.components.icon.IconButton;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.util.NodeHelper;
-import java.util.List;
 import javafx.beans.DefaultProperty;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -13,6 +12,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * 规则项目集合

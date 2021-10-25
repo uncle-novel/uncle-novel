@@ -2,8 +2,9 @@ package com.unclezs.novel.app.main.model.config;
 
 import cn.hutool.core.net.URLEncoder;
 import com.unclezs.novel.analyzer.request.RequestParams;
-import java.nio.charset.StandardCharsets;
 import lombok.Data;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * TTS配置

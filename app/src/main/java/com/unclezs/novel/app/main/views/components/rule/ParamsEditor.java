@@ -40,7 +40,8 @@ public class ParamsEditor extends VBox {
     charsetBox.setEditable(true);
     addItem("编码格式", charsetBox).valueProperty().addListener((ov, o, n) -> params.setCharset(n));
 
-    ComboBox<String> mediaTypeBox = new ComboBox<>(FXCollections.observableArrayList(MediaType.FORM.getMediaType(), MediaType.JSON.getMediaType()));
+    ComboBox<String> mediaTypeBox =
+      new ComboBox<>(FXCollections.observableArrayList(MediaType.FORM.getMediaType(), MediaType.JSON.getMediaType()));
     mediaTypeBox.setValue(params.getMediaType());
     mediaTypeBox.setEditable(true);
     addItem("媒体类型", mediaTypeBox).valueProperty().addListener((ov, o, n) -> params.setMediaType(n));

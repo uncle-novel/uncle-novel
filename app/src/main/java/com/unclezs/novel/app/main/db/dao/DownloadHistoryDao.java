@@ -3,8 +3,9 @@ package com.unclezs.novel.app.main.db.dao;
 import com.j256.ormlite.table.TableUtils;
 import com.unclezs.novel.app.main.db.BaseDao;
 import com.unclezs.novel.app.main.db.beans.DownloadHistory;
-import java.sql.SQLException;
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.SQLException;
 
 /**
  * 下载历史DAO

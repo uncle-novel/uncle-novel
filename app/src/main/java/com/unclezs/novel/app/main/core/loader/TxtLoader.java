@@ -9,6 +9,8 @@ import com.unclezs.novel.analyzer.util.CollectionUtils;
 import com.unclezs.novel.app.main.db.beans.Book;
 import com.unclezs.novel.app.main.db.beans.TxtTocRule;
 import com.unclezs.novel.app.main.util.EncodingDetect;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -16,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author blog.unclezs.com

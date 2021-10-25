@@ -13,10 +13,6 @@ import com.unclezs.novel.app.main.db.beans.SearchEngine;
 import com.unclezs.novel.app.main.db.dao.SearchEngineDao;
 import com.unclezs.novel.app.main.views.components.cell.ActionButtonTableCell;
 import com.unclezs.novel.app.main.views.components.cell.CheckBoxTableCell;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 import javafx.beans.property.ReadOnlyBooleanWrapper;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.scene.control.TableColumn;
@@ -25,6 +21,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 搜索引擎管理器
@@ -40,7 +41,8 @@ public class SearchEngineSetting extends VBox implements LocalizedSupport {
   public SearchEngineSetting() {
     NodeHelper.addClass(this, "search-engine-manager");
     IconButton add = NodeHelper.addClass(new IconButton(localized("setting.search.engine.add"), IconFont.PLUS), "btn");
-    IconButton importDefault = NodeHelper.addClass(new IconButton(localized("setting.search.engine.default"), IconFont.IMPORT), "btn");
+    IconButton importDefault =
+      NodeHelper.addClass(new IconButton(localized("setting.search.engine.default"), IconFont.IMPORT), "btn");
     add.setOnAction(e -> addSearchEngine());
     importDefault.setOnAction(e -> importDefaultSearchEngines());
     HBox actions = NodeHelper.addClass(new HBox(importDefault, add), "actions");
@@ -65,12 +67,14 @@ public class SearchEngineSetting extends VBox implements LocalizedSupport {
     domain.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
     domain.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getDomain()));
     // 启用
-    TableColumn<SearchEngine, Boolean> enabled = NodeHelper.addClass(new TableColumn<>(localized("setting.search.engine.enabled")), "align-center");
+    TableColumn<SearchEngine, Boolean> enabled =
+      NodeHelper.addClass(new TableColumn<>(localized("setting.search.engine.enabled")), "align-center");
     enabled.setCellValueFactory(col -> new ReadOnlyBooleanWrapper(Boolean.TRUE.equals(col.getValue().getEnabled())));
     enabled.setCellFactory(col -> new CheckBoxTableCell<>(this::onSearchEngineEnabledChange));
     enabled.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
     // 操作
-    TableColumn<SearchEngine, SearchEngine> operation = NodeHelper.addClass(new TableColumn<>(localized("setting.search.engine.actions")), "align-center");
+    TableColumn<SearchEngine, SearchEngine> operation =
+      NodeHelper.addClass(new TableColumn<>(localized("setting.search.engine.actions")), "align-center");
     operation.prefWidthProperty().bind(table.widthProperty().multiply(0.2));
     operation.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue()));
     operation.setCellFactory(col -> new ActionButtonTableCell<>(this::onEditSearchEngine, this::onDeleteSearchEngine));
@@ -88,11 +92,11 @@ public class SearchEngineSetting extends VBox implements LocalizedSupport {
    */
   private void onDeleteSearchEngine(SearchEngine searchEngine, int index) {
     ModalBox.confirm(delete -> {
-      if (Boolean.TRUE.equals(delete)) {
-        SearchEngineDao.me().delete(table.getItems().get(index));
-        table.getItems().remove(index);
-      }
-    }).title("确定删除吗？")
+        if (Boolean.TRUE.equals(delete)) {
+          SearchEngineDao.me().delete(table.getItems().get(index));
+          table.getItems().remove(index);
+        }
+      }).title("确定删除吗？")
       .message(String.format("是否删除规则：%s", searchEngine.getName()))
       .show();
   }

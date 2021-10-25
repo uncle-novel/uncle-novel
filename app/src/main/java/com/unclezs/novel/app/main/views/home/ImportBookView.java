@@ -21,10 +21,6 @@ import com.unclezs.novel.app.main.util.BookHelper;
 import com.unclezs.novel.app.main.util.EncodingDetect;
 import com.unclezs.novel.app.main.util.MixPanelHelper;
 import com.unclezs.novel.app.main.views.components.cell.TocListCell;
-import java.io.File;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.stream.Collectors;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
@@ -37,6 +33,11 @@ import javafx.stage.FileChooser;
 import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 导入本地书籍
@@ -128,7 +129,8 @@ public class ImportBookView extends SidebarView<StackPane> {
     if (book != null) {
       AppContext.getView(FictionBookshelfView.class).addBook(book);
       // 缓存章节
-      BookHelper.cache(new BookCache(null, loader.toc()), FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId()));
+      BookHelper.cache(new BookCache(null, loader.toc()),
+        FileUtil.file(FictionBookshelfView.CACHE_FOLDER, book.getId()));
       Toast.success("加入成功");
       ModalBox modalBox = ModalBox.confirm(notBack -> {
         if (Boolean.FALSE.equals(notBack)) {
@@ -188,24 +190,24 @@ public class ImportBookView extends SidebarView<StackPane> {
       return;
     }
     TaskFactory.create(() -> {
-      if (loader == null) {
-        loader = new TxtLoader();
-      }
-      book = new Book(file.getAbsolutePath(), getEncoding());
-      book.setId(IdUtil.fastSimpleUUID());
-      book.setName(FileUtil.mainName(file));
-      book.setLocal(true);
-      book.setGroup(FictionBookshelfView.GROUP_LOCAL);
-      book.setTxtTocRule(ruleInput.getText());
-      loader.setBook(book);
-      return loader.toc();
-    }).onSuccess(chapters -> {
-      toc.getItems().setAll(chapters);
-      // 解析第一章
-      if (!chapters.isEmpty()) {
-        toc.getSelectionModel().select(0);
-      }
-    }).onFailed(e -> Toast.error("解析失败"))
+        if (loader == null) {
+          loader = new TxtLoader();
+        }
+        book = new Book(file.getAbsolutePath(), getEncoding());
+        book.setId(IdUtil.fastSimpleUUID());
+        book.setName(FileUtil.mainName(file));
+        book.setLocal(true);
+        book.setGroup(FictionBookshelfView.GROUP_LOCAL);
+        book.setTxtTocRule(ruleInput.getText());
+        loader.setBook(book);
+        return loader.toc();
+      }).onSuccess(chapters -> {
+        toc.getItems().setAll(chapters);
+        // 解析第一章
+        if (!chapters.isEmpty()) {
+          toc.getSelectionModel().select(0);
+        }
+      }).onFailed(e -> Toast.error("解析失败"))
       .start();
   }
 

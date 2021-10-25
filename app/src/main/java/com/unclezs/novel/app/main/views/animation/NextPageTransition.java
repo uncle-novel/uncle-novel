@@ -17,7 +17,8 @@ import javafx.util.Duration;
  */
 public class NextPageTransition extends Transition {
 
-  private static final DropShadow SHADOW = new DropShadow(BlurType.THREE_PASS_BOX, Color.rgb(0, 0, 0, 0.26), 15, 0.26, 3, 0);
+  private static final DropShadow SHADOW =
+    new DropShadow(BlurType.THREE_PASS_BOX, Color.rgb(0, 0, 0, 0.26), 15, 0.26, 3, 0);
   private final Timeline timeline;
   private final Region node;
   private final Region container;

@@ -3,6 +3,7 @@ package com.unclezs.novel.app.main.core;
 import com.unclezs.novel.analyzer.util.regex.RegexUtils;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
 import com.unclezs.novel.app.main.model.ChapterProperty;
+
 import java.math.BigInteger;
 import java.util.Comparator;
 

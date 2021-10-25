@@ -137,7 +137,8 @@ public class DownloadManagerView extends SidebarView<StackPane> {
       // 序号
       TableColumn<DownloadHistory, Integer> id = NodeHelper.addClass(new TableColumn<>("#"), "id");
       id.prefWidthProperty().bind(historyTable.widthProperty().multiply(0.1));
-      id.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(historyTable.getItems().indexOf(param.getValue()) + 1));
+      id.setCellValueFactory(
+        param -> new ReadOnlyObjectWrapper<>(historyTable.getItems().indexOf(param.getValue()) + 1));
       // 名称
       TableColumn<DownloadHistory, String> name = new TableColumn<>(localized("download.manager.history.name"));
       name.prefWidthProperty().bind(historyTable.widthProperty().multiply(0.3));
@@ -152,7 +153,8 @@ public class DownloadManagerView extends SidebarView<StackPane> {
       date.prefWidthProperty().bind(historyTable.widthProperty().multiply(0.2));
       date.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getDate()));
       // 操作
-      TableColumn<DownloadHistory, DownloadHistory> operation = NodeHelper.addClass(new TableColumn<>(localized("download.manager.history.operation")), "align-center");
+      TableColumn<DownloadHistory, DownloadHistory> operation =
+        NodeHelper.addClass(new TableColumn<>(localized("download.manager.history.operation")), "align-center");
       operation.prefWidthProperty().bind(historyTable.widthProperty().multiply(0.1));
       operation.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue()));
       operation.setCellFactory(param -> new DownloadHistoryActionTableCell());
@@ -161,7 +163,7 @@ public class DownloadManagerView extends SidebarView<StackPane> {
       historyTable.getColumns().forEach(column -> column.setResizable(false));
       ContextMenu contextMenu = new ContextMenu();
       MenuItem clearHistory = new MenuItem("清空下载历史", new Icon(IconFont.DELETE));
-      clearHistory.setOnAction(e ->  historyTable.getItems().clear());
+      clearHistory.setOnAction(e -> historyTable.getItems().clear());
       contextMenu.getItems().add(clearHistory);
       historyTable.setContextMenu(contextMenu);
     }
@@ -182,12 +184,14 @@ public class DownloadManagerView extends SidebarView<StackPane> {
     name.prefWidthProperty().bind(tasksTable.widthProperty().multiply(0.35));
     name.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue().getName()));
     // 进度
-    TableColumn<SpiderWrapper, SpiderWrapper> progress = new TableColumn<>(localized("download.manager.running.progress"));
+    TableColumn<SpiderWrapper, SpiderWrapper> progress =
+      new TableColumn<>(localized("download.manager.running.progress"));
     progress.prefWidthProperty().bind(tasksTable.widthProperty().multiply(0.35));
     progress.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
     progress.setCellFactory(param -> new ProgressBarTableCell());
     // 操作
-    TableColumn<SpiderWrapper, SpiderWrapper> operation = NodeHelper.addClass(new TableColumn<>(localized("download.manager.running.operation")), "download-action-col");
+    TableColumn<SpiderWrapper, SpiderWrapper> operation =
+      NodeHelper.addClass(new TableColumn<>(localized("download.manager.running.operation")), "download-action-col");
     operation.prefWidthProperty().bind(tasksTable.widthProperty().multiply(0.15));
     operation.setCellValueFactory(col -> new ReadOnlyObjectWrapper<>(col.getValue()));
     operation.setCellFactory(param -> new DownloadActionTableCell());

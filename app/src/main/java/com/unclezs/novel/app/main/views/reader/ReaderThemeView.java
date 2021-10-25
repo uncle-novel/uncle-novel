@@ -10,15 +10,16 @@ import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.framework.util.ResourceUtils;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.manager.SettingManager;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -34,7 +35,8 @@ public class ReaderThemeView extends FlowPane {
   public static final String CURRENT_THEME_STYLE_CLASS = "current";
   public static final String CUSTOM_THEME = "custom";
   public static final File CUSTOM_THEME_FILE = ResourceManager.confFile("reader-theme.css");
-  private static final List<String> THEMES = List.of("green", "dark", "darcula", "default", "yellow", "white", "pink", "grey", "teal");
+  private static final List<String> THEMES =
+    List.of("green", "dark", "darcula", "default", "yellow", "white", "pink", "grey", "teal");
   private final ColorPicker picker;
   private final List<IconButton> themeButtons = new ArrayList<>();
   private String currentTheme;
@@ -44,7 +46,8 @@ public class ReaderThemeView extends FlowPane {
     NodeHelper.addClass(this, "reader-theme-view");
     picker = NodeHelper.addClass(new ColorPicker(), "color-box-item-custom");
     picker.valueProperty().addListener(e -> {
-      String theme = IoUtil.readUtf8(ResourceUtils.stream(CUSTOM_THEME_TEMPLATE)).replace("custom-theme-color", ColorUtil.colorToHex(picker.getValue()));
+      String theme = IoUtil.readUtf8(ResourceUtils.stream(CUSTOM_THEME_TEMPLATE)).replace("custom-theme-color",
+        ColorUtil.colorToHex(picker.getValue()));
       FileUtil.writeUtf8String(theme, CUSTOM_THEME_FILE);
       changeTheme(CUSTOM_THEME);
     });

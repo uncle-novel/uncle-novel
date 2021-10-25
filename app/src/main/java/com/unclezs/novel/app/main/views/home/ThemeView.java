@@ -5,13 +5,14 @@ import com.unclezs.novel.app.framework.annotation.FxView;
 import com.unclezs.novel.app.framework.core.AppContext;
 import com.unclezs.novel.app.framework.core.View;
 import com.unclezs.novel.app.main.manager.SettingManager;
-import java.util.Objects;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+
+import java.util.Objects;
 
 
 /**

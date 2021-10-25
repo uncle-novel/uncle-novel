@@ -1,12 +1,13 @@
 package com.unclezs.novel.app.main.util;
 
 
+import lombok.NonNull;
+import lombok.experimental.UtilityClass;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
-import lombok.NonNull;
-import lombok.experimental.UtilityClass;
 
 /**
  * <Detect encoding .> Copyright (C) <2009> <Fluck,ACC http://androidos.cc/dev>
@@ -79,6 +80,7 @@ public class EncodingDetect {
 
 }
 
+
 class BytesEncodingDetect extends Encoding {
 
   // int UnicodeFreq[94][128];
@@ -87,13 +89,13 @@ class BytesEncodingDetect extends Encoding {
   public boolean debug;
   // Frequency tables to hold the GB, Big5, and EUC-TW character
   // frequencies
-  private int[][] GBFreq;
-  private int[][] GBKFreq;
-  private int[][] Big5Freq;
-  private int[][] Big5PFreq;
-  private int[][] EUC_TWFreq;
-  private int[][] KRFreq;
-  private int[][] JPFreq;
+  private final int[][] GBFreq;
+  private final int[][] GBKFreq;
+  private final int[][] Big5Freq;
+  private final int[][] Big5PFreq;
+  private final int[][] EUC_TWFreq;
+  private final int[][] KRFreq;
+  private final int[][] JPFreq;
 
   public BytesEncodingDetect() {
     super();
@@ -138,11 +140,10 @@ class BytesEncodingDetect extends Encoding {
         rawtext.length - byteoffset)) > 0) {
         byteoffset += bytesread;
       }
-      ;
       chinesestream.close();
       guess = detectEncoding(rawtext);
     } catch (Exception e) {
-      System.err.println("Error loading or using URL " + e.toString());
+      System.err.println("Error loading or using URL " + e);
       guess = -1;
     }
     return guess;
@@ -282,7 +283,8 @@ class BytesEncodingDetect extends Encoding {
           }
         } else if ((byte) 0x81 <= rawText[i]
           && rawText[i] <= (byte) 0xFE && // Extended GB range
-          (((byte) 0x80 <= rawText[i + 1] && rawText[i + 1] <= (byte) 0xFE) || ((byte) 0x40 <= rawText[i + 1] && rawText[i + 1] <= (byte) 0x7E))) {
+          (((byte) 0x80 <= rawText[i + 1] && rawText[i + 1] <= (byte) 0xFE) || ((byte) 0x40 <= rawText[i + 1]
+            && rawText[i + 1] <= (byte) 0x7E))) {
           gbChars++;
           totalFreq += 500;
           row = rawText[i] + 256 - 0x81;
@@ -343,7 +345,8 @@ class BytesEncodingDetect extends Encoding {
           && rawtext[i] <= (byte) 0xFE
           && // Extended GB range
           i + 1 < rawtextlen
-          && (((byte) 0x80 <= rawtext[i + 1] && rawtext[i + 1] <= (byte) 0xFE) || ((byte) 0x40 <= rawtext[i + 1] && rawtext[i + 1] <= (byte) 0x7E))) {
+          && (((byte) 0x80 <= rawtext[i + 1] && rawtext[i + 1] <= (byte) 0xFE) || ((byte) 0x40 <= rawtext[i + 1]
+          && rawtext[i + 1] <= (byte) 0x7E))) {
           gbchars++;
           totalfreq += 500;
           row = rawtext[i] + 256 - 0x81;
@@ -464,7 +467,8 @@ class BytesEncodingDetect extends Encoding {
         dbchars++;
         if ((byte) 0xA1 <= rawtext[i]
           && rawtext[i] <= (byte) 0xF9
-          && (((byte) 0x40 <= rawtext[i + 1] && rawtext[i + 1] <= (byte) 0x7E) || ((byte) 0xA1 <= rawtext[i + 1] && rawtext[i + 1] <= (byte) 0xFE))) {
+          && (((byte) 0x40 <= rawtext[i + 1] && rawtext[i + 1] <= (byte) 0x7E) || ((byte) 0xA1 <= rawtext[i + 1]
+          && rawtext[i + 1] <= (byte) 0xFE))) {
           bfchars++;
           totalfreq += 500;
           row = rawtext[i] + 256 - 0xA1;
@@ -897,8 +901,10 @@ class BytesEncodingDetect extends Encoding {
       } else {
         dbchars++;
         if (i + 1 < rawtext.length
-          && (((byte) 0x81 <= rawtext[i] && rawtext[i] <= (byte) 0x9F) || ((byte) 0xE0 <= rawtext[i] && rawtext[i] <= (byte) 0xEF))
-          && (((byte) 0x40 <= rawtext[i + 1] && rawtext[i + 1] <= (byte) 0x7E) || ((byte) 0x80 <= rawtext[i + 1] && rawtext[i + 1] <= (byte) 0xFC))) {
+          && (((byte) 0x81 <= rawtext[i] && rawtext[i] <= (byte) 0x9F) || ((byte) 0xE0 <= rawtext[i]
+          && rawtext[i] <= (byte) 0xEF))
+          && (((byte) 0x40 <= rawtext[i + 1] && rawtext[i + 1] <= (byte) 0x7E) || ((byte) 0x80 <= rawtext[i + 1]
+          && rawtext[i + 1] <= (byte) 0xFC))) {
           jpchars++;
           totalfreq += 500;
           row = rawtext[i] + 256;
@@ -4625,6 +4631,7 @@ class BytesEncodingDetect extends Encoding {
     JPFreq[26][89] = 0;
   }
 }
+
 
 class Encoding {
 

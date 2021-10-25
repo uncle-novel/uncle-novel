@@ -84,7 +84,8 @@ public class SearchAudioView extends SidebarView<StackPane> implements Callback 
 
   @Override
   public void onCreated() {
-    searchBar.addTypes(SearchType.ALL.getDesc(), SearchType.NAME.getDesc(), SearchType.AUTHOR.getDesc(), SearchType.SPEAKER.getDesc());
+    searchBar.addTypes(SearchType.ALL.getDesc(), SearchType.NAME.getDesc(), SearchType.AUTHOR.getDesc(),
+      SearchType.SPEAKER.getDesc());
     listView.setCellFactory(BookListCell::new);
     tocListView.setCellFactory(param -> new ChapterListCell());
     tocListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -92,7 +93,8 @@ public class SearchAudioView extends SidebarView<StackPane> implements Callback 
     EventUtils.setOnMousePrimaryClick(listView, event -> {
       if (!listView.getSelectionModel().isEmpty()) {
         Novel novel = listView.getSelectionModel().getSelectedItem();
-        BookDetailModal bookDetailModal = new BookDetailModal(novel, true).withActions(Action.BOOKSHELF, Action.TOC, Action.DOWNLOAD);
+        BookDetailModal bookDetailModal =
+          new BookDetailModal(novel, true).withActions(Action.BOOKSHELF, Action.TOC, Action.DOWNLOAD);
         bookDetailModal.getToc().setOnMouseClicked(e -> {
           bookDetailModal.getContainerModal().disabledAnimateClose().close();
           showToc();
@@ -151,14 +153,15 @@ public class SearchAudioView extends SidebarView<StackPane> implements Callback 
     tocListView.getItems().clear();
     AnalyzerRule rule = RuleManager.getOrDefault(novel.getSite());
     TocSpider tocSpider = new TocSpider(rule);
-    tocSpider.setOnNewItemAddHandler(chapter -> Executor.runFx(() -> tocListView.getItems().add(new ChapterProperty(chapter))));
+    tocSpider.setOnNewItemAddHandler(
+      chapter -> Executor.runFx(() -> tocListView.getItems().add(new ChapterProperty(chapter))));
     TaskFactory.create(() -> {
-      tocSpider.toc(tocUrl);
-      if (Boolean.TRUE.equals(rule.getToc().getAutoNext())) {
-        tocSpider.loadAll();
-      }
-      return null;
-    }).onSuccess(v -> drawers.toggle(tocDrawer))
+        tocSpider.toc(tocUrl);
+        if (Boolean.TRUE.equals(rule.getToc().getAutoNext())) {
+          tocSpider.loadAll();
+        }
+        return null;
+      }).onSuccess(v -> drawers.toggle(tocDrawer))
       .onFailed(e -> {
         Toast.error("目录解析失败");
         log.error("目录查看失败：链接：{}", tocUrl, e);
@@ -248,9 +251,9 @@ public class SearchAudioView extends SidebarView<StackPane> implements Callback 
     String url = chapter.getUrl();
     NovelSpider spider = new NovelSpider(RuleManager.getOrDefault(novel.getSite()));
     TaskFactory.create(() -> {
-      String audioUrl = spider.content(url);
-      return audioUrlHandler.apply(url, audioUrl);
-    }).onSuccess(onSuccessHandler)
+        String audioUrl = spider.content(url);
+        return audioUrlHandler.apply(url, audioUrl);
+      }).onSuccess(onSuccessHandler)
       .onFailed(e -> Toast.error("获取音频失败"))
       .start();
   }

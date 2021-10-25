@@ -5,10 +5,11 @@ import com.unclezs.novel.app.framework.components.cell.BaseListCell;
 import com.unclezs.novel.app.framework.components.icon.Icon;
 import com.unclezs.novel.app.framework.components.icon.IconFont;
 import com.unclezs.novel.app.framework.util.NodeHelper;
-import java.util.function.Function;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+
+import java.util.function.Function;
 
 /**
  * @author blog.unclezs.com

@@ -12,17 +12,18 @@ import com.unclezs.novel.app.framework.executor.FluentTask;
 import com.unclezs.novel.app.framework.executor.TaskFactory;
 import com.unclezs.novel.app.main.manager.ResourceManager;
 import com.unclezs.novel.app.main.model.config.TTSConfig;
-import java.io.File;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Queue;
 import javafx.concurrent.Task;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
 
 /**
  * TTS播放器

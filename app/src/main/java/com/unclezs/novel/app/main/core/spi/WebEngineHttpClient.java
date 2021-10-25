@@ -77,7 +77,8 @@ public class WebEngineHttpClient implements HttpProvider {
     Executor.runFx(() -> {
       WebEngine engine = new WebEngine();
       // 非默认UA 则设置UA
-      if (StringUtils.isNotBlank(params.getUrl()) || !params.getHeader(RequestParams.USER_AGENT).equals(RequestParams.USER_AGENT_DEFAULT_VALUE)) {
+      if (StringUtils.isNotBlank(params.getUrl()) || !params.getHeader(RequestParams.USER_AGENT).equals(
+        RequestParams.USER_AGENT_DEFAULT_VALUE)) {
         engine.setUserAgent(params.getHeader(RequestParams.USER_AGENT));
       }
       webEngineAtomicReference.set(engine);

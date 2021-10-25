@@ -4,7 +4,6 @@ import cn.hutool.core.io.FileUtil;
 import com.jfoenix.controls.JFXMasonryPane;
 import com.jfoenix.controls.JFXNodesList;
 import com.jfoenix.controls.JFXTabPane;
-import com.unclezs.novel.analyzer.core.comparator.ChapterComparator;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.spider.NovelSpider;
 import com.unclezs.novel.analyzer.spider.helper.SpiderHelper;
@@ -124,7 +123,8 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
         });
         c.getAddedSubList().forEach(bookNode -> {
           bookDao.save(bookNode.getBook());
-          String currentGroup = groupPanel.getTabs().stream().filter(Tab::isSelected).map(Tab::getText).findFirst().orElse(null);
+          String currentGroup =
+            groupPanel.getTabs().stream().filter(Tab::isSelected).map(Tab::getText).findFirst().orElse(null);
           if (bookNode.getBook().getGroup() != null) {
             groups.add(bookNode.getBook().getGroup());
           }
@@ -206,7 +206,8 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
    * @param book 书籍
    */
   public void addOrUpdateBook(Book book) {
-    bookNodes.stream().filter(bookNode -> Objects.equals(bookNode.getBook().getId(), book.getId())).findFirst().ifPresent(bookNodes::remove);
+    bookNodes.stream().filter(
+      bookNode -> Objects.equals(bookNode.getBook().getId(), book.getId())).findFirst().ifPresent(bookNodes::remove);
     addBook(book);
   }
 
@@ -327,7 +328,8 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
    * 标题显示监听
    */
   private void listenerTitleVisible() {
-    bookShelfConfig.getAlwaysShowBookTitle().addListener(e -> bookNodes.forEach(node -> node.showTitle(bookShelfConfig.getAlwaysShowBookTitle().get())));
+    bookShelfConfig.getAlwaysShowBookTitle().addListener(
+      e -> bookNodes.forEach(node -> node.showTitle(bookShelfConfig.getAlwaysShowBookTitle().get())));
   }
 
   /**
@@ -352,9 +354,9 @@ public class FictionBookshelfView extends SidebarView<StackPane> {
           ModalBox.none().body(view).title("发现新章节").show();
         }
       }).onFailed(e -> {
-      Toast.error("获取更新失败");
-      log.error("获取书籍更新失败：{}", node.getBook().getName(), e);
-    }).start();
+        Toast.error("获取更新失败");
+        log.error("获取书籍更新失败：{}", node.getBook().getName(), e);
+      }).start();
   }
 
 

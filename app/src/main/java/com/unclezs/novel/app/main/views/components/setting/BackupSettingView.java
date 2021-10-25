@@ -8,13 +8,14 @@ import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.Choosers;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.viewmodel.BackupViewModel;
-import java.io.File;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.File;
 
 /**
  * 备份与恢复配置页面
@@ -58,10 +59,13 @@ public class BackupSettingView extends SettingItems implements LocalizedSupport 
    * @return 设置Item
    */
   private SettingItem backupContentView() {
-    JFXCheckBox bookshelf = createBackupContent(localized("setting.backup.bookshelf"), viewModel.getConfig().getBookshelf());
+    JFXCheckBox bookshelf =
+      createBackupContent(localized("setting.backup.bookshelf"), viewModel.getConfig().getBookshelf());
     JFXCheckBox rule = createBackupContent(localized("setting.backup.rule"), viewModel.getConfig().getRule());
-    JFXCheckBox audio = createBackupContent(localized("setting.backup.bookshelf.audio"), viewModel.getConfig().getAudio());
-    JFXCheckBox searchEngine = createBackupContent(localized("setting.backup.search.engine"), viewModel.getConfig().getSearchEngine());
+    JFXCheckBox audio =
+      createBackupContent(localized("setting.backup.bookshelf.audio"), viewModel.getConfig().getAudio());
+    JFXCheckBox searchEngine =
+      createBackupContent(localized("setting.backup.search.engine"), viewModel.getConfig().getSearchEngine());
     HBox hBox = new HBox(bookshelf, audio, rule, searchEngine);
     hBox.setSpacing(10);
     return new SettingItem(localized("setting.backup.content"), hBox);
@@ -69,16 +73,20 @@ public class BackupSettingView extends SettingItems implements LocalizedSupport 
 
   private SettingItem webDavView() {
     TextField url = createTextField(localized("setting.backup.webdav.server"), viewModel.getConfig().getUrl(), false);
-    TextField username = createTextField(localized("setting.backup.webdav.username"), viewModel.getConfig().getUsername(), false);
-    TextField password = createTextField(localized("setting.backup.webdav.password"), viewModel.getConfig().getPassword(), true);
+    TextField username =
+      createTextField(localized("setting.backup.webdav.username"), viewModel.getConfig().getUsername(), false);
+    TextField password =
+      createTextField(localized("setting.backup.webdav.password"), viewModel.getConfig().getPassword(), true);
 
     IconButton backup = NodeHelper.addClass(new IconButton(localized("setting.backup.webdav.action.backup")), "btn");
     backup.setOnAction(e -> doSync(true));
     IconButton restore = NodeHelper.addClass(new IconButton(localized("setting.backup.webdav.action.restore")), "btn");
     restore.setOnAction(e -> doSync(false));
-    IconButton backupToFile = NodeHelper.addClass(new IconButton(localized("setting.backup.webdav.action.export")), "btn");
+    IconButton backupToFile =
+      NodeHelper.addClass(new IconButton(localized("setting.backup.webdav.action.export")), "btn");
     backupToFile.setOnAction(e -> exportBackup());
-    IconButton restoreFromFile = NodeHelper.addClass(new IconButton(localized("setting.backup.webdav.action.import")), "btn");
+    IconButton restoreFromFile =
+      NodeHelper.addClass(new IconButton(localized("setting.backup.webdav.action.import")), "btn");
     restoreFromFile.setOnAction(e -> importBackup());
     HBox inputs = new HBox(url, username, password);
     inputs.setSpacing(20);
@@ -107,17 +115,17 @@ public class BackupSettingView extends SettingItems implements LocalizedSupport 
     if (viewModel.enabledWebDav()) {
       String type = backup ? "备份" : "恢复";
       TaskFactory.create(() -> {
-        if (backup) {
-          viewModel.backup();
-        } else {
-          viewModel.restore();
-        }
-        return null;
-      }).onFailed(e -> {
-        String message = String.format("%s失败", type);
-        log.error("{}：{}", message, e.getMessage(), e);
-        Toast.error(message + ": " + e.getMessage());
-      })
+          if (backup) {
+            viewModel.backup();
+          } else {
+            viewModel.restore();
+          }
+          return null;
+        }).onFailed(e -> {
+          String message = String.format("%s失败", type);
+          log.error("{}：{}", message, e.getMessage(), e);
+          Toast.error(message + ": " + e.getMessage());
+        })
         .onSuccess(v -> Toast.success(String.format("%s成功", type)))
         .start();
     } else {

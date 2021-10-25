@@ -3,11 +3,12 @@ package com.unclezs.novel.app.main.db.beans;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.unclezs.novel.analyzer.util.uri.UrlUtils;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 /**
  * @author blog.unclezs.com
@@ -19,7 +20,8 @@ import lombok.Data;
 public class SearchEngine implements Serializable {
 
   public static final String STYLESHEET_PATH = "css/home/webview/";
-  private static final String BAIDU_SEARCH_URL = "https://www.baidu.com/s?wd=title: (阅读 \"{{keyword}}\" (最新章节) -(官方网站))";
+  private static final String BAIDU_SEARCH_URL =
+    "https://www.baidu.com/s?wd=title: (阅读 \"{{keyword}}\" (最新章节) -(官方网站))";
   private static final String GOOGLE_SEARCH_URL = "https://www.google.com.hk/search?q={{keyword}} 小说最新章节";
   private static final String BY_SEARCH_URL = "https://cn.bing.com/search?q={{keyword}} 小说最新章节";
   @DatabaseField(generatedId = true)

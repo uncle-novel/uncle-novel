@@ -6,8 +6,9 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.app.main.core.spider.SpiderWrapper;
-import java.util.StringJoiner;
 import lombok.Data;
+
+import java.util.StringJoiner;
 
 /**
  * 下载历史

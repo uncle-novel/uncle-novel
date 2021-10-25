@@ -251,10 +251,12 @@ public class ReaderView extends SceneView<StageDecorator> {
         if (clickX < width * TOC_AREA) {
           showToc();
           // 上一页
-        } else if (clickX < width * PRE_PAGE_AREA || (clickY < height * PRE_PAGE_AREA && clickX < width * NEXT_PAGE_AREA)) {
+        } else if (clickX < width * PRE_PAGE_AREA || (clickY < height * PRE_PAGE_AREA
+          && clickX < width * NEXT_PAGE_AREA)) {
           prePage();
           // 下一页
-        } else if (clickX > width * NEXT_PAGE_AREA || (clickY > height * NEXT_PAGE_AREA && clickX > width * PRE_PAGE_AREA)) {
+        } else if (clickX > width * NEXT_PAGE_AREA || (clickY > height * NEXT_PAGE_AREA
+          && clickX > width * PRE_PAGE_AREA)) {
           nextPage();
         } else {
           // 显示设置
@@ -325,7 +327,9 @@ public class ReaderView extends SceneView<StageDecorator> {
         toChapter(getCurrentChapterIndex());
       }
     });
-    chapterSlider.setValueFactory(slider -> Bindings.createStringBinding(() -> ((int) slider.getValue() + 1) + "/" + ((int) slider.getMax() + 1), slider.valueProperty()));
+    chapterSlider.setValueFactory(
+      slider -> Bindings.createStringBinding(() -> ((int) slider.getValue() + 1) + "/" + ((int) slider.getMax() + 1),
+        slider.valueProperty()));
     chapterSlider.setOnMouseClicked(e -> {
       currentChapterIndex.set((int) chapterSlider.getValue());
       toChapter(getCurrentChapterIndex());
@@ -339,10 +343,13 @@ public class ReaderView extends SceneView<StageDecorator> {
     forEachPageView(pageView -> {
       pageView.widthProperty().addListener(e -> updateDisplayText());
       pageView.heightProperty().addListener(e -> updateDisplayText());
-      pageView.prefWidthProperty().bind(Bindings.createDoubleBinding(() -> container.getWidth() * pageWidthSlider.getValue(), container.widthProperty(), pageWidthSlider.valueProperty()));
+      pageView.prefWidthProperty().bind(
+        Bindings.createDoubleBinding(() -> container.getWidth() * pageWidthSlider.getValue(), container.widthProperty(),
+          pageWidthSlider.valueProperty()));
     });
     pageWidthSlider.valueProperty().bindBidirectional(config.getPageWidth());
-    pageWidthSlider.setValueFactory(slider -> Bindings.createStringBinding(() -> ((int) (slider.getValue() * 100)) + "%", slider.valueProperty()));
+    pageWidthSlider.setValueFactory(
+      slider -> Bindings.createStringBinding(() -> ((int) (slider.getValue() * 100)) + "%", slider.valueProperty()));
     // 简体与繁体
     simpleTraditionalGroup.setOnSelected(tabButton -> {
       forEachPageView(pageView -> updateDisplayText());
@@ -387,8 +394,9 @@ public class ReaderView extends SceneView<StageDecorator> {
    */
   private void initTTSPlayer() {
     // TTS配置
-    List<TTSConfig> ttsConfigs = GsonUtils.me().fromJson(IoUtil.readUtf8(ResourceUtils.stream(DEFAULTS_TTS_CONFIG)), new TypeToken<List<TTSConfig>>() {
-    }.getType());
+    List<TTSConfig> ttsConfigs = GsonUtils.me().fromJson(IoUtil.readUtf8(ResourceUtils.stream(DEFAULTS_TTS_CONFIG)),
+      new TypeToken<List<TTSConfig>>() {
+      }.getType());
     speakerSelector.getItems().setAll(ttsConfigs.stream().map(TTSConfig::getName).collect(Collectors.toList()));
     speakerSelector.getSelectionModel().select(config.getSpeaker().get());
     speakerSelector.valueProperty().addListener(e -> {
@@ -397,7 +405,9 @@ public class ReaderView extends SceneView<StageDecorator> {
       player.setConfig(ttsConfigs.get(index));
     });
     // TTS朗读速度
-    ttsSpeedSlider.setValueFactory(slider -> Bindings.createStringBinding(() -> String.valueOf((int) (slider.getValue() * 10)), slider.valueProperty()));
+    ttsSpeedSlider.setValueFactory(
+      slider -> Bindings.createStringBinding(() -> String.valueOf((int) (slider.getValue() * 10)),
+        slider.valueProperty()));
     ttsSpeedSlider.setValue(config.getSpeed().get());
     ttsSpeedSlider.valueProperty().addListener(e -> {
       player.setSpeed(ttsSpeedSlider.getValue());
@@ -422,7 +432,8 @@ public class ReaderView extends SceneView<StageDecorator> {
   private void updateFont() {
     forEachPageView(content -> {
       content.setStyle(String.format(FONT_STYLE_FORMAT, fontSizeSlider.getValue(), fontSelector.getValue()));
-      content.getTitle().setStyle(String.format(FONT_STYLE_FORMAT, fontSizeSlider.getValue() + 12, fontSelector.getValue()));
+      content.getTitle().setStyle(
+        String.format(FONT_STYLE_FORMAT, fontSizeSlider.getValue() + 12, fontSelector.getValue()));
     });
     updateDisplayText();
   }
@@ -456,7 +467,8 @@ public class ReaderView extends SceneView<StageDecorator> {
    */
   private void displayPage(int page, TurnPageType type) {
     if (displayPageTask == null) {
-      displayPageTask = new DisplayPageTask(() -> this.displayPageByDebounce(displayPageTask.page, displayPageTask.type), 100L);
+      displayPageTask =
+        new DisplayPageTask(() -> this.displayPageByDebounce(displayPageTask.page, displayPageTask.type), 100L);
     }
     displayPageTask.init(page, type);
     displayPageTask.run();
@@ -676,11 +688,11 @@ public class ReaderView extends SceneView<StageDecorator> {
     }
     if (needLoad) {
       TaskFactory.create(() -> {
-        for (int index : indexes) {
-          contents(index);
-        }
-        return null;
-      }).onSuccess(s -> onSuccess.run())
+          for (int index : indexes) {
+            contents(index);
+          }
+          return null;
+        }).onSuccess(s -> onSuccess.run())
         .onFailed(e -> Toast.error(getRoot(), "加载失败"))
         .start();
     } else {
@@ -705,12 +717,15 @@ public class ReaderView extends SceneView<StageDecorator> {
     Font font = Font.font(fontFamily, fontsize);
     double width = currentPage.getWidth();
     Insets padding = currentPage.getLabelPadding();
-    double height = currentPage.getHeight() - currentPage.snappedBottomInset() - currentPage.snappedTopInset() - currentPage.snapSizeY(padding.getTop()) - currentPage.snapSizeY(padding.getBottom());
-    double heightWithTitle = height - currentPage.getTitle().getLayoutBounds().getHeight() - currentPage.getTitle().getGraphicTextGap();
+    double height = currentPage.getHeight() - currentPage.snappedBottomInset() - currentPage.snappedTopInset()
+      - currentPage.snapSizeY(padding.getTop()) - currentPage.snapSizeY(padding.getBottom());
+    double heightWithTitle =
+      height - currentPage.getTitle().getLayoutBounds().getHeight() - currentPage.getTitle().getGraphicTextGap();
     do {
       // 首页区分标题高度
       double pageHeight = pageList.isEmpty() ? heightWithTitle : height;
-      String page = Utils.computeClippedWrappedText(font, text, width, pageHeight, lineSpacing, OverrunStyle.CLIP, CharSequenceUtil.EMPTY, TextBoundsType.LOGICAL_VERTICAL_CENTER);
+      String page = Utils.computeClippedWrappedText(font, text, width, pageHeight, lineSpacing, OverrunStyle.CLIP,
+        CharSequenceUtil.EMPTY, TextBoundsType.LOGICAL_VERTICAL_CENTER);
       pageList.add(page);
       text = text.substring(page.length()).trim();
     } while (text.length() > 0);
@@ -879,6 +894,7 @@ public class ReaderView extends SceneView<StageDecorator> {
      */
     NONE
   }
+
 
   /**
    * 展示页码任务 防抖

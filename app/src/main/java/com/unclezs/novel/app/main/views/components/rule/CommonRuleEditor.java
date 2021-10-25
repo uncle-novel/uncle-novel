@@ -1,7 +1,6 @@
 package com.unclezs.novel.app.main.views.components.rule;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.analyzer.core.helper.RuleHelper;
 import com.unclezs.novel.analyzer.core.rule.CommonRule;
 import com.unclezs.novel.analyzer.core.rule.ReplaceRule;
@@ -32,9 +31,9 @@ public class CommonRuleEditor extends VBox {
 
   private final TextArea editor = new TextArea();
   private final ComboBox<String> types;
+  private final TextField ruleField;
   private CommonRule rule;
   private HBox pagesBox;
-  private final TextField ruleField;
 
   public CommonRuleEditor() {
     NodeHelper.addClass(this, "common-rule-editor");
@@ -62,7 +61,9 @@ public class CommonRuleEditor extends VBox {
       }
     });
 
-    types = new ComboBox<>(FXCollections.observableArrayList(RuleConstant.TYPE_XPATH, RuleConstant.TYPE_CSS, RuleConstant.TYPE_JSON, RuleConstant.TYPE_REGEX));
+    types = new ComboBox<>(
+      FXCollections.observableArrayList(RuleConstant.TYPE_XPATH, RuleConstant.TYPE_CSS, RuleConstant.TYPE_JSON,
+        RuleConstant.TYPE_REGEX));
     HBox typeBox = createActionBox("匹配器规则类型", types);
     types.valueProperty().addListener(e -> {
       rule().setType(types.getValue());
@@ -111,7 +112,8 @@ public class CommonRuleEditor extends VBox {
   public void setShowPage(boolean show) {
     if (this.pagesBox == null) {
       // 特定页面显示
-      ComboBox<String> pages = new ComboBox<>(FXCollections.observableArrayList(RuleConstant.SEARCH_PAGE, RuleConstant.DETAIL_PAGE));
+      ComboBox<String> pages =
+        new ComboBox<>(FXCollections.observableArrayList(RuleConstant.SEARCH_PAGE, RuleConstant.DETAIL_PAGE));
       pagesBox = createActionBox("规则对应的页面", pages);
       pages.valueProperty().addListener(e -> {
         rule().setPage(pages.getValue());

@@ -2,12 +2,13 @@ package com.unclezs.novel.app.main.model;
 
 import com.unclezs.novel.analyzer.core.model.AnalyzerRule;
 import com.unclezs.novel.analyzer.model.Chapter;
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 书籍缓存

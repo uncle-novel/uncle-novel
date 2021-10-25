@@ -189,7 +189,8 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
    * @param book 书籍
    */
   public void addOrUpdateBook(AudioBook book) {
-    bookListView.getItems().stream().filter(b -> Objects.equals(book.getId(), b.getId())).findFirst().ifPresent(bookListView.getItems()::remove);
+    bookListView.getItems().stream().filter(b -> Objects.equals(book.getId(), b.getId())).findFirst().ifPresent(
+      bookListView.getItems()::remove);
     bookListView.getItems().add(book);
   }
 
@@ -307,7 +308,8 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
   @FXML
   private void playNext() {
     // 上一节
-    if (player != null && currentBook != null && currentBook.getCurrentChapterIndex() < currentBook.getToc().size() - 1) {
+    if (player != null && currentBook != null
+      && currentBook.getCurrentChapterIndex() < currentBook.getToc().size() - 1) {
       currentBook.setCurrentChapterIndex(currentBook.getCurrentChapterIndex() + 1);
       playChapter();
     }
@@ -519,7 +521,8 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
     loadCache(book);
     BookBundle bundle = new BookBundle(book.toNovel(), currentBook.getRule());
     bundle.getNovel().setChapters(book.getToc());
-    navigation.navigate(DownloadManagerView.class, new SidebarNavigateBundle().put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, bundle));
+    navigation.navigate(DownloadManagerView.class,
+      new SidebarNavigateBundle().put(DownloadManagerView.BUNDLE_DOWNLOAD_KEY, bundle));
   }
 
   /**
@@ -549,9 +552,9 @@ public class AudioBookShelfView extends SidebarView<StackPane> {
     String url = chapter.getUrl();
     NovelSpider spider = new NovelSpider(novel.getRule());
     TaskFactory.create(() -> {
-      String audioUrl = spider.content(url);
-      return audioUrlHandler.apply(url, audioUrl);
-    }).onSuccess(onSuccessHandler)
+        String audioUrl = spider.content(url);
+        return audioUrlHandler.apply(url, audioUrl);
+      }).onSuccess(onSuccessHandler)
       .onFailed(e -> Toast.error("获取音频失败"))
       .start();
   }

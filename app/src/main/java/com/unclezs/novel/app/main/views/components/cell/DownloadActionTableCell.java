@@ -12,11 +12,12 @@ import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.core.spider.SpiderWrapper;
 import com.unclezs.novel.app.main.util.EbookUtils;
 import com.unclezs.novel.app.main.views.home.DownloadManagerView;
-import java.io.File;
 import javafx.beans.InvalidationListener;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
+
+import java.io.File;
 
 /**
  * @author blog.unclezs.com

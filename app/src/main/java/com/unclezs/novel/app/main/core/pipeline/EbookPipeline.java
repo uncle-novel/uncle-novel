@@ -5,8 +5,9 @@ import com.unclezs.novel.analyzer.core.helper.AnalyzerHelper;
 import com.unclezs.novel.analyzer.model.Chapter;
 import com.unclezs.novel.analyzer.spider.pipline.AbstractTextPipeline;
 import com.unclezs.novel.app.main.util.EbookUtils;
-import java.io.File;
 import lombok.Setter;
+
+import java.io.File;
 
 /**
  * epub下载管道

@@ -78,7 +78,8 @@ public class HeaderMenuView extends View<JFXPopup> {
       box.getChildren().add(new Label("关注公众号：书虫无书荒"));
       Label qqGroupLabel = new Label("加入问题反馈QQ群：");
       Hyperlink qqGroupLink = new Hyperlink("774716671");
-      qqGroupLink.setOnAction(e -> DesktopUtils.openBrowse("https://shang.qq.com/wpa/qunwpa?idkey=e49493cef7cb08f05a60d84feed2338ddbde2930cae9deac75b7f3b7f4fac697"));
+      qqGroupLink.setOnAction(e -> DesktopUtils.openBrowse(
+        "https://shang.qq.com/wpa/qunwpa?idkey=e49493cef7cb08f05a60d84feed2338ddbde2930cae9deac75b7f3b7f4fac697"));
       HBox qgBox = new HBox(qqGroupLabel, qqGroupLink);
       qgBox.setAlignment(Pos.CENTER_LEFT);
       box.getChildren().add(qgBox);

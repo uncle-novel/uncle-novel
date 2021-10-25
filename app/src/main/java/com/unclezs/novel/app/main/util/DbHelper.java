@@ -7,9 +7,10 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.unclezs.novel.app.main.db.beans.DownloadHistory;
 import com.unclezs.novel.app.main.exception.DbException;
-import java.sql.SQLException;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.SQLException;
 
 /**
  * Ormlite工具

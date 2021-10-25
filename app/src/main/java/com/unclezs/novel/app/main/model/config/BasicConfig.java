@@ -2,11 +2,12 @@ package com.unclezs.novel.app.main.model.config;
 
 import com.unclezs.novel.app.main.manager.LanguageManager;
 import com.unclezs.novel.app.main.views.home.HomeView;
-import java.util.Locale;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.text.Font;
 import lombok.Data;
+
+import java.util.Locale;
 
 /**
  * @author blog.unclezs.com

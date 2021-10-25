@@ -1,9 +1,10 @@
 package com.unclezs.novel.app.main.views.components.cell;
 
 import com.jfoenix.controls.JFXCheckBox;
-import java.util.function.ObjIntConsumer;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableCell;
+
+import java.util.function.ObjIntConsumer;
 
 /**
  * @author blog.unclezs.com

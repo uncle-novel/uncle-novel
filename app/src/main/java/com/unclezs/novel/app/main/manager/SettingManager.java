@@ -10,12 +10,13 @@ import com.unclezs.novel.app.main.model.config.HotKeyConfig;
 import com.unclezs.novel.app.main.model.config.ProxyConfig;
 import com.unclezs.novel.app.main.model.config.ReaderConfig;
 import com.unclezs.novel.app.main.util.DebugUtils;
-import java.io.File;
-import java.util.Locale;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.File;
+import java.util.Locale;
 
 /**
  * 设置管理器

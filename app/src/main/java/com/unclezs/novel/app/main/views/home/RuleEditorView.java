@@ -167,10 +167,14 @@ public class RuleEditorView extends SidebarView<StackPane> {
   @Override
   @SuppressWarnings("unchecked")
   public void onCreate() {
-    ruleContainer.lookupAll(SELECTOR_TEXT_INPUT).stream().filter(node -> node.getUserData() != null).forEach(node -> inputs.add((TextInputControl) node));
-    ruleContainer.lookupAll(SELECTOR_INPUT_BOX).stream().filter(node -> node.getUserData() != null).forEach(node -> inputBoxes.add((InputBox) node));
-    ruleContainer.lookupAll(SELECTOR_CHECK_BOX).stream().filter(node -> node.getUserData() != null).forEach(node -> checkBoxes.add((CheckBox) node));
-    ruleContainer.lookupAll(SELECTOR_COMBO_BOX).stream().filter(node -> node.getUserData() != null).forEach(node -> comboBoxes.add((ComboBox<String>) node));
+    ruleContainer.lookupAll(SELECTOR_TEXT_INPUT).stream().filter(node -> node.getUserData() != null).forEach(
+      node -> inputs.add((TextInputControl) node));
+    ruleContainer.lookupAll(SELECTOR_INPUT_BOX).stream().filter(node -> node.getUserData() != null).forEach(
+      node -> inputBoxes.add((InputBox) node));
+    ruleContainer.lookupAll(SELECTOR_CHECK_BOX).stream().filter(node -> node.getUserData() != null).forEach(
+      node -> checkBoxes.add((CheckBox) node));
+    ruleContainer.lookupAll(SELECTOR_COMBO_BOX).stream().filter(node -> node.getUserData() != null).forEach(
+      node -> comboBoxes.add((ComboBox<String>) node));
 
     autoAnalysisMode.valueProperty().addListener(e -> {
       int mode = autoAnalysisMode.getItems().indexOf(autoAnalysisMode.getValue()) + 1;
@@ -260,7 +264,8 @@ public class RuleEditorView extends SidebarView<StackPane> {
     ModalBox.confirm(ok -> {
       if (Boolean.TRUE.equals(ok)) {
         try {
-          Map<String, List<String>> map = CookieHandler.getDefault().get(URI.create(UrlUtils.getSite(rule.getSite())), Collections.emptyMap());
+          Map<String, List<String>> map =
+            CookieHandler.getDefault().get(URI.create(UrlUtils.getSite(rule.getSite())), Collections.emptyMap());
           List<String> cookie = map.get("Cookie");
           if (CollectionUtils.isNotEmpty(cookie)) {
             cookieField.setText(cookie.get(0));
@@ -566,8 +571,10 @@ public class RuleEditorView extends SidebarView<StackPane> {
         return NumberUtil.isNumber(string) ? Long.parseLong(string) : 0;
       }
     };
-    bind(weight.focusedProperty(), weight::getText, weight::setText, rule::getWeight, rule::setWeight, integerStringConverter);
-    bind(delayTime.focusedProperty(), delayTime::getText, delayTime::setText, rule.getContent()::getDelayTime, rule.getContent()::setDelayTime, longStringConverter);
+    bind(weight.focusedProperty(), weight::getText, weight::setText, rule::getWeight, rule::setWeight,
+      integerStringConverter);
+    bind(delayTime.focusedProperty(), delayTime::getText, delayTime::setText, rule.getContent()::getDelayTime,
+      rule.getContent()::setDelayTime, longStringConverter);
     // 通用数据绑定
     inputBoxes.forEach(this::bind);
     inputs.forEach(this::bind);
@@ -610,7 +617,9 @@ public class RuleEditorView extends SidebarView<StackPane> {
       }
       editor.setRule(finalRuleItem);
       // 是否显示common rule 的page字段
-      boolean showPage = StringUtils.startWith(fieldExpression, "search") && !CharSequenceUtil.equalsAny(fieldExpression, "search.detailPage", "search.list");
+      boolean showPage =
+        StringUtils.startWith(fieldExpression, "search") && !CharSequenceUtil.equalsAny(fieldExpression,
+          "search.detailPage", "search.list");
       editor.setShowPage(showPage);
       AtomicBoolean success = new AtomicBoolean(false);
       ModalBox.confirm(save -> {
@@ -643,7 +652,8 @@ public class RuleEditorView extends SidebarView<StackPane> {
    */
   private void bind(TextInputControl field) {
     String expression = field.getUserData().toString();
-    bind(field.focusedProperty(), field::getText, field::setText, () -> BeanUtil.getProperty(rule, expression), value -> BeanUtil.setProperty(rule, expression, value), null);
+    bind(field.focusedProperty(), field::getText, field::setText, () -> BeanUtil.getProperty(rule, expression),
+      value -> BeanUtil.setProperty(rule, expression, value), null);
   }
 
   /**
@@ -653,7 +663,8 @@ public class RuleEditorView extends SidebarView<StackPane> {
    */
   private void bind(ComboBox<String> field) {
     String expression = field.getUserData().toString();
-    bind(field.focusedProperty(), field::getValue, field::setValue, () -> BeanUtil.getProperty(rule, expression), value -> BeanUtil.setProperty(rule, expression, value), null);
+    bind(field.focusedProperty(), field::getValue, field::setValue, () -> BeanUtil.getProperty(rule, expression),
+      value -> BeanUtil.setProperty(rule, expression, value), null);
   }
 
   /**
@@ -680,7 +691,8 @@ public class RuleEditorView extends SidebarView<StackPane> {
    * @param <T>            JavaBean类型
    */
   @SuppressWarnings("unchecked")
-  private <T> void bind(ReadOnlyBooleanProperty property, Supplier<String> propertyGetter, Consumer<String> propertySetter, Supplier<T> getter, Consumer<T> setter, StringConverter<T> converter) {
+  private <T> void bind(ReadOnlyBooleanProperty property, Supplier<String> propertyGetter,
+    Consumer<String> propertySetter, Supplier<T> getter, Consumer<T> setter, StringConverter<T> converter) {
     // 初值
     T initValue = getter.get();
     String initStrValue = converter == null ? (String) initValue : converter.toString(initValue);
@@ -714,20 +726,30 @@ public class RuleEditorView extends SidebarView<StackPane> {
     }
     RuleEditorView that = (RuleEditorView) o;
     return fromManager == that.fromManager && Objects.equals(listeners, that.listeners) && Objects
-      .equals(inputBoxes, that.inputBoxes) && Objects.equals(inputs, that.inputs) && Objects.equals(checkBoxes, that.checkBoxes) && Objects
-      .equals(comboBoxes, that.comboBoxes) && Objects.equals(cookieField, that.cookieField) && Objects.equals(contentRule, that.contentRule) && Objects
-      .equals(autoAnalysisMode, that.autoAnalysisMode) && Objects.equals(infoItemsPanel, that.infoItemsPanel) && Objects.equals(sourceEditor, that.sourceEditor) && Objects
-      .equals(panel, that.panel) && Objects.equals(showSourceButton, that.showSourceButton) && Objects.equals(ruleContainer, that.ruleContainer) && Objects
-      .equals(weight, that.weight) && Objects.equals(editor, that.editor) && Objects.equals(debugContentPanel, that.debugContentPanel) && Objects
-      .equals(debugTocPanel, that.debugTocPanel) && Objects.equals(debugDetailPanel, that.debugDetailPanel) && Objects.equals(debugSearchPanel, that.debugSearchPanel)
-      && Objects.equals(debugPanel, that.debugPanel) && Objects.equals(rule, that.rule) && Objects.equals(realRule, that.realRule) && Objects
-      .equals(from, that.from) && Objects.equals(saveToRule, that.saveToRule) && Objects.equals(saveToRulesSwitch, that.saveToRulesSwitch);
+      .equals(inputBoxes, that.inputBoxes) && Objects.equals(inputs, that.inputs) && Objects.equals(checkBoxes,
+      that.checkBoxes) && Objects
+      .equals(comboBoxes, that.comboBoxes) && Objects.equals(cookieField, that.cookieField) && Objects.equals(
+      contentRule, that.contentRule) && Objects
+      .equals(autoAnalysisMode, that.autoAnalysisMode) && Objects.equals(infoItemsPanel, that.infoItemsPanel)
+      && Objects.equals(sourceEditor, that.sourceEditor) && Objects
+      .equals(panel, that.panel) && Objects.equals(showSourceButton, that.showSourceButton) && Objects.equals(
+      ruleContainer, that.ruleContainer) && Objects
+      .equals(weight, that.weight) && Objects.equals(editor, that.editor) && Objects.equals(debugContentPanel,
+      that.debugContentPanel) && Objects
+      .equals(debugTocPanel, that.debugTocPanel) && Objects.equals(debugDetailPanel, that.debugDetailPanel)
+      && Objects.equals(debugSearchPanel, that.debugSearchPanel)
+      && Objects.equals(debugPanel, that.debugPanel) && Objects.equals(rule, that.rule) && Objects.equals(realRule,
+      that.realRule) && Objects
+      .equals(from, that.from) && Objects.equals(saveToRule, that.saveToRule) && Objects.equals(saveToRulesSwitch,
+      that.saveToRulesSwitch);
   }
 
   @Override
   public int hashCode() {
     return Objects
-      .hash(super.hashCode(), listeners, inputBoxes, inputs, checkBoxes, comboBoxes, cookieField, contentRule, autoAnalysisMode, infoItemsPanel, sourceEditor, panel, showSourceButton,
-        ruleContainer, weight, editor, debugContentPanel, debugTocPanel, debugDetailPanel, debugSearchPanel, debugPanel, rule, realRule, fromManager, from, saveToRule, saveToRulesSwitch);
+      .hash(super.hashCode(), listeners, inputBoxes, inputs, checkBoxes, comboBoxes, cookieField, contentRule,
+        autoAnalysisMode, infoItemsPanel, sourceEditor, panel, showSourceButton,
+        ruleContainer, weight, editor, debugContentPanel, debugTocPanel, debugDetailPanel, debugSearchPanel, debugPanel,
+        rule, realRule, fromManager, from, saveToRule, saveToRulesSwitch);
   }
 }

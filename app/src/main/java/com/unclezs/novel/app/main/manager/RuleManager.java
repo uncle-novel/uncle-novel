@@ -104,7 +104,8 @@ public class RuleManager {
    */
   public static List<AnalyzerRule> textRules() {
     return RULES.stream()
-      .filter(rule -> Boolean.TRUE.equals(rule.getEnabled()) && rule.isEffective() && Boolean.FALSE.equals(rule.getAudio()))
+      .filter(
+        rule -> Boolean.TRUE.equals(rule.getEnabled()) && rule.isEffective() && Boolean.FALSE.equals(rule.getAudio()))
       .collect(Collectors.toList());
   }
 
@@ -126,7 +127,9 @@ public class RuleManager {
    * @return 规则
    */
   public static List<AnalyzerRule> audioRules() {
-    return RULES.stream().filter(rule -> Boolean.TRUE.equals(rule.getEnabled()) && rule.isEffective() && Boolean.TRUE.equals(rule.getAudio())).collect(Collectors.toList());
+    return RULES.stream().filter(
+      rule -> Boolean.TRUE.equals(rule.getEnabled()) && rule.isEffective() && Boolean.TRUE.equals(
+        rule.getAudio())).collect(Collectors.toList());
   }
 
   /**

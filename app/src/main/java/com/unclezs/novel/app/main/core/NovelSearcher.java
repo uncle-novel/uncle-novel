@@ -10,12 +10,13 @@ import com.unclezs.novel.app.framework.components.Toast;
 import com.unclezs.novel.app.framework.executor.Executor;
 import com.unclezs.novel.app.main.enums.SearchType;
 import com.unclezs.novel.app.main.manager.RuleManager;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author blog.unclezs.com
@@ -28,12 +29,12 @@ public class NovelSearcher {
   private final List<SearchSpider> searchers = new ArrayList<>();
   private final AtomicInteger counter = new AtomicInteger();
   private final boolean audio;
+  private final Callback callback;
   private String keyword;
   @Getter
   private boolean hasMore;
   @Getter
   private boolean searching;
-  private final Callback callback;
 
   public NovelSearcher(boolean audio, Callback callback) {
     this.audio = audio;

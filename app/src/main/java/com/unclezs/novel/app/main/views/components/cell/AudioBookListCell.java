@@ -8,15 +8,16 @@ import com.unclezs.novel.app.framework.support.LocalizedSupport;
 import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.db.beans.AudioBook;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
 import javafx.geometry.Pos;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * 有声书架列表cell
@@ -28,8 +29,10 @@ public class AudioBookListCell extends ListCell<AudioBook> implements LocalizedS
 
   private final HBox cell = NodeHelper.addClass(new HBox(), "cell");
   private final Label title = NodeHelper.addClass(new Label(), "title");
-  private final Label author = new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.author").concat(StrUtil.COLON)));
-  private final Label broadcast = new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.speaker").concat(StrUtil.COLON)));
+  private final Label author =
+    new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.author").concat(StrUtil.COLON)));
+  private final Label broadcast =
+    new Label(CharSequenceUtil.EMPTY, new Label(localized("novel.speaker").concat(StrUtil.COLON)));
   private final Label latestChapter = new Label(CharSequenceUtil.EMPTY, new Label("上次听到".concat(StrUtil.COLON)));
   private final HBox tags = NodeHelper.addClass(new HBox(), "tags");
   private final LoadingImageView cover;

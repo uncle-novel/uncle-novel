@@ -18,8 +18,6 @@ import com.unclezs.novel.app.framework.util.EventUtils;
 import com.unclezs.novel.app.framework.util.NodeHelper;
 import com.unclezs.novel.app.main.util.BookHelper;
 import com.unclezs.novel.app.main.views.components.cell.BookListCell;
-import java.io.File;
-import java.util.function.Consumer;
 import javafx.scene.Node;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -30,6 +28,9 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.File;
+import java.util.function.Consumer;
 
 /**
  * 书籍详情模态框
@@ -84,7 +85,8 @@ public class BookDetailModal extends VBox implements LocalizedSupport {
     HBox category = createItem("分类", novel.getCategory(), Type.EDITABLE, novel::setCategory);
     HBox state = createItem("状态", novel.getState(), Type.TAG);
     HBox updateTime = createItem("更新时间", novel.getUpdateTime(), Type.EDITABLE, novel::setUpdateTime);
-    HBox latestChapter = createItem(localized("novel.chapter.latest"), novel.getLatestChapterName(), Type.EDITABLE, novel::setLatestChapterName);
+    HBox latestChapter = createItem(localized("novel.chapter.latest"), novel.getLatestChapterName(), Type.EDITABLE,
+      novel::setLatestChapterName);
     HBox desc = createItem(null, CharSequenceUtil.blankToDefault(novel.getIntroduce(), "暂无简介"), "desc");
     VBox detailContainer = new VBox(title, author);
     // 播音
@@ -138,7 +140,8 @@ public class BookDetailModal extends VBox implements LocalizedSupport {
           break;
         case BOOKSHELF:
           bookshelf = NodeHelper.addClass(new IconButton("加入书架"), "btn");
-          bookshelf.setOnMouseClicked(e -> BookHelper.addBookShelf(audio, novel, null, () -> containerModal.disabledAnimateClose().close()));
+          bookshelf.setOnMouseClicked(
+            e -> BookHelper.addBookShelf(audio, novel, null, () -> containerModal.disabledAnimateClose().close()));
           actionsBox.getChildren().add(bookshelf);
           break;
         case TOC:
@@ -193,7 +196,8 @@ public class BookDetailModal extends VBox implements LocalizedSupport {
    * @param className   css类名
    * @return 信息列
    */
-  private HBox createItem(String labelText, String contentText, Type type, Consumer<String> setter, String... className) {
+  private HBox createItem(String labelText, String contentText, Type type, Consumer<String> setter,
+    String... className) {
     HBox box = NodeHelper.addClass(new HBox(), "item");
     if (labelText != null) {
       Label label = NodeHelper.addClass(new Label(labelText.concat(StrUtil.COLON)), "item-label");
@@ -271,6 +275,7 @@ public class BookDetailModal extends VBox implements LocalizedSupport {
     LINK,
     LABEL
   }
+
 
   /**
    * 操作按钮类型

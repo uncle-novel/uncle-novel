@@ -69,22 +69,22 @@ public class ScriptDebugBox extends VBox {
       return;
     }
     TaskFactory.create(() -> {
-      StringBuilder ret = new StringBuilder();
-      ScriptContext.put(ScriptContext.VAR_RESULT, result.getText());
-      ScriptContext.put(ScriptContext.VAR_URL, url.getText());
-      ScriptContext.put(ScriptContext.VAR_SOURCE, source.getText());
-      if (StringUtils.isNotBlank(params.getText())) {
-        ScriptContext.put(ScriptContext.VAR_PARAMS, GsonUtils.parse(params.getText(), RequestParams.class));
-      }
-      // 自动获取URL源码
-      if (autoRequest.isSelected()) {
-        autoRequest(ret);
-      }
-      String executeRet = ScriptUtils.execute(script.getText(), ScriptContext.current());
-      ret.append(executeRet);
-      ScriptContext.remove();
-      return ret.toString();
-    }).onSuccess(console::setText)
+        StringBuilder ret = new StringBuilder();
+        ScriptContext.put(ScriptContext.VAR_RESULT, result.getText());
+        ScriptContext.put(ScriptContext.VAR_URL, url.getText());
+        ScriptContext.put(ScriptContext.VAR_SOURCE, source.getText());
+        if (StringUtils.isNotBlank(params.getText())) {
+          ScriptContext.put(ScriptContext.VAR_PARAMS, GsonUtils.parse(params.getText(), RequestParams.class));
+        }
+        // 自动获取URL源码
+        if (autoRequest.isSelected()) {
+          autoRequest(ret);
+        }
+        String executeRet = ScriptUtils.execute(script.getText(), ScriptContext.current());
+        ret.append(executeRet);
+        ScriptContext.remove();
+        return ret.toString();
+      }).onSuccess(console::setText)
       .onFailed(err -> {
         console.setText(ExceptionUtil.stacktraceToString(err));
         Toast.error((StackPane) getParent(), "执行失败");
