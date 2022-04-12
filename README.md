@@ -57,5 +57,5 @@ Uncle 小说是一款桌面端的小说阅读器，支持有声小说在线收�
 
 ### 喝杯咖啡~
 
-<img src="https://gitee.com/unclezs/image-blog/raw/master/20210105090216.jpeg"/>
+<img src="http://cdn.unclezs.com/20210105090216.jpeg"/>
 
