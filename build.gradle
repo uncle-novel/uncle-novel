@@ -1,5 +1,5 @@
 plugins {
-    id "org.openjfx.javafxplugin" version "0.0.9" apply false
+    id "org.openjfx.javafxplugin" version "0.0.11" apply false
     id "io.spring.dependency-management" version "1.0.9.RELEASE" apply false
     id "com.unclezs.gradle.sass" version "1.0.10" apply false
 }
@@ -33,12 +33,16 @@ subprojects { project ->
     }
 
     ext.compilerArgs = []
+    ext.runtimeArgs = []
     // 模块化编译参数
     File vmArgs = file("$projectDir/${project.name}.modularity")
     if (vmArgs.exists()) {
         vmArgs.readLines().each {
-            if (!it.isBlank() && !it.startsWith("//") && !it.startsWith("--add-opens")) {
-                ext.compilerArgs.add(it)
+            if (!it.isBlank() && !it.startsWith("//")) {
+                if (!it.startsWith("--add-opens")) {
+                    ext.compilerArgs.add(it)
+                }
+                ext.runtimeArgs.add(it)
             }
         }
     }
@@ -71,7 +75,7 @@ configure(jfxProject) { project ->
     apply plugin: "com.unclezs.gradle.sass"
 
     javafx {
-        version = "16"
+        version = "17"
         modules = ["javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web"]
     }
 

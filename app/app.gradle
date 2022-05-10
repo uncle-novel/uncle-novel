@@ -26,6 +26,44 @@ dependencies {
 }
 apply plugin: 'app-packager'
 
+// 初始化本地运行环境
+def initAppRuntimeEnv() {
+    def runtimeDbFile = file("$rootDir/conf/core.db")
+    if (runtimeDbFile.exists()) {
+        return
+    }
+    def dbFile = file("$projectDir/db/core.db")
+    if (!dbFile.exists()) {
+        createDatabase();
+    }
+    FileUtils.copyFileToFile(dbFile, runtimeDbFile)
+}
+
+// 创建 database
+def createDatabase() {
+    def dbFile = file("$projectDir/db/core.db")
+    def sqlFile = file("$projectDir/db/init.sql")
+    dbFile.delete()
+    exec {
+        executable = "sqlite3"
+        args(dbFile.absolutePath, ".read $sqlFile.absolutePath")
+    }
+    return dbFile
+}
+
+
+// 启动 APP
+task runApp(type: JavaExec, group: "app") {
+    // launch config
+    mainClass.set('com.unclezs.novel.app.main.App')
+    mainModule.set('com.unclezs.novel.app.main')
+    workingDir(rootDir)
+    jvmArgs(runtimeArgs)
+    jvmArgs("--module-path", CollectionUtils.join(File.pathSeparator, sourceSets.main.runtimeClasspath))
+
+    // runtime config
+    initAppRuntimeEnv()
+}
 
 task obfuscate(type: ProGuardTask) {
     injars jar
@@ -55,13 +93,11 @@ packager {
     bundleFxJre = true
     customizedJre = false
     jreDirName = "runtime"
-    vmArgs = [
-            "-Djava.util.logging.config.file=conf/jul.properties",
-            "--add-modules ALL-SYSTEM",
-            "-Dfile.encoding=UTF-8",
-            "--add-opens=java.base/java.lang=com.unclezs.jfx.launcher",
-            "-DmixPanel.token=${findProperty("mixPanel.token")}"
-    ]
+    vmArgs = ["-Djava.util.logging.config.file=conf/jul.properties",
+              "--add-modules ALL-SYSTEM",
+              "-Dfile.encoding=UTF-8",
+              "--add-opens=java.base/java.lang=com.unclezs.jfx.launcher",
+              "-DmixPanel.token=${findProperty("mixPanel.token")}"]
     vmOptionsFilePath = "conf/launcher.vmoptions"
     vmOptionsFile = file("${packagerDir}/resource/conf/launcher.vmoptions")
     linuxConfig {
@@ -100,10 +136,8 @@ packager {
         coordinate = "com.unclezs:jfx-launcher:${property("app.launcher.version")}"
         withLibraries = true
         // 资源位置映射、按照文件名和后缀映射到本地相对目录
-        resourceMapper = [
-                "jar"      : "runtime/modules",
-                "vmoptions": "conf",
-        ]
+        resourceMapper = ["jar"      : "runtime/modules",
+                          "vmoptions": "conf",]
         // 其他资源
         resource("$packagerDir/bin/mac/kindlegen", null, "MAC", "bin")
         resource("$packagerDir/bin/win/kindlegen.exe", null, "WIN", "bin")

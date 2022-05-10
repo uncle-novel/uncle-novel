@@ -55,6 +55,14 @@ Uncle 小说是一款桌面端的小说阅读器，支持有声小说在线收�
 <img width="600" src="https://github.com/unclezs/uncle-novel/raw/main/app/packager/screenshot/setting.png"/>
 
 
+### 运行项目
+
+直接运行 :app:runApp 任务即可。
+
+```shell
+./graldew :app:runApp
+```
+
 ### 喝杯咖啡~
 
 <img src="http://cdn.unclezs.com/20210105090216.jpeg"/>
