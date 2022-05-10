@@ -53,7 +53,7 @@ def createDatabase() {
 
 
 // 启动 APP
-task runApp(type: JavaExec, group: "app") {
+task runApp(type: JavaExec, group: "app", dependsOn: build) {
     // launch config
     mainClass.set('com.unclezs.novel.app.main.App')
     mainModule.set('com.unclezs.novel.app.main')
@@ -146,7 +146,7 @@ packager {
         resource("$packagerDir/resource/conf/jul.properties", "conf")
         resource("$packagerDir/resource/conf/launcher.vmoptions", "conf")
         // 打包时使用
-        // resource("$packagerDir/resource/conf/core.db", "conf")
+        resource("$packagerDir/resource/conf/core.db", "conf")
         if (debug) {
             resource("$rootDir/conf/rules.json", "conf")
         }

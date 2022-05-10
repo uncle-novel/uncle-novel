@@ -75,7 +75,7 @@ configure(jfxProject) { project ->
     apply plugin: "com.unclezs.gradle.sass"
 
     javafx {
-        version = "17"
+        version = "16"
         modules = ["javafx.base", "javafx.controls", "javafx.fxml", "javafx.graphics", "javafx.media", "javafx.swing", "javafx.web"]
     }
 
