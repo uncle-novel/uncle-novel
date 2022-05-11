@@ -1,6 +1,5 @@
 buildscript {
     repositories {
-        mavenLocal()
         mavenCentral()
     }
 }
@@ -10,7 +9,9 @@ plugins {
 }
 apply from: "../gradle/dependency-management.gradle"
 repositories {
-    mavenLocal()
+    maven {
+        url("https://oss.sonatype.org/content/groups/public/")
+    }
     mavenCentral()
     gradlePluginPortal()
 }
