@@ -26,16 +26,16 @@ import javafx.scene.layout.VBox;
 @FxView(fxml = "/layout/home/header-menu.fxml")
 public class HeaderMenuView extends View<JFXPopup> {
 
-  public static final String GITHUB = "https://github.com/unclezs/uncle-novel";
+  public static final String GITHUB = "https://github.com/uncle-novel";
   public static final String LOGS_DIR = "logs";
   public static final String FEEDBACK_URL = "https://support.qq.com/products/169599";
-  public static final String DOC_URL = "https://app.unclezs.com/guide/pc/";
-  public static final String OFFICIAL_SITE = "https://app.unclezs.com";
-  public static final String QA_URL = "https://app.unclezs.com/qa/";
+  public static final String DOC_URL = "https://uncle-novel.github.io/uncle-novel-official-site/guide/pc/";
+  public static final String OFFICIAL_SITE = "https://uncle-novel.github.io/uncle-novel-official-site/";
+  public static final String QA_URL = "https://uncle-novel.github.io/uncle-novel-official-site/qa/";
   /**
    * 免责声明
    */
-  private static final String DISCLAIMERS = "https://app.unclezs.com/common/disclaimers.html";
+  private static final String DISCLAIMERS = "https://uncle-novel.github.io/uncle-novel-official-site/common/disclaimers.html";
   @FXML
   private JFXPopup popup;
 
@@ -77,9 +77,9 @@ public class HeaderMenuView extends View<JFXPopup> {
       box.getChildren().add(new Label("开发者邮箱：unclezs@qq.com"));
       box.getChildren().add(new Label("关注公众号：书虫无书荒"));
       Label qqGroupLabel = new Label("加入问题反馈QQ群：");
-      Hyperlink qqGroupLink = new Hyperlink("774716671");
+      Hyperlink qqGroupLink = new Hyperlink("955549674");
       qqGroupLink.setOnAction(e -> DesktopUtils.openBrowse(
-        "https://shang.qq.com/wpa/qunwpa?idkey=e49493cef7cb08f05a60d84feed2338ddbde2930cae9deac75b7f3b7f4fac697"));
+        "https://qm.qq.com/cgi-bin/qm/qr?k=XHEQ7C_XvWX5xlWe9pm3s2Dpg_oYoBBw&jump_from=webapi"));
       HBox qgBox = new HBox(qqGroupLabel, qqGroupLink);
       qgBox.setAlignment(Pos.CENTER_LEFT);
       box.getChildren().add(qgBox);

@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven { url("https://oss.sonatype.org/content/groups/public/") }
     }
 }
 plugins {
@@ -9,9 +10,7 @@ plugins {
 }
 apply from: "../gradle/dependency-management.gradle"
 repositories {
-    maven {
-        url("https://oss.sonatype.org/content/groups/public/")
-    }
+    maven { url("https://oss.sonatype.org/content/groups/public/") }
     mavenCentral()
     gradlePluginPortal()
 }

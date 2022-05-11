@@ -9,6 +9,7 @@ def debug = "dev" == profile
 buildscript {
     repositories {
         mavenCentral()
+        maven { url("https://oss.sonatype.org/content/groups/public/") }
     }
     dependencies {
         classpath 'net.sf.proguard:proguard-gradle:6.2.2'
