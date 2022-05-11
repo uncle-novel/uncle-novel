@@ -47,13 +47,17 @@ public enum Platform {
    * 平台配置
    */
   private PlatformConfig platformConfig;
-
+  /**
+   * aarch
+   */
+  public static final String DARWIN = "darwin";
   /**
    * 获取当前操作系统
    *
    * @return 当前操作系统
    */
   public static Platform getCurrentPlatform() {
+    String os = System.getProperty("os.name", " ").toLowerCase();
     if (current == null) {
       if (SystemUtil.getOsInfo().isWindows()) {
         current = win;

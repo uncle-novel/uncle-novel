@@ -1,0 +1,178 @@
+.reader-theme-view {
+  -fx-alignment: center-left;
+  -fx-padding: 0;
+  -fx-spacing: 25px;
+  -fx-vgap: 10;
+  -fx-hgap: 10;
+}
+.reader-theme-view .color-box-item, .reader-theme-view .color-box-item-custom {
+  -fx-alignment: center;
+  -fx-pref-width: 38px;
+  -fx-pref-height: 38px;
+  -fx-background-radius: 5px;
+  -fx-border-radius: 5px;
+  -fx-text-fill: white;
+  -fx-font-size: 11px;
+  -fx-content-display: GRAPHIC_ONLY;
+  -fx-effect: dropshadow(three-pass-box, derive(-fx-base, -100%), 3, 0, 1, 1) !important;
+}
+.reader-theme-view .color-box-item.current, .reader-theme-view .current.color-box-item-custom {
+  -fx-icon: "checked";
+}
+.reader-theme-view .color-box-item.current .icon, .reader-theme-view .current.color-box-item-custom .icon {
+  -fx-icon-size: 14px;
+  -fx-text-fill: ladder(theme-color, rgba(255, 255, 255, 0.87) 59%, rgba(0, 0, 0, 0.87) 60%);
+}
+.reader-theme-view .color-box-item:hover, .reader-theme-view .color-box-item-custom:hover {
+  -fx-effect: dropshadow(three-pass-box, derive(-fx-base, -100%), 1, 0, 1, 1) !important;
+}
+.reader-theme-view .color-box-item.default, .reader-theme-view .default.color-box-item-custom {
+  -fx-background-color: #3b4252;
+}
+.reader-theme-view .color-box-item.dark, .reader-theme-view .dark.color-box-item-custom {
+  -fx-background-color: rgb(43, 43, 43);
+}
+.reader-theme-view .color-box-item.green, .reader-theme-view .green.color-box-item-custom {
+  -fx-background-color: #ceebce;
+}
+.reader-theme-view .color-box-item.yellow, .reader-theme-view .yellow.color-box-item-custom {
+  -fx-background-color: #e6dbbf;
+}
+.reader-theme-view .color-box-item.white, .reader-theme-view .white.color-box-item-custom {
+  -fx-background-color: #F0F0F0;
+}
+.reader-theme-view .color-box-item.pink, .reader-theme-view .pink.color-box-item-custom {
+  -fx-background-color: #eec5cb;
+}
+.reader-theme-view .color-box-item.teal, .reader-theme-view .teal.color-box-item-custom {
+  -fx-background-color: rgb(51, 110, 123);
+}
+.reader-theme-view .color-box-item.grey, .reader-theme-view .grey.color-box-item-custom {
+  -fx-background-color: rgb(108, 122, 137);
+}
+.reader-theme-view .color-box-item.darcula, .reader-theme-view .darcula.color-box-item-custom {
+  -fx-background-color: rgb(43, 43, 43);
+}
+.reader-theme-view .color-box-item-custom {
+  -fx-color-label-visible: false;
+  -fx-color-rect-width: 0;
+  -fx-background-color: linear-gradient(to bottom, rgb(225, 233, 237), rgb(253, 253, 254));
+  -fx-color-rect-height: 0;
+  -fx-content-display: graphic_only;
+  -fx-graphic: url("/assets/images/plus.png");
+  -fx-padding: 1 0 0 -3;
+}
+.reader-theme-view .color-box-item-custom .arrow-button {
+  -fx-background-color: transparent;
+}
+.reader-theme-view .color-box-item-custom .arrow-button .arrow {
+  -fx-background-color: transparent;
+}
+
+.stage-decorator.hidden-header .container {
+  -fx-background-radius: 8;
+  -fx-border-radius: 8;
+}
+.stage-decorator .reader-container {
+  -fx-background-color: -fx-bg-color;
+  -fx-alignment: center;
+  -fx-padding: 0 0 0 0;
+}
+.stage-decorator .reader-container .page-view {
+  -fx-padding: 5px 0 5px 0;
+  -fx-background-color: -fx-bg-color;
+  -fx-alignment: top-left;
+  -fx-text-overrun: clip;
+  -fx-wrap-text: true;
+  -fx-font-size: 18px;
+  -fx-font-weight: normal !important;
+  -fx-text-fill: ladder(-fx-bg-color, rgba(255, 255, 255, 0.87) 59%, rgba(0, 0, 0, 0.87) 60%);
+}
+.stage-decorator .reader-container .page-view .title {
+  -fx-font-size: 30px;
+  -fx-font-weight: bold;
+  -fx-alignment: center;
+  -fx-text-fill: ladder(-fx-bg-color, rgba(255, 255, 255, 0.87) 59%, rgba(0, 0, 0, 0.87) 60%);
+}
+.stage-decorator .setting-box {
+  -fx-alignment: center;
+  -fx-padding: 0 10 0 10;
+}
+.stage-decorator .setting-box .tipLabel {
+  -fx-pref-width: 70px;
+  -fx-min-width: 70px;
+}
+.stage-decorator .setting-box .setting-item-box {
+  -fx-spacing: 20px;
+  -fx-padding: 10 0 10 0;
+}
+.stage-decorator .setting-box .setting-item-box .chapter-slider-box {
+  -fx-alignment: center;
+  -fx-spacing: 1;
+}
+.stage-decorator .setting-box .setting-item-box .chapter-slider-box .chapter-slider-button {
+  -fx-pref-width: 70px;
+}
+.stage-decorator .setting-box .setting-item-box .chapter-slider-box .chapter-slider {
+  -fx-block-increment: 1;
+}
+.stage-decorator .setting-box .setting-item-box .font-selector .combo-box-base .label {
+  -fx-alignment: left;
+}
+.stage-decorator .setting-box .setting-item-box .align-box {
+  -fx-alignment: center-left;
+}
+.stage-decorator .setting-box .setting-item-box .align-box .tab-button {
+  -fx-padding: 1 5 2 5;
+  -fx-background-radius: 5;
+  -fx-font-size: 15px;
+}
+.stage-decorator .setting-box .setting-item-box .align-box .tab-button .icon {
+  -fx-icon-size: 15px;
+}
+.stage-decorator .setting-box .setting-item-box .font-type-box {
+  -fx-alignment: center-left;
+}
+.stage-decorator .setting-box .setting-item-box .font-type-box .tab-button {
+  -fx-padding: 1 5 2 5;
+  -fx-background-radius: 5;
+  -fx-font-size: 13px;
+}
+.stage-decorator .setting-box .setting-item-box .font-type-box .tab-button .icon {
+  -fx-icon-size: 13px;
+}
+.stage-decorator .setting-box .setting-action-box {
+  -fx-alignment: center;
+  -fx-max-height: 20;
+}
+.stage-decorator .setting-box .setting-action-box .icon-button {
+  -fx-content-display: top;
+}
+.stage-decorator .setting-box .setting-action-box .icon-button .icon {
+  -fx-text-fill: ladder(-fx-base, rgba(255, 255, 255, 0.87) 59%, rgba(0, 0, 0, 0.87) 60%);
+  -fx-icon-size: 18px;
+}
+.stage-decorator .setting-box .setting-action-box .speak {
+  -fx-icon: "speak";
+}
+.stage-decorator .setting-box .setting-action-box .speak:selected {
+  -fx-icon: "no_speak";
+}
+.stage-decorator .setting-box .setting-action-box .play {
+  -fx-icon: "play";
+}
+.stage-decorator .setting-box .setting-action-box .play:selected {
+  -fx-icon: "play_pause";
+}
+.stage-decorator .jfx-drawer-side-pane {
+  -fx-background-color: -fx-base;
+}
+.stage-decorator .jfx-drawer-side-pane .toc-list-view {
+  -fx-background-color: theme-color;
+}
+.stage-decorator .jfx-drawer-side-pane .toc-list-view .label {
+  -fx-text-fill: ladder(theme-color, rgba(255, 255, 255, 0.87) 59%, rgba(0, 0, 0, 0.87) 60%);
+}
+.stage-decorator .jfx-drawer-side-pane .toc-list-view .icon {
+  -fx-text-fill: ladder(theme-color, rgba(255, 255, 255, 0.87) 59%, rgba(0, 0, 0, 0.87) 60%);
+}

@@ -24,7 +24,7 @@
                 min="true"
                 minHeight="150.0" minWidth="300.00" prefHeight="700.0"
                 prefWidth="500.0" setting="true"
-                xmlns="https://javafx.com/javafx/16"
+                xmlns="https://javafx.com/javafx"
                 fx:controller="com.unclezs.novel.app.main.views.reader.ReaderView">
   <JFXDrawersStack fx:id="drawer">
     <JFXDrawer fx:id="tocDrawer" defaultDrawerSize="350" direction="LEFT">

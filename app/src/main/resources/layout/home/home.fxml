@@ -9,7 +9,7 @@
   min="true"
   minHeight="${decorator.prefHeight}" minWidth="${decorator.prefWidth}" prefHeight="660.0" prefWidth="940.0"
   setting="true"
-  theme="true" title="%app.title" xmlns="https://javafx.com/javafx/16"
+  theme="true" title="%app.title" xmlns="https://javafx.com/javafx"
   fx:controller="com.unclezs.novel.app.main.views.home.HomeView"
   fx:id="decorator">
   <SidebarNavigation VBox.vgrow="ALWAYS" prefWidth="${decorator.width}">

@@ -1,0 +1,89 @@
+.root {
+  -fx-base: #FFF;
+  theme-bg-color: #FFF;
+  theme-color: custom-theme-color;
+  theme-color-light: rgba(59, 66, 82, 0.2);
+  theme-color-dark: #757575;
+  theme-border-color: rgb(224, 224, 224);
+  theme-hover-color: #bdbdbd;
+  theme-icon-hover-color: custom-theme-color;
+}
+
+.stage-decorator {
+  -fx-bg-color: #FFF;
+  -fx-header-bg-color: custom-theme-color;
+}
+.stage-decorator .sidebar-nav {
+  -fx-sidebar-nav-bg-color: #FFF;
+  -fx-sidebar-bg-color: #FFF;
+  -fx-sidebar-border-color: rgb(224, 224, 224);
+  -fx-menu-bg-color-selected: custom-theme-color;
+  -fx-menu-bg-color-hover: #bdbdbd;
+}
+
+.jfx-alert-overlay {
+  -fx-bg-color: #FFF;
+}
+
+.loading {
+  -fx-bg-color: #FFF;
+}
+
+.scroll-bar {
+  -fx-color: rgba(59, 66, 82, 0.2);
+  -fx-hover-color: #757575;
+}
+
+.jfx-slider {
+  -jfx-default-thumb: custom-theme-color;
+  -jfx-default-track: rgba(59, 66, 82, 0.2);
+}
+
+.check-box {
+  -fx-checked-color: custom-theme-color;
+  -fx-unchecked-color: #757575;
+}
+
+.list-view {
+  -fx-selected-color: #757575;
+  -fx-separator-color: rgba(59, 66, 82, 0.2);
+}
+
+.tab-button {
+  -fx-selected-color: custom-theme-color;
+  -fx-color: rgba(59, 66, 82, 0.2);
+}
+
+.jfx-tab-pane {
+  -fx-color: custom-theme-color;
+}
+
+.text-field,
+.text-area,
+.input-box,
+.spinner,
+.loading-image-view {
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+}
+
+.progress-bar {
+  -fx-color: custom-theme-color;
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+}
+
+.tag {
+  -fx-tag-color: custom-theme-color;
+}
+
+.context-menu {
+  -fx-selected-color: custom-theme-color;
+}
+
+.combo-box-base {
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+  -fx-selected-color: custom-theme-color;
+}
+
+.reader-container {
+  -fx-bg-color: custom-theme-color;
+}

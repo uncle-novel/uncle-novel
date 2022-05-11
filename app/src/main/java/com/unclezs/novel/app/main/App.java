@@ -155,7 +155,7 @@ public class App extends BaseApplication {
     initStage(stage);
     stage.show();
     // 检测更新
-    // UpdateUtils.checkForUpdate(stage);
+    UpdateUtils.checkForUpdate(stage);
     MixPanelHelper.event(EVENT_LAUNCH);
     log.trace("启动耗时：{}ms", (System.currentTimeMillis() - LAUNCH_TIME));
   }

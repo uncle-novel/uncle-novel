@@ -1,0 +1,65 @@
+#head,
+#foot,
+#s_tab,
+#rs,
+.result-op,
+.result.c-container:not(.new-pmd),
+#content_right {
+  display: none;
+  height: 0 !important;
+  width: 0 !important;
+  max-width: 0 !important;
+  min-width: 0 !important;
+}
+
+#wrapper,
+#container,
+body {
+  width: 500px !important;
+  max-width: 500px !important;
+  min-width: 500px !important;
+  margin: 0 0 0 5px !important;
+}
+
+.page-inner {
+  background-color: #FFF;
+  padding: 0 0 10px 0 !important;
+}
+
+.c-container {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  padding: 10px 16px;
+  margin: 10px 0 10px 5px !important;
+}
+
+.c-container .c-container {
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  padding: 0 16px 0 0;
+  margin: 10px 0 10px 5px !important;
+}
+
+.c-container:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.c-container .c-container:hover {
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
+}
+
+a > strong {
+  font-size: 16px;
+  color: red !important;
+}
+
+a:not(strong) {
+  font-size: 16px;
+  color: black !important;
+}
+
+a,
+em {
+  text-decoration: none !important;
+}

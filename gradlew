@@ -43,7 +43,7 @@ esac
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
 # Determine the Java command to use to start the JVM.
-JDK11_HOME=$(/usr/libexec/java_home -v11)
+JDK11_HOME=$(/usr/libexec/java_home -v17)
 if [ -n "$JDK11_HOME" ]; then
   JAVACMD="$JDK11_HOME/bin/java"
 elif [ -n "$JAVA_HOME" ]; then

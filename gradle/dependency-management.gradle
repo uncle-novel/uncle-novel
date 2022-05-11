@@ -8,15 +8,17 @@ dependencyManagement {
         dependency "com.unclezs:jfx-launcher:${props.getProperty("app.launcher.version")}"
         dependency "com.unclezs:novel-analyzer:1.0.24"
 
-        dependencySet("cn.hutool:5.5.9") {
+        dependencySet("cn.hutool:5.8.0") {
             entry "hutool-all"
             entry "hutool-core"
             entry "hutool-cache"
             entry "hutool-system"
         }
-        dependency "org.projectlombok:lombok:1.18.18"
+        dependency "org.projectlombok:lombok:1.18.24"
         dependency "com.github.tulskiy:jkeymaster:1.3"
-        dependency "com.jfoenix:jfoenix:9.0.10"
+        // 不适配 JFX 17
+        // dependency "com.jfoenix:jfoenix:9.0.9"
+        dependency "org.rationalityfrontline.workaround:jfoenix:17.0.2"
         dependency "org.slf4j:slf4j-api:1.7.30"
         dependency "org.junit.jupiter:junit-jupiter-api:5.6.0"
         dependency "com.google.code.gson:gson:2.8.6"
@@ -28,7 +30,7 @@ dependencyManagement {
         dependency "org.xerial:sqlite-jdbc:3.34.0"
         dependency 'com.github.oshi:oshi-core:5.7.5'
         dependency 'com.mixpanel:mixpanel-java:1.4.4'
-
+        dependency 'com.google.gradle:osdetector-gradle-plugin:1.7.0'
     }
     generatedPomCustomization {
         enabled = false

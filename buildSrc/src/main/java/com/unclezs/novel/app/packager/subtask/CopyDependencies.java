@@ -1,6 +1,7 @@
 package com.unclezs.novel.app.packager.subtask;
 
 import cn.hutool.core.io.FileUtil;
+import com.unclezs.novel.app.packager.model.FxPlatform;
 import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import org.gradle.api.artifacts.Configuration;
@@ -26,7 +27,8 @@ public class CopyDependencies extends BaseSubTask {
 
   public CopyDependencies() {
     super("拷贝依赖");
-    this.artifacts = project.getConfigurations().getByName("runtimeClasspath").getResolvedConfiguration().getResolvedArtifacts();
+    this.artifacts =
+      project.getConfigurations().getByName("runtimeClasspath").getResolvedConfiguration().getResolvedArtifacts();
   }
 
   @Override
@@ -44,14 +46,15 @@ public class CopyDependencies extends BaseSubTask {
    * 拷贝项目依赖
    */
   private void copyDependencies() {
-    File libsFolder = new File(packager.userLauncher() ? packager.getTmpDir() : packager.getResourcesFolder(), packager.getLibsFolderPath());
+    File libsFolder = new File(packager.userLauncher() ? packager.getTmpDir() : packager.getResourcesFolder(),
+      packager.getLibsFolderPath());
     // 项目依赖
-    artifacts.stream()
-      .filter(artifact -> !artifact.getName().contains(OPEN_JFX_SYMBOL))
-      .forEach(artifact -> project.copy(c -> {
+    artifacts.stream().filter(artifact -> !artifact.getName().contains(OPEN_JFX_SYMBOL)).forEach(
+      artifact -> project.copy(c -> {
         String artifactName;
         if (artifact.getClassifier() != null) {
-          artifactName = String.format("%s-%s.%s", artifact.getName(), artifact.getClassifier(), artifact.getExtension());
+          artifactName =
+            String.format("%s-%s.%s", artifact.getName(), artifact.getClassifier(), artifact.getExtension());
         } else {
           artifactName = String.format("%s.%s", artifact.getName(), artifact.getExtension());
         }
@@ -63,7 +66,8 @@ public class CopyDependencies extends BaseSubTask {
       // 本项目的Jar
       project.copy(c -> {
         Jar jar = ((Jar) project.getTasks().getByName("jar"));
-        c.from(jar.getArchiveFile()).into(libsFolder).rename(closure -> jar.getArchiveBaseName().get().concat(".").concat(jar.getArchiveExtension().get()));
+        c.from(jar.getArchiveFile()).into(libsFolder).rename(
+          closure -> jar.getArchiveBaseName().get().concat(".").concat(jar.getArchiveExtension().get()));
       });
     }
     packager.setLibsFolder(libsFolder);
@@ -75,22 +79,26 @@ public class CopyDependencies extends BaseSubTask {
    */
   private void copyOpenJfxDependencies() {
     // 获取fx的全部模块的依赖
-    String[] modules = {"javafx-base", "javafx-controls", "javafx-fxml", "javafx-graphics", "javafx-media", "javafx-swing", "javafx-web"};
+    String[] modules =
+      {"javafx-base", "javafx-controls", "javafx-fxml", "javafx-graphics", "javafx-media", "javafx-swing",
+        "javafx-media", "javafx-web"};
     File fxFolder = new File(packager.getOutputDir(), OPEN_JFX_SYMBOL);
     FileUtils.del(fxFolder);
     // 是否自定义jfx
     if (FileUtil.exist(packager.getJfxPath())) {
       FileUtil.copyContent(packager.getJfxPath(), fxFolder, true);
     } else {
-      // 根据依赖获取fx的版本，如果找不到就使用 11
-      String version = "11";
-      Optional<ResolvedArtifact> openJfxArtifact = artifacts.stream().filter(artifact -> artifact.getName().contains(OPEN_JFX_SYMBOL)).findFirst();
+      // 根据依赖获取fx的版本，如果找不到就使用 17
+      String version = "17";
+      Optional<ResolvedArtifact> openJfxArtifact =
+        artifacts.stream().filter(artifact -> artifact.getName().contains(OPEN_JFX_SYMBOL)).findFirst();
       if (openJfxArtifact.isPresent()) {
         version = openJfxArtifact.get().getModuleVersion().getId().getVersion();
       }
       Configuration fx = project.getConfigurations().maybeCreate("openjfx_internal");
       for (String module : modules) {
-        fx.getDependencies().add(project.getDependencies().create(String.format("org.openjfx:%s:%s:%s", module, version, packager.getPlatform())));
+        fx.getDependencies().add(project.getDependencies().create(
+          String.format("org.openjfx:%s:%s:%s", module, version, FxPlatform.detect(project).getClassifier())));
       }
       // 拷贝依赖
       fx.getResolvedConfiguration().getResolvedArtifacts().forEach(artifact -> {
@@ -104,7 +112,8 @@ public class CopyDependencies extends BaseSubTask {
         });
       });
     }
-    packager.getAdditionalModules().addAll(Arrays.stream(modules).map(module -> module.replace("-", ".")).collect(Collectors.toList()));
+    packager.getAdditionalModules().addAll(
+      Arrays.stream(modules).map(module -> module.replace("-", ".")).collect(Collectors.toList()));
     packager.getAdditionalModulePaths().add(fxFolder);
     Logger.info("拷贝OpenJfx依赖完成：{}", fxFolder);
   }

@@ -19,7 +19,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <StackPane xmlns:fx="http://javafx.com/fxml/1"
-  xmlns="https://javafx.com/javafx/16"
+  xmlns="https://javafx.com/javafx"
   fx:controller="com.unclezs.novel.app.main.views.home.SettingView">
   <ScrollPane styleClass="setting-view" fitToWidth="true">
     <VBox spacing="20">

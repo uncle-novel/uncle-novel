@@ -51,6 +51,7 @@ public class SearchBar extends HBox implements LocalizedSupport {
     HBox.setHgrow(input, Priority.ALWAYS);
     this.input.setPromptText(prompt);
     IconButton searchButton = new IconButton(IconFont.SEARCH, localized("search"));
+    searchButton.prefHeightProperty().bind(input.heightProperty());
     this.getChildren().setAll(input, searchButton);
     this.input.setOnKeyPressed(event -> {
       if (event.getCode() == KeyCode.ENTER) {

@@ -35,7 +35,7 @@ def initAppRuntimeEnv() {
     }
     def dbFile = file("$projectDir/db/core.db")
     if (!dbFile.exists()) {
-        createDatabase();
+        createDatabase()
     }
     FileUtils.copyFileToFile(dbFile, runtimeDbFile)
 }
@@ -51,7 +51,6 @@ def createDatabase() {
     }
     return dbFile
 }
-
 
 // 启动 APP
 task runApp(type: JavaExec, group: "app", dependsOn: build) {
@@ -162,10 +161,10 @@ packager {
         moduleOptions = file("$projectDir/app.modularity").readLines()
         // 更新日志 , 最多显示5个版本的更新内容
         changeLog = []
-        def changeLogNum = 0;
+        def changeLogNum = 0
         for (String line : file("$rootDir/changelog").readLines()) {
             if (line.trim().blank || line.trim().empty) {
-                changeLogNum++;
+                changeLogNum++
                 if (changeLogNum > 5) {
                     break
                 }

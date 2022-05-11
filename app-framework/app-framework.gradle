@@ -8,7 +8,7 @@ dependencies {
     api "com.github.tulskiy:jkeymaster"
     api "cn.hutool:hutool-core"
     api "cn.hutool:hutool-cache"
-    api "com.jfoenix:jfoenix"
+    api "org.rationalityfrontline.workaround:jfoenix"
     api "org.slf4j:slf4j-api"
     api 'com.unclezs:novel-analyzer'
 }

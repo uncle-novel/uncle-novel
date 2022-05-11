@@ -14,7 +14,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns:fx="https://javafx.com/fxml/1" styleClass="search-audio" xmlns="https://javafx.com/javafx/16" fx:controller="com.unclezs.novel.app.main.views.home.SearchAudioView">
+<StackPane xmlns:fx="https://javafx.com/fxml/1" styleClass="search-audio" xmlns="https://javafx.com/javafx" fx:controller="com.unclezs.novel.app.main.views.home.SearchAudioView">
   <VBox styleClass="container">
     <TitleBar title="%home.menu.search.audio">
       <content>

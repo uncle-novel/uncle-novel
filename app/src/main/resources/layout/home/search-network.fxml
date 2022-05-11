@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.web.WebView?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" styleClass="search-network" xmlns="https://javafx.com/javafx/16"
+<StackPane xmlns:fx="http://javafx.com/fxml/1" styleClass="search-network" xmlns="https://javafx.com/javafx"
            fx:controller="com.unclezs.novel.app.main.views.home.SearchNetworkView">
   <VBox styleClass="container">
     <TitleBar title="%home.menu.search.network">

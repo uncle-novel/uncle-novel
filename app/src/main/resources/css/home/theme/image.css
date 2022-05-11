@@ -1,0 +1,219 @@
+.root {
+  -fx-base: #FFF;
+  theme-bg-color: #FFF;
+  theme-color: #3b4252;
+  theme-color-light: rgba(59, 66, 82, 0.2);
+  theme-color-dark: #757575;
+  theme-border-color: rgb(224, 224, 224);
+  theme-hover-color: #bdbdbd;
+  theme-icon-hover-color: #3b4252;
+}
+
+.stage-decorator {
+  -fx-bg-color: #FFF;
+  -fx-header-bg-color: #3b4252;
+}
+.stage-decorator .sidebar-nav {
+  -fx-sidebar-nav-bg-color: #FFF;
+  -fx-sidebar-bg-color: #FFF;
+  -fx-sidebar-border-color: rgb(224, 224, 224);
+  -fx-menu-bg-color-selected: #3b4252;
+  -fx-menu-bg-color-hover: #bdbdbd;
+}
+
+.jfx-alert-overlay {
+  -fx-bg-color: #FFF;
+}
+
+.loading {
+  -fx-bg-color: #FFF;
+}
+
+.search-bar {
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+}
+
+.scroll-bar {
+  -fx-color: rgba(59, 66, 82, 0.2);
+  -fx-hover-color: #757575;
+}
+
+.text-area {
+  -fx-color: rgba(59, 66, 82, 0.2);
+  -fx-hover-color: #757575;
+  -fx-selected-color: #3b4252;
+}
+
+.jfx-slider {
+  -jfx-default-thumb: #3b4252;
+  -jfx-default-track: rgba(59, 66, 82, 0.2);
+}
+
+.check-box {
+  -fx-checked-color: #3b4252;
+  -fx-unchecked-color: #757575;
+}
+
+.list-view {
+  -fx-selected-color: #757575;
+  -fx-separator-color: rgba(59, 66, 82, 0.2);
+}
+
+.tab-button {
+  -fx-selected-color: #3b4252;
+  -fx-color: rgba(59, 66, 82, 0.2);
+}
+
+.jfx-tab-pane {
+  -fx-color: #3b4252;
+}
+
+.text-field,
+.text-area,
+.input-box,
+.spinner,
+.loading-image-view {
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+}
+
+.progress-bar {
+  -fx-color: #3b4252;
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+}
+
+.tag {
+  -fx-tag-color: #3b4252;
+}
+
+.context-menu {
+  -fx-selected-color: #3b4252;
+}
+
+.combo-box-base {
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+  -fx-selected-color: #3b4252;
+}
+
+.table-view {
+  -fx-slected-color: #3b4252;
+  -fx-slected-color-light: rgba(59, 66, 82, 0.2);
+  -fx-color-dark: #757575;
+}
+
+.title-bar {
+  -fx-action-color: #3b4252;
+}
+
+.root {
+  -fx-base: transparent;
+  theme-bg-color: transparent;
+  theme-color: #00897b;
+  theme-color-light: rgba(59, 66, 82, 0.2);
+  theme-color-dark: #757575;
+  theme-border-color: rgb(224, 224, 224);
+  theme-hover-color: #f5f5f5;
+  theme-icon-hover-color: #3b4252;
+}
+
+.stage-decorator {
+  -fx-bg-color: transparent;
+  -fx-header-bg-color: transparent;
+}
+.stage-decorator .sidebar-nav {
+  -fx-sidebar-nav-bg-color: transparent;
+  -fx-sidebar-bg-color: transparent;
+  -fx-sidebar-border-color: rgb(224, 224, 224);
+  -fx-menu-bg-color-selected: #00897b;
+  -fx-menu-bg-color-hover: #f5f5f5;
+}
+
+.jfx-alert-overlay {
+  -fx-bg-color: transparent;
+}
+
+.loading {
+  -fx-bg-color: transparent;
+}
+
+.search-bar {
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+}
+
+.scroll-bar {
+  -fx-color: rgba(59, 66, 82, 0.2);
+  -fx-hover-color: #757575;
+}
+
+.text-area {
+  -fx-color: rgba(59, 66, 82, 0.2);
+  -fx-hover-color: #757575;
+  -fx-selected-color: #00897b;
+}
+
+.jfx-slider {
+  -jfx-default-thumb: #00897b;
+  -jfx-default-track: rgba(59, 66, 82, 0.2);
+}
+
+.check-box {
+  -fx-checked-color: #00897b;
+  -fx-unchecked-color: #757575;
+}
+
+.list-view {
+  -fx-selected-color: #757575;
+  -fx-separator-color: rgba(59, 66, 82, 0.2);
+}
+
+.tab-button {
+  -fx-selected-color: #00897b;
+  -fx-color: rgba(59, 66, 82, 0.2);
+}
+
+.jfx-tab-pane {
+  -fx-color: #00897b;
+}
+
+.text-field,
+.text-area,
+.input-box,
+.spinner,
+.loading-image-view {
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+}
+
+.progress-bar {
+  -fx-color: #00897b;
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+}
+
+.tag {
+  -fx-tag-color: #00897b;
+}
+
+.context-menu {
+  -fx-selected-color: #00897b;
+}
+
+.combo-box-base {
+  -fx-bg-color: rgba(59, 66, 82, 0.2);
+  -fx-selected-color: #00897b;
+}
+
+.table-view {
+  -fx-slected-color: #00897b;
+  -fx-slected-color-light: rgba(59, 66, 82, 0.2);
+  -fx-color-dark: #757575;
+}
+
+.title-bar {
+  -fx-action-color: #00897b;
+}
+
+.stage-decorator-container {
+  -fx-background-image: url("/assets/images/bg.jpg");
+}
+
+.jfx-popup-container {
+  -fx-background-image: url("/assets/images/bg.jpg");
+}

@@ -10,9 +10,9 @@ plugins {
 }
 apply from: "../gradle/dependency-management.gradle"
 repositories {
-    gradlePluginPortal()
     mavenLocal()
     mavenCentral()
+    gradlePluginPortal()
 }
 
 gradlePlugin {
@@ -37,4 +37,5 @@ dependencies {
     implementation 'org.apache.velocity:velocity-engine-core'
     implementation 'com.netflix.nebula:gradle-ospackage-plugin'
     implementation 'net.jsign:jsign-core'
+    implementation 'com.google.gradle:osdetector-gradle-plugin'
 }

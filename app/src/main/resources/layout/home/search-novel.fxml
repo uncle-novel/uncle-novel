@@ -11,7 +11,7 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="https://javafx.com/javafx/16" styleClass="search-novel" fx:controller="com.unclezs.novel.app.main.views.home.SearchNovelView">
+<StackPane xmlns:fx="http://javafx.com/fxml/1" xmlns="https://javafx.com/javafx" styleClass="search-novel" fx:controller="com.unclezs.novel.app.main.views.home.SearchNovelView">
   <VBox styleClass="container">
     <TitleBar title="%home.menu.search.internal">
       <content>
