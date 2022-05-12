@@ -7,3 +7,6 @@ Icon=/opt/${info.name}/${info.name}.png
 Terminal=false
 Type=Application
 StartupNotify=true
+#if ($info.isThereFileAssociations())
+MimeType=${info.getMimeTypesListAsString(";")}
+#end
