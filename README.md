@@ -61,7 +61,7 @@
 准备环境:
 
 - `jdk` 至少需要 JDK11 版本。
-- `npm install -g sass` 安装 sass，本项目使用 saas 将 scss 编译为 css。
+- `npm install -g sass` 安装 sass，本项目使用 sass 将 scss 编译为 css。
 - `sqlite3`，非必须，如果想重建 sqlite 数据库则需要安装。
 
 然后直接运行 :app:runApp 任务即可。
