@@ -163,7 +163,7 @@ packager {
         // 更新日志 , 最多显示5个版本的更新内容
         changeLog = []
         def changeLogNum = 0
-        for (String line : file("$rootDir/changelog").readLines()) {
+        for (String line : file("$rootDir/changelog.txt").readLines()) {
             if (line.trim().blank || line.trim().empty) {
                 changeLogNum++
                 if (changeLogNum > 5) {
