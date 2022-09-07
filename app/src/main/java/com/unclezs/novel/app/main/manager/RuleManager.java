@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * 规则管理器
  *
  * @author blog.unclezs.com
- * @date 2021/4/24 1:07
+ * @since 2021/4/24 1:07
  */
 @UtilityClass
 public class RuleManager {

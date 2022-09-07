@@ -16,7 +16,7 @@ import javafx.beans.value.ObservableValue;
  * 序列化javafx的基本类型的property
  *
  * @author blog.unclezs.com
- * @date 2021/4/28 20:14
+ * @since 2021/4/28 20:14
  */
 public class ValuePropertyTypeAdapter implements JsonSerializer<ObservableValue<Object>>, JsonDeserializer<Object> {
 

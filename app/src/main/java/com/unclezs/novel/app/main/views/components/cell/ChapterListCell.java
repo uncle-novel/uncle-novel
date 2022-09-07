@@ -14,7 +14,7 @@ import java.util.Objects;
  * 章节节点
  *
  * @author blog.unclezs.com
- * @date 2021/4/25 15:41
+ * @since 2021/4/25 15:41
  */
 public class ChapterListCell extends BaseListCell<ChapterProperty> {
 

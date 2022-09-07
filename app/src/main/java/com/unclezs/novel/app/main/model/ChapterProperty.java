@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleBooleanProperty;
  * 章节属性
  *
  * @author blog.unclezs.com
- * @date 2021/4/25 16:14
+ * @since 2021/4/25 16:14
  */
 public class ChapterProperty {
 

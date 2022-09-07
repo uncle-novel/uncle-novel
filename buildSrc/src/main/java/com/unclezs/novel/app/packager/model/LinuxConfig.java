@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
  * linux 配置
  *
  * @author blog.unclezs.com
- * @date 2021/4/2 1:29
+ * @since 2021/4/2 1:29
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

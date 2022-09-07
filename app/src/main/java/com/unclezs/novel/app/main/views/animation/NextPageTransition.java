@@ -13,7 +13,7 @@ import javafx.util.Duration;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/5/8 16:49
+ * @since 2021/5/8 16:49
  */
 public class NextPageTransition extends Transition {
 

@@ -4,7 +4,7 @@ package com.unclezs.novel.app.framework.util;
  * 操作系统工具
  *
  * @author blog.unclezs.com
- * @date 2021/04/03 17:30
+ * @since 2021/04/03 17:30
  */
 public class PlatformUtils {
 

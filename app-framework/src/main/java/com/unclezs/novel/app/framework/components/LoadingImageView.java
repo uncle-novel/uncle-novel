@@ -14,7 +14,7 @@ import lombok.Setter;
  * 带Loading的ImageView
  *
  * @author blog.unclezs.com
- * @date 2021/4/24 17:48
+ * @since 2021/4/24 17:48
  */
 public class LoadingImageView extends StackPane {
 

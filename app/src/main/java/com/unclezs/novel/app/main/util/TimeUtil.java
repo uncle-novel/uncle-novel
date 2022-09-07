@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * 时间工具
  *
  * @author blog.unclezs.com
- * @date 2021/5/6 10:45
+ * @since 2021/5/6 10:45
  */
 @UtilityClass
 public class TimeUtil {

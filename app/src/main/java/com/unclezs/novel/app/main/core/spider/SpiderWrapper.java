@@ -25,7 +25,7 @@ import java.util.function.Consumer;
  * 爬虫任务包装，适用于FX监听任务
  *
  * @author blog.unclezs.com
- * @date 2021/4/30 11:18
+ * @since 2021/4/30 11:18
  */
 @Getter
 @Setter

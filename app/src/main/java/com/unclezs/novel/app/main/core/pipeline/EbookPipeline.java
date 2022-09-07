@@ -13,7 +13,7 @@ import java.io.File;
  * epub下载管道
  *
  * @author blog.unclezs.com
- * @date 2021/5/1 15:59
+ * @since 2021/5/1 15:59
  */
 @Setter
 public class EbookPipeline extends AbstractTextPipeline {

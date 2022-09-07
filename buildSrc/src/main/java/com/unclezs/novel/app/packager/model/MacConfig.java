@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  * mac配置
  *
  * @author blog.unclezs.com
- * @date 2021/4/2 1:30
+ * @since 2021/4/2 1:30
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

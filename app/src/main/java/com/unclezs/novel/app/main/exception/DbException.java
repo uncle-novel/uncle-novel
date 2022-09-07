@@ -4,7 +4,7 @@ package com.unclezs.novel.app.main.exception;
  * DB相关异常
  *
  * @author blog.unclezs.com
- * @date 2021/5/5 12:31
+ * @since 2021/5/5 12:31
  */
 public class DbException extends RuntimeException {
 

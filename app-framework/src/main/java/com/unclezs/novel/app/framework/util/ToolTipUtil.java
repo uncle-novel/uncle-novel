@@ -7,7 +7,7 @@ import javafx.util.Duration;
 
 /**
  * @author blog.unclezs.com
- * @date 2020/4/30 22:39
+ * @since 2020/4/30 22:39
  */
 @SuppressWarnings("unchecked")
 public class ToolTipUtil {

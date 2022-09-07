@@ -25,7 +25,7 @@ import javafx.scene.layout.VBox;
  * 通用规则编辑器
  *
  * @author blog.unclezs.com
- * @date 2021/4/26 1:01
+ * @since 2021/4/26 1:01
  */
 public class CommonRuleEditor extends VBox {
 

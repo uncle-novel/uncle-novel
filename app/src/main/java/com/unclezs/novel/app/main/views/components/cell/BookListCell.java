@@ -23,7 +23,7 @@ import java.util.List;
  * 搜索小说结果
  *
  * @author blog.unclezs.com
- * @date 2021/4/16 22:39
+ * @since 2021/4/16 22:39
  */
 public class BookListCell extends BaseListCell<Novel> implements LocalizedSupport {
 

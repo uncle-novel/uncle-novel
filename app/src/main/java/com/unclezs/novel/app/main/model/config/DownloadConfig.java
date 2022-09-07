@@ -9,7 +9,7 @@ import lombok.Data;
  * 下载配置
  *
  * @author blog.unclezs.com
- * @date 2021/4/30 13:47
+ * @since 2021/4/30 13:47
  */
 @Data
 public class DownloadConfig {

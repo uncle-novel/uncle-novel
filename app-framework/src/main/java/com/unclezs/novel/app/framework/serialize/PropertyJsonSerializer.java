@@ -18,7 +18,7 @@ import lombok.experimental.UtilityClass;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/4/28 20:21
+ * @since 2021/4/28 20:21
  */
 @UtilityClass
 public class PropertyJsonSerializer {

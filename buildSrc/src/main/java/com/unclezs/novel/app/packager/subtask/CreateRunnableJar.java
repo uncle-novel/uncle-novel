@@ -8,7 +8,7 @@ import org.gradle.api.tasks.bundling.Jar;
  *
  * @author https://github.com/fvarrui/JavaPackager
  * @author blog.unclezs.com
- * @date 2021/03/24 0:06
+ * @since 2021/03/24 0:06
  */
 public class CreateRunnableJar extends BaseSubTask {
 

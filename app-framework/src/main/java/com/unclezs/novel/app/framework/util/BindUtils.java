@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
  * 绑定工具
  *
  * @author blog.unclezs.com
- * @date 2021/4/21 20:15
+ * @since 2021/4/21 20:15
  */
 @UtilityClass
 public class BindUtils {

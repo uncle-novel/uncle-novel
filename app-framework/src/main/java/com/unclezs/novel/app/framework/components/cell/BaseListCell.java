@@ -6,7 +6,7 @@ import javafx.scene.control.ListCell;
  * listCell
  *
  * @author blog.unclezs.com
- * @date 2021/5/5 19:52
+ * @since 2021/5/5 19:52
  */
 public abstract class BaseListCell<T> extends ListCell<T> {
 

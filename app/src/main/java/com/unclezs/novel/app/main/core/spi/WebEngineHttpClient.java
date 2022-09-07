@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * 采用openjfx的webEngine抓取动态网页，如果开始后页面切换可能会出现卡顿
  *
  * @author blog.unclezs.com
- * @date 2021/4/26 11:58
+ * @since 2021/4/26 11:58
  */
 public class WebEngineHttpClient implements HttpProvider {
 

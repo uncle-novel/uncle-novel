@@ -36,7 +36,7 @@ import java.util.function.Consumer;
  * 书籍详情模态框
  *
  * @author blog.unclezs.com
- * @date 2021/4/24 17:05
+ * @since 2021/4/24 17:05
  */
 public class BookDetailModal extends VBox implements LocalizedSupport {
 

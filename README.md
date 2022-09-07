@@ -1,10 +1,6 @@
 <p align="center">
     <a href="https://github.com/unclezs/NovelHarverster/actions/workflows/gradle.yml">
     <img src="https://img.shields.io/github/workflow/status/unclezs/uncle-novel/Java%20CI%20with%20Gradle" alt="gradle build"/>
-    </a>
-    <a href="https://travis-ci.com/unclezs/uncle-novel">
-    <img src="https://img.shields.io/travis/com/unclezs/uncle-novel/main?logo=travis" alt="Travis Build"/>
-    </a>
     <a href="https://github.com/unclezs/jfx-launcher/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/unclezs/uncle-novel?color=%2340C0D0&label=License" alt="GitHub license"/>
     </a>
@@ -51,8 +47,7 @@
 
 ### 软件设置
 
-<img width="600" src="https://github.com/unclezs/uncle-novel/raw/main/app/packager/screenshot/setting.png"/>
-
+<img width="600" src="https://github.com/unclezs/uncle-novel/raw/main/app/packager/screenshot/setting.png"/> 
 
 ## 开发
 
@@ -82,7 +77,7 @@
 # mac 包，如果开发机不是 aarch64(m1) 的则有可能不能在 aarch64 的 mac 上运行
 ./gradlew :app:packageMac
 
-# linux 包，未测试..应该是不完善的
+# linux 包，还不能用..
 ./gradlew :app:packageLinux
 ```
 

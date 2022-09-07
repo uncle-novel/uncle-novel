@@ -15,7 +15,7 @@ import lombok.Setter;
  * loading组件
  *
  * @author blog.unclezs.com
- * @date 2021/4/15 21:31
+ * @since 2021/4/15 21:31
  */
 public class Loading extends JFXAlert<Object> {
 

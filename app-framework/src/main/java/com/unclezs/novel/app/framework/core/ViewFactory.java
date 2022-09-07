@@ -14,7 +14,7 @@ import javafx.fxml.FXMLLoader;
  * View工厂，负责创建Fxml和普通视图的对象，创建时会自动注入视图与国际化资源
  *
  * @author blog.unclezs.com
- * @date 2021/4/4 22:39
+ * @since 2021/4/4 22:39
  * @see View
  */
 public class ViewFactory {

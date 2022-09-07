@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/5/24 20:48
+ * @since 2021/5/24 20:48
  */
 public class DynamicPageTest extends Application {
 

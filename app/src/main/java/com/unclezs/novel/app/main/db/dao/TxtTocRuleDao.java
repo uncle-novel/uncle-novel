@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/5/10 2:04
+ * @since 2021/5/10 2:04
  */
 @Slf4j
 public class TxtTocRuleDao extends BaseDao<TxtTocRule> {

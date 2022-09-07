@@ -8,7 +8,7 @@ import javafx.concurrent.Task;
  * 可在执行期间显示 Loading...
  *
  * @author blog.unclezs.com
- * @date 2021/4/15 22:24
+ * @since 2021/4/15 22:24
  */
 @SuppressWarnings("AlibabaAbstractClassShouldStartWithAbstractNaming")
 public abstract class FluentTask<R> extends Task<R> {

@@ -18,7 +18,7 @@ import org.gradle.api.artifacts.Dependency;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/04/02 11:04
+ * @since 2021/04/02 11:04
  */
 public class CreateLauncher extends BaseSubTask {
 

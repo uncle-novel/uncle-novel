@@ -10,7 +10,7 @@ import javafx.scene.control.TextFormatter.Change;
  * 限制输入数字的输入框
  *
  * @author blog.unclezs.com
- * @date 2021/4/21 23:43
+ * @since 2021/4/21 23:43
  */
 public class NumberTextField extends TextField {
 

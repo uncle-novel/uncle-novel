@@ -16,7 +16,7 @@ import javafx.collections.ObservableList;
  * 序列化List
  *
  * @author blog.unclezs.com
- * @date 2021/4/28 21:13
+ * @since 2021/4/28 21:13
  */
 public class ListPropertyTypeAdapter implements JsonSerializer<ObservableList<Object>>, JsonDeserializer<ObservableList<Object>> {
 

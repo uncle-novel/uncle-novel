@@ -7,7 +7,7 @@ import lombok.Getter;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/4/24 2:48
+ * @since 2021/4/24 2:48
  */
 public enum SearchType implements LocalizedSupport {
   /**

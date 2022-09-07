@@ -9,7 +9,7 @@ import lombok.Getter;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/4/22 11:24
+ * @since 2021/4/22 11:24
  */
 public class SettingItem extends VBox {
 

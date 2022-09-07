@@ -51,7 +51,7 @@ import java.util.stream.Collectors;
  * 书源管理
  *
  * @author blog.unclezs.com
- * @date 2021/4/20 11:16
+ * @since 2021/4/20 11:16
  */
 @Slf4j
 @FxView(fxml = "/layout/home/rule-manager.fxml")

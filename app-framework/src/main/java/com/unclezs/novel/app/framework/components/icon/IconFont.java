@@ -6,7 +6,7 @@ import lombok.Getter;
  * 字体图标 Generate By Gradle
  *
  * @author blog.unclezs.com
- * @date 2021/4/13 12:27
+ * @since 2021/4/13 12:27
  */
 @Getter
 public enum IconFont {

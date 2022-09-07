@@ -13,7 +13,7 @@ import java.util.Map.Entry;
  * 支持的语言
  *
  * @author blog.unclezs.com
- * @date 2021/4/28 11:58
+ * @since 2021/4/28 11:58
  */
 @UtilityClass
 public class LanguageManager {

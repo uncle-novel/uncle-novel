@@ -80,7 +80,7 @@ import java.util.function.Supplier;
  * 书源编辑页面
  *
  * @author blog.unclezs.com
- * @date 2021/4/21 12:05
+ * @since 2021/4/21 12:05
  */
 @Slf4j
 @FxView(fxml = "/layout/home/rule-editor.fxml")

@@ -19,7 +19,7 @@ import lombok.Getter;
  * 文件选择器
  *
  * @author blog.unclezs.com
- * @date 2021/4/30 13:28
+ * @since 2021/4/30 13:28
  */
 @Getter
 public class FileSelector extends HBox {

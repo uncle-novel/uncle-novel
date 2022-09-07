@@ -8,7 +8,7 @@ import lombok.experimental.UtilityClass;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/4/24 20:35
+ * @since 2021/4/24 20:35
  */
 @UtilityClass
 public class EventUtils {

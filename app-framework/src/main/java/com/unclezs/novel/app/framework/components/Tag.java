@@ -5,7 +5,7 @@ import javafx.scene.control.Label;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/4/17 2:26
+ * @since 2021/4/17 2:26
  */
 public class Tag extends Label {
 

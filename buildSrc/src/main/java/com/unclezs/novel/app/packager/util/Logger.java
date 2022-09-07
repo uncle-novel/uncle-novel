@@ -9,7 +9,7 @@ import org.gradle.api.logging.LogLevel;
  * 日志类
  *
  * @author blog.unclezs.com
- * @date 2021/4/2 9:30
+ * @since 2021/4/2 9:30
  */
 @UtilityClass
 public class Logger {

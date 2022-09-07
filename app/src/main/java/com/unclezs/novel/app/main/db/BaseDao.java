@@ -15,7 +15,7 @@ import java.util.List;
  * 基础DAO
  *
  * @author blog.unclezs.com
- * @date 2021/5/5 21:01
+ * @since 2021/5/5 21:01
  */
 @Slf4j
 public class BaseDao<T> {

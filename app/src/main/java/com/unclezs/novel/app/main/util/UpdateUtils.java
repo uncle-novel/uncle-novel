@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/6/12 21:04
+ * @since 2021/6/12 21:04
  */
 @UtilityClass
 public class UpdateUtils {

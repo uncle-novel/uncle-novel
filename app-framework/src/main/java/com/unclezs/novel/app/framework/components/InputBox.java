@@ -18,7 +18,7 @@ import lombok.Setter;
  * 带图标的输入框
  *
  * @author blog.unclezs.com
- * @date 2021/4/22 12:39
+ * @since 2021/4/22 12:39
  */
 public class InputBox extends HBox {
 

@@ -17,7 +17,7 @@ import javafx.scene.image.ImageView;
  * 支持css指定fit-width,fit-height
  *
  * @author blog.unclezs.com
- * @date 2021/03/03 0:14
+ * @since 2021/03/03 0:14
  */
 public class ImageViewPlus extends ImageView {
 

@@ -15,7 +15,7 @@ import lombok.experimental.UtilityClass;
  * 图片加载并缓存1分钟
  *
  * @author blog.unclezs.com
- * @date 2021/4/24 14:52
+ * @since 2021/4/24 14:52
  */
 @UtilityClass
 public class ImageLoader {

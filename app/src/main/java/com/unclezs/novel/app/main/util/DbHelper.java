@@ -16,7 +16,7 @@ import java.sql.SQLException;
  * Ormlite工具
  *
  * @author blog.unclezs.com
- * @date 2021/5/5 11:15
+ * @since 2021/5/5 11:15
  */
 @Slf4j
 @UtilityClass

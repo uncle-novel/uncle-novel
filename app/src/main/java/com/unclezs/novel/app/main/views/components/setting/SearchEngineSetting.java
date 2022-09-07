@@ -31,7 +31,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * 搜索引擎管理器
  *
  * @author blog.unclezs.com
- * @date 2021/4/28 15:48
+ * @since 2021/4/28 15:48
  */
 @Slf4j
 public class SearchEngineSetting extends VBox implements LocalizedSupport {

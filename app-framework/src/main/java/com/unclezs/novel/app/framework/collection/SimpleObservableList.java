@@ -7,7 +7,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/4/8 16:40
+ * @since 2021/4/8 16:40
  */
 @EqualsAndHashCode(callSuper = true)
 public class SimpleObservableList<E> extends ObservableListBase<E> {

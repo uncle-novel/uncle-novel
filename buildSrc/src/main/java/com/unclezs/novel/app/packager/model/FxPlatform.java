@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * 平台工具
  *
  * @author unclezs
- * @date 2022/05/11
+ * @since 2022/05/11
  */
 public enum FxPlatform {
 

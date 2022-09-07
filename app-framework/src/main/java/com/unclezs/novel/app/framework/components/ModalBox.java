@@ -24,7 +24,7 @@ import java.util.function.Consumer;
  * 模态框
  *
  * @author unclezs.com
- * @date 2019.07.03 14:07
+ * @since 2019.07.03 14:07
  */
 public class ModalBox extends JFXAlert<Object> implements LocalizedSupport {
 

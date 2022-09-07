@@ -12,7 +12,7 @@ import java.io.File;
  * 创建MSI文件
  *
  * @author blog.unclezs.com
- * @date 2021/4/6 16:10
+ * @since 2021/4/6 16:10
  */
 public class GenerateMsi extends WinSubTask {
 

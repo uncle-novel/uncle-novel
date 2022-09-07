@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
  * TTS配置
  *
  * @author blog.unclezs.com
- * @date 2021/5/9 9:57
+ * @since 2021/5/9 9:57
  */
 @Data
 public class TTSConfig {

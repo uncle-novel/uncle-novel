@@ -22,7 +22,7 @@ import java.util.Map.Entry;
  * https://mixpanel.com
  *
  * @author blog.unclezs.com
- * @date 2021/6/19 11:42
+ * @since 2021/6/19 11:42
  */
 @Slf4j
 @UtilityClass

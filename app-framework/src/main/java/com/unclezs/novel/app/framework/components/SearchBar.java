@@ -20,7 +20,7 @@ import lombok.Setter;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/4/16 13:56
+ * @since 2021/4/16 13:56
  */
 public class SearchBar extends HBox implements LocalizedSupport {
 

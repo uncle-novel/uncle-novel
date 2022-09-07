@@ -7,7 +7,7 @@ import org.slf4j.helpers.MessageFormatter;
  * 带格式化的异常
  *
  * @author blog.unclezs.com
- * @date 2021/4/11 20:45
+ * @since 2021/4/11 20:45
  */
 @NoArgsConstructor
 public class BaseRuntimeException extends RuntimeException {

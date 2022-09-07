@@ -17,7 +17,7 @@ import org.gradle.api.Project;
  * 启动器配置
  *
  * @author blog.unclezs.com
- * @date 2021/03/20 10:46
+ * @since 2021/03/20 10:46
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

@@ -48,7 +48,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/4/25 9:40
+ * @since 2021/4/25 9:40
  */
 @Slf4j
 @FxView(fxml = "/layout/home/download-manager.fxml")

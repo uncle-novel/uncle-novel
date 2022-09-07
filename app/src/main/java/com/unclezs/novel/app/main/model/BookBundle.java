@@ -10,7 +10,7 @@ import lombok.Data;
  * 小说下载数据包
  *
  * @author blog.unclezs.com
- * @date 2021/4/30 15:18
+ * @since 2021/4/30 15:18
  * @see DownloadManagerView
  */
 @Data

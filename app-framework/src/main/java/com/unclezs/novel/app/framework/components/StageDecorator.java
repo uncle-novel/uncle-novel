@@ -37,7 +37,7 @@ import lombok.Setter;
  * 舞台装饰器
  *
  * @author blog.unclezs.com
- * @date 2021/02/28 15:12
+ * @since 2021/02/28 15:12
  */
 @DefaultProperty("content")
 public class StageDecorator extends StackPane implements LocalizedSupport {

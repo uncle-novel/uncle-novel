@@ -21,7 +21,7 @@ import org.gradle.jvm.tasks.Jar;
  * jfx-launcher辅助工具，生成升级追踪的文件
  *
  * @author blog.unclezs.com
- * @date 2021/04/02 13:28
+ * @since 2021/04/02 13:28
  */
 public class LauncherHelper {
 

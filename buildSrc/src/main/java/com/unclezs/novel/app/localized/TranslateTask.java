@@ -28,7 +28,7 @@ import org.gradle.api.tasks.TaskAction;
  * 国际化翻译Task
  *
  * @author blog.unclezs.com
- * @date 2021/4/13 14:00
+ * @since 2021/4/13 14:00
  * @see <a href="https://fanyi-api.baidu.com/doc/21"></a>
  */
 @Setter

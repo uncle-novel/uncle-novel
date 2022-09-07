@@ -9,7 +9,7 @@ import lombok.Setter;
  * 场景view切换 数据包
  *
  * @author blog.unclezs.com
- * @date 2021/03/06 17:03
+ * @since 2021/03/06 17:03
  */
 public class SceneNavigateBundle extends BaseBundle {
 

@@ -11,7 +11,7 @@ import java.util.Locale;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/6/1 0:32
+ * @since 2021/6/1 0:32
  */
 @Data
 public class BasicConfig {

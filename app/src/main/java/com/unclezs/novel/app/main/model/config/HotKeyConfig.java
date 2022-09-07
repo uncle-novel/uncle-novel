@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/6/2 19:32
+ * @since 2021/6/2 19:32
  */
 @Data
 public class HotKeyConfig {

@@ -10,7 +10,7 @@ import lombok.Getter;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/03/20 18:46
+ * @since 2021/03/20 18:46
  */
 @Getter
 public enum Platform {

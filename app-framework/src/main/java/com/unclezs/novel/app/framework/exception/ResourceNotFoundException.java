@@ -4,7 +4,7 @@ package com.unclezs.novel.app.framework.exception;
  * 资源未找到
  *
  * @author blog.unclezs.com
- * @date 2021/4/11 20:43
+ * @since 2021/4/11 20:43
  */
 public class ResourceNotFoundException extends BaseRuntimeException {
 

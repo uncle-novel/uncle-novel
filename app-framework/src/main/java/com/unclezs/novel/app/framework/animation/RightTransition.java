@@ -12,7 +12,7 @@ import javafx.util.Duration;
  * 左向又渐入动画
  *
  * @author blog.unclezs.com
- * @date 2020.04.25 11:29
+ * @since 2020.04.25 11:29
  */
 public class RightTransition extends CachedTransition {
 

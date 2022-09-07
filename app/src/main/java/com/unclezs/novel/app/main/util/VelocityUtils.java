@@ -17,7 +17,7 @@ import java.util.UUID;
  * Velocity工具
  *
  * @author blog.unclezs.com
- * @date 2021/4/6 16:40
+ * @since 2021/4/6 16:40
  */
 @UtilityClass
 public class VelocityUtils {

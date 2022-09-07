@@ -12,7 +12,7 @@ import lombok.experimental.UtilityClass;
  * 命令行工具
  *
  * @author blog.unclezs.com
- * @date 2021/04/02 22:39
+ * @since 2021/04/02 22:39
  */
 @UtilityClass
 public class ExecUtils {

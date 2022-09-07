@@ -10,7 +10,7 @@ import lombok.experimental.UtilityClass;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/6/2 20:05
+ * @since 2021/6/2 20:05
  */
 @UtilityClass
 public class HotkeyManager {

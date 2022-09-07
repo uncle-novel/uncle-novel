@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/5/1 22:35
+ * @since 2021/5/1 22:35
  */
 public class ProgressBarTableCell extends TableCell<SpiderWrapper, SpiderWrapper> {
 

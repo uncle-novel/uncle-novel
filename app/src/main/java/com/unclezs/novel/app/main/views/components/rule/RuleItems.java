@@ -19,7 +19,7 @@ import java.util.List;
  * 规则项目集合
  *
  * @author blog.unclezs.com
- * @date 2021/4/22 11:33
+ * @since 2021/4/22 11:33
  */
 @DefaultProperty("items")
 public class RuleItems extends VBox {

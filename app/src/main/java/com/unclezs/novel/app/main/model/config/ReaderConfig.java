@@ -9,7 +9,7 @@ import lombok.Data;
  * 阅读器配置
  *
  * @author blog.unclezs.com
- * @date 2021/5/8 11:28
+ * @since 2021/5/8 11:28
  */
 @Data
 public class ReaderConfig {

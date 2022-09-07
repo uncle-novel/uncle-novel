@@ -11,7 +11,7 @@ import javafx.util.Duration;
 
 /**
  * @author blog.unclezs.com
- * @date 2020/6/19 15:18
+ * @since 2020/6/19 15:18
  */
 public class SmoothScrollingTransition extends CachedTransition {
 

@@ -23,7 +23,7 @@ import java.util.function.Consumer;
  * 有声书架列表cell
  *
  * @author blog.unclezs.com
- * @date 2021/5/5 19:51
+ * @since 2021/5/5 19:51
  */
 public class AudioBookListCell extends ListCell<AudioBook> implements LocalizedSupport {
 

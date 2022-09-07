@@ -12,7 +12,7 @@ import java.nio.file.Path;
  * 资源管理器
  *
  * @author blog.unclezs.com
- * @date 2021/4/24 0:35
+ * @since 2021/4/24 0:35
  */
 @UtilityClass
 public class ResourceManager {

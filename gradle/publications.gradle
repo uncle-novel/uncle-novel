@@ -67,8 +67,8 @@ publishing.publications.withType(MavenPublication) {
     }
     developers {
       developer {
-        id = "uncle"
-        name = "uncle"
+        id = "unclezs"
+        name = "unclezs"
         email = "unclezs@qq.com"
       }
     }

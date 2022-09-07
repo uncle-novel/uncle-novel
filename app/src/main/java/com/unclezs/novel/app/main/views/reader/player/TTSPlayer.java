@@ -29,7 +29,7 @@ import java.util.Queue;
  * TTS播放器
  *
  * @author blog.unclezs.com
- * @date 2021/5/9 13:45
+ * @since 2021/5/9 13:45
  */
 @Slf4j
 @SuppressWarnings("AlibabaClassNamingShouldBeCamel")

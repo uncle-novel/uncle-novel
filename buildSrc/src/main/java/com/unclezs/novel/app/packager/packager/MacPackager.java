@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
  * Mac 打包器
  *
  * @author blog.unclezs.com
- * @date 2021/4/10 10:37 上午
+ * @since 2021/4/10 10:37 上午
  */
 @EqualsAndHashCode(callSuper = true)
 public class MacPackager extends AbstractPackager {

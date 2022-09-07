@@ -7,7 +7,7 @@ import lombok.Data;
 
 /**
  * @author blog.unclezs.com
- * @date 2021/5/10 17:31
+ * @since 2021/5/10 17:31
  */
 @Data
 public class BookShelfConfig {

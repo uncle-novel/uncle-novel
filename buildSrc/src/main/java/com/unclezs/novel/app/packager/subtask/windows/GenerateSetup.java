@@ -12,7 +12,7 @@ import java.io.File;
  * 通过inno setup创建安装包
  *
  * @author blog.unclezs.com
- * @date 2021/4/6 16:11
+ * @since 2021/4/6 16:11
  */
 public class GenerateSetup extends WinSubTask {
 
