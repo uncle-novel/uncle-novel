@@ -1,62 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<VBox maxHeight="Infinity" maxWidth="Infinity" prefHeight="618.0" prefWidth="934.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.ui.controller.MainController">
-   <children>
-      <fx:include prefWidth="-Infinity" source="header.fxml" />
-      <HBox fx:id="root" maxHeight="-Infinity" prefHeight="578.0" prefWidth="934.0" VBox.vgrow="ALWAYS">
-         <children>
-            <BorderPane fx:id="menu" minWidth="150" prefHeight="576.0" prefWidth="150.0" style="-fx-background-color: #f2f2f2;">
-               <top>
-                  <Pane prefHeight="470.0" prefWidth="150.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <!--找书-->
-                        <Label layoutX="12.0" layoutY="7.0" text="找书" textFill="GREY" />
-                        <Label fx:id="findBook" alignment="CENTER" layoutY="22.0" prefHeight="36.0" prefWidth="150.0" text="搜索小说" textFill="#555555">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                        <!--读书-->
-                        <Label layoutX="12.0" layoutY="94.0" text="读书" textFill="GREY" />
-                        <Label fx:id="markBook" alignment="CENTER" layoutX="1.0" layoutY="109.0" prefHeight="36.0" prefWidth="150.0" text="文字书架" textFill="#555555">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="findAudioNovel" alignment="CENTER" layoutX="1.0" layoutY="58.0" prefHeight="36.0" prefWidth="150.0" text="寻找有声" textFill="#555555">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                        <!--下书-->
-                        <Label layoutX="6.0" layoutY="181.0" text="下载书" textFill="GREY" />
-                        <Label fx:id="analysis" alignment="CENTER" layoutY="199.0" prefHeight="36.0" prefWidth="150.0" text="解析下载" textFill="#555555">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="download" alignment="CENTER" layoutY="235.0" prefHeight="36.0" prefWidth="150.0" text="下载管理" textFill="#555555">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="audioSelf" alignment="CENTER" layoutX="1.0" layoutY="145.0" prefHeight="36.0" prefWidth="150.0" text="有声书架" textFill="#555555">
-                           <font>
-                              <Font size="13.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-               </top>
-            </BorderPane>
-            <Pane maxHeight="Infinity" minWidth="1" prefHeight="200.0" prefWidth="1.0" style="-fx-background-color: #c2c2c2;" HBox.hgrow="ALWAYS" />
-            <Pane fx:id="content" maxHeight="Infinity" maxWidth="-Infinity" prefHeight="578" prefWidth="785.0" HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
-   </children>
-</VBox>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.glyphfont.*?>
+<BorderPane maxHeight="Infinity" maxWidth="Infinity" stylesheets="/css/index.css"
+            prefHeight="618.0" prefWidth="934.0" fx:id="container"
+            xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.unclezs.gui.controller.IndexController">
+    <left>
+        <VBox fx:id="menu" prefHeight="470.0" prefWidth="180" minHeight="470" styleClass="menu-pane" spacing="2">
+            <!--找书-->
+            <Label styleClass="menu-label" text="%find_book"/>
+            <JFXButton userData="com.unclezs.gui.controller.SearchController" text="%search_text" styleClass="menu-btn">
+                <graphic>
+                    <Glyph icon="&#xf010;"/>
+                </graphic>
+            </JFXButton>
+            <JFXButton userData="com.unclezs.gui.controller.SearchAllSiteController" text="%search_all"
+                       styleClass="menu-btn">
+                <graphic>
+                    <Glyph icon="&#xf26c;"/>
+                </graphic>
+            </JFXButton>
+            <JFXButton userData="com.unclezs.gui.controller.SearchAudioController" text="%search_audio"
+                       styleClass="menu-btn">
+                <graphic>
+                    <Glyph icon="&#xf001;"/>
+                </graphic>
+            </JFXButton>
+            <!--读书-->
+            <Label styleClass="menu-label" text="%read_book"/>
+            <JFXButton userData="com.unclezs.gui.controller.BookShelfController" styleClass="menu-btn"
+                       text="%text_bookshelf">
+                <graphic>
+                    <Glyph icon="&#xf02d;"/>
+                </graphic>
+            </JFXButton>
+            <JFXButton userData="com.unclezs.gui.controller.AudioBookSelfController" text="%audio_bookshelf"
+                       styleClass="menu-btn">
+                <graphic>
+                    <Glyph icon="&#xf028;"/>
+                </graphic>
+            </JFXButton>
+            <!--下书-->
+            <Label styleClass="menu-label" text="%download_book"/>
+            <JFXButton userData="com.unclezs.gui.controller.AnalysisController" text="%analysis_text"
+                       styleClass="menu-btn">
+                <graphic>
+                    <Glyph icon="&#xf260;"/>
+                </graphic>
+            </JFXButton>
+            <JFXButton userData="com.unclezs.gui.controller.DownloadController" text="%download_manager"
+                       styleClass="menu-btn">
+                <graphic>
+                    <Glyph icon="&#xf0ed;"/>
+                </graphic>
+            </JFXButton>
+            <!--其他-->
+            <!--            <Label styleClass="menu-label" text="%others"/>-->
+            <!--            <JFXButton userData="com.unclezs.gui.controller.FeedbackController" text="%feedback"-->
+            <!--                       styleClass="menu-btn">-->
+            <!--                <graphic>-->
+            <!--                    <Glyph icon="&#xf059;"  />-->
+            <!--                </graphic>-->
+            <!--            </JFXButton>-->
+        </VBox>
+    </left>
+</BorderPane>

@@ -1,0 +1,41 @@
+* {
+    -fx-font-family: FontAwesome;
+}
+
+.search-pane {
+    -fx-alignment: center;
+}
+
+.left-icon {
+    -fx-padding: 0 0 0 10;
+    -fx-border-radius: 10 0 0 10;
+    -fx-border-color: #bfbfbf;
+    -fx-border-width: 1 0 1 1;
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+    -fx-pref-height: 50;
+    -fx-pref-width: 50;
+    -fx-text-fill: #888;
+    -fx-font-size: 25;
+}
+
+.text-in {
+    -fx-background-color: transparent;
+    -fx-border-width: 1 0 1 0;
+    -fx-font-size: 20;
+    -fx-border-color: #bfbfbf;
+    -fx-pref-height: 50;
+}
+
+.right-icon {
+    -fx-padding: 0 10 0 0;
+    -fx-border-radius: 0 10 10 0;
+    -fx-border-color: #bfbfbf;
+    -fx-border-width: 1 1 1 0;
+    -fx-background-color: transparent;
+    -fx-alignment: center;
+    -fx-pref-height: 50;
+    -fx-pref-width: 50;
+    -fx-text-fill: #888;
+    -fx-font-size: 25;
+}

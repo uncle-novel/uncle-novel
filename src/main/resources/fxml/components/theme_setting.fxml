@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      spacing="15" stylesheets="/css/bootstrap.css"
+      fx:controller="com.unclezs.gui.controller.components.ThemeController"
+      prefHeight="100.0" prefWidth="400.0">
+    <BorderPane>
+        <left>
+            <Label text="窗口顶部颜色" BorderPane.alignment="CENTER"/>
+        </left>
+        <right>
+            <HBox spacing="10">
+                <JFXColorPicker minWidth="100" prefHeight="100" fx:id="headerColorPicker"
+                                BorderPane.alignment="CENTER"/>
+                <JFXButton text="透明" styleClass="btn,btn-default,btn-sm" onMouseClicked="#transparentHeader"
+                           alignment="CENTER"/>
+            </HBox>
+        </right>
+    </BorderPane>
+    <BorderPane>
+        <left>
+            <Label text="背景色" BorderPane.alignment="CENTER"/>
+        </left>
+        <right>
+            <JFXColorPicker minWidth="100" prefHeight="100" fx:id="colorPicker" BorderPane.alignment="CENTER"/>
+        </right>
+    </BorderPane>
+    <BorderPane>
+        <left>
+            <Label text="背景图" BorderPane.alignment="CENTER"/>
+        </left>
+        <right>
+            <HBox BorderPane.alignment="CENTER" spacing="10">
+                <JFXButton text="选择" styleClass="btn,btn-info,btn-sm" alignment="CENTER"
+                           onMouseClicked="#selectBgImage"/>
+                <JFXButton text="应用" styleClass="btn,btn-default,btn-sm" onMouseClicked="#applyBgImage"
+                           alignment="CENTER"/>
+            </HBox>
+        </right>
+    </BorderPane>
+    <BorderPane>
+        <left>
+            <Label text="主题" BorderPane.alignment="CENTER"/>
+        </left>
+        <right>
+            <HBox BorderPane.alignment="CENTER" spacing="10">
+                <JFXButton text="黑色字体" styleClass="btn,btn-sm"
+                           style="-fx-background-color: #000;-fx-text-fill: #FFF;-fx-border-color: #bbb"
+                           alignment="CENTER"
+                           onMouseClicked="#changeFontBlackColor"/>
+                <JFXButton text="白色字体" styleClass="btn,btn-sm" onMouseClicked="#changeFontWhiteColor"
+                           style="-fx-background-color: #FFF;-fx-text-fill: #000;-fx-border-color: #888"
+                           alignment="CENTER"/>
+            </HBox>
+        </right>
+    </BorderPane>
+    <BorderPane>
+        <left>
+            <Label text="背景透明度" BorderPane.alignment="CENTER"/>
+        </left>
+        <right>
+            <JFXSlider fx:id="opacitySlider" max="1" prefWidth="170"/>
+        </right>
+    </BorderPane>
+    <BorderPane>
+        <left>
+            <Label text="重置" BorderPane.alignment="CENTER"/>
+        </left>
+        <right>
+            <JFXButton text="恢复默认" styleClass="btn,btn-default,btn-sm" onMouseClicked="#resetDefault"
+                       alignment="CENTER"/>
+        </right>
+    </BorderPane>
+</VBox>

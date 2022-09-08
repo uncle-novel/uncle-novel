@@ -1,5 +1,14 @@
 package com.unclezs.model;
 
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 /**
@@ -8,121 +17,69 @@ import java.util.List;
  * @author unclezs.com
  * @date 2019.07.07 22:57
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AudioBook {
-    private String author;//作者
-    private String broadCasting;//播音
-    private String title;//书名
-    private String imageUrl;//缩略图
-    private String url;//目录地址
-    private int lastIndex;//上次听到的章节
-    private double lastLocation;//上次听到的位置
-    private List<AudioChapter> chapters;//章节列表
-    private int id = -1;
-    private String lastChapter;//上次听到的一章节名字
+    @TableId(type = IdType.NONE)
+    private String id = IdUtil.simpleUUID();
+    /**
+     * 作者
+     */
+    private String author;
+    /**
+     * 播音
+     */
+    private String speak;
+    /**
+     * 书名
+     */
+    private String title;
+    /**
+     * 缩略图
+     */
+    private String cover;
+    /**
+     * 目录地址
+     */
+    private String url;
+    /**
+     * 上次听到的章节
+     */
+    private int lastChapterIndex;
+    /**
+     * 上次听到的位置
+     */
+    private double lastTime;
+    /**
+     * 章节列表
+     */
+    @TableField(exist = false)
+    private List<AudioChapter> chapters;
+    /**
+     * 上次听到的一章节名字
+     */
+    private String lastChapterName;
 
-    public AudioBook() {
-    }
+    private String updateTime = DateUtil.now();
 
-    public AudioBook(String author, String broadCasting, String title, String imageUrl, String url) {
+    public AudioBook(String author, String speak, String title, String cover, String url) {
         this.author = author;
-        this.broadCasting = broadCasting;
+        this.speak = speak;
         this.title = title;
-        this.imageUrl = imageUrl;
+        this.cover = cover;
         this.url = url;
     }
 
-    public String getLastChapter() {
-        return lastChapter;
+    public String getLastChapterName() {
+        if (chapters != null && chapters.size() > 0) {
+            return chapters.get(lastChapterIndex).getTitle();
+        }
+        return null;
     }
 
-    public void setLastChapter(String lastChapter) {
-        this.lastChapter = lastChapter;
+    public String lastChapterName() {
+        return lastChapterName;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getLastIndex() {
-        return lastIndex;
-    }
-
-    public void setLastIndex(int lastIndex) {
-        this.lastIndex = lastIndex;
-    }
-
-    public double getLastLocation() {
-        return lastLocation;
-    }
-
-    public void setLastLocation(double lastLocation) {
-        this.lastLocation = lastLocation;
-    }
-
-    public List<AudioChapter> getChapters() {
-        return chapters;
-    }
-
-    public void setChapters(List<AudioChapter> chapters) {
-        this.chapters = chapters;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getBroadCasting() {
-        return broadCasting;
-    }
-
-    public void setBroadCasting(String broadCasting) {
-        this.broadCasting = broadCasting;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    @Override
-    public String toString() {
-        return "AudioBook{" +
-                "author='" + author + '\'' +
-                ", broadCasting='" + broadCasting + '\'' +
-                ", title='" + title + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", url='" + url + '\'' +
-                ", lastIndex=" + lastIndex +
-                ", lastLocation=" + lastLocation +
-                ", id=" + id +
-                ", lastChapter='" + lastChapter + '\'' +
-                '}';
-    }
 }

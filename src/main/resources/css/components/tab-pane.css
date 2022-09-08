@@ -1,0 +1,33 @@
+/*tab-pane*/
+/*.jfx-tab-pane .tab-header-background {*/
+/*    -fx-background-color: transparent;*/
+/*}*/
+.jfx-tab-pane .headers-region > .tab-selected-line {
+    -fx-pref-width: 1 !important;
+    -fx-pref-height: 2px;
+}
+
+.jfx-tab-pane .tab-header-background {
+    -fx-background-color: transparent;
+}
+
+.jfx-tab-pane .headers-region > .tab > .jfx-rippler {
+    -jfx-rippler-fill: #009688;
+}
+
+.jfx-tab-pane .headers-region .tab-selected-line {
+    -fx-background-color: #009688;
+}
+
+.jfx-tab-pane .headers-region .tab:selected .tab-container .tab-label {
+    -fx-text-fill: #009688;
+}
+
+.jfx-tab-pane .headers-region .tab:hover .tab-container .tab-label {
+    -fx-text-fill: #009688;
+}
+
+.jfx-tab-pane .tab-label {
+    -fx-font-size: 14;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0), 0, 0, 0, 0);
+}

@@ -1,0 +1,37 @@
+.icon {
+    -fx-background-size: 20px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: 10%;
+}
+
+.btn-group-horizontal .glyph-font {
+    -fx-text-fill: #FFF;
+}
+
+.search-top-box {
+    -fx-padding: 15 0 10 0;
+}
+
+.analysis-dialog * {
+    -fx-background-color: transparent;
+}
+
+.analysis-text-input {
+    -fx-background-color: transparent;
+    -fx-border-color: border-color;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-radius: 5;
+}
+
+.analysis-content * {
+    -fx-background-color: transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.config-box {
+    -fx-background-color: -fx-background;
+}
+
+.config-box .text-area {
+    -fx-border-color: border-color;
+}

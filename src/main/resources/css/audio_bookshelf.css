@@ -1,0 +1,33 @@
+.book-list {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.action-next {
+    -fx-font-size: 25px;
+    -fx-background-color: #009688;
+    -fx-cursor: hand;
+}
+
+.action-next:hover {
+    -fx-background-color: rgb(30, 207, 156);
+}
+
+.action-play {
+    -fx-text-fill: #009688 !important;
+    -fx-font-size: 35px;
+}
+
+.action-play:hover {
+    -fx-text-fill: rgb(30, 207, 156);
+    -fx-font-size: 35px;
+}
+
+.audio-book-catalog {
+    -fx-border-width: 0 0 0 1;
+    -fx-cursor: hand;
+}
+
+.audio-book-catalog * {
+    -fx-font-size: 13;
+}

@@ -1,96 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
+<?language javascript?>
 <?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+<?import org.controlsfx.glyphfont.*?>
+<JFXDrawersStack prefHeight="-Infinity" fx:id="root" prefWidth="Infinity" xmlns="http://javafx.com/javafx/8"
+                 xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.gui.controller.AnalysisController"
+                 stylesheets="/css/analysis.css">
+    <JFXDrawer defaultDrawerSize="214" direction="RIGHT" fx:id="menu" onDrawerClosed="#saveConfig">
+        <sidePane>
+            <VBox prefHeight="500" alignment="CENTER" prefWidth="214.0" spacing="10"
+                  styleClass="config-box">
+                <TextArea id="cookies" fx:id="cookiesText" promptText="Cookies" wrapText="true" maxWidth="200"
+                          styleClass="bg-transparent-all"
+                          maxHeight="30">
+                    <VBox.margin>
+                        <Insets top="10"/>
+                    </VBox.margin>
+                </TextArea>
+                <TextArea id="ua" fx:id="userAgent" promptText="User-Agent" wrapText="true" maxWidth="200"
+                          maxHeight="30"
+                          styleClass="bg-transparent-all"/>
+                <TextArea id="ad" fx:id="ads" promptText="去广告，一行一条" maxWidth="200" maxHeight="30"
+                          styleClass="bg-transparent-all"/>
+                <TextArea id="ch" fx:id="chapterHeadText" promptText="范围匹配-章节头" wrapText="true" maxWidth="200"
+                          styleClass="bg-transparent-all"
+                          maxHeight="30"/>
+                <TextArea id="ct" fx:id="chapterTailText" promptText="范围匹配-章节尾" wrapText="true" maxWidth="200"
+                          styleClass="bg-transparent-all"
+                          maxHeight="30"/>
+                <TextArea id="th" fx:id="contentHeadText" promptText="范围匹配-正文头" wrapText="true" maxWidth="200"
+                          styleClass="bg-transparent-all"
+                          maxHeight="30"/>
+                <TextArea id="tt" fx:id="contentTailText" promptText="范围匹配-正文尾" wrapText="true" maxWidth="200"
+                          styleClass="bg-transparent-all"
+                          maxHeight="30"/>
+                <Pane prefHeight="175.0" prefWidth="214.0">
+                    <GridPane vgap="10" hgap="10" prefWidth="214.0" maxWidth="214" alignment="CENTER">
+                        <JFXRadioButton GridPane.columnIndex="0" GridPane.rowIndex="0"
+                                        fx:id="chapterFilterUse" selected="true"
+                                        text="章节过滤"/>
+                        <JFXRadioButton GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                        fx:id="chapterSort" text="乱序重排"/>
+                        <JFXRadioButton GridPane.columnIndex="0" GridPane.rowIndex="1"
+                                        fx:id="toZh" text="NCR转中文"/>
+                        <JFXRadioButton GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                        fx:id="toSimple" text="繁转简"/>
+                        <JFXRadioButton GridPane.columnIndex="0" GridPane.rowIndex="2" userData="1"
+                                        text="匹配规则1">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="ruleGroup"/>
+                            </toggleGroup>
+                        </JFXRadioButton>
+                        <JFXRadioButton GridPane.columnIndex="1" GridPane.rowIndex="2" userData="2"
+                                        text="匹配规则2" toggleGroup="$ruleGroup"/>
+                        <JFXRadioButton GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2"
+                                        userData="3"
+                                        selected="true" text="推荐规则(不支持范围匹配)" toggleGroup="$ruleGroup"/>
+                        <JFXRadioButton GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="2"
+                                        fx:id="startDynamic" text="模拟浏览器(速度慢)"/>
+                    </GridPane>
+                </Pane>
+            </VBox>
+        </sidePane>
+    </JFXDrawer>
+    <content>
+        <GridPane vgap="10">
+            <HBox alignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.columnSpan="2" GridPane.columnIndex="0"
+                  styleClass="search-top-box" spacing="10"
+                  GridPane.rowIndex="0">
+                <WebView fx:id="webView" opacity="0" prefHeight="1" prefWidth="1"/>
+                <TextField fx:id="chapterLinkTextField" prefWidth="300" prefHeight="26" promptText="请输入目录地址"
+                           onMouseClicked="#importClipboardUrl"
+                           styleClass="analysis-text-input"/>
+                <HBox styleClass="btn-group-horizontal" alignment="CENTER">
+                    <JFXButton fx:id="analysisBtn" text="解析目录" onMouseClicked="#analysisChapter"
+                               styleClass="first,btn-sm,un-btn-default">
+                        <graphic>
+                            <Glyph icon="&#xf1d8;"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="addToMark" text="加入书架" onMouseClicked="#addToBookSelf"
+                               styleClass="middle,btn-sm,un-btn-default">
+                        <graphic>
+                            <Glyph icon="&#xf067;"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="downloadIt" text="下载本书" onMouseClicked="#downloadBook"
+                               styleClass="middle,btn-sm,un-btn-default">
+                        <graphic>
+                            <Glyph icon="&#xf019;"/>
+                        </graphic>
+                    </JFXButton>
+                    <JFXButton fx:id="configBtn" text="解析配置" onMouseClicked="#showConfig"
+                               styleClass="last,btn-sm,un-btn-default">
+                        <graphic>
+                            <Glyph icon="&#xf085;"/>
+                        </graphic>
+                    </JFXButton>
+                </HBox>
+            </HBox>
+            <ListView fx:id="chapterListView" prefWidth="300" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                      visible="false" styleClass="bg-transparent,label-padding-5"
+                      GridPane.columnIndex="0"
+                      GridPane.rowIndex="1">
+                <contextMenu>
+                    <ContextMenu>
+                        <items>
+                            <MenuItem text="查看内容" onAction="#showChapterContent">
+                                <graphic>
+                                    <Glyph icon="&#xf26c;"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="重名命章节名" onAction="#renameChapterNames">
+                                <graphic>
+                                    <Glyph icon="&#xf021;"/>
+                                </graphic>
+                            </MenuItem>
+                            <SeparatorMenuItem/>
+                            <MenuItem text="全选" onAction="#selectAll">
+                                <graphic>
+                                    <Glyph icon="&#xf14a;"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="反选" onAction="#selectBack">
+                                <graphic>
+                                    <Glyph icon="&#xf122;"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="全不选" onAction="#selectNotAll">
+                                <graphic>
+                                    <Glyph icon="&#xf2d3;"/>
+                                </graphic>
+                            </MenuItem>
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ListView>
+            <TextArea fx:id="chapterContentTextArea" GridPane.vgrow="ALWAYS" GridPane.hgrow="ALWAYS"
+                      prefWidth="300" styleClass="analysis-content"
+                      GridPane.columnIndex="1" GridPane.rowIndex="1"
+                      promptText="解析正文显示区域" wrapText="true"/>
+        </GridPane>
+    </content>
 
-<Pane fx:id="analysisRoot" prefHeight="565.0" prefWidth="787.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.ui.controller.AnalysisController">
-   <children>
-      <Label fx:id="menu" layoutX="725.0" layoutY="14.0" prefHeight="32.0" prefWidth="32.0" style="-fx-background-image: url('images/解析页/菜单.jpg');" />
-      <JFXTextArea fx:id="content" layoutX="405.0" layoutY="83.0" prefHeight="483.0" prefWidth="369.0" promptText="解析正文显示区域" wrapText="true" />
-      <JFXListView fx:id="list" layoutX="2.0" layoutY="83.0" prefHeight="483.0" prefWidth="394.0" />
-      <Pane fx:id="doPane" layoutX="90.0" layoutY="14.0" prefHeight="65.0" prefWidth="624.0">
-         <children>
-            <JFXTextField fx:id="text" labelFloat="true" layoutX="7.0" layoutY="25.0" prefHeight="30.0" prefWidth="349.0" promptText="请输入目录地址" />
-            <JFXButton fx:id="analysisBtn" buttonType="RAISED" layoutX="365.0" layoutY="25.0" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #1E9FFF;" text="解析目录" textFill="WHITE">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="addToMark" buttonType="RAISED" layoutX="447.0" layoutY="25.0" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #1E9FFF;" text="加入书架" textFill="WHITE">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="downloadIt" buttonType="RAISED" layoutX="528.0" layoutY="25.0" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #1E9FFF;" text="下载本书" textFill="WHITE">
-               <font>
-                  <Font size="13.0" />
-               </font>
-            </JFXButton>
-         </children>
-      </Pane>
-      <VBox fx:id="menuPane" layoutX="573.0" layoutY="46.0" prefHeight="493.0" prefWidth="214.0" style="-fx-background-color: #dbdbdb;" visible="false">
-         <children>
-            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
-               <children>
-                  <TextArea id="cookies" fx:id="cookiesText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="Cookies" wrapText="true" />
-               </children>
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Pane>
-            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
-               <children>
-                  <TextArea id="ua" fx:id="UAText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="User-Agent" wrapText="true" />
-               </children>
-            </Pane>
-            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
-               <children>
-                  <TextArea id="ad" fx:id="AdText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="去广告，一行一条" />
-               </children>
-            </Pane>
-            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
-               <children>
-                  <TextArea id="ch" fx:id="chapterHeadText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefRowCount="1" prefWidth="204.0" promptText="范围匹配-章节头" wrapText="true" />
-               </children>
-            </Pane>
-            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
-               <children>
-                  <TextArea id="ct" fx:id="chapterTailText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="范围匹配-章节尾" wrapText="true" />
-               </children>
-            </Pane>
-            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
-               <children>
-                  <TextArea id="th" fx:id="contentHeadText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="范围匹配-正文头" wrapText="true" />
-               </children>
-            </Pane>
-            <Pane maxHeight="44.0" prefHeight="44.0" prefWidth="214.0">
-               <children>
-                  <TextArea id="tt" fx:id="contentTailText" layoutX="5.0" layoutY="15.0" maxHeight="23.0" prefHeight="23.0" prefWidth="204.0" promptText="范围匹配-正文尾" wrapText="true" />
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" />
-               </VBox.margin>
-            </Pane>
-            <Pane prefHeight="175.0" prefWidth="214.0">
-               <children>
-                  <JFXRadioButton fx:id="chapterFilterUse" layoutX="8.0" layoutY="10.0" selected="true" text="章节过滤" />
-                  <JFXRadioButton fx:id="chapterSortUse" layoutX="107.0" layoutY="10.0" text="乱序重排" />
-                  <JFXRadioButton fx:id="NCRToXZhUse" layoutX="8.0" layoutY="35.0" text="NCR转中文" />
-                  <JFXRadioButton fx:id="TraToSimpleUse" layoutX="107.0" layoutY="35.0" text="繁转简" />
-                  <JFXButton fx:id="saveConfigBtn" layoutX="59.0" layoutY="131.0" prefHeight="30.0" prefWidth="75.0" style="-fx-background-color: #1E9FFF;" text="保存配置" textFill="WHITE" />
-                  <JFXRadioButton fx:id="rule1" layoutX="8.0" layoutY="60.0" text="匹配规则1" />
-                  <JFXRadioButton fx:id="rule2" layoutX="107.0" layoutY="60.0" text="匹配规则2" />
-                  <JFXRadioButton fx:id="startDynamic" layoutX="8.0" layoutY="110.0" text="启用动态网页支持(速度慢)" />
-                  <JFXRadioButton fx:id="rule3" layoutX="8.0" layoutY="85.0" selected="true" text="推荐规则(不支持范围匹配)" />
-               </children>
-            </Pane>
-         </children>
-      </VBox>
-   </children>
-</Pane>
+</JFXDrawersStack>

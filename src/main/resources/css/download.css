@@ -1,0 +1,119 @@
+.tab-btn {
+    -fx-text-fill: #888 !important;
+    -fx-background-color: #E4E8EB;
+}
+
+.tab-btn:selected, .tab-btn:disabled {
+    -fx-text-fill: #FFF !important;
+    -fx-background-color: #009688;
+    -fx-opacity: 1;
+}
+
+.progress {
+    -fx-pref-height: 5;
+    -fx-pref-width: 150;
+    -fx-progress-color: #009688;
+}
+
+.download-action-btn {
+    -jfx-size: 12;
+    -fx-stroke-width: 5 5 5 5;
+}
+
+.download-action-btn:hover {
+    -fx-border-color: #009688;
+}
+
+.download-action-btn-stop {
+    -jfx-size: 11;
+}
+
+.action-box {
+    -fx-spacing: 20;
+    -fx-alignment: center;
+}
+
+.download-action-btn-stop:hover {
+    -fx-border-color: red;
+}
+
+.download-table .table-cell {
+    -fx-alignment: center;
+}
+
+.download-table .column-header {
+    -fx-border-color: rgb(235, 238, 245);
+    -fx-border-width: 0 0 1 0 !important;
+}
+
+.progress-box {
+    -fx-alignment: center;
+    -fx-spacing: 10;
+}
+
+.download-tab-btn {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: border-color;
+}
+
+.downloading-btn-box {
+    -fx-padding: 5;
+    -fx-spacing: 5;
+}
+
+.downloading-task-label {
+    -fx-alignment: center;
+    -fx-padding: 0 0 0 9;
+}
+
+.downloaded-task-label {
+    -fx-alignment: center;
+    -fx-padding: 0 0 0 5;
+}
+
+/*下载历史*/
+
+.download-record {
+
+    -fx-padding: 0 0 2 0;
+}
+
+.download-record-info {
+    -fx-font-size: 10;
+    -fx-spacing: 6;
+    -fx-alignment: center-left;
+    -fx-pref-height: 50;
+    -fx-padding: 0 0 0 5;
+}
+
+.download-record .glyph-font {
+    -fx-font-size: 18 !important;
+}
+
+.download-record-action-box {
+    -fx-padding: 0 10 0 0;
+}
+
+.downloading-top {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: rgb(245, 245, 245);
+}
+
+.downloaded-top {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: rgb(245, 245, 245);
+    -fx-padding: 5;
+}
+
+.downloaded-list {
+    -fx-border-width: 0;
+}
+
+.downloaded-list .list-cell {
+    /*-fx-border-width: 0 0 1 0;*/
+    /*-fx-border-color: rgb(245, 245, 245);*/
+}
+
+.downloaded-list .list-cell:hover, .downloaded-list .list-cell:selected {
+    -fx-background-color: transparent;
+}

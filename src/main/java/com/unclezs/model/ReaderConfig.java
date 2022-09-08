@@ -1,84 +1,57 @@
 package com.unclezs.model;
 
-/*
- *阅读器配置
- *@author unclezs.com
- *@date 2019.06.24 09:19
+import static com.unclezs.gui.controller.ReaderController.EYE_COLOR;
+
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import lombok.Data;
+
+/**
+ * 阅读器配置
+ *
+ * @author unclezs.com
+ * @date 2019.06.24 09:19
  */
+@Data
 public class ReaderConfig {
-    private String bgColor;//背景颜色
-    private double fontSize;//字体大小
-    private String fontStyle;//字体大小
-    private double pageWidth;//页面宽度
-    private double stageWidth;//舞台宽度
-    private double stageHeight;//舞台高度
-    private String fontColor;//字体颜色
-
-    public String getFontColor() {
-        return fontColor;
-    }
-
-    public void setFontColor(String fontColor) {
-        this.fontColor = fontColor;
-    }
-
-    public String getBgColor() {
-        return bgColor;
-    }
-
-    public void setBgColor(String bgColor) {
-        this.bgColor = bgColor;
-    }
-
-    public double getFontSize() {
-        return fontSize;
-    }
-
-    public void setFontSize(double fontSize) {
-        this.fontSize = fontSize;
-    }
-
-    public String getFontStyle() {
-        return fontStyle;
-    }
-
-    public void setFontStyle(String fontStyle) {
-        this.fontStyle = fontStyle;
-    }
-
-    public double getPageWidth() {
-        return pageWidth;
-    }
-
-    public void setPageWidth(double pageWidth) {
-        this.pageWidth = pageWidth;
-    }
-
-    public double getStageWidth() {
-        return stageWidth;
-    }
-
-    public void setStageWidth(double stageWidth) {
-        this.stageWidth = stageWidth;
-    }
-
-    public double getStageHeight() {
-        return stageHeight;
-    }
-
-    public void setStageHeight(double stageHeight) {
-        this.stageHeight = stageHeight;
-    }
-
-    @Override
-    public String toString() {
-        return "ReaderConfig{" +
-                "bgColor='" + bgColor + '\'' +
-                ", fontSize=" + fontSize +
-                ", fontStyle='" + fontStyle + '\'' +
-                ", pageWidth=" + pageWidth +
-                ", stageWidth=" + stageWidth +
-                ", stageHeight=" + stageHeight +
-                '}';
-    }
+    /**
+     * 背景颜色
+     */
+    private SimpleStringProperty bgColor = new SimpleStringProperty(EYE_COLOR);
+    /**
+     * 背景图
+     */
+    private SimpleStringProperty bgImage = new SimpleStringProperty("");
+    /**
+     * 字体大小
+     */
+    private SimpleDoubleProperty fontSize = new SimpleDoubleProperty(18);
+    /**
+     * 字体
+     */
+    private SimpleStringProperty fontFamily = new SimpleStringProperty("仿宋");
+    /**
+     * 正文对齐方式
+     */
+    private SimpleStringProperty align = new SimpleStringProperty("LEFT");
+    /**
+     * 显示头部
+     */
+    private boolean header;
+    /**
+     * 页面宽度
+     */
+    private SimpleDoubleProperty pageWidth = new SimpleDoubleProperty(100);
+    /**
+     * 行间距
+     */
+    private SimpleDoubleProperty lineSpacing = new SimpleDoubleProperty(0);
+    /**
+     * 舞台宽度
+     */
+    private SimpleDoubleProperty stageWidth = new SimpleDoubleProperty(800);
+    /**
+     * 舞台高度
+     */
+    private SimpleDoubleProperty stageHeight = new SimpleDoubleProperty(720);
 }

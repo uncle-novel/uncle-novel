@@ -2,115 +2,116 @@ package com.unclezs.crawl;
 
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.EscapeUtil;
-import com.unclezs.utils.OsUtil;
+import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.ReUtil;
+import com.alibaba.fastjson.JSON;
+import com.unclezs.gui.utils.ApplicationUtil;
+import com.unclezs.model.Book;
+import com.unclezs.model.Chapter;
+import com.unclezs.utils.JsonUtil;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-/*
- *本地小说解析器
- *@author unclezs.com
- *@date 2019.06.22 16:30
+/**
+ * 本地小说解析器
+ *
+ * @author unclezs.com
+ * @date 2020.05.12 16:30
  */
-public class LocalNovelLoader implements Serializable {
-    public static final long serialVersionUID = 123456L;
-    private String regex = "([ ]?第[一二三四五六七八九十1234567890 ]{1,10}[章卷节].+?)\r\n";
+@Slf4j
+@Setter
+@Getter
+@NoArgsConstructor
+public class LocalNovelLoader implements NovelLoader {
+    private String regex = "([第序][一二三四五六七八九十零0-9 ]*?[章卷节回][\\s\\S]*?)\r\n";
+    /**
+     * 文件路径
+     */
     private String path;
+    /**
+     * 识别出来的编码
+     */
+    private String charset;
+    /**
+     * 正文
+     */
     private String[] content;
-    private String name;
-    private boolean isExist = false;//是否存在
-    private List<String> chapters = new ArrayList<>();
+    /**
+     * 书名
+     */
+    private String title;
+    private Book book;
+    private String id = IdUtil.simpleUUID();
+    /**
+     * 章节列表
+     */
+    private List<Chapter> chapters;
 
-    public LocalNovelLoader(String path) {
-        this.path = path;
-        this.name = path.substring(path.lastIndexOf('\\') + 1, path.lastIndexOf('.'));
-        this.initLoad();
+    @Override
+    public void load(Book book) {
+        this.book = book;
+        this.path = book.getPath();
+        String s = FileUtil.readUtf8String(book.getChapterPath());
+        this.chapters = JSON.parseArray(s, Chapter.class);
     }
 
-    private void initLoad() {
+    /**
+     * 加载本地书籍
+     *
+     * @param path 书籍路径
+     * @return /
+     */
+    public boolean load(String path) {
+        this.path = path;
         try {
-            getChapters();
-            isExist = true;
+            if (!FileUtil.exist(path)) {
+                return false;
+            }
+            this.title = FileUtil.mainName(path);
+            this.charset = com.unclezs.utils.FileUtil.getEncode(path, true);
+            String text = FileUtil.readString(path, charset);
+            this.content = text.split(regex);
+            this.chapters =
+                ReUtil.findAll(regex, text, 1).stream().map(c -> new Chapter(c, "")).collect(Collectors.toList());
         } catch (Exception e) {
-            isExist = false;
+            log.error("本地书籍加载失败:{}", e.getMessage());
+            return false;
         }
+        return true;
     }
 
-    //只加载一次
-    public List<String> getChapters() throws Exception {
-        if (chapters.size() != 0) {
-            return chapters;
+    /**
+     * 格式化之后储存便于阅读
+     * 转码为UTF8
+     *
+     * @return 格式化之后的配置JSON文件
+     */
+    @Override
+    public String store() {
+        for (int i = 0; i < chapters.size(); i++) {
+            String text = content[i + 1];
+            String contentPath = ApplicationUtil.saveCache(String.format("%s/%s", id, i), text);
+            chapters.get(i).setContentPath(contentPath);
         }
-        String content = loadFile();
-        List<String> chapterName = new ArrayList<>();//章节名字
-        Pattern pattern = Pattern.compile(regex);
-        Matcher m = pattern.matcher(content);
-        while (m.find()) {
-            chapterName.add(m.group(1));
-        }
-        this.chapters = chapterName;
-        return chapterName;
+        return ApplicationUtil.saveCache(String.format("%s/book.json", id), JsonUtil.toJson(chapters));
     }
 
-    //只加载一次
-    public String getContent(int index) throws Exception {
-        if (content == null) {
-            loadFile();
-        }
-        return content[index + 1];
+    @Override
+    public String content(int chapter) {
+        return FileUtil.readUtf8String(chapters.get(chapter).getContentPath());
     }
 
-    //加载读取文件
-    private String loadFile() throws Exception {
-        String encode = OsUtil.codeFile(path);
-        if (encode.contains("2312")) {
-            encode = "GBK";
-        }
-        String text = FileUtil.readString(path, encode);
-        content = text.split(regex);
-        return text;
+    public String getContent(int chapter) {
+        return content[chapter];
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    //根据下标加载章节内容
-    public Map<String, String> getCPageByIndex(int index) throws Exception {
-        Map<String, String> map = new HashMap<>();
-        //加载章节
-        String buffer = "\r\n\r\n" + getContent(index);//正文
-        map.put("content", buffer);
-        //加载标题
-        map.put("title", chapters.get(index));
-        return map;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    //释放文本
-    public void free() {
-        this.chapters = null;
-        this.content = null;
-    }
-
-    public boolean isExist() {
-        return isExist;
+    @Override
+    public List<Chapter> chapters() {
+        return this.chapters;
     }
 }

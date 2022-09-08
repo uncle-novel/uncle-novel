@@ -3,9 +3,9 @@ package com.unclezs.utils;
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Pattern;
 
-/*
- *@author unclezs.com
- *@date 2019.07.08 19:46
+/**
+ * @author unclezs.com
+ * @date 2019.07.08 19:46
  */
 public class URLEncoder {
     private URLEncoder() {

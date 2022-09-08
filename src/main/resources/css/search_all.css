@@ -1,0 +1,11 @@
+.action-node .glyph-font {
+    -fx-text-fill: #FFF !important;
+    -fx-font-size: 17px;
+}
+
+.action-node {
+    -fx-background-radius: 17.5;
+    -fx-pref-width: 35;
+    -fx-pref-height: 35;
+    -fx-background-color: #009688;
+}

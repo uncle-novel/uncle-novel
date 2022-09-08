@@ -1,0 +1,37 @@
+* {
+    -fx-font-family: FontAwesome;
+}
+
+.glyph-font {
+    -fx-background-color: transparent !important;
+}
+
+.toast-icon {
+    -fx-font-size: 16;
+}
+
+.toast-text {
+    -fx-padding: 5;
+    -fx-text-alignment: center;
+    -fx-font-size: 15;
+}
+
+.container {
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+}
+
+.toast-success * {
+    -fx-background-color: rgb(240, 249, 235) !important;
+    -fx-text-fill: rgb(103, 194, 58) !important;
+}
+
+.toast-warning * {
+    -fx-background-color: rgb(253, 246, 236) !important;
+    -fx-text-fill: rgb(230, 162, 60) !important;
+}
+
+.toast-error * {
+    -fx-background-color: rgb(254, 240, 240) !important;
+    -fx-text-fill: rgb(245, 108, 108) !important;
+}

@@ -1,68 +1,196 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="600" minWidth="500" prefHeight="607.0" prefWidth="918.0" style="-fx-background-color: #CEEBCE;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.ui.controller.ReaderController">
-    <children>
-        <!--标题-->
-        <Label fx:id="title" alignment="CENTER" contentDisplay="CENTER" layoutX="0.0" layoutY="0.0" prefHeight="36.0" text="">
-            <font>
-                <Font name="System Bold" size="30.0" />
-            </font>
-        </Label>
-        <!--正文-->
-        <JFXTextArea id="textArea" fx:id="content" editable="false" layoutX="59.0" layoutY="8.0" maxWidth="1280.0" prefHeight="571.0" prefWidth="800.0" wrapText="true">
-            <font>
-                <Font name="Microsoft YaHei" size="18.0" />
-            </font>
-        </JFXTextArea>
-        <!--翻页区域点击-->
-        <Label fx:id="leftLabel" layoutX="0.0" layoutY="0" prefHeight="559.0" prefWidth="165.0" />
-        <Label fx:id="rightLabel" layoutX="0.0" layoutY="0" prefHeight="559.0" prefWidth="165.0" />
-        <!--目录-->
-        <JFXListView fx:id="list" prefWidth="300.0" visible="false" />
-        <!--设置面板-->
-        <Pane fx:id="setPane" layoutX="688.0" layoutY="188.0" prefHeight="282.0" prefWidth="230.0" style="-fx-background-color: rgba(221,221,221,0.9);" visible="false">
-            <children>
-                <!-- 字体大小-->
-                <Label fx:id="fontText" layoutX="16.0" layoutY="62" text="字体大小" wrapText="true" />
-                <Label fx:id="fontAdd" layoutX="115.0" layoutY="57" prefHeight="25.0" prefWidth="25.0" textFill="WHITE" wrapText="true" />
-                <Label fx:id="fontless" layoutX="159.0" layoutY="57" prefHeight="25.0" prefWidth="25.0" textFill="WHITE" wrapText="true" />
-                <Pane layoutX="20.0" layoutY="94.0" prefHeight="1" prefWidth="190.0" style="-fx-background-color: #c2c2c2;" />
-                <!--朗读-->
-                <Label fx:id="readLabel" layoutX="16.0" layoutY="200.0" text="语音朗读" wrapText="true" />
-                <JFXToggleButton fx:id="voice" layoutX="128.0" layoutY="182.0" prefHeight="58.0" prefWidth="59.0" text=" " />
-                <Pane layoutX="20.0" layoutY="235.0" prefHeight="1" prefWidth="190.0" style="-fx-background-color: #c2c2c2;" />
-                <!--底部菜单-->
-                <Label fx:id="chapter" layoutX="40.0" layoutY="245.0" prefHeight="15.0" prefWidth="0.0" wrapText="true" />
-                <Label fx:id="hideSet" layoutX="173.0" layoutY="245.0" wrapText="true" />
-                <!--颜色选择-->
-                <Label fx:id="huyan" layoutX="28.0" layoutY="14.0" prefHeight="25.0" prefWidth="24.0" style="-fx-border-radius: 33px; -fx-background-radius: 33px; -fx-background-color: #CEEBCE;" />
-                <Label fx:id="anse" layoutX="58.0" layoutY="14.0" prefHeight="25.0" prefWidth="24.0" style="-fx-background-color: #808A87; -fx-border-radius: 33px; -fx-background-radius: 33px;" textFill="#c2c2c2" />
-                <Label fx:id="heise" layoutX="88.0" layoutY="14.0" prefHeight="25.0" prefWidth="24.0" style="-fx-background-color: #393D49; -fx-background-radius: 33px; -fx-border-radius: 33px;" />
-                <Label fx:id="yangpi" layoutX="118.0" layoutY="14.0" prefHeight="25.0" prefWidth="24.0" style="-fx-background-color: #e6dbbf; -fx-background-radius: 33px; -fx-border-radius: 33px;" />
-                <Label fx:id="baise" layoutX="148.0" layoutY="14.0" prefHeight="25.0" prefWidth="24.0" style="-fx-background-color: #F0F0F0; -fx-background-radius: 33px; -fx-border-radius: 33px;" />
-                <Label fx:id="molv" layoutX="178.0" layoutY="14.0" prefHeight="25.0" prefWidth="24.0" style="-fx-background-color: #5e8e87; -fx-background-radius: 33px; -fx-border-radius: 33px;" />
-                <Pane layoutX="20.0" layoutY="47.0" prefHeight="1" prefWidth="190.0" style="-fx-background-color: #c2c2c2;" />
-                <!-- 字体样式-->
-                <Label fx:id="fontStyle" layoutX="16.0" layoutY="109.0" text="字体样式" wrapText="true" />
-                <Label fx:id="song" alignment="CENTER" layoutX="100.0" layoutY="107.0" prefHeight="25.0" prefWidth="36.0" style="-fx-background-color: rgba(255,255,255,.5);" text="宋体" />
-                <Label fx:id="yahei" alignment="CENTER" layoutX="138.0" layoutY="107.0" prefHeight="25.0" prefWidth="36.0" style="-fx-background-color: rgba(255,255,255,.5);" text="雅黑" />
-                <Label fx:id="kaiti" alignment="CENTER" layoutX="176.0" layoutY="107.0" prefHeight="25.0" prefWidth="36.0" style="-fx-background-color: rgba(255,255,255,.5);" text="楷书" />
-                <Pane layoutX="20.0" layoutY="141.0" prefHeight="1" prefWidth="190.0" style="-fx-background-color: #c2c2c2;" />
-                <!-- 页面宽度-->
-                <Label fx:id="pageWidth" layoutX="16.0" layoutY="154.0" text="页面宽度" wrapText="true" />
-                <Label fx:id="pageAdd" layoutX="176.0" layoutY="147.0" prefHeight="32.0" prefWidth="32.0" textFill="WHITE" wrapText="true" />
-                <Label fx:id="pageLess" layoutX="100.0" layoutY="147.0" prefHeight="32.0" prefWidth="32.0" textFill="WHITE" wrapText="true" />
-                <Label fx:id="pageSize" layoutX="138.0" layoutY="147.0" prefHeight="32.0" prefWidth="32.0" text="800" wrapText="true" />
-                <Pane layoutX="20.0" layoutY="188.0" prefHeight="1" prefWidth="190.0" style="-fx-background-color: #c2c2c2;" />
-            </children>
-        </Pane>
-      <TextField fx:id="searchContent" layoutX="688.0" layoutY="14.0" prefHeight="26.0" prefWidth="210.0" promptText="Search....." visible="false" />
-    </children>
-</Pane>
+<?import org.controlsfx.glyphfont.*?>
+<JFXDrawersStack fx:id="root" maxHeight="Infinity" maxWidth="Infinity"
+                 prefHeight="500.0" prefWidth="700.0" stylesheets="/css/reader.css"
+                 xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+                 styleClass="bg-transparent"
+                 fx:controller="com.unclezs.gui.controller.ReaderController">
+    <JFXDrawer fx:id="catalogDrawer" overLayVisible="false" defaultDrawerSize="350"
+               direction="LEFT">
+        <sidePane>
+            <ListView fx:id="catalogListView" styleClass="catalog-list" onMouseClicked="#handleCatalogClick"/>
+        </sidePane>
+    </JFXDrawer>
+    <JFXDrawer fx:id="settingDrawer" overLayVisible="false" defaultDrawerSize="320" direction="BOTTOM">
+        <sidePane>
+            <BorderPane fx:id="settingBox" styleClass="shadow-gray,setting-pane">
+                <center>
+                    <VBox alignment="CENTER_LEFT" spacing="20">
+                        <padding>
+                            <Insets top="20" left="10"/>
+                        </padding>
+                        <HBox alignment="CENTER">
+                            <Label prefWidth="70" onMouseClicked="#previous">上一章</Label>
+                            <JFXSlider fx:id="chapterSlider" styleClass="chapter-slider" HBox.hgrow="ALWAYS"
+                                       blockIncrement="1"/>
+                            <Label prefWidth="70" alignment="CENTER_RIGHT" onMouseClicked="#next">下一章</Label>
+                        </HBox>
+                        <FlowPane hgap="20" vgap="30" alignment="CENTER_LEFT">
+                            <HBox alignment="CENTER_LEFT">
+                                <Label prefWidth="70">字体大小</Label>
+                                <JFXSlider fx:id="fontSizeSlider" max="50" min="13"/>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT">
+                                <Label prefWidth="70">行间距离</Label>
+                                <JFXSlider fx:id="lineSpaceSlider" max="20"/>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT">
+                                <Label prefWidth="70">页面宽度</Label>
+                                <JFXSlider fx:id="pageWidthSlider" min="50"/>
+                            </HBox>
+                        </FlowPane>
+                        <HBox alignment="CENTER_LEFT">
+                            <Label prefWidth="70">字体样式</Label>
+                            <ComboBox fx:id="fonts" styleClass="font-select" maxWidth="150"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" styleClass="align-text,bg-transparent-all">
+                            <Label prefWidth="70">正文布局</Label>
+                            <FlowPane hgap="5">
+                                <ToggleButton contentDisplay="GRAPHIC_ONLY" userData="LEFT">
+                                    <graphic>
+                                        <Glyph icon="&#xf036;"/>
+                                    </graphic>
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="alignGroup"/>
+                                    </toggleGroup>
+                                </ToggleButton>
+                                <ToggleButton contentDisplay="GRAPHIC_ONLY" toggleGroup="$alignGroup" userData="RIGHT">
+                                    <graphic>
+                                        <Glyph icon="&#xf038;"/>
+                                    </graphic>
+                                </ToggleButton>
+                                <ToggleButton contentDisplay="GRAPHIC_ONLY" toggleGroup="$alignGroup" userData="CENTER">
+                                    <graphic>
+                                        <Glyph icon="&#xf037;"/>
+                                    </graphic>
+                                </ToggleButton>
+                                <ToggleButton contentDisplay="GRAPHIC_ONLY" toggleGroup="$alignGroup"
+                                              userData="JUSTIFY">
+                                    <graphic>
+                                        <Glyph icon="&#xf039;"/>
+                                    </graphic>
+                                </ToggleButton>
+                            </FlowPane>
+                        </HBox>
+                        <FlowPane alignment="CENTER_LEFT">
+                            <Label prefWidth="70">背景颜色</Label>
+                            <FlowPane hgap="10">
+                                <JFXToggleNode style="-fx-background-color: #808A87" userData="#808A87"
+                                               onMouseClicked="#handleChangeBgColor"
+                                               styleClass="bg-color-picker">
+                                    <toggleGroup>
+                                        <ToggleGroup fx:id="colorGroup"/>
+                                    </toggleGroup>
+                                </JFXToggleNode>
+                                <JFXToggleNode toggleGroup="$colorGroup" style="-fx-background-color: #393D49"
+                                               onMouseClicked="#handleChangeBgColor"
+                                               userData="#393D49" selectedColor="transparent"
+                                               styleClass="bg-color-picker"/>
+                                <JFXToggleNode toggleGroup="$colorGroup" style="-fx-background-color: #e6dbbf"
+                                               onMouseClicked="#handleChangeBgColor"
+                                               userData="#e6dbbf" selectedColor="transparent"
+                                               styleClass="bg-color-picker"/>
+                                <JFXToggleNode toggleGroup="$colorGroup" style="-fx-background-color: #F0F0F0"
+                                               onMouseClicked="#handleChangeBgColor"
+                                               userData="#F0F0F0"
+                                               styleClass="bg-color-picker"/>
+                                <JFXToggleNode toggleGroup="$colorGroup" style="-fx-background-color: #eec5cb"
+                                               onMouseClicked="#handleChangeBgColor"
+                                               userData="#eec5cb"
+                                               styleClass="bg-color-picker"/>
+                                <JFXToggleNode toggleGroup="$colorGroup" style="-fx-background-color: #ffffff"
+                                               onMouseClicked="#handleChangeBgColor"
+                                               userData="#fff"
+                                               styleClass="bg-color-picker"/>
+                                <JFXButton onMouseClicked="#selectImage" styleClass="bg-color-picker"
+                                           contentDisplay="GRAPHIC_ONLY"
+                                           style="-fx-background-color: linear-gradient(to top,rgb(225,233,237),rgb(253,253,254))"
+                                           alignment="CENTER">
+                                    <graphic>
+                                        <Glyph icon="&#xf1c5;" styleClass="theme-color-icon"
+                                               style="-fx-font-size: 20px"/>
+                                    </graphic>
+                                </JFXButton>
+                                <ColorPicker styleClass="button" fx:id="colorPicker"/>
+                            </FlowPane>
+                        </FlowPane>
+                    </VBox>
+                </center>
+                <bottom>
+                    <HBox alignment="CENTER">
+                        <padding>
+                            <Insets top="20"/>
+                        </padding>
+                        <Label alignment="CENTER" HBox.hgrow="ALWAYS" maxWidth="Infinity" onMouseClicked="#showCatalog"
+                               text="目录"
+                               contentDisplay="TOP"
+                               styleClass="setting-btn">
+                            <graphic>
+                                <Glyph icon="&#xf0c9;"/>
+                            </graphic>
+                        </Label>
+                        <ToggleButton HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="setting-btn" text="夜间"
+                                      fx:id="nightTheme" toggleGroup="$colorGroup"
+                                      contentDisplay="TOP">
+                            <graphic>
+                                <Glyph icon="&#xf186;"/>
+                            </graphic>
+                        </ToggleButton>
+                        <ToggleButton HBox.hgrow="ALWAYS" maxWidth="Infinity" styleClass="setting-btn,setting-btn-eye"
+                                      onMouseClicked="#eyeMode" fx:id="eye" toggleGroup="$colorGroup"
+                                      contentDisplay="TOP" text="护眼">
+                            <graphic>
+                                <Glyph icon="&#xf06e;"/>
+                            </graphic>
+                        </ToggleButton>
+                        <ToggleButton styleClass="setting-btn" text="朗读" onMouseClicked="#speak" fx:id="speakBtn"
+                                      contentDisplay="TOP" HBox.hgrow="ALWAYS"
+                                      maxWidth="Infinity">
+                            <graphic>
+                                <Glyph icon="&#xf130;"/>
+                            </graphic>
+                        </ToggleButton>
+                    </HBox>
+                </bottom>
+            </BorderPane>
+        </sidePane>
+    </JFXDrawer>
+    <content>
+        <ScrollPane fitToWidth="true" hbarPolicy="NEVER" vbarPolicy="NEVER" styleClass="bg-transparent"
+                    fx:id="contentScrollPane" onKeyPressed="#handleSpKeyPress" onMouseClicked="#handleSpClick">
+            <VBox fx:id="contentBox" alignment="CENTER" styleClass="bg-transparent" maxHeight="Infinity"/>
+            <contextMenu>
+                <ContextMenu>
+                    <items>
+                        <MenuItem text="下一章" onAction="#next">
+                            <graphic>
+                                <Glyph icon="&#xf138;"/>
+                            </graphic>
+                        </MenuItem>
+                        <MenuItem text="上一章" onAction="#previous">
+                            <graphic>
+                                <Glyph icon="&#xf137;"/>
+                            </graphic>
+                        </MenuItem>
+                        <SeparatorMenuItem/>
+                        <MenuItem text="隐藏状态栏" onAction="#toggleHeader" fx:id="hiddenBtn">
+                            <graphic>
+                                <Glyph icon="&#xf070;"/>
+                            </graphic>
+                        </MenuItem>
+                        <MenuItem text="退出" onAction="#exit">
+                            <graphic>
+                                <Glyph icon=""/>
+                            </graphic>
+                        </MenuItem>
+                    </items>
+                </ContextMenu>
+            </contextMenu>
+        </ScrollPane>
+    </content>
+</JFXDrawersStack>

@@ -1,120 +1,77 @@
 package com.unclezs.model;
 
-/*
- *小说信息
- *@author unclezs.com
- *@date 2019.06.23 08:44
+import cn.hutool.core.util.IdUtil;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+/**
+ * 小说信息
+ *
+ * @author unclezs.com
+ * @date 2019.06.23 08:44
  */
-public class Book {
-    private String name;//名字
-    private String path;//路径网络或者本地
-    private String img;//图片
-    private Integer id;//id
-    private Integer cpage;//当前阅读章节
-    private String charset;//编码
-    private Integer isWeb;//是否为网络书籍
-    private Double vValue;//上次阅读滑块位置
+@Data
+@NoArgsConstructor
+public class Book implements Serializable {
+    /**
+     * 名字
+     */
+    private String name;
+    /**
+     * 路径网络或者本地
+     */
+    private String path;
+    /**
+     * 图片
+     */
+    private String cover;
+    /**
+     * id
+     */
+    @TableId(type = IdType.NONE)
+    private String id;
+    /**
+     * 当前阅读章节
+     */
+    private Integer chapterIndex;
+    /**
+     * 是否为网络书籍
+     */
+    private boolean web;
+    /**
+     * 上次阅读滑块位置
+     */
+    private Double location = 0.0001;
 
-    public Book() {
-    }
+    /**
+     * 正在阅读的章节列表，初始化时候显示
+     * 0,1,2
+     */
+    private String readingChapter = "0,1";
 
+    /**
+     * 格式化之后存储的章节JSON位置 详情见loader
+     */
+    private String chapterPath;
 
-    public Book(String name, String path, String img) {
+    /**
+     * 自动更新
+     */
+    private boolean autoUpdate;
+
+    public Book(String name, String path, String cover) {
         this.name = name;
         this.path = path;
-        this.img = img;
-        this.isWeb = 0;
-        this.cpage = 0;
-        this.charset = "UTF-8";
-        this.vValue=0.0;
+        this.cover = cover;
+        this.chapterIndex = 0;
+        this.id = IdUtil.simpleUUID();
     }
 
-    public Book(String name, String path, String img, Integer id, Integer cpage, String charset, Integer isWeb, Double vValue) {
-        this.name = name;
-        this.path = path;
-        this.img = img;
-        this.id = id;
-        this.cpage = cpage;
-        this.charset = charset;
-        this.isWeb = isWeb;
-        this.vValue = vValue;
-    }
-
-    public Double getvValue() {
-        return vValue;
-    }
-
-    public void setvValue(Double vValue) {
-        this.vValue = vValue;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getCpage() {
-        return cpage;
-    }
-
-    public void setCpage(Integer cpage) {
-        this.cpage = cpage;
-    }
-
-    public String getCharset() {
-        return charset;
-    }
-
-    public void setCharset(String charset) {
-        this.charset = charset;
-    }
-
-    public Integer getIsWeb() {
-        return isWeb;
-    }
-
-    public void setIsWeb(Integer isWeb) {
-        this.isWeb = isWeb;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "name='" + name + '\'' +
-                ", path='" + path + '\'' +
-                ", img='" + img + '\'' +
-                ", id=" + id +
-                ", cpage=" + cpage +
-                ", charset='" + charset + '\'' +
-                ", isWeb=" + isWeb +
-                ", vValue=" + vValue +
-                '}';
+    public Double getLocation() {
+        return location == 0 ? 0.00001 : location;
     }
 }

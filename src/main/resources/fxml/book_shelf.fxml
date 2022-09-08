@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXMasonryPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.StackPane?>
+<?import org.controlsfx.glyphfont.*?>
+<StackPane fx:id="root" styleClass="book-root" nodeOrientation="RIGHT_TO_LEFT" stylesheets="/css/bookshelf.css"
+           maxWidth="Infinity"
+           maxHeight="Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.unclezs.gui.controller.BookShelfController">
+    <fx:define>
+        <ContextMenu fx:id="contextMenu">
+            <items>
+                <MenuItem text="开始阅读" onAction="#open">
+                    <graphic>
+                        <Glyph icon="&#xf02d;"/>
+                    </graphic>
+                </MenuItem>
+                <MenuItem text="获取更新" onAction="#updateChapters">
+                    <graphic>
+                        <Glyph icon="&#xf1da;"/>
+                    </graphic>
+                </MenuItem>
+                <MenuItem text="下载本书" onAction="#download">
+                    <graphic>
+                        <Glyph icon="&#xf0ed;"/>
+                    </graphic>
+                </MenuItem>
+                <MenuItem text="合成语音" onAction="#toAudio">
+                    <graphic>
+                        <Glyph icon="&#xf0ec;"/>
+                    </graphic>
+                </MenuItem>
+                <MenuItem text="更换封面" onAction="#newCover">
+                    <graphic>
+                        <Glyph icon="&#xf1cb;"/>
+                    </graphic>
+                </MenuItem>
+                <MenuItem text="重命名" onAction="#newName">
+                    <graphic>
+                        <Glyph icon="&#xf044;"/>
+                    </graphic>
+                </MenuItem>
+                <SeparatorMenuItem/>
+                <MenuItem text="删除" onAction="#remove">
+                    <graphic>
+                        <Glyph icon="&#xf00d;"/>
+                    </graphic>
+                </MenuItem>
+            </items>
+        </ContextMenu>
+    </fx:define>
+    <ScrollPane fitToWidth="true" fx:id="scrollPane" hbarPolicy="NEVER" nodeOrientation="LEFT_TO_RIGHT"
+                vbarPolicy="NEVER" maxWidth="Infinity" maxHeight="Infinity">
+        <JFXMasonryPane fx:id="bookPane" maxHeight="Infinity" maxWidth="Infinity" nodeOrientation="LEFT_TO_RIGHT"
+                        VSpacing="15"
+                        styleClass="book-pane"/>
+    </ScrollPane>
+    <JFXButton contentDisplay="GRAPHIC_ONLY" onMouseClicked="#importLocalBook" buttonType="RAISED"
+               styleClass="action-node" StackPane.alignment="BOTTOM_LEFT">
+        <graphic>
+            <Glyph icon="&#xf067;"/>
+        </graphic>
+        <StackPane.margin>
+            <Insets left="30" bottom="30"/>
+        </StackPane.margin>
+    </JFXButton>
+</StackPane>

@@ -1,0 +1,49 @@
+@import "components/tab-pane.css";
+
+/*主舞台左侧菜单*/
+.menu-pane {
+    -fx-padding: 0 20 0 20;
+    -fx-border-width: 0 1 0 0;
+    -fx-border-color: border-color;
+}
+
+.menu-btn {
+    -fx-background-color: transparent;
+    -fx-font-size: 13;
+    -fx-pref-width: 150;
+    -fx-min-height: 30 !important;
+    -fx-alignment: center-left;
+}
+
+.menu-btn:disabled {
+    -fx-background-color: linear-gradient(to right, rgb(31, 212, 174), rgb(30, 205, 148));
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.5), 1, 0, 0, 0);
+    -fx-opacity: 1;
+    -fx-cursor: hand;
+}
+
+.menu-btn:hover {
+    -fx-background-color: rgba(216, 216, 216, 0.3);
+    -fx-effect: dropshadow(three-pass-box, #888, 1, 0, 0, 0);
+    -fx-opacity: 1;
+    -fx-cursor: hand;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+}
+
+.menu-btn .glyph-font {
+    -fx-font-size: 13;
+    -fx-background-insets: 0;
+    -fx-pref-width: 15px;
+}
+
+.menu-btn:disabled .glyph-font {
+    -fx-opacity: 1;
+}
+
+.menu-label {
+    -fx-alignment: center-left;
+    -fx-padding: 20 0 10 10;
+}

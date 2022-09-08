@@ -1,0 +1,29 @@
+/*设置表格头靠左、字体大小，字体颜色*/
+.table-view .column-header .label {
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-font-size: 13;
+}
+
+.table-view * {
+    -fx-background-color: transparent;
+}
+
+/*设置表格头高度*/
+.table-view > .column-header-background {
+    -fx-pref-height: 30;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+    -fx-border-width: 1 1 1 1;
+}
+
+.table-view .text-field-table-cell .text-field {
+    -fx-alignment: center;
+    -fx-background-color: transparent;
+}
+
+.table-view .text-field-table-cell {
+    -fx-alignment: center;
+}

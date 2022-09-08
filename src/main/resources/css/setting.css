@@ -1,0 +1,74 @@
+.setting-box {
+    -fx-padding: 10 10 10 10;
+    -fx-alignment: center-left;
+}
+
+.setting-box .menu-item-btn {
+    -fx-pref-height: 25;
+    -fx-pref-width: 120;
+    -fx-padding: 0 0 0 10;
+}
+
+.setting-box .menu-item-line {
+    -fx-max-height: 1;
+    -fx-min-height: 1;
+    -fx-background-color: border-color;
+}
+
+/*设置弹窗*/
+.setting-item-box {
+    -jfx-vertical-gap: 30;
+    -fx-padding: 10 0 0 0;
+}
+
+.setting-item-center {
+    -fx-column-halignment: center;
+    -fx-row-valignment: center;
+}
+
+.setting-item-title {
+    -fx-alignment: center-left;
+    -fx-padding: 0 0 0 20;
+    -fx-pref-width: 100;
+    -fx-min-width: 100;
+}
+
+.bottom-line {
+    -fx-padding: 0 0 5 0;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: rgb(234, 234, 234);
+}
+
+.save-path-input, .save-path-input:focused {
+    -fx-border-color: #bfbfbf;
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-pref-width: 300;
+}
+
+.system-proxy-input {
+    -fx-border-color: #bfbfbf;
+    -fx-background-color: rgba(0, 0, 0, 0);
+    -fx-pref-width: 170;
+}
+
+.del-btn {
+    -fx-background-color: red;
+    -fx-padding: 0 0 0 2;
+    -fx-pref-width: 50;
+    -fx-pref-height: 20;
+    -fx-text-fill: #FFF !important;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.del-btn .glyph-font {
+    -fx-text-fill: #FFF !important;
+}
+
+.reward-title {
+    -fx-font-size: 13;
+    -fx-wrap-text: true;
+    -fx-padding: 5;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}

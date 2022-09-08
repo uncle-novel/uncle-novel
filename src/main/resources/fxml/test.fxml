@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
+<?import org.controlsfx.glyphfont.Glyph?>
+<FlowPane maxHeight="100" maxWidth="100" prefHeight="100" prefWidth="600.0" xmlns="http://javafx.com/javafx/8"
+          stylesheets="/css/test.css" styleClass="search-pane"
+          xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.gui.controller.TestController">
+    <Glyph icon="&#xf002;" styleClass="left-icon" fontFamily="FontAwesome"/>
+    <TextField styleClass="text-in" promptText="name"/>
+    <Glyph icon="&#xf057;" styleClass="right-icon" fontFamily="FontAwesome"/>
+</FlowPane>

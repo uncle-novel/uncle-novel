@@ -1,107 +1,257 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import org.controlsfx.control.textfield.*?>
 <?import com.jfoenix.controls.*?>
-<?import javafx.scene.text.*?>
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import com.unclezs.enmu.LanguageLocale?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<JFXTabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="384.0" prefWidth="269.0" rotateGraphic="true" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.ui.controller.SettingController">
-    <tabs>
-        <Tab closable="false" text="下载设置">
-            <content>
-                <Pane prefHeight="60.0" style="-fx-background-color: #FFF;">
-                    <children>
-                  <VBox prefHeight="361.0" prefWidth="269.0">
-                     <children>
-                        <Pane prefHeight="60.0" prefWidth="269.0">
-                           <children>
-                                    <JFXRadioButton fx:id="dmobi" layoutX="197.0" layoutY="32.0" text="MOBI">
-                                        <font>
-                                            <Font size="13.0" />
-                                        </font>
-                                    </JFXRadioButton>
-                                    <JFXRadioButton fx:id="dtxt" layoutX="14.0" layoutY="32.0" selected="true" text="TXT">
-                                        <font>
-                                            <Font size="13.0" />
-                                        </font>
-                                    </JFXRadioButton>
-                                    <JFXRadioButton fx:id="depub" graphicTextGap="0.0" layoutX="104.0" layoutY="32.0" prefHeight="15.0" prefWidth="61.0" text="EPUB">
-                                        <font>
-                                            <Font size="13.0" />
-                                        </font>
-                                    </JFXRadioButton>
-                              <Label layoutX="6.0" layoutY="6.0" text="下载格式" />
-                           </children>
-                        </Pane>
-                              <Pane prefHeight="1.0" prefWidth="257.0" style="-fx-background-color: rgb(189,189,189);" />
-                              <JFXToggleButton fx:id="merge" contentDisplay="RIGHT" prefHeight="60.0" prefWidth="280.0" selected="true" text="下载完成后合并文件                       " textAlignment="JUSTIFY" toggleLineColor="#becdbe" wrapText="true" />
-                              <Pane prefHeight="1.0" prefWidth="257.0" style="-fx-background-color: rgb(189,189,189);" />
-                        <Pane prefHeight="60.0" prefWidth="269.0">
-                           <children>
-                                    <JFXComboBox fx:id="chapterNum" layoutX="180.0" layoutY="12.0" prefHeight="23.0" prefWidth="75.0" promptText="999" />
-                                    <Text fill="#0d0b0b" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="每个线程下载章节数量" />
-                           </children>
-                        </Pane>
-                              <Pane prefHeight="1.0" prefWidth="257.0" style="-fx-background-color: rgb(189,189,189);" />
-                        <Pane prefHeight="60.0" prefWidth="269.0">
-                           <children>
-                                    <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="每个章节下载延迟秒数" />
-                                    <JFXComboBox fx:id="delay" layoutX="180.0" layoutY="13.0" prefHeight="23.0" prefWidth="75.0" promptText="1000ms" />
-                           </children>
-                        </Pane>
-                              <Pane prefHeight="1.0" prefWidth="257.0" style="-fx-background-color: rgb(189,189,189);" />
-                        <Pane minHeight="60.0" prefHeight="60.0" prefWidth="269.0">
-                           <children>
-                                    <Label fx:id="pathLabel" layoutX="14.0" layoutY="28.0" prefHeight="24.0" prefWidth="175.0" style="-fx-background-color: rgb(189,189,189);" text="D:\\" />
-                                    <Label fx:id="changePath" alignment="CENTER" layoutX="204.0" layoutY="28.0" prefHeight="24.0" prefWidth="51.0" style="-fx-background-color: #009688; -fx-background-radius: 5; -fx-border-radius: 5;" text="浏览" textFill="WHITE" />
-                                    <Text layoutX="6.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="下载位置" />
-                           </children>
-                        </Pane>
-                              <Pane prefHeight="1.0" prefWidth="257.0" style="-fx-background-color: rgb(189,189,189);" />
-                        <Pane prefHeight="48.0" prefWidth="269.0">
-                           <children>
-                                    <Text fill="#246526" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="合理配置，防止被封IP而下载不完整" textAlignment="CENTER" wrappingWidth="268.869140625" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </VBox>
-                    </children>
-                </Pane>
-            </content>
-        </Tab>
-      <Tab closable="false" text="代理配置">
-        <content>
-            <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <Pane layoutY="1.0" prefHeight="350.0" prefWidth="269.0">
-                     <children>
-                        <Label layoutX="27.0" layoutY="21.0" text="主机地址" />
-                        <TextField fx:id="proxyHost" layoutX="87.0" layoutY="16.0" prefHeight="26.0" prefWidth="169.0" promptText="127.0.0.1" />
-                        <TextField fx:id="proxyPort" layoutX="87.0" layoutY="52.0" prefHeight="26.0" prefWidth="169.0" promptText="80" />
-                        <Label layoutX="27.0" layoutY="57.0" text="端口" />
-                        <JFXButton fx:id="testProxy" buttonType="RAISED" layoutX="27.0" layoutY="96.0" prefHeight="26.0" prefWidth="79.0" style="-fx-background-color: #009688;" text="测试" textFill="WHITE" />
-                        <JFXButton fx:id="saveProxy" buttonType="RAISED" layoutX="172.0" layoutY="96.0" prefHeight="26.0" prefWidth="79.0" style="-fx-background-color: #009688;" text="保存" textFill="WHITE" />
-                     </children>
-                  </Pane>
-               </children></Pane>
-        </content>
-      </Tab>
-      <Tab closable="false" text="杂项配置">
-         <content>
-            <Pane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <VBox layoutX="-7.0" prefHeight="380.0" prefWidth="269.0">
-                     <children>
-                        <JFXToggleButton fx:id="autoImport" contentDisplay="RIGHT" prefHeight="60.0" prefWidth="270.0" selected="true" text="自动读取剪贴版链接(重启生效)" textAlignment="JUSTIFY" toggleLineColor="#becdbe" wrapText="true" />
-                        <Pane prefHeight="1.0" prefWidth="888.0" style="-fx-background-color: rgb(189,189,189);" />
-                     </children>
-                  </VBox>
-               </children></Pane>
-         </content>
-      </Tab>
-    </tabs>
+<?import javafx.scene.text.*?>
+<?import org.controlsfx.glyphfont.Glyph?>
+<JFXTabPane rotateGraphic="true" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8"
+            stylesheets="/css/setting.css" fx:id="root"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.gui.controller.SettingController">
+    <Tab closable="false" text="%general">
+        <VBox styleClass="setting-item-box">
+            <!--下载格式-->
+            <GridPane hgap="10" prefHeight="40" styleClass="bottom-line">
+                <Label text="%download_format" GridPane.columnSpan="1" GridPane.rowSpan="1" GridPane.rowIndex="0"
+                       prefHeight="50"
+                       prefWidth="100" styleClass="setting-item-center,setting-item-title"
+                       GridPane.columnIndex="0"/>
+                <JFXRadioButton text="MOBI" GridPane.columnSpan="1" GridPane.rowSpan="1"
+                                GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="setting-item-center"
+                                minHeight="40" prefWidth="100">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="saveTypeGroup"/>
+                    </toggleGroup>
+                </JFXRadioButton>
+                <JFXRadioButton toggleGroup="$saveTypeGroup" GridPane.columnSpan="1" GridPane.rowSpan="1"
+                                GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="setting-item-center"
+                                prefHeight="40" prefWidth="100"
+                                selected="true" text="TXT">
+                </JFXRadioButton>
+                <JFXRadioButton toggleGroup="$saveTypeGroup" text="EPUB" GridPane.columnSpan="1"
+                                GridPane.rowSpan="1" GridPane.rowIndex="0" styleClass="setting-item-center"
+                                GridPane.columnIndex="3" prefHeight="40" prefWidth="100"/>
+            </GridPane>
+            <!--线程配置-->
+            <GridPane hgap="10" prefHeight="40" styleClass="bottom-line">
+                <Label text="%thread" prefHeight="40"
+                       styleClass="setting-item-center,setting-item-title"
+                       GridPane.columnIndex="0"/>
+                <Label text="%per_thread_download_number" GridPane.columnIndex="1" GridPane.valignment="CENTER"
+                       GridPane.halignment="RIGHT"/>
+                <JFXComboBox fx:id="threadNum" promptText="999" GridPane.columnIndex="2" GridPane.valignment="CENTER"
+                             GridPane.halignment="LEFT"/>
+                <Label text="%download_delay" GridPane.columnIndex="3" GridPane.valignment="CENTER"
+                       GridPane.halignment="RIGHT" style="-fx-padding: 0 0 0 30"/>
+                <JFXComboBox fx:id="delay" promptText="1000ms" GridPane.columnIndex="4" GridPane.valignment="CENTER"
+                             GridPane.halignment="LEFT"/>
+            </GridPane>
+            <GridPane hgap="10" prefHeight="40" styleClass="bottom-line">
+                <Label text="%store_location" prefHeight="40"
+                       styleClass="setting-item-center,setting-item-title"
+                       GridPane.columnIndex="0"/>
+                <TextField fx:id="savePathInput" GridPane.columnIndex="1"
+                           styleClass="setting-item-center,save-path-input"/>
+                <JFXButton onMouseClicked="#changeSavePath" GridPane.columnIndex="2" styleClass="btn,default-btn,btn-sm"
+                           text="%change_path"/>
+                <JFXButton onMouseClicked="#openSavePath" GridPane.columnIndex="3" styleClass="btn,default-btn,btn-sm"
+                           text="%open_path"/>
+            </GridPane>
+            <!--代理配置-->
+            <GridPane hgap="10" prefHeight="40" styleClass="bottom-line">
+                <Label text="%system_proxy" prefHeight="40"
+                       styleClass="setting-item-center,setting-item-title"
+                       GridPane.columnIndex="0"/>
+                <TextField fx:id="proxyHost" styleClass="system-proxy-input" promptText="127.0.0.1"
+                           GridPane.columnIndex="1"/>
+                <TextField fx:id="proxyPort" styleClass="system-proxy-input" promptText="1080"
+                           GridPane.columnIndex="2"/>
+                <JFXButton onMouseClicked="#testProxy" styleClass="btn,info-btn,btn-sm" GridPane.columnIndex="3"
+                           text="%proxy_test"/>
+                <JFXButton fx:id="useProxy" styleClass="btn,success-btn,btn-sm" GridPane.columnIndex="4"
+                           text="%enabled"/>
+            </GridPane>
+            <!--其他-->
+            <GridPane hgap="10" prefHeight="40" styleClass="bottom-line">
+                <Label text="%others" prefHeight="40"
+                       styleClass="setting-item-center,setting-item-title"
+                       GridPane.columnIndex="0"/>
+                <HBox styleClass="setting-item-center" GridPane.columnIndex="1" alignment="CENTER_LEFT" prefHeight="40">
+                    <Label text="%merge_file"/>
+                    <JFXToggleButton fx:id="merge" selected="true" styleClass="setting-item-center"/>
+                </HBox>
+            </GridPane>
+            <TextFlow styleClass="alert, alert-warning">
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+                <Text text="%config_tips"/>
+            </TextFlow>
+        </VBox>
+    </Tab>
+    <!--    <Tab closable="false" text="%proxy_setting">-->
+    <!--        <VBox styleClass="setting-item-box">-->
+    <!--   -->
+    <!--        </VBox>-->
+    <!--    </Tab>-->
+    <Tab closable="false" text="%book_source_setting">
+        <VBox styleClass="setting-item-box" spacing="20">
+            <GridPane hgap="10" styleClass="bottom-line">
+                <Label text="%text_novel" prefHeight="40"
+                       styleClass="setting-item-center,setting-item-title"
+                       GridPane.columnIndex="0"/>
+                <JFXButton styleClass="btn,info-btn,btn-sm,setting-item-center" GridPane.columnIndex="1"
+                           text="%export" onMouseClicked="#exportTextRule">
+                    <graphic>
+                        <Glyph icon="&#xf093;" styleClass="white-text-fill"/>
+                    </graphic>
+                </JFXButton>
+                <JFXButton styleClass="btn,success-btn,btn-sm,setting-item-center" GridPane.columnIndex="2"
+                           text="%import"
+                           onMouseClicked="#importTextRule">
+                    <graphic>
+                        <Glyph icon="&#xf067;" styleClass="white-text-fill"/>
+                    </graphic>
+                </JFXButton>
+                <TableView fx:id="textTable" maxWidth="Infinity" editable="true" GridPane.columnSpan="3"
+                           prefHeight="100" maxHeight="400" styleClass="border-color"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.hgrow="ALWAYS">
+                    <GridPane.margin>
+                        <Insets top="10"/>
+                    </GridPane.margin>
+                    <placeholder>
+                        <BorderPane>
+                            <center>
+                                <Text>还没有小说书源</Text>
+                            </center>
+                        </BorderPane>
+                    </placeholder>
+                    <columns>
+                        <TableColumn text="%site_name" userData="name"/>
+                        <TableColumn text="%site" userData="site" editable="false"/>
+                        <TableColumn text="%book_name" userData="title"/>
+                        <TableColumn text="%cover" userData="cover"/>
+                        <TableColumn text="%book_author" userData="author"/>
+                        <TableColumn text="%strict_search" userData="strict"/>
+                        <TableColumn text="%chapter_url" userData="url"/>
+                        <TableColumn text="%search_keyword" userData="searchKey"/>
+                        <TableColumn text="%search_result_list" userData="resultList"/>
+                        <TableColumn text="%search_link" userData="searchLink"/>
+                        <TableColumn text="%request_method" userData="method"/>
+                        <TableColumn text="%search_result_next_page" userData="nextPage"/>
+                        <TableColumn text="%weight" userData="weight"/>
+                        <TableColumn text="%enabled" userData="enabled"/>
+                        <TableColumn text="%charset" userData="charset"/>
+                        <TableColumn text="%operation" fx:id="deleteTextRule"/>
+                    </columns>
+                </TableView>
+            </GridPane>
+            <GridPane hgap="10" styleClass="bottom-line">
+                <Label text="%audio_novel" prefHeight="40"
+                       styleClass="setting-item-center,setting-item-title"
+                       GridPane.columnIndex="0"/>
+                <JFXButton styleClass="btn,info-btn,btn-sm,setting-item-center" GridPane.columnIndex="1"
+                           text="%export" onMouseClicked="#exportAudioRule">
+                    <graphic>
+                        <Glyph icon="&#xf093;" styleClass="white-text-fill"/>
+                    </graphic>
+                </JFXButton>
+                <JFXButton styleClass="btn,success-btn,btn-sm,setting-item-center" GridPane.columnIndex="2"
+                           text="%import"
+                           onMouseClicked="#importAudioRule">
+                    <graphic>
+                        <Glyph icon="&#xf067;" styleClass="white-text-fill"/>
+                    </graphic>
+                </JFXButton>
+                <TableView fx:id="audioTable" maxWidth="Infinity" editable="true" GridPane.columnSpan="3"
+                           prefHeight="100" maxHeight="400" styleClass="border-color"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.hgrow="ALWAYS">
+                    <placeholder>
+                        <BorderPane>
+                            <center>
+                                <Text>还没有有声书源</Text>
+                            </center>
+                        </BorderPane>
+                    </placeholder>
+                    <GridPane.margin>
+                        <Insets top="10"/>
+                    </GridPane.margin>
+                    <columns>
+                        <TableColumn text="%site_name" userData="name"/>
+                        <TableColumn text="%site" userData="site" editable="false"/>
+                        <TableColumn text="%search_link" userData="searchUrl"/>
+                        <TableColumn text="%search_keyword" userData="searchKey"/>
+                        <TableColumn text="%request_method" userData="method"/>
+                        <TableColumn text="%search_result_list" userData="searchList"/>
+                        <TableColumn text="%cover" userData="cover"/>
+                        <TableColumn text="%search_result_next_page" userData="nextPage"/>
+                        <TableColumn text="%chapter_list" userData="catalogList"/>
+                        <TableColumn text="%chapter_name" userData="catalogName"/>
+                        <TableColumn text="%chapter_link" userData="catalogUrl"/>
+                        <TableColumn text="%book_speak" userData="speak"/>
+                        <TableColumn text="%book_name" userData="title"/>
+                        <TableColumn text="%book_author" userData="author"/>
+                        <TableColumn text="%chapter_url" userData="url"/>
+                        <TableColumn text="%use_client" userData="client"/>
+                        <TableColumn text="%strict_search" userData="strict"/>
+                        <TableColumn text="%weight" userData="weight"/>
+                        <TableColumn text="%enabled" userData="enabled"/>
+                        <TableColumn text="%charset" userData="charset"/>
+                        <TableColumn text="%operation" fx:id="audioDeleteTextRule"/>
+                    </columns>
+                </TableView>
+            </GridPane>
+            <TextFlow styleClass="alert, alert-success">
+                <VBox.margin>
+                    <Insets top="10"/>
+                </VBox.margin>
+                <Text text="%rule_tips"/>
+            </TextFlow>
+        </VBox>
+    </Tab>
+    <Tab closable="false" text="%others">
+        <VBox styleClass="setting-item-box">
+            <GridPane hgap="10" prefHeight="40" styleClass="bottom-line">
+                <Label text="%convenient_functions" prefHeight="40"
+                       styleClass="setting-item-center,setting-item-title"
+                       GridPane.columnIndex="0"/>
+                <HBox GridPane.columnIndex="1" alignment="CENTER_LEFT">
+                    <Label text="%auto_import_clip"/>
+                    <JFXToggleButton fx:id="autoImport" styleClass="setting-item-center" selected="true"
+                                     toggleLineColor="#becdbe"/>
+                </HBox>
+            </GridPane>
+            <GridPane hgap="10" prefHeight="40" styleClass="bottom-line">
+                <Label text="%exit_handler" prefHeight="40"
+                       styleClass="setting-item-center,setting-item-title"
+                       GridPane.columnIndex="0"/>
+                <HBox GridPane.columnIndex="1" alignment="CENTER_LEFT" spacing="15">
+                    <JFXRadioButton text="%inquiry" prefHeight="40">
+                        <toggleGroup>
+                            <ToggleGroup fx:id="exitHandlerGroup"/>
+                        </toggleGroup>
+                    </JFXRadioButton>
+                    <JFXRadioButton toggleGroup="$exitHandlerGroup" prefHeight="40" text="%min_to_tray">
+                    </JFXRadioButton>
+                    <JFXRadioButton toggleGroup="$exitHandlerGroup" text="%exit" prefHeight="40"/>
+                </HBox>
+            </GridPane>
+            <GridPane hgap="10" prefHeight="40" styleClass="bottom-line">
+                <Label text="%language" prefHeight="40"
+                       styleClass="setting-item-center,setting-item-title"
+                       GridPane.columnIndex="0"/>
+                <JFXComboBox GridPane.columnIndex="1" fx:id="language" styleClass="setting-item-center">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <LanguageLocale fx:value="ZH_CN"/>
+                            <LanguageLocale fx:value="CN_US"/>
+                        </FXCollections>
+                    </items>
+                </JFXComboBox>
+            </GridPane>
+        </VBox>
+    </Tab>
 </JFXTabPane>

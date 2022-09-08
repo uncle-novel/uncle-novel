@@ -1,101 +1,219 @@
-/* The increment and decrement button CSS class of scrollbar */
-.increment-button, .mylistview .decrement-button {
+@import "global.css";
+
+.bg-transparent {
+    -fx-background-color: transparent !important;
+}
+
+/*list-view*/
+.list-view {
+    -fx-background-color: -fx-background !important;
+}
+
+.list-view .list-cell {
+    -fx-label-padding: 5;
+    -fx-text-fill: text-color;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: hover-bg-color;
+    -fx-text-fill: hover-text-color;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: selected-bg-color;
+    -fx-text-fill: selected-text-color !important;
+}
+
+.content .text {
+    -fx-line-spacing: 50px;
+}
+
+.chapter-title * {
+    -fx-font-weight: lighter;
+}
+
+.no-radius * {
+    -fx-background-radius: 0;
+}
+
+.chapter-content {
+    -fx-wrap-text: true;
+}
+
+
+.context-menu * {
+    -fx-text-fill: text-color !important;
+}
+
+.menu-item:hover {
+    -fx-background-color: hover-bg-color;
+}
+
+.setting-btn {
+    -fx-font-size: 13px;
     -fx-background-color: transparent;
-    -fx-background-radius: 2em;
-
 }
 
-/* The main scrollbar **track** CSS class  */
-.scroll-bar:horizontal .track,
-.scroll-bar:vertical .track {
-    -fx-background-color: transparent;
-    -fx-border-color: derive(gray, 80%);
-    -fx-background-radius: 2em;
-    -fx-border-radius: 2em;
+.setting-btn .glyph-font {
+    -fx-font-size: 22px;
 }
 
-/* The main scrollbar **thumb** CSS class which we drag every time (movable) */
-.scroll-bar:horizontal .thumb,
-.scroll-bar:vertical .thumb {
-    -fx-background-color: derive(black, 90%);
-    -fx-background-insets: 2, 0, 0;
-    -fx-background-radius: 2em;
-}
-
-#textArea .scroll-bar:vertical {
-    -fx-opacity: 0;
-}
-
-#ct .scroll-bar:vertical {
-    -fx-opacity: 0;
-}
-#th .scroll-bar:vertical {
-    -fx-opacity: 0;
-}
-#tt .scroll-bar:vertical {
-    -fx-opacity: 0;
-}
-#ad .scroll-bar:vertical {
-    -fx-opacity: 0;
-}
-
-#cookies .scroll-bar:vertical {
-    -fx-opacity: 0;
-}
-
-#ch .scroll-bar:vertical {
-    -fx-opacity: 0;
-}
-
-#ua .scroll-bar:vertical {
-    -fx-opacity: 0;
-}
-
-#searchList {
+.jfx-drawer .jfx-drawer-side-pane {
+    -fx-background-radius: 0;
     -fx-background-color: transparent;
 }
 
-/*设置表格头靠左、字体大小，字体颜色*/
-.table-view .column-header .label{
-    -fx-alignment: center-left;
-    -fx-text-fill: rgba(68,68,68,0.96);
-    -fx-font-size: 12;
-}
-.table-view .column-header{
-    -fx-background-color: rgb(255,255,255);
-    -fx-border-color: rgb(225,225,226);
+.setting-btn-eye:selected .glyph-font, .setting-btn-eye:selected {
+    -fx-text-fill: #009688 !important;
 }
 
-/*设置表格头高度*/
-.table-view > .column-header-background{
-    -fx-pref-height: 23;
-    -fx-background-color: rgb(255,255,255);
+
+.shadow-gray {
+    -fx-effect: dropshadow(three-pass-box, #bfbfbf, 5, 0, 0, 0);
 }
-/*设置每一列内容居中，每一行高度*/
-.table-row-cell{
-    -fx-cell-size: 25px;
+
+.viewport {
+    -fx-background-color: transparent;
+}
+
+.bg-color-picker, .color-picker .color-picker-label {
+    -fx-effect: dropshadow(three-pass-box, #bfbfbf, 5, 0, 0, 0);
+    -fx-background-radius: 5;
+    -fx-pref-width: 40;
+    -fx-pref-height: 40;
+    -fx-padding: 0;
+    -fx-label-padding: 0;
+}
+
+.color-picker .color-picker-label {
+    -fx-content-display: GRAPHIC_ONLY;
+    -fx-text-fill: #000 !important;
+}
+
+.color-picker {
+    -fx-background-color: transparent;
+}
+
+.gradient-bg {
+    -fx-background-color: linear-gradient(to bottom, rgb(225, 233, 237), rgb(253, 253, 254))
+}
+
+.bg-color-picker-plus {
+    -fx-color-label-visible: false;
+    -fx-min-width: 40;
+    -fx-min-height: 40;
+}
+
+
+.bg-color-picker:selected {
+    -fx-effect: dropshadow(three-pass-box, #000, 5, 0, 0, 0);
+}
+
+.font-select {
+    -fx-background-color: -fx-background;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: text-color;
+}
+
+.font-select .list-cell {
+    -fx-background-color: transparent;
+}
+
+.jfx-toggle-node {
+    -jfx-toggle-color: transparent;
+    -jfx-disable-animation: true;
+}
+
+.theme-color-icon {
+    -fx-font-size: 25;
+    -fx-text-fill: #888 !important;
+}
+
+.chapter-slider {
+    -jfx-default-thumb: #057794;
+    -jfx-default-track: #bfbfbf;
+}
+
+.align-text .glyph-font {
+    -fx-font-size: 18px;
+    -fx-pref-width: 40;
+    -fx-border-color: derive(-fx-text-fill, 50%);
+    -fx-border-radius: 10;
+    -fx-arc-height: 25;
     -fx-alignment: center;
 }
-#tableView{
-    -fx-table-cell-border-color:transparent;
-    -fx-border-color: white;
-    -fx-alignment: center-left;
+
+.align-text .glyph-font:hover {
+    -fx-effect: dropshadow(three-pass-box, #bfbfbf, 5, 0, 0, 0);
 }
 
-/*设置每一列内容居中*/
-#tableView .table-column{
-    -fx-alignment: center-left;
-}
-/*隐藏滚动度条*/
-#tableView .scroll-bar{
+.catalog-list .list-cell {
     -fx-background-color: transparent;
-    -fx-opacity: 0;
 }
-.list-view{
-    -fx-accent: rgb(255,255,255);
-    -fx-focus-color: rgb(255,255,255);
+
+.catalog-list .list-cell:hover, .catalog-list .list-cell:selected {
+
+    -fx-background-radius: 5px;
 }
-.table-view{
-    -fx-accent: rgb(255,255,255);
-    -fx-focus-color: rgb(255,255,255);
+
+.chapter-cell {
+    -fx-font-size: 12px;
+}
+
+.chapter-cell .glyph-font {
+    -fx-font-size: 11px;
+}
+
+/*窗口头部*/
+.header-container {
+    -fx-background-color: transparent;
+}
+
+.header-container .label {
+    -fx-font-size: 15px;
+    -fx-text-fill: text-color;
+}
+
+.header-container .label:hover {
+    -fx-text-fill: text-color;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 2, 0, 2, 2);
+}
+
+.header-container .jfx-svg-glyph, .header-container .header-line {
+    -jfx-size: 15px;
+    -fx-background-color: text-color;
+}
+
+.header-container .jfx-svg-glyph:hover {
+    -fx-background-color: text-color;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 2, 0, 2, 2);
+}
+
+.stage-decorator {
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-radius: 5;
+}
+
+.resize-border {
+    -fx-border-color: transparent;
+    -fx-border-width: 0 4 4 4;
+}
+
+.header-icon-exit {
+    -fx-font-size: 17px !important;
+}
+
+.header-icon-exit:hover {
+    -fx-text-fill: rgb(255, 116, 72) !important;
+}
+
+.header-line {
+    -fx-pref-width: 1;
+    -fx-max-height: 20;
+}
+
+.setting-pane {
+    -fx-background-color: -fx-background;
 }

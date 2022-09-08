@@ -5,12 +5,15 @@ import com.luhuiguo.chinese.ChineseUtils;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/*
- *字符转换工具类
- *@author unclezs.com
- *@date 2019.07.05 19:53
+/**
+ * 字符转换工具类
+ *
+ * @author unclezs.com
+ * @date 2019.07.05 19:53
  */
 public class CharacterUtil {
+    private static Pattern ncrReg = Pattern.compile("&#([\\d]{2,6});");
+
     /**
      * 繁体转简体
      *
@@ -26,10 +29,12 @@ public class CharacterUtil {
      * @param src 字符集&#20491;&#30007;&#20154;&#30475;
      * @return 转码后得字符集
      */
-    public static String NCR2Chinese(String src) {
-        Pattern pattern = Pattern.compile("&#([\\d]{2,6});");
-        src = src.replace("\r\n", "&#92;&#114;&#92;&#110;");//换行符处理
-        Matcher m = pattern.matcher(src);
+    public static String ncr2Chinese(String src) {
+        /**
+         * 换行符处理
+         */
+        src = src.replace("\r\n", "&#92;&#114;&#92;&#110;");
+        Matcher m = ncrReg.matcher(src);
         while (m.find()) {
             src = src.replace(m.group(0), (char) Integer.parseInt(m.group(1)) + "");
         }

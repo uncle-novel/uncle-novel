@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.web.WebView?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.unclezs.gui.controller.FeedbackController"
+>
+    <WebView fx:id="webView"/>
+</StackPane>

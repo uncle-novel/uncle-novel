@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import org.controlsfx.glyphfont.*?>
+<VBox stylesheets="/css/setting.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.unclezs.gui.controller.components.SettingMenuController" spacing="10" styleClass="setting-box">
+    <Label onMouseClicked="#github" text="GitHub源码" styleClass="un-btn,menu-item-btn">
+        <graphic>
+            <Glyph icon="&#xf092;"/>
+        </graphic>
+    </Label>
+    <Pane styleClass="menu-item-line"/>
+    <Label onMouseClicked="#setting" text="设置" styleClass="un-btn,menu-item-btn">
+        <graphic>
+            <Glyph icon="&#xf013;"/>
+        </graphic>
+    </Label>
+    <Label onMouseClicked="#reward" text="打赏" styleClass="un-btn,menu-item-btn">
+        <graphic>
+            <Glyph icon="&#xf23b;"/>
+        </graphic>
+    </Label>
+    <Label onMouseClicked="#about" text="关于" styleClass="un-btn,menu-item-btn">
+        <graphic>
+            <Glyph icon="&#xf170;"/>
+        </graphic>
+    </Label>
+    <Label onMouseClicked="#update" text="更新历史" styleClass="un-btn,menu-item-btn">
+        <graphic>
+            <Glyph icon="&#xf1da;"/>
+        </graphic>
+    </Label>
+    <Label onMouseClicked="#showLog" text="查看日志" styleClass="un-btn,menu-item-btn">
+        <graphic>
+            <Glyph icon="&#xf0f6;"/>
+        </graphic>
+    </Label>
+    <Label onMouseClicked="#feedback" text="问题反馈" styleClass="un-btn,menu-item-btn">
+        <graphic>
+            <Glyph icon="&#xf188;"/>
+        </graphic>
+    </Label>
+    <Pane styleClass="menu-item-line"/>
+    <Label onMouseClicked="#none" text="免责声明" styleClass="un-btn,menu-item-btn">
+        <graphic>
+            <Glyph icon="&#xf0a1;"/>
+        </graphic>
+    </Label>
+</VBox>

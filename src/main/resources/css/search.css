@@ -1,0 +1,30 @@
+.search-result-list-view {
+    -fx-background-color: transparent;
+    -fx-pref-height: 400;
+    -fx-max-height: Infinity;
+    -fx-font-size: 13;
+    -fx-border-width: 0;
+}
+
+.search-audio-search-field {
+    -fx-padding: 15 0 0 0;
+}
+
+.close-icon {
+    -fx-text-fill: red;
+    -fx-font-size: 20;
+}
+
+.chapter-list {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-border-width: 0 0 0 1;
+}
+
+.chapter-list .list-cell:hover {
+    -fx-border-width: 1 1 1 0;
+}
+
+.chapter-list .list-cell:selected {
+    -fx-border-width: 1 1 1 0;
+}

@@ -1,0 +1,49 @@
+.header-container {
+    -fx-background-color: -fx-header-background;
+}
+
+.header-container .label {
+    -fx-font-size: 15px;
+    -fx-text-fill: header-text-color;
+}
+
+.header-container .label:hover {
+    -fx-text-fill: header-text-color;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 2, 0, 2, 2);
+}
+
+.header-container .jfx-svg-glyph, .header-container .header-line {
+    -jfx-size: 15px;
+    -fx-background-color: header-text-color;
+}
+
+.header-container .jfx-svg-glyph:hover {
+    -fx-background-color: header-text-color;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 2, 0, 2, 2);
+}
+
+.stage-decorator {
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-radius: 5;
+}
+
+.resize-border {
+    -fx-border-color: transparent;
+    -fx-border-width: 0 4 4 4;
+}
+
+.header-icon-exit {
+    -fx-font-size: 17px !important;
+}
+
+.header-icon-exit:hover {
+    -fx-text-fill: rgb(255, 116, 72) !important;
+}
+
+/*窗口顶部和设置的分割线*/
+.header-line {
+    -fx-pref-width: 1;
+    -fx-max-height: 20;
+}

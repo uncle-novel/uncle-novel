@@ -1,0 +1,54 @@
+.search-pane {
+    -fx-alignment: center;
+}
+
+/*-fx-border-radius*/
+.search-left-icon {
+    -fx-padding: 0 0 0 10;
+    -fx-border-radius: 5 0 0 5;
+    -fx-border-width: 1 0 1 1;
+    -fx-background-color: transparent;
+    -fx-background-radius: 5 0 0 5;
+    -fx-alignment: center;
+    -fx-font-size: 20;
+    -fx-border-color: border-color;
+}
+
+.search-right-icon:hover {
+    -fx-text-fill: red;
+}
+
+.search-text-input {
+    -fx-background-color: transparent;
+    -fx-border-width: 1 0 1 0;
+    -fx-font-size: 15;
+    -fx-pref-height: 35;
+    -fx-padding: 0 0 0 5;
+    -fx-border-color: border-color;
+}
+
+.search-right-icon {
+    -fx-padding: 0 10 0 0;
+    -fx-border-radius: 0 5 5 0;
+    -fx-border-width: 1 1 1 0;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0 5 5 0;
+    -fx-alignment: center;
+    -fx-pref-height: 35;
+    -fx-pref-width: 35;
+    -fx-font-size: 20;
+    -fx-border-color: border-color;
+}
+
+.search-combo-box {
+    -fx-background-color: transparent;
+    -fx-border-width: 1 1 1 0;
+    -fx-pref-height: 35;
+    -fx-pref-width: 64;
+    -fx-padding: 0 0 0 5;
+    -fx-border-color: border-color;
+}
+
+.search-combo-box .arrow-button {
+    -fx-padding: 0 5 0 0;
+}

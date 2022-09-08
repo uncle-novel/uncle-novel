@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.svg.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import org.controlsfx.glyphfont.*?>
+<JFXDrawersStack fx:id="root" maxHeight="Infinity" maxWidth="Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                 stylesheets="/css/audio_bookshelf.css"
+                 xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+                 fx:controller="com.unclezs.gui.controller.AudioBookSelfController">
+    <JFXDrawer fx:id="catalogView" defaultDrawerSize="200" direction="RIGHT">
+        <sidePane>
+            <ListView fx:id="catalogListView" styleClass="audio-book-catalog,label-padding-5">
+                <placeholder>
+                    <BorderPane>
+                        <center>
+                            <SVGGlyph size="64" fill="#bfbfbf"
+                                      svgPathContent="M831.7 369.4H193.6L64 602v290.3h897.2V602L831.7 369.4zM626.6 604.6c0 62.9-51 113.9-114 113.9s-114-51-114-113.9H117.5l103.8-198h582.5l103.8 198h-281zM502.2 131h39.1v140.6h-39.1zM236.855 200.802l27.647-27.647 99.419 99.418-27.648 27.648zM667.547 272.637l99.418-99.419 27.648 27.648-99.418 99.418z"/>
+                        </center>
+                    </BorderPane>
+                </placeholder>
+                <contextMenu>
+                    <ContextMenu>
+                        <items>
+                            <MenuItem text="浏览器打开" onAction="#openChapterLinkInBrowse">
+                                <graphic>
+                                    <Glyph icon="&#xf268;"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="复制音频链接" onAction="#copyAudioLink">
+                                <graphic>
+                                    <Glyph icon="&#xf0c5;"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="检测音频失效" onAction="#checkAudioLink">
+                                <graphic>
+                                    <Glyph icon="&#xf0f1;"/>
+                                </graphic>
+                            </MenuItem>
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+            </ListView>
+        </sidePane>
+    </JFXDrawer>
+    <content>
+        <VBox>
+            <JFXListView fx:id="bookListView" styleClass="book-list" VBox.vgrow="ALWAYS">
+                <contextMenu>
+                    <ContextMenu>
+                        <items>
+                            <MenuItem text="下载" onAction="#downloadSelected">
+                                <graphic>
+                                    <Glyph icon="&#xf019;"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="浏览器打开" onAction="#openBookLinkInBrowse">
+                                <graphic>
+                                    <Glyph icon="&#xf268;"/>
+                                </graphic>
+                            </MenuItem>
+                            <MenuItem text="移除书架" onAction="#removeBook">
+                                <graphic>
+                                    <Glyph icon="&#xf05c;"/>
+                                </graphic>
+                            </MenuItem>
+                        </items>
+                    </ContextMenu>
+                </contextMenu>
+                <placeholder>
+                    <BorderPane>
+                        <center>
+                            <SVGGlyph size="128" fill="#bfbfbf"
+                                      svgPathContent="M831.7 369.4H193.6L64 602v290.3h897.2V602L831.7 369.4zM626.6 604.6c0 62.9-51 113.9-114 113.9s-114-51-114-113.9H117.5l103.8-198h582.5l103.8 198h-281zM502.2 131h39.1v140.6h-39.1zM236.855 200.802l27.647-27.647 99.419 99.418-27.648 27.648zM667.547 272.637l99.418-99.419 27.648 27.648-99.418 99.418z"/>
+                        </center>
+                    </BorderPane>
+                </placeholder>
+            </JFXListView>
+            <BorderPane StackPane.alignment="BOTTOM_LEFT">
+                <center>
+                    <JFXSlider fx:id="progress" BorderPane.alignment="BOTTOM_LEFT" max="1"/>
+                </center>
+                <bottom>
+                    <BorderPane BorderPane.alignment="BOTTOM_LEFT">
+                        <left>
+                            <VBox alignment="CENTER_LEFT" prefWidth="300" spacing="5">
+                                <BorderPane.margin>
+                                    <Insets left="10"/>
+                                </BorderPane.margin>
+                                <Label fx:id="titleBox"/>
+                                <HBox spacing="15">
+                                    <Label fx:id="chapterBox"/>
+                                    <JFXSpinner radius="3" fx:id="chapterLoading"/>
+                                </HBox>
+                            </VBox>
+                        </left>
+                        <center>
+                            <HBox BorderPane.alignment="CENTER" alignment="CENTER">
+                                <JFXButton BorderPane.alignment="CENTER_RIGHT" onMouseClicked="#previous"
+                                           contentDisplay="GRAPHIC_ONLY">
+                                    <graphic>
+                                        <SVGGlyph size="18"
+                                                  svgPathContent="M362.3 512l445-332.3v664.5L362.3 512zM216.7 179.7h80v664.5h-80V179.7z "
+                                                  styleClass="action-next"/>
+                                    </graphic>
+                                </JFXButton>
+                                <ToggleButton fx:id="playBtn" styleClass="bg-transparent,cursor-hand"
+                                              onMouseClicked="#play"
+                                              contentDisplay="GRAPHIC_ONLY">
+                                    <graphic>
+                                        <Glyph icon="&#xf144;" styleClass="action-play" fx:id="playIcon"/>
+                                    </graphic>
+                                </ToggleButton>
+                                <JFXButton BorderPane.alignment="CENTER_LEFT" onMouseClicked="#next"
+                                           contentDisplay="GRAPHIC_ONLY">
+                                    <graphic>
+                                        <SVGGlyph size="18"
+                                                  svgPathContent="M216.7 844.3V179.7l445 332.3-445 332.3z m590.6 0h-80V179.7h80v664.6z "
+                                                  styleClass="action-next"/>
+                                    </graphic>
+                                </JFXButton>
+                            </HBox>
+                        </center>
+                        <right>
+                            <HBox BorderPane.alignment="CENTER" alignment="CENTER_RIGHT" prefWidth="310">
+                                <Label fx:id="progressText">00:00/00:00</Label>
+                                <JFXButton onMouseClicked="#showCatalog" contentDisplay="GRAPHIC_ONLY">
+                                    <graphic>
+                                        <SVGGlyph size="20"
+                                                  svgPathContent="M834.4 286.9c0 14.1-11.4 25.6-25.6 25.6H215.1c-14.1 0-25.6-11.4-25.6-25.6 0-14.1 11.4-25.6 25.6-25.6h593.7c14.2 0 25.6 11.4 25.6 25.6zM834.4 512c0 14.1-11.4 25.6-25.6 25.6H215.1c-14.1 0-25.6-11.4-25.6-25.6 0-14.1 11.4-25.6 25.6-25.6h593.7c14.2 0 25.6 11.5 25.6 25.6zM834.4 737.1c0 14.1-11.4 25.6-25.6 25.6H215.1c-14.1 0-25.6-11.4-25.6-25.6 0-14.1 11.4-25.6 25.6-25.6h593.7c14.2 0.1 25.6 11.5 25.6 25.6z"/>
+                                    </graphic>
+                                </JFXButton>
+                            </HBox>
+                        </right>
+                    </BorderPane>
+                </bottom>
+            </BorderPane>
+        </VBox>
+    </content>
+</JFXDrawersStack>

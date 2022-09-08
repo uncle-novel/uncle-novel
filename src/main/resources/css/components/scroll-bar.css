@@ -1,0 +1,38 @@
+/*边界上的箭头*/
+/*.scroll-bar .increment-button, .scroll-bar .decrement-button,*/
+/*.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {*/
+/*    -fx-background-color: transparent;*/
+/*    -fx-border-color: transparent;*/
+/*    visibility: false;*/
+/*}*/
+
+/*滚动条的边框*/
+/*.scroll-bar .track {*/
+/*    -fx-background-color: rgba(0,0,0,0) !important;*/
+/*    -fx-border-color: rgba(0,0,0,0) !important;*/
+/*    visibility: false;*/
+/*    -fx-opacity: 0;*/
+/*}*/
+/*.scroll-bar  .track-background{*/
+/*    -fx-background-color: #FFF;*/
+/*    -fx-border-color: #FFF;*/
+/*}*/
+/*滑块*/
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color: derive(black, 70%);
+    -fx-background-insets: 4;
+    -fx-background-radius: 5px;
+}
+
+/*拖动的时候变大*/
+.scroll-bar:horizontal .thumb:pressed,
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:pressed,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-insets: 3;
+}

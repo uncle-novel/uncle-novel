@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.web.WebView?>
+<?import org.controlsfx.glyphfont.Glyph?>
+<StackPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           stylesheets="/css/search_all.css"
+           maxWidth="Infinity"
+           maxHeight="Infinity"
+           fx:controller="com.unclezs.gui.controller.SearchAllSiteController"
+>
+    <VBox>
+        <JFXProgressBar prefHeight="5" fx:id="progress" maxWidth="Infinity" visible="false"/>
+        <WebView fx:id="webView" VBox.vgrow="ALWAYS">
+        </WebView>
+    </VBox>
+    <JFXButton contentDisplay="GRAPHIC_ONLY" onMouseClicked="#analysis" buttonType="RAISED"
+               styleClass="action-node" StackPane.alignment="BOTTOM_RIGHT">
+        <graphic>
+            <Glyph icon="&#xf0ca;"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="解析本页目录"/>
+        </tooltip>
+        <StackPane.margin>
+            <Insets right="30" bottom="165 "/>
+        </StackPane.margin>
+    </JFXButton>
+    <JFXButton contentDisplay="GRAPHIC_ONLY" onMouseClicked="#backPage" buttonType="RAISED"
+               styleClass="action-node" StackPane.alignment="BOTTOM_RIGHT">
+        <graphic>
+            <Glyph icon="&#xf112;"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="后退"/>
+        </tooltip>
+        <StackPane.margin>
+            <Insets right="30" bottom="120"/>
+        </StackPane.margin>
+    </JFXButton>
+    <JFXButton contentDisplay="GRAPHIC_ONLY" onMouseClicked="#backHome" buttonType="RAISED"
+               styleClass="action-node" StackPane.alignment="BOTTOM_RIGHT">
+        <graphic>
+            <Glyph icon="&#xf015;"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="返回首页"/>
+        </tooltip>
+        <StackPane.margin>
+            <Insets right="30" bottom="75"/>
+        </StackPane.margin>
+    </JFXButton>
+    <JFXButton contentDisplay="GRAPHIC_ONLY" onMouseClicked="#help" buttonType="RAISED"
+               styleClass="action-node" StackPane.alignment="BOTTOM_RIGHT">
+        <graphic>
+            <Glyph icon="&#xf128;"/>
+        </graphic>
+        <tooltip>
+            <Tooltip text="帮助"/>
+        </tooltip>
+        <StackPane.margin>
+            <Insets right="30" bottom="30"/>
+        </StackPane.margin>
+    </JFXButton>
+</StackPane>

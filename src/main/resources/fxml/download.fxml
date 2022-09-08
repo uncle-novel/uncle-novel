@@ -1,43 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--<?import com.jfoenix.controls.*?>-->
+<?language javascript?>
 
 <?import com.jfoenix.controls.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.paint.*?>
-<?import java.lang.*?>
+<?import com.jfoenix.svg.SVGGlyph?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<VBox fx:id="downloadRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: rgb(250,250,250);" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.ui.controller.DownloadController">
-    <children>
-        <Pane fx:id="headerPane" prefHeight="48.0" prefWidth="600.0">
-            <children>
-                <Label fx:id="on" alignment="CENTER" layoutX="190.0" layoutY="13.0" maxHeight="30.0" maxWidth="110.0" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: RGB(124,125,133); -fx-background-radius: 5px; -fx-border-radius: 5px; -fx-border-color: rgb(229,229,229);" text="正在下载" textFill="#e5e5e7" />
-                <Label fx:id="over" alignment="CENTER" layoutX="300.0" layoutY="13.0" maxHeight="30.0" maxWidth="110.0" prefHeight="30.0" prefWidth="110.0" style="-fx-background-color: RGB(255,255,255); -fx-background-radius: 5px; -fx-border-radius: 5px; -fx-border-color: rgb(229,229,229);" text="下载完成" textFill="#888888" />
-            </children>
-            <VBox.margin>
-                <Insets top="10.0" />
-            </VBox.margin>
-        </Pane>
-        <Pane prefHeight="1.0" prefWidth="600.0" style="-fx-background-color: rgb(225,225,226);">
-            <VBox.margin>
-                <Insets top="10.0" />
-            </VBox.margin>
-        </Pane>
-      <Pane prefHeight="325.0" prefWidth="600.0">
-         <children>
-                <JFXListView fx:id="overList" prefHeight="325.0" prefWidth="600.0" visible="false" />
-                <TableView id="tableView" fx:id="tableView" prefHeight="325.0" prefWidth="600.0">
+<?import org.controlsfx.glyphfont.Glyph?>
+<BorderPane fx:id="root" stylesheets="/css/download.css" maxHeight="Infinity" maxWidth="Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.unclezs.gui.controller.DownloadController">
+    <top>
+        <FlowPane prefHeight="60" alignment="CENTER"
+                  styleClass="btn-group-horizontal,download-tab-btn">
+            <ToggleButton text="正在下载" fx:id="downloadingBtn" onMouseClicked="#showDownloading"
+                          styleClass="tab-btn,first" selected="true" disable="true">
+                <toggleGroup>
+                    <ToggleGroup fx:id="tabGroup"/>
+                </toggleGroup>
+            </ToggleButton>
+            <ToggleButton text="下载完成" fx:id="downloadedBtn" onMouseClicked="#showDownloaded" toggleGroup="$tabGroup"
+                          styleClass="tab-btn,last"/>
+        </FlowPane>
+    </top>
+    <center>
+        <BorderPane fx:id="downloading">
+            <top>
+                <BorderPane styleClass="downloading-top">
+                    <left>
+                        <Label text="没有任务" fx:id="downloadingNum" styleClass="downloading-task-label"
+                               alignment="CENTER"
+                               BorderPane.alignment="CENTER"/>
+                    </left>
+                    <right>
+                        <HBox styleClass="downloading-btn-box">
+                            <JFXButton text="全部开始" onMouseClicked="#startAll" styleClass="btn,success-btn,btn-xs">
+                                <graphic>
+                                    <SVGGlyph fill="white" size="11"
+                                              svgPathContent="M384 189.38l433.82 323.97L384 837.31V189.38m-28.5-92.56c-18.36 0-35.5 14.56-35.5 35.44v762.16c0 20.88 17.13 35.44 35.5 35.44 6.86 0 13.9-2.03 20.28-6.53l514.67-384.35c17.14-12.8 17.14-38.48 0-51.28L375.77 103.36c-6.37-4.5-13.41-6.54-20.27-6.54z"/>
+                                </graphic>
+                            </JFXButton>
+                            <JFXButton text="全部暂停" onMouseClicked="#pauseAll" styleClass="btn,warning-btn,btn-xs">
+                                <graphic>
+                                    <SVGGlyph fill="white" size="10"
+                                              svgPathContent="M320 864c-17.67 0-32-14.31-32-32V192c0-17.67 14.33-32 32-32s32 14.33 32 32v640c0 17.69-14.33 32-32 32zM704 864c-17.69 0-32-14.31-32-32V192c0-17.67 14.31-32 32-32s32 14.33 32 32v640c0 17.69-14.31 32-32 32z"/>
+                                </graphic>
+                            </JFXButton>
+                            <JFXButton text="全部取消" onMouseClicked="#stopAll" styleClass="btn,danger-btn,btn-xs">
+                                <graphic>
+                                    <SVGGlyph fill="white" size="9"
+                                              svgPathContent="M557.25 512l265.38-265.38c12.5-12.5 12.5-32.75 0-45.25s-32.75-12.5-45.25 0L512 466.75 246.62 201.38c-12.5-12.5-32.75-12.5-45.25 0s-12.5 32.75 0 45.25L466.75 512 201.38 777.38c-12.5 12.5-12.5 32.75 0 45.25 6.25 6.25 14.44 9.38 22.62 9.38s16.38-3.12 22.62-9.38L512 557.25l265.38 265.38c6.25 6.25 14.44 9.38 22.62 9.38s16.38-3.12 22.62-9.38c12.5-12.5 12.5-32.75 0-45.25L557.25 512z"/>
+                                </graphic>
+                            </JFXButton>
+                        </HBox>
+                    </right>
+                </BorderPane>
+            </top>
+            <center>
+                <TableView fx:id="downloadingTable" VBox.vgrow="ALWAYS" maxWidth="Infinity"
+                           styleClass="download-table">
+                    <placeholder>
+                        <BorderPane fx:id="placeholder">
+                            <center>
+                                <SVGGlyph size="128" fill="#bfbfbf"
+                                          svgPathContent="M831.7 369.4H193.6L64 602v290.3h897.2V602L831.7 369.4zM626.6 604.6c0 62.9-51 113.9-114 113.9s-114-51-114-113.9H117.5l103.8-198h582.5l103.8 198h-281zM502.2 131h39.1v140.6h-39.1zM236.855 200.802l27.647-27.647 99.419 99.418-27.648 27.648zM667.547 272.637l99.418-99.419 27.648 27.648-99.418 99.418z"/>
+                            </center>
+                        </BorderPane>
+                    </placeholder>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                    </columnResizePolicy>
                     <columns>
-                        <TableColumn fx:id="hId" editable="false" prefWidth="44.0" resizable="false" text="ID" />
-                        <TableColumn fx:id="hTitle" editable="false" maxWidth="Infinity" prefWidth="197.0" text="小说标题" />
-                        <TableColumn fx:id="hPb" editable="false" maxWidth="Infinity" prefWidth="283.0" text="下载进度" />
-                        <TableColumn fx:id="hOp" editable="false" prefWidth="75.0" sortable="false" text="操作" />
+                        <TableColumn text="小说标题" maxWidth="100" minWidth="150">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="title"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="失败章节量" maxWidth="100" minWidth="100">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="errorNum"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="下载进度" minWidth="230">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="progressBox"/>
+                            </cellValueFactory>
+                        </TableColumn>
+                        <TableColumn text="操作" minWidth="200">
+                            <cellValueFactory>
+                                <PropertyValueFactory property="actionBox"/>
+                            </cellValueFactory>
+                        </TableColumn>
                     </columns>
                 </TableView>
-         </children>
-      </Pane>
-    </children>
-</VBox>
+            </center>
+        </BorderPane>
+        <BorderPane fx:id="downloaded">
+            <top>
+                <BorderPane styleClass="downloaded-top">
+                    <left>
+                        <Label text="没有记录" fx:id="downloadedNum" styleClass="downloaded-task-label"
+                               alignment="CENTER"
+                               BorderPane.alignment="CENTER"/>
+                    </left>
+                    <right>
+                        <JFXButton text="清空下载历史" onMouseClicked="#clearRecords" styleClass="btn,danger-btn,btn-xs">
+                            <graphic>
+                                <Glyph icon="&#xf1f8;" styleClass="white-text-fill"/>
+                            </graphic>
+                        </JFXButton>
+                    </right>
+                </BorderPane>
+            </top>
+            <center>
+                <JFXListView fx:id="recordsListView" styleClass="downloaded-list"/>
+            </center>
+        </BorderPane>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,240 @@
+@import "components/scroll-bar.css";
+@import "components/table-view.css";
+@import "bootstrap.css";
+
+.root {
+    -fx-font-size: 13px;
+    -fx-font-family: "Menlo", "Microsoft YaHei UI", sans-serif;
+}
+
+.glyph-font {
+    -fx-font-family: FontAwesome !important;
+}
+
+.jfx-svg-glyph {
+    -fx-background-color: text-color;
+}
+
+.content-container * {
+    -fx-text-fill: text-color !important;
+}
+
+.test {
+    -fx-border-color: #000;
+}
+
+.jfx-toggle-button * {
+    -fx-background-insets: 0 !important;
+    -fx-padding: 0 !important;
+}
+
+.un-btn-default {
+    -fx-background-color: -fx-background;
+    -fx-border-color: border-color;
+}
+
+/*---全局透明---start*/
+.stage-decorator {
+    -fx-background-position: center;
+    -fx-background-size: cover;
+}
+
+.header-container {
+    -fx-background-color: transparent;
+}
+
+.table-view {
+    -fx-background-color: transparent;
+}
+
+.text-area {
+    -fx-background-color: transparent;
+}
+
+/*---全局透明---end*/
+.cursor-hand {
+    -fx-cursor: hand;
+}
+
+.un-btn {
+    -fx-background-color: transparent;
+    -fx-font-size: 13;
+    -fx-alignment: center-left;
+}
+
+.un-btn:hover, .un-btn:disabled {
+    -fx-background-color: linear-gradient(to right, rgb(31, 212, 174), rgb(30, 205, 148));
+    -fx-effect: dropshadow(three-pass-box, #bfbfbf, 5, 0, 0, 0);
+    -fx-text-fill: #FFF;
+    -fx-opacity: 1;
+    -fx-cursor: hand;
+}
+
+
+.un-btn:hover .glyph-font {
+    -fx-text-fill: #FFF;
+}
+
+.jfx-dialog * {
+    -fx-background-color: transparent;
+}
+
+/*更新面板*/
+.what-new {
+    -fx-text-alignment: left;
+    -fx-wrap-text: true;
+    -fx-font-size: 15px !important;
+}
+
+.update-scroll {
+    -fx-background-color: transparent;
+    -fx-pref-height: 160px;
+}
+
+.common-scroll .viewport {
+    -fx-background-color: transparent;
+}
+
+/*弹窗 alert*/
+.dialog-accept {
+    -fx-font-weight: BOLD;
+    -fx-padding: 0.7em 0.8em;
+    -fx-text-fill: text-color;
+}
+
+.dialog-title {
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: rgb(220, 220, 220);
+    -fx-padding: 0 0 5;
+    -fx-font-weight: BOLD;
+    -fx-text-fill: text-color;
+}
+
+.dialog-close {
+    -fx-text-fill: text-color;
+}
+
+.bg-transparent {
+    -fx-background-color: transparent;
+}
+
+.bg-transparent-all * {
+    -fx-background-color: transparent;
+}
+
+.reward-title {
+    -fx-pref-width: 400;
+    -fx-font-size: 13;
+    -fx-wrap-text: true;
+    -fx-padding: 5;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
+/*list-view*/
+.label-padding-5 .list-cell {
+    -fx-label-padding: 3 !important;
+}
+
+.list-view {
+    -fx-background-color: -fx-background !important;
+}
+
+.list-view .list-cell {
+    -fx-text-fill: text-color;
+}
+
+.list-view .list-cell:hover {
+    -fx-background-color: hover-bg-color;
+    -fx-text-fill: hover-text-color !important;
+}
+
+.list-view .list-cell:selected {
+    -fx-background-color: selected-bg-color;
+    -fx-text-fill: selected-text-color;
+}
+
+/*context-view*/
+.context-menu {
+    -fx-background-color: -fx-background !important;
+}
+
+.context-menu .menu-item:hover, .menu-item:focused {
+    -fx-background-color: hover-bg-color;
+}
+
+.context-menu .menu-item:hover .label, .menu-item:focused .label {
+    -fx-text-fill: hover-text-color !important;
+}
+
+.hyperlink {
+    -fx-border-color: transparent;
+}
+
+.tooltip {
+    -fx-background-color: rgba(255, 255, 255, 0.95);
+    -fx-text-fill: #000;
+    -fx-font-size: 11px !important;
+    -fx-effect: dropshadow(three-pass-box, #bfbfbf, 5, 0, 0, 0);
+}
+
+.icon-hover-color-default:hover {
+    -fx-text-fill: #009688;
+}
+
+.icon-hover-color-danger:hover {
+    -fx-text-fill: red;
+}
+
+/*边框*/
+.border-color {
+    -fx-border-color: border-color;
+}
+
+.white-text-fill {
+    -fx-text-fill: white !important;
+}
+
+/*按钮*/
+.danger-btn {
+    -fx-fill: #fff;
+    -fx-text-fill: #fff !important;
+    -fx-border-color: #d43f3a;
+    -fx-background-color: #d9534f;
+}
+
+.warning-btn {
+    -fx-text-fill: #fff !important;
+    -fx-fill: #fff;
+    -fx-background-color: #f0ad4e;
+    -fx-border-color: #eea236;
+}
+
+.success-btn {
+    -fx-text-fill: #fff !important;
+    -fx-fill: #fff;
+    -fx-background-color: #5cb85c;
+    -fx-border-color: #4cae4c;
+}
+
+.default-btn {
+    -fx-text-fill: #333 !important;
+    -fx-fill: #333;
+    -fx-background-color: #fff;
+    -fx-border-color: #ccc;
+}
+
+.default-btn .jfx-svg-glyph {
+    -fx-text-fill: #333 !important;
+}
+
+.info-btn {
+    -fx-text-fill: #fff !important;
+    -fx-fill: #fff;
+    -fx-background-color: #5bc0de;
+    -fx-border-color: #46b8da;
+}
+
+.success-btn .jfx-svg-glyph, .danger-btn .jfx-svg-glyph, .warning-btn .jfx-svg-glyph, .info-btn .jfx-svg-glyph {
+    -fx-background-color: #fff !important;
+}
