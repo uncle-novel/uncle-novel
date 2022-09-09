@@ -25,6 +25,7 @@ dependencies {
     implementation "org.xerial:sqlite-jdbc"
     implementation 'com.github.oshi:oshi-core'
     implementation 'com.mixpanel:mixpanel-java'
+    implementation 'org.openjdk.nashorn:nashorn-core'
 }
 apply plugin: 'app-packager'
 

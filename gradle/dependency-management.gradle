@@ -31,6 +31,7 @@ dependencyManagement {
         dependency 'com.github.oshi:oshi-core:5.7.5'
         dependency 'com.mixpanel:mixpanel-java:1.4.4'
         dependency 'com.google.gradle:osdetector-gradle-plugin:1.7.0'
+        dependency 'org.openjdk.nashorn:nashorn-core:15.4'
     }
     generatedPomCustomization {
         enabled = false
