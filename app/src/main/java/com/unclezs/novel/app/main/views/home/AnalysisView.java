@@ -129,7 +129,14 @@ public class AnalysisView extends SidebarView<StackPane> {
     }
     // 非同一个网站，重新获取规则，这时如果未保存书源则会丢弃修改
     if (rule == null || !Objects.equals(rule.getSite(), UrlUtils.getSite(tocUrl))) {
-      this.rule = RuleManager.getOrDefault(novel == null ? tocUrl : novel.getSite());
+      String site = tocUrl;
+      if (novel != null) {
+        site = novel.getSite();
+        if(site == null){
+          site = UrlUtils.getSite(novel.getUrl());
+        }
+      }
+      this.rule = RuleManager.getOrDefault(site);
     }
     tocSpider = new TocSpider(rule);
     tocSpider.setOnNewItemAddHandler(
