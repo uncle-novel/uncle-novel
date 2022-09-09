@@ -27,7 +27,7 @@ public class ProxyConfig {
   /**
    * 使用系统代理
    */
-  private ObjectProperty<Boolean> useSystem = new SimpleObjectProperty<>(true);
+  private ObjectProperty<Boolean> useSystem = new SimpleObjectProperty<>(false);
   /**
    * 主机
    */
