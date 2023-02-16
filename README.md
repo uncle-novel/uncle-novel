@@ -1,6 +1,5 @@
 <p align="center">
     <a href="https://github.com/unclezs/uncle-novel/actions/workflows/gradle.yml">
-    <img src="https://img.shields.io/github/workflow/status/unclezs/uncle-novel/Java%20CI%20with%20Gradle" alt="gradle build"/>
     <a href="https://github.com/unclezs/jfx-launcher/blob/main/LICENSE">
     <img src="https://img.shields.io/github/license/unclezs/uncle-novel?color=%2340C0D0&label=License" alt="GitHub license"/>
     </a>
