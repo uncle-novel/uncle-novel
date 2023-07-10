@@ -2,7 +2,6 @@ import com.unclezs.novel.app.packager.task.PackageTask
 import com.unclezs.novel.app.packager.task.UpgradeTask
 import com.unclezs.novel.app.packager.util.FileUtils
 import proguard.gradle.ProGuardTask
-
 // prod / dev
 def profile = "prod"
 def debug = "dev" == profile

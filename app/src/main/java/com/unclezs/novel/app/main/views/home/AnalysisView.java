@@ -141,6 +141,7 @@ public class AnalysisView extends SidebarView<StackPane> {
     tocSpider = new TocSpider(rule);
     tocSpider.setOnNewItemAddHandler(
       chapter -> Executor.runFx(() -> listView.getItems().add(new ChapterProperty(chapter))));
+
     TaskFactory.create(() -> {
       tocSpider.toc(tocUrl);
       // 小说详情
