@@ -124,6 +124,9 @@
           <RuleItem name="请求参数">
             <IconButton icon="edit" userData="toc.params" text="编辑" onMouseClicked="#editParams" styleClass="btn"/>
           </RuleItem>
+          <RuleItem name="书籍详情">
+            <InputBox userData="toc.detailPage" prompt="可选，详情地址，用于目录详情页不一致的情况"/>
+          </RuleItem>
           <RuleItem name="章节列表">
             <InputBox userData="toc.list" prompt="章节列表，如果不使用自动解析则必填"/>
           </RuleItem>
