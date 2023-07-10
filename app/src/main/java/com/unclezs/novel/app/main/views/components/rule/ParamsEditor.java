@@ -46,6 +46,15 @@ public class ParamsEditor extends VBox {
     mediaTypeBox.setEditable(true);
     addItem("媒体类型", mediaTypeBox).valueProperty().addListener((ov, o, n) -> params.setMediaType(n));
 
+    // URL参数（查询字符串）
+    TextField urlParamsField = new TextField(params.getUrlParams());
+    urlParamsField.setPromptText("格式为  key=value&key=value");
+    addItem("URL参数", urlParamsField).focusedProperty().addListener((ov, o, n) -> {
+      if (Boolean.FALSE.equals(n)) {
+        params.setUrlParams(urlParamsField.getText());
+      }
+    });
+
     TextArea headerArea = new TextArea();
     headerArea.setPromptText("格式为  key: value ，一行一个");
     headerArea.setText(params.getHeaderString());
@@ -55,6 +64,7 @@ public class ParamsEditor extends VBox {
       }
     });
     TextField bodyField = new TextField(params.getBody());
+    bodyField.setPromptText("请求体，格式为  key=value&key=value");
     addItem("请求体", bodyField).focusedProperty().addListener(e -> {
       if (!bodyField.isFocused()) {
         params.setBody(bodyField.getText());
