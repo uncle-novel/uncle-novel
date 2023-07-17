@@ -52,14 +52,15 @@ public class TTSPlayer {
   }
 
   /**
-   * 集合文本
+   * 初始化要播放的文本
    *
-   * @param text  文本
+   * @param text 文本
    */
   public synchronized void setText(String text) {
     if (Objects.equals(originalText, text)) {
       return;
     }
+
     if (text == null) {
       return;
     }
@@ -170,12 +171,12 @@ public class TTSPlayer {
     if (readCache && cache.exists()) {
       return cache;
     }
-    try {
+    try{
       return FileUtil.writeBytes(Http.bytes(config.getFormattedParams(text)), cache);
-    } catch (Exception e) {
-      log.warn("TTS 转换失败：{}", config, e);
+    }catch (Exception e){
       throw e;
     }
+
   }
 
   /**
@@ -188,7 +189,14 @@ public class TTSPlayer {
     for (String paragraph : paragraphs) {
       String ttsName = paragraph.hashCode() + ".mp3";
       File cache = FileUtil.file(CACHE_DIR, ttsName);
-      FileUtil.del(cache);
+      log.debug("删除缓存：{}", cache);
+      try {
+        FileUtil.del(cache);
+        ThreadUtils.sleep(100);
+      }catch (Exception e){
+        log.debug(String.format("删除缓存失败:%s\np:%s\ne:%s",ttsName,paragraph,e.getMessage()));
+      }
+
     }
   }
 
@@ -240,8 +248,8 @@ public class TTSPlayer {
    */
   public void dispose() {
     if (player != null) {
-      log.info("释放TTS资源：{}", config);
       player.dispose();
+      log.info("释放TTS资源：{}", config);
     }
     if (transformTask != null && transformTask.isRunning()) {
       transformTask.cancel();
