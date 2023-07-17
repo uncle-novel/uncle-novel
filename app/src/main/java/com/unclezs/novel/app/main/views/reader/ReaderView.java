@@ -1,5 +1,6 @@
 package com.unclezs.novel.app.main.views.reader;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import com.github.houbb.opencc4j.util.ZhConverterUtil;
@@ -61,6 +62,9 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextBoundsType;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -403,6 +407,8 @@ public class ReaderView extends SceneView<StageDecorator> {
       int index = speakerSelector.getSelectionModel().getSelectedIndex();
       config.getSpeaker().set(index);
       player.setConfig(ttsConfigs.get(index));
+      playButton.setText("暂停");
+      playButton.setSelected(true);
     });
     // TTS朗读速度
     ttsSpeedSlider.setValueFactory(
@@ -413,7 +419,11 @@ public class ReaderView extends SceneView<StageDecorator> {
       player.setSpeed(ttsSpeedSlider.getValue());
       config.getSpeed().set(ttsSpeedSlider.getValue());
     });
-    player = new TTSPlayer(ttsConfigs.get(config.getSpeaker().get()), this::nextPage);
+    int speckIndex = config.getSpeaker().get();
+    if (speckIndex < 0 || speckIndex >= ttsConfigs.size()) {
+      speckIndex = 0;
+    }
+    player = new TTSPlayer(ttsConfigs.get(speckIndex), this::nextPage);
   }
 
   /**
@@ -835,9 +845,9 @@ public class ReaderView extends SceneView<StageDecorator> {
     if (!speakButton.isSelected()) {
       return;
     }
+    pauseTTS();
     speakButton.setSelected(false);
     speakButton.setText("朗读");
-    pauseTTS();
     player.dispose();
     setSettingView(false);
     playButton.setVisible(false);
@@ -872,6 +882,7 @@ public class ReaderView extends SceneView<StageDecorator> {
   private void pauseTTS() {
     if (speakButton.isSelected() && playButton.isSelected()) {
       playButton.setSelected(false);
+      log.debug("暂停播放");
       playButton.setText("播放");
       player.pause();
     }

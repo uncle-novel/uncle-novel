@@ -48,7 +48,7 @@ def createDatabase() {
     dbFile.delete()
     exec {
         executable = "sqlite3"
-        args(dbFile.absolutePath, ".read $sqlFile.absolutePath")
+        args(dbFile.absolutePath, ".read "+sqlFile.absolutePath.replace(File.separator, '/'))
     }
     return dbFile
 }
@@ -60,10 +60,32 @@ task runApp(type: JavaExec, group: "app", dependsOn: build) {
     mainModule.set('com.unclezs.novel.app.main')
     workingDir(rootDir)
     jvmArgs(runtimeArgs)
-    jvmArgs("--module-path", CollectionUtils.join(File.pathSeparator, sourceSets.main.runtimeClasspath))
 
+    def modulePath = CollectionUtils.join(File.pathSeparator, sourceSets.main.runtimeClasspath)
+    // 输出runtimeArgs
+    doFirst {
+        println "runtimeArgs: ${runtimeArgs}"
+        println "modulePath: ${modulePath}"
+    }
+    jvmArgs("--module-path", modulePath)
     // runtime config
     initAppRuntimeEnv()
+}
+
+task runTest(type: JavaExec, group: "test", dependsOn: build) {
+    // launch config
+    mainClass.set('com.unclezs.novel.app.main.test.TTSTest2')
+    mainModule.set('com.unclezs.novel.app.main')
+    workingDir(rootDir)
+    jvmArgs(runtimeArgs)
+
+    def modulePath = CollectionUtils.join(File.pathSeparator, sourceSets.main.runtimeClasspath)
+    // 输出runtimeArgs
+    doFirst {
+        println "runtimeArgs: ${runtimeArgs}"
+        println "modulePath: ${modulePath}"
+    }
+    jvmArgs("--module-path", modulePath)
 }
 
 task obfuscate(type: ProGuardTask) {
