@@ -52,20 +52,20 @@ public class TTSPlayer {
   }
 
   /**
-   * 初始化要播放的文本
+   * 集合文本
    *
-   * @param text 文本
+   * @param text  文本
    */
-  public void setText(String text) {
+  public synchronized void setText(String text) {
     if (Objects.equals(originalText, text)) {
       return;
     }
-    originalText = text;
     if (text == null) {
       return;
     }
     // 释放先前的
     dispose();
+    originalText = text;
     // 清除缓存
     if (FileUtil.size(CACHE_DIR) > MB_10) {
       FileUtils.deleteForce(CACHE_DIR);
@@ -136,6 +136,7 @@ public class TTSPlayer {
         for (String paragraph : paragraphs) {
           if (!this.isCancelled()) {
             toAudio(paragraph, false);
+            ThreadUtils.sleep(2000);
           }
         }
         return null;
@@ -169,7 +170,12 @@ public class TTSPlayer {
     if (readCache && cache.exists()) {
       return cache;
     }
-    return FileUtil.writeBytes(Http.bytes(config.getFormattedParams(text)), cache);
+    try {
+      return FileUtil.writeBytes(Http.bytes(config.getFormattedParams(text)), cache);
+    } catch (Exception e) {
+      log.warn("TTS 转换失败：{}", config, e);
+      throw e;
+    }
   }
 
   /**
@@ -191,6 +197,7 @@ public class TTSPlayer {
    */
   public void setConfig(@NonNull TTSConfig config) {
     if (config != this.config) {
+      log.info("切换TTS引擎：{}", config);
       this.config = config;
       String text = originalText;
       originalText = null;
@@ -233,6 +240,7 @@ public class TTSPlayer {
    */
   public void dispose() {
     if (player != null) {
+      log.info("释放TTS资源：{}", config);
       player.dispose();
     }
     if (transformTask != null && transformTask.isRunning()) {

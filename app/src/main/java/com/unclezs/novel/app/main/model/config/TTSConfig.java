@@ -1,8 +1,7 @@
 package com.unclezs.novel.app.main.model.config;
 
-import cn.hutool.core.codec.PercentCodec;
 import cn.hutool.core.net.RFC3986;
-import cn.hutool.core.net.URLEncoder;
+import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.analyzer.request.RequestParams;
 import lombok.Data;
 
@@ -22,7 +21,9 @@ public class TTSConfig {
   public RequestParams getFormattedParams(String text) {
     RequestParams requestParams = this.params.copy();
     text = RFC3986.GEN_DELIMS.encode(RFC3986.GEN_DELIMS.encode(text, StandardCharsets.UTF_8), StandardCharsets.UTF_8);
-    requestParams.setBody(this.params.getBody().replace("{{text}}", text));
+    if (StrUtil.isNotBlank(this.params.getBody())) {
+      requestParams.setBody(this.params.getBody().replace("{{text}}", text));
+    }
     requestParams.setUrl(this.params.getUrl().replace("{{text}}", text));
     return requestParams;
   }

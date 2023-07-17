@@ -3,64 +3,57 @@
     "params": {
       "url": "http://tts.baidu.com/text2audio",
       "method": "POST",
-      "body": "tex={{text}}&per=4007&cuid=baidu_speech_demo&idx=1&cod=2&lan=zh&ctp=1&pdt=160&vol=5&aue=3&pit=5&_res_tag_=audio"
-    },
-    "name": "台湾女声"
-  },
-  {
-    "params": {
-      "url": "http://tts.baidu.com/text2audio",
-      "method": "POST",
-      "body": "tex={{text}}&per=4&cuid=baidu_speech_demo&idx=1&cod=2&lan=zh&ctp=1&pdt=301&vol=5&aue=3&pit=5&_res_tag_=audio"
-    },
-    "name": "百丫丫"
-  },
-  {
-    "params": {
-      "url": "http://tts.baidu.com/text2audio",
-      "method": "POST",
       "body": "tex={{text}}&per=106&cuid=baidu_speech_demo&idx=1&cod=2&lan=zh&ctp=1&pdt=301&vol=5&aue=3&pit=5&_res_tag_=audio"
     },
     "name": "度博文"
   },
   {
     "params": {
-      "url": "http://tts.baidu.com/text2audio",
-      "method": "POST",
-      "body": "tex={{text}}&per=1117&cuid=baidu_speech_demo&idx=1&cod=2&lan=zh&ctp=1&pdt=160=&vol=5&aue=3&pit=3&_res_tag_=audio"
+      "url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=gdfanfp&text={{text}}&&speed=10&volume=100&audioType=mp3",
+      "method": "GET"
     },
-    "name": "度小乔"
+    "name": "思必驰 精品女声 客服芳芳"
   },
   {
     "params": {
-      "url": "http://tts.baidu.com/text2audio",
-      "method": "POST",
-      "body": "tex={{text}}&per=5&cuid=baidu_speech_demo&idx=1&cod=2&lan=zh&ctp=1&pdt=160&vol=5&aue=3&pit=5&_res_tag_=audio"
+      "url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=zhilingfp&text={{text}}&&speed=10&volume=100&audioType=mp3",
+      "method": "GET"
     },
-    "name": "度小娇"
+    "name": "思必驰 精品女声 小玲甜美女神"
   },
   {
     "params": {
-      "url": "http://tts.baidu.com/text2audio",
-      "method": "POST",
-      "body": "tex={{text}}&per=2&cuid=baidu_speech_demo&idx=1&cod=2&lan=zh&ctp=1&pdt=301&vol=5&aue=3&pit=5&_res_tag_=audio"
+      "url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=zxcmp&text={{text}}&&speed=10&volume=100&audioType=mp3",
+      "method": "GET"
     },
-    "name": "度小宇"
+    "name": "思必驰 精品男声 风趣幽默星爷"
   },
   {
     "params": {
-      "url": "http://tts.baidu.com/text2audio",
-      "method": "POST",
-      "body": "tex={{text}}&per=110&cuid=baidu_speech_demo&idx=1&cod=2&lan=zh&ctp=1&pdt=301&aue=3&vol=5&pit=5&_res_tag_=audio"
+      "url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=gqlanfp&text={{text}}&&speed=10&volume=100&audioType=mp3",
+      "method": "GET"
     },
-    "name": "度小童"
+    "name": "思必驰 精品女声 温柔小兰"
   },
   {
     "params": {
-      "url": "http://tts.baidu.com/text2audio",
-      "method": "POST",
-      "body": "tex={{text}}&per=0&cuid=baidu_speech_demo&idx=1&cod=2&lan=cte&ctp=1&pdt=160&vol=5&aue=3&pit=5&_res_tag_=audio"
+      "url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=geyoump&text={{text}}&&speed=10&volume=100&audioType=mp3",
+      "method": "GET"
     },
-    "name": "度小粤"
+    "name": "思必驰 精品男声 风趣淡定葛爷"
+  },
+  {
+    "params": {
+      "url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=ppangf_csn&text={{text}}&&speed=10&volume=100&audioType=mp3",
+      "method": "GET"
+    },
+    "name": "思必驰 精品女声 四川话胖胖"
+  },
+  {
+    "params": {
+      "url": "https://dds.dui.ai/runtime/v1/synthesize?voiceId=gdgmfp&text={{text}}&&speed=10&volume=100&audioType=mp3",
+      "method": "GET"
+    },
+    "name": "思必驰 精品男声 郭德纲"
   }
 ]
