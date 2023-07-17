@@ -212,6 +212,11 @@ public abstract class AbstractPackager extends PackagerExtension {
     if (FileUtil.exist(vmOptionsFile)) {
       resources.put(vmOptionsFilePath, vmOptionsFile);
     }
+    // 如果launcher不启动
+    if(Boolean.FALSE.equals(enabledLauncher)){
+      resources.put("conf/core.db", new File(getProject().getProjectDir(),"db/core.db"));
+    }
+    // db文件
     // 资源处理
     Logger.info("找到的资源：{}", resources);
     // 拷贝资源
