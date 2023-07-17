@@ -5,8 +5,9 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.RuntimeUtil;
 import com.unclezs.novel.app.packager.exception.PackageException;
-import java.io.File;
 import lombok.experimental.UtilityClass;
+
+import java.io.File;
 
 /**
  * 命令行工具
@@ -36,7 +37,7 @@ public class ExecUtils {
   public String exec(String... args) {
     Process process = null;
     try {
-      Logger.info("执行CMD：{}", Logger.blue(ArrayUtil.join(args,CharSequenceUtil.SPACE)));
+      Logger.info("执行CMD：{}", Logger.blue(ArrayUtil.join(args, CharSequenceUtil.SPACE)));
       process = RuntimeUtil.exec(args);
       String result = RuntimeUtil.getResult(process, CharsetUtil.CHARSET_UTF_8);
       int exitCode = process.waitFor();
@@ -117,7 +118,8 @@ public class ExecUtils {
           add((Object[]) arg);
         } else if (arg instanceof File) {
           String path = ((File) arg).getAbsolutePath();
-          this.cmd.append(CharSequenceUtil.SPACE).append(CharSequenceUtil.containsBlank(path) ? CharSequenceUtil.wrap(path, "\"") : path);
+          this.cmd.append(CharSequenceUtil.SPACE).append(
+              CharSequenceUtil.containsBlank(path) ? CharSequenceUtil.wrap(path, "\"") : path);
         } else {
           String argStr = arg.toString();
           argStr = CharSequenceUtil.containsBlank(argStr) ? CharSequenceUtil.wrap(argStr, "\"") : argStr;
