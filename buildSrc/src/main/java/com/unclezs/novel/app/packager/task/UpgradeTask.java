@@ -84,6 +84,11 @@ public class UpgradeTask extends DefaultTask {
       File serverDir = new File(URI.create(url));
       FileUtils.del(serverDir);
       FileUtil.copyContent(outDir, serverDir, true);
+      Logger.info("copy to: {}", serverDir.getAbsolutePath());
+
+      ExecUtils.exec(serverDir, "git", "add", ".");
+      ExecUtils.exec(serverDir, "git", "commit", "-m", "update");
+      ExecUtils.exec(serverDir, "git", "push");
     } else {
       // rsync 增量传输
       File[] files = outDir.listFiles();

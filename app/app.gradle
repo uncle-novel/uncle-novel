@@ -2,6 +2,7 @@ import com.unclezs.novel.app.packager.task.PackageTask
 import com.unclezs.novel.app.packager.task.UpgradeTask
 import com.unclezs.novel.app.packager.util.FileUtils
 import proguard.gradle.ProGuardTask
+
 // prod / dev
 def profile = "prod"
 def debug = "dev" == profile
@@ -48,13 +49,15 @@ def createDatabase() {
     dbFile.delete()
     exec {
         executable = "sqlite3"
-        args(dbFile.absolutePath, ".read "+sqlFile.absolutePath.replace(File.separator, '/'))
+        args(dbFile.absolutePath, ".read " + sqlFile.absolutePath.replace(File.separator, '/'))
     }
     return dbFile
 }
 
 // 启动 APP
-task runApp(type: JavaExec, group: "app", dependsOn: build) {
+tasks.register('runApp', JavaExec) {
+    dependsOn build
+    group "app"
     // launch config
     mainClass.set('com.unclezs.novel.app.main.App')
     mainModule.set('com.unclezs.novel.app.main')
@@ -72,7 +75,9 @@ task runApp(type: JavaExec, group: "app", dependsOn: build) {
     initAppRuntimeEnv()
 }
 
-task runTest(type: JavaExec, group: "test", dependsOn: build) {
+tasks.register('runTest', JavaExec) {
+    dependsOn build
+    group "test"
     // launch config
     mainClass.set('com.unclezs.novel.app.main.test.TTSTest2')
     mainModule.set('com.unclezs.novel.app.main')
@@ -88,7 +93,7 @@ task runTest(type: JavaExec, group: "test", dependsOn: build) {
     jvmArgs("--module-path", modulePath)
 }
 
-task obfuscate(type: ProGuardTask) {
+tasks.register('obfuscate', ProGuardTask) {
     injars jar
     outjars "$buildDir/libs/${project.name}-pg.jar"
     libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod"
@@ -200,25 +205,33 @@ packager {
     }
 }
 
-task packageLinux(type: PackageTask, dependsOn: build) {
+tasks.register('packageLinux', PackageTask) {
+    dependsOn build
+    group "packager"
+
     description = "打Linux的的包，DEB、RPM"
     platform = "linux"
     createZip = false
     generateInstaller = true
 }
-task packageMac(type: PackageTask, dependsOn: build) {
+tasks.register('packageMac', PackageTask) {
+    dependsOn build
     description = "打Mac的的包，DMG、PKG"
     platform = "mac"
     createZip = false
     generateInstaller = true
 }
-task packageWin64(type: PackageTask, dependsOn: build) {
+tasks.register('packageWin64', PackageTask) {
+    dependsOn build
+    group "packager"
     description = "打64位Windows的包,EXE、Setup"
     platform = "win"
     createTar = false
     generateInstaller = false
 }
-task packageWin32(type: PackageTask, dependsOn: build) {
+tasks.register('packageWin32', PackageTask) {
+    dependsOn build
+    group "packager"
     description = "打32位Windows的包,EXE、Setup"
     platform = "win"
     // sudo setx /M JAVA_HOME_X86 G:/package/sdk/jdk/amazon/11.0.10_9
@@ -235,7 +248,9 @@ task packageWin32(type: PackageTask, dependsOn: build) {
     createTar = false
     generateInstaller = true
 }
-task packageAlone(type: PackageTask, dependsOn: build) {
+tasks.register('packageAlone', PackageTask) {
+    dependsOn build
+    group "packager"
     description = "打不带Launcher的包"
     vmArgs = file("$projectDir/app.modularity").readLines()
     enabledLauncher = false
@@ -245,13 +260,29 @@ task packageAlone(type: PackageTask, dependsOn: build) {
     mainModule = "com.unclezs.novel.app.main"
     mainClass = "com.unclezs.novel.app.main.App"
 }
-tasks.withType(UpgradeTask) {
-    description = "生成并且部署升级相关文件"
-    dryRun = false
+tasks.register("upgradeWithHost", UpgradeTask) {
+    dependsOn build
+    group "packager"
+
+    description = "生成并且部署升级相关文件, 并发布到主机"
+    dryRun = true
     rsync = false
-    url = "root@139.224.162.226:/www/wwwroot/uncle-novel.unclezs.com/novel/$profile"
+    url = "root@uncle-novel.unclezs.com:/www/wwwroot/uncle-novel.unclezs.com/novel/$profile"
     outDir = file("$buildDir/upgrade")
     // 排除不常更新，但是比较大的，全量更新时注释
     excludes = ["bin", "fonts", "runtime/modules/sqlite-jdbc.jar", "runtime/modules/jfoenix.jar"]
 }
 
+tasks.register("upgradeWithGit", UpgradeTask) {
+    dependsOn build
+    group "packager"
+
+    description = "生成并且部署升级相关文件，并发布到 Github"
+    dryRun = false
+    rsync = false
+    // 和本项目同级的 upgrade 目录，用于存放升级文件
+    url = "file:$rootDir.parentFile/upgrade/novel/$profile"
+    outDir = file("$buildDir/upgrade")
+    // 排除不常更新，但是比较大的，全量更新时注释
+    excludes = ["bin", "fonts", "runtime/modules/sqlite-jdbc.jar", "runtime/modules/jfoenix.jar"]
+}

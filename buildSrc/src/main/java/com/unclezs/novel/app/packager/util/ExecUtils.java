@@ -1,13 +1,21 @@
 package com.unclezs.novel.app.packager.util;
 
+import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.text.StrBuilder;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.CharUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.RuntimeUtil;
+import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.packager.exception.PackageException;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Stack;
 
 /**
  * 命令行工具
@@ -29,16 +37,31 @@ public class ExecUtils {
   }
 
   /**
-   * 执行cmd
+   * 执行 cmd
    *
-   * @param args 参数
+   * @param cmds 参数
    * @return 结果
    */
-  public String exec(String... args) {
+  public String exec(String... cmds) {
+    return exec(null, cmds);
+  }
+
+  /**
+   * 执行 cmd
+   *
+   * @param cmds    参数
+   * @param workdir workdir
+   * @return 结果
+   */
+  public String exec(File workdir, String... cmds) {
     Process process = null;
     try {
-      Logger.info("执行CMD：{}", Logger.blue(ArrayUtil.join(args, CharSequenceUtil.SPACE)));
-      process = RuntimeUtil.exec(args);
+      Logger.info("执行CMD：{}", Logger.blue(ArrayUtil.join(cmds, CharSequenceUtil.SPACE)));
+      ProcessBuilder processBuilder = new ProcessBuilder(handleCmds(cmds)).redirectErrorStream(true);
+      if (FileUtil.exist(workdir)) {
+        processBuilder.directory(workdir);
+      }
+      process = processBuilder.start();
       String result = RuntimeUtil.getResult(process, CharsetUtil.CHARSET_UTF_8);
       int exitCode = process.waitFor();
       if (exitCode != 0) {
@@ -54,6 +77,84 @@ public class ExecUtils {
       }
     }
   }
+
+  /**
+   * 处理命令，多行命令原样返回，单行命令拆分处理
+   *
+   * @param cmds 命令
+   * @return 处理后的命令
+   */
+  private static String[] handleCmds(String... cmds) {
+    if (ArrayUtil.isEmpty(cmds)) {
+      throw new NullPointerException("Command is empty !");
+    }
+
+    // 单条命令的情况
+    if (1 == cmds.length) {
+      final String cmd = cmds[0];
+      if (StrUtil.isBlank(cmd)) {
+        throw new NullPointerException("Command is blank !");
+      }
+      cmds = cmdSplit(cmd);
+    }
+    return cmds;
+  }
+
+  /**
+   * 命令分割，使用空格分割，考虑双引号和单引号的情况
+   *
+   * @param cmd 命令，如 git commit -m 'test commit'
+   * @return 分割后的命令
+   */
+  private static String[] cmdSplit(String cmd) {
+    final List<String> cmds = new ArrayList<>();
+
+    final int length = cmd.length();
+    final Stack<Character> stack = new Stack<>();
+    boolean inWrap = false;
+    final StrBuilder cache = StrUtil.strBuilder();
+
+    char c;
+    for (int i = 0; i < length; i++) {
+      c = cmd.charAt(i);
+      switch (c) {
+        case CharUtil.SINGLE_QUOTE:
+        case CharUtil.DOUBLE_QUOTES:
+          if (inWrap) {
+            if (c == stack.peek()) {
+              //结束包装
+              stack.pop();
+              inWrap = false;
+            }
+            cache.append(c);
+          } else {
+            stack.push(c);
+            cache.append(c);
+            inWrap = true;
+          }
+          break;
+        case CharUtil.SPACE:
+          if (inWrap) {
+            // 处于包装内
+            cache.append(c);
+          } else {
+            cmds.add(cache.toString());
+            cache.reset();
+          }
+          break;
+        default:
+          cache.append(c);
+          break;
+      }
+    }
+
+    if (cache.hasContent()) {
+      cmds.add(cache.toString());
+    }
+
+    return cmds.toArray(new String[0]);
+  }
+
 
   /**
    * 创建流式CMD
@@ -119,7 +220,7 @@ public class ExecUtils {
         } else if (arg instanceof File) {
           String path = ((File) arg).getAbsolutePath();
           this.cmd.append(CharSequenceUtil.SPACE).append(
-              CharSequenceUtil.containsBlank(path) ? CharSequenceUtil.wrap(path, "\"") : path);
+            CharSequenceUtil.containsBlank(path) ? CharSequenceUtil.wrap(path, "\"") : path);
         } else {
           String argStr = arg.toString();
           argStr = CharSequenceUtil.containsBlank(argStr) ? CharSequenceUtil.wrap(argStr, "\"") : argStr;
