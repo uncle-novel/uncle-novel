@@ -214,7 +214,7 @@ public abstract class AbstractPackager extends PackagerExtension {
     }
     // 如果launcher不启动
     if(Boolean.FALSE.equals(enabledLauncher)){
-      resources.put("conf/core.db", new File(getProject().getProjectDir(),"db/core.db"));
+      resources.put("conf/core.db", new File(getProject().getProjectDir(), "db/core.db"));
     }
     // db文件
     // 资源处理

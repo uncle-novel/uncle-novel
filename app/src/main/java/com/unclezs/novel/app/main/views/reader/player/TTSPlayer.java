@@ -171,9 +171,9 @@ public class TTSPlayer {
     if (readCache && cache.exists()) {
       return cache;
     }
-    try{
+    try {
       return FileUtil.writeBytes(Http.bytes(config.getFormattedParams(text)), cache);
-    }catch (Exception e){
+    } catch (Exception e) {
       throw e;
     }
 
@@ -193,8 +193,8 @@ public class TTSPlayer {
       try {
         FileUtil.del(cache);
         ThreadUtils.sleep(100);
-      }catch (Exception e){
-        log.debug(String.format("删除缓存失败:%s\np:%s\ne:%s",ttsName,paragraph,e.getMessage()));
+      } catch (Exception e) {
+        log.error("删除朗读音频缓存失败", e);
       }
 
     }

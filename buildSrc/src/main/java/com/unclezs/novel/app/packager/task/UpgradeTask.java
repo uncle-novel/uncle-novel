@@ -9,10 +9,6 @@ import com.unclezs.novel.app.packager.PackagePlugin;
 import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
-import java.io.File;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.gradle.api.DefaultTask;
@@ -20,6 +16,12 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.TaskAction;
+
+import java.io.File;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author blog.unclezs.com
@@ -83,19 +85,30 @@ public class UpgradeTask extends DefaultTask {
       FileUtils.del(serverDir);
       FileUtil.copyContent(outDir, serverDir, true);
     } else {
-      String info;
       // rsync 增量传输
-      String local = outDir.getAbsolutePath().concat("/*");
-      if (Boolean.TRUE.equals(rsync)) {
-        if (SystemUtil.getOsInfo().isWindows()) {
-          local = String.format("/cygdrive/%s", local.replace(StrUtil.BACKSLASH, StrUtil.SLASH).replace(StrUtil.COLON, CharSequenceUtil.EMPTY));
-        }
-        info = ExecUtils.exec("rsync", "-avz", "--size-only", "--chmod", "755", local, url);
-      } else {
-        // scp 全量复制
-        info = ExecUtils.exec("scp", "-r", local, url);
+      File[] files = outDir.listFiles();
+      if (Objects.isNull(files)) {
+        throw new IllegalArgumentException("outDir is empty");
       }
-      Logger.info(info);
+      for (File file : files) {
+        String info = doRemoteCopy(file.getAbsolutePath());
+        Logger.info(info);
+      }
     }
+  }
+
+  private String doRemoteCopy(String local) {
+    String info;
+    if (Boolean.TRUE.equals(rsync)) {
+      if (SystemUtil.getOsInfo().isWindows()) {
+        local = String.format("/cygdrive/%s",
+          local.replace(StrUtil.BACKSLASH, StrUtil.SLASH).replace(StrUtil.COLON, CharSequenceUtil.EMPTY));
+      }
+      info = ExecUtils.exec("rsync", "-avz", "--size-only", "--chmod", "755", local, url);
+    } else {
+      // scp 全量复制
+      info = ExecUtils.exec("scp", "-r", local, url);
+    }
+    return info;
   }
 }
