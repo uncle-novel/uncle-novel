@@ -10,6 +10,7 @@ import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.JdkUtils;
 import com.unclezs.novel.app.packager.util.Logger;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
@@ -87,6 +88,7 @@ public class CreateJre extends BaseSubTask {
       }
       // 使用模块生成定制的jre
       ExecUtils.create(new File(jdkPath, "/bin/jlink"))
+        .add("-J-Xmx1g")
         .add("--module-path", getModulePath())
         .add("--add-modules", getRequiredModules())
         .add("--output", destinationFolder)

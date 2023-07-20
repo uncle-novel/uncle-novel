@@ -1,0 +1,3 @@
+[submodule "packager"]
+	path = packager
+	url = https://github.com/uncle-novel/packager

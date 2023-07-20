@@ -1,0 +1,147 @@
+name: package
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+jobs:
+  mac:
+    strategy:
+      matrix:
+        arch: [ x64, aarch64 ]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          architecture: ${{ matrix.arch }}
+      - name: Cache gradle deps
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-${{ matrix.arch }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.arch }}-gradle
+      - name: Install dependencies
+        run: |
+          brew install sass/sass/sass
+      - name: Update Version
+        run: |
+          ./gradlew updateVersion -PnewVersion='${{  github.ref_name }}'
+      - name: Push Version Updates
+        if: matrix.arch == 'x64'
+        run: |
+          git config user.name ${{ github.actor }}
+          git config user.email ${{ github.actor }}@users.noreply.github.com
+          git add gradle.properties
+          git commit -m "build: new version: ${{  github.ref_name }}"
+          git push origin HEAD:main
+      - name: Package mac amd64
+        if: matrix.arch == 'x64'
+        run: ./gradlew packageMac -PpkgArch=amd64
+      - name: Package mac arm64
+        if: matrix.arch == 'aarch64'
+        run: ./gradlew packageMac -PpkgArch=arm64
+      - name: Generate changelog
+        if: matrix.arch == 'x64'
+        run: |
+          ./gradlew genChangelog
+      - name: Generate upgrade package
+        if: matrix.arch == 'x64'
+        run: |
+          ./gradlew geUpgradePackage
+      - name: Upload Upgrade Package
+        uses: actions/upload-artifact@v3
+        if: matrix.arch == 'x64'
+        with:
+          name: upgrade-package
+          path: app/build/upgrade/*
+      - name: Release macos
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            app/build/packager/uncle-novel*.dmg
+            app/build/packager/uncle-novel*.zip
+            app/build/packager/uncle-novel*.pkg
+      - name: Release changelog
+        uses: softprops/action-gh-release@v1
+        if: matrix.arch == 'x64'
+        with:
+          body_path: ./changelog-latest.md
+
+  win:
+    strategy:
+      matrix:
+        arch: [ x64, x86 ]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          architecture: ${{ matrix.arch }}
+      - name: Init Exe4j License
+        shell: cmd
+        run: |
+          ${{ runner.workspace }}\uncle-novel\packager\exe4j9\bin\exe4jc.exe -L ${{ secrets.EXE4J_LICENSE }}
+      - name: Cache gradle deps
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+          key: ${{ runner.os }}-${{ matrix.arch }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.arch }}-gradle
+      - name: Install dependencies
+        run: |
+          choco install sass
+          choco install wixtoolset
+      - name: Update Version
+        run: |
+          ./gradlew updateVersion -PnewVersion='${{  github.ref_name }}'
+      - name: Package windows x64
+        if: matrix.arch == 'x64'
+        run: ./gradlew packageWin64
+      - name: Package windows x86
+        if: matrix.arch == 'x86'
+        run: ./gradlew packageWin32
+      - name: Release windows
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            app/build/packager/uncle-novel*.zip
+            app/build/packager/uncle-novel*.exe
+  publish-upgrade:
+    runs-on: ubuntu-latest
+    needs:
+      - mac
+      - win
+    steps:
+      - name: Clone upgrade repo
+        uses: actions/checkout@v3
+        with:
+          repository: uncle-novel/upgrade
+          path: upgrade
+          token: ${{ secrets.P_TOKEN }}
+      - name: Download upgrade package
+        uses: actions/download-artifact@v3
+        with:
+          name: upgrade-package
+          path: upgrade/novel/prod
+      - name: Update upgrade package
+        working-directory: upgrade
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          git add .
+          git commit -m "Update upgrade package"
+          git push origin HEAD:main

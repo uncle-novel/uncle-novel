@@ -62,16 +62,16 @@ public class MacConfig extends PlatformConfig implements Serializable {
    * @param packager Packager
    */
   public void setDefaults(AbstractPackager packager) {
-    this.setWindowX(defaultIfNull(this.getWindowX(), 10));
-    this.setWindowY(defaultIfNull(this.getWindowY(), 60));
+    this.setWindowX(defaultIfNull(this.getWindowX(), 400));
+    this.setWindowY(defaultIfNull(this.getWindowY(), 400));
     this.setWindowWidth(defaultIfNull(this.getWindowWidth(), 540));
     this.setWindowHeight(defaultIfNull(this.getWindowHeight(), 360));
     this.setIconSize(defaultIfNull(this.getIconSize(), 128));
     this.setTextSize(defaultIfNull(this.getTextSize(), 16));
-    this.setIconX(defaultIfNull(this.getIconX(), 52));
-    this.setIconY(defaultIfNull(this.getIconY(), 116));
-    this.setAppsLinkIconX(defaultIfNull(this.getAppsLinkIconX(), 360));
-    this.setAppsLinkIconY(defaultIfNull(this.getAppsLinkIconY(), 116));
+    this.setIconX(defaultIfNull(this.getIconX(), 140));
+    this.setIconY(defaultIfNull(this.getIconY(), 170));
+    this.setAppsLinkIconX(defaultIfNull(this.getAppsLinkIconX(), 410));
+    this.setAppsLinkIconY(defaultIfNull(this.getAppsLinkIconY(), 170));
     this.setAppId(defaultIfNull(this.getAppId(), packager.getMainClass()));
   }
 }

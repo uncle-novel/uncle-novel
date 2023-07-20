@@ -27,6 +27,7 @@ public enum FxPlatform {
    * 窗户
    */
   WINDOWS("win", "windows-x86_64"),
+  WIN_x86_32("win-x86", "windows-x86_32"),
   /**
    * osx
    */

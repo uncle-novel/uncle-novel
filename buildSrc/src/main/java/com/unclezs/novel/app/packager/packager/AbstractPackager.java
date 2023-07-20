@@ -111,10 +111,10 @@ public abstract class AbstractPackager extends PackagerExtension {
     if (Boolean.FALSE.equals(generateInstaller) || !FileUtil.exist(executable)) {
       return;
     }
-//    if (!platform.isCurrentPlatform()) {
-//      Logger.warn("{}操作系统不能生成{}相关安装程序，请在相应操作系统下执行", Platform.getCurrentPlatform(), platform);
-//      return;
-//    }
+    if (!platform.isCurrentPlatform()) {
+      Logger.warn("{}操作系统不能生成{}相关安装程序，请在相应操作系统下执行", Platform.getCurrentPlatform(), platform);
+      return;
+    }
     Logger.infoIndent("开始生成安装包 ...");
     init();
     // 生成安装包，忽略错误
@@ -136,7 +136,7 @@ public abstract class AbstractPackager extends PackagerExtension {
     if (Boolean.TRUE.equals(createZip)) {
       new CreateCompressedPackage(true).apply();
     }
-    if (Boolean.TRUE.equals(createZip)) {
+    if (Boolean.TRUE.equals(createTar)) {
       new CreateCompressedPackage(false).apply();
     }
     Logger.infoUnIndent("压缩包创建完成！");

@@ -21,6 +21,11 @@ gradlePlugin {
             id = 'app-packager'
             implementationClass = 'com.unclezs.novel.app.packager.PackagePlugin'
         }
+
+        "javafxPlugin" {
+            id = 'org.openjfx.javafxplugin'
+            implementationClass = 'org.openjfx.gradle.JavaFXPlugin'
+        }
     }
 }
 
@@ -39,4 +44,8 @@ dependencies {
     implementation 'net.jsign:jsign-core'
     implementation 'com.google.gradle:osdetector-gradle-plugin'
     implementation 'org.vafer:jdeb:1.9'
+
+    // jfx
+    implementation 'com.google.gradle:osdetector-gradle-plugin:1.7.3'
+    implementation 'org.javamodularity:moduleplugin:1.8.12'
 }

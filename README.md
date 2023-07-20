@@ -1,6 +1,6 @@
 <p align="center">
     <a href="https://github.com/unclezs/uncle-novel/actions/workflows/gradle.yml">
-        <img src="https://img.shields.io/github/actions/workflow/status/uncle-novel/uncle-novel/gradle.yml" alt="gradle build"/>
+        <img src="https://img.shields.io/github/actions/workflow/status/uncle-novel/uncle-novel/build.yml" alt="gradle build"/>
     </a>
     <a href="https://app.netlify.com/sites/uncle-novel-upgrade/deploys">
         <img src="https://api.netlify.com/api/v1/badges/79920580-ee2f-4334-aac0-d0e9424321c0/deploy-status" alt="Netlify"/>

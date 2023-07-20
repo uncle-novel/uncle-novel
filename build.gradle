@@ -1,5 +1,4 @@
 plugins {
-    id "org.openjfx.javafxplugin" version "0.0.11" apply false
     id "io.spring.dependency-management" version "1.0.9.RELEASE" apply false
     id "com.unclezs.gradle.sass" version "1.0.10" apply false
 }

@@ -2,6 +2,10 @@ package com.unclezs.novel.app.packager.model;
 
 import com.unclezs.novel.app.packager.PackagePlugin;
 import groovy.lang.Closure;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.gradle.api.Project;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,9 +13,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.gradle.api.Project;
 
 /**
  * 打包的一些通用设置
@@ -29,6 +30,7 @@ public class PackagerExtension {
    * App信息
    */
   protected String name;
+  protected String packageName;
   protected String displayName;
   protected String version;
   protected String description;
@@ -124,6 +126,10 @@ public class PackagerExtension {
    * 是否为64位，如果是x86的则需要指定jre为x86版本
    */
   private Boolean x64 = true;
+  /**
+   * CPU 架构，如 arm64, amd64
+   */
+  private String arch = "";
   private Project project;
 
   public PackagerExtension(Project project) {

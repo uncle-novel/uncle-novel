@@ -1,7 +1,7 @@
 import com.unclezs.novel.app.packager.task.PackageTask
 import com.unclezs.novel.app.packager.task.UpgradeTask
+import com.unclezs.novel.app.packager.util.ExecUtils
 import com.unclezs.novel.app.packager.util.FileUtils
-import proguard.gradle.ProGuardTask
 
 // prod / dev
 def profile = "prod"
@@ -10,9 +10,6 @@ buildscript {
     repositories {
         mavenCentral()
         maven { url("https://oss.sonatype.org/content/groups/public/") }
-    }
-    dependencies {
-        classpath 'net.sf.proguard:proguard-gradle:6.2.2'
     }
 }
 
@@ -75,36 +72,12 @@ tasks.register('runApp', JavaExec) {
     initAppRuntimeEnv()
 }
 
-tasks.register('runTest', JavaExec) {
-    dependsOn build
-    group "test"
-    // launch config
-    mainClass.set('com.unclezs.novel.app.main.test.TTSTest2')
-    mainModule.set('com.unclezs.novel.app.main')
-    workingDir(rootDir)
-    jvmArgs(runtimeArgs)
-
-    def modulePath = CollectionUtils.join(File.pathSeparator, sourceSets.main.runtimeClasspath)
-    // 输出runtimeArgs
-    doFirst {
-        println "runtimeArgs: ${runtimeArgs}"
-        println "modulePath: ${modulePath}"
-    }
-    jvmArgs("--module-path", modulePath)
-}
-
-tasks.register('obfuscate', ProGuardTask) {
-    injars jar
-    outjars "$buildDir/libs/${project.name}-pg.jar"
-    libraryjars "${System.getProperty('java.home')}/jmods/java.base.jmod"
-    libraryjars files(configurations.runtimeClasspath.collect())
-    configuration "proguard.pro"
-}
-
 // 打包相关配置文件
 def packagerDir = "${projectDir}/packager"
 packager {
-    name = "Uncle小说"
+    name = "uncle-novel"
+    packageName = "uncle-novel"
+    displayName = "Uncle小说"
     version = project.version
     description = "Uncle小说"
 
@@ -188,20 +161,45 @@ packager {
         launchClass = "com.unclezs.novel.app.main.App"
         moduleOptions = file("$projectDir/app.modularity").readLines()
         // 更新日志 , 最多显示5个版本的更新内容
-        changeLog = []
-        def changeLogNum = 0
-        for (String line : file("$rootDir/changelog.txt").readLines()) {
-            if (line.trim().blank || line.trim().empty) {
-                changeLogNum++
-                if (changeLogNum > 5) {
-                    break
-                }
-            }
-            if (!line.startsWith("//")) {
-                changeLog.add(line)
-            }
-        }
+        changeLog = getChangelogs()
         return launcher
+    }
+}
+
+def getChangelogs() {
+    def changeLogNum = 0
+    def changeLog = []
+    for (String line : file("$rootDir/CHANGELOG.md").readLines()) {
+        if (changeLogNum > 5) {
+            break
+        }
+        if (line.trim().blank || line.trim().empty || line.startsWith("###")) {
+            continue
+        }
+        if (line.startsWith("## ")) {
+            changeLogNum++
+            changeLog.add(line.replace("## ", "v"))
+            continue
+        }
+        changeLog.add(line)
+    }
+    return changeLog
+}
+
+tasks.register("runTest") {
+    doLast {
+        for (final String item in getChangelogs()) {
+            println item
+        }
+    }
+}
+
+tasks.register("genChangelog") {
+    group "packager"
+    doLast {
+        ExecUtils.exec("$rootDir/packager/changelog/changeloger",
+                "-file", "$rootDir/CHANGELOG.md",
+                "-out", "$rootDir/changelog-latest.md")
     }
 }
 
@@ -216,10 +214,14 @@ tasks.register('packageLinux', PackageTask) {
 }
 tasks.register('packageMac', PackageTask) {
     dependsOn build
-    description = "打Mac的的包，DMG、PKG"
+    description = "打 Mac 的的包，DMG、PKG"
     platform = "mac"
-    createZip = false
+    createZip = true
     generateInstaller = true
+    // 从命令行获取 ./gradlew packageMac -PpkgArch=arm64
+    if (project.hasProperty("pkgArch")) {
+        arch = getProperty("pkgArch")
+    }
 }
 tasks.register('packageWin64', PackageTask) {
     dependsOn build
@@ -227,7 +229,8 @@ tasks.register('packageWin64', PackageTask) {
     description = "打64位Windows的包,EXE、Setup"
     platform = "win"
     createTar = false
-    generateInstaller = false
+    createZip = true
+    generateInstaller = true
 }
 tasks.register('packageWin32', PackageTask) {
     dependsOn build
@@ -245,6 +248,8 @@ tasks.register('packageWin32', PackageTask) {
         jfxPath = file(fxHome)
     }
     x64 = false
+    arch = "x86"
+    createZip = true
     createTar = false
     generateInstaller = true
 }
@@ -260,14 +265,39 @@ tasks.register('packageAlone', PackageTask) {
     mainModule = "com.unclezs.novel.app.main"
     mainClass = "com.unclezs.novel.app.main.App"
 }
+
+tasks.register("geUpgradePackage", UpgradeTask) {
+    dependsOn build
+    group "packager"
+    description = "生成并且部署升级相关文件"
+    dryRun = true
+    url = ""
+    outDir = file("$buildDir/upgrade")
+}
+
+tasks.register("updateVersion") {
+    if (!project.hasProperty("newVersion")) {
+        println "必须要设置 version，例如：-PnewVersion=5.0.9"
+        return
+    }
+    String newVersion = getProperty("newVersion")
+    newVersion = newVersion.trim().replace("v", "")
+    doLast {
+        def file = file("$rootDir/gradle.properties")
+        def content = file.getText()
+        content = content.replaceAll("app.version=.+", "app.version=$newVersion")
+        file.write(content)
+        println "更新版本号为：$newVersion"
+    }
+}
+
 tasks.register("upgradeWithHost", UpgradeTask) {
     dependsOn build
     group "packager"
-
     description = "生成并且部署升级相关文件, 并发布到主机"
     dryRun = true
     rsync = false
-    url = "root@uncle-novel.unclezs.com:/www/wwwroot/uncle-novel.unclezs.com/novel/$profile"
+    url = "root@update-uncle-novel.unclezs.com:/novel/$profile"
     outDir = file("$buildDir/upgrade")
     // 排除不常更新，但是比较大的，全量更新时注释
     excludes = ["bin", "fonts", "runtime/modules/sqlite-jdbc.jar", "runtime/modules/jfoenix.jar"]

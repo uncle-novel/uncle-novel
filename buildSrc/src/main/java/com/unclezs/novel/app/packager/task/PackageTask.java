@@ -3,15 +3,12 @@ package com.unclezs.novel.app.packager.task;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.packager.Context;
 import com.unclezs.novel.app.packager.PackagePlugin;
 import com.unclezs.novel.app.packager.model.PackagerExtension;
 import com.unclezs.novel.app.packager.model.Platform;
 import com.unclezs.novel.app.packager.packager.AbstractPackager;
-import java.beans.PropertyDescriptor;
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.gradle.api.DefaultTask;
@@ -20,6 +17,11 @@ import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.TaskAction;
+
+import java.beans.PropertyDescriptor;
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Gradle 打包任务 不进行增量构建
@@ -82,6 +84,9 @@ public class PackageTask extends DefaultTask {
   @Input
   @Optional
   private Boolean x64 = true;
+  @Input
+  @Optional
+  private String arch;
 
   public PackageTask() {
     super();
@@ -100,7 +105,9 @@ public class PackageTask extends DefaultTask {
     BeanUtil.copyProperties(extension, packager, CopyOptions.create().ignoreNullValue());
     // 任务配置的值 , 忽略父类
     CopyOptions copyOptions = CopyOptions.create().ignoreNullValue()
-      .setIgnoreProperties(Arrays.stream(BeanUtil.getPropertyDescriptors(DefaultTask.class)).map(PropertyDescriptor::getName).toArray(String[]::new));
+      .setIgnoreProperties(
+        Arrays.stream(BeanUtil.getPropertyDescriptors(DefaultTask.class)).map(PropertyDescriptor::getName).toArray(
+          String[]::new));
     BeanUtil.copyProperties(this, packager, copyOptions);
     Context.packager = packager;
   }

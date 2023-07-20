@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <exe4j version="8.0" transformSequenceNumber="3">
-  <application name="${info.name}" distributionSourceDir="${info.appFolder}"/>
-  <executable name="${info.name}"
+  <application name="${info.displayName}" distributionSourceDir="${info.appFolder}"/>
+  <executable name="${info.displayName}"
               iconSet="true" iconFile="${info.iconFile}"
               redirectStderr="false"
               executableMode="gui" singleInstance="true" checkConsoleParameter="true"

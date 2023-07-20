@@ -1,13 +1,15 @@
 package com.unclezs.novel.app.packager.subtask;
 
+import cn.hutool.core.util.StrUtil;
 import com.unclezs.novel.app.packager.model.Platform;
 import com.unclezs.novel.app.packager.packager.MacPackager;
-import java.io.File;
-import java.util.UUID;
 import org.gradle.api.tasks.bundling.AbstractArchiveTask;
 import org.gradle.api.tasks.bundling.Compression;
 import org.gradle.api.tasks.bundling.Tar;
 import org.gradle.api.tasks.bundling.Zip;
+
+import java.io.File;
+import java.util.UUID;
 
 /**
  * 创建压缩包 zip 、 tar
@@ -34,8 +36,16 @@ public class CreateCompressedPackage extends BaseSubTask {
     File executable = packager.getExecutable();
     String jreDirectoryName = packager.getJreDirName();
 
+    String arch = packager.getArch();
+    if (StrUtil.isBlank(arch)) {
+      arch = Boolean.TRUE.equals(packager.getX64()) ? "" : "_x86";
+    } else {
+      arch = "_" + arch;
+    }
+
     File tarFile = new File(packager.getOutputDir(),
-      String.format("%s_%s_%s%s.%s", packager.getName(), packager.getVersion(), platform, Boolean.TRUE.equals(packager.getX64()) ? "" : "_x86", zip ? "zip" : "tar.gz"));
+      String.format("%s_%s_%s%s.%s", packager.getName(), packager.getVersion(), platform, arch,
+        zip ? "zip" : "tar.gz"));
     AbstractArchiveTask task;
     if (zip) {
       task = project.getTasks().create("createZip_" + UUID.randomUUID(), Zip.class);

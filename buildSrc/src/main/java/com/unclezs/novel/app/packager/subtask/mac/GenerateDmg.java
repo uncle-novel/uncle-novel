@@ -1,5 +1,7 @@
 package com.unclezs.novel.app.packager.subtask.mac;
 
+import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
+
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.thread.ThreadUtil;
 import com.unclezs.novel.app.packager.model.MacConfig;
@@ -13,8 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.Arrays;
-
-import static org.apache.commons.lang3.StringUtils.defaultIfBlank;
 
 /**
  * Creates a DMG image file including all app folder's content only for MacOS so app could be easily distributed
@@ -40,7 +40,7 @@ public class GenerateDmg extends BaseSubTask {
 
     File appFolder = macPackager.getAppFolder();
     File assetsFolder = macPackager.getAssetsFolder();
-    String name = macPackager.getName();
+    String name = macPackager.getDisplayName();
     File outputDirectory = macPackager.getOutputDir();
     File iconFile = macPackager.getPlatform().getPlatformConfig().getIconFile();
     String version = macPackager.getVersion();
@@ -56,7 +56,8 @@ public class GenerateDmg extends BaseSubTask {
     }
 
     // final dmg file
-    File dmgFile = new File(outputDirectory, name + "_" + version + ".dmg");
+    String outFileName = String.format("%s_%s_%s.dmg", packager.getName(), version, packager.getArch());
+    File dmgFile = new File(outputDirectory, outFileName);
 
     // temp dmg file
     File tempDmgFile = new File(assetsFolder, dmgFile.getName());
@@ -129,19 +130,6 @@ public class GenerateDmg extends BaseSubTask {
     Logger.info("Fixing permissions...");
     ExecUtils.create("chmod").add("-Rf", "u+r,go-w").add(mountFolder).exec();
 
-    // makes the top window open itself on mount:
-    Logger.info("Blessing ...");
-    ExecUtils.create("bless")
-      .add("--folder", mountFolder)
-      .add("--openfolder", mountFolder)
-      .exec();
-
-    // tells the volume that it has a special file attribute
-    ExecUtils.create("SetFile")
-      .add("-a")
-      .add("C", mountFolder)
-      .exec();
-
     // unmounts
     Logger.info("Unmounting volume: " + mountFolder);
     ExecUtils.create("hdiutil")
@@ -152,7 +140,7 @@ public class GenerateDmg extends BaseSubTask {
     Logger.info("Compressing disk image...");
     ExecUtils.create("hdiutil")
       .add("convert", tempDmgFile)
-      .add("-ov","-format", "UDZO", "-imagekey", "zlib-level=9")
+      .add("-ov", "-format", "UDZO", "-imagekey", "zlib-level=9")
       .add("-o", dmgFile)
       .exec();
     FileUtils.del(tempDmgFile);

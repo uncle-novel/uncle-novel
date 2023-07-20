@@ -11,12 +11,13 @@ import com.unclezs.novel.app.packager.util.ExecUtils;
 import com.unclezs.novel.app.packager.util.FileUtils;
 import com.unclezs.novel.app.packager.util.Logger;
 import com.unclezs.novel.app.packager.util.VelocityUtils;
+import lombok.EqualsAndHashCode;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.EqualsAndHashCode;
 
 /**
  * Mac 打包器
@@ -57,7 +58,7 @@ public class MacPackager extends AbstractPackager {
   protected void doCreateAppStructure() {
 
     // initializes the references to the app structure folders
-    this.appFile = new File(appFolder, name + ".app");
+    this.appFile = new File(appFolder, displayName + ".app");
     this.contentsFolder = new File(appFile, "Contents");
     this.resourcesFolder = new File(contentsFolder, "Resources");
     this.javaFolder = new File(resourcesFolder, macConfig.getCustomAppFolder());
@@ -139,7 +140,7 @@ public class MacPackager extends AbstractPackager {
     FileUtils.copyResourceToFile("/packager/mac/".concat(START_SCRIPT_NAME), appStubFile, true);
     FileUtils.processFileContent(appStubFile, content -> {
       content = content.replace("/Contents/Resources/Java", "/Contents/Resources/".concat(macConfig.getCustomAppFolder()));
-      content = content.replaceAll("[$]\\{info.name}", this.name);
+      content = content.replaceAll("[$]\\{info.name}", this.displayName);
       return content;
     });
     FileUtils.setExecutable(appStubFile);
