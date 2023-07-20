@@ -152,7 +152,7 @@ packager {
             resource("$rootDir/conf/rules.json", "conf")
         }
         // url = outFile("$buildDir/server").toURI().toURL().toString()
-        url = "http://uncle-novel.unclezs.com/novel/${profile}"
+        url = "https://update-uncle-novel.unclezs.com/novel/${profile}"
         // 配置文件在打包时已经确定，如果修改需要重新打包发布
         configPath = "conf/app.json"
         appName = packager.name
