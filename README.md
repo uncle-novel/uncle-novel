@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://github.com/unclezs/uncle-novel/actions/workflows/gradle.yml">
+    <a href="https://github.com/unclezs/uncle-novel/actions/workflows/build.yml">
         <img src="https://img.shields.io/github/actions/workflow/status/uncle-novel/uncle-novel/build.yml" alt="gradle build"/>
     </a>
     <a href="https://app.netlify.com/sites/uncle-novel-upgrade/deploys">
@@ -8,16 +8,15 @@
     <a href="https://github.com/unclezs/jfx-launcher/blob/main/LICENSE">
         <img src="https://img.shields.io/github/license/unclezs/uncle-novel?color=%2340C0D0&label=License" alt="GitHub license"/>
     </a>
-	<img src="https://img.shields.io/github/downloads/unclezs/uncle-novel/total" alt=""/>
-	<img src="https://img.shields.io/badge/openjdk-11-green" alt=""/>
-	<img src="https://img.shields.io/badge/platform-win linux mac-green" alt=""/>
+	<img src="https://img.shields.io/badge/openjdk-17-green" alt=""/>
+	<img src="https://img.shields.io/badge/platform-win mac-green" alt=""/>
 </p>
 
 # Uncle 小说
 
-一个运行在 PC 端的应用，提供了全网小说的转码阅读功能。其核心为目录解析功能，辅以书源模式进行（全网小说）小说的内容获取。
+一个桌面端应用，支持 MacOS/Windows，提供了全网小说的转码阅读功能。其核心为目录解析功能，辅以书源模式进行（全网小说）小说的内容获取。
 
-本项目仅供学习交流，请勿用于商业用途，软件内产生的数据请关闭软件后立即删除！！
+注意：本项目仅供学习交流，请勿用于商业用途，软件内产生的数据请关闭软件后立即删除！！
 
 ## 主要功能
 
@@ -53,9 +52,9 @@
 
 <img width="600" src="https://github.com/unclezs/uncle-novel/raw/main/app/packager/screenshot/setting.png"/> 
 
-## 开发
+## 贡献代码
 
-### 本地点火
+### 本地启动
 
 准备环境:
 
@@ -78,11 +77,8 @@
 # window 32 位包
 ./gradlew :app:packageWin32
 
-# mac 包，如果开发机不是 aarch64(m1) 的则有可能不能在 aarch64 的 mac 上运行
+# macos 包，如果要打 arm64 的包需要配置 arm64 的 jdk
 ./gradlew :app:packageMac
-
-# linux 包，还不能用..
-./gradlew :app:packageLinux
 ```
 
 ## 支持开发者~
