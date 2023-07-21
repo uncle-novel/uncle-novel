@@ -30,7 +30,6 @@ public class PackagerExtension {
    * App信息
    */
   protected String name;
-  protected String packageName;
   protected String displayName;
   protected String version;
   protected String description;

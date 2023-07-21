@@ -26,6 +26,8 @@ dependencies {
 }
 apply plugin: 'app-packager'
 
+def title = "Uncle小说"
+
 // 初始化本地运行环境
 def initAppRuntimeEnv() {
     def runtimeDbFile = file("$rootDir/conf/core.db")
@@ -59,14 +61,14 @@ tasks.register('runApp', JavaExec) {
     mainClass.set('com.unclezs.novel.app.main.App')
     mainModule.set('com.unclezs.novel.app.main')
     workingDir(rootDir)
+    // macos dock icon
+    jvmArgs(
+            "-Xdock:icon=$projectDir/packager/icon/favicon.icns",
+            "-Xdock:name=$title",
+    )
     jvmArgs(runtimeArgs)
-
-    def modulePath = CollectionUtils.join(File.pathSeparator, sourceSets.main.runtimeClasspath)
-    // 输出runtimeArgs
-    doFirst {
-        println "runtimeArgs: ${runtimeArgs}"
-        println "modulePath: ${modulePath}"
-    }
+    // 换个写法
+    def modulePath = sourceSets.main.runtimeClasspath.join(File.pathSeparator)
     jvmArgs("--module-path", modulePath)
     // runtime config
     initAppRuntimeEnv()
@@ -76,10 +78,9 @@ tasks.register('runApp', JavaExec) {
 def packagerDir = "${projectDir}/packager"
 packager {
     name = "uncle-novel"
-    packageName = "uncle-novel"
-    displayName = "Uncle小说"
+    displayName = "$title"
     version = project.version
-    description = "Uncle小说"
+    description = "$title"
 
     url = "https://github.com/unclezs/uncle-novel"
     organizationName = "unclezs"
@@ -121,7 +122,7 @@ packager {
         internalName = packager.name
         companyName = "unclezs"
         copyright = "app.unclezs.com"
-        fileDescription = "Uncle小说"
+        fileDescription = title
         productVersion = project.version
         // inno setup配置
         showSelectInstallDirPage = true
