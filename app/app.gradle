@@ -315,5 +315,5 @@ tasks.register("upgradeWithGit", UpgradeTask) {
     url = "file:$rootDir.parentFile/upgrade/novel/$profile"
     outDir = file("$buildDir/upgrade")
     // 排除不常更新，但是比较大的，全量更新时注释
-    excludes = ["bin", "fonts", "runtime/modules/sqlite-jdbc.jar", "runtime/modules/jfoenix.jar"]
+//    excludes = ["bin", "fonts", "runtime/modules/sqlite-jdbc.jar", "runtime/modules/jfoenix.jar"]
 }
