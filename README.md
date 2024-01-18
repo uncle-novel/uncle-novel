@@ -81,7 +81,7 @@
 ./gradlew :app:packageMac
 ```
 
-## 支持开发者~
+## Star History
 
-<img src="https://cdn.unclezs.com/20210105090216.jpeg" alt=""/>
+![Star History Chart](https://api.star-history.com/svg?repos=uncle-novel/uncle-novel&type=Date)
 
