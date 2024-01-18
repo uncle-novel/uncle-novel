@@ -61,11 +61,13 @@ tasks.register('runApp', JavaExec) {
     mainClass.set('com.unclezs.novel.app.main.App')
     mainModule.set('com.unclezs.novel.app.main')
     workingDir(rootDir)
-    // macos dock icon
-    jvmArgs(
-            "-Xdock:icon=$projectDir/packager/icon/favicon.icns",
-            "-Xdock:name=$title",
-    )
+    if (System.getProperty("os.name").toLowerCase().contains("mac")) {
+        // macos dock icon
+        jvmArgs(
+                "-Xdock:icon=$projectDir/packager/icon/favicon.icns",
+                "-Xdock:name=$title",
+        )
+    }
     jvmArgs(runtimeArgs)
     // 换个写法
     def modulePath = sourceSets.main.runtimeClasspath.join(File.pathSeparator)
