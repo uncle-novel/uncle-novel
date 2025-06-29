@@ -18,6 +18,14 @@
 
 注意：本项目仅供学习交流，请勿用于商业用途，软件内产生的数据请关闭软件后立即删除！！
 
+## 跨平台阅读器推荐
+
+推荐一款跨平台纯离线电子书阅读器 [Reeden](https://reeden.app/cn)
+
+支持 `Windows`、`Mac`、`Linux`、`iOS`、`Android` 平台。
+
+注意：[Reeden](https://reeden.app/cn) 是纯粹的阅读器，没有解析、书源，需要自己导入 TXT、EPUB 之类的阅读
+
 ## 主要功能
 
 - 搜书文本小说
